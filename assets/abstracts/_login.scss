@@ -1,0 +1,22 @@
+.login {
+  &__main {
+    padding: 40px;
+    background: #FFFFFF;
+    box-shadow: 0 24px 48px rgba(87, 87, 87, 0.16);
+    border-radius: 16px;
+    width: min(100%, 450px);
+  }
+  &__description {
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 36px;
+    text-align: center;
+    color: #1D2433;
+    margin-bottom: 40px;
+  }
+  &__logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+}

@@ -2,3 +2,21 @@
 //
 // The variables you want to modify
 // $font-size-root: 20px;
+
+html, body, .v-application {
+  font-family: 'Inter', sans-serif !important;
+}
+
+.w-full {
+  width: 100%;
+}
+.h-full {
+  height: 100%;
+}
+.theme--light.v-text-field--filled > .v-input__control > .v-input__slot {
+  background: #F8F4FE;
+  border-radius: 8px 8px 0 0;
+  &:hover {
+    background: #F8F4FE !important;
+  }
+}
