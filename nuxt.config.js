@@ -24,6 +24,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    {src: "~/plugins/mixins.js"},
+    {src: "~/plugins/v-mask.js", mode: "client"}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -74,5 +76,10 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
 
+  },
+  server: {
+    port: process.env.PORT || 8000,
+    host: process.env.HOST || "0.0.0.0",
+    timing: false
   }
 }
