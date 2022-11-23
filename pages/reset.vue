@@ -97,7 +97,10 @@ export default {
       }
     },
     sendOtp() {
-
+      const valid = this.$refs.email_valid.validate()
+      if(valid) {
+        this.$router.push('/new-password')
+      }
     }
   }
 }
