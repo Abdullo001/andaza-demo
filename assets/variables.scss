@@ -13,10 +13,18 @@ html, body, .v-application {
 .h-full {
   height: 100%;
 }
+
+.pointer {
+  cursor: pointer;
+}
 .theme--light.v-text-field--filled > .v-input__control > .v-input__slot {
   background: #F8F4FE;
   border-radius: 8px 8px 0 0;
   &:hover {
     background: #F8F4FE !important;
   }
+}
+
+.text-base {
+  color: #7631FF;
 }

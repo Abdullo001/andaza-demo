@@ -11,18 +11,7 @@
           <div class="login__logo">
             <img src="/logo.svg" alt="logo">
           </div>
-          <div class="login__description mb-8">Registration</div>
-          <v-text-field
-            label="Company name"
-            filled
-            dense
-            color="#7631FF"
-            placeholder="Enter Company name"
-            class="mb-3"
-            v-model="registration.companyName"
-            :rules="[formRules.required]"
-            validate-on-blur
-          />
+          <div class="login__description mb-8">Authentication</div>
           <v-text-field
             label="Username"
             filled
@@ -30,43 +19,58 @@
             color="#7631FF"
             placeholder="Enter Username or E-mail"
             class="mb-3"
-            v-model="registration.userName"
+            v-model="login.userName"
             :rules="[formRules.required]"
             validate-on-blur
           />
           <v-text-field
-            label="Phone number"
+            label="Password"
             filled
             dense
             color="#7631FF"
-            v-mask="'(##) ### ## ##'"
-            prefix="+998"
-            placeholder="(--) --- -- --"
-            v-model.trim="registration.phoneNumber"
+            placeholder="Enter password"
+            class="mb-3"
+            v-model="login.password"
+            :type="show_password ? 'password' : 'text'"
             :rules="[formRules.required]"
             validate-on-blur
-          />
-          <v-checkbox
-            label="Remember me"
-            color="#7631FF"
-            class="mt-0"
-          />
+          >
+            <template #append>
+              <img
+                :src="show_password ? '/eye-close.svg' : '/eye-open.svg'"
+                alt="eye icons"
+                class="mt-1 pointer"
+                @click="show_password = !show_password"
+              >
+            </template>
+          </v-text-field>
+          <div class="d-flex justify-space-between align-center mb-5 pointer">
+            <v-checkbox
+              label="Remember me"
+              color="#7631FF"
+              class="mt-0"
+              hide-details
+            />
+            <nuxt-link to="/reset" class="text-base login__forgot">Forgot your password?</nuxt-link>
+          </div>
           <v-btn
             color="#7631FF"
             class="rounded-lg text-capitalize"
             block
             dark
-          >Sign Up</v-btn>
+          >Sign In
+          </v-btn>
           <div class="login__hint text-center">
-            Are you already registered?
+            Don't have an account?
           </div>
           <v-btn
             outlined
             color="#7631FF"
             class="rounded-lg text-capitalize"
             block
-            to="/login"
-          >Sign In</v-btn>
+            to="/"
+          >Sign Up
+          </v-btn>
         </div>
       </v-col>
     </v-row>
@@ -79,17 +83,15 @@ export default {
   layout: 'main',
   data() {
     return {
-      registration: {
-        companyName: '',
+      login: {
         userName: '',
-        phoneNumber: '',
+        password: '',
         remember: false
-      }
+      },
+      show_password: true
     }
   },
-  mounted() {
-
-  }
+  methods: {}
 }
 </script>
 <style lang="scss" src="assets/abstracts/_login.scss"></style>
