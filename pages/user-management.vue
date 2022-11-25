@@ -1,13 +1,15 @@
 <template>
   <div>
-    <h2>Hello home  page</h2>
+    <h2>Hello user management page</h2>
   </div>
 </template>
 
 <script>
 export default {
   data() {
-    return {}
+    return {
+      key: []
+    }
   },
 }
 </script>
