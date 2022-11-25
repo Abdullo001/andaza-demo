@@ -15,9 +15,10 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/svg', href: '/logo.svg' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'}
     ]
   },
+  script: [
+  ],
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
