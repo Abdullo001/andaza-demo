@@ -20,45 +20,38 @@
             :to="nav.to"
             router
             exact
+            class="my-2"
           >
             <v-list-item-action>
               <v-img :src="nav.icon"/>
             </v-list-item-action>
             <v-list-item-content>
-              <v-list-item-title>{{ nav.title }}</v-list-item-title>
+              <v-list-item-title class="active-link">{{ nav.title }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
 
-          <v-list-group
-            v-else
-            v-for="(child, idx) in nav.child"
-            :key="idx"
-            :value="true"
-          >
+          <v-list-group v-else :value="true">
             <template #prependIcon>
-              <div>
-                <v-img :src="nav.icon"/>
-              </div>
-            </template>
-            <template v-slot:activator>
-              <v-list-item-title>{{nav.title}}</v-list-item-title>
+              <v-img :src="nav.icon"/>
             </template>
 
-            <v-list-item link>
-              <v-list-item-icon>
-  <!--              <v-icon>mdi-circle-medium</v-icon>-->
-              </v-list-item-icon>
-              <v-list-item-title v-text="child.title"></v-list-item-title>
+            <template #activator>
+              <v-list-item-title>{{ nav.title }}</v-list-item-title>
+            </template>
 
-            </v-list-item>
-
-            <v-list-item>
+            <v-list-item
+              v-for="(child, idx) in nav.child"
+              :key="idx"
+              link class="my-2"
+              route
+              :to="child.to"
+            >
+              <v-list-item-icon/>
+              <v-list-item-title v-text="child.title"/>
             </v-list-item>
           </v-list-group>
         </div>
       </v-list>
-
-
     </v-navigation-drawer>
 
     <v-app-bar
@@ -151,7 +144,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .navbar-text {
   min-width: 133px;
   font-weight: 600;
@@ -159,5 +152,32 @@ export default {
   line-height: 18px;
   color: #000000;
   margin-left: 6px;
+}
+.v-list-item--active.v-list-item.v-list-item--link:hover {
+  background-color: #6F31ED33 !important;
+  color: #7631FF;
+}
+
+.v-navigation-drawer__content .v-list-item--active {
+  background: linear-gradient(87.99deg, #6F31ED33 0%, #6F31ED33 100%);
+  color: #7631FF !important;
+  border-radius: 8px;
+  min-width: 50px;
+  width: 100%;
+}
+.v-list-item--active .active-link {
+  color: #7631FF !important;
+}
+.v-list-item.v-list-item--link:hover {
+  background-color: rgba(112, 50, 239, 0.1) !important;
+  color: rgba(118, 49, 255, 0.19);
+  border-radius: 8px;
+}
+.v-list-item.v-list-item--link {
+  height: 52px;
+}
+.v-list-group__header.v-list-item.v-list-item--active.v-list-item--link.theme--light {
+  color: #000000 !important;
+  background: #FFFFFF;
 }
 </style>
