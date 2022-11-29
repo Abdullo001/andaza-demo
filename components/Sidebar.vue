@@ -12,29 +12,61 @@
         <v-img src="/logo.svg" max-width="100"/>
         <div class="navbar-text">Automatization of Textile Production</div>
       </div>
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-img :src="item.icon"/>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+
+      <v-list class="rounded-lg mx-4">
+        <div v-for="(nav, idx) in items" :key="idx">
+          <v-list-item
+            v-if="!nav.has_child"
+            :to="nav.to"
+            router
+            exact
+          >
+            <v-list-item-action>
+              <v-img :src="nav.icon"/>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>{{ nav.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
+          <v-list-group
+            v-else
+            v-for="(child, idx) in nav.child"
+            :key="idx"
+            :value="true"
+          >
+            <template #prependIcon>
+              <div>
+                <v-img :src="nav.icon"/>
+              </div>
+            </template>
+            <template v-slot:activator>
+              <v-list-item-title>{{nav.title}}</v-list-item-title>
+            </template>
+
+            <v-list-item link>
+              <v-list-item-icon>
+  <!--              <v-icon>mdi-circle-medium</v-icon>-->
+              </v-list-item-icon>
+              <v-list-item-title v-text="child.title"></v-list-item-title>
+
+            </v-list-item>
+
+            <v-list-item>
+            </v-list-item>
+          </v-list-group>
+        </div>
       </v-list>
+
+
     </v-navigation-drawer>
+
     <v-app-bar
       :clipped-left="clipped"
       fixed
       app
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
       <v-btn
         icon
         @click.stop="miniVariant = !miniVariant"
@@ -48,7 +80,7 @@
         <v-icon>mdi-application</v-icon>
       </v-btn>
       <v-toolbar-title>{{ title }}</v-toolbar-title>
-      <v-spacer />
+      <v-spacer/>
 
     </v-app-bar>
   </div>
@@ -68,13 +100,47 @@ export default {
           title: 'Dashboard',
           has_child: true,
           to: '/',
-          child: []
+          child: [
+            {
+              title: 'Analytics',
+              to: '/prefinances',
+            },
+          ]
         },
         {
           icon: '/sidebar/user.svg',
           title: 'User management',
-          to: '/user-management'
-        }
+          to: '/user-management',
+          has_child: false,
+        },
+        {
+          icon: '/sidebar/localization.svg',
+          title: 'Localization',
+          to: '/localization',
+          has_child: false,
+        },
+        {
+          icon: '/sidebar/prefinances.svg',
+          title: 'Prefinances',
+          to: '/prefinances',
+          has_child: false,
+        },
+        {
+          icon: '/sidebar/lock.svg',
+          title: 'Fraud management',
+          to: '/fraud-management',
+          has_child: true,
+          child: [
+            {
+              title: 'Devices',
+              to: '/prefinances',
+            },
+            {
+              title: 'Users',
+              to: '/prefinances',
+            },
+          ]
+        },
       ],
       miniVariant: false,
       right: true,
