@@ -9,6 +9,9 @@ export default {
   data() {
     return {}
   },
+  mounted() {
+    this.$store.commit('setPageTitle', 'Dashboard')
+  }
 }
 </script>
 

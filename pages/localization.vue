@@ -10,6 +10,9 @@ export default {
     return {
     }
   },
+  mounted() {
+    this.$store.commit('setPageTitle', 'Localization')
+  }
 }
 </script>
 

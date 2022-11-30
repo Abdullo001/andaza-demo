@@ -11,6 +11,10 @@ export default {
       key: []
     }
   },
+
+  mounted() {
+    this.$store.commit('setPageTitle', 'User management')
+  }
 }
 </script>
 
