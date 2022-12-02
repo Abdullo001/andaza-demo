@@ -2,7 +2,7 @@
   <div>
     <v-navigation-drawer
       v-model="drawer"
-      :mini-variant="miniVariant"
+      :mini-variant="false"
       :clipped="clipped"
       fixed
       app
@@ -22,28 +22,31 @@
             exact
             class="my-2"
             ref="active_class"
+            multi-line
           >
-            <v-list-item-action style="max-width: 56px;">
-              <v-img :src="`${nav.icon}`"/>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title class="active-link">{{ nav.title }}</v-list-item-title>
-            </v-list-item-content>
+            <template #default="{ active }">
+              <v-list-item-action style="max-width: 56px;">
+                <v-img :src="active ? `/sidebar/active-${nav.icon}` : `/sidebar/${nav.icon}`"/>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title class="active-link">{{ nav.title }}</v-list-item-title>
+              </v-list-item-content>
+            </template>
           </v-list-item>
 
-          <v-list-group v-else  >
+          <v-list-group v-else>
              <template #prependIcon>
-              <v-img :src="nav.icon"/>
+              <v-img class="mt-n1" :src="`/sidebar/${nav.icon}`"/>
             </template>
 
             <template #activator>
-              <v-list-item-title class="mt-2">{{ nav.title }}</v-list-item-title>
+              <v-list-item-title>{{ nav.title }}</v-list-item-title>
             </template>
 
             <v-list-item
               v-for="(child, idx) in nav.child"
               :key="idx"
-              link class="my-2"
+              link class="my-2 "
               route
               :to="child.to"
             >
@@ -87,10 +90,10 @@
         </v-text-field>
       </div>
         <v-spacer/>
-      <v-btn text class="mr-6">
+      <v-btn text class="mr-6" color="indigo">
         <v-img src="/notification.svg"/>
       </v-btn>
-      <div class="language d-flex" @click="selectedLang">
+      <div class="language d-flex mr-7" @click="selectedLang">
         <div class="language__selected">
           <img :src="active_flag" alt="flag">
           <span class="ml-2 mr-1">{{ active_lang }}</span>
@@ -102,6 +105,13 @@
             <img :src="lang.icon" alt="flag"> {{ lang.title }}
           </span>
         </div>
+      </div>
+      <div class="profile">
+        <div class="mr-3">
+          <div class="profile__title">Khamidullaev Abbos</div>
+          <div class="profile__role">Admin</div>
+        </div>
+        <v-img src="/profilePicture.svg" width="52" height="52"/>
       </div>
     </v-app-bar>
   </div>
@@ -126,7 +136,7 @@ export default {
       fixed: false,
       items: [
         {
-          icon: '/sidebar/active-house.svg',
+          icon: 'house.svg',
           title: 'Dashboard',
           has_child: true,
           to: '/',
@@ -138,25 +148,25 @@ export default {
           ]
         },
         {
-          icon: '/sidebar/active-user.svg',
+          icon: 'user.svg',
           title: 'User management',
           to: '/user-management',
           has_child: false,
         },
         {
-          icon: '/sidebar/active-localization.svg',
+          icon: 'localization.svg',
           title: 'Localization',
           to: '/localization',
           has_child: false,
         },
         {
-          icon: '/sidebar/active-prefinances.svg',
+          icon: 'prefinances.svg',
           title: 'Prefinances',
           to: '/prefinances',
           has_child: false,
         },
         {
-          icon: '/sidebar/active-lock.svg',
+          icon: 'lock.svg',
           title: 'Fraud management',
           to: '/fraud-management',
           has_child: true,
@@ -246,6 +256,7 @@ export default {
 .v-list-group__header.v-list-item.v-list-item--active.v-list-item--link.theme--light {
   color: #000000 !important;
   background: #FFFFFF;
+  border: 1px solid #7631FF;
 }
 .v-application--is-ltr .v-list-item__action:first-child, .v-application--is-ltr .v-list-item__icon:first-child {
   margin-right: 14px;
@@ -254,10 +265,35 @@ export default {
   margin-left: 5px;
   margin-top: 7px;
 }
+.v-application--is-ltr .v-list-item__action:last-of-type:not(:only-child), .v-application--is-ltr .v-list-item__avatar:last-of-type:not(:only-child), .v-application--is-ltr .v-list-item__icon:last-of-type:not(:only-child) {
+  margin-top: 0;
+}
 .main-title {
   font-weight: 700;
   font-size: 20px;
   line-height: 24px;
   color: #777C85;
+}
+.profile {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  &__title {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: right;
+    color: #1D2433;
+  }
+  &__role {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: right;
+    color: #777C85;
+  }
+}
+.v-btn--outlined {
+  border: 2px solid;
 }
 </style>
