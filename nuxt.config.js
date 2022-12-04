@@ -14,7 +14,7 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/svg', href: '/logo.svg' },
+      { rel: 'icon', type: 'image/svg', href: '/logo.svg' }
     ]
   },
   script: [
@@ -26,7 +26,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     {src: "~/plugins/mixins.js"},
-    {src: "~/plugins/v-mask.js", mode: " client"}
+    {src: "~/plugins/v-mask.js"}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -47,17 +47,55 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    "@nuxtjs/toast",
+    '@nuxtjs/auth-next'
   ],
+  toast: {
+    position: "bottom-center",
+    duration: 4000,
+    action:{
+      text:'Cancel',
+      onClick:(e,toastObject)=>{
+        toastObject.goAway(0);
+      }
+    }
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
+    baseURL: 'http://dev-atp.asgardia.uz'
   },
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: '/api/v1/auth/login',
+            method: 'post',
+            propertyName: 'token'
+          },
+          logout: true,
+          user: false
+        },
+        tokenRequired: true,
+        tokenType: "Bearer"
+      }
+    },
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      callback: '/login',
+      home: '/user-management'
+    }
+  },
+  // router: {
+  //   middleware: ['auth']
+  // },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
-    customVariables: ['~/assets/variables.scss'],
+    customVariables: ['~/assets/variables.scss', '~/assets/base.scss'],
     theme: {
       dark: false,
       themes: {

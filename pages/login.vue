@@ -58,6 +58,7 @@
             class="rounded-lg text-capitalize"
             block
             dark
+            @click.stop="userLogin"
           >Sign In
           </v-btn>
           <div class="login__hint text-center">
@@ -91,7 +92,19 @@ export default {
       show_password: true
     }
   },
-  methods: {}
+  methods: {
+    async userLogin() {
+      const data = {
+        usernameOrEmail: this.login.userName,
+        password: this.login.password
+      }
+
+      await this.$axios.$post('/api/v1/auth/login', data)
+        .then(res => {
+          console.log(res)
+      })
+    }
+  }
 }
 </script>
 <style lang="scss" src="assets/abstracts/_login.scss"></style>

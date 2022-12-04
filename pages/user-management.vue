@@ -6,8 +6,8 @@
       class="rounded-t-lg"
     >
       <v-form lazy-validation v-model="valid_search" ref="search_form">
-        <v-row class="mx-0 mb-7 mt-4 pa-4">
-          <v-col>
+        <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
+          <v-col cols="12" lg="2" md="2">
             <v-text-field
               label="User ID"
               outlined
@@ -18,7 +18,7 @@
               dense
             />
           </v-col>
-          <v-col>
+          <v-col cols="12" lg="2" md="2">
             <v-text-field
               label="First name"
               outlined
@@ -29,7 +29,7 @@
               dense
             />
           </v-col>
-          <v-col>
+          <v-col cols="12" lg="2" md="2">
             <v-text-field
               label="Last name"
               outlined
@@ -41,9 +41,7 @@
             />
           </v-col>
           <v-col
-            cols="12"
-            sm="6"
-            md="4"
+            cols="12" lg="2" md="2"
           >
             <v-menu
               v-model="menu2"
@@ -78,28 +76,29 @@
               ></v-date-picker>
             </v-menu>
           </v-col>
-          <v-spacer/>
-          <v-col class="d-flex">
-            <v-btn
-              width="140" outlined
-              color="#397CFD" elevation="0"
-              class="text-capitalize mr-4 rounded-lg"
-              @click="resetSearch"
-            >
-              Reset
-            </v-btn>
-            <v-btn
-              width="140" color="#397CFD" dark
-              elevation="0"
-              class="text-capitalize rounded-lg"
-            >
-              Search
-            </v-btn>
+          <v-col class="" cols="12" lg="4">
+            <div class="d-flex justify-end">
+              <v-btn
+                width="140" outlined
+                color="#397CFD" elevation="0"
+                class="text-capitalize mr-4 rounded-lg"
+                @click="resetSearch"
+              >
+                Reset
+              </v-btn>
+              <v-btn
+                width="140" color="#397CFD" dark
+                elevation="0"
+                class="text-capitalize rounded-lg"
+              >
+                Search
+              </v-btn>
+            </div>
           </v-col>
         </v-row>
       </v-form>
-
     </v-card>
+
     <v-data-table
       :headers="headers"
       :items="users"
@@ -180,7 +179,9 @@
             <div class="username-name">{{ item.username }}</div>
             <div class="username-email">
               {{ item.email }}
-              <v-img src="/copy.svg" width="15" class="ml-2 pointer"/>
+              <div  @click.stop="getCopyKey(item.email)">
+                <v-img src="/copy.svg" width="15" class="ml-2 pointer"/>
+              </div>
             </div>
           </div>
         </div>
@@ -188,17 +189,49 @@
       <template #item.phoneNumber="{item}">
         <div class="d-flex align-center">
           {{ item.phoneNumber }}
-          <v-img src="/copy.svg" class="ml-2 pointer" max-width="15"/>
+          <v-img src="/copy.svg" class="ml-2 pointer" max-width="15" @click.stop="getCopyKey(item.phoneNumber)" />
         </div>
       </template>
       <template #item.id="{ item }">
         <v-checkbox
           color="#7631FF"
           v-model="item.selected"
-          :label="item.id"
+          :label="String(item.id)"
         />
       </template>
     </v-data-table>
+    <v-dialog v-model="deleteDialog" max-width="500">
+      <v-card class="pa-4 text-center">
+        <div class="d-flex justify-center mb-2">
+          <v-img src="/error-icon.svg" max-width="40"/>
+        </div>
+        <v-card-title class="d-flex justify-center">Delete User information</v-card-title>
+        <v-card-text>
+          Are you sure you want to Delete this user inforamtion?
+        </v-card-text>
+        <v-card-actions class="px-16">
+          <v-btn
+            outlined
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#777C85"
+            width="140"
+            @click.stop="deleteDialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-spacer/>
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#FF4E4F"
+            width="140"
+            elevation="0"
+            dark
+          >
+            delete
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -206,6 +239,7 @@
 export default {
   data() {
     return {
+      deleteDialog: false,
       valid_search: true,
       search: {
         user_id: '',
@@ -254,6 +288,17 @@ export default {
     }
   },
   methods: {
+    getCopyKey(item) {
+      navigator.clipboard.writeText(item)
+      this.$toasted.success(`Copied ${item}`, {
+        action:{
+          text:'Cancel',
+          onClick:(e,toastObject)=>{
+            toastObject.goAway(0);
+          }
+        }
+      })
+    },
     statusColor(color) {
       switch (color) {
         case 'Active':
@@ -278,7 +323,9 @@ export default {
       this.$refs.search_form.reset();
     },
     editItem(item) {},
-    deleteItem(item) {}
+    deleteItem(item) {
+      this.deleteDialog = !this.deleteDialog;
+    }
   },
   mounted() {
     this.$store.commit('setPageTitle', 'User management')
