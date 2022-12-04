@@ -10,8 +10,10 @@
   opacity: 0;
 }
 
+
+
 html, body .v-application {
-  background: rgba(255, 240, 240, 0.36) !important;
+  background: #F4F5FA !important;
 }
 
 .language {
@@ -68,4 +70,8 @@ html, body .v-application {
   border-radius: 50%;
   object-fit: cover;
   object-position: center;
+}
+
+.action {
+  color: #FFFFFF !important;
 }
