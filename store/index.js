@@ -1,5 +1,6 @@
 export const state = () => ({
-  pageTitle: ''
+  pageTitle: '',
+  isAuth: false
 })
 
 export const getters = {
@@ -9,5 +10,6 @@ export const getters = {
 export const mutations = {
   setPageTitle(state, title) {
     state.pageTitle = title
-  }
+  },
+
 }

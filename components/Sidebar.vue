@@ -221,7 +221,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .navbar-text {
   min-width: 133px;
   font-weight: 600;
@@ -232,7 +232,7 @@ export default {
 }
 .v-list-item--active.v-list-item.v-list-item--link:hover {
   background-color: #6F31ED33 !important;
-  color: #7631FF;
+  color: #7631FF !important;
 }
 
 .v-navigation-drawer__content .v-list-item--active {
@@ -247,7 +247,7 @@ export default {
 }
 .v-list-item.v-list-item--link:hover {
   background-color: rgba(112, 50, 239, 0.1) !important;
-  color: rgba(118, 49, 255, 0.19);
+  //color: rgba(118, 49, 255, 0.19);
   border-radius: 8px;
 }
 .v-list-item.v-list-item--link {
