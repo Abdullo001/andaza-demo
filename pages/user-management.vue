@@ -109,7 +109,7 @@
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium">Users</div>
-            <v-btn color="#7631FF" class="rounded-lg" dark>
+            <v-btn color="#7631FF" class="rounded-lg" dark @click.stop = "new_user = true">
               <v-icon>mdi-plus</v-icon> user
             </v-btn>
           </v-toolbar-title>
@@ -232,6 +232,92 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="new_user" max-width="580">
+      <v-card>
+        <v-card-title class="w-full d-flex justify-space-between">
+          <div>Add user</div>
+          <v-btn icon @click="new_user = false">
+            <v-icon color="#7631FF">mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>.
+
+        <v-card-text>
+          <div class="d-flex align-center">
+            <v-img src="/upload-default.svg" max-width="120" v-ripple/>
+            <v-btn color="#F1EBFE" elevation="0" class="rounded-lg ml-6 text-capitalize">
+              <v-img src="/upload-btn-icon.svg" width="20" class="mr-2"/>
+              <div class="btn-color">Upload photo</div>
+            </v-btn>
+          </div>
+          <v-row class="mt-4">
+            <v-col cols="12" lg="6">
+              <v-text-field
+                label="First name"
+                filled
+                dense
+                color="#7631FF"
+                placeholder="Enter first name"
+                v-model="user_data.firstname"
+                :rules="[formRules.required]"
+                validate-on-blur
+              />
+            </v-col>
+            <v-col cols="12" lg="6">
+              <v-text-field
+                label="Last name"
+                filled
+                dense
+                color="#7631FF"
+                placeholder="Enter last name"
+                v-model="user_data.lastname"
+                :rules="[formRules.required]"
+                validate-on-blur
+              />
+            </v-col>
+            <v-col cols="12" lg="6">
+              <v-text-field
+                label="Phone number"
+                filled
+                dense
+                color="#7631FF"
+                v-mask="'(##) ### ## ##'"
+                prefix="+998"
+                placeholder="(--) --- -- --"
+                v-model.trim="user_data.phone"
+                :rules="[formRules.required]"
+                validate-on-blur
+              />
+            </v-col>
+            <v-col cols="12" lg="6">
+              <v-text-field
+                label="Username"
+                filled
+                dense
+                color="#7631FF"
+                placeholder="Enter username"
+                v-model="user_data.username"
+                :rules="[formRules.required]"
+                validate-on-blur
+              />
+            </v-col>
+            <v-col cols="12" lg="6">
+              <v-text-field
+                label="Username"
+                filled
+                dense
+                color="#7631FF"
+                placeholder="Enter e-mail"
+                class="mb-3"
+                v-model="user_data.email"
+                :rules="[formRules.required]"
+                validate-on-blur
+              />
+            </v-col>
+
+          </v-row>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -284,7 +370,16 @@ export default {
           status: 'Blocked',
           selected: true
         },
-      ]
+      ],
+      new_user: false,
+      user_data: {
+        firstname: '',
+        lastname: '',
+        phone: '',
+        username: '',
+        email: '',
+        lang: ''
+      }
     }
   },
   methods: {
@@ -333,7 +428,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .username-name {
   font-weight: 500;
   font-size: 14px;
@@ -347,5 +442,10 @@ export default {
   color: #777C85;
   display: flex;
   align-items: center;
+}
+.btn-color {
+  font-size: 14px;
+  line-height: 140%;
+  color: #7631FF;
 }
 </style>

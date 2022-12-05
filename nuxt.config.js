@@ -64,7 +64,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'http://dev-atp.asgardia.uz'
+    baseURL: 'https://dev-atp.asgardia.uz'
   },
   auth: {
     strategies: {
@@ -85,13 +85,13 @@ export default {
     redirect: {
       login: '/login',
       logout: '/login',
-      callback: '/login',
+      callback: '/',
       home: '/user-management'
     }
   },
-  // router: {
-  //   middleware: ['auth']
-  // },
+  router: {
+    middleware: ['auth']
+  },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
