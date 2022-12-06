@@ -11,6 +11,7 @@ export default {
   },
   mounted() {
     this.$store.commit('setPageTitle', 'Dashboard')
+    this.$router.push('/user-management')
   }
 }
 </script>
