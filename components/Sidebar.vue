@@ -221,7 +221,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 .navbar-text {
   min-width: 133px;
   font-weight: 600;
@@ -247,7 +247,6 @@ export default {
 }
 .v-list-item.v-list-item--link:hover {
   background-color: rgba(112, 50, 239, 0.1) !important;
-  //color: rgba(118, 49, 255, 0.19);
   border-radius: 8px;
 }
 .v-list-item.v-list-item--link {
@@ -267,6 +266,9 @@ export default {
 }
 .v-application--is-ltr .v-list-item__action:last-of-type:not(:only-child), .v-application--is-ltr .v-list-item__avatar:last-of-type:not(:only-child), .v-application--is-ltr .v-list-item__icon:last-of-type:not(:only-child) {
   margin-top: 0;
+}
+.v-list-group__header.v-list-item.v-list-item--active.v-list-item--link.theme--light {
+  color: #1D2433 !important;
 }
 .main-title {
   font-weight: 700;
