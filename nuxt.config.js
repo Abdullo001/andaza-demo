@@ -83,7 +83,7 @@ export default {
     redirect: {
       login: '/login',
       logout: '/login',
-      callback: '/',
+      callback: '/login',
       home: '/user-management'
     }
   },

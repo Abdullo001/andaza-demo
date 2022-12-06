@@ -107,7 +107,11 @@ export default {
       //     }
       // })
       await this.$auth.loginWith('local', {data: data})
-        .then(res => console.log(res))
+        .then(res => {
+          if (!!res.data.token) {
+            this.$toasted.success(res.message, {theme: 'toasted-primary'})
+          }
+        })
         .catch(({response}) => console.log(response))
     }
   }
