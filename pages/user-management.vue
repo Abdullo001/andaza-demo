@@ -73,6 +73,7 @@
               <v-date-picker
                 v-model="date"
                 @input="menu2 = false"
+                color="#7631FF"
               ></v-date-picker>
             </v-menu>
           </v-col>
@@ -156,9 +157,7 @@
             </template>
             <span>Delete</span>
           </v-tooltip>
-
         </div>
-
       </template>
       <template #item.status="{item}">
         <v-chip :color="statusColor(item.status)" outlined dark>
@@ -180,9 +179,14 @@
             <div class="username-name">{{ item.username }}</div>
             <div class="username-email">
               {{ item.email }}
-              <div @click.stop="getCopyKey(item.email)">
-                <v-img src="/copy.svg" width="15" class="ml-2 pointer"/>
-              </div>
+              <v-tooltip top color="green">
+                <template #activator="{ on, attrs }">
+                  <div @click.stop="getCopyKey(item.email)" v-bind="attrs" v-on="on">
+                    <v-img src="/copy.svg" width="15" class="ml-2 pointer"/>
+                  </div>
+                </template>
+                <span>Copy</span>
+              </v-tooltip>
             </div>
           </div>
         </div>
@@ -475,7 +479,9 @@ export default {
     }
   },
   mounted() {
-    this.$store.commit('setPageTitle', 'User management')
+    this.$store.commit('setPageTitle', 'User management');
+    const cookie = this.$auth.$storage._state
+    console.log(cookie)
   }
 }
 </script>
