@@ -264,6 +264,7 @@
               class="d-none"
               type="file"
               @change="onFileChanged"
+              accept="image/*"
             >
           </div>
           <v-row class="mt-4">
