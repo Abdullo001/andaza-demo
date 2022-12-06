@@ -109,12 +109,13 @@
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium">Users</div>
-            <v-btn color="#7631FF" class="rounded-lg" dark @click.stop = "new_user = true">
-              <v-icon>mdi-plus</v-icon> user
+            <v-btn color="#7631FF" class="rounded-lg" dark @click.stop="new_user = true">
+              <v-icon>mdi-plus</v-icon>
+              user
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
-          <v-divider/>
+        <v-divider/>
       </template>
       <template #item.actions="{ item }">
         <div class="d-flex">
@@ -179,7 +180,7 @@
             <div class="username-name">{{ item.username }}</div>
             <div class="username-email">
               {{ item.email }}
-              <div  @click.stop="getCopyKey(item.email)">
+              <div @click.stop="getCopyKey(item.email)">
                 <v-img src="/copy.svg" width="15" class="ml-2 pointer"/>
               </div>
             </div>
@@ -189,7 +190,7 @@
       <template #item.phoneNumber="{item}">
         <div class="d-flex align-center">
           {{ item.phoneNumber }}
-          <v-img src="/copy.svg" class="ml-2 pointer" max-width="15" @click.stop="getCopyKey(item.phoneNumber)" />
+          <v-img src="/copy.svg" class="ml-2 pointer" max-width="15" @click.stop="getCopyKey(item.phoneNumber)"/>
         </div>
       </template>
       <template #item.id="{ item }">
@@ -232,22 +233,27 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="new_user" max-width="580">
+    <v-dialog v-model="new_user" max-width="680">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
           <div>Add user</div>
           <v-btn icon @click="new_user = false">
             <v-icon color="#7631FF">mdi-close</v-icon>
           </v-btn>
-        </v-card-title>.
-
+        </v-card-title>
         <v-card-text>
           <div class="d-flex align-center">
-            <v-img src="/upload-default.svg" max-width="120" v-ripple/>
-            <v-btn color="#F1EBFE" elevation="0" class="rounded-lg ml-6 text-capitalize">
+            <v-img :src="avatar ? avatar : '/upload-default.svg'" max-width="120" v-ripple class="rounded-lg"/>
+            <v-btn color="#F1EBFE" elevation="0" class="rounded-lg ml-6 text-capitalize" @click="handleFileImport">
               <v-img src="/upload-btn-icon.svg" width="20" class="mr-2"/>
               <div class="btn-color">Upload photo</div>
             </v-btn>
+            <input
+              ref="uploader"
+              class="d-none"
+              type="file"
+              @change="onFileChanged"
+            >
           </div>
           <v-row class="mt-4">
             <v-col cols="12" lg="6">
@@ -302,7 +308,7 @@
             </v-col>
             <v-col cols="12" lg="6">
               <v-text-field
-                label="Username"
+                label="E-mail"
                 filled
                 dense
                 color="#7631FF"
@@ -313,9 +319,40 @@
                 validate-on-blur
               />
             </v-col>
-
+            <v-col cols="12" lg="6">
+              <v-select
+                :items="lang_list" label="Language"
+                v-model="user_data.lang" append-icon="mdi-chevron-down"
+                filled
+                dense
+                :rules="[formRules.required]"
+              >
+                <template #selection="{item, index}">
+                  <v-img :src="item.icon" max-width="22" class="mr-4"/>
+                  {{ item.title }}
+                </template>
+                <template #item="{item}">
+                  <v-img :src="item.icon" max-width="22" class="mr-4"/>
+                  {{ item.title }}
+                </template>
+              </v-select>
+            </v-col>
           </v-row>
         </v-card-text>
+        <v-card-actions class="d-flex justify-center pb-6">
+          <v-btn
+            outlined
+            class="text-capitalize rounded-lg font-weight-bold mr-6"
+            color="#7631FF"
+            width="163"
+          >cancel</v-btn>
+          <v-btn
+            class="text-capitalize rounded-lg font-weight-bold"
+            color="#7631FF"
+            dark
+            width="163"
+          >add</v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
   </div>
@@ -325,6 +362,11 @@
 export default {
   data() {
     return {
+      lang_list: [
+        {title: "En", code: "en", icon: "/us.svg"},
+        {title: "Uz", code: "uz", icon: "/uz.svg"},
+        {title: "Ru", code: "ru", icon: "/ru.svg"},
+      ],
       deleteDialog: false,
       valid_search: true,
       search: {
@@ -373,22 +415,31 @@ export default {
       ],
       new_user: false,
       user_data: {
+        avatar: null,
         firstname: '',
         lastname: '',
         phone: '',
         username: '',
         email: '',
-        lang: ''
-      }
+        lang: {},
+      },
+      avatar: null
     }
   },
   methods: {
+    handleFileImport() {
+      this.$refs.uploader.click();
+    },
+    onFileChanged(e) {
+      this.user_data.avatar = e.target.files[0];
+      this.avatar = URL.createObjectURL(this.user_data.avatar);
+    },
     getCopyKey(item) {
       navigator.clipboard.writeText(item)
       this.$toasted.success(`Copied ${item}`, {
-        action:{
-          text:'Cancel',
-          onClick:(e,toastObject)=>{
+        action: {
+          text: 'Cancel',
+          onClick: (e, toastObject) => {
             toastObject.goAway(0);
           }
         }
@@ -417,7 +468,8 @@ export default {
     resetSearch() {
       this.$refs.search_form.reset();
     },
-    editItem(item) {},
+    editItem(item) {
+    },
     deleteItem(item) {
       this.deleteDialog = !this.deleteDialog;
     }
@@ -435,6 +487,7 @@ export default {
   line-height: 20px;
   color: #1D2433;
 }
+
 .username-email {
   font-weight: 400;
   font-size: 14px;
@@ -443,6 +496,7 @@ export default {
   display: flex;
   align-items: center;
 }
+
 .btn-color {
   font-size: 14px;
   line-height: 140%;
