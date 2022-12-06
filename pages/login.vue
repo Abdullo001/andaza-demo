@@ -99,14 +99,16 @@ export default {
         password: this.login.password
       }
 
-      await this.$axios.$post('/api/v1/auth/login', data)
-        .then(res => {
-          console.log(res);
-          if(!!res.data.token) {
-            this.$toasted.success(res.message, {theme: 'toasted-primary'})
-          }
-
-      })
+      // await this.$axios.$post('/api/v1/auth/login', data)
+      //   .then(res => {
+      //     console.log(res);
+      //     if(!!res.data.token) {
+      //       this.$toasted.success(res.message, {theme: 'toasted-primary'})
+      //     }
+      // })
+      await this.$auth.loginWith('local', {data: data})
+        .then(res => console.log(res))
+        .catch(({response}) => console.log(response))
     }
   }
 }

@@ -11,5 +11,7 @@ export const mutations = {
   setPageTitle(state, title) {
     state.pageTitle = title
   },
-
+  isAuth(state, status) {
+    state.isAuth = status
+  }
 }

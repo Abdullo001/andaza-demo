@@ -48,7 +48,7 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     "@nuxtjs/toast",
-    '@nuxtjs/auth-next'
+    ['@nuxtjs/auth']
   ],
   toast: {
     position: "bottom-center",
@@ -61,6 +61,8 @@ export default {
     }
   },
 
+  loading: { color: '#7631FF' },
+
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
@@ -70,12 +72,8 @@ export default {
     strategies: {
       local: {
         endpoints: {
-          login: {
-            url: '/api/v1/auth/login',
-            method: 'post',
-            propertyName: 'token'
-          },
-          logout: true,
+          login: { url: '/api/v1/auth/login', method: 'post', propertyName: 'data.token'},
+          logout: false,
           user: false
         },
         tokenRequired: true,
