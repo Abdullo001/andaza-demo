@@ -85,8 +85,10 @@ export default {
   data() {
     return {
       login: {
-        userName: 'admin@gmail.com',
-        password: 'Ab%1l2cc',
+        userName: '',
+        password: ''
+        // userName: 'admin@gmail.com',
+        // password: 'Ab%1l2cc',
         // remember: false
       },
       show_password: true
@@ -99,13 +101,6 @@ export default {
         password: this.login.password
       }
 
-      // await this.$axios.$post('/api/v1/auth/login', data)
-      //   .then(res => {
-      //     console.log(res);
-      //     if(!!res.data.token) {
-      //       this.$toasted.success(res.message, {theme: 'toasted-primary'})
-      //     }
-      // })
       await this.$auth.loginWith('local', {data: data})
         .then(res => {
           if (!!res.data.token) {

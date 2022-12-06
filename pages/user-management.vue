@@ -480,8 +480,7 @@ export default {
   },
   mounted() {
     this.$store.commit('setPageTitle', 'User management');
-    const cookie = this.$auth.$storage._state
-    console.log(cookie)
+
   }
 }
 </script>
