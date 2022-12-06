@@ -194,7 +194,14 @@
       <template #item.phoneNumber="{item}">
         <div class="d-flex align-center">
           {{ item.phoneNumber }}
-          <v-img src="/copy.svg" class="ml-2 pointer" max-width="15" @click.stop="getCopyKey(item.phoneNumber)"/>
+          <v-tooltip top color="green">
+          <template #activator="{ on, attrs }">
+            <div @click.stop="getCopyKey(item.phoneNumber)" v-bind="attrs" v-on="on">
+              <v-img src="/copy.svg" width="15" class="ml-2 pointer"/>
+            </div>
+          </template>
+          <span>Copy</span>
+          </v-tooltip>
         </div>
       </template>
       <template #item.id="{ item }">
