@@ -102,9 +102,10 @@
 
     <v-data-table
       :headers="headers"
-      :items="users"
+      :items="all_users"
       :items-per-page="10"
       class="mt-6 rounded-lg"
+      @click:row = "(item) => getUserInfo(item)"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -124,7 +125,7 @@
             <template #activator="{on, attrs}">
               <v-btn
                 icon color="green"
-                @click="editItem(item)"
+                @click.stop="editItem(item)"
                 v-on="on"
                 v-bind="attrs"
               >
@@ -143,7 +144,7 @@
             <template #activator="{on, attrs}">
               <v-btn
                 color="red" icon
-                @click="deleteItem(item)"
+                @click.stop="deleteItem(item)"
                 v-bind="attrs"
                 v-on="on"
               >
@@ -340,11 +341,11 @@
                 :rules="[formRules.required]"
               >
                 <template #selection="{item, index}">
-                  <v-img :src="item.icon" max-width="22" class="mr-4"/>
+                  <v-img :src="item.icon" max-width="22" class="mr-4" contain/>
                   {{ item.title }}
                 </template>
                 <template #item="{item}">
-                  <v-img :src="item.icon" max-width="22" class="mr-4"/>
+                  <v-img :src="item.icon" max-width="22" class="mr-4" contain/>
                   {{ item.title }}
                 </template>
               </v-select>
@@ -367,6 +368,129 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="edit_user" max-width="680">
+      <v-card>
+        <v-card-title class="w-full d-flex justify-space-between">
+          <div>Edit user</div>
+          <v-btn icon @click="edit_user = false">
+            <v-icon color="#7631FF">mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text>
+          <div class="d-flex align-center">
+            <v-img :src="avatar ? avatar : '/upload-default.svg'" max-width="120" v-ripple class="rounded-lg"/>
+            <v-btn color="#F1EBFE" elevation="0" class="rounded-lg ml-6 text-capitalize" @click="handleFileImport">
+              <v-img src="/upload-btn-icon.svg" width="20" class="mr-2"/>
+              <div class="btn-color">Upload photo</div>
+            </v-btn>
+            <input
+              ref="uploader"
+              class="d-none"
+              type="file"
+              @change="onFileChanged"
+              accept="image/*"
+            >
+          </div>
+          <v-row class="mt-4">
+            <v-col cols="12" lg="6">
+              <v-text-field
+                label="First name"
+                filled
+                dense
+                color="#7631FF"
+                placeholder="Enter first name"
+                v-model="user_update_data.firstName"
+                :rules="[formRules.required]"
+                validate-on-blur
+              />
+            </v-col>
+            <v-col cols="12" lg="6">
+              <v-text-field
+                label="Last name"
+                filled
+                dense
+                color="#7631FF"
+                placeholder="Enter last name"
+                v-model="user_update_data.lastName"
+                :rules="[formRules.required]"
+                validate-on-blur
+              />
+            </v-col>
+            <v-col cols="12" lg="6">
+              <v-text-field
+                label="Phone number"
+                filled
+                dense
+                color="#7631FF"
+                v-mask="'+### (##) ### ## ##'"
+                placeholder="(--) --- -- --"
+                v-model.trim="user_update_data.phoneNumber"
+                :rules="[formRules.required]"
+                validate-on-blur
+              />
+            </v-col>
+            <v-col cols="12" lg="6">
+              <v-text-field
+                label="Username"
+                filled
+                dense
+                color="#7631FF"
+                placeholder="Enter username"
+                v-model="user_update_data.username"
+                :rules="[formRules.required]"
+                validate-on-blur
+              />
+            </v-col>
+            <v-col cols="12" lg="6">
+              <v-text-field
+                label="E-mail"
+                filled
+                dense
+                color="#7631FF"
+                placeholder="Enter e-mail"
+                class="mb-3"
+                v-model="user_update_data.email"
+                :rules="[formRules.required]"
+                validate-on-blur
+              />
+            </v-col>
+            <v-col cols="12" lg="6">
+              <v-select
+                :items="lang_list" label="Language"
+                v-model="user_update_data.lang" append-icon="mdi-chevron-down"
+                filled
+                dense
+                :rules="[formRules.required]"
+              >
+                <template #selection="{item, index}">
+                  <v-img :src="item.icon" max-width="22" class="mr-4" contain/>
+                  {{ item.title }}
+                </template>
+                <template #item="{item}">
+                  <v-img :src="item.icon" max-width="22" class="mr-4" contain/>
+                  {{ item.title }}
+                </template>
+              </v-select>
+            </v-col>
+          </v-row>
+        </v-card-text>
+        <v-card-actions class="d-flex justify-center pb-6">
+          <v-btn
+            outlined
+            class="text-capitalize rounded-lg font-weight-bold mr-6"
+            color="#7631FF"
+            width="163"
+            @click.stop="edit_user = false"
+          >cancel</v-btn>
+          <v-btn
+            class="text-capitalize rounded-lg font-weight-bold"
+            color="#7631FF"
+            dark
+            width="163"
+          >add</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -374,6 +498,7 @@
 export default {
   data() {
     return {
+      edit_user: false,
       lang_list: [
         {title: "En", code: "en", icon: "/us.svg"},
         {title: "Uz", code: "uz", icon: "/uz.svg"},
@@ -399,7 +524,7 @@ export default {
         {text: 'Status', align: 'start', sortable: false, value: 'status'},
         {text: 'Actions', align: 'end', sortable: false, value: 'actions', width: 90},
       ],
-      users: [
+      all_users: [
         {
           id: 5481,
           username: 'Jane Cooper',
@@ -435,10 +560,22 @@ export default {
         email: '',
         lang: {},
       },
+      user_update_data: {
+        avatar: null,
+        firstName: '',
+        lastName: '',
+        phone: '',
+        username: '',
+        email: '',
+        lang: {},
+      },
       avatar: null
     }
   },
   methods: {
+    getUserInfo(user) {
+      this.$router.push(`/user-management/${user.id}`)
+    },
     handleFileImport() {
       this.$refs.uploader.click();
     },
@@ -481,6 +618,8 @@ export default {
       this.$refs.search_form.reset();
     },
     editItem(item) {
+      this.edit_user = !this.edit_user;
+      this.user_update_data = {...item}
     },
     deleteItem(item) {
       this.deleteDialog = !this.deleteDialog;

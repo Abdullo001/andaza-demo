@@ -19,7 +19,7 @@
             color="#7631FF"
             placeholder="Enter Username or E-mail"
             class="mb-3"
-            v-model="login.userName"
+            v-model.trim="login.userName"
             :rules="[formRules.required]"
             validate-on-blur
           />
@@ -30,7 +30,7 @@
             color="#7631FF"
             placeholder="Enter password"
             class="mb-3"
-            v-model="login.password"
+            v-model.trim="login.password"
             :type="show_password ? 'password' : 'text'"
             :rules="[formRules.required]"
             validate-on-blur

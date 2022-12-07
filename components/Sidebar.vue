@@ -197,6 +197,12 @@ export default {
       active_flag: '/us.svg',
     }
   },
+  watch: {
+    active_lang(current) {
+      return this.no_selected_lang = this.lang_list.filter(el => el.title !== current)
+    }
+  },
+
   computed: {
     ...mapGetters({
       pageTitle: 'pageTitle'
