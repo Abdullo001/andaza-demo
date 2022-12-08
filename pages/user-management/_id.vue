@@ -77,6 +77,23 @@ export default {
         status: 'Active',
         selected: false
       },
+      items: [
+        {
+          text: 'Home',
+          disabled: false,
+          href: '/',
+        },
+        {
+          text: 'User management',
+          disabled: false,
+          href: '/user-management',
+        },
+        {
+          text: 'Info',
+          disabled: true,
+          href: '/user-management/id',
+        },
+      ],
     }
   },
 }

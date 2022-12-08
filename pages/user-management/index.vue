@@ -83,7 +83,7 @@
                 width="140" outlined
                 color="#397CFD" elevation="0"
                 class="text-capitalize mr-4 rounded-lg"
-                @click="resetSearch"
+                @click.stop="resetSearch"
               >
                 Reset
               </v-btn>
@@ -210,6 +210,7 @@
           color="#7631FF"
           v-model="item.selected"
           :label="String(item.id)"
+          @click.stop="selectedUsers"
         />
       </template>
     </v-data-table>
@@ -573,6 +574,7 @@ export default {
     }
   },
   methods: {
+    selectedUsers() {},
     getUserInfo(user) {
       this.$router.push(`/user-management/${user.id}`)
     },
