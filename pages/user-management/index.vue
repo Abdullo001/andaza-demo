@@ -6,7 +6,7 @@
       class="rounded-t-lg"
     >
       <v-form lazy-validation v-model="valid_search" ref="search_form">
-        <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
+        <v-row class="mx-0 px-0 mb-2 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
               label="User ID"
@@ -43,39 +43,11 @@
           <v-col
             cols="12" lg="2" md="2"
           >
-            <v-menu
-              v-model="menu2"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              transition="scale-transition"
-              offset-y
-              min-width="auto"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                  v-model="date"
-                  label="Created at"
-                  readonly
-                  v-bind="attrs"
-                  v-on="on"
-                  outlined
-                  dense
-                  append-icon="mdi-lock"
-                  class="rounded-lg"
-                  hide-details
-                  style="width: 200px"
-                >
-                  <template #append>
-                    <v-img src="/date-icon.svg"/>
-                  </template>
-                </v-text-field>
+            <v-text-field v-model="modal" outlined dense hide-details>
+              <template v-slot:append-outer>
+                <date-picker v-model="modal" />
               </template>
-              <v-date-picker
-                v-model="date"
-                @input="menu2 = false"
-                color="#7631FF"
-              ></v-date-picker>
-            </v-menu>
+            </v-text-field>
           </v-col>
           <v-col class="" cols="12" lg="4">
             <div class="d-flex justify-end">
@@ -496,9 +468,12 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   data() {
     return {
+      modal: null,
       edit_user: false,
       lang_list: [
         {title: "En", code: "en", icon: "/us.svg"},
@@ -572,6 +547,14 @@ export default {
       },
       avatar: null
     }
+  },
+  created() {
+    this.$store.dispatch('users/getUsers')
+  },
+  computed: {
+    ...mapGetters({
+      users: "users/users"
+    })
   },
   methods: {
     selectedUsers() {},
