@@ -54,7 +54,7 @@ export default {
     position: "bottom-center",
     duration: 4000,
     action:{
-      text:'Cancel',
+      text:'',
       onClick:(e,toastObject)=>{
         toastObject.goAway(0);
       }
@@ -72,12 +72,12 @@ export default {
     strategies: {
       local: {
         endpoints: {
-          login: { url: '/api/v1/auth/login', method: 'post', propertyName: 'data.token'},
-          logout: false,
+          login: { url: '/api/v1/auth/login', method: 'post', propertyName: 'response'},
+          logout: { url: '/api/v1/auth/logout', method: 'post', propertyName: 'response'},
           user: false
         },
-        tokenRequired: true,
-        tokenType: "Bearer"
+        tokenRequired: false,
+        tokenType: false
       }
     },
     redirect: {

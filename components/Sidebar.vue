@@ -115,6 +115,7 @@
       </div>
     </v-app-bar>
   </div>
+
 </template>
 
 <script>
@@ -195,6 +196,7 @@ export default {
       ],
       active_lang: "En",
       active_flag: '/us.svg',
+
     }
   },
   watch: {
@@ -227,7 +229,7 @@ export default {
 }
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 .navbar-text {
   min-width: 133px;
   font-weight: 600;
