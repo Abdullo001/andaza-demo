@@ -54,7 +54,7 @@ export default {
     position: "bottom-center",
     duration: 4000,
     action:{
-      text:'Cancel',
+      text:'',
       onClick:(e,toastObject)=>{
         toastObject.goAway(0);
       }

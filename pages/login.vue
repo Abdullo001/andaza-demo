@@ -44,33 +44,23 @@
               >
             </template>
           </v-text-field>
-          <div class="d-flex justify-space-between align-center mb-5 pointer">
+          <div class="d-flex justify-space-between align-center mb-5 pointer mb-8">
             <v-checkbox
               label="Remember me"
               color="#7631FF"
               class="mt-0"
               hide-details
             />
-            <nuxt-link to="/reset" class="text-base login__forgot">Forgot your password?</nuxt-link>
+            <!--            <nuxt-link to="/reset" class="text-base login__forgot">Forgot your password?</nuxt-link>-->
           </div>
           <v-btn
             color="#7631FF"
-            class="rounded-lg text-capitalize"
+            class="rounded-lg text-capitalize font-weight-bold"
             block
             dark
             @click.stop="userLogin"
+            height="42"
           >Sign In
-          </v-btn>
-          <div class="login__hint text-center">
-            Don't have an account?
-          </div>
-          <v-btn
-            outlined
-            color="#7631FF"
-            class="rounded-lg text-capitalize"
-            block
-            to="/"
-          >Sign Up
           </v-btn>
         </div>
       </v-col>
@@ -103,13 +93,13 @@ export default {
 
       await this.$auth.loginWith('local', {data: data})
         .then(res => {
-          if (!!res.data.token) {
-            this.$toasted.success(res.message, {theme: 'toasted-primary'})
-          }
+          this.$toasted.success(res.message, {theme: 'toasted-primary'})
         })
-        .catch(({response}) => console.log(response))
+        .catch(({response}) => {
+          this.$toasted.error(response.data.message, {theme: 'toasted-primary'})
+        })
     }
   }
 }
 </script>
-<style lang="scss" src="assets/abstracts/_login.scss"></style>
+<style lang="scss" src="assets/abstracts/_login.scss" scoped></style>
