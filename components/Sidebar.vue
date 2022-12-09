@@ -227,7 +227,7 @@ export default {
 }
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 .navbar-text {
   min-width: 133px;
   font-weight: 600;
