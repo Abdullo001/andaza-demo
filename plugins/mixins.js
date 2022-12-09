@@ -19,7 +19,7 @@ export default (context, inject) => {
           },
         }
       },
-      formatter() {
+      formatAmount() {
         return {
           amount: (sum) => (sum / 100).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$& ,')
         }

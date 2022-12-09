@@ -573,6 +573,9 @@ export default {
       avatar: null
     }
   },
+  created() {
+    this.$store.dispatch('users/getUsers')
+  },
   methods: {
     selectedUsers() {},
     getUserInfo(user) {

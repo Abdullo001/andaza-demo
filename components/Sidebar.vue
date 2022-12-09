@@ -115,6 +115,7 @@
       </div>
     </v-app-bar>
   </div>
+
 </template>
 
 <script>
@@ -195,6 +196,7 @@ export default {
       ],
       active_lang: "En",
       active_flag: '/us.svg',
+
     }
   },
   watch: {
