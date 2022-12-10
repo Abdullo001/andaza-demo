@@ -76,8 +76,8 @@ export default {
           logout: { url: '/api/v1/auth/logout', method: 'post', propertyName: 'response'},
           user: false
         },
-        tokenRequired: false,
-        tokenType: false
+        tokenRequired: true,
+        tokenType: 'Bearer'
       }
     },
     redirect: {
