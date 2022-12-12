@@ -26,7 +26,8 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     {src: "~/plugins/mixins.js"},
-    {src: "~/plugins/v-mask.js"}
+    {src: "~/plugins/v-mask.js"},
+    {src: "~/plugins/axios.js"}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -48,7 +49,8 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     "@nuxtjs/toast",
-    ['@nuxtjs/auth']
+    '@nuxtjs/auth-next'
+    // ['@nuxtjs/auth']
   ],
   toast: {
     position: "bottom-center",
@@ -63,9 +65,7 @@ export default {
 
   loading: { color: '#7631FF' },
 
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: 'https://dev-atp.asgardia.uz'
   },
   auth: {
@@ -73,12 +73,17 @@ export default {
       local: {
         endpoints: {
           login: { url: '/api/v1/auth/login', method: 'post', propertyName: 'response'},
-          logout: { url: '/api/v1/auth/logout', method: 'post', propertyName: 'response'},
+          logout: false,
           user: false
         },
-        tokenRequired: false,
+        tokenRequired: true,
+        globalToken: true,
         tokenType: false
       }
+    },
+    token: {
+      prefix: 'token',
+      global: true,
     },
     redirect: {
       login: '/login',

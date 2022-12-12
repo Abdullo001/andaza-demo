@@ -496,9 +496,12 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   data() {
     return {
+      modal: null,
       edit_user: false,
       lang_list: [
         {title: "En", code: "en", icon: "/us.svg"},
@@ -574,7 +577,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('users/getUsers')
+
   },
   methods: {
     selectedUsers() {},
@@ -631,6 +634,7 @@ export default {
     }
   },
   mounted() {
+    this.$store.dispatch('users/getUsers')
     this.$store.commit('setPageTitle', 'User management');
 
   }

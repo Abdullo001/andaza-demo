@@ -15,13 +15,9 @@ export const mutations = {
 
 export const actions = {
   getUsers({commit}) {
-    const {...token} = this.$auth.strategy.$auth.$storage._state
-    const res =  token[Object.keys(token)[0]]
-    console.log(res);
     const config = {
       headers: {
-        'device-id': 'd3c45bae0d41720bb72c4b',
-        'authorization': res
+        'device-id': '381b74b9-085f-46d4-a013-00180a4ccba7',
       }
     }
     const body = {
@@ -34,6 +30,8 @@ export const actions = {
       .then(res => {
         console.log(res);
       })
-      .catch(({response}) => console.log(response))
+      .catch(({response}) => {
+        this.$toast.error(response.data.message, {theme: 'toasted-primary'})
+      })
   }
 }

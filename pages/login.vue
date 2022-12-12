@@ -77,9 +77,6 @@ export default {
       login: {
         userName: '',
         password: ''
-        // userName: 'admin@gmail.com',
-        // password: 'Ab%1l2cc',
-        // remember: false
       },
       show_password: true
     }
@@ -93,10 +90,12 @@ export default {
 
       await this.$auth.loginWith('local', {data: data})
         .then(res => {
-          this.$toasted.success(res.message, {theme: 'toasted-primary'})
+          const token = String(res.data.data.token)
+          this.$auth.setUserToken(token)
+          this.$toast.success(res.data.message, {theme: 'toasted-primary'})
         })
         .catch(({response}) => {
-          this.$toasted.error(response.data.message, {theme: 'toasted-primary'})
+          this.$toast.error(response.data.message, {theme: 'toasted-primary'})
         })
     }
   }
