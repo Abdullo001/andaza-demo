@@ -6,7 +6,7 @@
       class="rounded-t-lg"
     >
       <v-form lazy-validation v-model="valid_search" ref="search_form">
-        <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
+        <v-row class="mx-0 px-0 mb-2 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
               label="User ID"
@@ -102,7 +102,8 @@
       :headers="headers"
       :items="all_users"
       :items-per-page="10"
-      class="mt-6 rounded-lg"
+      :loading="loading"
+      class="mt-4 rounded-lg"
       @click:row = "(item) => getUserInfo(item)"
     >
       <template #top>
@@ -254,20 +255,36 @@
         </v-card-title>
         <v-card-text>
           <v-form lazy-validation ref="new_user" v-model="new_valid">
-            <div class="d-flex align-center">
-              <v-img :src="avatar ? avatar : '/upload-default.svg'" max-width="120" v-ripple class="rounded-lg"/>
-              <v-btn color="#F1EBFE" elevation="0" class="rounded-lg ml-6 text-capitalize" @click="handleFileImport">
-                <v-img src="/upload-btn-icon.svg" width="20" class="mr-2"/>
-                <div class="btn-color">Upload photo</div>
-              </v-btn>
-              <input
-                ref="uploader"
-                class="d-none"
-                type="file"
-                @change="onFileChanged"
-                accept="image/*"
-              >
-            </div>
+            <v-row>
+              <v-col cols="12" lg="6">
+                <div class="d-flex align-center">
+                  <v-img :src="avatar ? avatar : '/upload-default.svg'" max-width="120" v-ripple class="rounded-lg"/>
+                  <v-btn color="#F1EBFE" elevation="0" class="rounded-lg ml-6 text-capitalize" @click="handleFileImport">
+                    <v-img src="/upload-btn-icon.svg" width="20" class="mr-2"/>
+                    <div class="btn-color">Upload photo</div>
+                  </v-btn>
+                  <input
+                    ref="uploader"
+                    class="d-none"
+                    type="file"
+                    @change="onFileChanged"
+                    accept="image/*"
+                  >
+                </div>
+              </v-col>
+              <v-col cols="12" lg="6" align-self="end">
+                <v-text-field
+                  label="Username"
+                  filled
+                  dense
+                  color="#7631FF"
+                  placeholder="Enter username"
+                  v-model="user_data.username"
+                  :rules="[formRules.required]"
+                  validate-on-blur
+                />
+              </v-col>
+            </v-row>
             <v-row class="mt-4">
               <v-col cols="12" lg="6">
                 <v-text-field
@@ -303,22 +320,10 @@
                   prefix="+998"
                   placeholder="(--) --- -- --"
                   v-model.trim="user_data.phone"
-                  :rules="[formRules.required]"
                   validate-on-blur
                 />
               </v-col>
-              <v-col cols="12" lg="6">
-                <v-text-field
-                  label="Username"
-                  filled
-                  dense
-                  color="#7631FF"
-                  placeholder="Enter username"
-                  v-model="user_data.username"
-                  :rules="[formRules.required]"
-                  validate-on-blur
-                />
-              </v-col>
+
               <v-col cols="12" lg="6">
                 <v-text-field
                   label="E-mail"
@@ -328,8 +333,22 @@
                   placeholder="Enter e-mail"
                   class="mb-3"
                   v-model="user_data.email"
+                  validate-on-blur
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <v-select
+                  :items="gender_enums"
+                  label="Gender"
+                  filled
+                  dense
+                  color="#7631FF"
+                  placeholder="Select gender"
+                  class="mb-3"
+                  v-model="user_data.gender"
                   :rules="[formRules.required]"
                   validate-on-blur
+                  append-icon="mdi-chevron-down"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -338,7 +357,6 @@
                   v-model="user_data.lang" append-icon="mdi-chevron-down"
                   filled
                   dense
-                  :rules="[formRules.required]"
                 >
                   <template #selection="{item, index}">
                     <v-img :src="item.icon" max-width="22" class="mr-4" contain/>
@@ -370,6 +388,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
     <v-dialog v-model="edit_user" max-width="680">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
@@ -504,6 +523,7 @@ export default {
     return {
       modal: null,
       edit_user: false,
+      gender_enums: ['MALE', 'FEMALE'],
       lang_list: [
         {title: "EN", code: "en", icon: "/us.svg"},
         {title: "UZ", code: "uz", icon: "/uz.svg"},
@@ -540,6 +560,7 @@ export default {
         username: '',
         email: '',
         lang: {},
+        gender: ''
       },
       user_update_data: {
         photo: null,
@@ -556,13 +577,15 @@ export default {
   },
   computed: {
     ...mapGetters({
-      all_users: 'users/users'
+      all_users: 'users/users',
+      loading: 'users/loading'
     })
   },
   methods: {
     ...mapActions({
       filterUsers: 'users/filterUsers',
-      createUser: 'users/createUser'
+      createUser: 'users/createUser',
+      getUsers: 'users/getUsers'
     }),
     filter() {
       this.filterUsers({
@@ -572,12 +595,14 @@ export default {
         createdAt: this.search.created_at
       })
     },
-    addUser() {
+    async addUser() {
       const valid = this.$refs.new_user.validate()
       if(valid) {
         const user = {...this.user_data}
         user.lang = user.lang.title
-        this.createUser(this.user_data)
+        await this.createUser(user)
+        await this.$refs.new_user.reset()
+        this.new_user = false
       }
     },
     getUserInfo(user) {
@@ -608,7 +633,7 @@ export default {
           return 'green';
         case 'BLOCKED':
           return 'red'
-        case 'WAITING':
+        case 'PENDING':
           return 'amber'
       }
     },
@@ -624,6 +649,7 @@ export default {
     },
     resetSearch() {
       this.$refs.search_form.reset();
+      this.getUsers()
     },
     editItem(item) {
       this.edit_user = !this.edit_user;

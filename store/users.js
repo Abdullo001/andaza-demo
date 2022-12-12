@@ -1,12 +1,14 @@
 
 export const state = () => ({
   users: [],
-  current_user: {}
+  current_user: {},
+  loading: true
 })
 
 export const getters = {
   users: state => state.users.content,
-  currentUser: state => state.current_user
+  currentUser: state => state.current_user,
+  loading: state => state.loading
 }
 
 export const mutations = {
@@ -15,22 +17,23 @@ export const mutations = {
   },
   setCurrentUser(state, current) {
     state.current_user = current
+  },
+  changeLoading(state, status) {
+    state.loading = status
   }
 }
 
 export const actions = {
   getUsers({commit}) {
-    const config = {
-      headers: {'device-id': '381b74b9-085f-46d4-a013-00180a4ccba7'}
-    }
     const body = {
       filters: [],
       sorts: [],
       page: 0,
       size: 10
     }
-    this.$axios.$put('/api/v1/user/get-users', body, config)
+    this.$axios.$put('/api/v1/user/get-users', body)
       .then(res => {
+        !!res ? commit('changeLoading', false) : null
         commit('setUsers', res.data)
       })
       .catch(({response}) => {
@@ -38,11 +41,14 @@ export const actions = {
       })
   },
   filterUsers({commit}, {lastName, firstName, userId, createdAt }) {
-    const config = {
-      headers: {'device-id': '381b74b9-085f-46d4-a013-00180a4ccba7'}
-    }
     const body = {
       filters: [
+        {
+          key: 'id',
+          operator: 'EQUAL',
+          propertyType: 'LONG',
+          value: userId
+        },
         {
           key: 'lastName',
           operator: 'LIKE',
@@ -56,23 +62,20 @@ export const actions = {
           value: firstName
         },
         {
-          key: 'userId',
-          operator: 'LIKE',
-          field_type: 'ID',
-          value: userId
-        },
-        {
           key: 'createdAt',
           operator: 'BETWEEN',
-          field_type: 'Date',
-          value: createdAt
+          field_type: 'DATE',
+          value: createdAt,
+          valueTo: createdAt
         },
       ],
       sorts: [],
       page: 0,
       size: 10
     }
-    this.$axios.$put('/api/v1/user/get-users', body, config)
+    body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
+
+    this.$axios.$put('/api/v1/user/get-users', body)
       .then(res => {
         commit('setUsers', res.data)
       })
@@ -81,8 +84,28 @@ export const actions = {
       })
   },
   createUser({dispatch}, user) {
-    this.$axios.post('/api/v1/user/register', user)
-      .then(res => {console.log(res)})
-      .catch(({response}) => console.log(response))
+    user.phone = `+998${user.phone.replace('(','').replace(')','').replaceAll(' ', '')}`
+
+    const config = {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    }
+    const formData = new FormData()
+    formData.append('email', user.email)
+    formData.append('firstName', user.firstname)
+    formData.append('lastName', user.lastname)
+    formData.append('gender', user.gender)
+    formData.append('lang', user.lang)
+    formData.append('phoneNumber', user.phone)
+    formData.append('username', user.username)
+    formData.append('photo', user.photo)
+
+    this.$axios.post('/api/v1/user/register', formData, config)
+      .then(res => {
+        dispatch('getUsers')
+        this.$toast.success(res.data.message, {theme: 'toasted-primary'})
+      })
+      .catch(({response}) => {
+         this.$toast.error(response.data.message, {theme: 'toasted-primary'})
+      })
   }
 }
