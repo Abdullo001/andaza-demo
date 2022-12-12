@@ -17,7 +17,7 @@ export const actions = {
   getUsers({commit}) {
     const config = {
       headers: {
-        'device-id': 'd3c45bae0d41720bb72c4b',
+        'device-id': '381b74b9-085f-46d4-a013-00180a4ccba7',
       }
     }
     const body = {
@@ -31,7 +31,7 @@ export const actions = {
         console.log(res);
       })
       .catch(({response}) => {
-        this.$toasted.error(response.data.message, {theme: 'toasted-primary'})
+        this.$toast.error(response.data.message, {theme: 'toasted-primary'})
       })
   }
 }

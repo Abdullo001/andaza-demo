@@ -577,7 +577,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('users/getUsers')
+
   },
   methods: {
     selectedUsers() {},
@@ -634,6 +634,7 @@ export default {
     }
   },
   mounted() {
+    this.$store.dispatch('users/getUsers')
     this.$store.commit('setPageTitle', 'User management');
 
   }
