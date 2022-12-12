@@ -14,7 +14,6 @@
               class="rounded-lg"
               v-model="search.user_id"
               hide-details
-              style="width: 200px"
               dense
             />
           </v-col>
@@ -24,7 +23,6 @@
               outlined
               class="rounded-lg"
               v-model="search.first_name"
-              style="width: 200px"
               hide-details
               dense
             />
@@ -35,7 +33,6 @@
               outlined
               class="rounded-lg"
               v-model="search.last_name"
-              style="width: 200px"
               hide-details
               dense
             />
@@ -53,7 +50,7 @@
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
-                  v-model="date"
+                  v-model="search.created_at"
                   label="Created at"
                   readonly
                   v-bind="attrs"
@@ -71,7 +68,7 @@
                 </v-text-field>
               </template>
               <v-date-picker
-                v-model="date"
+                v-model="search.created_at"
                 @input="menu2 = false"
                 color="#7631FF"
               ></v-date-picker>
@@ -91,6 +88,7 @@
                 width="140" color="#397CFD" dark
                 elevation="0"
                 class="text-capitalize rounded-lg"
+                @click="filter"
               >
                 Search
               </v-btn>
@@ -174,7 +172,7 @@
       <template #item.username="{item}">
         <div class="d-flex align-center my-2">
           <v-avatar>
-            <v-img :src="item.avatar"/>
+            <v-img :src="item.photo"/>
           </v-avatar>
           <div class="ml-2">
             <div class="username-name">{{ item.username }}</div>
@@ -205,14 +203,14 @@
           </v-tooltip>
         </div>
       </template>
-      <template #item.id="{ item }">
-        <v-checkbox
-          color="#7631FF"
-          v-model="item.selected"
-          :label="String(item.id)"
-          @click.stop="selectedUsers"
-        />
-      </template>
+<!--      <template #item.id="{ item }">-->
+<!--        <v-checkbox-->
+<!--          color="#7631FF"-->
+<!--          v-model="item.selected"-->
+<!--          :label="String(item.id)"-->
+<!--          @click.stop="selectedUsers(item)"-->
+<!--        />-->
+<!--      </template>-->
     </v-data-table>
     <v-dialog v-model="deleteDialog" max-width="500">
       <v-card class="pa-4 text-center">
@@ -221,7 +219,7 @@
         </div>
         <v-card-title class="d-flex justify-center">Delete User information</v-card-title>
         <v-card-text>
-          Are you sure you want to Delete this user inforamtion?
+          Are you sure you want to Delete this user information?
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -255,103 +253,105 @@
           </v-btn>
         </v-card-title>
         <v-card-text>
-          <div class="d-flex align-center">
-            <v-img :src="avatar ? avatar : '/upload-default.svg'" max-width="120" v-ripple class="rounded-lg"/>
-            <v-btn color="#F1EBFE" elevation="0" class="rounded-lg ml-6 text-capitalize" @click="handleFileImport">
-              <v-img src="/upload-btn-icon.svg" width="20" class="mr-2"/>
-              <div class="btn-color">Upload photo</div>
-            </v-btn>
-            <input
-              ref="uploader"
-              class="d-none"
-              type="file"
-              @change="onFileChanged"
-              accept="image/*"
-            >
-          </div>
-          <v-row class="mt-4">
-            <v-col cols="12" lg="6">
-              <v-text-field
-                label="First name"
-                filled
-                dense
-                color="#7631FF"
-                placeholder="Enter first name"
-                v-model="user_data.firstname"
-                :rules="[formRules.required]"
-                validate-on-blur
-              />
-            </v-col>
-            <v-col cols="12" lg="6">
-              <v-text-field
-                label="Last name"
-                filled
-                dense
-                color="#7631FF"
-                placeholder="Enter last name"
-                v-model="user_data.lastname"
-                :rules="[formRules.required]"
-                validate-on-blur
-              />
-            </v-col>
-            <v-col cols="12" lg="6">
-              <v-text-field
-                label="Phone number"
-                filled
-                dense
-                color="#7631FF"
-                v-mask="'(##) ### ## ##'"
-                prefix="+998"
-                placeholder="(--) --- -- --"
-                v-model.trim="user_data.phone"
-                :rules="[formRules.required]"
-                validate-on-blur
-              />
-            </v-col>
-            <v-col cols="12" lg="6">
-              <v-text-field
-                label="Username"
-                filled
-                dense
-                color="#7631FF"
-                placeholder="Enter username"
-                v-model="user_data.username"
-                :rules="[formRules.required]"
-                validate-on-blur
-              />
-            </v-col>
-            <v-col cols="12" lg="6">
-              <v-text-field
-                label="E-mail"
-                filled
-                dense
-                color="#7631FF"
-                placeholder="Enter e-mail"
-                class="mb-3"
-                v-model="user_data.email"
-                :rules="[formRules.required]"
-                validate-on-blur
-              />
-            </v-col>
-            <v-col cols="12" lg="6">
-              <v-select
-                :items="lang_list" label="Language"
-                v-model="user_data.lang" append-icon="mdi-chevron-down"
-                filled
-                dense
-                :rules="[formRules.required]"
+          <v-form lazy-validation ref="new_user" v-model="new_valid">
+            <div class="d-flex align-center">
+              <v-img :src="avatar ? avatar : '/upload-default.svg'" max-width="120" v-ripple class="rounded-lg"/>
+              <v-btn color="#F1EBFE" elevation="0" class="rounded-lg ml-6 text-capitalize" @click="handleFileImport">
+                <v-img src="/upload-btn-icon.svg" width="20" class="mr-2"/>
+                <div class="btn-color">Upload photo</div>
+              </v-btn>
+              <input
+                ref="uploader"
+                class="d-none"
+                type="file"
+                @change="onFileChanged"
+                accept="image/*"
               >
-                <template #selection="{item, index}">
-                  <v-img :src="item.icon" max-width="22" class="mr-4" contain/>
-                  {{ item.title }}
-                </template>
-                <template #item="{item}">
-                  <v-img :src="item.icon" max-width="22" class="mr-4" contain/>
-                  {{ item.title }}
-                </template>
-              </v-select>
-            </v-col>
-          </v-row>
+            </div>
+            <v-row class="mt-4">
+              <v-col cols="12" lg="6">
+                <v-text-field
+                  label="First name"
+                  filled
+                  dense
+                  color="#7631FF"
+                  placeholder="Enter first name"
+                  v-model="user_data.firstname"
+                  :rules="[formRules.required]"
+                  validate-on-blur
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <v-text-field
+                  label="Last name"
+                  filled
+                  dense
+                  color="#7631FF"
+                  placeholder="Enter last name"
+                  v-model="user_data.lastname"
+                  :rules="[formRules.required]"
+                  validate-on-blur
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <v-text-field
+                  label="Phone number"
+                  filled
+                  dense
+                  color="#7631FF"
+                  v-mask="'(##) ### ## ##'"
+                  prefix="+998"
+                  placeholder="(--) --- -- --"
+                  v-model.trim="user_data.phone"
+                  :rules="[formRules.required]"
+                  validate-on-blur
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <v-text-field
+                  label="Username"
+                  filled
+                  dense
+                  color="#7631FF"
+                  placeholder="Enter username"
+                  v-model="user_data.username"
+                  :rules="[formRules.required]"
+                  validate-on-blur
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <v-text-field
+                  label="E-mail"
+                  filled
+                  dense
+                  color="#7631FF"
+                  placeholder="Enter e-mail"
+                  class="mb-3"
+                  v-model="user_data.email"
+                  :rules="[formRules.required]"
+                  validate-on-blur
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <v-select
+                  :items="lang_list" label="Language"
+                  v-model="user_data.lang" append-icon="mdi-chevron-down"
+                  filled
+                  dense
+                  :rules="[formRules.required]"
+                >
+                  <template #selection="{item, index}">
+                    <v-img :src="item.icon" max-width="22" class="mr-4" contain/>
+                    {{ item.title }}
+                  </template>
+                  <template #item="{item}">
+                    <v-img :src="item.icon" max-width="22" class="mr-4" contain/>
+                    {{ item.title }}
+                  </template>
+                </v-select>
+              </v-col>
+            </v-row>
+          </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-6">
           <v-btn
@@ -365,6 +365,7 @@
             color="#7631FF"
             dark
             width="163"
+            @click="addUser"
           >add</v-btn>
         </v-card-actions>
       </v-card>
@@ -496,7 +497,7 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex";
+import {mapGetters, mapActions} from "vuex";
 
 export default {
   data() {
@@ -504,9 +505,9 @@ export default {
       modal: null,
       edit_user: false,
       lang_list: [
-        {title: "En", code: "en", icon: "/us.svg"},
-        {title: "Uz", code: "uz", icon: "/uz.svg"},
-        {title: "Ru", code: "ru", icon: "/ru.svg"},
+        {title: "EN", code: "en", icon: "/us.svg"},
+        {title: "UZ", code: "uz", icon: "/uz.svg"},
+        {title: "RU", code: "ru", icon: "/ru.svg"},
       ],
       deleteDialog: false,
       valid_search: true,
@@ -524,39 +525,15 @@ export default {
         {text: 'First Name', align: 'start', sortable: false, value: 'firstName'},
         {text: 'Last Name', align: 'start', sortable: false, value: 'lastName'},
         {text: 'Phone number', align: 'start', sortable: false, value: 'phoneNumber'},
+        {text: 'Update at', align: 'start', sortable: false, value: 'updatedAt'},
         {text: 'Lang', align: 'start', sortable: false, value: 'lang'},
         {text: 'Status', align: 'start', sortable: false, value: 'status'},
         {text: 'Actions', align: 'end', sortable: false, value: 'actions', width: 90},
       ],
-      all_users: [
-        {
-          id: 5481,
-          username: 'Jane Cooper',
-          avatar: '/avatar-user.svg',
-          email: 'awesome@asgardia.team',
-          firstName: 'Lisa',
-          lastName: 'Doe',
-          phoneNumber: '+998 90 564 01 03',
-          lang: 'UZ',
-          status: 'Active',
-          selected: false
-        },
-        {
-          id: 6584,
-          username: 'Lisa Doe',
-          avatar: '/avatar-user.svg',
-          email: 'jane.cooper@example.com',
-          firstName: 'Lisa',
-          lastName: 'Doe',
-          phoneNumber: '+998 90 123 45 67',
-          lang: 'EN',
-          status: 'Blocked',
-          selected: true
-        },
-      ],
+
       new_user: false,
       user_data: {
-        avatar: null,
+        photo: null,
         firstname: '',
         lastname: '',
         phone: '',
@@ -565,7 +542,7 @@ export default {
         lang: {},
       },
       user_update_data: {
-        avatar: null,
+        photo: null,
         firstName: '',
         lastName: '',
         phone: '',
@@ -573,29 +550,52 @@ export default {
         email: '',
         lang: {},
       },
-      avatar: null
+      avatar: null,
+      new_valid: true
     }
   },
-  created() {
-
+  computed: {
+    ...mapGetters({
+      all_users: 'users/users'
+    })
   },
   methods: {
-    selectedUsers() {},
+    ...mapActions({
+      filterUsers: 'users/filterUsers',
+      createUser: 'users/createUser'
+    }),
+    filter() {
+      this.filterUsers({
+        lastName: this.search.last_name,
+        firstName: this.search.first_name,
+        userId: this.search.user_id,
+        createdAt: this.search.created_at
+      })
+    },
+    addUser() {
+      const valid = this.$refs.new_user.validate()
+      if(valid) {
+        const user = {...this.user_data}
+        user.lang = user.lang.title
+        this.createUser(this.user_data)
+      }
+    },
     getUserInfo(user) {
+      this.$store.commit('users/setCurrentUser', user)
       this.$router.push(`/user-management/${user.id}`)
     },
     handleFileImport() {
       this.$refs.uploader.click();
     },
     onFileChanged(e) {
-      this.user_data.avatar = e.target.files[0];
-      this.avatar = URL.createObjectURL(this.user_data.avatar);
+      this.user_data.photo = e.target.files[0];
+      this.avatar = URL.createObjectURL(this.user_data.photo);
     },
     getCopyKey(item) {
       navigator.clipboard.writeText(item)
       this.$toasted.success(`Copied ${item}`, {
         action: {
-          text: 'Cancel',
+          text: '',
           onClick: (e, toastObject) => {
             toastObject.goAway(0);
           }
@@ -604,11 +604,11 @@ export default {
     },
     statusColor(color) {
       switch (color) {
-        case 'Active':
+        case 'ACTIVE':
           return 'green';
-        case 'Blocked':
+        case 'BLOCKED':
           return 'red'
-        case 'Waiting':
+        case 'WAITING':
           return 'amber'
       }
     },

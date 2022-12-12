@@ -76,14 +76,14 @@ export default {
           logout: false,
           user: false
         },
-        tokenRequired: true,
-        globalToken: true,
+        tokenRequired: false,
+        globalToken: false,
         tokenType: false
       }
     },
     token: {
       prefix: 'token',
-      global: true,
+      global: true
     },
     redirect: {
       login: '/login',
