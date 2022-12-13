@@ -37,6 +37,7 @@ export const actions = {
         commit('setUsers', res.data)
       })
       .catch(({response}) => {
+        !!response ? commit('changeLoading', false) : null
         this.$toast.error(response.data.message, {theme: 'toasted-primary'})
       })
   },
@@ -73,8 +74,10 @@ export const actions = {
       page: 0,
       size: 10
     }
+    body.filters[3].value = body.filters[3].value.replaceAll('-', '.')
+    body.filters[3].valueTo = body.filters[3].valueTo.replaceAll('-', '.')
     body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
-
+    console.log(body);
     this.$axios.$put('/api/v1/user/get-users', body)
       .then(res => {
         commit('setUsers', res.data)
