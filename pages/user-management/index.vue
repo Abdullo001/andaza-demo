@@ -388,7 +388,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
     <v-dialog v-model="edit_user" max-width="680">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
