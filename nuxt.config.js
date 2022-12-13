@@ -27,7 +27,8 @@ export default {
   plugins: [
     {src: "~/plugins/mixins.js"},
     {src: "~/plugins/v-mask.js"},
-    {src: "~/plugins/axios.js"}
+    {src: "~/plugins/axios.js"},
+    { src: "./plugins/element-io.js" }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
