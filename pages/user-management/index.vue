@@ -6,7 +6,7 @@
       class="rounded-t-lg"
     >
       <v-form lazy-validation v-model="valid_search" ref="search_form">
-        <v-row class="mx-0 px-0 mb-2 mt-4 pa-4 w-full" justify="start">
+        <v-row class="mx-0 px-0 mb-2 mt-4 pa-4 w-full" justify="center">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
               label="User ID"
@@ -38,44 +38,31 @@
             />
           </v-col>
           <v-col
+            cols="12" lg="2" md="2" style="max-width: 240px;"
+          >
+            <el-date-picker
+              v-model="search.start_time"
+              type="datetime"
+              placeholder="From"
+              :picker-options="pickerOptions"
+              value-format="dd.MM.yyyy HH:mm:ss"
+            >
+            </el-date-picker>
+          </v-col>
+          <v-col
             cols="12" lg="2" md="2"
           >
-            <v-menu
-              v-model="menu2"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              transition="scale-transition"
-              offset-y
-              min-width="auto"
+            <el-date-picker
+              v-model="search.end_time"
+              type="datetime"
+              placeholder="To"
+              :picker-options="pickerOptions"
+              value-format="dd.MM.yyyy HH:mm:ss"
             >
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                  v-model="search.created_at"
-                  label="Created at"
-                  readonly
-                  v-bind="attrs"
-                  v-on="on"
-                  outlined
-                  dense
-                  append-icon="mdi-lock"
-                  class="rounded-lg"
-                  hide-details
-                  style="width: 200px"
-                >
-                  <template #append>
-                    <v-img src="/date-icon.svg"/>
-                  </template>
-                </v-text-field>
-              </template>
-              <v-date-picker
-                v-model="search.created_at"
-                @input="menu2 = false"
-                color="#7631FF"
-              ></v-date-picker>
-            </v-menu>
+            </el-date-picker>
           </v-col>
-          <v-col class="" cols="12" lg="4">
-            <div class="d-flex justify-end">
+          <v-col class="" cols="12" lg="12" >
+            <div class="d-flex justify-center">
               <v-btn
                 width="140" outlined
                 color="#397CFD" elevation="0"
@@ -377,6 +364,7 @@
             class="text-capitalize rounded-lg font-weight-bold mr-6"
             color="#7631FF"
             width="163"
+            @click="new_user = false"
           >cancel</v-btn>
           <v-btn
             class="text-capitalize rounded-lg font-weight-bold"
@@ -388,7 +376,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
     <v-dialog v-model="edit_user" max-width="680">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
@@ -398,20 +385,7 @@
           </v-btn>
         </v-card-title>
         <v-card-text>
-          <div class="d-flex align-center">
-            <v-img :src="avatar ? avatar : '/upload-default.svg'" max-width="120" v-ripple class="rounded-lg"/>
-            <v-btn color="#F1EBFE" elevation="0" class="rounded-lg ml-6 text-capitalize" @click="handleFileImport">
-              <v-img src="/upload-btn-icon.svg" width="20" class="mr-2"/>
-              <div class="btn-color">Upload photo</div>
-            </v-btn>
-            <input
-              ref="uploader"
-              class="d-none"
-              type="file"
-              @change="onFileChanged"
-              accept="image/*"
-            >
-          </div>
+
           <v-row class="mt-4">
             <v-col cols="12" lg="6">
               <v-text-field
@@ -423,6 +397,7 @@
                 v-model="user_update_data.firstName"
                 :rules="[formRules.required]"
                 validate-on-blur
+                disabled
               />
             </v-col>
             <v-col cols="12" lg="6">
@@ -435,6 +410,7 @@
                 v-model="user_update_data.lastName"
                 :rules="[formRules.required]"
                 validate-on-blur
+                disabled
               />
             </v-col>
             <v-col cols="12" lg="6">
@@ -448,6 +424,7 @@
                 v-model.trim="user_update_data.phoneNumber"
                 :rules="[formRules.required]"
                 validate-on-blur
+                disabled
               />
             </v-col>
             <v-col cols="12" lg="6">
@@ -460,6 +437,7 @@
                 v-model="user_update_data.username"
                 :rules="[formRules.required]"
                 validate-on-blur
+                disabled
               />
             </v-col>
             <v-col cols="12" lg="6">
@@ -473,24 +451,17 @@
                 v-model="user_update_data.email"
                 :rules="[formRules.required]"
                 validate-on-blur
+                disabled
               />
             </v-col>
             <v-col cols="12" lg="6">
               <v-select
-                :items="lang_list" label="Language"
-                v-model="user_update_data.lang" append-icon="mdi-chevron-down"
+                :items="status_list" label="Status"
+                v-model="user_status" append-icon="mdi-chevron-down"
                 filled
                 dense
                 :rules="[formRules.required]"
               >
-                <template #selection="{item, index}">
-                  <v-img :src="item.icon" max-width="22" class="mr-4" contain/>
-                  {{ item.title }}
-                </template>
-                <template #item="{item}">
-                  <v-img :src="item.icon" max-width="22" class="mr-4" contain/>
-                  {{ item.title }}
-                </template>
               </v-select>
             </v-col>
           </v-row>
@@ -508,6 +479,7 @@
             color="#7631FF"
             dark
             width="163"
+            @click="changeUserStatus"
           >add</v-btn>
         </v-card-actions>
       </v-card>
@@ -519,6 +491,7 @@
 import {mapGetters, mapActions} from "vuex";
 
 export default {
+  name: 'UserManagementPage',
   data() {
     return {
       modal: null,
@@ -535,7 +508,8 @@ export default {
         user_id: '',
         first_name: '',
         last_name: '',
-        created_at: ''
+        start_time: '',
+        end_time: ''
       },
       date: '',
       menu2: false,
@@ -550,8 +524,35 @@ export default {
         {text: 'Status', align: 'start', sortable: false, value: 'status'},
         {text: 'Actions', align: 'end', sortable: false, value: 'actions', width: 90},
       ],
-
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "Cегодня",
+            onClick(picker) {
+              picker.$emit("pick", new Date());
+            },
+          },
+          {
+            text: "Вчера",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit("pick", date);
+            },
+          },
+          {
+            text: "Неделя",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", date);
+            },
+          },
+        ],
+      },
       new_user: false,
+      user_status: '',
+      status_list: ['ACTIVE', 'DISABLED', 'PENDING'],
       user_data: {
         photo: null,
         firstname: '',
@@ -585,14 +586,20 @@ export default {
     ...mapActions({
       filterUsers: 'users/filterUsers',
       createUser: 'users/createUser',
-      getUsers: 'users/getUsers'
+      getUsers: 'users/getUsers',
+      updateUser: 'users/updateUser'
     }),
+    async changeUserStatus() {
+      await this.updateUser({id: this.user_update_data.id, status: this.user_status})
+      this.edit_user = false
+    },
     filter() {
       this.filterUsers({
         lastName: this.search.last_name,
         firstName: this.search.first_name,
         userId: this.search.user_id,
-        createdAt: this.search.created_at
+        startTime: this.search.start_time,
+        endTime: this.search.end_time
       })
     },
     async addUser() {
@@ -631,7 +638,7 @@ export default {
       switch (color) {
         case 'ACTIVE':
           return 'green';
-        case 'BLOCKED':
+        case 'DISABLED':
           return 'red'
         case 'PENDING':
           return 'amber'
@@ -649,10 +656,12 @@ export default {
     },
     resetSearch() {
       this.$refs.search_form.reset();
+      this.search.end_time = this.search.start_time = ''
       this.getUsers()
     },
     editItem(item) {
       this.edit_user = !this.edit_user;
+      this.user_status = item.status
       this.user_update_data = {...item}
     },
     deleteItem(item) {
@@ -688,5 +697,10 @@ export default {
   font-size: 14px;
   line-height: 140%;
   color: #7631FF;
+}
+.el-input__inner {
+  border-radius: 10px !important;
+  border: 1px solid #919191;
+  color: #000000 !important;
 }
 </style>

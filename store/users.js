@@ -41,7 +41,7 @@ export const actions = {
         this.$toast.error(response.data.message, {theme: 'toasted-primary'})
       })
   },
-  filterUsers({commit}, {lastName, firstName, userId, createdAt }) {
+  filterUsers({commit}, {lastName, firstName, userId, startTime, endTime }) {
     const body = {
       filters: [
         {
@@ -53,31 +53,29 @@ export const actions = {
         {
           key: 'lastName',
           operator: 'LIKE',
-          field_type: 'STRING',
+          propertyType: 'STRING',
           value: lastName
         },
         {
           key: 'firstName',
           operator: 'LIKE',
-          field_type: 'STRING',
+          propertyType: 'STRING',
           value: firstName
         },
         {
           key: 'createdAt',
           operator: 'BETWEEN',
-          field_type: 'DATE',
-          value: createdAt,
-          valueTo: createdAt
+          propertyType: 'DATE',
+          value: startTime,
+          valueTo: endTime
         },
       ],
       sorts: [],
       page: 0,
       size: 10
     }
-    body.filters[3].value = body.filters[3].value.replaceAll('-', '.')
-    body.filters[3].valueTo = body.filters[3].valueTo.replaceAll('-', '.')
     body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
-    console.log(body);
+
     this.$axios.$put('/api/v1/user/get-users', body)
       .then(res => {
         commit('setUsers', res.data)
@@ -110,5 +108,17 @@ export const actions = {
       .catch(({response}) => {
          this.$toast.error(response.data.message, {theme: 'toasted-primary'})
       })
+  },
+  updateUser({dispatch}, {id, status}) {
+    const body = {
+      id: id,
+      status: status
+    }
+    this.$axios.$put('/api/v1/user/change-status', body)
+      .then(res => {
+        dispatch('getUsers')
+        this.$toast.success(res.message, {theme: 'toasted-primary'})
+      })
+      .catch(({response}) => console.log(response))
   }
 }
