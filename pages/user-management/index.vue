@@ -15,6 +15,8 @@
               v-model="search.user_id"
               hide-details
               dense
+              clearable
+              @keyup.enter="filter"
             />
           </v-col>
           <v-col cols="12" lg="2" md="2">
@@ -25,6 +27,8 @@
               v-model="search.first_name"
               hide-details
               dense
+              clearable
+              @keyup.enter="filter"
             />
           </v-col>
           <v-col cols="12" lg="2" md="2">
@@ -35,6 +39,8 @@
               v-model="search.last_name"
               hide-details
               dense
+              clearable
+              @keyup.enter="filter"
             />
           </v-col>
           <v-col
@@ -66,7 +72,7 @@
               <v-btn
                 width="140" outlined
                 color="#397CFD" elevation="0"
-                class="text-capitalize mr-4 rounded-lg"
+                class="text-capitalize mr-4 rounded-lg font-weight-bold"
                 @click.stop="resetSearch"
               >
                 Reset
@@ -74,7 +80,7 @@
               <v-btn
                 width="140" color="#397CFD" dark
                 elevation="0"
-                class="text-capitalize rounded-lg"
+                class="text-capitalize rounded-lg font-weight-bold"
                 @click="filter"
               >
                 Search
@@ -89,9 +95,16 @@
       :headers="headers"
       :items="all_users"
       :items-per-page="10"
+      :footer-props="{
+        itemsPerPageOptions: [10, 20, 50, 100],
+      }"
       :loading="loading"
       class="mt-4 rounded-lg"
+      :options.sync="options"
       @click:row = "(item) => getUserInfo(item)"
+      @update:items-per-page="getItemSize"
+      @update:page="page"
+      :server-items-length="totalElements"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -191,14 +204,6 @@
           </v-tooltip>
         </div>
       </template>
-<!--      <template #item.id="{ item }">-->
-<!--        <v-checkbox-->
-<!--          color="#7631FF"-->
-<!--          v-model="item.selected"-->
-<!--          :label="String(item.id)"-->
-<!--          @click.stop="selectedUsers(item)"-->
-<!--        />-->
-<!--      </template>-->
     </v-data-table>
     <v-dialog v-model="deleteDialog" max-width="500">
       <v-card class="pa-4 text-center">
@@ -514,12 +519,12 @@ export default {
       date: '',
       menu2: false,
       headers: [
-        {text: 'ID', align: 'start', sortable: false, value: 'id'},
+        {text: 'ID', align: 'start', sortable: true, value: 'id'},
         {text: 'Username', align: 'start', sortable: false, value: 'username'},
-        {text: 'First Name', align: 'start', sortable: false, value: 'firstName'},
-        {text: 'Last Name', align: 'start', sortable: false, value: 'lastName'},
+        {text: 'First Name', align: 'start', sortable: true, value: 'firstName'},
+        {text: 'Last Name', align: 'start', sortable: true, value: 'lastName'},
         {text: 'Phone number', align: 'start', sortable: false, value: 'phoneNumber'},
-        {text: 'Update at', align: 'start', sortable: false, value: 'updatedAt'},
+        {text: 'Update at', align: 'start', sortable: true, value: 'updatedAt'},
         {text: 'Lang', align: 'start', sortable: false, value: 'lang'},
         {text: 'Status', align: 'start', sortable: false, value: 'status'},
         {text: 'Actions', align: 'end', sortable: false, value: 'actions', width: 90},
@@ -573,22 +578,59 @@ export default {
         lang: {},
       },
       avatar: null,
-      new_valid: true
+      new_valid: true,
+      options: {},
+      itemPerPage: 10,
+      current_page: 0,
     }
   },
   computed: {
     ...mapGetters({
       all_users: 'users/users',
-      loading: 'users/loading'
+      loading: 'users/loading',
+      totalElements: 'users/totalElements'
     })
+  },
+  watch: {
+    options: {
+      handler () {
+        this.getDataFromApi()
+      },
+      deep: true,
+    },
   },
   methods: {
     ...mapActions({
       filterUsers: 'users/filterUsers',
       createUser: 'users/createUser',
       getUsers: 'users/getUsers',
-      updateUser: 'users/updateUser'
+      updateUser: 'users/updateUser',
+      sortUser: 'users/sortUsers'
     }),
+    getDataFromApi () {
+      this.fakeApiCall()
+      //   .then(data => {
+      //   this.desserts = data.items
+      //   this.totalDesserts = data.total
+      // })
+    },
+
+    fakeApiCall () {
+      return new Promise((resolve, reject) => {
+        const { sortBy, sortDesc, page, itemsPerPage } = this.options
+        this.sortUser({sortBy: sortBy, sortDesc: sortDesc})
+      })
+    },
+    getItemSize(val) {
+      this.itemPerPage = val;
+      this.getUsers({page: this.current_page, size: this.itemPerPage})
+    },
+    page(val) {
+      // arrows < > value page
+      this.current_page = val - 1
+      this.getUsers({page: this.current_page, size: this.itemPerPage})
+
+    },
     async changeUserStatus() {
       await this.updateUser({id: this.user_update_data.id, status: this.user_status})
       this.edit_user = false
@@ -657,7 +699,7 @@ export default {
     resetSearch() {
       this.$refs.search_form.reset();
       this.search.end_time = this.search.start_time = ''
-      this.getUsers()
+      this.getUsers({page: this.current_page, size: this.itemPerPage})
     },
     editItem(item) {
       this.edit_user = !this.edit_user;
@@ -669,7 +711,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('users/getUsers')
+    this.$store.dispatch('users/getUsers', {page: this.current_page, size: this.itemPerPage})
     this.$store.commit('setPageTitle', 'User management');
 
   }
