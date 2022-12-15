@@ -8,7 +8,8 @@ export const state = () => ({
 export const getters = {
   users: state => state.users.content,
   currentUser: state => state.current_user,
-  loading: state => state.loading
+  loading: state => state.loading,
+  totalElements: state => state.users.totalElements
 }
 
 export const mutations = {
@@ -24,12 +25,12 @@ export const mutations = {
 }
 
 export const actions = {
-  getUsers({commit}) {
+  getUsers({commit}, {page, size}) {
     const body = {
       filters: [],
       sorts: [],
-      page: 0,
-      size: 10
+      page: page,
+      size: size
     }
     this.$axios.$put('/api/v1/user/get-users', body)
       .then(res => {
@@ -75,7 +76,6 @@ export const actions = {
       size: 10
     }
     body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
-
     this.$axios.$put('/api/v1/user/get-users', body)
       .then(res => {
         commit('setUsers', res.data)
@@ -120,5 +120,27 @@ export const actions = {
         this.$toast.success(res.message, {theme: 'toasted-primary'})
       })
       .catch(({response}) => console.log(response))
+  },
+
+  sortUsers({dispatch, commit}, {sortBy, sortDesc}) {
+    if(!!sortBy.length && !!sortDesc.length) {
+      const body = {
+        filters: [],
+        sorts: [
+          { key: sortBy[0], direction: sortDesc ? 'ASC' : 'DESC' }
+        ],
+        page: 0,
+        size: 10
+      }
+      this.$axios.$put('/api/v1/user/get-users', body)
+        .then(res => {
+          console.log(res.data.content)
+          commit('setUsers', res.data)
+        })
+        .catch(({response}) => {
+          this.$toast.error(response.data.message, {theme: 'toasted-primary'})
+        })
+    }
+
   }
 }
