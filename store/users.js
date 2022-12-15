@@ -123,18 +123,18 @@ export const actions = {
   },
 
   sortUsers({dispatch, commit}, {sortBy, sortDesc}) {
-    if(!!sortBy.length && !!sortDesc.length) {
+    sortDesc = sortDesc[0] ? 'DESC' : 'ASC'
+    if(!!sortBy.length) {
       const body = {
         filters: [],
         sorts: [
-          { key: sortBy[0], direction: sortDesc ? 'ASC' : 'DESC' }
+          { key: sortBy[0], direction: sortDesc }
         ],
         page: 0,
         size: 10
       }
       this.$axios.$put('/api/v1/user/get-users', body)
         .then(res => {
-          console.log(res.data.content)
           commit('setUsers', res.data)
         })
         .catch(({response}) => {
