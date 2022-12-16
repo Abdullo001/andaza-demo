@@ -275,6 +275,9 @@ export default {
       }
     }
   },
+  created() {
+    this.$store.dispatch('localization/getLocalization')
+  },
   methods: {
     keySearch() {},
     editItem(item) {

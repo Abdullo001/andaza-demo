@@ -121,7 +121,6 @@ export const actions = {
       })
       .catch(({response}) => console.log(response))
   },
-
   sortUsers({dispatch, commit}, {sortBy, sortDesc}) {
     sortDesc = sortDesc[0] ? 'DESC' : 'ASC'
     if(!!sortBy.length) {
