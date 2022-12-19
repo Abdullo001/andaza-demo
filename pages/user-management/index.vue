@@ -348,6 +348,13 @@
                   </template>
                 </v-select>
               </v-col>
+              <v-col cols="12" class="d-flex justify-center align-center mb-2" v-if="!!createdUser.password">
+                <p class="text-body-1 mb-0 mr-2">Password:</p>
+                <span class="text-body-1 font-weight-bold">{{ createdUser.password }}</span>
+                <v-btn icon class="ml-2">
+                  <v-img src="/copy.svg" max-width="20" contain/>
+                </v-btn>
+              </v-col>
             </v-row>
           </v-form>
         </v-card-text>
@@ -578,7 +585,8 @@ export default {
     ...mapGetters({
       all_users: 'users/users',
       loading: 'users/loading',
-      totalElements: 'users/totalElements'
+      totalElements: 'users/totalElements',
+      createdUser: 'users/createdUser'
     }),
   },
   watch: {
@@ -648,8 +656,8 @@ export default {
         const user = {...this.user_data}
         user.lang = user.lang.title
         await this.createUser(user)
-        await this.$refs.new_user.reset()
-        this.new_user = false
+        // await this.$refs.new_user.reset()
+        // this.new_user = false
       }
     },
     getUserInfo(data) {
