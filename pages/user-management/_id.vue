@@ -26,6 +26,8 @@
             elevation="0"
             color="#777C85"
             class="text-capitalize rounded-lg"
+            @click="fields_status = !fields_status"
+            :color="!fields_status ? 'green' : null"
           >
             <v-img src="/edit.svg" class="mr-1"/>
             Edit
@@ -39,30 +41,95 @@
             <div class="mb-2 text-body-1">Photo</div>
             <v-img :src="currentUser.photo" class="rounded-lg mb-4" width="120"/>
             <div class="mb-1 text-body-1">Username</div>
-            <div class="black--text text-body-1 mb-5">{{ currentUser.username }}</div>
+            <v-text-field
+              v-model="one_user.username"
+              filled
+              dense
+              clearable
+              style="max-width: 400px"
+              :disabled="fields_status"
+            />
             <div class="mb-2 text-body-1">Lang</div>
-            <div class="d-flex align-center">
-              <v-img :src="langFlag(currentUser.lang)" max-width="25" class="rounded-md" contain/>
-              <div class="black--text text-body-1 ml-2">{{ currentUser.lang }}</div>
-            </div>
+            <v-select
+              :items="lang_list"
+              v-model="currentUser.lang" append-icon="mdi-chevron-down"
+              filled
+              dense
+              clearable
+              :disabled="fields_status"
+              style="max-width: 400px;"
+            >
+              <template #selection="{item, index}">
+                <v-img :src="item.icon" max-width="22" class="mr-4" contain/>
+                {{ item.title }}
+              </template>
+              <template #item="{item}">
+                <v-img :src="item.icon" max-width="22" class="mr-4" contain/>
+                {{ item.title }}
+              </template>
+            </v-select>
           </v-col>
           <v-col>
             <div class="mb-2 text-body-1">ID</div>
-            <div class="black--text text-body-1 mb-5">{{ currentUser.id }}</div>
+            <v-text-field
+              filled
+              v-model="one_user.id"
+              dense
+              disabled
+              style="max-width: 400px"
+            />
             <div class="mb-1 text-body-1">Lastname</div>
-            <div class="black--text text-body-1 mb-10">{{ currentUser.lastName }}</div>
+            <v-text-field
+              filled
+              v-model="one_user.lastName"
+              dense
+              :disabled="fields_status"
+              style="max-width: 400px"
+            />
             <div class="mb-2 text-body-1">E-mail</div>
-            <div class="black--text text-body-1 mb-5">{{ currentUser.email }}</div>
+            <v-text-field
+              filled
+              v-model="one_user.email"
+              dense
+              :disabled="fields_status"
+              style="max-width: 400px"
+            />
             <div class="mb-2 text-body-1">Registered date</div>
-            <div class="black--text text-body-1 mb-5">{{ currentUser.createdAt }}</div>
+            <v-text-field
+              filled
+              v-model="one_user.createdAt"
+              dense
+              disabled
+              style="max-width: 400px"
+            />
           </v-col>
           <v-col>
             <div class="mb-2 text-body-1">First name</div>
-            <div class="black--text text-body-1 mb-5">{{ currentUser.firstName }}</div>
+            <v-text-field
+              filled
+              v-model="one_user.firstName"
+              dense
+              :disabled="fields_status"
+              style="max-width: 400px"
+            />
             <div class="mb-1 text-body-1">Phone number</div>
-            <div class="black--text text-body-1 mb-10">{{ currentUser.phoneNumber }}</div>
+            <v-text-field
+              filled
+              v-model="one_user.phoneNumber"
+              dense
+              :disabled="fields_status"
+              style="max-width: 400px"
+            />
             <div class="mb-2 text-body-1">Status</div>
-            <div class="black--text text-body-1 mb-5">{{ currentUser.status }}</div>
+            <v-select
+              filled
+              v-model="one_user.status"
+              dense
+              :items="status_list"
+              append-icon="mdi-chevron-down"
+              :disabled="fields_status"
+              style="max-width: 400px"
+            />
           </v-col>
         </v-row>
       </v-card-text>
@@ -96,12 +163,37 @@ export default {
           icon: false
         },
       ],
+      fields_status: true,
+      lang_list: [
+        {title: "EN", code: "en", icon: "/us.svg"},
+        {title: "UZ", code: "uz", icon: "/uz.svg"},
+        {title: "RU", code: "ru", icon: "/ru.svg"},
+      ],
+      user_data: {
+        photo: null,
+        firstname: '',
+        lastname: '',
+        phone: '',
+        username: '',
+        email: '',
+        lang: {},
+        gender: ''
+      },
+      one_user: {},
+      status_list: ['ACTIVE', 'DISABLED', 'PENDING'],
     }
   },
   computed: {
     ...mapGetters({
       currentUser: 'users/currentUser'
     })
+  },
+  watch: {
+    currentUser: {
+      handler(val) {
+
+      }, deep: true
+    }
   },
   methods: {
     langFlag(lang) {
@@ -114,6 +206,9 @@ export default {
           return '/flag-en.svg';
       }
     },
+  },
+  mounted() {
+    this.one_user = {...this.currentUser}
   }
 }
 </script>
