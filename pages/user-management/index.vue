@@ -93,7 +93,7 @@
 
     <v-data-table
       :headers="headers"
-      :items="all_users"
+      :items="users"
       :items-per-page="10"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100],
@@ -101,7 +101,6 @@
       :loading="loading"
       class="mt-4 rounded-lg"
       :options.sync="options"
-      @click:row = "(item) => getUserInfo(item)"
       @update:items-per-page="getItemSize"
       @update:page="page"
       :server-items-length="totalElements"
@@ -120,49 +119,37 @@
       </template>
       <template #item.actions="{ item }">
         <div class="d-flex">
-          <v-tooltip top color="green">
+          <v-tooltip top color="gray">
             <template #activator="{on, attrs}">
               <v-btn
-                icon color="green"
-                @click.stop="editItem(item)"
+                icon color="gray"
+                @click.stop="getUserInfo(item)"
                 v-on="on"
                 v-bind="attrs"
               >
                 <v-icon
-                  size="20"
-                  color="green"
+                  size="25"
+                  color="gray"
                 >
-                  mdi-square-edit-outline
+                  mdi-chevron-right
                 </v-icon>
               </v-btn>
             </template>
-            <span>Edit</span>
-          </v-tooltip>
-
-          <v-tooltip top color="red">
-            <template #activator="{on, attrs}">
-              <v-btn
-                color="red" icon
-                @click.stop="deleteItem(item)"
-                v-bind="attrs"
-                v-on="on"
-              >
-                <v-icon
-                  size="20"
-                  color="red"
-                >
-                  mdi-trash-can-outline
-                </v-icon>
-              </v-btn>
-            </template>
-            <span>Delete</span>
+            <span>Details</span>
           </v-tooltip>
         </div>
       </template>
       <template #item.status="{item}">
-        <v-chip :color="statusColor(item.status)" outlined dark>
-          {{ item.status }}
-        </v-chip>
+        <v-select
+          @change="changeStatus(item)"
+          :background-color="statusColor(item.status)"
+          :items="status_enums"
+          append-icon="mdi-chevron-down"
+          v-model="item.status"
+          hide-details
+          dark
+          rounded
+        />
       </template>
       <template #item.lang="{item}">
         <div class="d-flex align-center">
@@ -205,6 +192,7 @@
         </div>
       </template>
     </v-data-table>
+
     <v-dialog v-model="deleteDialog" max-width="500">
       <v-card class="pa-4 text-center">
         <div class="d-flex justify-center mb-2">
@@ -493,7 +481,7 @@
 </template>
 
 <script>
-import {mapGetters, mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: 'UserManagementPage',
@@ -509,6 +497,7 @@ export default {
       ],
       deleteDialog: false,
       valid_search: true,
+      status_enums: ['ACTIVE', 'PENDING', 'DISABLED'],
       search: {
         user_id: '',
         first_name: '',
@@ -526,7 +515,7 @@ export default {
         {text: 'Phone number', align: 'start', sortable: false, value: 'phoneNumber'},
         {text: 'Update at', align: 'start', sortable: true, value: 'updatedAt'},
         {text: 'Lang', align: 'start', sortable: false, value: 'lang'},
-        {text: 'Status', align: 'start', sortable: false, value: 'status'},
+        {text: 'Status', align: 'start', sortable: false, value: 'status', width: 180},
         {text: 'Actions', align: 'end', sortable: false, value: 'actions', width: 90},
       ],
       pickerOptions: {
@@ -582,6 +571,7 @@ export default {
       options: {},
       itemPerPage: 10,
       current_page: 0,
+      users: []
     }
   },
   computed: {
@@ -589,7 +579,7 @@ export default {
       all_users: 'users/users',
       loading: 'users/loading',
       totalElements: 'users/totalElements'
-    })
+    }),
   },
   watch: {
     options: {
@@ -598,6 +588,9 @@ export default {
       },
       deep: true,
     },
+    all_users(val) {
+      this.users = JSON.parse(JSON.stringify(val))
+    },
   },
   methods: {
     ...mapActions({
@@ -605,14 +598,19 @@ export default {
       createUser: 'users/createUser',
       getUsers: 'users/getUsers',
       updateUser: 'users/updateUser',
-      sortUser: 'users/sortUsers'
+      sortUser: 'users/sortUsers',
     }),
+    changeStatus(item) {
+      this.updateUser(
+        {
+          id: item.id,
+          status: item.status,
+          page: this.current_page,
+          size: this.itemPerPage
+        })
+    },
     getDataFromApi () {
       this.fakeApiCall()
-      //   .then(data => {
-      //   this.desserts = data.items
-      //   this.totalDesserts = data.total
-      // })
     },
 
     fakeApiCall () {
@@ -654,7 +652,19 @@ export default {
         this.new_user = false
       }
     },
-    getUserInfo(user) {
+    getUserInfo(data) {
+      const user = {...data}
+      const langFull = () => {
+        switch (user.lang) {
+          case 'UZ':
+            return {title: "UZ", code: "uz", icon: "/uz.svg"}
+          case 'RU':
+            return {title: "RU", code: "ru", icon: "/ru.svg"}
+          case 'EN':
+            return {title: "EN", code: "en", icon: "/us.svg"}
+        }
+      }
+      user.lang = langFull()
       this.$store.commit('users/setCurrentUser', user)
       this.$router.push(`/user-management/${user.id}`)
     },
@@ -713,12 +723,15 @@ export default {
   mounted() {
     this.$store.dispatch('users/getUsers', {page: this.current_page, size: this.itemPerPage})
     this.$store.commit('setPageTitle', 'User management');
-
   }
 }
 </script>
 
 <style lang="scss">
+.v-text-field--rounded > .v-input__control > .v-input__slot {
+  padding: 0 14px;
+  font-size: 14px;
+}
 .username-name {
   font-weight: 500;
   font-size: 14px;

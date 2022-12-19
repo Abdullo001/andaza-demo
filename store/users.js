@@ -21,7 +21,7 @@ export const mutations = {
   },
   changeLoading(state, status) {
     state.loading = status
-  }
+  },
 }
 
 export const actions = {
@@ -109,17 +109,19 @@ export const actions = {
          this.$toast.error(response.data.message, {theme: 'toasted-primary'})
       })
   },
-  updateUser({dispatch}, {id, status}) {
+  updateUser({dispatch}, {id, status, size, page}) {
     const body = {
       id: id,
       status: status
     }
     this.$axios.$put('/api/v1/user/change-status', body)
       .then(res => {
-        dispatch('getUsers')
+        dispatch('getUsers', {page: page, size: size})
         this.$toast.success(res.message, {theme: 'toasted-primary'})
       })
-      .catch(({response}) => console.log(response))
+      .catch(({response}) => {
+        console.log(response);
+      })
   },
   sortUsers({dispatch, commit}, {sortBy, sortDesc}) {
     sortDesc = sortDesc[0] ? 'DESC' : 'ASC'
@@ -143,3 +145,4 @@ export const actions = {
 
   }
 }
+
