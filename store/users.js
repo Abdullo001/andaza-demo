@@ -2,14 +2,16 @@
 export const state = () => ({
   users: [],
   current_user: {},
-  loading: true
+  loading: true,
+  created_user: {}
 })
 
 export const getters = {
   users: state => state.users.content,
   currentUser: state => state.current_user,
   loading: state => state.loading,
-  totalElements: state => state.users.totalElements
+  totalElements: state => state.users.totalElements,
+  createdUser: state => state.created_user
 }
 
 export const mutations = {
@@ -22,6 +24,9 @@ export const mutations = {
   changeLoading(state, status) {
     state.loading = status
   },
+  setCreatedUser(state, res) {
+    state.created_user = res
+  }
 }
 
 export const actions = {
@@ -84,7 +89,7 @@ export const actions = {
         this.$toast.error(response.data.message, {theme: 'toasted-primary'})
       })
   },
-  createUser({dispatch}, user) {
+  createUser({dispatch, commit}, user) {
     user.phone = `+998${user.phone.replace('(','').replace(')','').replaceAll(' ', '')}`
 
     const config = {
@@ -102,6 +107,8 @@ export const actions = {
 
     this.$axios.post('/api/v1/user/register', formData, config)
       .then(res => {
+        console.log(res);
+        commit('setCreatedUser', res.data.data)
         dispatch('getUsers')
         this.$toast.success(res.data.message, {theme: 'toasted-primary'})
       })

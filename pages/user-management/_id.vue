@@ -29,7 +29,7 @@
             @click="fields_status = !fields_status"
             :color="!fields_status ? 'green' : null"
           >
-            <v-img src="/edit.svg" class="mr-1"/>
+            <v-img :src="fields_status ? '/edit.svg' : '/edit-active.svg'" class="mr-1"/>
             Edit
           </v-btn>
         </div>
@@ -133,6 +133,15 @@
           </v-col>
         </v-row>
       </v-card-text>
+      <v-card-actions>
+        <v-spacer/>
+        <v-btn
+          color="#7631FF"
+          dark
+          class="text-capitalize font-weight-medium mx-3 mb-4"
+          width="150"
+        >save</v-btn>
+      </v-card-actions>
     </v-card>
   </div>
 </template>
