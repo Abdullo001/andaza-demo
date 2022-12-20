@@ -116,7 +116,7 @@ export const actions = {
          this.$toast.error(response.data.message, {theme: 'toasted-primary'})
       })
   },
-  updateUser({dispatch}, {id, status, size, page}) {
+  updateUserStatus({dispatch}, {id, status, size, page}) {
     const body = {
       id: id,
       status: status
@@ -150,6 +150,36 @@ export const actions = {
         })
     }
 
+  },
+  getOneUser({commit}, id) {
+    this.$axios.$get(`/api/v1/user/get?id=${id}`)
+      .then(res => {
+        commit('setCurrentUser', res.data)
+      })
+      .catch(({response}) => console.log(response))
+  },
+  updateUser({dispatch}, data) {
+    const formData = new FormData()
+    formData.append('id', data.id);
+    formData.append('firstName', data.firstName);
+    formData.append('lastName', data.lastName);
+    formData.append('phoneNumber', data.phoneNumber);
+    formData.append('photo', data.photo);
+    formData.append('username', data.username);
+    formData.append('email', data.email);
+    formData.append('lang', data.lang);
+    formData.append('gender', data.gender);
+
+    const config = {
+      headers: {'Content-Type': 'multipart/form-data'}
+    }
+
+    this.$axios.$put(`/api/v1/user/update`, data, config)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(({response}) => console.log(response))
   }
+
 }
 

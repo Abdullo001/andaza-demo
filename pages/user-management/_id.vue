@@ -39,7 +39,14 @@
         <v-row>
           <v-col>
             <div class="mb-2 text-body-1">Photo</div>
-            <v-img :src="currentUser.photo" class="rounded-lg mb-4" width="120"/>
+            <div class="overlay">
+              <v-img :src="currentUser.photo" class="rounded-lg mb-4" width="120"/>
+              <v-icon
+                style="position: absolute; top:50%; left: 50%; z-index: 10; transform: translate(-50%, -50%)"
+                color="#fff"
+              >mdi-square-edit-outline
+              </v-icon>
+            </div>
             <div class="mb-1 text-body-1">Username</div>
             <v-text-field
               v-model="one_user.username"
@@ -52,7 +59,7 @@
             <div class="mb-2 text-body-1">Lang</div>
             <v-select
               :items="lang_list"
-              v-model="currentUser.lang" append-icon="mdi-chevron-down"
+              v-model="one_user.lang" append-icon="mdi-chevron-down"
               filled
               dense
               clearable
@@ -97,7 +104,7 @@
             <div class="mb-2 text-body-1">Registered date</div>
             <v-text-field
               filled
-              v-model="one_user.createdAt"
+              v-model="one_user.registeredDate"
               dense
               disabled
               style="max-width: 400px"
@@ -140,14 +147,16 @@
           dark
           class="text-capitalize font-weight-medium mx-3 mb-4"
           width="150"
-        >save</v-btn>
+          @click="saveChanges"
+        >save
+        </v-btn>
       </v-card-actions>
     </v-card>
   </div>
 </template>
 
 <script>
-import {mapGetters} from "vuex";
+import {mapGetters, mapActions} from "vuex";
 
 export default {
   data() {
@@ -190,6 +199,7 @@ export default {
       },
       one_user: {},
       status_list: ['ACTIVE', 'DISABLED', 'PENDING'],
+      avatar: null
     }
   },
   computed: {
@@ -198,13 +208,35 @@ export default {
     })
   },
   watch: {
-    currentUser: {
-      handler(val) {
-
-      }, deep: true
+    currentUser(val) {
+      this.one_user = JSON.parse(JSON.stringify(val))
+      const langFull = () => {
+        switch (this.one_user.lang) {
+          case 'UZ':
+            return {title: "UZ", code: "uz", icon: "/uz.svg"}
+          case 'RU':
+            return {title: "RU", code: "ru", icon: "/ru.svg"}
+          case 'EN':
+            return {title: "EN", code: "en", icon: "/us.svg"}
+        }
+      }
+      this.one_user.lang = langFull()
     }
   },
   methods: {
+    ...mapActions({
+      updateUser: "users/updateUser"
+    }),
+    saveChanges() {
+      let data = JSON.parse(JSON.stringify(this.one_user))
+      data.lang = data.lang.title
+      delete data.registeredDate
+      delete data.password
+      delete data.status
+      console.log(data)
+
+      // this.updateUser(this.one_user);
+    },
     langFlag(lang) {
       switch (lang) {
         case 'UZ':
@@ -217,12 +249,37 @@ export default {
     },
   },
   mounted() {
-    this.one_user = {...this.currentUser}
+    const id = this.$route.params.id
+    this.$store.dispatch('users/getOneUser', id)
+    // this.one_user = {...this.currentUser}
   }
 }
 </script>
 
-<style scoped>
+<style lang="scss">
+.overlay {
+  position: relative;
+  max-width: 120px;
+
+  &:after {
+    content: '';
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    max-width: 120px;
+    border-radius: 50%;
+    opacity: 0;
+    transition: all linear ;
+    &:hover:after {
+      opacity: 1;
+    }
+  }
+}
+
 .v-btn--outlined {
   border: 1px solid;
 }
