@@ -225,11 +225,11 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="new_user" max-width="680">
+    <v-dialog v-model="new_user" max-width="680" persistent>
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
           <div>Add user</div>
-          <v-btn icon @click="new_user = false">
+          <v-btn icon @click="resetUserDialog">
             <v-icon color="#7631FF">mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -351,7 +351,7 @@
               <v-col cols="12" class="d-flex justify-center align-center mb-2" v-if="!!createdUser.password">
                 <p class="text-body-1 mb-0 mr-2">Password:</p>
                 <span class="text-body-1 font-weight-bold">{{ createdUser.password }}</span>
-                <v-btn icon class="ml-2">
+                <v-btn icon class="ml-2" @click="copyPassword(createdUser.password)">
                   <v-img src="/copy.svg" max-width="20" contain/>
                 </v-btn>
               </v-col>
@@ -364,7 +364,7 @@
             class="text-capitalize rounded-lg font-weight-bold mr-6"
             color="#7631FF"
             width="163"
-            @click="new_user = false"
+            @click="resetUserDialog"
           >cancel</v-btn>
           <v-btn
             class="text-capitalize rounded-lg font-weight-bold"
@@ -608,6 +608,23 @@ export default {
       updateUser: 'users/updateUser',
       sortUser: 'users/sortUsers',
     }),
+    resetUserDialog() {
+      this.$refs.new_user.reset()
+      this.$store.commit('users/setCreatedUser', {})
+      this.avatar = ''
+      this.new_user = !this.new_user
+    },
+    copyPassword(item) {
+      navigator.clipboard.writeText(item)
+      this.$toasted.success(`Copied ${item}`, {
+        action: {
+          text: '',
+          onClick: (e, toastObject) => {
+            toastObject.goAway(0);
+          }
+        }
+      })
+    },
     changeStatus(item) {
       this.updateUser(
         {
@@ -620,7 +637,6 @@ export default {
     getDataFromApi () {
       this.fakeApiCall()
     },
-
     fakeApiCall () {
       return new Promise((resolve, reject) => {
         const { sortBy, sortDesc, page, itemsPerPage } = this.options
@@ -656,8 +672,6 @@ export default {
         const user = {...this.user_data}
         user.lang = user.lang.title
         await this.createUser(user)
-        // await this.$refs.new_user.reset()
-        // this.new_user = false
       }
     },
     getUserInfo(data) {
