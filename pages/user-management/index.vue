@@ -605,7 +605,7 @@ export default {
       filterUsers: 'users/filterUsers',
       createUser: 'users/createUser',
       getUsers: 'users/getUsers',
-      updateUser: 'users/updateUser',
+      updateUserStatus: 'users/updateUserStatus',
       sortUser: 'users/sortUsers',
     }),
     resetUserDialog() {
@@ -626,7 +626,7 @@ export default {
       })
     },
     changeStatus(item) {
-      this.updateUser(
+      this.updateUserStatus(
         {
           id: item.id,
           status: item.status,
@@ -654,7 +654,7 @@ export default {
 
     },
     async changeUserStatus() {
-      await this.updateUser({id: this.user_update_data.id, status: this.user_status})
+      await this.updateUserStatus({id: this.user_update_data.id, status: this.user_status})
       this.edit_user = false
     },
     filter() {
@@ -687,7 +687,7 @@ export default {
         }
       }
       user.lang = langFull()
-      this.$store.commit('users/setCurrentUser', user)
+      // this.$store.commit('users/setCurrentUser', user)
       this.$router.push(`/user-management/${user.id}`)
     },
     handleFileImport() {
