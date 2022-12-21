@@ -39,13 +39,20 @@
         <v-row>
           <v-col>
             <div class="mb-2 text-body-1">Photo</div>
-            <div class="overlay">
-              <v-img :src="currentUser.photo" class="rounded-lg mb-4" width="120"/>
+            <div class="overlay" @click="handleFileImport">
+              <v-img :src="one_user.photo" class="rounded-lg mb-4" width="120"/>
               <v-icon
                 style="position: absolute; top:50%; left: 50%; z-index: 10; transform: translate(-50%, -50%)"
                 color="#fff"
               >mdi-square-edit-outline
               </v-icon>
+              <input
+                ref="uploader"
+                class="d-none"
+                type="file"
+                @change="onFileChanged"
+                accept="image/*"
+              />
             </div>
             <div class="mb-1 text-body-1">Username</div>
             <v-text-field
@@ -227,15 +234,23 @@ export default {
     ...mapActions({
       updateUser: "users/updateUser"
     }),
+    handleFileImport() {
+      this.$refs.uploader.click();
+    },
+    onFileChanged(e) {
+      this.avatar = e.target.files[0];
+      if (this.avatar !== undefined) {
+        this.one_user.photo = window.URL.createObjectURL(this.avatar);
+      }
+    },
     saveChanges() {
       let data = JSON.parse(JSON.stringify(this.one_user))
-      data.lang = data.lang.title
-      delete data.registeredDate
-      delete data.password
-      delete data.status
-      console.log(data)
-
-      // this.updateUser(this.one_user);
+      data.lang = data.lang.title;
+      ['registeredDate', 'password', 'status'].forEach(e => delete data[e])
+      if(typeof this.avatar === "object") {
+        data.photo = this.avatar
+      } else data.photo = null
+      this.updateUser(data);
     },
     langFlag(lang) {
       switch (lang) {
@@ -270,13 +285,23 @@ export default {
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
     max-width: 120px;
-    border-radius: 50%;
     opacity: 0;
-    transition: all linear ;
-    &:hover:after {
-      opacity: 1;
-    }
+    transition: all linear 0.2s;
+  }
+
+  &:hover::after {
+    content: '';
+    opacity: 1;
+  }
+
+  > .v-icon {
+    opacity: 0;
+  }
+
+  &:hover > .v-icon {
+    opacity: 1;
   }
 }
 

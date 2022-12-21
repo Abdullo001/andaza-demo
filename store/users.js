@@ -158,6 +158,7 @@ export const actions = {
       })
       .catch(({response}) => console.log(response))
   },
+
   updateUser({dispatch}, data) {
     const formData = new FormData()
     formData.append('id', data.id);
@@ -174,7 +175,7 @@ export const actions = {
       headers: {'Content-Type': 'multipart/form-data'}
     }
 
-    this.$axios.$put(`/api/v1/user/update`, data, config)
+    this.$axios.$put(`/api/v1/user/update`, formData, config)
       .then(res => {
         console.log(res);
       })

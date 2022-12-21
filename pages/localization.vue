@@ -18,7 +18,7 @@
               clearable
             />
           </v-col>
-         <v-spacer/>
+          <v-spacer/>
           <v-col class="py-0" cols="12" lg="4">
             <div class="d-flex justify-end">
               <v-btn
@@ -46,6 +46,13 @@
         :headers="headers"
         :items="allLocalization"
         :items-per-page="10"
+        :loading="loading"
+        @update:items-per-page="getItemSize"
+        @update:page="page"
+        :footer-props="{
+        itemsPerPageOptions: [10, 20, 50, 100],
+        }"
+        :server-items-length="totalElements"
       >
         <template #top>
           <v-toolbar elevation="0" class="rounded-lg">
@@ -234,7 +241,10 @@
 </template>
 
 <script>
+import {mapGetters, mapActions} from "vuex";
+
 export default {
+  name: 'LocalizationPage',
   data() {
     return {
       new_dialog: false,
@@ -246,20 +256,11 @@ export default {
       key: '',
       headers: [
         {text: 'ID', align: 'start', sortable: false, value: 'id'},
-        {text: 'Key',  value: 'key'},
-        {text: 'UZ',  value: 'uz'},
-        {text: 'RU',  value: 'ru'},
-        {text: 'EN',  value: 'en'},
-        {text: 'Actions',  sortable: false, value: 'actions', width: 120},
-      ],
-      allLocalization: [
-        {
-          id: 9387,
-          key: "mytex.validation.failed",
-          uz: "Ba'zi sabablarga ko'ra tasdiqlash amalga oshmadi",
-          ru: "Верификация не удалась по какой-то причине",
-          en: "Validation failed for some reason"
-        }
+        {text: 'Lang', value: 'lang'},
+        {text: 'Key', value: 'key'},
+        {text: 'Message', value: 'message', width: 500},
+        {text: 'Updated At', value: 'updatedAt'},
+        {text: 'Actions', sortable: false, value: 'actions', width: 120},
       ],
       new_localization: {
         key: '',
@@ -272,13 +273,35 @@ export default {
         uz: '',
         ru: '',
         en: ''
-      }
+      },
+      itemPerPage: 10,
+      current_page: 0,
     }
   },
   created() {
-    this.$store.dispatch('localization/getLocalization')
+    this.$store.dispatch('localization/getLocalization', {page: 0, size: 10})
+  },
+  computed: {
+    ...mapGetters({
+      allLocalization: 'localization/allLocalization',
+      totalElements: 'localization/totalElements',
+      loading: 'localization/loading'
+    })
   },
   methods: {
+    ...mapActions({
+      getLocalization: 'localization/getLocalization'
+    }),
+    getItemSize(val) {
+      this.itemPerPage = val;
+      this.getLocalization({page: this.current_page, size: this.itemPerPage})
+    },
+    page(val) {
+      // arrows < > value page
+      this.current_page = val - 1
+      this.getLocalization({page: this.current_page, size: this.itemPerPage})
+
+    },
     keySearch() {},
     editItem(item) {
       this.edit_localization = {...item}
