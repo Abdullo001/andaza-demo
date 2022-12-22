@@ -158,14 +158,13 @@ export const actions = {
       })
       .catch(({response}) => console.log(response))
   },
-
   updateUser({dispatch}, data) {
     const formData = new FormData()
     formData.append('id', data.id);
     formData.append('firstName', data.firstName);
     formData.append('lastName', data.lastName);
     formData.append('phoneNumber', data.phoneNumber);
-    formData.append('photo', data.photo);
+    data.photo === 'null' ? formData.append('photo', data.photo) : '';
     formData.append('username', data.username);
     formData.append('email', data.email);
     formData.append('lang', data.lang);
@@ -177,10 +176,9 @@ export const actions = {
 
     this.$axios.$put(`/api/v1/user/update`, formData, config)
       .then(res => {
-        console.log(res);
+        this.$toast.success(res.message, {theme: 'toasted-primary'})
       })
       .catch(({response}) => console.log(response))
   }
-
 }
 

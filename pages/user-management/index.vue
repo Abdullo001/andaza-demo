@@ -96,7 +96,7 @@
       :items="users"
       :items-per-page="10"
       :footer-props="{
-        itemsPerPageOptions: [10, 20, 50, 100],
+        itemsPerPageOptions: [10, 20, 50, 100]
       }"
       :loading="loading"
       class="mt-4 rounded-lg"

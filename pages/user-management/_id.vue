@@ -141,7 +141,7 @@
               dense
               :items="status_list"
               append-icon="mdi-chevron-down"
-              :disabled="fields_status"
+              disabled
               style="max-width: 400px"
             />
           </v-col>
