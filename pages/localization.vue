@@ -5,17 +5,30 @@
       elevation="0"
       class="rounded-t-lg"
     >
-      <v-form lazy-validation v-model="valid_key" ref="search_form">
+      <v-form lazy-validation v-model="valid_key" ref="search_key">
         <v-row class="mx-0 px-0 mb-4 mt-4 pa-4 w-full" justify="start">
-          <v-col cols="12" lg="4" md="4" class="py-0">
+          <v-col cols="12" lg="3" md="3" class="py-0">
             <v-text-field
               label="Key"
               outlined
               class="rounded-lg"
-              v-model="key"
+              v-model.trim="filter.key"
               hide-details
               dense
               clearable
+              @keyup.enter="filterLocalize"
+            />
+          </v-col>
+          <v-col cols="12" lg="3" md="3" class="py-0">
+            <v-text-field
+              label="Message"
+              outlined
+              class="rounded-lg"
+              v-model.trim="filter.message"
+              hide-details
+              dense
+              clearable
+              @keyup.enter="filterLocalize"
             />
           </v-col>
           <v-spacer/>
@@ -25,7 +38,6 @@
                 width="140" outlined
                 color="#397CFD" elevation="0"
                 class="text-capitalize mr-4 rounded-lg"
-                @click="keySearch"
               >
                 Reset
               </v-btn>
@@ -33,6 +45,7 @@
                 width="140" color="#397CFD" dark
                 elevation="0"
                 class="text-capitalize rounded-lg"
+                @click="filterLocalize"
               >
                 Search
               </v-btn>
@@ -50,7 +63,7 @@
         @update:items-per-page="getItemSize"
         @update:page="page"
         :footer-props="{
-        itemsPerPageOptions: [10, 20, 50, 100],
+          itemsPerPageOptions: [10, 20, 50, 100],
         }"
         :server-items-length="totalElements"
       >
@@ -73,7 +86,7 @@
           <v-btn icon color="green" @click.stop="editItem(item)">
             <v-icon size="20">mdi-square-edit-outline</v-icon>
           </v-btn>
-          <v-btn icon color="red" @click.stop="delete_dialog = true">
+          <v-btn icon color="red" @click.stop="getDeleteItem(item)">
             <v-icon size="20">mdi-trash-can-outline</v-icon>
           </v-btn>
         </template>
@@ -101,7 +114,7 @@
               filled
               label="UZ"
               placeholder="Message content"
-              v-model="new_localization.uz"
+              v-model="new_localization.messageUz"
               :rules="[formRules.required]"
               dense
             />
@@ -109,7 +122,7 @@
               filled
               label="RU"
               placeholder="Message content"
-              v-model="new_localization.ru"
+              v-model="new_localization.messageRu"
               :rules="[formRules.required]"
               dense
             />
@@ -117,7 +130,7 @@
               filled
               label="EN"
               placeholder="Message content"
-              v-model="new_localization.en"
+              v-model="new_localization.messageEn"
               :rules="[formRules.required]"
               dense
             />
@@ -136,6 +149,7 @@
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF" dark
             width="163"
+            @click="newLocalization"
           >
             add
           </v-btn>
@@ -162,25 +176,17 @@
             />
             <v-text-field
               filled
-              label="UZ"
+              label="Language"
               placeholder="Message content"
-              v-model="edit_localization.uz"
+              v-model="edit_localization.lang"
               :rules="[formRules.required]"
               dense
             />
-            <v-text-field
+            <v-textarea
               filled
-              label="RU"
+              label="Message"
               placeholder="Message content"
-              v-model="edit_localization.ru"
-              :rules="[formRules.required]"
-              dense
-            />
-            <v-text-field
-              filled
-              label="EN"
-              placeholder="Message content"
-              v-model="edit_localization.en"
+              v-model="edit_localization.message"
               :rules="[formRules.required]"
               dense
             />
@@ -199,8 +205,9 @@
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF" dark
             width="163"
+            @click="saveLocalization"
           >
-            add
+            save
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -230,7 +237,7 @@
             color="#FF4E4F"
             width="140"
             elevation="0"
-            dark @click="deleteItem(item)"
+            dark @click="deleteItem()"
           >
             delete
           </v-btn>
@@ -253,7 +260,10 @@ export default {
       edit_valid: true,
       valid_key: true,
       delete_dialog: false,
-      key: '',
+      filter: {
+        key: '',
+        message: ''
+      },
       headers: [
         {text: 'ID', align: 'start', sortable: false, value: 'id'},
         {text: 'Lang', value: 'lang'},
@@ -264,18 +274,19 @@ export default {
       ],
       new_localization: {
         key: '',
-        uz: '',
-        ru: '',
-        en: ''
+        messageUz: '',
+        messageRu: '',
+        messageEn: ''
       },
       edit_localization: {
         key: '',
-        uz: '',
-        ru: '',
-        en: ''
+        message: '',
+        lang: '',
+        id: ''
       },
       itemPerPage: 10,
       current_page: 0,
+      delete_item: {}
     }
   },
   created() {
@@ -290,24 +301,66 @@ export default {
   },
   methods: {
     ...mapActions({
-      getLocalization: 'localization/getLocalization'
+      getLocalization: 'localization/getLocalization',
+      updateLocalization: 'localization/updateLocalization',
+      createLocalization: 'localization/createLocalization',
+      deleteLocalization: 'localization/deleteLocalization',
+      filterLocalization: 'localization/filterLocalization'
     }),
-    getItemSize(val) {
-      this.itemPerPage = val;
-      this.getLocalization({page: this.current_page, size: this.itemPerPage})
+    async saveLocalization() {
+      const valid = this.$refs.edit_form.validate();
+      if (valid) {
+        const data = {...this.edit_localization};
+        ['updatedAt', 'createdAt'].forEach(el => delete data[el])
+        await this.updateLocalization({
+          page: this.current_page,
+          size: this.itemPerPage,
+          data,
+        })
+        this.edit_dialog = false
+      }
     },
-    page(val) {
+    async getItemSize(val) {
+      this.itemPerPage = val;
+      await this.getLocalization({page: this.current_page, size: this.itemPerPage})
+    },
+    async page(val) {
       // arrows < > value page
       this.current_page = val - 1
-      this.getLocalization({page: this.current_page, size: this.itemPerPage})
-
+      await this.getLocalization({page: this.current_page, size: this.itemPerPage})
     },
-    keySearch() {},
+    async newLocalization() {
+      const valid = this.$refs.new_form.validate();
+      if (valid) {
+        await this.createLocalization({
+          data: this.new_localization,
+          size: this.itemPerPage,
+          page: this.current_page
+        });
+        this.new_dialog = !this.new_dialog;
+        this.$refs.new_form.reset();
+      }
+    },
+    filterLocalize() {
+      const data = {...this.filter};
+      console.log(data)
+    },
     editItem(item) {
       this.edit_localization = {...item}
       this.edit_dialog = true
     },
-    deleteItem(item) {}
+    getDeleteItem(item) {
+      this.delete_item = item;
+      this.delete_dialog = true
+    },
+    async deleteItem() {
+      await this.deleteLocalization({
+        page: this.current_page,
+        size: this.itemPerPage,
+        id: this.delete_item.id
+      })
+      this.delete_dialog = false
+    }
   },
   mounted() {
     this.$store.commit('setPageTitle', 'Localization');
