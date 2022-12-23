@@ -17,21 +17,35 @@ export const mutations = {
 }
 
 export const actions = {
-  getLocalization({commit}, {page, size}) {
+  getLocalization({commit}, {page, size, key, message}) {
     const body = {
-      filters: [],
-      sort: [],
+      filters: [
+        {
+          key: 'key',
+          operator: 'LIKE',
+          propertyType: 'STRING',
+          value: key
+        },
+        {
+          key: 'message',
+          operator: 'LIKE',
+          propertyType: 'STRING',
+          value: message
+        }
+      ],
+      sorts: [],
       page: page,
       size: size
     }
+    body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
     this.$axios.$put('/api/v1/localization/list', body)
       .then(res => {
         !!res ? commit('changeLoading', false) : null
         commit('setLocalization', res.data)
       })
       .catch(({response}) => {
-        !response ? commit('changeLoading', false) : null
-        console.log(response)
+        commit('changeLoading', false)
+        this.$toast.error(response.data.message, {theme: 'toasted-primary'})
       })
   },
   updateLocalization({dispatch}, {page, size, data}) {
@@ -64,7 +78,7 @@ export const actions = {
         console.log(response);
       })
   },
-  filterLocalization({commit}, {key, message }) {
+  filterLocalization({commit}, {key, message}) {
     const body = {
       filters: [
         {

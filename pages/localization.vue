@@ -38,6 +38,7 @@
                 width="140" outlined
                 color="#397CFD" elevation="0"
                 class="text-capitalize mr-4 rounded-lg"
+                @click="resetFilters"
               >
                 Reset
               </v-btn>
@@ -66,6 +67,7 @@
           itemsPerPageOptions: [10, 20, 50, 100],
         }"
         :server-items-length="totalElements"
+        :options.sync="options"
       >
         <template #top>
           <v-toolbar elevation="0" class="rounded-lg">
@@ -254,6 +256,7 @@ export default {
   name: 'LocalizationPage',
   data() {
     return {
+      options: {},
       new_dialog: false,
       edit_dialog: false,
       new_valid: true,
@@ -290,7 +293,20 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('localization/getLocalization', {page: 0, size: 10})
+    this.$store.dispatch('localization/getLocalization', {
+      page: 0,
+      size: 10,
+      key: '',
+      message: ''
+    })
+  },
+  watch: {
+    options: {
+      handler () {
+        this.getDataFromApi()
+      },
+      deep: true,
+    }
   },
   computed: {
     ...mapGetters({
@@ -307,6 +323,12 @@ export default {
       deleteLocalization: 'localization/deleteLocalization',
       filterLocalization: 'localization/filterLocalization'
     }),
+    getDataFromApi() {
+      return new Promise((resolve, reject) => {
+        const { sortBy, sortDesc, page, itemsPerPage } = this.options
+        // this.sortUser({sortBy: sortBy, sortDesc: sortDesc})
+      })
+    },
     async saveLocalization() {
       const valid = this.$refs.edit_form.validate();
       if (valid) {
@@ -320,14 +342,33 @@ export default {
         this.edit_dialog = false
       }
     },
+    async resetFilters() {
+      this.$refs.search_key.reset();
+      await this.getLocalization({
+        page: 0,
+        size: 10,
+        key: '',
+        message: ''
+      })
+    },
     async getItemSize(val) {
       this.itemPerPage = val;
-      await this.getLocalization({page: this.current_page, size: this.itemPerPage})
+      await this.getLocalization({
+        page: this.current_page,
+        size: this.itemPerPage,
+        key: this.filter.key,
+        message: this.filter.message
+      })
     },
     async page(val) {
       // arrows < > value page
       this.current_page = val - 1
-      await this.getLocalization({page: this.current_page, size: this.itemPerPage})
+      await this.getLocalization({
+        page: this.current_page,
+        size: this.itemPerPage,
+        key: this.filter.key,
+        message: this.filter.message
+      })
     },
     async newLocalization() {
       const valid = this.$refs.new_form.validate();
@@ -343,7 +384,7 @@ export default {
     },
     filterLocalize() {
       const data = {...this.filter};
-      console.log(data)
+      this.filterLocalization({key: data.key, message: data.message})
     },
     editItem(item) {
       this.edit_localization = {...item}
