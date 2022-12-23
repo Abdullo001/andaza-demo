@@ -149,7 +149,6 @@ export const actions = {
           this.$toast.error(response.data.message, {theme: 'toasted-primary'})
         })
     }
-
   },
   getOneUser({commit}, id) {
     this.$axios.$get(`/api/v1/user/get?id=${id}`)
