@@ -67,7 +67,7 @@
             >
             </el-date-picker>
           </v-col>
-          <v-col class="" cols="12" lg="12" >
+          <v-col class="" cols="12" lg="12">
             <div class="d-flex justify-center">
               <v-btn
                 width="140" outlined
@@ -140,16 +140,19 @@
         </div>
       </template>
       <template #item.status="{item}">
-        <v-select
-          @change="changeStatus(item)"
-          :background-color="statusColor(item.status)"
-          :items="status_enums"
-          append-icon="mdi-chevron-down"
-          v-model="item.status"
-          hide-details
-          dark
-          rounded
-        />
+        <div>
+          <v-select
+            @change="changeStatus(item)"
+            :background-color="statusColor(item.status)"
+            :items="status_enums"
+            append-icon="mdi-chevron-down"
+            v-model="item.status"
+            hide-details
+            class="mt-n2"
+            dark
+            rounded
+          />
+        </div>
       </template>
       <template #item.lang="{item}">
         <div class="d-flex align-center">
@@ -182,12 +185,12 @@
         <div class="d-flex align-center">
           {{ item.phoneNumber }}
           <v-tooltip top color="green">
-          <template #activator="{ on, attrs }">
-            <div @click.stop="getCopyKey(item.phoneNumber)" v-bind="attrs" v-on="on">
-              <v-img src="/copy.svg" width="15" class="ml-2 pointer"/>
-            </div>
-          </template>
-          <span>Copy</span>
+            <template #activator="{ on, attrs }">
+              <div @click.stop="getCopyKey(item.phoneNumber)" v-bind="attrs" v-on="on">
+                <v-img src="/copy.svg" width="15" class="ml-2 pointer"/>
+              </div>
+            </template>
+            <span>Copy</span>
           </v-tooltip>
         </div>
       </template>
@@ -239,7 +242,8 @@
               <v-col cols="12" lg="6">
                 <div class="d-flex align-center">
                   <v-img :src="avatar ? avatar : '/upload-default.svg'" max-width="120" v-ripple class="rounded-lg"/>
-                  <v-btn color="#F1EBFE" elevation="0" class="rounded-lg ml-6 text-capitalize" @click="handleFileImport">
+                  <v-btn color="#F1EBFE" elevation="0" class="rounded-lg ml-6 text-capitalize"
+                         @click="handleFileImport">
                     <v-img src="/upload-btn-icon.svg" width="20" class="mr-2"/>
                     <div class="btn-color">Upload photo</div>
                   </v-btn>
@@ -365,14 +369,16 @@
             color="#7631FF"
             width="163"
             @click="resetUserDialog"
-          >cancel</v-btn>
+          >cancel
+          </v-btn>
           <v-btn
             class="text-capitalize rounded-lg font-weight-bold"
             color="#7631FF"
             dark
             width="163"
             @click="addUser"
-          >add</v-btn>
+          >add
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -473,14 +479,16 @@
             color="#7631FF"
             width="163"
             @click.stop="edit_user = false"
-          >cancel</v-btn>
+          >cancel
+          </v-btn>
           <v-btn
             class="text-capitalize rounded-lg font-weight-bold"
             color="#7631FF"
             dark
             width="163"
             @click="changeUserStatus"
-          >add</v-btn>
+          >add
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -591,7 +599,7 @@ export default {
   },
   watch: {
     options: {
-      handler () {
+      handler() {
         this.getDataFromApi()
       },
       deep: true,
@@ -634,12 +642,12 @@ export default {
           size: this.itemPerPage
         })
     },
-    getDataFromApi () {
+    getDataFromApi() {
       this.fakeApiCall()
     },
-    fakeApiCall () {
+    fakeApiCall() {
       return new Promise((resolve, reject) => {
-        const { sortBy, sortDesc, page, itemsPerPage } = this.options
+        const {sortBy, sortDesc, page, itemsPerPage} = this.options
         this.sortUser({sortBy: sortBy, sortDesc: sortDesc})
       })
     },
@@ -668,7 +676,7 @@ export default {
     },
     async addUser() {
       const valid = this.$refs.new_user.validate()
-      if(valid) {
+      if (valid) {
         const user = {...this.user_data}
         user.lang = user.lang.title
         await this.createUser(user)
@@ -754,6 +762,7 @@ export default {
   padding: 0 14px;
   font-size: 14px;
 }
+
 .username-name {
   font-weight: 500;
   font-size: 14px;
@@ -775,6 +784,7 @@ export default {
   line-height: 140%;
   color: #7631FF;
 }
+
 .el-input__inner {
   border-radius: 10px !important;
   border: 1px solid #919191;
