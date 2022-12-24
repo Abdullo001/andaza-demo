@@ -105,7 +105,7 @@
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium">Prefinance</div>
-            <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click.stop="new_prefinance  = true">
+            <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="$router.push(`/prefinances/create`)">
               <v-icon>mdi-plus</v-icon>
               Prefinance
             </v-btn>
@@ -114,7 +114,7 @@
         <v-divider/>
       </template>
       <template #item.actions="{item}">
-        <v-btn icon @click.stop="deleteRow(item)">
+        <v-btn color="red" icon @click.stop="deleteRow(item)">
           <v-icon>mdi-trash-can-outline</v-icon>
         </v-btn>
       </template>
@@ -137,14 +137,14 @@ export default {
       menu2: false,
       headers: [
         {text: 'ID', align: 'start', sortable: false, value: 'id'},
-        {text: 'Prefinance number',  value: 'financeNumber'},
-        { text: 'Model ID', value: 'modelId' },
-        { text: 'Partner ID', value: 'partnerId' },
-        { text: 'Pr Currency', value: 'partnerCurrency' },
-        { text: 'Sn Currency', value: 'senderCurrency' },
-        { text: 'Tr Currency', value: 'transferCurrency' },
-        { text: 'Pr rate', value: 'partnerRate' },
-        { text: 'Actions', value: 'actions', align: 'center'},
+        {text: 'Prefinance number', value: 'financeNumber'},
+        {text: 'Model ID', value: 'modelId'},
+        {text: 'Partner ID', value: 'partnerId'},
+        {text: 'Pr Currency', value: 'partnerCurrency'},
+        {text: 'Sn Currency', value: 'senderCurrency'},
+        {text: 'Tr Currency', value: 'transferCurrency'},
+        {text: 'Pr rate', value: 'partnerRate'},
+        {text: 'Actions', value: 'actions', align: 'center'},
       ],
       finances: [
         {
