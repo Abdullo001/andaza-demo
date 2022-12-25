@@ -48,11 +48,11 @@ export const actions = {
         this.$toast.error(response.data.message, {theme: 'toasted-primary'})
       })
   },
-  updateLocalization({dispatch}, {page, size, data}) {
+  updateLocalization({dispatch}, {page, size, data, key, message}) {
     this.$axios.$put('/api/v1/localization/update', data)
       .then(res => {
         this.$toast.success(res.message, {theme: 'toasted-primary'})
-        dispatch('getLocalization', {page, size})
+        dispatch('getLocalization', {page, size, key, message})
       })
       .catch(({response}) => {
         console.log(response);
