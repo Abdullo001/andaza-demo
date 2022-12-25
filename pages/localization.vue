@@ -112,7 +112,9 @@
               :rules="[formRules.required]"
               dense
             />
-            <v-text-field
+            <v-textarea
+              rows="1"
+              auto-grow
               filled
               label="UZ"
               placeholder="Message content"
@@ -120,7 +122,9 @@
               :rules="[formRules.required]"
               dense
             />
-            <v-text-field
+            <v-textarea
+              rows="1"
+              auto-grow
               filled
               label="RU"
               placeholder="Message content"
@@ -128,7 +132,9 @@
               :rules="[formRules.required]"
               dense
             />
-            <v-text-field
+            <v-textarea
+              rows="1"
+              auto-grow
               filled
               label="EN"
               placeholder="Message content"
@@ -302,7 +308,7 @@ export default {
   },
   watch: {
     options: {
-      handler () {
+      handler() {
         this.getDataFromApi()
       },
       deep: true,
@@ -325,7 +331,7 @@ export default {
     }),
     getDataFromApi() {
       return new Promise((resolve, reject) => {
-        const { sortBy, sortDesc, page, itemsPerPage } = this.options
+        const {sortBy, sortDesc, page, itemsPerPage} = this.options
         // this.sortUser({sortBy: sortBy, sortDesc: sortDesc})
       })
     },
@@ -337,6 +343,8 @@ export default {
         await this.updateLocalization({
           page: this.current_page,
           size: this.itemPerPage,
+          key: this.filter.key,
+          message: this.filter.message,
           data,
         })
         this.edit_dialog = false
