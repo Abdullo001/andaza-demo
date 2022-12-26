@@ -195,10 +195,18 @@
           <v-card-text>
             <div class="big-image">
               <div class="default-data">
-                <v-img src="/default-image.svg" max-width="56"/>
-                <div>
+                <v-img
+                  src="/default-image.svg"
+                  max-width="56"
+                  max-height="56"
+                />
+                <div class="d-flex align-center upload-wrap pointer">
                   <v-img src="/upload.svg" max-width="20"/>
-
+                  <div class="upload-btn">Upload Image</div>
+                </div>
+                <div class="upload-subtitle">
+                  Upload a cover image for your product. <br>
+                  File Format <b>jpeg, png</b> Recommend Size <b>600x600 (1:1)</b>
                 </div>
               </div>
             </div>
@@ -215,6 +223,24 @@
               clear
             </v-btn>
           </v-card-title>
+          <v-card-text>
+            <v-data-table
+              :headers="headers"
+              :items="calculation"
+              :items-per-page="10"
+              hide-default-footer
+            >
+            <template #item.editable="{item}">
+              <v-text-field
+                solo-inverted
+                v-model="item.editable"
+                hide-details
+                flat
+                background-color="#F8F4FE"
+              />
+            </template>
+            </v-data-table>
+          </v-card-text>
           <v-divider/>
         </v-card>
       </v-col>
@@ -239,7 +265,63 @@ export default {
         createdTime: '',
         modifiedPerson: '',
         updatedTime: '',
-      }
+      },
+      headers: [
+        {
+          text: 'Name',
+          align: 'start',
+          sortable: false,
+          value: 'name',
+        },
+        { text: '', value: 'editable', width: 100 },
+        { text: 'USD', value: 'firstCurrency' },
+        { text: 'UZS', value: 'secondCurrency' },
+        { text: 'RUB', value: 'tertiaryCurrency' },
+      ],
+      calculation: [
+        {
+          name: 'Cost subtotal',
+          editable: '-',
+          firstCurrency: '0.0',
+          secondCurrency: '0.0',
+          tertiaryCurrency: '0.0'
+        },
+        {
+          name: 'Over-production %',
+          editable: '0.0',
+          firstCurrency: '0.0',
+          secondCurrency: '0.0',
+          tertiaryCurrency: '0.0'
+        },
+        {
+          name: 'Lost resource %',
+          editable: '0.0',
+          firstCurrency: '0.0',
+          secondCurrency: '0.0',
+          tertiaryCurrency: '0.0'
+        },
+        {
+          name: 'General expenses %',
+          editable: '0.0',
+          firstCurrency: '0.0',
+          secondCurrency: '0.0',
+          tertiaryCurrency: '0.0'
+        },
+        {
+          name: 'Extra expenses %',
+          editable: '0.0',
+          firstCurrency: '0.0',
+          secondCurrency: '0.0',
+          tertiaryCurrency: '0.0'
+        },
+        {
+          name: 'Target profit %',
+          editable: '0.0',
+          firstCurrency: '0.0',
+          secondCurrency: '0.0',
+          tertiaryCurrency: '0.0'
+        },
+      ]
     }
   },
 }
