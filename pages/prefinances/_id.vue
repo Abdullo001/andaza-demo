@@ -211,6 +211,15 @@
               </div>
             </div>
           </v-card-text>
+          <v-card-actions class="d-flex justify-center">
+            <v-btn
+              class="text-capitalize mb-3 rounded-lg"
+              outlined
+              color="#5570F1"
+            >
+              add image
+            </v-btn>
+          </v-card-actions>
         </v-card>
       </v-col>
       <v-col cols="12" lg="7">
@@ -232,7 +241,7 @@
             >
             <template #item.editable="{item}">
               <v-text-field
-                solo-inverted
+                solo
                 v-model="item.editable"
                 hide-details
                 flat
