@@ -254,6 +254,64 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-card class="mt-4 rounded-lg" elevation="0">
+      <v-card-text>
+        <v-tabs
+          v-model="tab"
+          background-color="transparent"
+        >
+          <v-tab
+            v-for="item in items"
+            :key="item"
+            class="text-capitalize"
+          >
+            {{ item }}
+          </v-tab>
+        </v-tabs>
+
+        <v-tabs-items v-model="tab">
+          <v-tab-item>
+            <v-data-table
+              :headers="detailsHeaders"
+              :items="allDetails"
+              hide-default-footer
+            >
+
+            </v-data-table>
+          </v-tab-item>
+          <v-tab-item>
+            <v-data-table
+              :headers="documentsHeaders"
+              :items="allDocuments"
+              hide-default-footer
+            >
+              <template #top>
+                <v-toolbar elevation="0">
+                  <v-toolbar-title class="d-flex justify-space-between w-full">
+                    <div class="text-h6">Documents</div>
+                    <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark>Upload document</v-btn>
+                  </v-toolbar-title>
+                </v-toolbar>
+              </template>
+            </v-data-table>
+          </v-tab-item>
+        </v-tabs-items>
+      </v-card-text>
+      <v-divider/>
+      <v-card-actions class="mt-4 mb-6">
+        <v-spacer/>
+        <v-btn outlined class="text-capitalize rounded-lg" width="130">
+          <v-img src="/clear.svg" max-width="16" class="mr-2"/>
+          clear
+        </v-btn>
+        <v-btn
+          color="#7631FF"
+          class="rounded-lg text-capitalize"
+          dark
+          width="130"
+        >create</v-btn>
+      </v-card-actions>
+    </v-card>
   </div>
 </template>
 
@@ -286,6 +344,28 @@ export default {
         { text: 'USD', value: 'firstCurrency' },
         { text: 'UZS', value: 'secondCurrency' },
         { text: 'RUB', value: 'tertiaryCurrency' },
+      ],
+      detailsHeaders: [
+        {
+          text: 'Expence group',
+          align: 'start',
+          sortable: false,
+          value: 'expenseGroup',
+        },
+        { text: 'Expense', value: 'expense', width: 100 },
+        { text: 'Expense type description', value: 'expenseType' },
+        { text: 'Quantity', value: 'quantity' },
+        { text: 'Measurement unit', value: 'measurementUnit' },
+        { text: 'Currency', value: 'currency' },
+        { text: 'Price per unit', value: 'priceUnit' },
+        { text: 'Price', value: 'price' },
+      ],
+      documentsHeaders: [
+        {text: 'Type', align: 'start', sortable: false, value: 'type'},
+        { text: 'Document name', value: 'documentName' },
+        { text: 'Owner', value: 'owner' },
+        { text: 'Date', value: 'Date' },
+        { text: 'Actions', value: 'actions' },
       ],
       calculation: [
         {
@@ -330,7 +410,28 @@ export default {
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0'
         },
-      ]
+      ],
+      tab: null,
+      items: ['Details', 'Documents'],
+      allDetails: [
+        {
+          expenseGroup: 'Material',
+          expense: 'Trikotaj',
+          expenseType: 'Black thin material',
+          quantity: '0.7',
+          measurementUnit: 'kg',
+          currency: 'USD',
+          priceUnit: '3.00',
+          price: '2.10'
+        }
+      ],
+      allDocuments: [
+        {
+          type: 'word',
+
+        }
+      ],
+
     }
   },
 }
