@@ -266,7 +266,6 @@ export default {
   mounted() {
     const id = this.$route.params.id
     this.$store.dispatch('users/getOneUser', id)
-    // this.one_user = {...this.currentUser}
   }
 }
 </script>
