@@ -24,6 +24,21 @@ export default (context, inject) => {
           amount: (sum) => (sum / 100).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$& ,')
         }
       },
+      statusEnums() {
+        return ['ACTIVE', 'DISABLED', 'PENDING']
+      },
+      statusColor() {
+        return {
+          color(color) {
+            switch (color) {
+              case 'ACTIVE': return 'green';
+              case 'DISABLED': return 'red'
+              case 'PENDING': return 'amber'
+            }
+          }
+        }
+
+      },
     }
   })
 

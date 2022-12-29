@@ -143,7 +143,7 @@
         <div>
           <v-select
             @change="changeStatus(item)"
-            :background-color="statusColor(item.status)"
+            :background-color="statusColor.color(item.status)"
             :items="status_enums"
             append-icon="mdi-chevron-down"
             v-model="item.status"
@@ -716,16 +716,16 @@ export default {
         }
       })
     },
-    statusColor(color) {
-      switch (color) {
-        case 'ACTIVE':
-          return 'green';
-        case 'DISABLED':
-          return 'red'
-        case 'PENDING':
-          return 'amber'
-      }
-    },
+    // statusColor(color) {
+    //   switch (color) {
+    //     case 'ACTIVE':
+    //       return 'green';
+    //     case 'DISABLED':
+    //       return 'red'
+    //     case 'PENDING':
+    //       return 'amber'
+    //   }
+    // },
     langFlag(lang) {
       switch (lang) {
         case 'UZ':
