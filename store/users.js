@@ -39,11 +39,11 @@ export const actions = {
     }
     this.$axios.$put('/api/v1/user/get-users', body)
       .then(res => {
-        !!res ? commit('changeLoading', false) : null
+        commit('changeLoading', false)
         commit('setUsers', res.data)
       })
       .catch(({response}) => {
-        !!response ? commit('changeLoading', false) : null
+       commit('changeLoading', false)
         this.$toast.error(response.data.message, {theme: 'toasted-primary'})
       })
   },

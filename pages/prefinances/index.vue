@@ -113,10 +113,20 @@
         </v-toolbar>
         <v-divider/>
       </template>
-      <template #item.actions="{item}">
-        <v-btn color="red" icon @click.stop="deleteRow(item)">
-          <v-icon>mdi-trash-can-outline</v-icon>
-        </v-btn>
+      <template #item.status="{item}">
+        <v-select
+          :items="statusEnums"
+          v-model="item.status"
+          solo
+          dense
+          hide-details
+          rounded
+          append-icon="mdi-chevron-down"
+          :background-color="statusColor.color(item.status)"
+          dark
+          class="text-body-2"
+          flat
+        />
       </template>
     </v-data-table>
   </div>
@@ -136,15 +146,12 @@ export default {
       valid_search: '',
       menu2: false,
       headers: [
-        {text: 'ID', align: 'start', sortable: false, value: 'id'},
-        {text: 'Prefinance number', value: 'financeNumber'},
-        {text: 'Model ID', value: 'modelId'},
-        {text: 'Partner ID', value: 'partnerId'},
-        {text: 'Pr Currency', value: 'partnerCurrency'},
-        {text: 'Sn Currency', value: 'senderCurrency'},
-        {text: 'Tr Currency', value: 'transferCurrency'},
-        {text: 'Pr rate', value: 'partnerRate'},
-        {text: 'Actions', value: 'actions', align: 'center'},
+        {text: 'Prefinance number', align: 'start', sortable: false, value: 'financeNumber'},
+        {text: 'Model №', value: 'modelId'},
+        {text: 'Partner', value: 'partnerId'},
+        {text: 'Price', value: 'price'},
+        {text: 'Currency', value: 'currency'},
+        {text: 'Status', value: 'status', align: 'center', width: 200},
       ],
       finances: [
         {
@@ -152,30 +159,31 @@ export default {
           financeNumber: 'AA-55-G4-67-Y7',
           modelId: '123456',
           partnerId: '85456',
-          partnerCurrency: 'USD',
-          senderCurrency: 'RUB',
-          transferCurrency: 'UZS',
-          partnerRate: '1.00'
+          price: 'USD',
+          currency: '1.00',
+          status: 'ACTIVE'
         },
         {
           id: 12345,
           financeNumber: 'AA-55-G4-67-Y7',
           modelId: '123456',
           partnerId: '85456',
-          partnerCurrency: 'USD',
+          price: 'USD',
           senderCurrency: 'RUB',
           transferCurrency: 'UZS',
-          partnerRate: '1.00'
+          currency: '5.00',
+          status: 'DISABLED'
         },
         {
           id: 54874,
           financeNumber: 'AA-55-G4-67-Y7',
           modelId: '123456',
           partnerId: '85456',
-          partnerCurrency: 'USD',
+          price: 'USD',
           senderCurrency: 'RUB',
           transferCurrency: 'UZS',
-          partnerRate: '1.00'
+          currency: '1.00',
+          status: 'PENDING'
         },
       ]
     }
