@@ -1,0 +1,131 @@
+<template>
+  <div>
+    <v-card elevation="0" class="rounded-lg">
+      <v-card-text>
+        <v-form lazy-validation v-model="filter_form">
+          <v-row>
+            <v-col cols="12" lg="2" md="2">
+              <v-text-field
+                v-model="filter.deviceId"
+                label="Device ID"
+                outlined validate-on-blur
+                dense hide-details
+                class="rounded-lg"
+              />
+            </v-col>
+            <v-col cols="12" lg="2" md="2">
+              <v-text-field
+                v-model="filter.deviceNumber"
+                label="Device №"
+                outlined validate-on-blur
+                dense hide-details
+                class="rounded-lg"
+              />
+            </v-col>
+            <v-col cols="12" lg="2" md="2">
+              <v-select
+                v-model="filter.status"
+                label="Status"
+                :items="status_enums"
+                outlined dense hide-details
+                validate-on-blur
+                class="rounded-lg"
+                append-icon="mdi-chevron-down"
+              />
+            </v-col>
+            <v-col cols="12" lg="2" md="2">
+              <el-date-picker
+                v-model="filter.end_time"
+                type="datetime"
+                placeholder="To"
+                :picker-options="pickerOptions"
+                value-format="dd.MM.yyyy HH:mm:ss"
+              >
+              </el-date-picker>
+            </v-col>
+            <v-spacer/>
+            <v-col cols="12" lg="3">
+              <div class="d-flex justify-end">
+                <v-btn
+                  width="140" outlined
+                  color="#397CFD" elevation="0"
+                  class="text-capitalize mr-4 rounded-lg font-weight-bold"
+                  @click.stop="resetSearch"
+                >
+                  Reset
+                </v-btn>
+                <v-btn
+                  width="140" color="#397CFD" dark
+                  elevation="0"
+                  class="text-capitalize rounded-lg font-weight-bold"
+                  @click="filterDevice"
+                >
+                  Search
+                </v-btn>
+              </div>
+            </v-col>
+          </v-row>
+        </v-form>
+      </v-card-text>
+    </v-card>
+    <v-data-table
+      class="mt-4 rounded-lg pt-4"
+      caption="Devices"
+    >
+    </v-data-table>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      filter_form: true,
+      status_enums: ['BLOCK', 'BLOCKED'],
+      filter: {
+        blockedAt: '',
+        deviceId: '',
+        deviceNumber: '',
+        status: ''
+      },
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "Cегодня",
+            onClick(picker) {
+              picker.$emit("pick", new Date());
+            },
+          },
+          {
+            text: "Вчера",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit("pick", date);
+            },
+          },
+          {
+            text: "Неделя",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", date);
+            },
+          },
+        ],
+      },
+    }
+  },
+  methods: {
+    resetSearch() {},
+    filterDevice() {}
+  },
+  mounted() {
+    this.$store.commit('setPageTitle', 'Fraud management')
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+
+</style>

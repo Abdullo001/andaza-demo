@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="text-center">Fraud page</div>
+    <h1>hello user!</h1>
   </div>
 </template>
 
@@ -13,6 +13,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>

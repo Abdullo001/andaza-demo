@@ -67,7 +67,7 @@
             >
             </el-date-picker>
           </v-col>
-          <v-col class="" cols="12" lg="12">
+          <v-col cols="12" lg="12">
             <div class="d-flex justify-center">
               <v-btn
                 width="140" outlined
