@@ -169,16 +169,16 @@ export default {
         {
           icon: 'lock.svg',
           title: 'Fraud management',
-          to: '/fraud-management',
+          to: '/fraud-devices',
           has_child: true,
           child: [
             {
               title: 'Devices',
-              to: '/devices',
+              to: '/fraud-devices',
             },
             {
               title: 'Users',
-              to: '/users',
+              to: '/fraud-users',
             },
           ]
         },
