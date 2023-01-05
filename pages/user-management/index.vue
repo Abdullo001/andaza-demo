@@ -785,9 +785,5 @@ export default {
   color: #7631FF;
 }
 
-.el-input__inner {
-  border-radius: 10px !important;
-  border: 1px solid #919191;
-  color: #000000 !important;
-}
+
 </style>

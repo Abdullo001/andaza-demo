@@ -94,7 +94,7 @@ export default {
     }
   },
   router: {
-    middleware: ['auth']
+    middleware: ['auth', 'isAuth']
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
