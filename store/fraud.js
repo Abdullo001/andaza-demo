@@ -21,5 +21,6 @@ export const actions = {
     }
     await this.$axios.$put('/api/v1/fraud-management/blocked-devices', body)
       .then(res => commit('setDevices', res.data))
+      .catch(({response}) => console.log(response))
   }
 }
