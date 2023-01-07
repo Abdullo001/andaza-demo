@@ -14,10 +14,11 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/svg', href: '/logo.svg' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'}
+      { rel: 'icon', type: 'image/svg', href: '/logo.svg' }
     ]
   },
+  script: [
+  ],
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
@@ -25,7 +26,9 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     {src: "~/plugins/mixins.js"},
-    {src: "~/plugins/v-mask.js", mode: "client"}
+    {src: "~/plugins/v-mask.js"},
+    {src: "~/plugins/axios.js"},
+    { src: "./plugins/element-io.js" }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -46,17 +49,57 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    "@nuxtjs/toast",
+    '@nuxtjs/auth-next'
+    // ['@nuxtjs/auth']
   ],
+  toast: {
+    position: "bottom-center",
+    duration: 4000,
+    action:{
+      text:'',
+      onClick:(e,toastObject)=>{
+        toastObject.goAway(0);
+      }
+    }
+  },
 
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
+  loading: { color: '#7631FF' },
+
   axios: {
-    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
+    baseURL: 'https://dev-atp.asgardia.uz'
+  },
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/api/v1/auth/login', method: 'post', propertyName: 'response'},
+          logout: false,
+          user: false
+        },
+        tokenRequired: false,
+        globalToken: false,
+        tokenType: false
+      }
+    },
+    token: {
+      prefix: 'token',
+      global: true
+    },
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      callback: '/login',
+      home: '/user-management'
+    }
+  },
+  router: {
+    middleware: ['auth', 'isAuth']
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
-    customVariables: ['~/assets/variables.scss'],
+    customVariables: ['~/assets/variables.scss', '~/assets/base.scss'],
     theme: {
       dark: false,
       themes: {

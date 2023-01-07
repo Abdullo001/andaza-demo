@@ -9,3 +9,69 @@
 .page-leave-to {
   opacity: 0;
 }
+
+
+
+html, body .v-application {
+  background: #F4F5FA !important;
+}
+
+.language {
+  background-color:  rgba(255, 240, 240, 0.36);
+  padding: 8px;
+  position: relative;
+  border-radius: 5px;
+  &__selected {
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    img {
+      width: 25px;
+      border-radius: 5px;
+    }
+  }
+}
+
+.language__list {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all ease-in-out .3s;
+  border: 1px solid #ccc;
+  position: absolute;
+  background-color: #fff;
+  width: auto;
+  top: 50px;
+  box-shadow: 2px 6px 16px #cccccc;
+  padding: 8px 16px;
+  margin-left: -16px;
+  border-radius: 5px;
+  &.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  span {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+
+    img {
+      margin-right: 10px;
+      width: 30px;
+      border-radius: 3px;
+    }
+  }
+}
+.country-flag {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.action {
+  color: #FFFFFF !important;
+}
