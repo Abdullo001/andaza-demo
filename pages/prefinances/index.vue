@@ -114,19 +114,19 @@
         <v-divider/>
       </template>
       <template #item.status="{item}">
-        <v-select
-          :items="statusEnums"
-          v-model="item.status"
-          solo
-          dense
-          hide-details
-          rounded
-          append-icon="mdi-chevron-down"
-          :background-color="statusColor.color(item.status)"
-          dark
-          class="text-body-2"
-          flat
-        />
+        <div>
+          <v-select
+            :items="statusEnums"
+            v-model="item.status"
+            hide-details
+            rounded
+            append-icon="mdi-chevron-down"
+            :background-color="statusColor.color(item.status)"
+            dark
+            class="text-caption mt-n2"
+            flat
+          />
+        </div>
       </template>
     </v-data-table>
   </div>

@@ -70,28 +70,59 @@
     </v-card>
     <v-data-table
       class="mt-4 rounded-lg pt-4"
+      :headers="headers"
+      :items="all_devices"
+      :items-per-page="10"
     >
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title>Devices</v-toolbar-title>
         </v-toolbar>
       </template>
+      <template #item.status="{ item }">
+        <v-select
+          :background-color="statusColor.color(item.status)"
+          :items="status_enums"
+          append-icon="mdi-chevron-down"
+          v-model="item.status"
+          hide-details
+          class="mt-n2"
+          dark
+          rounded
+        />
+      </template>
     </v-data-table>
   </div>
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   data() {
     return {
       filter_form: true,
-      status_enums: ['BLOCK', 'BLOCKED'],
+      status_enums: ['UNBLOCKED', 'BLOCKED'],
       filter: {
         blockedAt: '',
         deviceId: '',
         deviceNumber: '',
         status: ''
       },
+      headers: [
+        {
+          text: 'Device ID',
+          align: 'start',
+          sortable: false,
+          value: 'deviceId',
+        },
+        { text: 'Blocked Device ID', value: 'blockedDeviceId' },
+        { text: 'Blocked by', value: 'blockedBy' },
+        { text: 'Device type', value: 'deviceType' },
+        { text: 'Blocked date', value: 'blockedDateTime' },
+        { text: 'Unblocked date', value: 'unblockDateTime' },
+        { text: 'Status', value: 'status', width: 200 },
+      ],
       pickerOptions: {
         shortcuts: [
           {
@@ -118,9 +149,37 @@ export default {
           },
         ],
       },
+      all_devices: []
     }
   },
+  created() {
+    this.getAllDevices();
+  },
+  watch: {
+    devices(val) {
+      this.all_devices = JSON.parse(JSON.stringify(val))
+    }
+  },
+  computed: {
+    ...mapGetters({
+      devices: "fraud/allDevices"
+    })
+  },
   methods: {
+    ...mapActions({
+      getDevices: "fraud/getDevices"
+    }),
+    getAllDevices() {
+      this.getDevices({page: 0, size: 10})
+    },
+    deviceStatusColor(color) {
+      switch (color) {
+        case 'UNBLOCKED':
+          return 'green';
+        case 'BLOCKED':
+          return 'red'
+      }
+    },
     resetSearch() {},
     filterDevice() {}
   },
@@ -130,6 +189,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss">
+.v-text-field--rounded > .v-input__control > .v-input__slot {
+  padding: 0 14px;
+  font-size: 14px;
+}
 </style>

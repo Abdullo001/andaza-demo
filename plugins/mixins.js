@@ -34,6 +34,8 @@ export default (context, inject) => {
               case 'ACTIVE': return 'green';
               case 'DISABLED': return 'red'
               case 'PENDING': return 'amber'
+              case 'UNBLOCKED': return 'green'
+              case 'BLOCKED': return 'red'
             }
           }
         }
