@@ -70,8 +70,12 @@
     </v-card>
     <v-data-table
       class="mt-4 rounded-lg pt-4"
-      caption="Devices"
     >
+      <template #top>
+        <v-toolbar elevation="0">
+          <v-toolbar-title>Devices</v-toolbar-title>
+        </v-toolbar>
+      </template>
     </v-data-table>
   </div>
 </template>
