@@ -200,42 +200,74 @@
           color="#7631FF"
           dark class="text-capitalize rounded-lg font-weight-bold"
           style="min-width: 130px;"
-        >save</v-btn>
+        >save
+        </v-btn>
       </v-card-actions>
     </v-card>
+    <!--    TODO: Photo of Models -->
     <v-row>
-      <v-col cols="12" lg="5">
-        <v-card class="mt-4 rounded-lg" elevation="0">
+      <v-col cols="12" lg="5" class="mb-4">
+        <v-card class="mt-4 rounded-lg" elevation="0" height="100%">
           <v-card-title>Photos of models</v-card-title>
           <v-divider/>
-          <v-card-text>
-            <div class="big-image">
-              <div class="default-data">
-                <v-img
-                  src="/default-image.svg"
-                  max-width="56"
-                  max-height="56"
-                />
-                <div class="d-flex align-center upload-wrap pointer">
-                  <v-img src="/upload.svg" max-width="20"/>
-                  <div class="upload-btn">Upload Image</div>
+          <v-card-text class="mt-4">
+            <v-row>
+              <v-col  cols="12" lg="6" md="6" @click="firstFileImport">
+                <div class="default-data" v-ripple>
+                  <div v-if="!model_first" class="d-flex justify-center flex-column align-center h-full">
+                    <v-img
+                      src="/default-image.svg"
+                      max-width="56"
+                      max-height="56"
+                    />
+                    <div class="d-flex align-center upload-wrap pointer">
+                      <v-img src="/upload.svg" max-width="20"/>
+                      <div class="upload-btn">Upload Image</div>
+                    </div>
+                    <div class="upload-subtitle">
+                      Upload a cover image for your product. <br>
+                      File Format <b>jpeg, png</b> Recommend Size <b>600x600 (1:1)</b>
+                    </div>
+                    <input
+                      ref="first"
+                      class="d-none"
+                      type="file"
+                      @change="firstFileChanged"
+                      accept="image/*"
+                    />
+                  </div>
+                  <v-img :src="model_first" contain v-else/>
                 </div>
-                <div class="upload-subtitle">
-                  Upload a cover image for your product. <br>
-                  File Format <b>jpeg, png</b> Recommend Size <b>600x600 (1:1)</b>
+              </v-col>
+              <v-col  cols="12" lg="6" md="6" @click="secondFileImport">
+                <div class="default-data" v-ripple>
+                  <div v-if="!model_second" class="d-flex justify-center flex-column align-center h-full">
+                    <v-img
+                      src="/default-image.svg"
+                      max-width="56"
+                      max-height="56"
+                    />
+                    <div class="d-flex align-center upload-wrap pointer">
+                      <v-img src="/upload.svg" max-width="20"/>
+                      <div class="upload-btn">Upload Image</div>
+                    </div>
+                    <div class="upload-subtitle">
+                      Upload a cover image for your product. <br>
+                      File Format <b>jpeg, png</b> Recommend Size <b>600x600 (1:1)</b>
+                    </div>
+                    <input
+                      ref="second"
+                      class="d-none"
+                      type="file"
+                      @change="secondFileChanged"
+                      accept="image/*"
+                    />
+                  </div>
+                  <v-img :src="model_second" contain v-else/>
                 </div>
-              </div>
-            </div>
+              </v-col>
+            </v-row>
           </v-card-text>
-          <v-card-actions class="d-flex justify-center">
-            <v-btn
-              class="text-capitalize mb-3 rounded-lg"
-              outlined
-              color="#5570F1"
-            >
-              add image
-            </v-btn>
-          </v-card-actions>
         </v-card>
       </v-col>
       <v-col cols="12" lg="7">
@@ -261,7 +293,7 @@
                   v-model="item.editable"
                   hide-details
                   flat
-                  :background-color="!item.status?'#F8F4FE':''"
+                  :background-color="!item.status?'#F8F4FE':'transparent'"
                   :disabled="item.status"
                 />
               </template>
@@ -271,7 +303,7 @@
                   v-model="item.firstCurrency"
                   hide-details
                   flat
-                  :background-color="!item.usd_disabled?'#F8F4FE':''"
+                  :background-color="!item.usd_disabled?'#F8F4FE':'transparent'"
                   :disabled="item.usd_disabled"
                 />
               </template>
@@ -538,9 +570,34 @@ export default {
 
         }
       ],
-
+      model_first: null,
+      model_second: null,
+      model_third: null,
+      model_fourth: null,
+      model_photo: {
+        first: null,
+        second: null,
+        third: null,
+        fourth: null,
+      }
     }
   },
+  methods: {
+    firstFileImport() {
+      this.$refs.first.click();
+    },
+    firstFileChanged(e) {
+      this.model_photo.first = e.target.files[0];
+      this.model_first = URL.createObjectURL(this.model_photo.first);
+    },
+    secondFileImport() {
+      this.$refs.second.click();
+    },
+    secondFileChanged(e) {
+      this.model_photo.second = e.target.files[0];
+      this.model_second = URL.createObjectURL(this.model_photo.second);
+    },
+  }
 }
 </script>
 

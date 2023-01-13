@@ -10,8 +10,14 @@ html, body, .v-application {
 .w-full {
   width: 100%;
 }
+.m-w-full {
+  min-width: 100%;
+}
 .h-full {
   height: 100%;
+}
+.m-h-full {
+  min-height: 100%;
 }
 
 .pointer {
