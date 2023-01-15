@@ -116,7 +116,7 @@ export default {
           sortable: false,
           value: 'deviceId',
         },
-        { text: 'Blocked Device ID', value: 'blockedDeviceId' },
+        { text: 'Device №', value: 'blockedDeviceId' },
         { text: 'Blocked by', value: 'blockedBy' },
         { text: 'Device type', value: 'deviceType' },
         { text: 'Blocked date', value: 'blockedDateTime' },

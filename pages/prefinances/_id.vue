@@ -212,7 +212,7 @@
           <v-divider/>
           <v-card-text class="mt-4">
             <v-row>
-              <v-col  cols="12" lg="6" md="6" @click="firstFileImport">
+              <v-col cols="12" lg="6" md="6" @click="firstFileImport">
                 <div class="default-data" v-ripple>
                   <div v-if="!model_first" class="d-flex justify-center flex-column align-center h-full">
                     <v-img
@@ -228,18 +228,19 @@
                       Upload a cover image for your product. <br>
                       File Format <b>jpeg, png</b> Recommend Size <b>600x600 (1:1)</b>
                     </div>
-                    <input
-                      ref="first"
-                      class="d-none"
-                      type="file"
-                      @change="firstFileChanged"
-                      accept="image/*"
-                    />
                   </div>
                   <v-img :src="model_first" contain v-else/>
+                  <input
+                    ref="first"
+                    class="d-none"
+                    type="file"
+                    @change="firstFileChanged"
+                    accept="image/*"
+
+                  />
                 </div>
               </v-col>
-              <v-col  cols="12" lg="6" md="6" @click="secondFileImport">
+              <v-col cols="12" lg="6" md="6" @click="secondFileImport">
                 <div class="default-data" v-ripple>
                   <div v-if="!model_second" class="d-flex justify-center flex-column align-center h-full">
                     <v-img
@@ -255,15 +256,69 @@
                       Upload a cover image for your product. <br>
                       File Format <b>jpeg, png</b> Recommend Size <b>600x600 (1:1)</b>
                     </div>
-                    <input
-                      ref="second"
-                      class="d-none"
-                      type="file"
-                      @change="secondFileChanged"
-                      accept="image/*"
-                    />
                   </div>
                   <v-img :src="model_second" contain v-else/>
+                  <input
+                    ref="second"
+                    class="d-none"
+                    type="file"
+                    @change="secondFileChanged"
+                    accept="image/*"
+                  />
+                </div>
+              </v-col>
+              <v-col cols="12" lg="6" md="6" @click="thirdFileImport">
+                <div class="default-data" v-ripple>
+                  <div v-if="!model_third" class="d-flex justify-center flex-column align-center h-full">
+                    <v-img
+                      src="/default-image.svg"
+                      max-width="56"
+                      max-height="56"
+                    />
+                    <div class="d-flex align-center upload-wrap pointer">
+                      <v-img src="/upload.svg" max-width="20"/>
+                      <div class="upload-btn">Upload Image</div>
+                    </div>
+                    <div class="upload-subtitle">
+                      Upload a cover image for your product. <br>
+                      File Format <b>jpeg, png</b> Recommend Size <b>600x600 (1:1)</b>
+                    </div>
+                  </div>
+                  <v-img :src="model_third" contain v-else/>
+                  <input
+                    ref="third"
+                    class="d-none"
+                    type="file"
+                    @change="thirdFileChanged"
+                    accept="image/*"
+                  />
+                </div>
+              </v-col>
+              <v-col cols="12" lg="6" md="6" @click="fourthFileImport">
+                <div class="default-data" v-ripple>
+                  <div v-if="!model_fourth" class="d-flex justify-center flex-column align-center h-full">
+                    <v-img
+                      src="/default-image.svg"
+                      max-width="56"
+                      max-height="56"
+                    />
+                    <div class="d-flex align-center upload-wrap pointer">
+                      <v-img src="/upload.svg" max-width="20"/>
+                      <div class="upload-btn">Upload Image</div>
+                    </div>
+                    <div class="upload-subtitle">
+                      Upload a cover image for your product. <br>
+                      File Format <b>jpeg, png</b> Recommend Size <b>600x600 (1:1)</b>
+                    </div>
+                  </div>
+                  <v-img :src="model_fourth" contain v-else class="rounded-lg"/>
+                  <input
+                    ref="fourth"
+                    class="d-none"
+                    type="file"
+                    @change="fourthFileChanged"
+                    accept="image/*"
+                  />
                 </div>
               </v-col>
             </v-row>
@@ -584,23 +639,35 @@ export default {
   },
   methods: {
     firstFileImport() {
-      this.$refs.first.click();
+      return this.$refs.first.click();
     },
     firstFileChanged(e) {
       this.model_photo.first = e.target.files[0];
       this.model_first = URL.createObjectURL(this.model_photo.first);
     },
     secondFileImport() {
-      this.$refs.second.click();
+      return this.$refs.second.click();
     },
     secondFileChanged(e) {
       this.model_photo.second = e.target.files[0];
       this.model_second = URL.createObjectURL(this.model_photo.second);
     },
+    thirdFileImport() {
+      return this.$refs.third.click();
+    },
+    thirdFileChanged(e) {
+      this.model_photo.third = e.target.files[0];
+      this.model_third = URL.createObjectURL(this.model_photo.third);
+    },
+    fourthFileImport() {
+      return this.$refs.fourth.click();
+    },
+    fourthFileChanged(e) {
+      this.model_photo.fourth = e.target.files[0];
+      this.model_fourth = URL.createObjectURL(this.model_photo.fourth);
+    },
   }
 }
 </script>
 
-<style lang="scss" src="assets/abstracts/_preficances.scss" scoped>
-
-</style>
+<style lang="scss" src="assets/abstracts/_preficances.scss" scoped />
