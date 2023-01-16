@@ -34,7 +34,7 @@
               dense
               label="Prefinance number"
               placeholder="Enter prefinance number"
-              v-model="refinances.prefinanceNumber"
+              v-model="refinances.preFinanceNumber"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
@@ -429,6 +429,8 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 export default {
   data() {
     return {
@@ -453,7 +455,7 @@ export default {
         },
       ],
       refinances: {
-        prefinanceNumber: '',
+        preFinanceNumber: '',
         modelId: '',
         partnerId: '',
         partner: '',
@@ -622,7 +624,6 @@ export default {
       allDocuments: [
         {
           type: 'word',
-
         }
       ],
       model_first: null,
@@ -638,6 +639,31 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      createPreFinance: 'preFinance/createPreFinance'
+    }),
+    createNewPreFinance() {
+      const body = {
+        preFinanceNumber: this.refinances.preFinanceNumber,
+        modelId: this.refinances.modelId,
+        primaryCurrency: this.refinances.primaryCurrency,
+        secondaryCurrency:this.refinances.secondaryCurrency,
+        tertiaryCurrency: this.refinances.tertiaryCurrency,
+        description: this.refinances.description,
+        primaryRate:1.00,
+        secondaryRate:56.00,
+        tertiaryRate:11200.00,
+        overProductionPercent:7.00,
+        lossPercent:3.00,
+        generalExpensePercent:11.00,
+        extraExpensePercent:4.00,
+        targetProfitPercent:20.00,
+        givenPrice:1500.00,
+        givenPriceCurrency:"USD",
+        discountPercent: 2.00,
+        status: "ACTIVE"
+      }
+    },
     firstFileImport() {
       return this.$refs.first.click();
     },
