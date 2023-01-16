@@ -59,6 +59,7 @@
                 :disabled="disabled"
                 label="Description"
                 filled
+                rows="1"
                 dense
                 auto-grow
                 color="#7631FF"
@@ -79,30 +80,6 @@
                 validate-on-blur
               >
               </v-select>
-            </v-col>
-            <v-col
-              cols="12" md="4" style="max-width: 240px;"
-            >
-              <el-date-picker
-                :disabled="disabled"
-                type="datetime"
-                placeholder="From"
-                value-format="dd.MM.yyyy HH:mm:ss"
-                :picker-ptions="pickerOptions"
-              >
-              </el-date-picker>
-            </v-col>
-            <v-col
-              cols="12" md="4"
-            >
-              <el-date-picker
-                :disabled="disabled"
-                type="datetime"
-                placeholder="To"
-                value-format="dd.MM.yyyy HH:mm:ss"
-                :picker-ptions="pickerOptions"
-              >
-              </el-date-picker>
             </v-col>
             <v-col cols="12" md="4">
               <v-text-field
@@ -127,6 +104,30 @@
                 :rules="[formRules.required]"
                 validate-on-blur
               />
+            </v-col>
+            <v-col
+              cols="12" md="4" style="max-width: 240px;"
+            >
+              <el-date-picker
+                :disabled="disabled"
+                type="datetime"
+                placeholder="From"
+                value-format="dd.MM.yyyy HH:mm:ss"
+                :picker-ptions="pickerOptions"
+              >
+              </el-date-picker>
+            </v-col>
+            <v-col
+              cols="12" md="4"
+            >
+              <el-date-picker
+                :disabled="disabled"
+                type="datetime"
+                placeholder="To"
+                value-format="dd.MM.yyyy HH:mm:ss"
+                :picker-ptions="pickerOptions"
+              >
+              </el-date-picker>
             </v-col>
           </v-row>
         </v-form>

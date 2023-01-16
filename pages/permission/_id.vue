@@ -63,6 +63,7 @@
                 v-model="create_permission.description"
                 filled
                 dense
+                rows="1"
                 auto-grow
                 color="#7631FF"
                 placeholder="Enter permission description"
