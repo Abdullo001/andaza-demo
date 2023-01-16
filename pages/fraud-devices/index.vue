@@ -2,7 +2,7 @@
   <div>
     <v-card elevation="0" class="rounded-lg">
       <v-card-text>
-        <v-form lazy-validation v-model="filter_form">
+        <v-form lazy-validation v-model="filter_form" ref="filters">
           <v-row>
             <v-col cols="12" lg="2" md="2">
               <v-text-field
@@ -37,7 +37,7 @@
               <el-date-picker
                 v-model="filter.end_time"
                 type="datetime"
-                placeholder="To"
+                placeholder="Blocked date time"
                 :picker-options="pickerOptions"
                 value-format="dd.MM.yyyy HH:mm:ss"
               >
@@ -58,7 +58,7 @@
                   width="140" color="#397CFD" dark
                   elevation="0"
                   class="text-capitalize rounded-lg font-weight-bold"
-                  @click="filterDevice"
+                  @click="filterDevices"
                 >
                   Search
                 </v-btn>
@@ -116,12 +116,12 @@ export default {
           sortable: false,
           value: 'deviceId',
         },
-        { text: 'Device №', value: 'blockedDeviceId' },
-        { text: 'Blocked by', value: 'blockedBy' },
-        { text: 'Device type', value: 'deviceType' },
-        { text: 'Blocked date', value: 'blockedDateTime' },
-        { text: 'Unblocked date', value: 'unblockDateTime' },
-        { text: 'Status', value: 'status', width: 200 },
+        {text: 'Device №', value: 'blockedDeviceId'},
+        {text: 'Blocked by', value: 'blockedBy'},
+        {text: 'Device type', value: 'deviceType'},
+        {text: 'Blocked date', value: 'blockedDateTime'},
+        {text: 'Unblocked date', value: 'unblockDateTime'},
+        {text: 'Status', value: 'status', width: 200},
       ],
       pickerOptions: {
         shortcuts: [
@@ -167,7 +167,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      getDevices: "fraud/getDevices"
+      getDevices: "fraud/getDevices",
+      filterDevice: "fraud/filterDevice"
     }),
     getAllDevices() {
       this.getDevices({page: 0, size: 10})
@@ -180,8 +181,15 @@ export default {
           return 'red'
       }
     },
-    resetSearch() {},
-    filterDevice() {}
+    resetSearch() {
+    },
+    filterDevices() {
+      this.filterDevice({
+        deviceId: this.filter.deviceId,
+        deviceNumber: this.filter.deviceNumber,
+        status: this.filter.status
+      })
+    }
   },
   mounted() {
     this.$store.commit('setPageTitle', 'Fraud management')
