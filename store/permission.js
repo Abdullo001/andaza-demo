@@ -85,7 +85,6 @@ export const actions = {
     this.$axios.$put('/api/v1/pre-finances/list', body)
       .then(res => {
         commit('setLoading', false)
-        this.$toast.success(res.message, {theme: 'toasted-primary'})
       })
       .catch(({response}) => {
         commit('setLoading', false)
@@ -94,7 +93,7 @@ export const actions = {
   },
   // POST PERMISSION
   postPermission({context}, data) {
-    this.$axios.$post(' /api/v1/permission/create', data)
+    this.$axios.$post('/api/v1/permission/create', data)
       .then(res => {
         console.log(res)
       })
