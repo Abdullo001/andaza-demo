@@ -247,7 +247,7 @@ export default {
       let data = JSON.parse(JSON.stringify(this.one_user))
       data.lang = data.lang.title;
       ['registeredDate', 'password', 'status'].forEach(e => delete data[e])
-      if(typeof this.avatar === "object") {
+      if (typeof this.avatar === "object") {
         data.photo = this.avatar
       } else data.photo = null
       this.updateUser(data);

@@ -182,6 +182,22 @@ export default {
             },
           ]
         },
+        {
+          icon: 'access.svg',
+          title: 'Access control',
+          to: '/permission',
+          has_child: true,
+          child: [
+            {
+              title: 'Permission',
+              to: '/permission',
+            },
+            {
+              title: 'Role',
+              to: '/role',
+            },
+          ]
+        },
       ],
       right: true,
       search: '',
