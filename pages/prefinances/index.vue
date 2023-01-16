@@ -19,7 +19,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Model ID"
+              label="Model №"
               outlined
               class="rounded-lg"
               v-model="filters.modelId"
@@ -29,7 +29,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Partner ID"
+              label="Partner"
               outlined
               class="rounded-lg"
               v-model="filters.partnerId"
@@ -98,7 +98,7 @@
     </v-card>
     <v-data-table
       :headers="headers"
-      :items="finances"
+      :items="preFinancesContent"
       :items-per-page="10"
     >
       <template #top>
@@ -133,6 +133,8 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   data() {
     return {
@@ -188,7 +190,18 @@ export default {
       ]
     }
   },
+  created() {
+    this.getReFinancesList({page: 0, size: 10})
+  },
+  computed: {
+    ...mapGetters({
+      preFinancesContent: 'preFinance/preFinancesContent'
+    })
+  },
   methods: {
+    ...mapActions({
+      getReFinancesList: "preFinance/getPreFinancesList"
+    }),
     resetFilters() {
       this.$refs.filter_form.reset()
     },

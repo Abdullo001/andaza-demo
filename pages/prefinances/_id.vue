@@ -24,7 +24,7 @@
         </div>
       </v-card-title>
       <v-divider/>
-      <v-card-text>
+      <v-card-text class="pb-0">
         <v-row>
           <v-col cols="12" lg="3" md="3">
             <v-text-field
@@ -194,40 +194,135 @@
           </v-row>
         </v-row>
       </v-card-text>
+      <v-card-actions class="pb-6">
+        <v-spacer/>
+        <v-btn
+          color="#7631FF"
+          dark class="text-capitalize rounded-lg font-weight-bold"
+          style="min-width: 130px;"
+        >save
+        </v-btn>
+      </v-card-actions>
     </v-card>
+    <!--    TODO: Photo of Models -->
     <v-row>
-      <v-col cols="12" lg="5">
-        <v-card class="mt-4 rounded-lg" elevation="0">
+      <v-col cols="12" lg="5" class="mb-4">
+        <v-card class="mt-4 rounded-lg" elevation="0" height="100%">
           <v-card-title>Photos of models</v-card-title>
           <v-divider/>
-          <v-card-text>
-            <div class="big-image">
-              <div class="default-data">
-                <v-img
-                  src="/default-image.svg"
-                  max-width="56"
-                  max-height="56"
-                />
-                <div class="d-flex align-center upload-wrap pointer">
-                  <v-img src="/upload.svg" max-width="20"/>
-                  <div class="upload-btn">Upload Image</div>
+          <v-card-text class="mt-4">
+            <v-row>
+              <v-col cols="12" lg="6" md="6" @click="firstFileImport">
+                <div class="default-data" v-ripple>
+                  <div v-if="!model_first" class="d-flex justify-center flex-column align-center h-full">
+                    <v-img
+                      src="/default-image.svg"
+                      max-width="56"
+                      max-height="56"
+                    />
+                    <div class="d-flex align-center upload-wrap pointer">
+                      <v-img src="/upload.svg" max-width="20"/>
+                      <div class="upload-btn">Upload Image</div>
+                    </div>
+                    <div class="upload-subtitle">
+                      Upload a cover image for your product. <br>
+                      File Format <b>jpeg, png</b> Recommend Size <b>600x600 (1:1)</b>
+                    </div>
+                  </div>
+                  <v-img :src="model_first" contain v-else/>
+                  <input
+                    ref="first"
+                    class="d-none"
+                    type="file"
+                    @change="firstFileChanged"
+                    accept="image/*"
+
+                  />
                 </div>
-                <div class="upload-subtitle">
-                  Upload a cover image for your product. <br>
-                  File Format <b>jpeg, png</b> Recommend Size <b>600x600 (1:1)</b>
+              </v-col>
+              <v-col cols="12" lg="6" md="6" @click="secondFileImport">
+                <div class="default-data" v-ripple>
+                  <div v-if="!model_second" class="d-flex justify-center flex-column align-center h-full">
+                    <v-img
+                      src="/default-image.svg"
+                      max-width="56"
+                      max-height="56"
+                    />
+                    <div class="d-flex align-center upload-wrap pointer">
+                      <v-img src="/upload.svg" max-width="20"/>
+                      <div class="upload-btn">Upload Image</div>
+                    </div>
+                    <div class="upload-subtitle">
+                      Upload a cover image for your product. <br>
+                      File Format <b>jpeg, png</b> Recommend Size <b>600x600 (1:1)</b>
+                    </div>
+                  </div>
+                  <v-img :src="model_second" contain v-else/>
+                  <input
+                    ref="second"
+                    class="d-none"
+                    type="file"
+                    @change="secondFileChanged"
+                    accept="image/*"
+                  />
                 </div>
-              </div>
-            </div>
+              </v-col>
+              <v-col cols="12" lg="6" md="6" @click="thirdFileImport">
+                <div class="default-data" v-ripple>
+                  <div v-if="!model_third" class="d-flex justify-center flex-column align-center h-full">
+                    <v-img
+                      src="/default-image.svg"
+                      max-width="56"
+                      max-height="56"
+                    />
+                    <div class="d-flex align-center upload-wrap pointer">
+                      <v-img src="/upload.svg" max-width="20"/>
+                      <div class="upload-btn">Upload Image</div>
+                    </div>
+                    <div class="upload-subtitle">
+                      Upload a cover image for your product. <br>
+                      File Format <b>jpeg, png</b> Recommend Size <b>600x600 (1:1)</b>
+                    </div>
+                  </div>
+                  <v-img :src="model_third" contain v-else/>
+                  <input
+                    ref="third"
+                    class="d-none"
+                    type="file"
+                    @change="thirdFileChanged"
+                    accept="image/*"
+                  />
+                </div>
+              </v-col>
+              <v-col cols="12" lg="6" md="6" @click="fourthFileImport">
+                <div class="default-data" v-ripple>
+                  <div v-if="!model_fourth" class="d-flex justify-center flex-column align-center h-full">
+                    <v-img
+                      src="/default-image.svg"
+                      max-width="56"
+                      max-height="56"
+                    />
+                    <div class="d-flex align-center upload-wrap pointer">
+                      <v-img src="/upload.svg" max-width="20"/>
+                      <div class="upload-btn">Upload Image</div>
+                    </div>
+                    <div class="upload-subtitle">
+                      Upload a cover image for your product. <br>
+                      File Format <b>jpeg, png</b> Recommend Size <b>600x600 (1:1)</b>
+                    </div>
+                  </div>
+                  <v-img :src="model_fourth" contain v-else class="rounded-lg"/>
+                  <input
+                    ref="fourth"
+                    class="d-none"
+                    type="file"
+                    @change="fourthFileChanged"
+                    accept="image/*"
+                  />
+                </div>
+              </v-col>
+            </v-row>
           </v-card-text>
-          <v-card-actions class="d-flex justify-center">
-            <v-btn
-              class="text-capitalize mb-3 rounded-lg"
-              outlined
-              color="#5570F1"
-            >
-              add image
-            </v-btn>
-          </v-card-actions>
         </v-card>
       </v-col>
       <v-col cols="12" lg="7">
@@ -244,18 +339,29 @@
             <v-data-table
               :headers="headers"
               :items="calculation"
-              :items-per-page="10"
+              :items-per-page="50"
               hide-default-footer
             >
-            <template #item.editable="{item}">
-              <v-text-field
-                solo
-                v-model="item.editable"
-                hide-details
-                flat
-                background-color="#F8F4FE"
-              />
-            </template>
+              <template #item.editable="{item}">
+                <v-text-field
+                  solo
+                  v-model="item.editable"
+                  hide-details
+                  flat
+                  :background-color="!item.status?'#F8F4FE':'transparent'"
+                  :disabled="item.status"
+                />
+              </template>
+              <template #item.firstCurrency="{item}">
+                <v-text-field
+                  solo
+                  v-model="item.firstCurrency"
+                  hide-details
+                  flat
+                  :background-color="!item.usd_disabled?'#F8F4FE':'transparent'"
+                  :disabled="item.usd_disabled"
+                />
+              </template>
             </v-data-table>
           </v-card-text>
           <v-divider/>
@@ -282,9 +388,7 @@
             <v-data-table
               :headers="detailsHeaders"
               :items="allDetails"
-              hide-default-footer
             >
-
             </v-data-table>
           </v-tab-item>
           <v-tab-item>
@@ -317,7 +421,8 @@
           class="rounded-lg text-capitalize"
           dark
           width="130"
-        >create</v-btn>
+        >create
+        </v-btn>
       </v-card-actions>
     </v-card>
   </div>
@@ -362,16 +467,11 @@ export default {
         updatedTime: '',
       },
       headers: [
-        {
-          text: 'Name',
-          align: 'start',
-          sortable: false,
-          value: 'name',
-        },
-        { text: '', value: 'editable', width: 100 },
-        { text: 'USD', value: 'firstCurrency' },
-        { text: 'UZS', value: 'secondCurrency' },
-        { text: 'RUB', value: 'tertiaryCurrency' },
+        {text: 'Name', align: 'start', sortable: false, value: 'name'},
+        {text: '', value: 'editable', width: 100},
+        {text: 'USD', value: 'firstCurrency', width: 100},
+        {text: 'UZS', value: 'secondCurrency'},
+        {text: 'RUB', value: 'tertiaryCurrency'},
       ],
       detailsHeaders: [
         {
@@ -380,20 +480,20 @@ export default {
           sortable: false,
           value: 'expenseGroup',
         },
-        { text: 'Expense', value: 'expense', width: 100 },
-        { text: 'Expense type description', value: 'expenseType' },
-        { text: 'Quantity', value: 'quantity' },
-        { text: 'Measurement unit', value: 'measurementUnit' },
-        { text: 'Currency', value: 'currency' },
-        { text: 'Price per unit', value: 'priceUnit' },
-        { text: 'Price', value: 'price' },
+        {text: 'Expense', value: 'expense', width: 100},
+        {text: 'Expense type description', value: 'expenseType'},
+        {text: 'Quantity', value: 'quantity'},
+        {text: 'Measurement unit', value: 'measurementUnit'},
+        {text: 'Currency', value: 'currency'},
+        {text: 'Price per unit', value: 'priceUnit'},
+        {text: 'Price', value: 'price'},
       ],
       documentsHeaders: [
         {text: 'Type', align: 'start', sortable: false, value: 'type'},
-        { text: 'Document name', value: 'documentName' },
-        { text: 'Owner', value: 'owner' },
-        { text: 'Date', value: 'Date' },
-        { text: 'Actions', value: 'actions' },
+        {text: 'Document name', value: 'documentName'},
+        {text: 'Owner', value: 'owner'},
+        {text: 'Date', value: 'Date'},
+        {text: 'Actions', value: 'actions'},
       ],
       calculation: [
         {
@@ -401,42 +501,108 @@ export default {
           editable: '-',
           firstCurrency: '0.0',
           secondCurrency: '0.0',
-          tertiaryCurrency: '0.0'
+          tertiaryCurrency: '0.0',
+          status: true,
+          usd_disabled: true
         },
         {
           name: 'Over-production %',
           editable: '0.0',
           firstCurrency: '0.0',
           secondCurrency: '0.0',
-          tertiaryCurrency: '0.0'
+          tertiaryCurrency: '0.0',
+          status: false,
+          usd_disabled: true
         },
         {
           name: 'Lost resource %',
           editable: '0.0',
           firstCurrency: '0.0',
           secondCurrency: '0.0',
-          tertiaryCurrency: '0.0'
+          tertiaryCurrency: '0.0',
+          status: false,
+          usd_disabled: true
         },
         {
           name: 'General expenses %',
           editable: '0.0',
           firstCurrency: '0.0',
           secondCurrency: '0.0',
-          tertiaryCurrency: '0.0'
+          tertiaryCurrency: '0.0',
+          status: false,
+          usd_disabled: true
         },
         {
           name: 'Extra expenses %',
           editable: '0.0',
           firstCurrency: '0.0',
           secondCurrency: '0.0',
-          tertiaryCurrency: '0.0'
+          tertiaryCurrency: '0.0',
+          status: false,
+          usd_disabled: true
         },
         {
           name: 'Target profit %',
           editable: '0.0',
           firstCurrency: '0.0',
           secondCurrency: '0.0',
-          tertiaryCurrency: '0.0'
+          tertiaryCurrency: '0.0',
+          status: false,
+          usd_disabled: true
+        },
+        {
+          name: 'Estimated price',
+          editable: '-',
+          firstCurrency: '0.0',
+          secondCurrency: '0.0',
+          tertiaryCurrency: '0.0',
+          status: true,
+          usd_disabled: true
+        },
+        {
+          name: 'Given price',
+          editable: '-',
+          firstCurrency: '0.0',
+          secondCurrency: '0.0',
+          tertiaryCurrency: '0.0',
+          status: true,
+          usd_disabled: false
+        },
+        {
+          name: 'Discount %',
+          editable: '0.0',
+          firstCurrency: '0.0',
+          secondCurrency: '0.0',
+          tertiaryCurrency: '0.0',
+          status: false,
+          usd_disabled: true
+        },
+        {
+          name: 'Price with discount',
+          editable: '-',
+          firstCurrency: '0.0',
+          secondCurrency: '0.0',
+          tertiaryCurrency: '0.0',
+          status: true,
+          usd_disabled: true
+        },
+        {
+          name: 'Actual profit %',
+          editable: '0.0',
+          firstCurrency: '0.0',
+          secondCurrency: '0.0',
+          tertiaryCurrency: '0.0',
+          status: false,
+          usd_disabled: true
+        },
+        {
+          name: 'Actual profit amount',
+          editable: '-',
+          firstCurrency: '0.0',
+          secondCurrency: '0.0',
+          tertiaryCurrency: '0.0',
+          status: true,
+          usd_disabled: true
         },
       ],
       tab: null,
@@ -459,12 +625,49 @@ export default {
 
         }
       ],
-
+      model_first: null,
+      model_second: null,
+      model_third: null,
+      model_fourth: null,
+      model_photo: {
+        first: null,
+        second: null,
+        third: null,
+        fourth: null,
+      }
     }
   },
+  methods: {
+    firstFileImport() {
+      return this.$refs.first.click();
+    },
+    firstFileChanged(e) {
+      this.model_photo.first = e.target.files[0];
+      this.model_first = URL.createObjectURL(this.model_photo.first);
+    },
+    secondFileImport() {
+      return this.$refs.second.click();
+    },
+    secondFileChanged(e) {
+      this.model_photo.second = e.target.files[0];
+      this.model_second = URL.createObjectURL(this.model_photo.second);
+    },
+    thirdFileImport() {
+      return this.$refs.third.click();
+    },
+    thirdFileChanged(e) {
+      this.model_photo.third = e.target.files[0];
+      this.model_third = URL.createObjectURL(this.model_photo.third);
+    },
+    fourthFileImport() {
+      return this.$refs.fourth.click();
+    },
+    fourthFileChanged(e) {
+      this.model_photo.fourth = e.target.files[0];
+      this.model_fourth = URL.createObjectURL(this.model_photo.fourth);
+    },
+  }
 }
 </script>
 
-<style lang="scss" src="assets/abstracts/_preficances.scss" scoped>
-
-</style>
+<style lang="scss" src="assets/abstracts/_preficances.scss" scoped />
