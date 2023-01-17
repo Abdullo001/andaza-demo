@@ -3,7 +3,7 @@
     <Breadcrumbs :maps="map_links"/>
     <v-card color="#fff" elevation="0">
       <v-card-title class="d-flex justify-space-between">
-        <div>{{ currentUser.username }}</div>
+        <div>45687</div>
         <div>
           <v-btn
             outlined
@@ -29,116 +29,90 @@
       </v-card-title>
       <v-divider/>
       <v-card-text>
-        <v-row>
-          <v-col>
-            <div class="mb-2 text-body-1">Photo</div>
-            <div class="overlay" @click="handleFileImport">
-              <v-img :src="one_user.photo" class="rounded-lg mb-4" width="120"/>
-              <v-icon
-                style="position: absolute; top:50%; left: 50%; z-index: 10; transform: translate(-50%, -50%)"
-                color="#fff"
-              >mdi-square-edit-outline
-              </v-icon>
-              <input
-                ref="uploader"
-                class="d-none"
-                type="file"
-                @change="onFileChanged"
-                accept="image/*"
+        <v-form lazy-validation ref="device_info" v-model="valid">
+          <v-row>
+            <v-col>
+              <div class="mb-1 text-body-1 mt-4">Device ID</div>
+              <v-text-field
+                v-model="device.deviceId"
+                filled
+                dense
+                clearable
+                style="max-width: 400px"
+                :disabled="fields_status"
               />
-            </div>
-            <div class="mb-1 text-body-1">Username</div>
-            <v-text-field
-              v-model="one_user.username"
-              filled
-              dense
-              clearable
-              style="max-width: 400px"
-              :disabled="fields_status"
-            />
-            <div class="mb-2 text-body-1">Lang</div>
-            <v-select
-              :items="lang_list"
-              v-model="one_user.lang" append-icon="mdi-chevron-down"
-              filled
-              dense
-              clearable
-              :disabled="fields_status"
-              style="max-width: 400px;"
-            >
-              <template #selection="{item, index}">
-                <v-img :src="item.icon" max-width="22" class="mr-4" contain/>
-                {{ item.title }}
-              </template>
-              <template #item="{item}">
-                <v-img :src="item.icon" max-width="22" class="mr-4" contain/>
-                {{ item.title }}
-              </template>
-            </v-select>
-          </v-col>
-          <v-col>
-            <div class="mb-2 text-body-1">ID</div>
-            <v-text-field
-              filled
-              v-model="one_user.id"
-              dense
-              disabled
-              style="max-width: 400px"
-            />
-            <div class="mb-1 text-body-1">Lastname</div>
-            <v-text-field
-              filled
-              v-model="one_user.lastName"
-              dense
-              :disabled="fields_status"
-              style="max-width: 400px"
-            />
-            <div class="mb-2 text-body-1">E-mail</div>
-            <v-text-field
-              filled
-              v-model="one_user.email"
-              dense
-              :disabled="fields_status"
-              style="max-width: 400px"
-            />
-            <div class="mb-2 text-body-1">Registered date</div>
-            <v-text-field
-              filled
-              v-model="one_user.registeredDate"
-              dense
-              disabled
-              style="max-width: 400px"
-            />
-          </v-col>
-          <v-col>
-            <div class="mb-2 text-body-1">First name</div>
-            <v-text-field
-              filled
-              v-model="one_user.firstName"
-              dense
-              :disabled="fields_status"
-              style="max-width: 400px"
-            />
-            <div class="mb-1 text-body-1">Phone number</div>
-            <v-text-field
-              filled
-              v-model="one_user.phoneNumber"
-              dense
-              :disabled="fields_status"
-              style="max-width: 400px"
-            />
-            <div class="mb-2 text-body-1">Status</div>
-            <v-select
-              filled
-              v-model="one_user.status"
-              dense
-              :items="status_list"
-              append-icon="mdi-chevron-down"
-              disabled
-              style="max-width: 400px"
-            />
-          </v-col>
-        </v-row>
+              <div class="mb-1 text-body-1 mt-4">Status</div>
+              <v-select
+                v-model="device.status"
+                :items="status_enums"
+                filled
+                dense
+                clearable
+                style="max-width: 400px"
+                :disabled="fields_status"
+                append-icon="mdi-chevron-down"
+              />
+              <div class="mb-1 text-body-1 mt-4">Reason</div>
+              <v-text-field
+                v-model="device.reason"
+                filled
+                dense
+                clearable
+                style="max-width: 400px"
+                :disabled="fields_status"
+              />
+            </v-col>
+            <v-col>
+              <div class="mb-1 text-body-1 mt-4">Device №</div>
+              <v-text-field
+                v-model="device.deviceNumber"
+                filled
+                dense
+                clearable
+                style="max-width: 400px"
+                :disabled="fields_status"
+              />
+              <div class="mb-1 text-body-1 mt-4">Blocked date time</div>
+              <v-text-field
+                v-model="device.blockedDate"
+                filled
+                dense
+                clearable
+                style="max-width: 400px"
+                :disabled="fields_status"
+              />
+              <div class="mb-1 text-body-1 mt-4">Device type</div>
+              <v-text-field
+                v-model="device.deviceType"
+                filled
+                dense
+                clearable
+                style="max-width: 400px"
+                :disabled="fields_status"
+              />
+            </v-col>
+            <v-col>
+              <div class="mb-1 text-body-1 mt-4">Blocked by</div>
+              <v-text-field
+                v-model="device.blockedBy"
+                filled
+                dense
+                clearable
+                style="max-width: 400px"
+                :disabled="fields_status"
+              />
+              <div class="mb-1 text-body-1 mt-4">Unblocked date time</div>
+              <v-text-field
+                v-model="device.unblockedDate"
+                filled
+                dense
+                clearable
+                style="max-width: 400px"
+                :disabled="fields_status"
+              />
+            </v-col>
+          </v-row>
+        </v-form>
       </v-card-text>
       <v-card-actions>
         <v-spacer/>
@@ -182,83 +156,33 @@ export default {
         },
       ],
       fields_status: true,
-      lang_list: [
-        {title: "EN", code: "en", icon: "/us.svg"},
-        {title: "UZ", code: "uz", icon: "/uz.svg"},
-        {title: "RU", code: "ru", icon: "/ru.svg"},
-      ],
-      user_data: {
-        photo: null,
-        firstname: '',
-        lastname: '',
-        phone: '',
-        username: '',
-        email: '',
-        lang: {},
-        gender: ''
-      },
-      one_user: {},
       status_list: ['ACTIVE', 'DISABLED', 'PENDING'],
-      avatar: null
+      valid: true,
+      device: {
+        deviceId: '48966',
+        status: 'BLOCKED',
+        reason: 'Device is blocked because of too many request',
+        deviceNumber: '3548',
+        blockedDate: '15.11.2022 17:16:32',
+        deviceType: 'WEB',
+        blockedBy: 'John Doe',
+        unblockedDate: '16.11.2022 17:16:32'
+      },
+      status_enums: ['BLOCKED', 'UNBLOCKED']
     }
   },
   computed: {
-    ...mapGetters({
-      currentUser: 'users/currentUser'
-    })
+    ...mapGetters({})
   },
-  watch: {
-    currentUser(val) {
-      this.one_user = JSON.parse(JSON.stringify(val))
-      const langFull = () => {
-        switch (this.one_user.lang) {
-          case 'UZ':
-            return {title: "UZ", code: "uz", icon: "/uz.svg"}
-          case 'RU':
-            return {title: "RU", code: "ru", icon: "/ru.svg"}
-          case 'EN':
-            return {title: "EN", code: "en", icon: "/us.svg"}
-        }
-      }
-      this.one_user.lang = langFull()
-    }
-  },
+  watch: {},
   methods: {
     ...mapActions({
       updateUser: "users/updateUser"
     }),
-    handleFileImport() {
-      this.$refs.uploader.click();
-    },
-    onFileChanged(e) {
-      this.avatar = e.target.files[0];
-      if (this.avatar !== undefined) {
-        this.one_user.photo = window.URL.createObjectURL(this.avatar);
-      }
-    },
     saveChanges() {
-      let data = JSON.parse(JSON.stringify(this.one_user))
-      data.lang = data.lang.title;
-      ['registeredDate', 'password', 'status'].forEach(e => delete data[e])
-      if (typeof this.avatar === "object") {
-        data.photo = this.avatar
-      } else data.photo = null
-      this.updateUser(data);
-    },
-    langFlag(lang) {
-      switch (lang) {
-        case 'UZ':
-          return '/flag-uz.svg';
-        case 'RU':
-          return '/flag-ru.svg';
-        case 'EN':
-          return '/flag-en.svg';
-      }
-    },
+    }
   },
   mounted() {
-    const id = this.$route.params.id
-    this.$store.dispatch('users/getOneUser', id)
   }
 }
 </script>

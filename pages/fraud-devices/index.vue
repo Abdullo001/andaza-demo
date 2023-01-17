@@ -72,6 +72,7 @@
       class="mt-4 rounded-lg pt-4"
       :headers="headers"
       :items="all_devices"
+      :loading="loading"
       :items-per-page="10"
       @click:row="(item) => viewDetails(item)"
     >
@@ -158,7 +159,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      devices: "fraud/allDevices"
+      devices: "fraud/allDevices",
+      loading: "fraud/loading"
     })
   },
   methods: {
@@ -201,5 +203,8 @@ export default {
 .v-text-field--rounded > .v-input__control > .v-input__slot {
   padding: 0 14px;
   font-size: 14px;
+}
+tbody > tr {
+  cursor: pointer;
 }
 </style>

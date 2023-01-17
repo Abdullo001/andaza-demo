@@ -1,14 +1,19 @@
 export const state = () => ({
-  allDevices: []
+  allDevices: [],
+  loading: true,
 })
 
 export const getters = {
-  allDevices: state => state.allDevices.content
+  allDevices: state => state.allDevices.content,
+  loading: state => state.loading
 }
 export const mutations = {
   setDevices(state, device) {
     state.allDevices = device
-  }
+  },
+  changeLoading(state, status) {
+    state.loading = status
+  },
 }
 
 export const actions = {
@@ -20,8 +25,14 @@ export const actions = {
       size: size
     }
     await this.$axios.$put('/api/v1/fraud-management/blocked-devices', body)
-      .then(res => commit('setDevices', res.data))
-      .catch(({response}) => console.log(response))
+      .then(res => {
+        commit('setDevices', res.data)
+        commit('changeLoading', false)
+      })
+      .catch(({response}) => {
+        commit('changeLoading', false)
+        console.log(response)
+      })
   },
   filterDevice({commit}, {deviceId, deviceNumber, status}) {
     const body = {
@@ -53,9 +64,11 @@ export const actions = {
     this.$axios.$put('/api/v1/fraud-management/blocked-devices', body)
       .then(res => {
         console.log(res);
+        commit('changeLoading', false)
       })
       .catch(({response}) => {
         console.log(response);
+        commit('changeLoading', false)
       })
   }
 }
