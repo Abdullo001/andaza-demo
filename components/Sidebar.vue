@@ -198,6 +198,22 @@ export default {
             },
           ]
         },
+        {
+          icon: 'billing.svg',
+          title: 'Billing',
+          to: '/billing',
+          has_child: true,
+          child: [
+            {
+              title: 'Company',
+              to: '/billing-company',
+            },
+            {
+              title: 'Billing',
+              to: '/billing-billing',
+            },
+          ]
+        },
       ],
       right: true,
       search: '',
