@@ -72,7 +72,9 @@
       class="mt-4 rounded-lg pt-4"
       :headers="headers"
       :items="all_devices"
+      :loading="loading"
       :items-per-page="10"
+      @click:row="(item) => viewDetails(item)"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -110,12 +112,7 @@ export default {
         status: ''
       },
       headers: [
-        {
-          text: 'Device ID',
-          align: 'start',
-          sortable: false,
-          value: 'deviceId',
-        },
+        {text: 'Device ID', align: 'start', sortable: false, value: 'deviceId'},
         {text: 'Device №', value: 'blockedDeviceId'},
         {text: 'Blocked by', value: 'blockedBy'},
         {text: 'Device type', value: 'deviceType'},
@@ -162,7 +159,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      devices: "fraud/allDevices"
+      devices: "fraud/allDevices",
+      loading: "fraud/loading"
     })
   },
   methods: {
@@ -170,6 +168,10 @@ export default {
       getDevices: "fraud/getDevices",
       filterDevice: "fraud/filterDevice"
     }),
+    viewDetails(item) {
+      console.log(item);
+      this.$router.push(`/fraud-devices/${item.deviceId}`)
+    },
     getAllDevices() {
       this.getDevices({page: 0, size: 10})
     },
@@ -201,5 +203,8 @@ export default {
 .v-text-field--rounded > .v-input__control > .v-input__slot {
   padding: 0 14px;
   font-size: 14px;
+}
+tbody > tr {
+  cursor: pointer;
 }
 </style>
