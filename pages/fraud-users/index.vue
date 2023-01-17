@@ -83,6 +83,7 @@
       </template>
       <template #item.status="{ item }">
         <v-select
+          @click.stop="changeStatus"
           :background-color="statusColor.color(item.status)"
           :items="status_enums"
           append-icon="mdi-chevron-down"
@@ -101,6 +102,7 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 export default {
+  name: 'FraudAccountPage',
   data() {
     return {
       filter_form: true,
@@ -165,9 +167,9 @@ export default {
     ...mapActions({
       getAccounts: "accounts/getAccounts"
     }),
+    changeStatus() {},
     viewDetails(item) {
-      console.log(item);
-      this.$router.push(`/fraud-devices/${item.deviceId}`)
+      this.$router.push(`/fraud-users/${item.blockedAccountId}`)
     },
     deviceStatusColor(color) {
       switch (color) {

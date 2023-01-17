@@ -40,7 +40,7 @@ export const actions = {
   getRoleAllData({commit}, {page, size}) {
     const body = {
       filters: [],
-      sorts: [],
+      sort: [],
       page: page,
       size: size
     }
@@ -49,7 +49,7 @@ export const actions = {
         console.log(res)
         commit('setLoading', false);
       })
-      .catch(({response}) => {
+      .catch(response =>  {
         console.log(response)
       })
   },
@@ -78,7 +78,7 @@ export const actions = {
   getPermission({commit}, {page, size}) {
     const body = {
       filters: [],
-      sorts: [],
+      sort: [],
       page: page,
       size: size
     }
@@ -124,7 +124,7 @@ export const actions = {
           value_to: value_to,
         }
       ],
-      sorts: [],
+      sort: [],
       size: 10,
       page: 0,
     };
