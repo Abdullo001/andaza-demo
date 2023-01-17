@@ -91,6 +91,7 @@
           class="mt-n2"
           dark
           rounded
+          @click.stop="changeStatus"
         />
       </template>
     </v-data-table>
@@ -101,6 +102,7 @@
 import {mapActions, mapGetters} from "vuex";
 
 export default {
+  name: "FraudDevicesPage",
   data() {
     return {
       filter_form: true,
@@ -168,8 +170,8 @@ export default {
       getDevices: "fraud/getDevices",
       filterDevice: "fraud/filterDevice"
     }),
+    changeStatus() {},
     viewDetails(item) {
-      console.log(item);
       this.$router.push(`/fraud-devices/${item.deviceId}`)
     },
     getAllDevices() {
