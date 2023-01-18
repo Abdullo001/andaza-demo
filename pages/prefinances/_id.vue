@@ -21,7 +21,7 @@
         <v-row>
           <v-col cols="12" lg="3" md="3">
             <v-combobox
-              v-model="addPreFinances.modelId"
+              v-model="addPreFinances.modelNumber"
               :items="modelNames"
               filled
               class="rounded-lg"
@@ -44,7 +44,7 @@
               dense
               label="Prefinance number"
               placeholder="Enter prefinance number"
-              v-model="addPreFinances.preFinanceNumber"
+              v-model="addPreFinances.id"
               disabled
             />
           </v-col>
@@ -56,23 +56,54 @@
               dense
               label="Model name"
               placeholder="Model name"
-              v-model="addPreFinances.modelNames" disabled
+              v-model="addPreFinances.name" disabled
             />
           </v-col>
-
-
           <v-col cols="12" lg="3" md="3">
-            <v-select
-              v-model="addPreFinances.partner"
+            <v-text-field
+              v-model="addPreFinances.partner.name"
               filled
               class="rounded-lg"
               color="#7631FF"
               dense disabled
               label="Partner"
               placeholder="Partner name or phone"
-              :item-text="addPreFinances.partner.name"
-              :item-value="addPreFinances.partner.id"
               append-icon=""
+            />
+          </v-col>
+          <v-col cols="12" lg="3" md="3">
+            <v-select
+              v-model="addPreFinances.primaryCurrency"
+              :items="currency_enums"
+              filled
+              class="rounded-lg"
+              color="#7631FF"
+              dense
+              label="Primary Currency"
+              append-icon="mdi-chevron-down"
+            />
+          </v-col>
+          <v-col cols="12" lg="3" md="3">
+            <v-select
+              v-model="addPreFinances.secondaryCurrency"
+              :items="currency_enums"
+              filled dense
+              class="rounded-lg"
+              color="#7631FF"
+              label="Secondary Currency"
+              append-icon="mdi-chevron-down"
+            />
+          </v-col>
+          <v-col cols="12" lg="3" md="3">
+            <v-select
+              v-model="addPreFinances.tertiaryCurrency"
+              :items="currency_enums"
+              filled
+              class="rounded-lg"
+              color="#7631FF"
+              dense
+              label="Tertiary Currency"
+              append-icon="mdi-chevron-down"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
@@ -86,37 +117,38 @@
           </v-col>
           <v-col cols="12" lg="3" md="3">
             <v-text-field
-              v-model="addPreFinances.primaryCurrency"
+              v-model="addPreFinances.primaryRate"
               filled
               class="rounded-lg"
               color="#7631FF"
               dense
-              label="USD"
+              label="Primary Rare"
               placeholder="0"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
             <v-text-field
-              v-model="addPreFinances.tertiaryCurrency"
+              v-model="addPreFinances.secondaryRate"
               filled
               class="rounded-lg"
               color="#7631FF"
               dense
-              label="UZS"
+              label="Secondary Rate"
               placeholder="0"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
             <v-text-field
-              v-model="addPreFinances.secondaryCurrency"
+              v-model="addPreFinances.tertiaryRate"
               filled
               class="rounded-lg"
               color="#7631FF"
               dense
-              label="RUB"
+              label="Tertiary Rate"
               placeholder="0"
             />
           </v-col>
+
           <v-row class="ma-0">
             <v-col cols="12" lg="6" md="6">
               <v-textarea
@@ -197,6 +229,7 @@
           color="#7631FF"
           dark class="text-capitalize rounded-lg font-weight-bold"
           style="min-width: 130px;"
+          @click="createNewPreFinance"
         >save
         </v-btn>
       </v-card-actions>
@@ -458,10 +491,7 @@ export default {
         preFinanceNumber: '',
         modelId: '',
         partnerId: '',
-        partner: {
-          name: '',
-          id: ''
-        },
+        partner: {name: '', id: ''},
         primaryCurrency: '',
         tertiaryCurrency: '',
         secondaryCurrency: '',
@@ -624,11 +654,7 @@ export default {
           price: '2.10'
         }
       ],
-      allDocuments: [
-        {
-          type: 'word',
-        }
-      ],
+      allDocuments: [{type: 'word'}],
       model_first: null,
       model_second: null,
       model_third: null,
@@ -638,23 +664,23 @@ export default {
         second: null,
         third: null,
         fourth: null,
-      }
+      },
+      currency_enums: ['USD', 'UZS', 'RUB']
     }
   },
   watch: {
-    "addPreFinances.modelId"(val) {
+    "addPreFinances.modelNumber"(val) {
       this.getModelName(val)
     },
     modelData(val) {
-      console.log(val);
-      this.addPreFinances = val[0];
+      this.addPreFinances = {...val[0]};
     }
   },
   computed: {
     ...mapGetters({
       modelNames: 'preFinance/modelNames',
       modelData: 'preFinance/modelData'
-    })
+    }),
   },
   methods: {
     ...mapActions({
@@ -662,26 +688,7 @@ export default {
       getModelName: 'preFinance/getModelName'
     }),
     createNewPreFinance() {
-      const body = {
-        preFinanceNumber: this.refinances.preFinanceNumber,
-        modelId: this.refinances.modelId,
-        primaryCurrency: this.refinances.primaryCurrency,
-        secondaryCurrency:this.refinances.secondaryCurrency,
-        tertiaryCurrency: this.refinances.tertiaryCurrency,
-        description: this.refinances.description,
-        primaryRate:1.00,
-        secondaryRate:56.00,
-        tertiaryRate:11200.00,
-        overProductionPercent:7.00,
-        lossPercent:3.00,
-        generalExpensePercent:11.00,
-        extraExpensePercent:4.00,
-        targetProfitPercent:20.00,
-        givenPrice:1500.00,
-        givenPriceCurrency:"USD",
-        discountPercent: 2.00,
-        status: "ACTIVE"
-      }
+      this.createPreFinance(this.addPreFinances)
     },
     firstFileImport() {
       return this.$refs.first.click();
