@@ -1,13 +1,18 @@
 export const state = () => ({
-  preFinances: []
+  preFinances: [],
+  modelName: []
 })
 export const getters = {
   preFinancesContent: state => state.preFinances.content,
-
+  modelNames: state => state.modelName.map(el => el.modelNumber),
+  modelData: state => state.modelName,
 }
 export const mutations = {
   setRefinances(state, item) {
     state.preFinances = item;
+  },
+  setModelName(state, name) {
+    state.modelName = name
   }
 }
 export const actions = {
@@ -21,6 +26,29 @@ export const actions = {
     this.$axios.$put(`/api/v1/pre-finances/list`, body)
       .then(res => {
         commit('setRefinances', res.data)
+      })
+      .catch(({response}) => {
+        console.log(response);
+      })
+  },
+  getModelName({commit}, name) {
+    const body = {
+      filter: [
+        {
+          key: 'modelNumber',
+          operator: 'LIKE',
+          propertyType: 'STRING',
+          value: name
+        },
+      ],
+      sorts: [],
+      page: 0,
+      size: 10
+
+    }
+    this.$axios.$put(`/api/v1/models/list`, body)
+      .then(res => {
+        commit('setModelName', res.data.content);
       })
       .catch(({response}) => {
         console.log(response);
