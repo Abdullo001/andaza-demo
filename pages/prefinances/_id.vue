@@ -1,13 +1,6 @@
 <template>
   <div>
-    <div class="breadcrumbs d-flex align-center ml-2">
-      <div class="breadcrumbs d-flex align-center font-weight-medium mb-4 text-body-2" v-for="(item,idx) in map_links"
-           :key="idx">
-        <nuxt-link :to="item.to" class="base-color" v-if="!item.disabled">{{ item.text }}</nuxt-link>
-        <div class="grey--text" v-if="item.disabled">{{ item.text }}</div>
-        <v-icon class="mx-3" size="18" v-if="item.icon">mdi-slash-forward</v-icon>
-      </div>
-    </div>
+    <Breadcrumbs :maps="map_links"/>
     <v-card elevation="0" class="mt-2 rounded-lg">
       <v-card-title>
         <div>Add prefinance</div>
@@ -27,6 +20,23 @@
       <v-card-text class="pb-0">
         <v-row>
           <v-col cols="12" lg="3" md="3">
+            <v-combobox
+              v-model="addPreFinances.modelId"
+              :items="modelNames"
+              filled
+              class="rounded-lg"
+              color="#7631FF"
+              dense
+              label="Model number"
+              placeholder="Enter model number"
+              append-icon="mdi-chevron-down"
+            >
+              <template #append>
+                <v-icon color="#7631FF">mdi-magnify</v-icon>
+              </template>
+            </v-combobox>
+          </v-col>
+          <v-col cols="12" lg="3" md="3">
             <v-text-field
               filled
               class="rounded-lg"
@@ -34,23 +44,9 @@
               dense
               label="Prefinance number"
               placeholder="Enter prefinance number"
-              v-model="refinances.preFinanceNumber"
+              v-model="addPreFinances.preFinanceNumber"
+              disabled
             />
-          </v-col>
-          <v-col cols="12" lg="3" md="3">
-            <v-text-field
-              v-model="refinances.modelId"
-              filled
-              class="rounded-lg"
-              color="#7631FF"
-              dense
-              label="Model number"
-              placeholder="Enter model number"
-            >
-              <template #append>
-                <v-icon color="#7631FF">mdi-magnify</v-icon>
-              </template>
-            </v-text-field>
           </v-col>
           <v-col cols="12" lg="3" md="3">
             <v-text-field
@@ -60,23 +56,24 @@
               dense
               label="Model name"
               placeholder="Model name"
-              v-model="refinances.partnerId"
+              v-model="addPreFinances.modelNames" disabled
             />
           </v-col>
+
+
           <v-col cols="12" lg="3" md="3">
-            <v-text-field
-              v-model="refinances.partner"
+            <v-select
+              v-model="addPreFinances.partner"
               filled
               class="rounded-lg"
               color="#7631FF"
-              dense
+              dense disabled
               label="Partner"
               placeholder="Partner name or phone"
-            >
-              <template #append>
-                <v-icon color="#7631FF">mdi-magnify</v-icon>
-              </template>
-            </v-text-field>
+              :item-text="addPreFinances.partner.name"
+              :item-value="addPreFinances.partner.id"
+              append-icon=""
+            />
           </v-col>
           <v-col cols="12" lg="3" md="3">
             <div class="text-body-1 font-weight-medium">Permission</div>
@@ -89,7 +86,7 @@
           </v-col>
           <v-col cols="12" lg="3" md="3">
             <v-text-field
-              v-model="refinances.primaryCurrency"
+              v-model="addPreFinances.primaryCurrency"
               filled
               class="rounded-lg"
               color="#7631FF"
@@ -100,7 +97,7 @@
           </v-col>
           <v-col cols="12" lg="3" md="3">
             <v-text-field
-              v-model="refinances.tertiaryCurrency"
+              v-model="addPreFinances.tertiaryCurrency"
               filled
               class="rounded-lg"
               color="#7631FF"
@@ -111,7 +108,7 @@
           </v-col>
           <v-col cols="12" lg="3" md="3">
             <v-text-field
-              v-model="refinances.secondaryCurrency"
+              v-model="addPreFinances.secondaryCurrency"
               filled
               class="rounded-lg"
               color="#7631FF"
@@ -123,7 +120,7 @@
           <v-row class="ma-0">
             <v-col cols="12" lg="6" md="6">
               <v-textarea
-                v-model="refinances.description"
+                v-model="addPreFinances.description"
                 filled
                 class="rounded-lg"
                 color="#7631FF"
@@ -136,7 +133,7 @@
             <v-col cols="12" lg="6" md="6" class="d-flex flex-wrap">
               <v-col cols="12" lg="6" class="pl-0 pt-0">
                 <v-text-field
-                  v-model="refinances.owner"
+                  v-model="addPreFinances.owner"
                   filled
                   class="rounded-lg"
                   color="#7631FF"
@@ -148,7 +145,7 @@
               </v-col>
               <v-col cols="12" lg="6" class="pt-0 pr-0">
                 <v-text-field
-                  v-model="refinances.createdTime"
+                  v-model="addPreFinances.createdTime"
                   filled
                   class="rounded-lg"
                   color="#7631FF"
@@ -164,7 +161,7 @@
               </v-col>
               <v-col cols="12" lg="6" class="pl-0 pt-0">
                 <v-text-field
-                  v-model="refinances.modifiedPerson"
+                  v-model="addPreFinances.modifiedPerson"
                   filled
                   class="rounded-lg"
                   color="#7631FF"
@@ -176,7 +173,7 @@
               </v-col>
               <v-col cols="12" lg="6" class="pt-0 pr-0">
                 <v-text-field
-                  v-model="refinances.updatedTime"
+                  v-model="addPreFinances.updatedTime"
                   filled
                   class="rounded-lg"
                   color="#7631FF"
@@ -429,11 +426,12 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   data() {
     return {
+      // modelNames: ['One', 'Two', 'Abbos', 'Textyle'],
       map_links: [
         {
           text: 'Home',
@@ -454,11 +452,16 @@ export default {
           icon: false
         },
       ],
-      refinances: {
+      name: '',
+      addPreFinances: {
+        modelNames: '',
         preFinanceNumber: '',
         modelId: '',
         partnerId: '',
-        partner: '',
+        partner: {
+          name: '',
+          id: ''
+        },
         primaryCurrency: '',
         tertiaryCurrency: '',
         secondaryCurrency: '',
@@ -638,9 +641,25 @@ export default {
       }
     }
   },
+  watch: {
+    "addPreFinances.modelId"(val) {
+      this.getModelName(val)
+    },
+    modelData(val) {
+      console.log(val);
+      this.addPreFinances = val[0];
+    }
+  },
+  computed: {
+    ...mapGetters({
+      modelNames: 'preFinance/modelNames',
+      modelData: 'preFinance/modelData'
+    })
+  },
   methods: {
     ...mapActions({
-      createPreFinance: 'preFinance/createPreFinance'
+      createPreFinance: 'preFinance/createPreFinance',
+      getModelName: 'preFinance/getModelName'
     }),
     createNewPreFinance() {
       const body = {
