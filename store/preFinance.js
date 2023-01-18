@@ -44,7 +44,6 @@ export const actions = {
       sorts: [],
       page: 0,
       size: 10
-
     }
     this.$axios.$put(`/api/v1/models/list`, body)
       .then(res => {
