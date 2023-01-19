@@ -26,11 +26,107 @@
           </v-btn>
         </div>
       </v-card-title>
-      <v-card-text>
-
-
-      </v-card-text>
       <v-divider/>
+      <v-card-text class="mt-4">
+        <v-row>
+          <v-col>
+            <div class="mb-2 text-body-1">Company ID</div>
+            <v-text-field
+              filled
+              v-model="details.id"
+              dense
+              :disabled="fields_status"
+              style="max-width: 400px"
+            />
+            <div class="mb-2 text-body-1">E-mail</div>
+            <v-text-field
+              filled
+              v-model="details.email"
+              dense
+              :disabled="fields_status"
+              style="max-width: 400px"
+            />
+            <div class="mb-2 text-body-1">Status</div>
+            <v-chip color="green" dark small>{{details.status}}</v-chip>
+          </v-col>
+          <v-col>
+            <div class="mb-2 text-body-1">Company name</div>
+            <v-text-field
+              filled
+              v-model="details.companyName"
+              dense
+              :disabled="fields_status"
+              style="max-width: 400px"
+            />
+            <div class="mb-2 text-body-1">Phone number</div>
+            <v-text-field
+              filled
+              v-model="details.phoneNumber"
+              dense
+              :disabled="fields_status"
+              style="max-width: 400px"
+            />
+            <div class="mb-2 text-body-1">Created</div>
+            <v-text-field
+              filled
+              v-model="details.created"
+              dense
+              :disabled="fields_status"
+              style="max-width: 400px"
+            />
+          </v-col>
+          <v-col>
+            <div class="mb-2 text-body-1">Owner</div>
+            <v-text-field
+              filled
+              v-model="details.owner"
+              dense
+              :disabled="fields_status"
+              style="max-width: 400px"
+            />
+            <div class="mb-2 text-body-1">INN</div>
+            <v-text-field
+              filled
+              v-model="details.inn"
+              dense
+              :disabled="fields_status"
+              style="max-width: 400px"
+            />
+            <div class="mb-2 text-body-1">Updated</div>
+            <v-text-field
+              filled
+              v-model="details.updated"
+              dense
+              :disabled="fields_status"
+              style="max-width: 400px"
+            />
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
+    <v-card class="mt-6" elevation="0">
+      <v-data-table
+        :items="billing"
+        :headers="headers"
+      >
+        <template #top>
+          <v-toolbar elevation="0">
+            <v-toolbar-title class="w-full d-flex align-center justify-space-between">
+              <div class="text-capitalize">billing</div>
+              <v-btn
+                color="#7631FF"
+                class="text-capitalize rounded-lg"
+                dark
+                min-width="170"
+                @click="$router.push('/billing-company/add-billing')"
+              >
+                <v-icon>mdi-plus</v-icon>
+                add billing
+              </v-btn>
+            </v-toolbar-title>
+          </v-toolbar>
+        </template>
+      </v-data-table>
     </v-card>
   </div>
 </template>
@@ -81,7 +177,7 @@ export default {
         {text: 'Price per quote', value: 'pricePerQuote'},
         {text: 'Measurement unit', value: 'measurementUnit'},
         {text: 'Discount(%)', value: 'discount'},
-        {text: 'Actions', value: 'actions'},
+        // {text: 'Actions', value: 'actions'},
       ],
       billing: [
         {
@@ -93,6 +189,16 @@ export default {
           pricePerQuote: '300 USD',
           measurementUnit: '2 Month',
           discount: '20',
+        },
+        {
+          id: 5874,
+          contractNumber: '115-S',
+          contractDate: '12.10.2022 17:09:08',
+          expireDate: '22.10.2022 17:09:08',
+          users: '4',
+          pricePerQuote: '1 200  RUB',
+          measurementUnit: '12 Week',
+          discount: '15',
         }
       ]
     }
