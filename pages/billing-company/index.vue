@@ -78,25 +78,142 @@
     >
       <template #top>
         <v-toolbar elevation="0">
-          <v-toolbar-title>Company</v-toolbar-title>
+          <v-toolbar-title class="d-flex w-full align-center justify-space-between">
+            <div>Company</div>
+            <v-btn
+              color="#7631FF"
+              dark class="text-capitalize rounded-lg"
+              @click="new_dialog = !new_dialog"
+            >
+              <v-icon>mdi-plus</v-icon>add Company
+            </v-btn>
+          </v-toolbar-title>
         </v-toolbar>
       </template>
       <template #item.status="{ item }">
         <v-select
           @click.stop="changeStatus"
           :background-color="statusColor.color(item.status)"
-          :items="status_enums"
+          :items="company_enums"
           append-icon="mdi-chevron-down"
           v-model="item.status"
           hide-details
           class="mt-n2"
-          dark
-          rounded
+          rounded dark
         />
       </template>
+      <template #item.owner="{item}">
+        <div class="d-flex align-center my-2">
+          <div class="ml-2">
+            <div class="username-name">{{ item.owner }}</div>
+            <div class="username-email">
+              {{ item.email }}
+              <v-tooltip top color="green">
+                <template #activator="{ on, attrs }">
+                  <div @click.stop="getCopyKey(item.email)" v-bind="attrs" v-on="on">
+                    <v-img src="/copy.svg" width="15" class="ml-2 pointer"/>
+                  </div>
+                </template>
+                <span>Copy</span>
+              </v-tooltip>
+            </div>
+          </div>
+        </div>
+      </template>
     </v-data-table>
+    <v-dialog v-model="new_dialog" max-width="700">
+      <v-card>
+        <v-card-title class="text-capitalize mb-4 d-flex justify-space-between">
+          <div>add company</div>
+          <v-btn icon color="#7631FF" @click="new_dialog = !new_dialog">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text>
+          <v-form lazy-validation ref="new_form" v-model="valid">
+            <v-row>
+              <v-col cols="12" lg="6">
+                <v-text-field
+                  label="Company name"
+                  placeholder="Enter company name"
+                  filled dense
+                  validate-on-blur
+                  v-model="newCompany.companyName"
+                  :rules="[formRules.required]"
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <v-text-field
+                  label="Owner fullname"
+                  placeholder="Enter owner name"
+                  filled dense
+                  validate-on-blur
+                  v-model="newCompany.ownerFullName"
+                  :rules="[formRules.required]"
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <v-text-field
+                  label="E-mail"
+                  placeholder="Enter e-mail"
+                  filled dense
+                  validate-on-blur
+                  v-model="newCompany.email"
+                  :rules="[formRules.required, formRules.email]"
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <v-text-field
+                  label="Phone number"
+                  placeholder="(--) --- -- --"
+                  filled dense
+                  validate-on-blur
+                  v-model="newCompany.phoneNUmber"
+                  :rules="[formRules.required]"
+                  color="#7631FF"
+                  v-mask="`(##) ### ## ##`"
+                  prefix="+998"
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <v-text-field
+                  label="INN"
+                  placeholder="Enter INN"
+                  filled dense
+                  validate-on-blur
+                  v-model="newCompany.inn"
+                  :rules="[formRules.required]"
+                  color="#7631FF"
+                />
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="d-flex align-center justify-center pb-4">
+          <v-btn
+            outlined
+            color="#7631FF"
+            min-width="163px"
+            class="text-capitalize border rounded-lg mr-2 font-weight-bold"
+            @click="new_dialog = false"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            color="#7631FF"
+            min-width="163px"
+            class="text-capitalize rounded-lg"
+            dark
+          >
+            Add
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
-
 </template>
 
 <script>
@@ -105,6 +222,19 @@ export default {
   name: "BillingCompanyPage",
   data() {
     return {
+      map_links: [
+
+      ],
+      newCompany: {
+        companyName: '',
+        ownerFullName: '',
+        email: '',
+        phoneNUmber: '',
+        inn: ''
+      },
+      valid: true,
+      new_dialog: false,
+      company_enums: ['ACTIVE', 'DISABLED'],
       filter_form: true,
       status_enums: ['UNBLOCKED', 'BLOCKED'],
       filter: {
@@ -116,7 +246,7 @@ export default {
       headers: [
         {text: 'ID', align: 'start', sortable: false, value: 'id'},
         {text: 'Company name', value: 'companyName'},
-        {text: 'Owner', value: 'owner'},
+        {text: 'Owner', value: 'owner', width: 280},
         {text: 'Phone number', value: 'phoneNumber'},
         {text: 'INN', value: 'inn'},
         {text: 'Created', value: 'created'},
@@ -149,10 +279,23 @@ export default {
           },
         ],
       },
-      billingCompany: []
+      billingCompany: [
+        {
+          id: 12,
+          companyName: 'SMARTTEX LLC',
+          owner: 'john Doe',
+          email: 'awesome@asgardia.team',
+          phoneNumber: '+99890 123 45 67',
+          inn: '1234567890123',
+          status: 'ACTIVE',
+          created: '12.10.2023 17:09:08',
+          updated: '15.10.2023 17:09:08'
+        }
+      ]
     }
   },
   created() {
+    this.getBillingCompany({page: 0, size: 10})
   },
   watch: {
     devices(val) {
@@ -161,19 +304,30 @@ export default {
   },
   computed: {
     ...mapGetters({
-      loading: "accounts/loading"
+      loading: "billingCompany/loading"
     })
   },
   methods: {
     ...mapActions({
-      getAccounts: "accounts/getAccounts"
+      getBillingCompany: "billingCompany/getBillingCompanies"
     }),
     resetSearch() {},
     filterCompany() {},
     changeStatus() {},
     viewDetails(item) {
       console.log(item);
-      // this.$router.push(`/fraud-users/${item.blockedAccountId}`)
+      this.$router.push(`/billing-company/${item.id}`)
+    },
+    getCopyKey(item) {
+      navigator.clipboard.writeText(item)
+      this.$toasted.success(`Copied ${item}`, {
+        action: {
+          text: '',
+          onClick: (e, toastObject) => {
+            toastObject.goAway(0);
+          }
+        }
+      })
     },
     deviceStatusColor(color) {
       switch (color) {
@@ -191,5 +345,37 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped />
+<style lang="scss">
+.v-text-field--rounded > .v-input__control > .v-input__slot {
+  padding: 0 14px;
+  font-size: 14px;
+}
+
+.username-name {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: #1D2433;
+}
+
+.username-email {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #777C85;
+  display: flex;
+  align-items: center;
+}
+
+.btn-color {
+  font-size: 14px;
+  line-height: 140%;
+  color: #7631FF;
+}
+
+tbody > tr {
+  cursor: pointer;
+}
+
+</style>
 

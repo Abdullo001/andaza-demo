@@ -17,10 +17,9 @@
           <v-btn
             outlined
             elevation="0"
-            color="#777C85"
             class="text-capitalize rounded-lg"
             @click="fields_status = !fields_status"
-            :color="!fields_status ? 'green' : null"
+            :color="!fields_status ? 'green' : '#777C85'"
           >
             <v-img :src="fields_status ? '/edit.svg' : '/edit-active.svg'" class="mr-1"/>
             Edit
