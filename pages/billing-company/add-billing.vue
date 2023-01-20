@@ -6,7 +6,7 @@
         <v-stepper-step
           :complete="e1 > 1"
           step="1"
-          color="#7631FF"
+          :color="e1 > 1 ? 'green' : '#7631FF' "
         >
           Billing info
         </v-stepper-step>
@@ -15,7 +15,7 @@
         <v-stepper-step
           :complete="e1 > 2"
           step="2"
-          color="#7631FF"
+          :color="e1 > 2 ? 'green' : '#7631FF' "
         >
           Generate licence
         </v-stepper-step>
@@ -24,7 +24,7 @@
         <v-stepper-step
           step="3"
           :complete="e1 > 3"
-          color="#7631FF"
+          :color="e1 > 3 ? 'green' : '#7631FF' "
         >
           Preview invoicen
         </v-stepper-step>
@@ -33,7 +33,7 @@
         <v-stepper-step
           step="4"
           :complete="e1 > 4"
-          color="#7631FF"
+          :color="e1 > 4 ? 'green' : '#7631FF' "
         >
           Print invoice
         </v-stepper-step>
@@ -44,13 +44,15 @@
           <v-card
             class="mb-12"
             color="grey lighten-1"
-            height="200px"
-          ></v-card>
-          <div class="d-flex align-center justify-center">
+            elevation="0"
+          >
+            <BillingInfo/>
+          </v-card>
+          <div class="d-flex align-center justify-center pb-4">
             <v-btn
               outlined
               color="#7631FF"
-              class="border mr-4 rounded-lg font-weight-bold"
+              class="border-indigo mr-4 rounded-lg font-weight-bold"
               min-width="160"
             >
               Cancel
@@ -75,11 +77,11 @@
             height="200px"
           ></v-card>
 
-          <div class="d-flex align-center justify-center">
+          <div class="d-flex align-center justify-center pb-4">
             <v-btn
               outlined
               color="#7631FF"
-              class="border mr-4 rounded-lg font-weight-bold"
+              class="border-indigo mr-4 rounded-lg font-weight-bold"
               min-width="160"
             >
               Cancel
@@ -104,11 +106,11 @@
             height="200px"
           ></v-card>
 
-          <div class="d-flex align-center justify-center">
+          <div class="d-flex align-center justify-center pb-4">
             <v-btn
               outlined
               color="#7631FF"
-              class="border mr-4 rounded-lg font-weight-bold"
+              class="border-indigo mr-4 rounded-lg font-weight-bold"
               min-width="160"
             >
               Cancel
@@ -135,11 +137,11 @@
           >
           <!--   TODO: content here  -->
           </v-card>
-          <div class="d-flex align-center justify-center">
+          <div class="d-flex align-center justify-center pb-4">
             <v-btn
               outlined
               color="#7631FF"
-              class="border mr-4 rounded-lg font-weight-bold"
+              class="border-indigo mr-4 rounded-lg font-weight-bold"
               min-width="160"
             >
               Cancel

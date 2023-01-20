@@ -7,7 +7,7 @@ export default (context, inject) => {
         return {
           required: (value) => !!value || 'This item is required',
           phone: val => /^[0-9]{13}$/.test(val) || "Write here only phone number",
-          onlyNumber: v => /^\d+$/.test(v) || 'This field only accept numbers',
+          onlyNumber: v => !v || /^\d+$/.test(v) || 'This field only accept numbers',
           limitImage20: v => !v || v.size < 20000000 || 'Image size should be less than 20 MB!',
           limitImage10: v => !v || v.size < 10000000 || 'Image size should be less than 10 MB!',
           confirmPassword: (a, b) => a === b || 'Password must match',

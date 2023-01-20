@@ -6,7 +6,7 @@
         <div>Add prefinance</div>
         <v-spacer/>
         <div>
-          <v-btn outlined class="text-capitalize rounded-lg">
+          <v-btn outlined class="text-capitalize rounded-lg border-grey">
             <v-img src="/clear.svg" max-width="16" class="mr-2"/>
             clear
           </v-btn>
