@@ -49,7 +49,7 @@
                 <v-btn
                   width="140" outlined
                   color="#397CFD" elevation="0"
-                  class="text-capitalize mr-4 rounded-lg font-weight-bold"
+                  class="text-capitalize mr-4 border-primary rounded-lg font-weight-bold"
                   @click.stop="resetSearch"
                 >
                   Reset

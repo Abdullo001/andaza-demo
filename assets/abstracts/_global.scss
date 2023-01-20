@@ -76,6 +76,21 @@ html, body .v-application {
   color: #FFFFFF !important;
 }
 
-.border {
+.border-indigo {
   border: 2px solid #7631FF !important;
+}
+.border-grey {
+  border: 2px solid #777C85 !important;
+}
+.border-primary {
+  border: 2px solid #397CFD !important;
+}
+.picker-color > .el-input__inner {
+  background: #f8f4fe;
+  &::placeholder {
+    color: #000;
+  }
+}
+.picker-color > .el-input__prefix {
+  color: #000;
 }
