@@ -26,7 +26,7 @@
           :complete="e1 > 3"
           color="#7631FF"
         >
-          Preview invoice
+          Preview invoicen
         </v-stepper-step>
         <v-divider/>
 
