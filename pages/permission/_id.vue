@@ -1,19 +1,12 @@
 <template>
   <div>
-    <div class="breadcrumbs d-flex align-center ml-2">
-      <div class="breadcrumbs d-flex align-center font-weight-medium mb-4 text-body-2" v-for="(item,idx) in map_links"
-           :key="idx">
-        <nuxt-link :to="item.to" class="base-color" v-if="!item.disabled">{{ item.text }}</nuxt-link>
-        <div class="grey--text" v-if="item.disabled">{{ item.text }}</div>
-        <v-icon class="mx-3" size="18" v-if="item.icon">mdi-slash-forward</v-icon>
-      </div>
-    </div>
+    <Breadcrumbs :maps="map_links"/>
     <v-card
       color="#fff"
       elevation="0"
       class="rounded-t-lg"
     >
-      <v-card-title class="border">
+      <v-card-title>
         <div class="text-capitalize font-weight-bold">
           create permission
         </div>
@@ -27,7 +20,8 @@
           {{this.disabled ? 'edit' : 'save'}}
         </v-btn>
       </v-card-title>
-      <v-card-text>
+      <v-divider/>
+      <v-card-text class="mt-4">
         <v-form lazy-validation v-model="validate" ref="form">
           <v-row>
             <v-col cols="12" md="4">
@@ -213,7 +207,6 @@ export default {
     pickerOptions(){},
     // DISABLED BUTTON
     edit_user(){
-
       if (this.disabled){
         this.disabled = !this.disabled;
       }
@@ -233,8 +226,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.border {
-  border-bottom: 1px solid #777C85;
-  margin-bottom: 20px;
-}
 </style>
