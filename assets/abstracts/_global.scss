@@ -88,7 +88,7 @@ html, body .v-application {
 .picker-color > .el-input__inner {
   background: #f8f4fe;
   &::placeholder {
-    color: #000;
+    color: #000 !important;
   }
 }
 .picker-color > .el-input__prefix {
