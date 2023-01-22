@@ -758,6 +758,11 @@ export default {
 </script>
 
 <style lang="scss">
+.el-input__inner {
+  &::placeholder {
+    color: #000 !important;
+  }
+}
 .v-text-field--rounded > .v-input__control > .v-input__slot {
   padding: 0 14px;
   font-size: 14px;

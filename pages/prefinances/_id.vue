@@ -20,6 +20,18 @@
       <v-card-text class="pb-0">
         <v-row>
           <v-col cols="12" lg="3" md="3">
+            <v-text-field
+              filled
+              class="rounded-lg"
+              color="#7631FF"
+              dense
+              label="Prefinance number"
+              placeholder="Enter prefinance number"
+              v-model="addPreFinances.preFinanceNumber"
+              disabled
+            />
+          </v-col>
+          <v-col cols="12" lg="3" md="3">
             <v-combobox
               v-model="addPreFinances.modelNumber"
               :items="modelNames"
@@ -30,6 +42,7 @@
               label="Model number"
               placeholder="Enter model number"
               append-icon="mdi-chevron-down"
+              @keyup="getModalData"
             >
               <template #append>
                 <v-icon color="#7631FF">mdi-magnify</v-icon>
@@ -42,21 +55,9 @@
               class="rounded-lg"
               color="#7631FF"
               dense
-              label="Prefinance number"
-              placeholder="Enter prefinance number"
-              v-model="addPreFinances.id"
-              disabled
-            />
-          </v-col>
-          <v-col cols="12" lg="3" md="3">
-            <v-text-field
-              filled
-              class="rounded-lg"
-              color="#7631FF"
-              dense
               label="Model name"
               placeholder="Model name"
-              v-model="addPreFinances.name" disabled
+              v-model="addPreFinances.modelNames" disabled
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
@@ -242,113 +243,15 @@
           <v-divider/>
           <v-card-text class="mt-4">
             <v-row>
-              <v-col cols="12" lg="6" md="6" @click="firstFileImport">
+              <v-col cols="12" lg="6" md="6" v-for="(item, idx) in 4" :key="`img_${idx}`">
                 <div class="default-data" v-ripple>
-                  <div v-if="!model_first" class="d-flex justify-center flex-column align-center h-full">
+                  <div class="d-flex justify-center flex-column align-center h-full">
                     <v-img
                       src="/default-image.svg"
                       max-width="56"
                       max-height="56"
                     />
-                    <div class="d-flex align-center upload-wrap pointer">
-                      <v-img src="/upload.svg" max-width="20"/>
-                      <div class="upload-btn">Upload Image</div>
-                    </div>
-                    <div class="upload-subtitle">
-                      Upload a cover image for your product. <br>
-                      File Format <b>jpeg, png</b> Recommend Size <b>600x600 (1:1)</b>
-                    </div>
                   </div>
-                  <v-img :src="model_first" contain v-else/>
-                  <input
-                    ref="first"
-                    class="d-none"
-                    type="file"
-                    @change="firstFileChanged"
-                    accept="image/*"
-
-                  />
-                </div>
-              </v-col>
-              <v-col cols="12" lg="6" md="6" @click="secondFileImport">
-                <div class="default-data" v-ripple>
-                  <div v-if="!model_second" class="d-flex justify-center flex-column align-center h-full">
-                    <v-img
-                      src="/default-image.svg"
-                      max-width="56"
-                      max-height="56"
-                    />
-                    <div class="d-flex align-center upload-wrap pointer">
-                      <v-img src="/upload.svg" max-width="20"/>
-                      <div class="upload-btn">Upload Image</div>
-                    </div>
-                    <div class="upload-subtitle">
-                      Upload a cover image for your product. <br>
-                      File Format <b>jpeg, png</b> Recommend Size <b>600x600 (1:1)</b>
-                    </div>
-                  </div>
-                  <v-img :src="model_second" contain v-else/>
-                  <input
-                    ref="second"
-                    class="d-none"
-                    type="file"
-                    @change="secondFileChanged"
-                    accept="image/*"
-                  />
-                </div>
-              </v-col>
-              <v-col cols="12" lg="6" md="6" @click="thirdFileImport">
-                <div class="default-data" v-ripple>
-                  <div v-if="!model_third" class="d-flex justify-center flex-column align-center h-full">
-                    <v-img
-                      src="/default-image.svg"
-                      max-width="56"
-                      max-height="56"
-                    />
-                    <div class="d-flex align-center upload-wrap pointer">
-                      <v-img src="/upload.svg" max-width="20"/>
-                      <div class="upload-btn">Upload Image</div>
-                    </div>
-                    <div class="upload-subtitle">
-                      Upload a cover image for your product. <br>
-                      File Format <b>jpeg, png</b> Recommend Size <b>600x600 (1:1)</b>
-                    </div>
-                  </div>
-                  <v-img :src="model_third" contain v-else/>
-                  <input
-                    ref="third"
-                    class="d-none"
-                    type="file"
-                    @change="thirdFileChanged"
-                    accept="image/*"
-                  />
-                </div>
-              </v-col>
-              <v-col cols="12" lg="6" md="6" @click="fourthFileImport">
-                <div class="default-data" v-ripple>
-                  <div v-if="!model_fourth" class="d-flex justify-center flex-column align-center h-full">
-                    <v-img
-                      src="/default-image.svg"
-                      max-width="56"
-                      max-height="56"
-                    />
-                    <div class="d-flex align-center upload-wrap pointer">
-                      <v-img src="/upload.svg" max-width="20"/>
-                      <div class="upload-btn">Upload Image</div>
-                    </div>
-                    <div class="upload-subtitle">
-                      Upload a cover image for your product. <br>
-                      File Format <b>jpeg, png</b> Recommend Size <b>600x600 (1:1)</b>
-                    </div>
-                  </div>
-                  <v-img :src="model_fourth" contain v-else class="rounded-lg"/>
-                  <input
-                    ref="fourth"
-                    class="d-none"
-                    type="file"
-                    @change="fourthFileChanged"
-                    accept="image/*"
-                  />
                 </div>
               </v-col>
             </v-row>
@@ -489,7 +392,7 @@ export default {
       addPreFinances: {
         modelNames: '',
         preFinanceNumber: '',
-        modelId: '',
+        modelNumber: '',
         partnerId: '',
         partner: {name: '', id: ''},
         primaryCurrency: '',
@@ -510,7 +413,7 @@ export default {
       ],
       detailsHeaders: [
         {
-          text: 'Expence group',
+          text: 'Expense group',
           align: 'start',
           sortable: false,
           value: 'expenseGroup',
@@ -668,14 +571,6 @@ export default {
       currency_enums: ['USD', 'UZS', 'RUB']
     }
   },
-  watch: {
-    "addPreFinances.modelNumber"(val) {
-      this.getModelName(val)
-    },
-    modelData(val) {
-      this.addPreFinances = {...val[0]};
-    }
-  },
   computed: {
     ...mapGetters({
       modelNames: 'preFinance/modelNames',
@@ -687,39 +582,24 @@ export default {
       createPreFinance: 'preFinance/createPreFinance',
       getModelName: 'preFinance/getModelName'
     }),
+    async getModalData() {
+      const val = this.addPreFinances.modelNumber;
+      if (val !== null || val?.length > 1) {
+       await this.getModelName(val)
+      }
+      const {modelNumber, name, partner, id } = this.modelData[0];
+
+      this.addPreFinances.partner = partner;
+      this.addPreFinances.preFinanceNumber = id;
+      this.addPreFinances.modelNames = name;
+      this.addPreFinances.modelNumber = modelNumber;
+
+    },
     createNewPreFinance() {
       this.createPreFinance(this.addPreFinances)
-    },
-    firstFileImport() {
-      return this.$refs.first.click();
-    },
-    firstFileChanged(e) {
-      this.model_photo.first = e.target.files[0];
-      this.model_first = URL.createObjectURL(this.model_photo.first);
-    },
-    secondFileImport() {
-      return this.$refs.second.click();
-    },
-    secondFileChanged(e) {
-      this.model_photo.second = e.target.files[0];
-      this.model_second = URL.createObjectURL(this.model_photo.second);
-    },
-    thirdFileImport() {
-      return this.$refs.third.click();
-    },
-    thirdFileChanged(e) {
-      this.model_photo.third = e.target.files[0];
-      this.model_third = URL.createObjectURL(this.model_photo.third);
-    },
-    fourthFileImport() {
-      return this.$refs.fourth.click();
-    },
-    fourthFileChanged(e) {
-      this.model_photo.fourth = e.target.files[0];
-      this.model_fourth = URL.createObjectURL(this.model_photo.fourth);
     },
   }
 }
 </script>
 
-<style lang="scss" src="assets/abstracts/_preficances.scss" scoped />
+<style lang="scss" src="assets/abstracts/_preficances.scss" scoped/>

@@ -33,7 +33,7 @@ export const actions = {
   },
   getModelName({commit}, name) {
     const body = {
-      filter: [
+      filters: [
         {
           key: 'modelNumber',
           operator: 'LIKE',
