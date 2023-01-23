@@ -42,7 +42,6 @@
               label="Model number"
               placeholder="Enter model number"
               append-icon="mdi-chevron-down"
-              @keyup="getModalData"
             >
               <template #append>
                 <v-icon color="#7631FF">mdi-magnify</v-icon>
@@ -367,7 +366,6 @@ import {mapActions, mapGetters} from "vuex";
 export default {
   data() {
     return {
-      // modelNames: ['One', 'Two', 'Abbos', 'Textyle'],
       map_links: [
         {
           text: 'Home',
@@ -389,8 +387,12 @@ export default {
         },
       ],
       name: '',
+      modelInfo: {
+
+      },
       addPreFinances: {
-        modelNames: '',
+        id: '',
+        modelName: '',
         preFinanceNumber: '',
         modelNumber: '',
         partnerId: '',
@@ -577,24 +579,27 @@ export default {
       modelData: 'preFinance/modelData'
     }),
   },
+  watch: {
+    "addPreFinances.modelNumber": {
+      async handler(elem) {
+        if (elem !== null || elem?.length > 1) {
+         await this.getModelName(elem)
+        }
+        if(typeof this.modelData[0] === "object" && Object.keys(this.modelData[0]).length) {
+          const {modelNumber, name, partner, id } = this.modelData[0];
+          this.addPreFinances.partner = partner;
+          this.addPreFinances.preFinanceNumber = id;
+          this.addPreFinances.modelNames = name;
+          this.addPreFinances.modelNumber = modelNumber;
+        }
+      }, deep: true
+    }
+  },
   methods: {
     ...mapActions({
       createPreFinance: 'preFinance/createPreFinance',
       getModelName: 'preFinance/getModelName'
     }),
-    async getModalData() {
-      const val = this.addPreFinances.modelNumber;
-      if (val !== null || val?.length > 1) {
-       await this.getModelName(val)
-      }
-      const {modelNumber, name, partner, id } = this.modelData[0];
-
-      this.addPreFinances.partner = partner;
-      this.addPreFinances.preFinanceNumber = id;
-      this.addPreFinances.modelNames = name;
-      this.addPreFinances.modelNumber = modelNumber;
-
-    },
     createNewPreFinance() {
       this.createPreFinance(this.addPreFinances)
     },

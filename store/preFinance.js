@@ -55,7 +55,7 @@ export const actions = {
   },
   createPreFinance({commit, dispatch}, data) {
     const body = {
-      modelId: data.id,
+      modelId: data.preFinanceNumber,
       primaryCurrency: data.primaryCurrency,
       secondaryCurrency: data.secondaryCurrency,
       tertiaryCurrency: data.tertiaryCurrency,
@@ -66,7 +66,7 @@ export const actions = {
     }
     this.$axios.$post('/api/v1/pre-finances/create', body)
       .then(res => {
-        console.log(res);
+        this.$toast.success(res.message, {theme: 'toasted-primary'})
       })
       .catch(({response}) => {
         console.log(response);
