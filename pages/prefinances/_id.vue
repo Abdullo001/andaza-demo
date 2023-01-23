@@ -234,6 +234,63 @@
         </v-btn>
       </v-card-actions>
     </v-card>
+    <v-card class="mt-4 rounded-lg" elevation="0">
+      <v-card-text>
+        <v-tabs
+          v-model="tab"
+          background-color="transparent"
+        >
+          <v-tab
+            v-for="item in items"
+            :key="item"
+            class="text-capitalize"
+          >
+            {{ item }}
+          </v-tab>
+        </v-tabs>
+
+        <v-tabs-items v-model="tab">
+          <v-tab-item>
+            <v-data-table
+              :headers="detailsHeaders"
+              :items="allDetails"
+            >
+            </v-data-table>
+          </v-tab-item>
+          <v-tab-item>
+            <v-data-table
+              :headers="documentsHeaders"
+              :items="allDocuments"
+              hide-default-footer
+            >
+              <template #top>
+                <v-toolbar elevation="0">
+                  <v-toolbar-title class="d-flex justify-space-between w-full">
+                    <div class="text-h6">Documents</div>
+                    <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark>Upload document</v-btn>
+                  </v-toolbar-title>
+                </v-toolbar>
+              </template>
+            </v-data-table>
+          </v-tab-item>
+        </v-tabs-items>
+      </v-card-text>
+      <v-divider/>
+      <v-card-actions class="mt-4 mb-6">
+        <v-spacer/>
+        <v-btn outlined class="text-capitalize rounded-lg" width="130">
+          <v-img src="/clear.svg" max-width="16" class="mr-2"/>
+          clear
+        </v-btn>
+        <v-btn
+          color="#7631FF"
+          class="rounded-lg text-capitalize"
+          dark
+          width="130"
+        >create
+        </v-btn>
+      </v-card-actions>
+    </v-card>
     <!--    TODO: Photo of Models -->
     <v-row>
       <v-col cols="12" lg="5" class="mb-4">
@@ -297,66 +354,21 @@
             </v-data-table>
           </v-card-text>
           <v-divider/>
+          <v-card-actions>
+            <v-spacer/>
+            <v-btn
+              color="#7631FF"
+              class="text-capitalize rounded-lg"
+              dark min-width="130"
+              @click="saveCalculation"
+            >
+              create
+            </v-btn>
+          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
-    <v-card class="mt-4 rounded-lg" elevation="0">
-      <v-card-text>
-        <v-tabs
-          v-model="tab"
-          background-color="transparent"
-        >
-          <v-tab
-            v-for="item in items"
-            :key="item"
-            class="text-capitalize"
-          >
-            {{ item }}
-          </v-tab>
-        </v-tabs>
 
-        <v-tabs-items v-model="tab">
-          <v-tab-item>
-            <v-data-table
-              :headers="detailsHeaders"
-              :items="allDetails"
-            >
-            </v-data-table>
-          </v-tab-item>
-          <v-tab-item>
-            <v-data-table
-              :headers="documentsHeaders"
-              :items="allDocuments"
-              hide-default-footer
-            >
-              <template #top>
-                <v-toolbar elevation="0">
-                  <v-toolbar-title class="d-flex justify-space-between w-full">
-                    <div class="text-h6">Documents</div>
-                    <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark>Upload document</v-btn>
-                  </v-toolbar-title>
-                </v-toolbar>
-              </template>
-            </v-data-table>
-          </v-tab-item>
-        </v-tabs-items>
-      </v-card-text>
-      <v-divider/>
-      <v-card-actions class="mt-4 mb-6">
-        <v-spacer/>
-        <v-btn outlined class="text-capitalize rounded-lg" width="130">
-          <v-img src="/clear.svg" max-width="16" class="mr-2"/>
-          clear
-        </v-btn>
-        <v-btn
-          color="#7631FF"
-          class="rounded-lg text-capitalize"
-          dark
-          width="130"
-        >create
-        </v-btn>
-      </v-card-actions>
-    </v-card>
   </div>
 </template>
 
@@ -366,6 +378,18 @@ import {mapActions, mapGetters} from "vuex";
 export default {
   data() {
     return {
+      calculationVal: {
+        discountPercent: "",
+        extraExpensePercent: "",
+        generalExpensePercent: "",
+        givenPrice: "",
+        givenPriceCurrency: "USD",
+        lossPercent: "",
+        overProductionPercent: "",
+        preFinanceId: 0,
+        targetProfitPercent: "",
+      },
+
       map_links: [
         {
           text: 'Home',
@@ -387,9 +411,6 @@ export default {
         },
       ],
       name: '',
-      modelInfo: {
-
-      },
       addPreFinances: {
         id: '',
         modelName: '',
@@ -414,12 +435,7 @@ export default {
         {text: 'RUB', value: 'tertiaryCurrency'},
       ],
       detailsHeaders: [
-        {
-          text: 'Expense group',
-          align: 'start',
-          sortable: false,
-          value: 'expenseGroup',
-        },
+        {text: 'Expense group', align: 'start', sortable: false, value: 'expenseGroup'},
         {text: 'Expense', value: 'expense', width: 100},
         {text: 'Expense type description', value: 'expenseType'},
         {text: 'Quantity', value: 'quantity'},
@@ -600,6 +616,10 @@ export default {
       createPreFinance: 'preFinance/createPreFinance',
       getModelName: 'preFinance/getModelName'
     }),
+    saveCalculation() {
+      const calcVal = this.calculation.filter(el => el.status === false || el.usd_disabled === false);
+      console.log(calcVal);
+    },
     createNewPreFinance() {
       this.createPreFinance(this.addPreFinances)
     },

@@ -148,46 +148,13 @@ export default {
       valid_search: '',
       menu2: false,
       headers: [
-        {text: 'Prefinance number', align: 'start', sortable: false, value: 'financeNumber'},
-        {text: 'Model №', value: 'modelId'},
-        {text: 'Partner', value: 'partnerId'},
-        {text: 'Price', value: 'price'},
-        {text: 'Currency', value: 'currency'},
+        {text: 'Prefinance number', align: 'start', sortable: false, value: 'preFinanceNumber'},
+        {text: 'Model №', value: 'model.modelNumber'},
+        {text: 'Partner', value: 'model.partner.name'},
+        {text: 'Price', value: 'primaryRate'},
+        {text: 'Currency', value: 'primaryCurrency'},
         {text: 'Status', value: 'status', align: 'center', width: 200},
       ],
-      finances: [
-        {
-          id: 2134,
-          financeNumber: 'AA-55-G4-67-Y7',
-          modelId: '123456',
-          partnerId: '85456',
-          price: 'USD',
-          currency: '1.00',
-          status: 'ACTIVE'
-        },
-        {
-          id: 12345,
-          financeNumber: 'AA-55-G4-67-Y7',
-          modelId: '123456',
-          partnerId: '85456',
-          price: 'USD',
-          senderCurrency: 'RUB',
-          transferCurrency: 'UZS',
-          currency: '5.00',
-          status: 'DISABLED'
-        },
-        {
-          id: 54874,
-          financeNumber: 'AA-55-G4-67-Y7',
-          modelId: '123456',
-          partnerId: '85456',
-          price: 'USD',
-          senderCurrency: 'RUB',
-          transferCurrency: 'UZS',
-          currency: '1.00',
-          status: 'PENDING'
-        },
-      ]
     }
   },
   created() {
