@@ -230,7 +230,8 @@
           dark class="text-capitalize rounded-lg font-weight-bold"
           style="min-width: 130px;"
           @click="createNewPreFinance"
-        >save
+        >
+          save
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -254,9 +255,61 @@
             <v-data-table
               :headers="detailsHeaders"
               :items="allDetails"
+              hide-default-footer
             >
+              <template #top>
+                <v-divider/>
+                <v-toolbar elevation="0">
+                  <v-toolbar-title class="d-flex justify-space-between w-full align-center">
+                    <div class="text-h6">Details</div>
+                    <v-btn
+                      class="text-capitalize font-weight-bold rounded-lg"
+                      color="#7631FF"
+                      min-width="170"
+                      dark
+                      @click="addRow"
+                    >
+                      <v-icon class="mr-2">mdi-plus</v-icon> row
+                    </v-btn>
+                  </v-toolbar-title>
+                </v-toolbar>
+              </template>
+              <template #item.delete="{item}">
+                <v-tooltip top class="pointer">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      icon
+                      v-bind="attrs"
+                      v-on="on"
+                      color="red"
+                    >
+                      <v-img src="/delete.svg" max-width="29"/>
+                    </v-btn>
+                  </template>
+                  <span>Delete row</span>
+                </v-tooltip>
+              </template>
+              <template #footer>
+                  <v-divider/>
+                <div class="d-flex justify-end mt-4 mr-2 text-body-1">
+                  Total price: 52.20 USD
+                </div>
+              </template>
+              <template #item.expenseGroup="{item}">
+                <v-combobox
+                  label="Enter expense group"
+                  single-line
+                  solo
+                  v-model="item.editable"
+                  hide-details
+                  flat
+                  background-color="transparent"
+                  append-icon="mdi-chevron-down"
+                />
+              </template>
             </v-data-table>
           </v-tab-item>
+<!--          TODO:  Documents tabs table-->
           <v-tab-item>
             <v-data-table
               :headers="documentsHeaders"
@@ -275,22 +328,23 @@
           </v-tab-item>
         </v-tabs-items>
       </v-card-text>
-      <v-divider/>
-      <v-card-actions class="mt-4 mb-6">
-        <v-spacer/>
-        <v-btn outlined class="text-capitalize rounded-lg" width="130">
-          <v-img src="/clear.svg" max-width="16" class="mr-2"/>
-          clear
-        </v-btn>
-        <v-btn
-          color="#7631FF"
-          class="rounded-lg text-capitalize"
-          dark
-          width="130"
-        >create
-        </v-btn>
-      </v-card-actions>
+
     </v-card>
+    <div class="mt-4 mb-6 mr-4 d-flex justify-end">
+      <v-spacer/>
+      <!--        <v-btn outlined class="text-capitalize rounded-lg" width="130">-->
+      <!--          <v-img src="/clear.svg" max-width="16" class="mr-2"/>-->
+      <!--          clear-->
+      <!--        </v-btn>-->
+      <v-btn
+        color="#7631FF"
+        class="mb-2 rounded-lg text-capitalize font-weight-bold"
+        dark
+        width="130"
+      >
+        save
+      </v-btn>
+    </div>
     <!--    TODO: Photo of Models -->
     <v-row>
       <v-col cols="12" lg="5" class="mb-4">
@@ -368,7 +422,6 @@
         </v-card>
       </v-col>
     </v-row>
-
   </div>
 </template>
 
@@ -389,7 +442,6 @@ export default {
         preFinanceId: 0,
         targetProfitPercent: "",
       },
-
       map_links: [
         {
           text: 'Home',
@@ -443,6 +495,7 @@ export default {
         {text: 'Currency', value: 'currency'},
         {text: 'Price per unit', value: 'priceUnit'},
         {text: 'Price', value: 'price'},
+        {text: '', value: 'delete'},
       ],
       documentsHeaders: [
         {text: 'Type', align: 'start', sortable: false, value: 'type'},
@@ -586,7 +639,8 @@ export default {
         third: null,
         fourth: null,
       },
-      currency_enums: ['USD', 'UZS', 'RUB']
+      currency_enums: ['USD', 'UZS', 'RUB'],
+
     }
   },
   computed: {
@@ -629,6 +683,19 @@ export default {
     createNewPreFinance() {
       this.createPreFinance(this.addPreFinances)
     },
+    addRow() {
+      const row = {
+        expenseGroup: '',
+        expense: '',
+        expenseType: '',
+        quantity: '',
+        measurementUnit: '',
+        currency: '',
+        priceUnit: '',
+        price: ''
+      }
+      this.allDetails.push(row)
+    }
   },
   mounted() {
 
