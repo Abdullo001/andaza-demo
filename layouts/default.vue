@@ -20,7 +20,6 @@ export default {
     this.$store.commit('setToken', token)
   },
   mounted() {
-
   }
 }
 </script>

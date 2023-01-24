@@ -548,7 +548,7 @@ export default {
           firstCurrency: '0.0',
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0',
-          status: false,
+          status: true,
           usd_disabled: true
         },
         {
@@ -592,7 +592,8 @@ export default {
   computed: {
     ...mapGetters({
       modelNames: 'preFinance/modelNames',
-      modelData: 'preFinance/modelData'
+      modelData: 'preFinance/modelData',
+      preFinanceId: 'preFinance/preFinanceId'
     }),
   },
   watch: {
@@ -614,15 +615,23 @@ export default {
   methods: {
     ...mapActions({
       createPreFinance: 'preFinance/createPreFinance',
-      getModelName: 'preFinance/getModelName'
+      getModelName: 'preFinance/getModelName',
+      saveCalculations: 'preFinance/saveCalculation'
     }),
     saveCalculation() {
       const calcVal = this.calculation.filter(el => el.status === false || el.usd_disabled === false);
-      console.log(calcVal);
+      this.saveCalculations({
+        data: calcVal,
+        id: this.preFinanceId,
+        currency: 2
+      })
     },
     createNewPreFinance() {
       this.createPreFinance(this.addPreFinances)
     },
+  },
+  mounted() {
+
   }
 }
 </script>
