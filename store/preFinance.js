@@ -1,11 +1,13 @@
 export const state = () => ({
   preFinances: [],
-  modelName: []
+  modelName: [],
+  preFinanceId: ''
 })
 export const getters = {
   preFinancesContent: state => state.preFinances.content,
   modelNames: state => state.modelName.map(el => el.modelNumber),
   modelData: state => state.modelName,
+  preFinanceId: state => state.preFinanceId
 }
 export const mutations = {
   setRefinances(state, item) {
@@ -13,6 +15,9 @@ export const mutations = {
   },
   setModelName(state, name) {
     state.modelName = name
+  },
+  setPreFinanceId(state, id) {
+    state.preFinanceId = id
   }
 }
 export const actions = {
@@ -66,10 +71,37 @@ export const actions = {
     }
     this.$axios.$post('/api/v1/pre-finances/create', body)
       .then(res => {
+        console.log(res);
+        commit('setPreFinanceId', res.data.id)
         this.$toast.success(res.message, {theme: 'toasted-primary'})
       })
       .catch(({response}) => {
         console.log(response);
       })
+  },
+  saveCalculation({commit}, {data, id, currency}) {
+    const body = {
+      overProductionPercent: data[0].editable,
+      lossPercent: data[1].editable,
+      generalExpensePercent: data[2].editable,
+      extraExpensePercent: data[3].editable,
+      targetProfitPercent: data[4].editable,
+      givenPrice: data[5].firstCurrency,
+      discountPercent: data[6].editable,
+      givenPriceCurrency: currency,
+      preFinanceId: id,
+    };
+    this.$axios.$put(`/api/v1/pre-finances/prefinance-calculations`, body)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(({response}) => console.log(response))
+  },
+  getOnePreFinance({commit}, id) {
+    this.$axios.$get(`/api/v1/pre-finances/get?id=${id}`)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(({response}) => console.log(response))
   }
 }
