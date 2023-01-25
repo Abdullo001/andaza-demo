@@ -267,9 +267,10 @@
                       color="#7631FF"
                       min-width="170"
                       dark
-                      @click="addRow"
+                      @click="new_details = true"
                     >
-                      <v-icon class="mr-2">mdi-plus</v-icon> row
+                      <v-icon class="mr-2">mdi-plus</v-icon>
+                      Details
                     </v-btn>
                   </v-toolbar-title>
                 </v-toolbar>
@@ -291,7 +292,7 @@
                 </v-tooltip>
               </template>
               <template #footer>
-                  <v-divider/>
+                <v-divider/>
                 <div class="d-flex justify-end mt-4 mr-2 text-body-1">
                   Total price: 52.20 USD
                 </div>
@@ -310,7 +311,7 @@
               </template>
             </v-data-table>
           </v-tab-item>
-<!--          TODO:  Documents tabs table-->
+          <!--          TODO:  Documents tabs table-->
           <v-tab-item>
             <v-data-table
               :headers="documentsHeaders"
@@ -331,21 +332,7 @@
       </v-card-text>
 
     </v-card>
-    <div class="mt-4 mb-6 mr-4 d-flex justify-end">
-      <v-spacer/>
-      <!--        <v-btn outlined class="text-capitalize rounded-lg" width="130">-->
-      <!--          <v-img src="/clear.svg" max-width="16" class="mr-2"/>-->
-      <!--          clear-->
-      <!--        </v-btn>-->
-      <v-btn
-        color="#7631FF"
-        class="mb-2 rounded-lg text-capitalize font-weight-bold"
-        dark
-        width="130"
-      >
-        save
-      </v-btn>
-    </div>
+
     <!--    TODO: Photo of Models -->
     <v-row>
       <v-col cols="12" lg="5" class="mb-4">
@@ -423,6 +410,98 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-dialog max-width="1000" v-model="new_details">
+      <v-card>
+        <v-card-title class="d-flex justify-space-between align-center w-full">
+          <div class="text-capitalize">New details</div>
+          <v-btn icon color="#7631FF" @click="new_details = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text class="mt-4">
+          <v-form v-model="details_form" ref="details_form">
+            <v-row>
+              <v-col cols="12" lg="4">
+                <v-combobox
+                  label="Expense group"
+                  filled dense
+                  append-icon="mdi-chevron-down"
+                  :items="expenseGroupLists"
+                  v-model="details.expenseGroup"
+                  validate-on-blur
+                  :rules="[formRules.required]"
+                />
+              </v-col>
+              <v-col cols="12" lg="4">
+                <v-select
+                  label="Expense"
+                  append-icon="mdi-chevron-down"
+                  filled dense
+                  :items="expenseList"
+                  v-model="details.expense"
+                  validate-on-blur
+                  :rules="[formRules.required]"
+                />
+              </v-col>
+              <v-col cols="12" lg="4">
+                <v-text-field
+                  label="Quantity"
+                  filled dense
+                  v-model="details.expense"
+                  validate-on-blur
+                  :rules="[formRules.required]"
+                />
+              </v-col>
+              <v-col cols="12" lg="4">
+                <v-select
+                  label="Measurement unit"
+                  append-icon="mdi-chevron-down"
+                  filled dense
+                  :items="measurementUnitList"
+                  v-model="details.measurementUnit"
+                  validate-on-blur
+                  :rules="[formRules.required]"
+                />
+              </v-col>
+              <v-col cols="12" lg="4">
+                <v-text-field
+                  label="Price per unit"
+                  filled dense
+                  v-model="details.pricePerUnit"
+                  validate-on-blur
+                  :rules="[formRules.required]"
+                />
+              </v-col>
+              <v-col cols="12" lg="4">
+                <v-text-field
+                  label="Price"
+                  filled dense
+                  v-model="details.price"
+                  validate-on-blur
+                  :rules="[formRules.required]"
+                />
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="py-4">
+          <v-spacer/>
+          <v-btn
+            color="amber"
+            text
+            class="text-capitalize font-weight-bold"
+          >cancel
+          </v-btn>
+          <v-btn
+            color="#7631FF"
+            text
+            class="text-capitalize font-weight-bold"
+          >save
+          </v-btn>
+
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -432,6 +511,19 @@ import {mapActions, mapGetters} from "vuex";
 export default {
   data() {
     return {
+      new_details: false,
+      details_form: true,
+      expenseGroupLists: [],
+      expenseList: [],
+      measurementUnitList: [],
+      details: {
+        expenseGroup: '',
+        expense: '',
+        quantity: '',
+        measurementUnit: '',
+        pricePerUnit: '',
+        price: ''
+      },
       calculationVal: {
         discountPercent: "",
         extraExpensePercent: "",
@@ -657,15 +749,20 @@ export default {
     "addPreFinances.modelNumber": {
       async handler(elem) {
         if (elem !== null || elem?.length > 1) {
-         await this.getModelName(elem)
+          await this.getModelName(elem)
         }
-        if(typeof this.modelData[0] === "object" && Object.keys(this.modelData[0]).length) {
-          const {modelNumber, name, partner, id } = this.modelData[0];
+        if (typeof this.modelData[0] === "object" && Object.keys(this.modelData[0]).length) {
+          const {modelNumber, name, partner, id} = this.modelData[0];
           this.addPreFinances.partner = partner;
           this.addPreFinances.preFinanceNumber = id;
           this.addPreFinances.modelNames = name;
           this.addPreFinances.modelNumber = modelNumber;
         }
+      }, deep: true
+    },
+    "details.expenseGroup": {
+      handler(val) {
+        console.log(val);
       }, deep: true
     }
   },
@@ -673,7 +770,8 @@ export default {
     ...mapActions({
       createPreFinance: 'preFinance/createPreFinance',
       getModelName: 'preFinance/getModelName',
-      saveCalculations: 'preFinance/saveCalculation'
+      saveCalculations: 'preFinance/saveCalculation',
+      getExpenseGroup: 'preFinance/getExpenseGroup'
     }),
     saveCalculation() {
       const calcVal = this.calculation.filter(el => el.status === false || el.usd_disabled === false);
@@ -686,28 +784,14 @@ export default {
     createNewPreFinance() {
       this.createPreFinance(this.addPreFinances)
     },
-    addRow() {
-      this.count = this.count+1
-      const row = {
-        id: this.count,
-        expenseGroup: '',
-        expense: '',
-        expenseType: '',
-        quantity: '',
-        measurementUnit: '',
-        currency: '',
-        priceUnit: '',
-        price: ''
-      }
-      this.allDetails.push(row)
-    },
+
     deleteRow(item, index) {
-     this.allDetails.splice(index, 1)
+      this.allDetails.splice(index, 1)
       this.$toast.success('Row successfully removed !')
     }
   },
   mounted() {
-
+    this.getExpenseGroup()
   }
 }
 </script>

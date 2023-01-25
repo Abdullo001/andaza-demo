@@ -1,13 +1,15 @@
 export const state = () => ({
   preFinances: [],
   modelName: [],
-  preFinanceId: ''
+  preFinanceId: '',
+  expenseGroup: ''
 })
 export const getters = {
   preFinancesContent: state => state.preFinances.content,
   modelNames: state => state.modelName.map(el => el.modelNumber),
   modelData: state => state.modelName,
-  preFinanceId: state => state.preFinanceId
+  preFinanceId: state => state.preFinanceId,
+  expenseGroup: state => state.expenseGroup.content
 }
 export const mutations = {
   setRefinances(state, item) {
@@ -18,6 +20,9 @@ export const mutations = {
   },
   setPreFinanceId(state, id) {
     state.preFinanceId = id
+  },
+  setExpenseGroup(state, item) {
+    state.expenseGroup = item
   }
 }
 export const actions = {
@@ -103,5 +108,20 @@ export const actions = {
         console.log(res);
       })
       .catch(({response}) => console.log(response))
+  },
+  getExpenseGroup({commit}) {
+    const body = {
+      filters: [],
+      sorts: [],
+      page: 0,
+      size: 20
+    }
+    this.$axios.$put('/api/v1/expense-group/list', body)
+      .then(res => {
+        commit('setExpenseGroup', res.data)
+      })
+      .catch(({response}) => {
+        console.log(response);
+      })
   }
 }
