@@ -274,7 +274,7 @@
                   </v-toolbar-title>
                 </v-toolbar>
               </template>
-              <template #item.delete="{item}">
+              <template #item.delete="{item, index}">
                 <v-tooltip top class="pointer">
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
@@ -282,6 +282,7 @@
                       v-bind="attrs"
                       v-on="on"
                       color="red"
+                      @click="deleteRow(item, index)"
                     >
                       <v-img src="/delete.svg" max-width="29"/>
                     </v-btn>
@@ -297,10 +298,10 @@
               </template>
               <template #item.expenseGroup="{item}">
                 <v-combobox
-                  label="Enter expense group"
+                  placeholder="Enter expense group"
                   single-line
                   solo
-                  v-model="item.editable"
+                  v-model="item.expenseGroup"
                   hide-details
                   flat
                   background-color="transparent"
@@ -616,8 +617,10 @@ export default {
       ],
       tab: null,
       items: ['Details', 'Documents'],
+      count: 1,
       allDetails: [
         {
+          id: 1,
           expenseGroup: 'Material',
           expense: 'Trikotaj',
           expenseType: 'Black thin material',
@@ -684,7 +687,9 @@ export default {
       this.createPreFinance(this.addPreFinances)
     },
     addRow() {
+      this.count = this.count+1
       const row = {
+        id: this.count,
         expenseGroup: '',
         expense: '',
         expenseType: '',
@@ -695,6 +700,10 @@ export default {
         price: ''
       }
       this.allDetails.push(row)
+    },
+    deleteRow(item, index) {
+     this.allDetails.splice(index, 1)
+      this.$toast.success('Row successfully removed !')
     }
   },
   mounted() {
