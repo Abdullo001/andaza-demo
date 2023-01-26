@@ -2,14 +2,18 @@ export const state = () => ({
   preFinances: [],
   modelName: [],
   preFinanceId: '',
-  expenseGroup: ''
+  expenseGroup: {},
+  expenseList: [],
+  measurementUnit: []
 })
 export const getters = {
   preFinancesContent: state => state.preFinances.content,
   modelNames: state => state.modelName.map(el => el.modelNumber),
   modelData: state => state.modelName,
   preFinanceId: state => state.preFinanceId,
-  expenseGroup: state => state.expenseGroup.content
+  expenseGroup: state => state.expenseGroup.content,
+  expenseList: state => state.expenseList,
+  measurementUnit: state => state.measurementUnit,
 }
 export const mutations = {
   setRefinances(state, item) {
@@ -23,6 +27,12 @@ export const mutations = {
   },
   setExpenseGroup(state, item) {
     state.expenseGroup = item
+  },
+  setExpenseList(state, item) {
+    state.expenseList = item;
+  },
+  setMeasurementUnit(state, item) {
+    state.measurementUnit = item;
   }
 }
 export const actions = {
@@ -123,5 +133,25 @@ export const actions = {
       .catch(({response}) => {
         console.log(response);
       })
+  },
+  getExpenseList({commit}, id) {
+    this.$axios.$get(`api/v1/expense/list?groupId=${id}`)
+      .then(res => {
+        commit('setExpenseList', res.data)
+      })
+      .catch(({response}) => console.log(response))
+  },
+  getMeasurementUnit({commit}) {
+    const body = {
+      filters: [],
+      posts: [],
+      page: 0,
+      size: 50
+    }
+    this.$axios.$put(`api/v1/measurement-unit/list`, body)
+      .then(res => {
+        commit('setMeasurementUnit', res.data.content)
+      })
+      .catch(({response}) => console.log(response))
   }
 }

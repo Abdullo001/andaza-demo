@@ -426,7 +426,9 @@
                   label="Expense group"
                   filled dense
                   append-icon="mdi-chevron-down"
-                  :items="expenseGroupLists"
+                  :items="expenseGroup"
+                  item-text="name"
+                  item-value="id"
                   v-model="details.expenseGroup"
                   validate-on-blur
                   :rules="[formRules.required]"
@@ -441,13 +443,16 @@
                   v-model="details.expense"
                   validate-on-blur
                   :rules="[formRules.required]"
+                  :disabled="expense_status"
+                  item-value="id"
+                  item-text="name"
                 />
               </v-col>
               <v-col cols="12" lg="4">
                 <v-text-field
                   label="Quantity"
                   filled dense
-                  v-model="details.expense"
+                  v-model="details.quantity"
                   validate-on-blur
                   :rules="[formRules.required]"
                 />
@@ -461,6 +466,8 @@
                   v-model="details.measurementUnit"
                   validate-on-blur
                   :rules="[formRules.required]"
+                  item-text="name"
+                  item-value="id"
                 />
               </v-col>
               <v-col cols="12" lg="4">
@@ -507,15 +514,15 @@
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+import DefaultLayout from "@/layouts/default.vue";
 
 export default {
+  components: {DefaultLayout},
   data() {
     return {
       new_details: false,
       details_form: true,
       expenseGroupLists: [],
-      expenseList: [],
-      measurementUnitList: [],
       details: {
         expenseGroup: '',
         expense: '',
@@ -735,14 +742,19 @@ export default {
         fourth: null,
       },
       currency_enums: ['USD', 'UZS', 'RUB'],
+      expense_status: true
 
     }
   },
+
   computed: {
     ...mapGetters({
       modelNames: 'preFinance/modelNames',
       modelData: 'preFinance/modelData',
-      preFinanceId: 'preFinance/preFinanceId'
+      preFinanceId: 'preFinance/preFinanceId',
+      expenseGroup: 'preFinance/expenseGroup',
+      expenseList: 'preFinance/expenseList',
+      measurementUnitList: 'preFinance/measurementUnit'
     }),
   },
   watch: {
@@ -762,7 +774,8 @@ export default {
     },
     "details.expenseGroup": {
       handler(val) {
-        console.log(val);
+        Object.keys(val).length > 1 ? this.expense_status=false : this.expense_status=true
+        this.getExpenseList(val.id)
       }, deep: true
     }
   },
@@ -771,7 +784,10 @@ export default {
       createPreFinance: 'preFinance/createPreFinance',
       getModelName: 'preFinance/getModelName',
       saveCalculations: 'preFinance/saveCalculation',
-      getExpenseGroup: 'preFinance/getExpenseGroup'
+      getExpenseGroup: 'preFinance/getExpenseGroup',
+      getExpenseList: 'preFinance/getExpenseList',
+      getMeasurementUnit: 'preFinance/getMeasurementUnit',
+
     }),
     saveCalculation() {
       const calcVal = this.calculation.filter(el => el.status === false || el.usd_disabled === false);
@@ -791,9 +807,12 @@ export default {
     }
   },
   mounted() {
-    this.getExpenseGroup()
+    this.getExpenseGroup();
+    this.getMeasurementUnit();
   }
 }
 </script>
 
-<style lang="scss" src="assets/abstracts/_preficances.scss" scoped/>
+<style lang="scss" src="assets/abstracts/_preficances.scss" scoped>
+
+</style>
