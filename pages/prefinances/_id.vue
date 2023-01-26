@@ -277,7 +277,7 @@
               </template>
               <template #item.delete="{item, index}">
                 <v-tooltip top class="pointer">
-                  <template v-slot:activator="{ on, attrs }">
+                  <template #activator="{ on, attrs }">
                     <v-btn
                       icon
                       v-bind="attrs"
@@ -297,18 +297,7 @@
                   Total price: 52.20 USD
                 </div>
               </template>
-              <template #item.expenseGroup="{item}">
-                <v-combobox
-                  placeholder="Enter expense group"
-                  single-line
-                  solo
-                  v-model="item.expenseGroup"
-                  hide-details
-                  flat
-                  background-color="transparent"
-                  append-icon="mdi-chevron-down"
-                />
-              </template>
+
             </v-data-table>
           </v-tab-item>
           <!--          TODO:  Documents tabs table-->
@@ -479,15 +468,6 @@
                   :rules="[formRules.required]"
                 />
               </v-col>
-              <v-col cols="12" lg="4">
-                <v-text-field
-                  label="Price"
-                  filled dense
-                  v-model="details.price"
-                  validate-on-blur
-                  :rules="[formRules.required]"
-                />
-              </v-col>
             </v-row>
           </v-form>
         </v-card-text>
@@ -497,15 +477,16 @@
             color="amber"
             text
             class="text-capitalize font-weight-bold"
+            @click="new_details = false"
           >cancel
           </v-btn>
           <v-btn
             color="#7631FF"
             text
             class="text-capitalize font-weight-bold"
+            @click="createDetailsNew"
           >save
           </v-btn>
-
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -529,7 +510,6 @@ export default {
         quantity: '',
         measurementUnit: '',
         pricePerUnit: '',
-        price: ''
       },
       calculationVal: {
         discountPercent: "",
@@ -588,7 +568,7 @@ export default {
       ],
       detailsHeaders: [
         {text: 'Expense group', align: 'start', sortable: false, value: 'expenseGroup'},
-        {text: 'Expense', value: 'expense', width: 100},
+        {text: 'Expense', value: 'expense'},
         {text: 'Expense type description', value: 'expenseType'},
         {text: 'Quantity', value: 'quantity'},
         {text: 'Measurement unit', value: 'measurementUnit'},
@@ -787,7 +767,8 @@ export default {
       getExpenseGroup: 'preFinance/getExpenseGroup',
       getExpenseList: 'preFinance/getExpenseList',
       getMeasurementUnit: 'preFinance/getMeasurementUnit',
-
+      createDetails: 'preFinance/createDetails',
+      getAllDetails: 'preFinance/getAllDetails'
     }),
     saveCalculation() {
       const calcVal = this.calculation.filter(el => el.status === false || el.usd_disabled === false);
@@ -796,6 +777,16 @@ export default {
         id: this.preFinanceId,
         currency: 2
       })
+    },
+    createDetailsNew() {
+      const data = {
+        quantity: this.details.quantity,
+        pricePerUnit: this.details.pricePerUnit,
+        measurementId: this.details.measurementUnit,
+        expenseId: this.details.expense,
+        preFinanceId: this.preFinanceId
+      }
+      this.createDetails(data);
     },
     createNewPreFinance() {
       this.createPreFinance(this.addPreFinances)
@@ -809,6 +800,7 @@ export default {
   mounted() {
     this.getExpenseGroup();
     this.getMeasurementUnit();
+    this.getAllDetails(1);
   }
 }
 </script>

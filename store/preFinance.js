@@ -153,5 +153,19 @@ export const actions = {
         commit('setMeasurementUnit', res.data.content)
       })
       .catch(({response}) => console.log(response))
+  },
+  getAllDetails({commit}, id) {
+    this.$axios.$get(`/api/v1/possible-expense/list?preFinanceId=${id}`)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(({response}) => console.log(response))
+  },
+  createDetails({commit, dispatch}, data) {
+    // this.$axios.$post('/api/v1/possible-expense/create', data)
+    //   .then(res => {
+    //     console.log(res);
+    //   })
+    //   .catch(({response}) => console.log(response))
   }
 }
