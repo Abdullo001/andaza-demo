@@ -162,10 +162,10 @@ export const actions = {
       .catch(({response}) => console.log(response))
   },
   createDetails({commit, dispatch}, data) {
-    // this.$axios.$post('/api/v1/possible-expense/create', data)
-    //   .then(res => {
-    //     console.log(res);
-    //   })
-    //   .catch(({response}) => console.log(response))
+    this.$axios.$post('/api/v1/possible-expense/create', data)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(({response}) => console.log(response))
   }
 }
