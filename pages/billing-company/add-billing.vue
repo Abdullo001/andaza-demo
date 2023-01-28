@@ -105,6 +105,7 @@
           <v-card
             class="mb-12"
             color="grey lighten-1"
+            elevation="0"
           >
             <PreviewInvoice/>
           </v-card>

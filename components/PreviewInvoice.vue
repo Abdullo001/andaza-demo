@@ -6,9 +6,20 @@
       </v-card-title>
       <v-divider/>
       <v-card-title>
-        <v-row>
-          <v-col>
-            <div>ATP</div>
+        <v-row class="header-color">
+          <v-col cols="12" lg="2">
+            <div class="logo"><v-img src="/ATP.svg"/></div>
+          </v-col>
+          <v-col cols="12" lg="7">
+            <div class="header-text">
+              <div><span>Supplier name:</span> ARTATEX LLC</div>
+              <div><span>Address:</span> Tashkent city, Uzbekistan</div>
+              <div><span>Email:</span> info@ATP.uz</div>
+              <div><span>Phone number:</span> +99890 123 45 67 / +99899 765 43 21</div>
+            </div>
+          </v-col>
+          <v-col cols="12" lg="3">
+            <div class="header-invoice"><v-img src="/INVOICE.svg"/></div>
           </v-col>
         </v-row>
       </v-card-title>
@@ -26,6 +37,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" src="assets/abstracts/_previewInvoice.scss"/>

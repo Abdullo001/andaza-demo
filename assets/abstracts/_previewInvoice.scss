@@ -1,0 +1,36 @@
+.logo {
+  width: 200px;
+  height: 180px;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 10px;
+}
+.header-invoice {
+  width: 180px;
+  height: 180px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-right: 20px;
+}
+.header-color {
+  background: #7631FF;
+}
+.header-text {
+  color: #fff;
+  font-family: sans-serif, 'Inter';
+  font-style: normal;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  margin-left: 20px;
+  > div > span {
+    font-weight: 700;
+  }
+}
