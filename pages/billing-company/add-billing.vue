@@ -105,8 +105,9 @@
           <v-card
             class="mb-12"
             color="grey lighten-1"
-            height="200px"
-          ></v-card>
+          >
+            <PreviewInvoice/>
+          </v-card>
 
           <div class="d-flex align-center justify-center pb-4">
             <v-btn
