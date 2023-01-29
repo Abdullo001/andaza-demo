@@ -139,7 +139,7 @@
             color="grey lighten-1"
             height="200px"
           >
-          <!--   TODO: content here  -->
+          <PreviewInvoice/>
           </v-card>
           <div class="d-flex align-center justify-center pb-4">
             <v-btn
