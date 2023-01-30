@@ -39,7 +39,7 @@
         </v-stepper-step>
       </v-stepper-header>
 
-      <v-stepper-items>
+      <v-stepper-items class="rounded-lg">
         <v-stepper-content step="1">
           <v-card
             class="mb-12"
@@ -202,5 +202,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.v-stepper__header {
+  background: #F4F5FA;
+}
 </style>
