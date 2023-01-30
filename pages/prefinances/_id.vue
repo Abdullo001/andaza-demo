@@ -254,7 +254,7 @@
           <v-tab-item>
             <v-data-table
               :headers="detailsHeaders"
-              :items="allDetails"
+              :items="detailsList"
               hide-default-footer
             >
               <template #top>
@@ -294,7 +294,7 @@
               <template #footer>
                 <v-divider/>
                 <div class="d-flex justify-end mt-4 mr-2 text-body-1">
-                  Total price: 52.20 USD
+                  Total price: {{ totalPrice }} USD
                 </div>
               </template>
 
@@ -573,7 +573,7 @@ export default {
         {text: 'Quantity', value: 'quantity'},
         {text: 'Measurement unit', value: 'measurementUnit'},
         {text: 'Currency', value: 'currency'},
-        {text: 'Price per unit', value: 'priceUnit'},
+        {text: 'Price per unit', value: 'pricePerUnit'},
         {text: 'Price', value: 'price'},
         {text: '', value: 'delete'},
       ],
@@ -726,7 +726,6 @@ export default {
 
     }
   },
-
   computed: {
     ...mapGetters({
       modelNames: 'preFinance/modelNames',
@@ -734,7 +733,9 @@ export default {
       preFinanceId: 'preFinance/preFinanceId',
       expenseGroup: 'preFinance/expenseGroup',
       expenseList: 'preFinance/expenseList',
-      measurementUnitList: 'preFinance/measurementUnit'
+      measurementUnitList: 'preFinance/measurementUnit',
+      detailsList: 'preFinance/detailsList',
+      totalPrice: 'preFinance/totalPrice'
     }),
   },
   watch: {

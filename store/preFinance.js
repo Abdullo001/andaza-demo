@@ -4,7 +4,8 @@ export const state = () => ({
   preFinanceId: '',
   expenseGroup: {},
   expenseList: [],
-  measurementUnit: []
+  measurementUnit: [],
+  detailsList: []
 })
 export const getters = {
   preFinancesContent: state => state.preFinances.content,
@@ -14,6 +15,8 @@ export const getters = {
   expenseGroup: state => state.expenseGroup.content,
   expenseList: state => state.expenseList,
   measurementUnit: state => state.measurementUnit,
+  detailsList: state => state.detailsList,
+  totalPrice: state => state.detailsList[0].totalPrice
 }
 export const mutations = {
   setRefinances(state, item) {
@@ -33,6 +36,9 @@ export const mutations = {
   },
   setMeasurementUnit(state, item) {
     state.measurementUnit = item;
+  },
+  setDetailsList(state, detail) {
+    state.detailsList = detail
   }
 }
 export const actions = {
@@ -86,7 +92,6 @@ export const actions = {
     }
     this.$axios.$post('/api/v1/pre-finances/create', body)
       .then(res => {
-        console.log(res);
         commit('setPreFinanceId', res.data.id)
         this.$toast.success(res.message, {theme: 'toasted-primary'})
       })
@@ -157,7 +162,7 @@ export const actions = {
   getAllDetails({commit}, id) {
     this.$axios.$get(`/api/v1/possible-expense/list?preFinanceId=${id}`)
       .then(res => {
-        console.log(res);
+        commit('setDetailsList', res.data)
       })
       .catch(({response}) => console.log(response))
   },
