@@ -1,0 +1,31 @@
+.print-title {
+  font-family: sans-serif, 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 28px;
+  text-align: center;
+  color: #7631FF;
+}
+.print-text {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  color: #1D2433;
+  max-width: 510px;
+  margin-top: 16px;
+}
+.print-image {
+  margin-top: 30px;
+}
+.print-btn {
+  text-transform: capitalize;
+  margin-top: 30px;
+  letter-spacing: 0.01em;
+  color: #7631FF;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+  border-radius: 8px;
+}

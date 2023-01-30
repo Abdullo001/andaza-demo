@@ -85,6 +85,7 @@
               color="#7631FF"
               class="border-indigo mr-4 rounded-lg font-weight-bold"
               min-width="160"
+              @click="e1 = 1"
             >
               Cancel
             </v-btn>
@@ -116,6 +117,7 @@
               color="#7631FF"
               class="border-indigo mr-4 rounded-lg font-weight-bold"
               min-width="160"
+              @click="e1 = 2"
             >
               Cancel
             </v-btn>
@@ -137,9 +139,9 @@
           <v-card
             class="mb-12"
             color="grey lighten-1"
-            height="200px"
+            elevation="0"
           >
-          <PreviewInvoice/>
+          <PrintInvoice/>
           </v-card>
           <div class="d-flex align-center justify-center pb-4">
             <v-btn
@@ -147,6 +149,7 @@
               color="#7631FF"
               class="border-indigo mr-4 rounded-lg font-weight-bold"
               min-width="160"
+              @click="e1 = 3"
             >
               Cancel
             </v-btn>
@@ -154,7 +157,7 @@
             <v-btn
               color="#7631FF"
               dark
-              @click="e1 = 1"
+              @click="e1 = 4"
               class="text-capitalize rounded-lg"
               min-width="160"
             >
