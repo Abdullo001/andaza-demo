@@ -98,7 +98,7 @@
     </v-card>
     <v-data-table
       :headers="headers"
-      :items="preFinancesContent"
+      :items="preFinanceList"
       :items-per-page="10"
     >
       <template #top>
@@ -116,7 +116,8 @@
       <template #item.status="{item}">
         <div>
           <v-select
-            :items="statusEnums"
+            @change="changeStatus(item)"
+            :items="status_enum"
             v-model="item.status"
             hide-details
             rounded
@@ -138,6 +139,7 @@ import {mapActions, mapGetters} from "vuex";
 export default {
   data() {
     return {
+      status_enum: ['ACTIVE', 'DISABLED'],
       new_prefinance: false,
       filters: {
         financeNumber: '',
@@ -149,12 +151,13 @@ export default {
       menu2: false,
       headers: [
         {text: 'Prefinance number', align: 'start', sortable: false, value: 'preFinanceNumber'},
-        {text: 'Model №', value: 'model.modelNumber'},
-        {text: 'Partner', value: 'model.partner.name'},
+        {text: 'Model №', value: 'modelNumber'},
+        {text: 'Partner', value: 'partner'},
         {text: 'Price', value: 'primaryRate'},
         {text: 'Currency', value: 'primaryCurrency'},
         {text: 'Status', value: 'status', align: 'center', width: 200},
       ],
+      preFinanceList: []
     }
   },
   created() {
@@ -165,15 +168,24 @@ export default {
       preFinancesContent: 'preFinance/preFinancesContent'
     })
   },
+  watch: {
+    preFinancesContent(val) {
+      this.preFinanceList = JSON.parse(JSON.stringify(val))
+    }
+  },
   methods: {
     ...mapActions({
-      getReFinancesList: "preFinance/getPreFinancesList"
+      getReFinancesList: "preFinance/getPreFinancesList",
+      changePreFinanceStatus: "preFinance/changeStatus"
     }),
     resetFilters() {
       this.$refs.filter_form.reset()
     },
-    deleteRow(item) {
-
+    changeStatus(item) {
+      this.changePreFinanceStatus({
+        id: item.id,
+        status: item.status
+      })
     }
   },
   mounted() {

@@ -716,16 +716,6 @@ export default {
         }
       })
     },
-    // statusColor(color) {
-    //   switch (color) {
-    //     case 'ACTIVE':
-    //       return 'green';
-    //     case 'DISABLED':
-    //       return 'red'
-    //     case 'PENDING':
-    //       return 'amber'
-    //   }
-    // },
     langFlag(lang) {
       switch (lang) {
         case 'UZ':
