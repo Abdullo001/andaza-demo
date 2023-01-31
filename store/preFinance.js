@@ -1,3 +1,4 @@
+
 export const state = () => ({
   preFinances: [],
   modelName: [],
@@ -5,7 +6,11 @@ export const state = () => ({
   expenseGroup: {},
   expenseList: [],
   measurementUnit: [],
-  detailsList: []
+  detailsList: [
+    {
+      totalPrice: 0
+    }
+  ],
 })
 export const getters = {
   preFinancesContent: state => state.preFinances.content,
@@ -79,7 +84,7 @@ export const actions = {
         console.log(response);
       })
   },
-  createPreFinance({commit, dispatch}, data) {
+  async createPreFinance({commit, dispatch}, data) {
     const body = {
       modelId: data.preFinanceNumber,
       primaryCurrency: data.primaryCurrency,
@@ -90,13 +95,14 @@ export const actions = {
       tertiaryRate: data.tertiaryRate,
       description: data.description
     }
-    this.$axios.$post('/api/v1/pre-finances/create', body)
+    await this.$axios.$post('/api/v1/pre-finances/create', body)
       .then(res => {
         commit('setPreFinanceId', res.data.id)
         this.$toast.success(res.message, {theme: 'toasted-primary'})
+        dispatch('getAllDetails', res.data.id)
       })
       .catch(({response}) => {
-        console.log(response);
+        this.$toast.error(response.data.message, {theme: 'toasted-primary'})
       })
   },
   saveCalculation({commit}, {data, id, currency}) {
@@ -112,13 +118,6 @@ export const actions = {
       preFinanceId: id,
     };
     this.$axios.$put(`/api/v1/pre-finances/prefinance-calculations`, body)
-      .then(res => {
-        console.log(res);
-      })
-      .catch(({response}) => console.log(response))
-  },
-  getOnePreFinance({commit}, id) {
-    this.$axios.$get(`/api/v1/pre-finances/get?id=${id}`)
       .then(res => {
         console.log(res);
       })
@@ -162,15 +161,27 @@ export const actions = {
   getAllDetails({commit}, id) {
     this.$axios.$get(`/api/v1/possible-expense/list?preFinanceId=${id}`)
       .then(res => {
-        commit('setDetailsList', res.data)
+        if (!!res.data.length) {
+          commit('setDetailsList', res.data)
+        }
       })
       .catch(({response}) => console.log(response))
   },
-  createDetails({commit, dispatch}, data) {
+  createDetails({commit, dispatch, state}, data) {
     this.$axios.$post('/api/v1/possible-expense/create', data)
       .then(res => {
-        console.log(res);
+        this.$toast.success(res.message, {theme: 'toasted-primary'})
+        dispatch('getAllDetails', state.preFinanceId)
       })
       .catch(({response}) => console.log(response))
+  },
+  changeStatus({commit}, {id, status}) {
+    this.$axios.$put(`/api/v1/pre-finances/change-status?id=${id}&status=${status}`)
+      .then(res => {
+        this.$toast.success(res.message, {theme: 'toasted-primary'})
+      })
+      .catch(({response}) => {
+        console.log(response);
+      })
   }
 }

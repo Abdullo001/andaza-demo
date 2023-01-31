@@ -34,9 +34,13 @@
           <v-col cols="12" lg="3" md="3">
             <v-combobox
               v-model="addPreFinances.modelNumber"
-              :items="modelNames"
+              :items="modelData"
+              :search-input.sync="modelSearch"
+              :item-text="(el) => el.modelNumber"
+              :item-value="(el) => el.id"
               filled
               class="rounded-lg"
+              return-object
               color="#7631FF"
               dense
               label="Model number"
@@ -61,7 +65,7 @@
           </v-col>
           <v-col cols="12" lg="3" md="3">
             <v-text-field
-              v-model="addPreFinances.partner.name"
+              v-model="addPreFinances.partner"
               filled
               class="rounded-lg"
               color="#7631FF"
@@ -276,7 +280,7 @@
                 </v-toolbar>
               </template>
               <template #item.delete="{item, index}">
-                <v-tooltip top class="pointer">
+                <v-tooltip top class="pointer" v-if="Object.keys(item).length > 2">
                   <template #activator="{ on, attrs }">
                     <v-btn
                       icon
@@ -498,6 +502,7 @@ import {mapActions, mapGetters} from "vuex";
 import DefaultLayout from "@/layouts/default.vue";
 
 export default {
+  name: 'CreatePreFinancePage',
   components: {DefaultLayout},
   data() {
     return {
@@ -549,7 +554,7 @@ export default {
         preFinanceNumber: '',
         modelNumber: '',
         partnerId: '',
-        partner: {name: '', id: ''},
+        partner: '',
         primaryCurrency: '',
         tertiaryCurrency: '',
         secondaryCurrency: '',
@@ -560,11 +565,11 @@ export default {
         updatedTime: '',
       },
       headers: [
-        {text: 'Name', align: 'start', sortable: false, value: 'name'},
-        {text: '', value: 'editable', width: 100},
-        {text: 'USD', value: 'firstCurrency', width: 100},
-        {text: 'UZS', value: 'secondCurrency'},
-        {text: 'RUB', value: 'tertiaryCurrency'},
+        {text: 'Name', value: 'name', align: 'start', sortable: false},
+        {text: '', value: 'editable', sortable: false, width: 150},
+        {text: 'USD', value: 'firstCurrency', sortable: false, width: 150},
+        {text: 'UZS', value: 'secondCurrency', sortable: false, width: 150},
+        {text: 'RUB', value: 'tertiaryCurrency', sortable: false, width: 150},
       ],
       detailsHeaders: [
         {text: 'Expense group', align: 'start', sortable: false, value: 'expenseGroup'},
@@ -575,7 +580,7 @@ export default {
         {text: 'Currency', value: 'currency'},
         {text: 'Price per unit', value: 'pricePerUnit'},
         {text: 'Price', value: 'price'},
-        {text: '', value: 'delete'},
+        {text: '', value: 'delete', sortable: false},
       ],
       documentsHeaders: [
         {text: 'Type', align: 'start', sortable: false, value: 'type'},
@@ -588,7 +593,7 @@ export default {
         {
           name: 'Cost subtotal',
           editable: '-',
-          firstCurrency: '0.0',
+          firstCurrency: 0,
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0',
           status: true,
@@ -647,6 +652,15 @@ export default {
           tertiaryCurrency: '0.0',
           status: true,
           usd_disabled: true
+        },
+        {
+          name: 'Client target price',
+          editable: '-',
+          firstCurrency: '0.0',
+          secondCurrency: '0.0',
+          tertiaryCurrency: '0.0',
+          status: true,
+          usd_disabled: false
         },
         {
           name: 'Given price',
@@ -722,8 +736,8 @@ export default {
         fourth: null,
       },
       currency_enums: ['USD', 'UZS', 'RUB'],
-      expense_status: true
-
+      expense_status: true,
+      modelSearch: ''
     }
   },
   computed: {
@@ -744,20 +758,36 @@ export default {
         if (elem !== null || elem?.length > 1) {
           await this.getModelName(elem)
         }
-        if (typeof this.modelData[0] === "object" && Object.keys(this.modelData[0]).length) {
-          const {modelNumber, name, partner, id} = this.modelData[0];
-          this.addPreFinances.partner = partner;
-          this.addPreFinances.preFinanceNumber = id;
-          this.addPreFinances.modelNames = name;
-          this.addPreFinances.modelNumber = modelNumber;
+        // if (typeof this.modelData[0] === "object" && Object.keys(this.modelData[0]).length) {
+        //   const {modelNumber, name, partner, id} = this.modelData[0];
+        //   this.addPreFinances.partner = partner;
+        //   this.addPreFinances.preFinanceNumber = id;
+        //   this.addPreFinances.modelNames = name;
+        //   this.addPreFinances.modelNumber = modelNumber;
+        // }
+        //
+        if (typeof this.modelData === "object" && this.modelData.length) {
+
+          // const {modelNumber, name, partner, id} = this.modelData[0];
+          // this.addPreFinances.partner = partner;
+          // this.addPreFinances.preFinanceNumber = id;
+          // this.addPreFinances.modelNames = name;
+          // this.addPreFinances.modelNumber = modelNumber;
         }
       }, deep: true
     },
     "details.expenseGroup": {
       handler(val) {
-        Object.keys(val).length > 1 ? this.expense_status=false : this.expense_status=true
+        Object.keys(val).length > 1 ? this.expense_status = false : this.expense_status = true
         this.getExpenseList(val.id)
       }, deep: true
+    },
+    totalPrice(val) {
+      console.log(val);
+      let data = this.calculation[0]
+      data.firstCurrency = val
+      data.secondCurrency = val * this.addPreFinances.secondaryRate
+      console.log(data.firstCurrency)
     }
   },
   methods: {
@@ -779,7 +809,8 @@ export default {
         currency: 2
       })
     },
-    createDetailsNew() {
+
+    async createDetailsNew() {
       const data = {
         quantity: this.details.quantity,
         pricePerUnit: this.details.pricePerUnit,
@@ -787,25 +818,31 @@ export default {
         expenseId: this.details.expense,
         preFinanceId: this.preFinanceId
       }
-      this.createDetails(data);
+      await this.createDetails(data);
+      this.new_details = false;
+
+      this.details.quantity = ""
+      this.details.pricePerUnit = ""
+      this.details.measurementUnit = ""
+      this.details.expense = ""
+      this.details.expenseGroup = ""
     },
-    createNewPreFinance() {
-      this.createPreFinance(this.addPreFinances)
+    async createNewPreFinance() {
+      await this.createPreFinance(this.addPreFinances)
+      // await this.getAllDetails(this.preFinanceId)
     },
 
     deleteRow(item, index) {
-      this.allDetails.splice(index, 1)
-      this.$toast.success('Row successfully removed !')
+
     }
   },
   mounted() {
     this.getExpenseGroup();
     this.getMeasurementUnit();
-    this.getAllDetails(1);
   }
 }
 </script>
 
-<style lang="scss" src="assets/abstracts/_preficances.scss" scoped>
+<style lang="scss" src="assets/abstracts/_prefinances.scss" scoped>
 
 </style>
