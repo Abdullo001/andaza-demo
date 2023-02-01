@@ -292,7 +292,7 @@
                       <v-img src="/delete.svg" max-width="29"/>
                     </v-btn>
                   </template>
-                  <span>Delete row</span>
+                  <span>Delete</span>
                 </v-tooltip>
               </template>
               <template #footer>
@@ -323,7 +323,6 @@
           </v-tab-item>
         </v-tabs-items>
       </v-card-text>
-
     </v-card>
 
     <!--    TODO: Photo of Models -->
@@ -374,6 +373,7 @@
                   flat
                   :background-color="!item.status?'#F8F4FE':'transparent'"
                   :disabled="item.status"
+                  class="pa-0 ma-0"
                 />
               </template>
               <template #item.firstCurrency="{item}">
@@ -384,6 +384,7 @@
                   flat
                   :background-color="!item.usd_disabled?'#F8F4FE':'transparent'"
                   :disabled="item.usd_disabled"
+                  class="pa-0 ma-0"
                 />
               </template>
             </v-data-table>
@@ -566,10 +567,10 @@ export default {
       },
       headers: [
         {text: 'Name', value: 'name', align: 'start', sortable: false},
-        {text: '', value: 'editable', sortable: false, width: 150},
-        {text: 'USD', value: 'firstCurrency', sortable: false, width: 150},
-        {text: 'UZS', value: 'secondCurrency', sortable: false, width: 150},
-        {text: 'RUB', value: 'tertiaryCurrency', sortable: false, width: 150},
+        {text: '', value: 'editable', sortable: false, width: 110},
+        {text: 'USD', value: 'firstCurrency', sortable: false, width: 110},
+        {text: 'UZS', value: 'secondCurrency', sortable: false, width: 110},
+        {text: 'RUB', value: 'tertiaryCurrency', sortable: false, width: 110},
       ],
       detailsHeaders: [
         {text: 'Expense group', align: 'start', sortable: false, value: 'expenseGroup'},
@@ -594,13 +595,13 @@ export default {
           name: 'Cost subtotal',
           editable: '-',
           firstCurrency: 0,
-          secondCurrency: '0.0',
-          tertiaryCurrency: '0.0',
+          secondCurrency: 0,
+          tertiaryCurrency: 0,
           status: true,
           usd_disabled: true
         },
         {
-          name: 'Over-production %',
+          name: 'Overproduction %',
           editable: '0.0',
           firstCurrency: '0.0',
           secondCurrency: '0.0',
@@ -636,7 +637,7 @@ export default {
           usd_disabled: true
         },
         {
-          name: 'Estimated price',
+          name: 'Cost price',
           editable: '-',
           firstCurrency: '0.0',
           secondCurrency: '0.0',
@@ -762,9 +763,73 @@ export default {
     totalPrice(val) {
       let data = this.calculation[0]
       data.firstCurrency = val.toLocaleString()
-      data.secondCurrency = (val * this.addPreFinances.secondaryRate).toLocaleString('en-US')
-      data.tertiaryCurrency = (val * +this.addPreFinances.tertiaryRate).toLocaleString('en-US')
+      data.secondCurrency = (val * this.addPreFinances.secondaryRate)
+      data.tertiaryCurrency = (val * +this.addPreFinances.tertiaryRate)
     },
+    calculation: {
+      handler(val) {
+        const overproduction = val[1].editable;
+        val[1].firstCurrency = (this.totalPrice / 100 * overproduction).toFixed(2)
+        val[1].secondCurrency = (this.calculation[0].secondCurrency / 100 * overproduction).toFixed(2)
+        val[1].tertiaryCurrency = (this.calculation[0].tertiaryCurrency / 100 * overproduction).toFixed(2)
+
+        const lostResource = val[2].editable;
+        val[2].firstCurrency = (this.totalPrice / 100 * lostResource).toFixed(2)
+        val[2].secondCurrency = (this.calculation[0].secondCurrency / 100 * lostResource).toFixed(2)
+        val[2].tertiaryCurrency = (this.calculation[0].tertiaryCurrency / 100 * lostResource).toFixed(2)
+
+        const generalExpenses = val[3].editable;
+        val[3].firstCurrency = (this.totalPrice / 100 * generalExpenses).toFixed(2)
+        val[3].secondCurrency = (this.calculation[0].secondCurrency / 100 * generalExpenses).toFixed(2)
+        val[3].tertiaryCurrency = (this.calculation[0].tertiaryCurrency / 100 * generalExpenses).toFixed(2)
+
+        const extraExpenses = val[4].editable;
+        val[4].firstCurrency = (this.totalPrice / 100 * extraExpenses).toFixed(2)
+        val[4].secondCurrency = (this.calculation[0].secondCurrency / 100 * extraExpenses).toFixed(2)
+        val[4].tertiaryCurrency = (this.calculation[0].tertiaryCurrency / 100 * extraExpenses).toFixed(2)
+
+        val[5].firstCurrency =
+          (+val[0].firstCurrency + +val[1].firstCurrency +
+          +val[2].firstCurrency + +val[3].firstCurrency +
+          +val[4].firstCurrency).toFixed(2)
+
+        val[5].secondCurrency =
+          (+val[0].secondCurrency + +val[1].secondCurrency +
+           +val[2].secondCurrency + +val[3].secondCurrency +
+           +val[4].secondCurrency).toFixed(2)
+
+        val[5].tertiaryCurrency =
+          (+val[0].tertiaryCurrency + +val[1].tertiaryCurrency +
+            +val[2].tertiaryCurrency + +val[3].tertiaryCurrency +
+            +val[4].tertiaryCurrency).toFixed(2)
+
+        const targetProfit = val[6].editable;
+        val[6].firstCurrency = (val[5].firstCurrency / 100 * targetProfit).toFixed(2);
+        val[6].secondCurrency = (val[6].firstCurrency * this.addPreFinances.secondaryRate).toFixed(2);
+        val[6].tertiaryCurrency = (val[6].firstCurrency * this.addPreFinances.tertiaryRate).toFixed(2);
+
+        val[7].secondCurrency = (val[7].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2);
+        val[7].tertiaryCurrency = (val[7].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2)
+
+        val[8].secondCurrency = (val[8].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2);
+        val[8].tertiaryCurrency = (val[8].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2)
+
+        const discount = val[9].editable;
+        val[9].firstCurrency = (val[8].firstCurrency / 100 * discount).toFixed(2);
+        val[9].secondCurrency = (val[9].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2);
+        val[9].tertiaryCurrency = (val[9].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2);
+
+        val[10].firstCurrency = (val[8].firstCurrency - val[9].firstCurrency).toFixed(2);
+        val[10].secondCurrency = (val[8].secondCurrency - val[9].secondCurrency).toFixed(2);
+        val[10].tertiaryCurrency = (val[8].tertiaryCurrency - val[9].tertiaryCurrency).toFixed(2);
+
+        val[12].firstCurrency = (val[10].firstCurrency - val[5].firstCurrency).toFixed(2);
+        val[12].secondCurrency = (val[12].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2)
+        val[12].tertiaryCurrency = (val[12].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2)
+
+        val[11].editable = (val[12].firstCurrency / val[5].firstCurrency).toFixed(2)
+      }, deep: true
+    }
   },
   methods: {
     ...mapActions({

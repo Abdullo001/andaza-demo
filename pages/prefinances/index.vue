@@ -37,44 +37,8 @@
               dense
             />
           </v-col>
-          <v-col
-            cols="12" lg="2" md="2"
-          >
-            <v-menu
-              v-model="menu2"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              transition="scale-transition"
-              offset-y
-              min-width="auto"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                  v-model="filters.createAt"
-                  label="Created at"
-                  readonly
-                  v-bind="attrs"
-                  v-on="on"
-                  outlined
-                  dense
-                  append-icon="mdi-lock"
-                  class="rounded-lg"
-                  hide-details
-                  style="width: 200px"
-                >
-                  <template #append>
-                    <v-img src="/date-icon.svg"/>
-                  </template>
-                </v-text-field>
-              </template>
-              <v-date-picker
-                v-model="filters.createAt"
-                @input="menu2 = false"
-                color="#7631FF"
-              ></v-date-picker>
-            </v-menu>
-          </v-col>
-          <v-col class="" cols="12" lg="4">
+          <v-spacer/>
+          <v-col cols="12" lg="4">
             <div class="d-flex justify-end">
               <v-btn
                 width="140" outlined
@@ -88,6 +52,7 @@
                 width="140" color="#397CFD" dark
                 elevation="0"
                 class="text-capitalize rounded-lg"
+                @click="filterData"
               >
                 Search
               </v-btn>
@@ -100,12 +65,25 @@
       :headers="headers"
       :items="preFinanceList"
       :items-per-page="10"
+      :loading="loading"
+      @update:items-per-page="getItemSize"
+      @update:page="page"
+      :server-items-length="totalElements"
+      :footer-props="{
+          itemsPerPageOptions: [10, 20, 50, 100],
+      }"
+      :options.sync="options"
     >
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium">Prefinance</div>
-            <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="$router.push(`/prefinances/create`)">
+            <v-btn
+              color="#7631FF"
+              class="rounded-lg text-capitalize"
+              dark
+              @click="$router.push(`/prefinances/create`)"
+            >
               <v-icon>mdi-plus</v-icon>
               Prefinance
             </v-btn>
@@ -139,6 +117,7 @@ import {mapActions, mapGetters} from "vuex";
 export default {
   data() {
     return {
+      options: {},
       status_enum: ['ACTIVE', 'DISABLED'],
       new_prefinance: false,
       filters: {
@@ -157,15 +136,26 @@ export default {
         {text: 'Currency', value: 'primaryCurrency'},
         {text: 'Status', value: 'status', align: 'center', width: 200},
       ],
-      preFinanceList: []
+      preFinanceList: [],
+      itemPerPage: 10,
+      current_page: 0,
     }
   },
   created() {
-    this.getReFinancesList({page: 0, size: 50})
+    this.getReFinancesList(
+      {
+        page: 0,
+        size: 10,
+        preFinanceNumber: '',
+        modelNumber: '',
+        partner: ''
+      })
   },
   computed: {
     ...mapGetters({
-      preFinancesContent: 'preFinance/preFinancesContent'
+      preFinancesContent: 'preFinance/preFinancesContent',
+      loading: 'preFinance/loading',
+      totalElements: 'preFinance/totalElements'
     })
   },
   watch: {
@@ -179,12 +169,51 @@ export default {
       changePreFinanceStatus: "preFinance/changeStatus"
     }),
     resetFilters() {
-      this.$refs.filter_form.reset()
+      this.$refs.filter_form.reset();
+      this.getReFinancesList(
+        {
+          page: 0,
+          size: 10,
+          preFinanceNumber: '',
+          modelNumber: '',
+          partner: ''
+        })
+
     },
     changeStatus(item) {
       this.changePreFinanceStatus({
         id: item.id,
         status: item.status
+      })
+    },
+    async getItemSize(val) {
+      this.itemPerPage = val;
+      await this.getReFinancesList({
+        page: this.current_page,
+        size: this.itemPerPage,
+        modelNumber: this.filters.modelId,
+        preFinanceNumber: this.filters.financeNumber,
+        partner: this.filters.partnerId
+      })
+    },
+    async page(val) {
+      // arrows < > value page
+      this.current_page = val - 1
+      await this.getReFinancesList({
+        page: this.current_page,
+        size: this.itemPerPage,
+        modelNumber: this.filters.modelId,
+        preFinanceNumber: this.filters.financeNumber,
+        partner: this.filters.partnerId
+      })
+    },
+    async filterData() {
+      await this.getReFinancesList({
+        page: this.current_page,
+        size: this.itemPerPage,
+        modelNumber: this.filters.modelId,
+        preFinanceNumber: this.filters.financeNumber,
+        partner: this.filters.partnerId
       })
     }
   },
