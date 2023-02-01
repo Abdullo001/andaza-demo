@@ -36,11 +36,11 @@
               v-model="addPreFinances.modelNumber"
               :items="modelData"
               :search-input.sync="modelSearch"
-              :item-text="(el) => el.modelNumber"
-              :item-value="(el) => el.id"
+              item-text="modelNumber"
+              item-value="modelNumber"
               filled
               class="rounded-lg"
-              return-object
+              :return-object="true"
               color="#7631FF"
               dense
               label="Model number"
@@ -574,7 +574,7 @@ export default {
       detailsHeaders: [
         {text: 'Expense group', align: 'start', sortable: false, value: 'expenseGroup'},
         {text: 'Expense', value: 'expense'},
-        {text: 'Expense type description', value: 'expenseType'},
+        {text: 'Expense type description', value: 'expenseGroupDescription'},
         {text: 'Quantity', value: 'quantity'},
         {text: 'Measurement unit', value: 'measurementUnit'},
         {text: 'Currency', value: 'currency'},
@@ -636,21 +636,21 @@ export default {
           usd_disabled: true
         },
         {
-          name: 'Target profit %',
-          editable: '0.0',
-          firstCurrency: '0.0',
-          secondCurrency: '0.0',
-          tertiaryCurrency: '0.0',
-          status: false,
-          usd_disabled: true
-        },
-        {
           name: 'Estimated price',
           editable: '-',
           firstCurrency: '0.0',
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0',
           status: true,
+          usd_disabled: true
+        },
+        {
+          name: 'Target profit %',
+          editable: '0.0',
+          firstCurrency: '0.0',
+          secondCurrency: '0.0',
+          tertiaryCurrency: '0.0',
+          status: false,
           usd_disabled: true
         },
         {
@@ -711,19 +711,6 @@ export default {
       tab: null,
       items: ['Details', 'Documents'],
       count: 1,
-      allDetails: [
-        {
-          id: 1,
-          expenseGroup: 'Material',
-          expense: 'Trikotaj',
-          expenseType: 'Black thin material',
-          quantity: '0.7',
-          measurementUnit: 'kg',
-          currency: 'USD',
-          priceUnit: '3.00',
-          price: '2.10'
-        }
-      ],
       allDocuments: [{type: 'word'}],
       model_first: null,
       model_second: null,
@@ -753,42 +740,31 @@ export default {
     }),
   },
   watch: {
-    "addPreFinances.modelNumber": {
-      async handler(elem) {
-        if (elem !== null || elem?.length > 1) {
-          await this.getModelName(elem)
-        }
-        // if (typeof this.modelData[0] === "object" && Object.keys(this.modelData[0]).length) {
-        //   const {modelNumber, name, partner, id} = this.modelData[0];
-        //   this.addPreFinances.partner = partner;
-        //   this.addPreFinances.preFinanceNumber = id;
-        //   this.addPreFinances.modelNames = name;
-        //   this.addPreFinances.modelNumber = modelNumber;
-        // }
-        //
-        if (typeof this.modelData === "object" && this.modelData.length) {
-
-          // const {modelNumber, name, partner, id} = this.modelData[0];
-          // this.addPreFinances.partner = partner;
-          // this.addPreFinances.preFinanceNumber = id;
-          // this.addPreFinances.modelNames = name;
-          // this.addPreFinances.modelNumber = modelNumber;
-        }
-      }, deep: true
+    "addPreFinances.modelNumber": function (elem) {
+      if (elem !== null || elem?.length > 1) {
+        this.getModelName(elem)
+      }
+      const {modelNumber, name, partner, id} = this.addPreFinances.modelNumber;
+      if (Object.keys(this.addPreFinances.modelNumber).length > 3 && modelNumber || name || partner !== undefined) {
+        this.addPreFinances.partner = partner;
+        this.addPreFinances.preFinanceNumber = id;
+        this.addPreFinances.modelNames = name;
+        this.addPreFinances.modelNumber = modelNumber;
+      }
     },
     "details.expenseGroup": {
-      handler(val) {
+      async handler(val) {
+        console.log(val);
         Object.keys(val).length > 1 ? this.expense_status = false : this.expense_status = true
-        this.getExpenseList(val.id)
+        await this.getExpenseList(val.id)
       }, deep: true
     },
     totalPrice(val) {
-      console.log(val);
       let data = this.calculation[0]
-      data.firstCurrency = val
-      data.secondCurrency = val * this.addPreFinances.secondaryRate
-      console.log(data.firstCurrency)
-    }
+      data.firstCurrency = val.toLocaleString()
+      data.secondCurrency = (val * this.addPreFinances.secondaryRate).toLocaleString('en-US')
+      data.tertiaryCurrency = (val * +this.addPreFinances.tertiaryRate).toLocaleString('en-US')
+    },
   },
   methods: {
     ...mapActions({
