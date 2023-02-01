@@ -161,7 +161,7 @@ export default {
     }
   },
   created() {
-    this.getReFinancesList({page: 0, size: 10})
+    this.getReFinancesList({page: 0, size: 50})
   },
   computed: {
     ...mapGetters({
