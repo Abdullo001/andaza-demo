@@ -6,11 +6,8 @@ export const state = () => ({
   expenseGroup: {},
   expenseList: [],
   measurementUnit: [],
-  detailsList: [
-    {
-      totalPrice: 0
-    }
-  ],
+  detailsList: [{totalPrice: 0}],
+  loading: true
 })
 export const getters = {
   preFinancesContent: state => state.preFinances.content,
@@ -21,7 +18,9 @@ export const getters = {
   expenseList: state => state.expenseList,
   measurementUnit: state => state.measurementUnit,
   detailsList: state => state.detailsList,
-  totalPrice: state => state.detailsList[0].totalPrice
+  totalPrice: state => state.detailsList[0].totalPrice,
+  loading: state => state.loading,
+  totalElements: state => state.preFinances.totalElements
 }
 export const mutations = {
   setRefinances(state, item) {
@@ -44,21 +43,49 @@ export const mutations = {
   },
   setDetailsList(state, detail) {
     state.detailsList = detail
-  }
+  },
+  changeLoading(state, status) {
+    state.loading = status
+  },
 }
 export const actions = {
-  getPreFinancesList({commit}, {size, page}) {
+  getPreFinancesList({commit}, {size, page, preFinanceNumber, modelNumber, partner}) {
     const body = {
-      filter: [],
-      sort: [],
+      filters: [
+        {
+          key: 'preFinanceNumber',
+          operator: 'LIKE',
+          propertyType: 'STRING',
+          value: preFinanceNumber
+        },
+        {
+          key: 'modelNumber',
+          operator: 'LIKE',
+          propertyType: 'STRING',
+          value: modelNumber
+        },
+        {
+          key: 'partner',
+          operator: 'LIKE',
+          propertyType: 'STRING',
+          value: partner
+        },
+      ],
+      sorts: [],
       size,
       page,
     }
+    body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
     this.$axios.$put(`/api/v1/pre-finances/list`, body)
       .then(res => {
+        if(res.message === 'Successfully') {
+        commit('changeLoading', false)
         commit('setRefinances', res.data)
+
+        }
       })
       .catch(({response}) => {
+        commit('changeLoading', false)
         console.log(response);
       })
   },
@@ -112,14 +139,15 @@ export const actions = {
       generalExpensePercent: data[2].editable,
       extraExpensePercent: data[3].editable,
       targetProfitPercent: data[4].editable,
-      givenPrice: data[5].firstCurrency,
-      discountPercent: data[6].editable,
+      clientTargetPrice: data[5].firstCurrency,
+      givenPrice: data[6].firstCurrency,
+      discountPercent: data[7].editable,
       givenPriceCurrency: currency,
       preFinanceId: id,
     };
     this.$axios.$put(`/api/v1/pre-finances/prefinance-calculations`, body)
       .then(res => {
-        console.log(res);
+        this.$toast.success(res.message, {theme: "toasted-primary"})
       })
       .catch(({response}) => console.log(response))
   },
