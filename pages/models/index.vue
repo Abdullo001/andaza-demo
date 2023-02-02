@@ -114,6 +114,8 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 export default {
   data() {
     return {
@@ -189,7 +191,11 @@ export default {
 
     }
   },
+
   methods: {
+    ...mapActions({
+      getModelsList: 'models/getModelsList'
+    }),
     changeStatus() {},
     resetSearch() {},
     filterCompany() {},
@@ -200,8 +206,9 @@ export default {
       this.$router.push(`/models/add-model`)
     }
   },
-  mounted() {
-    this.$store.commit('setPageTitle', 'Lists')
+  async mounted() {
+    this.$store.commit('setPageTitle', 'Lists');
+    await this.getModelsList({page: 0, size:10})
   }
 }
 </script>

@@ -134,6 +134,7 @@
       <template #item.status="{item}">
         <div>
           <v-select
+            @click.stop="statusChange"
             :items="statusEnums"
             hide-details
             rounded
@@ -440,6 +441,7 @@ export default {
         this.new_dialog = false;
       }
     },
+    statusChange(){},
     // DELETE ROLE
     deleteRole(){
       console.log(this.id)
