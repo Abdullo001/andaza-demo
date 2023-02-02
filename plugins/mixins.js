@@ -31,13 +31,28 @@ export default (context, inject) => {
         return {
           color(color) {
             switch (color) {
-              case 'ACTIVE': return 'green'
-              case 'DISABLED': return 'red'
+              case 'ACTIVE': return '#10BF41'
+              case 'DISABLED': return '#FF4E4F'
               case 'PENDING': return 'amber'
-              case 'UNBLOCKED': return 'green'
-              case 'BLOCKED': return 'red'
+              case 'UNBLOCKED': return '#10BF41'
+              case 'BLOCKED': return '#FF4E4F'
             }
-          }
+          },
+          modelColor(color) {
+            switch (color) {
+              case 'Finished': return '#10BF41'
+              case 'Cancelled': return '#FF4E4F'
+              case 'Pending': return 'amber'
+              case 'In process': return 'blue'
+            }
+          },
+          licenseColor(color) {
+            switch (color) {
+              case 'Yes': return '#10BF41'
+              case 'No': return '#FF4E4F'
+
+            }
+          },
         }
 
       },

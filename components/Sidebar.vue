@@ -214,6 +214,18 @@ export default {
             },
           ]
         },
+        {
+          icon: 'file.svg',
+          title: 'Lists',
+          to: '/models',
+          has_child: true,
+          child: [
+            {
+              title: 'Models',
+              to: '/models',
+            },
+          ]
+        },
       ],
       right: true,
       search: '',
