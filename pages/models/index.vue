@@ -95,7 +95,7 @@
       <template #item.status="{ item }">
         <v-select
           @click.stop="changeStatus"
-          :background-color="statusColor.modelColor(item.status)"
+          :background-color="statusColor.color(item.status)"
           :items="status_enums"
           append-icon="mdi-chevron-down"
           v-model="item.status"
@@ -104,9 +104,9 @@
           rounded dark
         />
       </template>
-      <template #item.license="{ item }">
-        <v-chip :color="statusColor.licenseColor(item.license)" dark>
-          {{item.license}}
+      <template #item.licenceRequired="{ item }">
+        <v-chip :color="statusColor.licenseColor(item.licenceRequired)" dark>
+          {{item.licenceRequired ? 'Yes' : 'No'}}
         </v-chip>
       </template>
     </v-data-table>
@@ -114,7 +114,7 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   data() {
@@ -127,7 +127,7 @@ export default {
         status: '',
         order: ''
       },
-      status_enums: ['Finished', 'Cancelled', 'In process', 'Pending'],
+      status_enums: ['ACTIVE', 'DISABLED', 'PENDING'],
       pickerOptions: {
         shortcuts: [
           {
@@ -156,42 +156,47 @@ export default {
       },
       headers: [
         {text: 'Model №', align: 'start', sortable: false, value: 'modelNumber'},
-        {text: 'Model name', value: 'modelName'},
-        {text: 'Company name', value: 'companyName', width: 280},
+        {text: 'Model name', value: 'name'},
+        {text: 'Composition', value: 'composition', width: 280},
         {text: 'Model group', value: 'modelGroup'},
-        {text: 'License', value: 'license'},
+        {text: 'License', value: 'licenceRequired'},
         {text: 'Order o/d', value: 'order'},
         {text: 'Deadline', value: 'deadline'},
         {text: 'Status', value: 'status', width: 200},
       ],
-      modelsList: [
-        {
-          id: 1,
-          modelNumber: '123456',
-          modelName: 'Women T-shirt.',
-          companyName: 'ARTEX LLC',
-          modelGroup: 'T-shirt',
-          license: 'No',
-          order: '12.10.2022 12:25:08',
-          deadline: '12.10.2022 12:25:08',
-          status: 'In process'
-        },
-        {
-          id: 2,
-          modelNumber: '123499',
-          modelName: 'Women T-shirt.',
-          companyName: 'ARTEX LLC',
-          modelGroup: 'T-shirt',
-          license: 'Yes',
-          order: '12.10.2022 12:25:08',
-          deadline: '12.10.2022 12:25:08',
-          status: 'Finished'
-        },
-      ],
+      // modelsList: [
+      //   {
+      //     id: 1,
+      //     modelNumber: '123456',
+      //     modelName: 'Women T-shirt.',
+      //     companyName: 'ARTEX LLC',
+      //     modelGroup: 'T-shirt',
+      //     license: 'No',
+      //     order: '12.10.2022 12:25:08',
+      //     deadline: '12.10.2022 12:25:08',
+      //     status: 'ACTIVE'
+      //   },
+      //   {
+      //     id: 2,
+      //     modelNumber: '123499',
+      //     modelName: 'Women T-shirt.',
+      //     companyName: 'ARTEX LLC',
+      //     modelGroup: 'T-shirt',
+      //     license: 'Yes',
+      //     order: '12.10.2022 12:25:08',
+      //     deadline: '12.10.2022 12:25:08',
+      //     status: 'PENDING'
+      //   },
+      // ],
 
     }
   },
+  computed: {
+    ...mapGetters({
+      modelsList: 'models/modelsList'
+    }),
 
+  },
   methods: {
     ...mapActions({
       getModelsList: 'models/getModelsList'

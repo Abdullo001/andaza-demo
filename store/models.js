@@ -21,7 +21,7 @@ export const actions = {
     }
     this.$axios.$put(`/api/v1/models/list`, body)
       .then(res => {
-        console.log(res);
+        commit('setModels', res.data)
       })
       .catch(({response}) => {
         console.log(response);
