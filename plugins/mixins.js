@@ -47,7 +47,8 @@ export default (context, inject) => {
             }
           },
           licenseColor(color) {
-            switch (color) {
+            const status = color ? 'Yes' : 'NO'
+            switch (status) {
               case 'Yes': return '#10BF41'
               case 'No': return '#FF4E4F'
 
