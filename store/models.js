@@ -24,13 +24,28 @@ export const mutations = {
 }
 
 export const actions = {
-  getModelsList({commit}, {page, size}) {
+  async getModelsList({commit}, {page, size, modelNumber, partner, status}) {
     const body = {
-      filters: [],
+      filters: [
+        {
+          key: 'modelNumber',
+          operator: 'LIKE',
+          propertyType: 'STRING',
+          value: modelNumber
+        },
+        {
+          key: 'status',
+          operator: 'EQUAL',
+          propertyType: 'STRING',
+          value: status
+        },
+      ],
       sorts: [],
       page, size
     }
-    this.$axios.$put(`/api/v1/models/list?partner=`, body)
+    body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
+    partner = partner === null ? '' : partner
+    await this.$axios.$put(`/api/v1/models/list?partner=${partner}`, body)
       .then(res => {
         commit('setModels', res.data)
       })
@@ -38,8 +53,8 @@ export const actions = {
         console.log(response);
       })
   },
-  getOneModel({commit}, id) {
-    this.$axios.$get(`/api/v1/models/get?id=${id}`)
+  async getOneModel({commit}, id) {
+    await this.$axios.$get(`/api/v1/models/get?id=${id}`)
       .then(res => {
         commit('setOneModel', res.data);
       })
@@ -47,14 +62,14 @@ export const actions = {
         console.log(response);
       })
   },
-  getModelGroup({commit}) {
+  async getModelGroup({commit}) {
     const body = {
       filter: [],
       sorts: [],
       page: 0,
       size: 50
     }
-    this.$axios.$put(`/api/v1/model-groups/list`, body)
+    await this.$axios.$put(`/api/v1/model-groups/list`, body)
       .then(res => {
         commit('setModelGroups', res.data);
       })
