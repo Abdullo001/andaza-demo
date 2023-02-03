@@ -36,81 +36,95 @@
       </v-card-title>
       <v-divider/>
       <v-card-text class="mt-4">
-         <v-row>
-           <v-col>
-             <v-text-field
-               label="Model number"
-               filled
-               dense
-               style="max-width: 400px"
-               placeholder="Enter model number"
-               class="mb-4"
-             />
-             <div class="mb-2 black--text text-body-1">Permission</div>
-             <v-chip color="#10BF41" dark class="font-weight-bold">Edit</v-chip>
-           </v-col>
-           <v-col>
-             <v-text-field
-               label="Model name"
-               filled
-               dense
-               style="max-width: 400px"
-               placeholder="Model name"
-               class="mb-4"
-             />
-             <v-select
-               label="Season"
-               filled
-               dense
-               :items="season_enums"
-               append-icon="mdi-chevron-down"
-               style="max-width: 400px"
-               placeholder="Select season"
-               class="mb-4"
-             />
-           </v-col>
-           <v-col>
-             <v-select
-               label="Model group"
-               filled dense
-               :items="group_enums"
-               append-icon="mdi-chevron-down"
-               style="max-width: 400px"
-               placeholder="Select model group"
-               class="mb-4"
-             />
-             <v-select
-               label="License"
-               filled dense
-               :items="licence_enums"
-               append-icon="mdi-chevron-down"
-               style="max-width: 400px"
-               placeholder="Select model group"
-               class="mb-4"
-             />
-           </v-col>
-           <v-col>
-             <v-text-field
-               label="Composition"
-               filled dense
-               style="max-width: 400px"
-               placeholder="Enter model composition"
-               class="mb-4"
-             />
-             <v-select
-               label="Gender"
-               filled dense
-               :items="gander_enums"
-               append-icon="mdi-chevron-down"
-               style="max-width: 400px"
-               placeholder="Select gender"
-               class="mb-4"
-             />
-           </v-col>
-         </v-row>
+        <v-row>
+          <v-col>
+            <v-text-field
+              v-model="model.number"
+              label="Model number"
+              filled
+              dense
+              style="max-width: 400px"
+              placeholder="Enter model number"
+              class="mb-4"
+            />
+            <div class="mb-2 black--text text-body-1">Permission</div>
+            <v-chip color="#10BF41" dark class="font-weight-bold">Edit</v-chip>
+          </v-col>
+          <v-col>
+            <v-text-field
+              v-model="model.name"
+              label="Model name"
+              filled
+              dense
+              style="max-width: 400px"
+              placeholder="Model name"
+              class="mb-4"
+            />
+            <v-select
+              v-model="model.season"
+              label="Season"
+              filled
+              dense
+              :items="season_enums"
+              item-value="key"
+              item-text="text"
+              append-icon="mdi-chevron-down"
+              style="max-width: 400px"
+              placeholder="Select season"
+              class="mb-4"
+            />
+          </v-col>
+          <v-col>
+            <v-select
+              v-model="model.group"
+              label="Model group"
+              filled dense
+              :items="modelGroups"
+              item-value="id"
+              item-text="name"
+              append-icon="mdi-chevron-down"
+              style="max-width: 400px"
+              placeholder="Select model group"
+              class="mb-4"
+            />
+            <v-select
+              v-model="model.licence"
+              label="License"
+              filled dense
+              :items="licence_enums"
+              item-text="text"
+              item-value="key"
+              append-icon="mdi-chevron-down"
+              style="max-width: 400px"
+              placeholder="Select model group"
+              class="mb-4"
+            />
+          </v-col>
+          <v-col>
+            <v-text-field
+              v-model="model.composition"
+              label="Composition"
+              filled dense
+              style="max-width: 400px"
+              placeholder="Enter model composition"
+              class="mb-4"
+            />
+            <v-select
+              v-model="model.gender"
+              label="Gender"
+              filled dense
+              :items="gander_enums"
+              append-icon="mdi-chevron-down"
+              style="max-width: 400px"
+              placeholder="Select gender"
+              class="mb-4"
+            />
+          </v-col>
+        </v-row>
         <v-row>
           <v-col cols="12" lg="6">
             <v-textarea
+              v-model="model.description"
               label="Description"
               filled dense
               placeholder="Enter description"
@@ -119,22 +133,26 @@
           </v-col>
           <v-col cols="12" lg="3">
             <v-text-field
+              v-model="model.creator"
               label="Creator"
               filled dense
               style="max-width: 400px"
               placeholder="Enter Creator"
               class="mb-4"
+              disabled
             />
             <v-text-field
+              v-model="model.modifiedPerson"
               label="Modified person"
               filled dense
               style="max-width: 400px"
               placeholder="Enter Modified person"
-              class="mb-4"
+              class="mb-4" disabled
             />
           </v-col>
           <v-col cols="12" lg="3">
             <v-text-field
+              v-model="model.createdTime"
               filled
               class="rounded-lg mb-4"
               color="#7631FF"
@@ -148,6 +166,7 @@
               </template>
             </v-text-field>
             <v-text-field
+              v-model="model.updateTime"
               filled
               class="rounded-lg mb-4"
               color="#7631FF"
@@ -171,13 +190,16 @@
           width="130"
           height="44"
           dark
-        >save</v-btn>
+        >save
+        </v-btn>
       </v-card-actions>
     </v-card>
   </div>
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   data() {
     return {
@@ -208,12 +230,24 @@ export default {
         group: '',
         composition: '',
         season: '',
-
+        licence: '',
+        gender: '',
+        description: '',
+        creator: '',
+        modifiedPerson: '',
+        createdTime: null,
+        updateTime: null
       },
-      season_enums: ['Active', 'No active'],
-      group_enums: ['test', 'test2', 'test3'],
-      licence_enums: ['Yes', 'No'],
-      gander_enums: ['Male', 'Female'],
+      season_enums: [
+        {key: 'SS', text: ' Spring/Summer'},
+        {key: 'AW', text: 'Autumn/Winter'}
+      ],
+
+      licence_enums: [
+        {key: true, text: 'Yes'},
+        {key: false, text: 'No'}
+      ],
+      gander_enums: ['MALE', 'FEMALE', 'BOY', 'GIRL', 'UNISEX'],
       pickerOptions: {
         shortcuts: [
           {
@@ -242,6 +276,44 @@ export default {
       },
     }
   },
+
+  computed: {
+    ...mapGetters({
+      oneModel: 'models/oneModel',
+      modelGroups: 'models/modelGroups'
+    }),
+  },
+  watch: {
+    oneModel(val) {
+      const model = this.model
+      model.number = val.modelNumber;
+      model.name = val.name;
+      model.group = val.modelGroup;
+      model.composition = val.composition;
+      model.season = val.season;
+      model.licence = val.licenceRequired;
+      model.gender = val.gender;
+      model.description = '';
+      model.creator = val.createdBy;
+      model.modifiedPerson = '';
+      model.createdTime = val.createdAt;
+      model.updateTime = val.updatedAt;
+    }
+  },
+  methods: {
+    ...mapActions({
+      getOneModel: 'models/getOneModel',
+      getModelGroup: 'models/getModelGroup',
+
+    })
+  },
+  mounted() {
+    const id = this.$route.params.id;
+    if(id !== 'add-model') {
+      this.getOneModel(id);
+    }
+    this.getModelGroup()
+  }
 }
 </script>
 

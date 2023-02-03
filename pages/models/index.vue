@@ -164,38 +164,12 @@ export default {
         {text: 'Deadline', value: 'deadline'},
         {text: 'Status', value: 'status', width: 200},
       ],
-      // modelsList: [
-      //   {
-      //     id: 1,
-      //     modelNumber: '123456',
-      //     modelName: 'Women T-shirt.',
-      //     companyName: 'ARTEX LLC',
-      //     modelGroup: 'T-shirt',
-      //     license: 'No',
-      //     order: '12.10.2022 12:25:08',
-      //     deadline: '12.10.2022 12:25:08',
-      //     status: 'ACTIVE'
-      //   },
-      //   {
-      //     id: 2,
-      //     modelNumber: '123499',
-      //     modelName: 'Women T-shirt.',
-      //     companyName: 'ARTEX LLC',
-      //     modelGroup: 'T-shirt',
-      //     license: 'Yes',
-      //     order: '12.10.2022 12:25:08',
-      //     deadline: '12.10.2022 12:25:08',
-      //     status: 'PENDING'
-      //   },
-      // ],
-
     }
   },
   computed: {
     ...mapGetters({
       modelsList: 'models/modelsList'
     }),
-
   },
   methods: {
     ...mapActions({
