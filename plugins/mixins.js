@@ -11,8 +11,8 @@ export default (context, inject) => {
           limitImage20: v => !v || v.size < 20000000 || 'Image size should be less than 20 MB!',
           limitImage10: v => !v || v.size < 10000000 || 'Image size should be less than 10 MB!',
           confirmPassword: (a, b) => a === b || 'Password must match',
-          email:  (v) => {
-            if(v)
+          email: (v) => {
+            if (v)
               return v && !!v.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) || 'Email not valid'
             else
               return true
@@ -31,31 +31,40 @@ export default (context, inject) => {
         return {
           color(color) {
             switch (color) {
-              case 'ACTIVE': return '#10BF41'
-              case 'DISABLED': return '#FF4E4F'
-              case 'PENDING': return 'amber'
-              case 'UNBLOCKED': return '#10BF41'
-              case 'BLOCKED': return '#FF4E4F'
+              case 'ACTIVE':
+                return '#10BF41'
+              case 'DISABLED':
+                return '#FF4E4F'
+              case 'PENDING':
+                return 'amber'
+              case 'UNBLOCKED':
+                return '#10BF41'
+              case 'BLOCKED':
+                return '#FF4E4F'
             }
           },
           modelColor(color) {
             switch (color) {
-              case 'Finished': return '#10BF41'
-              case 'Cancelled': return '#FF4E4F'
-              case 'Pending': return 'amber'
-              case 'In process': return 'blue'
+              case 'Finished':
+                return '#10BF41'
+              case 'Cancelled':
+                return '#FF4E4F'
+              case 'Pending':
+                return 'amber'
+              case 'In process':
+                return 'blue'
             }
           },
           licenseColor(color) {
             const status = color ? 'Yes' : 'NO'
             switch (status) {
-              case 'Yes': return '#10BF41'
-              case 'No': return '#FF4E4F'
-
+              case 'Yes':
+                return '#10BF41'
+              case 'No':
+                return '#FF4E4F'
             }
           },
         }
-
       },
     }
   })

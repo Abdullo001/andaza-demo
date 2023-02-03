@@ -76,7 +76,7 @@ export const actions = {
       page,
     }
     body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
-    this.$axios.$put(`/api/v1/pre-finances/list`, body)
+    this.$axios.$put(`/api/v1/pre-finances/list?modelNumber=&partner=`, body)
       .then(res => {
         if(res.message === 'Successfully') {
         commit('changeLoading', false)
@@ -103,7 +103,7 @@ export const actions = {
       page: 0,
       size: 10
     }
-    this.$axios.$put(`/api/v1/models/list`, body)
+    this.$axios.$put(`/api/v1/models/list?partner=`, body)
       .then(res => {
         commit('setModelName', res.data.content);
       })
@@ -133,6 +133,7 @@ export const actions = {
       })
   },
   saveCalculation({commit}, {data, id, currency}) {
+    console.log(data);
     const body = {
       overProductionPercent: data[0].editable,
       lossPercent: data[1].editable,
@@ -145,6 +146,7 @@ export const actions = {
       givenPriceCurrency: currency,
       preFinanceId: id,
     };
+
     this.$axios.$put(`/api/v1/pre-finances/prefinance-calculations`, body)
       .then(res => {
         this.$toast.success(res.message, {theme: "toasted-primary"})

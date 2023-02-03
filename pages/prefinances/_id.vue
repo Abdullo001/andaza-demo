@@ -382,9 +382,10 @@
                     v-model="item.firstCurrency"
                     hide-details
                     flat
-                    :background-color="!item.usd_disabled?'#F8F4FE':'transparent'"
+                    :background-color="!item.usd_disabled && !item.readonly?'#F8F4FE':'transparent'"
                     :disabled="item.usd_disabled"
                     class="pa-0 ma-0"
+                    :readonly="item.readonly"
                   />
                 </template>
             </v-data-table>
@@ -599,7 +600,8 @@ export default {
           secondCurrency: 0,
           tertiaryCurrency: 0,
           status: true,
-          usd_disabled: true
+          usd_disabled: true,
+          readonly: false
         },
         {
           name: 'Overproduction %',
@@ -608,7 +610,8 @@ export default {
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0',
           status: false,
-          usd_disabled: true
+          usd_disabled: true,
+          readonly: false
         },
         {
           name: 'Lost resource %',
@@ -617,7 +620,8 @@ export default {
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0',
           status: false,
-          usd_disabled: true
+          usd_disabled: true,
+          readonly: false
         },
         {
           name: 'General expenses %',
@@ -626,7 +630,8 @@ export default {
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0',
           status: false,
-          usd_disabled: true
+          usd_disabled: true,
+          readonly: false
         },
         {
           name: 'Extra expenses %',
@@ -635,7 +640,8 @@ export default {
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0',
           status: false,
-          usd_disabled: true
+          usd_disabled: true,
+          readonly: false
         },
         {
           name: 'Cost price',
@@ -644,7 +650,8 @@ export default {
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0',
           status: true,
-          usd_disabled: true
+          usd_disabled: true,
+          readonly: false
         },
         {
           name: 'Target profit %',
@@ -653,7 +660,8 @@ export default {
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0',
           status: false,
-          usd_disabled: true
+          usd_disabled: true,
+          readonly: false
         },
         {
           name: 'Client target price',
@@ -662,7 +670,8 @@ export default {
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0',
           status: true,
-          usd_disabled: false
+          usd_disabled: false,
+          readonly: false
         },
         {
           name: 'Given price',
@@ -671,7 +680,8 @@ export default {
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0',
           status: true,
-          usd_disabled: false
+          usd_disabled: false,
+          readonly: true
         },
         {
           name: 'Discount %',
@@ -680,7 +690,8 @@ export default {
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0',
           status: false,
-          usd_disabled: true
+          usd_disabled: true,
+          readonly: false
         },
         {
           name: 'Price with discount',
@@ -689,7 +700,8 @@ export default {
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0',
           status: true,
-          usd_disabled: true
+          usd_disabled: true,
+          readonly: false
         },
         {
           name: 'Actual profit %',
@@ -698,7 +710,8 @@ export default {
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0',
           status: true,
-          usd_disabled: true
+          usd_disabled: true,
+          readonly: false
         },
         {
           name: 'Actual profit amount',
@@ -707,7 +720,8 @@ export default {
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0',
           status: true,
-          usd_disabled: true
+          usd_disabled: true,
+          readonly: false
         },
       ],
       tab: null,
@@ -756,7 +770,6 @@ export default {
     },
     "details.expenseGroup": {
       async handler(val) {
-        console.log(val);
         Object.keys(val).length > 1 ? this.expense_status = false : this.expense_status = true
         await this.getExpenseList(val.id)
       }, deep: true
@@ -764,8 +777,8 @@ export default {
     totalPrice(val) {
       let data = this.calculation[0]
       data.firstCurrency = val.toLocaleString()
-      data.secondCurrency = (val * this.addPreFinances.secondaryRate)
-      data.tertiaryCurrency = (val * +this.addPreFinances.tertiaryRate)
+      data.secondCurrency = (val * this.addPreFinances.secondaryRate).toFixed(2)
+      data.tertiaryCurrency = (val * +this.addPreFinances.tertiaryRate).toFixed(2)
     },
     calculation: {
       handler(val) {
@@ -812,8 +825,9 @@ export default {
         val[7].secondCurrency = (val[7].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2);
         val[7].tertiaryCurrency = (val[7].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2)
 
+        val[8].firstCurrency = (+val[5].firstCurrency + +val[6].firstCurrency).toFixed(2);
         val[8].secondCurrency = (val[8].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2);
-        val[8].tertiaryCurrency = (val[8].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2)
+        val[8].tertiaryCurrency = (val[8].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2);
 
         const discount = val[9].editable;
         val[9].firstCurrency = (val[8].firstCurrency / 100 * discount).toFixed(2);
