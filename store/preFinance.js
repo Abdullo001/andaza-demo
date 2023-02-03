@@ -49,7 +49,7 @@ export const mutations = {
   },
 }
 export const actions = {
-  getPreFinancesList({commit}, {size, page, preFinanceNumber, modelNumber, partner}) {
+  getPreFinancesList({commit}, {size, page, preFinanceNumber, modelNumber='', partner=''}) {
     const body = {
       filters: [
         {
@@ -57,26 +57,16 @@ export const actions = {
           operator: 'LIKE',
           propertyType: 'STRING',
           value: preFinanceNumber
-        },
-        {
-          key: 'modelNumber',
-          operator: 'LIKE',
-          propertyType: 'STRING',
-          value: modelNumber
-        },
-        {
-          key: 'partner',
-          operator: 'LIKE',
-          propertyType: 'STRING',
-          value: partner
-        },
+        }
       ],
       sorts: [],
       size,
       page,
     }
+    partner = partner === null ? '' : partner
+    modelNumber = modelNumber === null ? '' : modelNumber
     body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
-    this.$axios.$put(`/api/v1/pre-finances/list?modelNumber=&partner=`, body)
+    this.$axios.$put(`/api/v1/pre-finances/list?modelNumber=${modelNumber}&partner=${partner}`, body)
       .then(res => {
         if(res.message === 'Successfully') {
         commit('changeLoading', false)
@@ -89,7 +79,7 @@ export const actions = {
         console.log(response);
       })
   },
-  getModelName({commit}, name) {
+  async getModelName({commit}, name) {
     const body = {
       filters: [
         {
@@ -103,7 +93,7 @@ export const actions = {
       page: 0,
       size: 10
     }
-    this.$axios.$put(`/api/v1/models/list?partner=`, body)
+    await this.$axios.$put(`/api/v1/models/list?partner=`, body)
       .then(res => {
         commit('setModelName', res.data.content);
       })
@@ -132,8 +122,7 @@ export const actions = {
         this.$toast.error(response.data.message, {theme: 'toasted-primary'})
       })
   },
-  saveCalculation({commit}, {data, id, currency}) {
-    console.log(data);
+  async saveCalculation({commit}, {data, id, currency}) {
     const body = {
       overProductionPercent: data[0].editable,
       lossPercent: data[1].editable,
@@ -147,20 +136,20 @@ export const actions = {
       preFinanceId: id,
     };
 
-    this.$axios.$put(`/api/v1/pre-finances/prefinance-calculations`, body)
+    await this.$axios.$put(`/api/v1/pre-finances/prefinance-calculations`, body)
       .then(res => {
         this.$toast.success(res.message, {theme: "toasted-primary"})
       })
       .catch(({response}) => console.log(response))
   },
-  getExpenseGroup({commit}) {
+  async getExpenseGroup({commit}) {
     const body = {
       filters: [],
       sorts: [],
       page: 0,
       size: 20
     }
-    this.$axios.$put('/api/v1/expense-group/list', body)
+    await this.$axios.$put('/api/v1/expense-group/list', body)
       .then(res => {
         commit('setExpenseGroup', res.data)
       })
@@ -168,28 +157,28 @@ export const actions = {
         console.log(response);
       })
   },
-  getExpenseList({commit}, id) {
-    this.$axios.$get(`api/v1/expense/list?groupId=${id}`)
+  async getExpenseList({commit}, id) {
+    await this.$axios.$get(`api/v1/expense/list?groupId=${id}`)
       .then(res => {
         commit('setExpenseList', res.data)
       })
       .catch(({response}) => console.log(response))
   },
-  getMeasurementUnit({commit}) {
+  async getMeasurementUnit({commit}) {
     const body = {
       filters: [],
       posts: [],
       page: 0,
       size: 50
     }
-    this.$axios.$put(`api/v1/measurement-unit/list`, body)
+    await this.$axios.$put(`api/v1/measurement-unit/list`, body)
       .then(res => {
         commit('setMeasurementUnit', res.data.content)
       })
       .catch(({response}) => console.log(response))
   },
-  getAllDetails({commit}, id) {
-    this.$axios.$get(`/api/v1/possible-expense/list?preFinanceId=${id}`)
+  async getAllDetails({commit}, id) {
+    await this.$axios.$get(`/api/v1/possible-expense/list?preFinanceId=${id}`)
       .then(res => {
         if (!!res.data.length) {
           commit('setDetailsList', res.data)
@@ -197,16 +186,16 @@ export const actions = {
       })
       .catch(({response}) => console.log(response))
   },
-  createDetails({commit, dispatch, state}, data) {
-    this.$axios.$post('/api/v1/possible-expense/create', data)
+  async createDetails({commit, dispatch, state}, data) {
+    await this.$axios.$post('/api/v1/possible-expense/create', data)
       .then(res => {
         this.$toast.success(res.message, {theme: 'toasted-primary'})
         dispatch('getAllDetails', state.preFinanceId)
       })
       .catch(({response}) => console.log(response))
   },
-  changeStatus({commit}, {id, status}) {
-    this.$axios.$put(`/api/v1/pre-finances/change-status?id=${id}&status=${status}`)
+  async changeStatus({commit}, {id, status}) {
+    await this.$axios.$put(`/api/v1/pre-finances/change-status?id=${id}&status=${status}`)
       .then(res => {
         this.$toast.success(res.message, {theme: 'toasted-primary'})
       })
