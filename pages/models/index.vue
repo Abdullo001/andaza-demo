@@ -6,20 +6,22 @@
           <v-row>
             <v-col cols="12" lg="2" md="2">
               <v-text-field
-                v-model="filters.modelNumber"
+                v-model.trim="filters.modelNumber"
                 label="Model №"
                 outlined validate-on-blur
                 dense hide-details
                 class="rounded-lg"
+                @keydown.enter="filterModel"
               />
             </v-col>
             <v-col cols="12" lg="2" md="2">
               <v-text-field
-                v-model="filters.companyName"
-                label="Company name"
+                v-model.trim="filters.partner"
+                label="Partner"
                 outlined validate-on-blur
                 dense hide-details
                 class="rounded-lg"
+                @keydown.enter="filterModel"
               />
             </v-col>
             <v-col cols="12" lg="2" md="2">
@@ -35,7 +37,7 @@
             </v-col>
             <v-col cols="12" lg="2" md="2">
               <el-date-picker
-                v-model="filters.order"
+                v-model="filters.createdAt"
                 type="datetime"
                 placeholder="Created at"
                 :picker-options="pickerOptions"
@@ -50,7 +52,7 @@
                   width="140" outlined
                   color="#397CFD" elevation="0"
                   class="text-capitalize mr-4 border-primary rounded-lg font-weight-bold"
-                  @click.stop="resetSearch"
+                  @click.stop="resetFilter"
                 >
                   Reset
                 </v-btn>
@@ -58,7 +60,7 @@
                   width="140" color="#397CFD" dark
                   elevation="0"
                   class="text-capitalize rounded-lg font-weight-bold"
-                  @click="filterCompany"
+                  @click="filterModel"
                 >
                   Search
                 </v-btn>
@@ -123,9 +125,9 @@ export default {
       filter_form: true,
       filters: {
         modelNumber: '',
-        companyName: '',
+        partner: '',
         status: '',
-        order: ''
+        createdAt: ''
       },
       status_enums: ['ACTIVE', 'DISABLED', 'PENDING'],
       pickerOptions: {
@@ -176,8 +178,18 @@ export default {
       getModelsList: 'models/getModelsList'
     }),
     changeStatus() {},
-    resetSearch() {},
-    filterCompany() {},
+    async resetFilter() {
+      this.$refs.filters.reset();
+      await this.getModelsList({page: 0, size:50, modelNumber: '', partner: '', status: ''})
+    },
+    async filterModel() {
+      await this.getModelsList({
+        page: 0, size: 50,
+        modelNumber: this.filters.modelNumber,
+        partner: this.filters.partner,
+        status: this.filters.status
+      })
+    },
     viewDetails(item) {
       this.$router.push(`/models/${item.id}`)
     },
@@ -187,7 +199,7 @@ export default {
   },
   async mounted() {
     this.$store.commit('setPageTitle', 'Lists');
-    await this.getModelsList({page: 0, size:10})
+    await this.getModelsList({page: 0, size:50, modelNumber: '', partner: '', status: ''})
   }
 }
 </script>
