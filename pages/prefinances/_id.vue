@@ -365,28 +365,28 @@
               :items-per-page="50"
               hide-default-footer
             >
-              <template #item.editable="{item}">
-                <v-text-field
-                  solo
-                  v-model="item.editable"
-                  hide-details
-                  flat
-                  :background-color="!item.status?'#F8F4FE':'transparent'"
-                  :disabled="item.status"
-                  class="pa-0 ma-0"
-                />
-              </template>
-              <template #item.firstCurrency="{item}">
-                <v-text-field
-                  solo
-                  v-model="item.firstCurrency"
-                  hide-details
-                  flat
-                  :background-color="!item.usd_disabled?'#F8F4FE':'transparent'"
-                  :disabled="item.usd_disabled"
-                  class="pa-0 ma-0"
-                />
-              </template>
+                <template #item.editable="{item}">
+                  <v-text-field
+                    solo
+                    v-model="item.editable"
+                    hide-details
+                    flat
+                    :background-color="!item.status?'#F8F4FE':'transparent'"
+                    :disabled="item.status"
+                    class="pa-0 ma-0"
+                  />
+                </template>
+                <template #item.firstCurrency="{item}">
+                  <v-text-field
+                    solo
+                    v-model="item.firstCurrency"
+                    hide-details
+                    flat
+                    :background-color="!item.usd_disabled?'#F8F4FE':'transparent'"
+                    :disabled="item.usd_disabled"
+                    class="pa-0 ma-0"
+                  />
+                </template>
             </v-data-table>
           </v-card-text>
           <v-divider/>
@@ -507,6 +507,7 @@ export default {
   components: {DefaultLayout},
   data() {
     return {
+      hide_calc: true,
       new_details: false,
       details_form: true,
       expenseGroupLists: [],
@@ -790,13 +791,13 @@ export default {
 
         val[5].firstCurrency =
           (+val[0].firstCurrency + +val[1].firstCurrency +
-          +val[2].firstCurrency + +val[3].firstCurrency +
-          +val[4].firstCurrency).toFixed(2)
+            +val[2].firstCurrency + +val[3].firstCurrency +
+            +val[4].firstCurrency).toFixed(2)
 
         val[5].secondCurrency =
           (+val[0].secondCurrency + +val[1].secondCurrency +
-           +val[2].secondCurrency + +val[3].secondCurrency +
-           +val[4].secondCurrency).toFixed(2)
+            +val[2].secondCurrency + +val[3].secondCurrency +
+            +val[4].secondCurrency).toFixed(2)
 
         val[5].tertiaryCurrency =
           (+val[0].tertiaryCurrency + +val[1].tertiaryCurrency +
