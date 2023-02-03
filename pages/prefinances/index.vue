@@ -12,9 +12,10 @@
               label="Refinance number"
               outlined
               class="rounded-lg"
-              v-model="filters.financeNumber"
+              v-model.trim="filters.financeNumber"
               hide-details
               dense
+              @keydown.enter="filterData"
             />
           </v-col>
           <v-col cols="12" lg="2" md="2">
@@ -22,9 +23,10 @@
               label="Model №"
               outlined
               class="rounded-lg"
-              v-model="filters.modelId"
+              v-model.trim="filters.modelId"
               hide-details
               dense
+              @keydown.enter="filterData"
             />
           </v-col>
           <v-col cols="12" lg="2" md="2">
@@ -32,9 +34,10 @@
               label="Partner"
               outlined
               class="rounded-lg"
-              v-model="filters.partnerId"
+              v-model.trim="filters.partnerId"
               hide-details
               dense
+              @keydown.enter="filterData"
             />
           </v-col>
           <v-spacer/>
