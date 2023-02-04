@@ -842,7 +842,7 @@ export default {
         val[12].secondCurrency = (val[12].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2)
         val[12].tertiaryCurrency = (val[12].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2)
 
-        val[11].editable = (val[12].firstCurrency / val[5].firstCurrency).toFixed(2)
+        val[11].editable = ((val[12].firstCurrency / val[5].firstCurrency) * 100).toFixed(2)
       }, deep: true
     }
   },
