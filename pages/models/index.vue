@@ -73,12 +73,11 @@
     <v-data-table
       class="mt-4 rounded-lg pt-4"
       :headers="headers"
-      :items="modelsList"
+      :items="allModels"
       :items-per-page="10"
       :footer-props="{
           itemsPerPageOptions: [10, 20, 50, 100],
       }"
-      @click:row="(item) => viewDetails(item)"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -89,14 +88,15 @@
               dark class="text-capitalize rounded-lg"
               @click="addModel"
             >
-              <v-icon>mdi-plus</v-icon>add model
+              <v-icon>mdi-plus</v-icon>
+              add model
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
       </template>
       <template #item.status="{ item }">
         <v-select
-          @click.stop="changeStatus"
+          @change="changeStatus(item)"
           :background-color="statusColor.color(item.status)"
           :items="status_enums"
           append-icon="mdi-chevron-down"
@@ -106,9 +106,14 @@
           rounded dark
         />
       </template>
+      <template #item.actions="{item}">
+        <v-btn icon @click="viewDetails(item)">
+          <v-icon>mdi-chevron-right</v-icon>
+        </v-btn>
+      </template>
       <template #item.licenceRequired="{ item }">
         <v-chip :color="statusColor.licenseColor(item.licenceRequired)" dark>
-          {{item.licenceRequired ? 'Yes' : 'No'}}
+          {{ item.licenceRequired ? 'Yes' : 'No' }}
         </v-chip>
       </template>
     </v-data-table>
@@ -165,7 +170,9 @@ export default {
         {text: 'Order o/d', value: 'order'},
         {text: 'Deadline', value: 'deadline'},
         {text: 'Status', value: 'status', width: 200},
+        {text: 'Actions', value: 'actions'},
       ],
+      allModels: []
     }
   },
   computed: {
@@ -173,14 +180,25 @@ export default {
       modelsList: 'models/modelsList'
     }),
   },
+  watch: {
+    modelsList: {
+      handler(models) {
+        this.allModels = JSON.parse(JSON.stringify(models));
+      }
+    }
+  },
   methods: {
     ...mapActions({
-      getModelsList: 'models/getModelsList'
+      getModelsList: 'models/getModelsList',
+      changeStatusModel: 'models/changeStatusModel'
     }),
-    changeStatus() {},
+    async changeStatus(item) {
+      await this.changeStatusModel(
+        {id: item.id, status: item.status})
+    },
     async resetFilter() {
       this.$refs.filters.reset();
-      await this.getModelsList({page: 0, size:50, modelNumber: '', partner: '', status: ''})
+      await this.getModelsList({page: 0, size: 50, modelNumber: '', partner: '', status: ''})
     },
     async filterModel() {
       await this.getModelsList({
@@ -199,7 +217,7 @@ export default {
   },
   async mounted() {
     this.$store.commit('setPageTitle', 'Lists');
-    await this.getModelsList({page: 0, size:50, modelNumber: '', partner: '', status: ''})
+    await this.getModelsList({page: 0, size: 50, modelNumber: '', partner: '', status: ''})
   }
 }
 </script>
@@ -210,13 +228,16 @@ export default {
     color: #777 !important;
   }
 }
+
 .el-input__icon.el-icon-time {
   color: #777 !important;
   font-size: 18px;
 }
+
 .v-data-table-header {
   background-color: #E9EAEB;
 }
+
 tbody > tr {
   cursor: pointer;
 }
