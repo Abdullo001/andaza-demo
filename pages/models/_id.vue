@@ -3,7 +3,7 @@
     <Breadcrumbs :maps="map_links"/>
     <v-card elevation="0">
       <v-card-title>
-        <div>Add Models</div>
+        <div>{{ modelStatus }} Models</div>
         <v-spacer/>
         <div>
           <v-btn
@@ -201,8 +201,10 @@
 import {mapActions, mapGetters} from "vuex";
 
 export default {
+  name: 'addOrEditModelsPage',
   data() {
     return {
+      modelStatus: 'Add',
       fields_status: true,
       map_links: [
         {
@@ -288,7 +290,7 @@ export default {
       const model = this.model
       model.number = val.modelNumber;
       model.name = val.name;
-      model.group = val.modelGroup;
+      model.group = val.modelGroupId;
       model.composition = val.composition;
       model.season = val.season;
       model.licence = val.licenceRequired;
@@ -311,7 +313,8 @@ export default {
     const id = this.$route.params.id;
     if(id !== 'add-model') {
       this.getOneModel(id);
-    }
+      this.modelStatus = 'Edit'
+    } else this.modelStatus = 'Add'
     this.getModelGroup()
   }
 }

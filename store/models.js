@@ -76,5 +76,12 @@ export const actions = {
       .catch(({response}) => {
         console.log(response);
       })
+  },
+  async changeStatusModel({dispatch}, {id, status}) {
+    await this.$axios.$put(`/api/v1/models/change-status?id=${id}&status=${status}`)
+      .then(res => {
+        this.$toast.success(res.message, {theme: 'toasted-primary'})
+      })
+      .catch(({response}) => console.log(response))
   }
 }
