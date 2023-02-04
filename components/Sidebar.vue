@@ -224,6 +224,10 @@ export default {
               title: 'Models',
               to: '/models',
             },
+            {
+              title: 'Orders',
+              to: '/orders',
+            },
           ]
         },
       ],
