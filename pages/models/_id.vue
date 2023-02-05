@@ -47,8 +47,19 @@
               placeholder="Enter model number"
               class="mb-4"
             />
-            <div class="mb-2 black--text text-body-1">Permission</div>
-            <v-chip color="#10BF41" dark class="font-weight-bold">Edit</v-chip>
+            <v-select
+              v-model="model.partnerId"
+              :items="partner_enums"
+              item-value="id"
+              item-text="name"
+              label="Partner"
+              filled
+              dense
+              append-icon="mdi-chevron-down"
+              style="max-width: 400px"
+              placeholder="Select season"
+              class="mb-4"
+            />
           </v-col>
           <v-col>
             <v-text-field
@@ -122,6 +133,12 @@
           </v-col>
         </v-row>
         <v-row>
+          <v-col cols="12" lg="4">
+            <div class="mb-2 black--text text-body-1">Permission</div>
+            <v-chip color="#10BF41" dark class="font-weight-bold">Edit</v-chip>
+          </v-col>
+        </v-row>
+        <v-row>
           <v-col cols="12" lg="6">
             <v-textarea
               v-model="model.description"
@@ -190,6 +207,7 @@
           width="130"
           height="44"
           dark
+          @click="createNewModel"
         >save
         </v-btn>
       </v-card-actions>
@@ -228,11 +246,12 @@ export default {
       ],
       model: {
         number: '',
+        partnerId: '',
         name: '',
         group: '',
         composition: '',
         season: '',
-        licence: '',
+        licence: null,
         gender: '',
         description: '',
         creator: '',
@@ -278,16 +297,19 @@ export default {
       },
     }
   },
-
+  created() {
+    this.getPartnerList();
+  },
   computed: {
     ...mapGetters({
       oneModel: 'models/oneModel',
-      modelGroups: 'models/modelGroups'
+      modelGroups: 'models/modelGroups',
+      partner_enums: 'models/partner_enums'
     }),
   },
   watch: {
     oneModel(val) {
-      const model = this.model
+      const model = this.model;
       model.number = val.modelNumber;
       model.name = val.name;
       model.group = val.modelGroupId;
@@ -295,9 +317,10 @@ export default {
       model.season = val.season;
       model.licence = val.licenceRequired;
       model.gender = val.gender;
-      model.description = '';
+      model.description = val.description;
       model.creator = val.createdBy;
       model.modifiedPerson = '';
+      model.partnerId = val.partnerId
       model.createdTime = val.createdAt;
       model.updateTime = val.updatedAt;
     }
@@ -306,8 +329,13 @@ export default {
     ...mapActions({
       getOneModel: 'models/getOneModel',
       getModelGroup: 'models/getModelGroup',
+      getPartnerList: 'models/getPartnerList',
+      createModel: 'models/createModel',
 
-    })
+    }),
+    async createNewModel() {
+      await this.createModel(this.model);
+    }
   },
   mounted() {
     const id = this.$route.params.id;

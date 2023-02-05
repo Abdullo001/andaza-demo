@@ -1,14 +1,15 @@
 export const state = () => ({
   modelsList: [],
   oneModel: {},
-  modelGroups: []
+  modelGroups: [],
+  partner_enums: []
 })
 
 export const getters = {
   modelsList: state => state.modelsList.content,
   oneModel: state => state.oneModel,
   modelGroups: state => state.modelGroups.content,
-
+  partner_enums: state => state.partner_enums.content
 }
 
 export const mutations = {
@@ -20,6 +21,9 @@ export const mutations = {
   },
   setModelGroups(state, group) {
     state.modelGroups = group
+  },
+  setPartnerEnums(state, partner) {
+    state.partner_enums = partner
   }
 }
 
@@ -36,7 +40,7 @@ export const actions = {
         {
           key: 'status',
           operator: 'EQUAL',
-          propertyType: 'STRING',
+          propertyType: 'STATUS',
           value: status
         },
       ],
@@ -45,7 +49,7 @@ export const actions = {
     }
     body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
     partner = partner === null ? '' : partner
-    await this.$axios.$put(`/api/v1/models/list?partner=${partner}`, body)
+    await this.$axios.$put(`/api/v1/models/list?partner=${partner}&status=${status}`, body)
       .then(res => {
         commit('setModels', res.data)
       })
@@ -83,5 +87,36 @@ export const actions = {
         this.$toast.success(res.message, {theme: 'toasted-primary'})
       })
       .catch(({response}) => console.log(response))
+  },
+  async getPartnerList({commit}) {
+    const body = {
+      filters: [],
+      sorts: [],
+      page: 0,
+      size: 15
+    }
+    await this.$axios.$put('/api/v1/partner/list', body)
+      .then(res => {
+        commit('setPartnerEnums', res.data);
+      })
+      .catch(({response}) => console.log(response))
+  },
+  async createModel({commit}, data) {
+    const model = {
+      composition: data.composition,
+      description: data.description,
+      gender: data.gender,
+      groupId: data.group,
+      licenseRequired: data.licence,
+      modelNumber: data.number,
+      name: data.name,
+      partnerId: data.partnerId,
+      season: data.season,
+      status: "ACTIVE"
+    }
+    this.$axios.$post('/api/v1/models/create', model)
+      .then(res => {
+        this.$toast.success(res.message, {theme: 'toasted-primary'});
+      }).catch(({response}) => console.log(response))
   }
 }
