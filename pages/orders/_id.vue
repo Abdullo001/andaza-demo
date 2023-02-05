@@ -3,7 +3,7 @@
     <Breadcrumbs :maps="map_links" />
     <v-card elevation="0">
       <v-card-title>
-        <div>Add Models</div>
+        <div>Add Orders</div>
         <v-spacer />
         <div>
           <v-btn
@@ -35,93 +35,146 @@
       <v-card-text class="mt-4">
         <v-row>
           <v-col>
+            <div class="mb-2 text-body-1">Order number</div>
             <v-text-field
               v-model="order.number"
-              label="Order number"
-              filled
+              label="Enter order number"
+              single-line
+              outlined
+              validate-on-blur
               dense
-              style="max-width: 400px"
-              placeholder="Enter order number"
-              class="mb-4"
+              class="rounded-lg"
+              color="#7631FF"
+              background-color="#F8F4FE"
             />
             <div class="mb-2 black--text text-body-1">Permission</div>
             <v-chip color="#10BF41" dark class="font-weight-bold">Edit</v-chip>
           </v-col>
           <v-col>
+
+            <div class="mb-2 text-body-1">Client name</div>
             <v-text-field
               v-model="order.clientName"
               label="Client name"
-              filled
+              single-line
+              outlined
+              validate-on-blur
               dense
-              style="max-width: 400px"
-              placeholder="Client name"
-              class="mb-4"
+              class="rounded-lg"
+              color="#7631FF"
+              background-color="#F8F4FE"
             />
-
-            <v-text-field
-              v-model="order.givenPrice"
-              label="Given price"
-              filled
-              dense
-              style="max-width: 400px"
-              placeholder="0.00"
-              value="0"
-              class="mb-4"
-            />
+            <div class="mb-2 text-body-1">Given Price</div>
+            <div class="d-flex align-center">
+              <v-text-field
+                v-model="order.givenPrice.amount"
+                label="0.00"
+                single-line
+                outlined
+                validate-on-blur
+                dense
+                class="rounded-l-lg rounded-r-0"
+                color="#7631FF"
+                background-color="#F8F4FE"
+              />
+              <v-select
+                :items="currency_enums"
+                v-model="order.givenPrice.currency"
+                style="max-width: 100px"
+                single-line
+                dense
+                outlined
+                validate-on-blur
+                class="rounded-r-lg rounded-l-0"
+                append-icon="mdi-chevron-down"
+                color="#7631FF"
+                background-color="#F8F4FE"
+              />
+            </div>
           </v-col>
           <v-col>
+            
+            <div class="mb-2 text-body-1">Model number</div>
             <v-text-field
-              v-model="order.modelNumber"
-              label="Model number"
-              filled
+              v-model="order.clientName"
+              label="Enter model number"
+              single-line
+              outlined
+              validate-on-blur
               dense
-              style="max-width: 400px"
-              placeholder="Enter model number"
-              class="mb-4"
+              class="rounded-lg"
+              color="#7631FF"
+              background-color="#F8F4FE"
             />
-
-            <v-text-field
-              v-model="order.totalPrice"
-              label="Total price"
-              filled
-              dense
-              style="max-width: 400px"
-              placeholder="0.00"
-              value="0"
-              class="mb-4"
-            />
+            <div class="mb-2 text-body-1">Total</div>
+            <div class="d-flex align-center">
+              <v-text-field
+                v-model="order.totalPrice.amount"
+                :rules="[formRules.onlyNumber]"
+                label="0.00"
+                single-line
+                outlined
+                validate-on-blur
+                dense
+                class="rounded-l-lg rounded-r-0"
+                color="#7631FF"
+                background-color="#F8F4FE"
+              />
+              <v-select
+                :items="currency_enums"
+                v-model="order.totalPrice.currency"
+                style="max-width: 100px"
+                single-line
+                dense
+                outlined
+                validate-on-blur
+                class="rounded-r-lg rounded-l-0"
+                append-icon="mdi-chevron-down"
+                color="#7631FF"
+                background-color="#F8F4FE"
+              />
+            </div>
           </v-col>
           <v-col>
+            
+            <div class="mb-2 text-body-1">Model name</div>
             <v-text-field
               v-model="order.modelName"
-              label="Model name"
-              filled
+              label="Enter model name"
+              single-line
+              outlined
+              validate-on-blur
               dense
-              style="max-width: 400px"
-              placeholder="Enter model name"
-              class="mb-4"
+              class="rounded-lg"
+              color="#7631FF"
+              background-color="#F8F4FE"
             />
 
+            <div class="mb-2 text-body-1">Deadline</div>
             <el-date-picker
               v-model="order.deadline"
-              class="rounded-lg mb-4"
-              color="#7631FF"
-              dense
               type="datetime"
-              placeholder="Deadline"
+              placeholder="dd.MM.yyyy HH:mm:ss"
+              :picker-options="pickerOptions"
               value-format="dd.MM.yyyy HH:mm:ss"
+              style="min-width: 100%"
+              class="picker-color"
             >
             </el-date-picker>
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12" lg="6">
+            <div class="mb-2 text-body-1">Description</div>
             <v-textarea
-              label="Description"
-              filled
+              v-model="order.description"
+              label="Enter description"
+              single-line
+              outlined validate-on-blur
               dense
-              placeholder="Enter description"
-              class="mb-4"
+              class="rounded-lg"
+              color="#7631FF"
+              background-color="#F8F4FE"
             />
           </v-col>
         </v-row>
@@ -151,6 +204,7 @@ export default {
 
   data() {
     return {
+      currency_enums: ["USD", "UZS", "RUB"],
       fields_status: true,
       map_links: [
         {
@@ -177,26 +231,53 @@ export default {
         clientName: "",
         modelNumber: "",
         modelName: "",
-        givenPrice: 0,
-        totalPrice: 0,
+        givenPrice: {
+          amount: "",
+          currency: "USD",
+        },
+        totalPrice: {
+          amount: "",
+          currency: "USD",
+        },
         deadline: "",
+        description:"",
       },
-      
+
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "Cегодня",
+            onClick(picker) {
+              picker.$emit("pick", new Date());
+            },
+          },
+          {
+            text: "Вчера",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit("pick", date);
+            },
+          },
+          {
+            text: "Неделя",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", date);
+            },
+          },
+        ],
+      },
     };
   },
 
-  methods:{
-    editOrder(){
+  methods: {
+    editOrder() {},
 
-    },
+    clearOrder() {},
 
-    clearOrder(){
-
-    },
-
-    saveOrder(){
-
-    },
+    saveOrder() {},
   },
 };
 </script>
