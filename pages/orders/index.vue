@@ -22,10 +22,11 @@
                 class="rounded-lg"
               />
             </v-col>
-            <v-col cols="12" lg="2" md="2" class="">
+            <v-col cols="12" lg="2" md="2" style="max-width: 240px;">
               <el-date-picker
                 v-model="filters.createdDate"
                 type="datetime"
+                class="rounded-lg d-block el-date-picker"
                 placeholder="Created at"
                 :picker-options="pickerOptions"
                 value-format="dd.MM.yyyy HH:mm:ss"
@@ -36,6 +37,7 @@
               <el-date-picker
                 v-model="filters.updatedDate"
                 type="datetime"
+                class="rounded-lg d-block el-date-picker"
                 placeholder="Updated at"
                 :picker-options="pickerOptions"
                 value-format="dd.MM.yyyy HH:mm:ss"
@@ -214,7 +216,7 @@ export default {
     resetSearch() {},
     filterCompany() {},
     viewDetails(item) {
-      this.$router.push(`/orders/${item.id}`)
+      this.$router.push(`/orders/order № ${item.id}`)
     },
     addModel() {
       this.$router.push(`/orders/add-order`)
@@ -243,4 +245,6 @@ export default {
 tbody > tr {
   cursor: pointer;
 }
+
+
 </style>
