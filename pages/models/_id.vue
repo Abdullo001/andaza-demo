@@ -202,12 +202,23 @@
       <v-card-actions class="pb-6 pr-4">
         <v-spacer/>
         <v-btn
+          v-if="modelStatus === 'Add'"
           color="#7631FF"
           class="text-capitalize rounded-lg"
           width="130"
           height="44"
           dark
           @click="createNewModel"
+        >save
+        </v-btn>
+        <v-btn
+          v-else
+          color="#7631FF"
+          class="text-capitalize rounded-lg"
+          width="130"
+          height="44"
+          dark
+          @click="updateModels"
         >save
         </v-btn>
       </v-card-actions>
@@ -331,15 +342,26 @@ export default {
       getModelGroup: 'models/getModelGroup',
       getPartnerList: 'models/getPartnerList',
       createModel: 'models/createModel',
+      updateModel: 'models/updateModel'
 
     }),
     async createNewModel() {
+      console.log('create work')
       await this.createModel(this.model);
+    },
+    async updateModels() {
+      console.log('edit work')
+      const id = this.$route.params.id;
+      await this.updateModel(
+        {
+          data: this.model,
+          id: +id
+        })
     }
   },
   mounted() {
     const id = this.$route.params.id;
-    if(id !== 'add-model') {
+    if (id !== 'add-model') {
       this.getOneModel(id);
       this.modelStatus = 'Edit'
     } else this.modelStatus = 'Add'
