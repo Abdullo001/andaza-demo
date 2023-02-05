@@ -35,16 +35,16 @@
                 append-icon="mdi-chevron-down"
               />
             </v-col>
-            <v-col cols="12" lg="2" md="2">
-              <el-date-picker
-                v-model="filters.createdAt"
-                type="datetime"
-                placeholder="Created at"
-                :picker-options="pickerOptions"
-                value-format="dd.MM.yyyy HH:mm:ss"
-              >
-              </el-date-picker>
-            </v-col>
+<!--            <v-col cols="12" lg="2" md="2">-->
+<!--              <el-date-picker-->
+<!--                v-model="filters.createdAt"-->
+<!--                type="datetime"-->
+<!--                placeholder="Created at"-->
+<!--                :picker-options="pickerOptions"-->
+<!--                value-format="dd.MM.yyyy HH:mm:ss"-->
+<!--              >-->
+<!--              </el-date-picker>-->
+<!--            </v-col>-->
             <v-spacer/>
             <v-col cols="12" lg="3">
               <div class="d-flex justify-end">
@@ -164,7 +164,7 @@ export default {
       headers: [
         {text: 'Model №', align: 'start', sortable: false, value: 'modelNumber'},
         {text: 'Model name', value: 'name'},
-        {text: 'Composition', value: 'composition', width: 280},
+        {text: 'Composition', value: 'composition'},
         {text: 'Model group', value: 'modelGroup'},
         {text: 'License', value: 'licenceRequired'},
         {text: 'Order o/d', value: 'order'},
@@ -225,7 +225,7 @@ export default {
 <style lang="scss">
 .el-input__inner {
   &::placeholder {
-    color: #777 !important;
+    color: #000 !important;
   }
 }
 
