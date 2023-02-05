@@ -118,5 +118,26 @@ export const actions = {
       .then(res => {
         this.$toast.success(res.message, {theme: 'toasted-primary'});
       }).catch(({response}) => console.log(response))
-  }
+  },
+  async updateModel({commit}, {data, id}) {
+    const model = {
+      composition: data.composition,
+      description: data.description,
+      gender: data.gender,
+      groupId: data.group,
+      licenseRequired: data.licence,
+      modelNumber: data.number,
+      name: data.name,
+      partnerId: data.partnerId,
+      season: data.season,
+      id: id,
+      status: "ACTIVE"
+    }
+    this.$axios.$put('/api/v1/models/update', model)
+      .then(res => {
+        this.$toast.success(res.message, {theme: 'toasted-primary'});
+      }).catch(({response}) => {
+        this.$toast.error(response.statusText, {theme: 'toasted-primary'})
+    })
+  },
 }
