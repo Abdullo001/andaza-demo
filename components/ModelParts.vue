@@ -18,7 +18,10 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 export default {
+  name: 'ModelPartsComponent',
   data() {
     return {
       headers: [
@@ -39,6 +42,15 @@ export default {
       ]
     }
   },
+  created() {
+    this.getPartName();
+  },
+  methods: {
+    ...mapActions({
+      getPartName: 'modelParts/getPartName',
+
+    })
+  }
 }
 </script>
 

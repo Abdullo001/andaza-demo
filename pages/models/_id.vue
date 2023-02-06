@@ -412,7 +412,6 @@ export default {
 .active-tab {
   font-style: normal;
   font-weight: 500;
-  //font-size: 16px;
   line-height: 20px;
   color: #7631FF;
 }
