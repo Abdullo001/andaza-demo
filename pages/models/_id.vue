@@ -223,6 +223,44 @@
         </v-btn>
       </v-card-actions>
     </v-card>
+    <v-card class="mt-6" flat>
+      <v-tabs
+        v-model="tab"
+      >
+        <v-tabs-slider color="#7631FF"/>
+        <v-tab
+          class="text-capitalize"
+          v-for="item in items"
+          :key="item"
+          active-class="active-tab"
+        >
+          {{ item }}
+        </v-tab>
+        <v-tabs-items v-model="tab">
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <ModelParts/>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <SizeChart/>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <Printing/>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+        </v-tabs-items>
+      </v-tabs>
+    </v-card>
   </div>
 </template>
 
@@ -233,6 +271,8 @@ export default {
   name: 'addOrEditModelsPage',
   data() {
     return {
+      items: ['Model parts', 'Size chart', 'Printing', 'Documents', 'Samples', 'Model photo', 'Instruction', 'Orders this model'],
+      tab: null,
       modelStatus: 'Add',
       fields_status: true,
       map_links: [
@@ -346,11 +386,9 @@ export default {
 
     }),
     async createNewModel() {
-      console.log('create work')
       await this.createModel(this.model);
     },
     async updateModels() {
-      console.log('edit work')
       const id = this.$route.params.id;
       await this.updateModel(
         {
@@ -371,6 +409,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.active-tab {
+  font-style: normal;
+  font-weight: 500;
+  //font-size: 16px;
+  line-height: 20px;
+  color: #7631FF;
+}
 .el-date-editor--datetime {
   width: 100%;
   border: 5px solid red;
