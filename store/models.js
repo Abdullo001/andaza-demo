@@ -2,14 +2,17 @@ export const state = () => ({
   modelsList: [],
   oneModel: {},
   modelGroups: [],
-  partner_enums: []
+  partner_enums: [],
+  newModelId: null
 })
 
 export const getters = {
   modelsList: state => state.modelsList.content,
   oneModel: state => state.oneModel,
   modelGroups: state => state.modelGroups.content,
-  partner_enums: state => state.partner_enums.content
+  partner_enums: state => state.partner_enums.content,
+  newModelId: state => state.newModelId,
+
 }
 
 export const mutations = {
@@ -24,6 +27,9 @@ export const mutations = {
   },
   setPartnerEnums(state, partner) {
     state.partner_enums = partner
+  },
+  setNewModelId(state, id) {
+    state.newModelId = id
   }
 }
 
@@ -116,6 +122,7 @@ export const actions = {
     }
     this.$axios.$post('/api/v1/models/create', model)
       .then(res => {
+        commit('setNewModelId', res.data.id);
         this.$toast.success(res.message, {theme: 'toasted-primary'});
       }).catch(({response}) => console.log(response))
   },
