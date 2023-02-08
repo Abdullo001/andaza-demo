@@ -240,11 +240,20 @@ export default {
       this.selectedPartsId = item.id
     },
     async deleteModelParts() {
-      await this.deletePartModel({
-        partId: this.selectedPartsId,
-        modelId: this.newModelId
-      });
-      this.delete_dialog = false;
+      const id = this.$route.params.id;
+      if(id === 'add-model') {
+        await this.deletePartModel({
+          partId: this.selectedPartsId,
+          modelId: this.newModelId
+        });
+        this.delete_dialog = false;
+      } else {
+        await this.deletePartModel({
+          partId: this.selectedPartsId,
+          modelId: id
+        });
+        this.delete_dialog = false;
+      }
     }
   },
   mounted() {
