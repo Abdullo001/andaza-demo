@@ -39,7 +39,6 @@ export const actions = {
     }
     await this.$axios.$put(`/api/v1/model-parts/list?modelId=${id}`, body)
       .then(res => {
-        console.log(res);
         commit('setModelPartsList', res.data.content);
       })
       .catch(({response}) => console.log(response))
@@ -72,5 +71,13 @@ export const actions = {
         dispatch('getModelPart', data.modelId)
       })
       .catch(({response}) => console.log(response))
+  },
+  async deletePartModel({dispatch}, {partId, modelId}) {
+    this.$axios.$delete(`/api/v1/model-parts/delete?id=${partId}`)
+      .then(res => {
+        dispatch('getModelPart', modelId)
+        this.$toast.success(res.message, {theme: 'toasted-primary'})
+
+      }).catch(({response}) => console.log(response))
   }
 };
