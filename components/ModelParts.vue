@@ -29,7 +29,7 @@
           <v-btn icon class="mr-2" @click="editParts(item)">
             <v-img src="/edit-green.svg" max-width="20"/>
           </v-btn>
-          <v-btn icon>
+          <v-btn icon @click="deleteItem(item)">
             <v-img src="/trash-red.svg" max-width="20"/>
           </v-btn>
         </div>
@@ -112,6 +112,38 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="delete_dialog" max-width="500">
+      <v-card class="pa-4 text-center">
+        <div class="d-flex justify-center mb-2">
+          <v-img src="/error-icon.svg" max-width="40"/>
+        </div>
+        <v-card-title class="d-flex justify-center">Delete Localization</v-card-title>
+        <v-card-text>
+          Are you sure you want to Delete this model parts information?
+        </v-card-text>
+        <v-card-actions class="px-16">
+          <v-btn
+            outlined
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#777C85"
+            width="140"
+            @click.stop="delete_dialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-spacer/>
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#FF4E4F"
+            width="140"
+            elevation="0"
+            dark @click="deleteModelParts()"
+          >
+            delete
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -138,7 +170,9 @@ export default {
         createdBy: '',
         createAt: ''
       },
-      dialogTitle: ''
+      dialogTitle: '',
+      delete_dialog: false,
+      selectedPartsId: null
     }
   },
   created() {
@@ -169,27 +203,56 @@ export default {
       getPartName: 'modelParts/getPartName',
       createModelParts: 'modelParts/createModelParts',
       updateModelParts: 'modelParts/updateModelParts',
+      deletePartModel: 'modelParts/deletePartModel',
+      getModelPart: 'modelParts/getModelPart'
     }),
     async saveModelParts() {
-      await this.createModelParts({
-        data: this.newModelParts,
-        id: this.newModelId
-      });
-      this.partsDialog = false
+      const id = this.$route.params.id;
+      if(id === 'add-model') {
+        await this.createModelParts({
+          data: this.newModelParts,
+          id: this.newModelId
+        });
+        this.partsDialog = false
+      } else {
+        await this.createModelParts({
+          data: this.newModelParts,
+          id: id
+        });
+        this.partsDialog = false
+      }
     },
     editParts(item) {
       this.dialogTitle = 'Edit';
-      console.log(item);
-      this.newModelParts = item;
+      this.newModelParts = {...item};
       this.partsDialog = true;
     },
     newDialog() {
       this.partsDialog = true;
       this.dialogTitle = 'Add';
     },
-    updateParts() {
-      this.updateModelParts(this.newModelParts)
+    async updateParts() {
+      await this.updateModelParts(this.newModelParts)
+      this.partsDialog = false
+    },
+    deleteItem(item) {
+      this.delete_dialog = true;
+      this.selectedPartsId = item.id
+    },
+    async deleteModelParts() {
+      await this.deletePartModel({
+        partId: this.selectedPartsId,
+        modelId: this.newModelId
+      });
+      this.delete_dialog = false;
     }
+  },
+  mounted() {
+    const id = this.$route.params.id;
+    if(id !== 'add-model') {
+      this.getModelPart(id)
+    }
+
   }
 }
 </script>
