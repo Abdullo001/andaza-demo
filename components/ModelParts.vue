@@ -256,10 +256,10 @@ export default {
       }
     }
   },
-  mounted() {
+  async mounted() {
     const id = this.$route.params.id;
     if(id !== 'add-model') {
-      this.getModelPart(id)
+      await this.getModelPart(id)
     }
 
   }
