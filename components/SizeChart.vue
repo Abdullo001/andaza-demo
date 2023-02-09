@@ -53,6 +53,8 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 export default {
   name: 'SizeChartComponent',
   data() {
@@ -113,10 +115,19 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      getChartSizes: 'sizeChart/getChartSizes'
+    }),
     editSizeChart() {},
     deleteSizeChart() {},
     newDialog() {
       console.log('hello')
+    }
+  },
+  async mounted() {
+    const id = this.$route.params.id;
+    if(id !== 'add-model') {
+      await this.getChartSizes(id);
     }
   }
 
