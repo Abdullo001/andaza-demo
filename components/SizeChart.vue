@@ -49,6 +49,7 @@
         </v-toolbar>
       </template>
     </v-data-table>
+    <v-divider/>
   </div>
 </template>
 
