@@ -7,33 +7,29 @@
       hide-default-footer
       class="elevation-0"
     >
-      <template #item.printType="{item}">
-        <v-select
-          :items="print_types"
-          v-model="item.printType"
-          flat solo
-          hide-details
-          append-icon="mdi-chevron-down"
-          style="font-size: 14px; "
-          background-color="transparent"
-        />
+      <template #top>
+        <v-toolbar elevation="0">
+          <v-toolbar-title class="w-full d-flex">
+            <v-spacer/>
+            <v-btn class="text-capitalize rounded-lg" color="#7631FF" dark>
+              <v-icon class="mr-1">mdi-plus</v-icon>
+              printing
+            </v-btn>
+          </v-toolbar-title>
+        </v-toolbar>
       </template>
-      <template #item.currency="{item}">
-        <v-select
-          :items="currency"
-          v-model="item.currency"
-          flat solo
-          hide-details
-          append-icon="mdi-chevron-down"
-          style="font-size: 14px"
-          background-color="transparent"
-        />
+      <template #item.actions="{item}">
+
       </template>
     </v-data-table>
+    <v-divider/>
   </div>
 </template>
 
 <script>
+
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   data() {
     return {
@@ -43,7 +39,7 @@ export default {
         {
           printType: 'Material',
           colorQuantity: '3',
-          printPartnerName: 'Colorprint LLC',
+          printPartnerName: 'Color print LLC',
           price: '0.12',
           currency: 'USD',
           simpleSentDate: '12.10.2022',
@@ -62,9 +58,23 @@ export default {
         {text: 'Comment', sortable: false, value: 'comment'},
         {text: 'Creator', sortable: false, value: 'creator'},
         {text: 'Date', sortable: false, value: 'date'},
+        {text: 'Actions', sortable: false, value: 'actions'},
       ]
     }
   },
+  computed: {
+    ...mapGetters({
+      printingList: 'printing/printingList'
+    })
+  },
+  methods: {
+    ...mapActions({
+      getPrintingList: 'printing/getPrintingList'
+    })
+  },
+  async mounted() {
+    await this.getPrintingList({page: 0, size: 20})
+  }
 }
 </script>
 
