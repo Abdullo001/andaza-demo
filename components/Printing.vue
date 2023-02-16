@@ -2,32 +2,31 @@
   <div>
     <v-data-table
       :headers="headers"
-      :items="printing_list"
+      :items="printOne"
       :items-per-page="10"
       hide-default-footer
       class="elevation-0"
     >
       <template #top>
         <v-toolbar elevation="0">
-          <v-toolbar-title class="w-full d-flex">
+          <v-toolbar-title class="d-flex w-full">
             <v-spacer/>
-            <v-btn class="text-capitalize rounded-lg" color="#7631FF" dark>
-              <v-icon class="mr-1">mdi-plus</v-icon>
+            <v-btn
+              color="#7631FF"
+              class="rounded-lg text-capitalize"
+              dark
+            >
+              <v-icon>mdi-plus</v-icon>
               printing
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
       </template>
-      <template #item.actions="{item}">
-
-      </template>
     </v-data-table>
-    <v-divider/>
   </div>
 </template>
 
 <script>
-
 import {mapActions, mapGetters} from "vuex";
 
 export default {
@@ -39,7 +38,7 @@ export default {
         {
           printType: 'Material',
           colorQuantity: '3',
-          printPartnerName: 'Color print LLC',
+          printPartnerName: 'Colorprint LLC',
           price: '0.12',
           currency: 'USD',
           simpleSentDate: '12.10.2022',
@@ -51,29 +50,33 @@ export default {
       headers: [
         {text: 'Print type', align: 'start', sortable: false, value: 'printType', width: 180},
         {text: 'Color quantity', sortable: false, value: 'colorQuantity'},
-        {text: 'Print partner name', sortable: false, value: 'printPartnerName'},
+        {text: 'Print partner name', sortable: false, value: 'partner'},
         {text: 'Price', sortable: false, value: 'price'},
         {text: 'Currency', sortable: false, value: 'currency', width: 100},
         {text: 'Simple sent date', sortable: false, value: 'simpleSentDate'},
-        {text: 'Comment', sortable: false, value: 'comment'},
-        {text: 'Creator', sortable: false, value: 'creator'},
-        {text: 'Date', sortable: false, value: 'date'},
-        {text: 'Actions', sortable: false, value: 'actions'},
+        {text: 'Comment', sortable: false, value: 'description'},
+        {text: 'Creator', sortable: false, value: 'createdBy'},
+        {text: 'Date', sortable: false, value: 'updatedAt'},
       ]
     }
   },
   computed: {
     ...mapGetters({
-      printingList: 'printing/printingList'
+      printOne: "printing/printOne",
+
     })
   },
   methods: {
     ...mapActions({
-      getPrintingList: 'printing/getPrintingList'
+      getOnePrint: "printing/getOnePrinting",
+      getAllPrints: "printing/getAllPrints"
     })
   },
   async mounted() {
-    await this.getPrintingList({page: 0, size: 20})
+    const id = this.$route.params.id;
+    if (id !== 'add-model') {
+      await this.getOnePrint({id: id, page: 0, size: 20});
+    } else await this.getAllPrints({id: id, page: 0, size: 20})
   }
 }
 </script>
