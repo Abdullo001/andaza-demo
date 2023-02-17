@@ -124,6 +124,7 @@
 import {mapActions, mapGetters} from "vuex";
 
 export default {
+  name: 'ModelMainPage',
   data() {
     return {
       new_dialog: false,
