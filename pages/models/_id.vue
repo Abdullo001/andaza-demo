@@ -46,6 +46,7 @@
               style="max-width: 400px"
               placeholder="Enter model number"
               class="mb-4"
+              color="#7631FF"
             />
             <v-select
               v-model="model.partnerId"
@@ -59,6 +60,7 @@
               style="max-width: 400px"
               placeholder="Select season"
               class="mb-4"
+              color="#7631FF"
             />
           </v-col>
           <v-col>
@@ -70,6 +72,7 @@
               style="max-width: 400px"
               placeholder="Model name"
               class="mb-4"
+              color="#7631FF"
             />
             <v-select
               v-model="model.season"
@@ -83,6 +86,7 @@
               style="max-width: 400px"
               placeholder="Select season"
               class="mb-4"
+              color="#7631FF"
             />
           </v-col>
           <v-col>
@@ -97,6 +101,7 @@
               style="max-width: 400px"
               placeholder="Select model group"
               class="mb-4"
+              color="#7631FF"
             />
             <v-select
               v-model="model.licence"
@@ -109,6 +114,7 @@
               style="max-width: 400px"
               placeholder="Select model group"
               class="mb-4"
+              color="#7631FF"
             />
           </v-col>
           <v-col>
@@ -119,6 +125,7 @@
               style="max-width: 400px"
               placeholder="Enter model composition"
               class="mb-4"
+              color="#7631FF"
             />
             <v-select
               v-model="model.gender"
@@ -129,6 +136,7 @@
               style="max-width: 400px"
               placeholder="Select gender"
               class="mb-4"
+              color="#7631FF"
             />
           </v-col>
         </v-row>
@@ -146,6 +154,7 @@
               filled dense
               placeholder="Enter description"
               class="mb-4"
+              color="#7631FF"
             />
           </v-col>
           <v-col cols="12" lg="3">

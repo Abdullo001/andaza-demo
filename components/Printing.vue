@@ -13,8 +13,10 @@
             <v-spacer/>
             <v-btn
               class="text-capitalize rounded-lg"
-              color="#7631FF" dark
+              color="#7631FF"
               @click="printing_dialog = !printing_dialog"
+              :disabled="checkModelId"
+              :dark="!checkModelId"
             >
               <v-icon class="mr-1">mdi-plus</v-icon>
               printing
@@ -226,7 +228,14 @@ export default {
       printOne: 'printing/printOne',
       printTypeEnums: 'printing/printTypeEnums',
       partnerEnums: 'models/partner_enums'
-    })
+    }),
+    checkModelId() {
+      const id = !!this.$store.getters['models/newModelId']
+      const param = this.$route.params.id;
+      console.log(`id-${id}`);
+      console.log(`params-${param !== 'add-model'}`)
+      return id && param !== 'add-model';
+    }
   },
   methods: {
     ...mapActions({
