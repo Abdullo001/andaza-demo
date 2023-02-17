@@ -14,7 +14,7 @@
             <v-btn
               class="text-capitalize rounded-lg"
               color="#7631FF"
-              @click="printing_dialog = !printing_dialog"
+              @click="openDialog"
               :disabled="checkModelId"
               :dark="!checkModelId"
             >
@@ -25,7 +25,7 @@
         </v-toolbar>
       </template>
       <template #item.actions="{item}">
-        <v-btn icon>
+        <v-btn icon @click="openEditDialog(item)">
           <v-img src="/edit-green.svg" max-width="22"/>
         </v-btn>
       </template>
@@ -34,7 +34,7 @@
     <v-dialog v-model="printing_dialog" max-width="1000">
       <v-card>
         <v-card-title>
-          <div>Add new printing</div>
+          <div>{{ dialogTitle }} printing</div>
           <v-spacer/>
           <v-btn icon color="amber" @click="printing_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -114,11 +114,11 @@
               <v-col cols="12" lg="4">
                 <div class="text-body-1 font-weight-medium text-capitalize mb-2"> simple sent date</div>
                 <el-date-picker
-                  v-model="newPrints.sentDate"
+                  :value="newPrints.sentDate"
                   type="datetime"
                   placeholder="Sent date"
                   :picker-options="pickerOptions"
-                  value-format="dd.MM.yyyy HH:mm:ss"
+                  format="dd.MM.yyyy HH:mm:ss"
                   style="width: 100%; color: #7631FF;"
                 >
                 </el-date-picker>
@@ -184,6 +184,7 @@ export default {
         {text: 'Date', sortable: false, value: 'updatedAt'},
         {text: 'Actions', sortable: false, value: 'actions'},
       ],
+      dialogTitle: '',
       newPrints: {
         colorQuantity: null,
         currency: "",
@@ -230,11 +231,16 @@ export default {
       partnerEnums: 'models/partner_enums'
     }),
     checkModelId() {
-      const id = !!this.$store.getters['models/newModelId']
       const param = this.$route.params.id;
-      console.log(`id-${id}`);
-      console.log(`params-${param !== 'add-model'}`)
-      return id && param !== 'add-model';
+      if(param === 'add-model') {
+        const id = this.$store.getters['models/newModelId']
+        return id === null
+      } else return false
+    }
+  },
+  watch: {
+    printing_dialog(val) {
+      if(!val) this.$refs.new_printing.reset();
     }
   },
   methods: {
@@ -245,15 +251,24 @@ export default {
       getPartnerList: "models/getPartnerList",
       createPrints: "printing/createPrints"
     }),
-    async createNewPrints() {
+    async createNewPrints(item) {
       const id = this.$route.params.id;
       const data = this.newPrints;
-      data.modelId = id
+      data.modelId = id;
       await this.createPrints(data);
       this.printing_dialog = false;
       await this.$refs.new_printing.reset();
-
     },
+    openDialog() {
+      this.dialogTitle = 'Add new';
+      this.printing_dialog = !this.printing_dialog;
+    },
+    openEditDialog(item) {
+      console.log(item);
+      this.dialogTitle = 'Edit';
+      this.printing_dialog = !this.printing_dialog;
+      this.newPrints = {...item};
+    }
   },
   async mounted() {
     const id = this.$route.params.id;
