@@ -239,21 +239,21 @@
         <v-tabs-items v-model="tab">
           <v-tab-item>
             <v-card flat>
-              <v-card-text>
+              <v-card-text class="pt-0">
                 <ModelParts/>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
-              <v-card-text>
+              <v-card-text class="pt-0">
                 <SizeChart/>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
-              <v-card-text>
+              <v-card-text class="pt-0">
                 <Printing/>
               </v-card-text>
             </v-card>
@@ -397,13 +397,13 @@ export default {
         })
     }
   },
-  mounted() {
+  async mounted() {
     const id = this.$route.params.id;
     if (id !== 'add-model') {
-      this.getOneModel(id);
+      await this.getOneModel(id);
       this.modelStatus = 'Edit'
     } else this.modelStatus = 'Add'
-    this.getModelGroup()
+    await this.getModelGroup()
   }
 }
 </script>
