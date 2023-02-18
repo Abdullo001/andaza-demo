@@ -25,7 +25,7 @@
         </v-toolbar>
       </template>
       <template #item.actions="{item}">
-        <v-btn icon @click="openEditDialog(item)">
+        <v-btn icon @click="openEditDialog(item)" :disabled="checkModelId">
           <v-img src="/edit-green.svg" max-width="22"/>
         </v-btn>
       </template>
@@ -114,11 +114,11 @@
               <v-col cols="12" lg="4">
                 <div class="text-body-1 font-weight-medium text-capitalize mb-2"> simple sent date</div>
                 <el-date-picker
-                  :value="newPrints.sentDate"
+                  v-model="newPrints.sentDate"
                   type="datetime"
                   placeholder="Sent date"
                   :picker-options="pickerOptions"
-                  format="dd.MM.yyyy HH:mm:ss"
+                  value-format="dd.MM.yyyy HH:mm:ss"
                   style="width: 100%; color: #7631FF;"
                 >
                 </el-date-picker>
@@ -264,11 +264,10 @@ export default {
       this.printing_dialog = !this.printing_dialog;
     },
     openEditDialog(item) {
-      console.log(item);
       this.dialogTitle = 'Edit';
       this.printing_dialog = !this.printing_dialog;
       this.newPrints = {...item};
-    }
+    },
   },
   async mounted() {
     const id = this.$route.params.id;
@@ -289,6 +288,9 @@ export default {
   }
   > td.today > div > span {
     color: #7631FF !important;
+  }
+  > td.today.current > div > span {
+    color: #FFFFFF !important;
   }
 }
 .el-picker-panel__footer > button > span {

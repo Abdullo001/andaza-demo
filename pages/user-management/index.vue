@@ -51,7 +51,7 @@
               type="datetime"
               placeholder="From"
               :picker-options="pickerOptions"
-              value-format="dd.MM.yyyy HH:mm:ss"
+              format="dd.MM.yyyy HH:mm:ss"
             >
             </el-date-picker>
           </v-col>
