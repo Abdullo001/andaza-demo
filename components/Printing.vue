@@ -112,11 +112,11 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 font-weight-medium text-capitalize mb-2"> simple sent date</div>
+                <div class="text-body-1 font-weight-medium text-capitalize mb-2"> simple send date</div>
                 <el-date-picker
-                  v-model="newPrints.sentDate"
+                  v-model="newPrints.sendDate"
                   type="datetime"
-                  placeholder="Sent date"
+                  placeholder="Send date"
                   :picker-options="pickerOptions"
                   value-format="dd.MM.yyyy HH:mm:ss"
                   style="width: 100%; color: #7631FF;"
@@ -148,6 +148,16 @@
             cancel
           </v-btn>
           <v-btn
+            v-if="dialogTitle === 'Edit'"
+            class="font-weight-bold text-capitalize rounded-lg ml-4"
+            color="#7631FF" dark
+            width="140" height="40"
+            @click="upgradePrints"
+          >
+            save
+          </v-btn>
+          <v-btn
+            v-else
             class="font-weight-bold text-capitalize rounded-lg ml-4"
             color="#7631FF" dark
             width="140" height="40"
@@ -155,6 +165,7 @@
           >
             add
           </v-btn>
+
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -178,7 +189,7 @@ export default {
         {text: 'Print partner name', sortable: false, value: 'partner'},
         {text: 'Price', sortable: false, value: 'price'},
         {text: 'Currency', sortable: false, value: 'currency', width: 100},
-        {text: 'Simple sent date', sortable: false, value: 'sendDate'},
+        {text: 'Simple send date', sortable: false, value: 'sendDate'},
         {text: 'Comment', sortable: false, value: 'description'},
         {text: 'Creator', sortable: false, value: 'createdBy'},
         {text: 'Date', sortable: false, value: 'updatedAt'},
@@ -193,7 +204,7 @@ export default {
         partnerId: null,
         price: "",
         printTypeId: 0,
-        sentDate: ""
+        sendDate: ""
       },
       pickerOptions: {
         shortcuts: [
@@ -249,7 +260,9 @@ export default {
       getPrintOne: "printing/getPrintOne",
       getPrintType: "printing/getPrintType",
       getPartnerList: "models/getPartnerList",
-      createPrints: "printing/createPrints"
+      createPrints: "printing/createPrints",
+      updatePrints: "printing/updatePrints",
+
     }),
     async createNewPrints(item) {
       const id = this.$route.params.id;
@@ -268,6 +281,10 @@ export default {
       this.printing_dialog = !this.printing_dialog;
       this.newPrints = {...item};
     },
+    async upgradePrints() {
+      await this.updatePrints(this.newPrints);
+      this.printing_dialog = false;
+    }
   },
   async mounted() {
     const id = this.$route.params.id;

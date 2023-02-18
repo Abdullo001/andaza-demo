@@ -67,6 +67,26 @@ export const actions = {
         this.$toast.success(res.message, {theme: 'toasted-primary'})
       })
       .catch(({response}) => console.log(response))
+  },
+  updatePrints({dispatch}, item) {
+    const data = {
+      colorQuantity: item.colorQuantity,
+      currency: item.currency,
+      description: item.description,
+      id: item.id,
+      modelId: item.modelId,
+      partnerId: item.partnerId,
+      price: item.price,
+      printTypeId: item.printTypeId,
+      sentDate: item.sentDate
+    }
+    this.$axios.$put(`/api/v1/prints/update`, data)
+      .then(res => {
+        console.log(res);
+        dispatch('getPrintingList', {page: 0, size: 10})
+        this.$toast.success(res.message, {theme: 'toasted-primary'})
+      })
+      .catch(({response}) => console.log(response))
   }
 };
 
