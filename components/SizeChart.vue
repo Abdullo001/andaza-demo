@@ -24,8 +24,8 @@
             <v-menu
               :nudge-bottom="40"
               origin="center center"
-              transition="scale-transition"
-              :close-on-content-click="false"
+              transition="slide-x-transition"
+              :close-on-content-click="true"
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -41,27 +41,21 @@
               </template>
 
               <v-list>
-                <v-combobox
-                  v-cloak
-                  :items="items"
-                  item-text="sizes"
-                  append-icon=""
-                  item-value="id"
+                <v-text-field
                   placeholder="Enter size template"
                   outlined
                   class="rounded-lg mx-3"
                   color="#D2D3D6"
                   dense hide-details
                 />
-<!--                <v-list-item-->
-<!--                  v-for="(item, i) in items" :key="i">-->
-<!--                  <v-list-item-title class="pointer">-->
-<!--                    {{ item.title }}-->
-<!--                  </v-list-item-title>-->
-<!--                </v-list-item>-->
+                <v-list-item-group class="mt-4">
+                  <v-list-item
+                    v-for="(item, i) in sizeTemplate" :key="`items_${i}`" @click="getTemplate(item)">
+                    <v-list-item-title v-html="item" class="pointer"/>
+                  </v-list-item>
+                </v-list-item-group>
               </v-list>
             </v-menu>
-
 
             <v-spacer/>
             <v-btn
@@ -94,11 +88,7 @@ export default {
         { text: '№', align: 'start', sortable: false, value: 'id' },
         { text: 'Code', sortable: false, value: 'code' },
         { text: 'Size name', sortable: false,  value: 'sizeName' },
-        { text: 'S',  sortable: false, value: 's' },
-        { text: 'M',  sortable: false, value: 'm' },
-        { text: 'L',  sortable: false, value: 'l' },
-        { text: 'XL',  sortable: false, value: 'xl' },
-        { text: 'XXL', sortable: false,  value: 'xxl' },
+
         { text: 'Tolerance', sortable: false,  value: 'tolerance' },
         { text: 'Shrinkage', sortable: false,  value: 'shrinkage' },
         { text: 'Gradation',  sortable: false, value: 'gradation' },
@@ -115,9 +105,10 @@ export default {
           s: '41.5',
           m: '43.0',
           l: '44.5',
+          x: '45',
           xl: '46.0',
           xxl: '48.0',
-          tolerance: '+0.2',
+          tolerance: '-0.2',
           shrinkage: '5%',
           gradation: '1.5',
           comment: 'Women sleepwear upper part',
@@ -146,18 +137,31 @@ export default {
   },
 
   computed: {
-    // ...mapGetters({
-    //   sizeTemplate: "sizeChart/sizeTemplate"
-    // })
-  },
-  watch: {
-
+    ...mapGetters({
+      sizeTemplate: "sizeChart/sizeTemplate"
+    })
   },
   methods: {
     ...mapActions({
       getChartSizes: 'sizeChart/getChartSizes',
       getSizeTemplate: 'sizeChart/getSizeTemplate'
     }),
+    getTemplate(item) {
+      const first = this.headers.slice(0,3);
+      const last = this.headers.slice(-7);
+      this.headers = [...first, ...last];
+
+      item = item.split(',');
+      item.forEach((el, idx) => {
+        idx = idx + 3
+        let head =  {
+          text: el.toUpperCase().trim(),
+          sortable: false,
+          value: el.toLowerCase().trim()
+        }
+        this.headers.splice(idx, 0, head)
+      })
+    },
     editSizeChart() {},
     deleteSizeChart() {},
     newDialog() {
@@ -182,5 +186,8 @@ export default {
     content: '✔';
     display: inline-block;
   }
+}
+.v-list-item-group .v-list-item--active {
+ color: #7631FF;
 }
 </style>
