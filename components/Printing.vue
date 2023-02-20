@@ -119,6 +119,7 @@
                   placeholder="Send date"
                   :picker-options="pickerOptions"
                   value-format="dd.MM.yyyy HH:mm:ss"
+                  class="printing-date"
                   style="width: 100%; color: #7631FF;"
                 >
                 </el-date-picker>
@@ -243,7 +244,7 @@ export default {
     }),
     checkModelId() {
       const param = this.$route.params.id;
-      if(param === 'add-model') {
+      if (param === 'add-model') {
         const id = this.$store.getters['models/newModelId']
         return id === null
       } else return false
@@ -251,7 +252,7 @@ export default {
   },
   watch: {
     printing_dialog(val) {
-      if(!val) this.$refs.new_printing.reset();
+      if (!val) this.$refs.new_printing.reset();
     }
   },
   methods: {
@@ -303,17 +304,25 @@ export default {
   > td.current > div > span {
     background-color: #7631FF !important;
   }
+
   > td.today > div > span {
     color: #7631FF !important;
   }
+
   > td.today.current > div > span {
     color: #FFFFFF !important;
   }
 }
+
 .el-picker-panel__footer > button > span {
   color: #7631FF !important;
 }
+
 .el-input__inner {
   border-color: #A0A0A0 !important;
+}
+
+.printing-date > input.el-input__inner::placeholder {
+  color: #ccc;
 }
 </style>
