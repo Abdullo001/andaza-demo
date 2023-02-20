@@ -20,20 +20,49 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="w-full d-flex">
-            <v-btn
-              outlined
-              class="rounded-lg text-none"
-              color="#777C85"
+            <div class="text-capitalize title mr-6">size chart</div>
+            <v-menu
+              :nudge-bottom="40"
+              origin="center center"
+              transition="scale-transition"
+              :close-on-content-click="false"
             >
-              Size template
-            </v-btn>
-            <v-btn
-              outlined
-              class="rounded-lg ml-4 text-none"
-              color="#777C85"
-            >
-              Add new size row
-            </v-btn>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  outlined
+                  class="rounded-lg text-none"
+                  color="#777C85"
+                  height="36"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  Size template
+                </v-btn>
+              </template>
+
+              <v-list>
+                <v-combobox
+                  v-cloak
+                  :items="items"
+                  item-text="sizes"
+                  append-icon=""
+                  item-value="id"
+                  placeholder="Enter size template"
+                  outlined
+                  class="rounded-lg mx-3"
+                  color="#D2D3D6"
+                  dense hide-details
+                />
+<!--                <v-list-item-->
+<!--                  v-for="(item, i) in items" :key="i">-->
+<!--                  <v-list-item-title class="pointer">-->
+<!--                    {{ item.title }}-->
+<!--                  </v-list-item-title>-->
+<!--                </v-list-item>-->
+              </v-list>
+            </v-menu>
+
+
             <v-spacer/>
             <v-btn
               class="rounded-lg text-capitalize"
@@ -54,12 +83,13 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: 'SizeChartComponent',
   data() {
     return {
+      items: [],
       headers: [
         { text: '№', align: 'start', sortable: false, value: 'id' },
         { text: 'Code', sortable: false, value: 'code' },
@@ -107,17 +137,26 @@ export default {
           shrinkage: '5%',
           gradation: '1.5',
           comment: 'Women sleepwear upper part',
-          creator: 'Aziza Azimova',
+          creator: 'Aziza Azim ova',
           date: '12.10.2022'
         },
       ],
       sizeChartDialog: false,
-
     }
+  },
+
+  computed: {
+    // ...mapGetters({
+    //   sizeTemplate: "sizeChart/sizeTemplate"
+    // })
+  },
+  watch: {
+
   },
   methods: {
     ...mapActions({
-      getChartSizes: 'sizeChart/getChartSizes'
+      getChartSizes: 'sizeChart/getChartSizes',
+      getSizeTemplate: 'sizeChart/getSizeTemplate'
     }),
     editSizeChart() {},
     deleteSizeChart() {},
@@ -126,6 +165,7 @@ export default {
     }
   },
   async mounted() {
+    await this.getSizeTemplate()
     const id = this.$route.params.id;
     if(id !== 'add-model') {
       await this.getChartSizes(id);
@@ -135,6 +175,12 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss">
+.v-list-item.primary--text {
+  color: #7631FF !important;
+  &:after {
+    content: '✔';
+    display: inline-block;
+  }
+}
 </style>
