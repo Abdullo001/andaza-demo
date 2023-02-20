@@ -1,16 +1,11 @@
 export const state = () => ({
   chartSizes: [],
-  sizeTemplate: {
-    content: [{id: 1, sizes: ['x']}]
-  }
+  sizeTemplateList: {},
+  sizeTemplate: []
 });
 export const getters = {
   chartSizes: state => state.chartSizes,
-  // sizeTemplate: state => state.sizeTemplate.content.map(elem => {
-  //   elem.sizes = elem.sizes.join(', ');
-  // }),
-  // templateSizes: state => state.sizeTemplate?.content.map(item => item.sizes),
-
+  sizeTemplate: state => state.sizeTemplate,
 
 };
 export const mutations = {
@@ -18,10 +13,15 @@ export const mutations = {
     state.chartSizes = chartSize;
   },
   setSizeTemplate(state, size) {
-    state.sizeTemplate = size;
-  }
+    state.sizeTemplateList = size;
+    size.content.map(el => {
+      el.sizes = el.sizes.join(', ');
+    });
+    state.sizeTemplate = size.content.map(item => item.sizes)
+  },
+
 };
-export const actions ={
+export const actions = {
   getChartSizes({commit}, id) {
     const body = {
       filters: [],
