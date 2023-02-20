@@ -3,7 +3,7 @@
     <Breadcrumbs :maps="map_links" />
     <v-card elevation="0">
       <v-card-title>
-        <div>Add Orders</div>
+        <div>{{ orderStatus }} Orders</div>
         <v-spacer />
         <div>
           <v-btn
@@ -21,7 +21,6 @@
             elevation="0"
             class="text-capitalize rounded-lg"
             color="#777C85"
-            @click="editOrder"
           >
             <v-img
               :src="fields_status ? '/edit.svg' : '/edit-active.svg'"
@@ -37,8 +36,20 @@
           <v-col>
             <div class="mb-2 text-body-1">Order number</div>
             <v-text-field
-              v-model="order.number"
+              v-model="order.orderNumber"
               label="Enter order number"
+              single-line
+              outlined
+              validate-on-blur
+              dense
+              class="rounded-lg"
+              color="#7631FF"
+              background-color="#F8F4FE"
+            />
+            <div class="mb-2 text-body-1">Head of production depatment</div>
+            <v-text-field
+              v-model="order.headOfDepartment"
+              label="Head of production depatment"
               single-line
               outlined
               validate-on-blur
@@ -51,7 +62,6 @@
             <v-chip color="#10BF41" dark class="font-weight-bold">Edit</v-chip>
           </v-col>
           <v-col>
-
             <div class="mb-2 text-body-1">Client name</div>
             <v-text-field
               v-model="order.clientName"
@@ -91,12 +101,27 @@
                 background-color="#F8F4FE"
               />
             </div>
+
+            <div class="mb-2 text-body-1">Order priority</div>
+            <v-select
+              v-model="order.priority"
+              label="select priority"
+              :items="priority"
+              append-icon="mdi-chevron-down"
+              rounded
+              single-line
+              outlined
+              validate-on-blur
+              dense
+              class="rounded-lg"
+              color="#7631FF"
+              background-color="#F8F4FE"
+            />
           </v-col>
           <v-col>
-            
             <div class="mb-2 text-body-1">Model number</div>
             <v-text-field
-              v-model="order.clientName"
+              v-model="order.modelNumber"
               label="Enter model number"
               single-line
               outlined
@@ -136,7 +161,6 @@
             </div>
           </v-col>
           <v-col>
-            
             <div class="mb-2 text-body-1">Model name</div>
             <v-text-field
               v-model="order.modelName"
@@ -170,33 +194,145 @@
               v-model="order.description"
               label="Enter description"
               single-line
-              outlined validate-on-blur
+              outlined
+              validate-on-blur
               dense
               class="rounded-lg"
               color="#7631FF"
               background-color="#F8F4FE"
             />
           </v-col>
+
+          <v-col cols="12" lg="3">
+            <div class="mb-2 text-body-1">Creator</div>
+            <v-text-field
+              v-model="order.creator"
+              label="Enter creator"
+              single-line
+              outlined
+              validate-on-blur
+              dense
+              class="rounded-lg"
+              color="#7631FF"
+              background-color="#F8F4FE"
+            />
+
+            <div class="mb-2 text-body-1">Modified person</div>
+            <v-text-field
+              v-model="order.modifiedPerson"
+              label="Enter Modified person"
+              single-line
+              outlined
+              validate-on-blur
+              dense
+              class="rounded-lg"
+              color="#7631FF"
+              background-color="#F8F4FE"
+            />
+          </v-col>
+
+          <v-col cols="12" lg="3">
+            <div class="mb-2 text-body-1">Created time</div>
+            <el-date-picker
+              v-model="order.createdTime"
+              type="datetime"
+              placeholder="dd.MM.yyyy HH:mm:ss"
+              :picker-options="pickerOptions"
+              value-format="dd.MM.yyyy HH:mm:ss"
+              style="min-width: 100%"
+              class="picker-color mb-6"
+            >
+            </el-date-picker>
+            <div class="mb-2 text-body-1">Updated time</div>
+            <el-date-picker
+              v-model="order.updatedTime"
+              type="datetime"
+              placeholder="dd.MM.yyyy HH:mm:ss"
+              :picker-options="pickerOptions"
+              value-format="dd.MM.yyyy HH:mm:ss"
+              style="min-width: 100%"
+              class="picker-color"
+            >
+            </el-date-picker>
+          </v-col>
         </v-row>
       </v-card-text>
       <v-card-actions class="pb-6 pr-4">
         <v-spacer />
         <v-btn
+          v-if="orderStatus==='Add'"
           color="#7631FF"
           class="text-capitalize rounded-lg"
           width="130"
           height="44"
           dark
-          @click="saveOrder"
-          >save</v-btn
+          @click="createdNewOrder"
+          >Save</v-btn
         >
+        <v-btn
+          v-else
+          color="#7631FF"
+          class="text-capitalize rounded-lg"
+          width="130"
+          height="44"
+          dark
+          @click="updateOrder"
+          >Save</v-btn
+        >
+        
       </v-card-actions>
+    </v-card>
+
+    <v-card class="mt-6 mb-8" flat>
+      <v-tabs v-model="tab">
+        <v-tabs-slider color="#7631FF" />
+        <v-tab
+          class="text-capitalize"
+          v-for="item in items"
+          :key="item"
+          active-class="active-tab"
+        >
+          {{ item }}
+        </v-tab>
+        <v-tabs-items v-model="tab">
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <ColorSizeDistirbution/>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <DetailInfo/>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <Subcontracts/>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <ShippingInfo/>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+        </v-tabs-items>
+      </v-tabs>
     </v-card>
   </div>
 </template>
 
 <script>
 import Breadcrumbs from "../../components/Breadcrumbs.vue";
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   components: {
     Breadcrumbs,
@@ -206,6 +342,10 @@ export default {
     return {
       currency_enums: ["USD", "UZS", "RUB"],
       fields_status: true,
+      tab:null,
+      orderStatus: "Add",
+      priority: ["LOW","NORMAL","HIGH"],
+      items:['Color/Size distirbution','Detail info','Subcontracts','Shipping info','Comment','Documents'],
       map_links: [
         {
           text: "Home",
@@ -227,7 +367,7 @@ export default {
         },
       ],
       order: {
-        number: "",
+        orderNumber: "",
         clientName: "",
         modelNumber: "",
         modelName: "",
@@ -240,7 +380,13 @@ export default {
           currency: "USD",
         },
         deadline: "",
-        description:"",
+        description: "",
+        creator:"",
+        headOfDepartment:"",
+        modifiedPerson:"",
+        createdTime:"",
+        updatedTime:"",
+        priority:""
       },
 
       pickerOptions: {
@@ -272,17 +418,73 @@ export default {
     };
   },
 
+  computed: {
+    ...mapGetters({
+      orderDetail: "orders/oneOrder",
+    }),
+  },
+
+  watch: {
+    orderDetail(ordersList) {
+      ordersList.map(item=>{
+        const order=this.order
+        order.clientName=item.client
+        order.createdTime=item.createdAt
+        order.creator=item.createdBy
+        order.deadline=item.deadLine
+        order.description=item.description
+        order.modelName=item.modelName
+        order.modelNumber=item.modelNumber
+        order.orderNumber=item.orderNumber
+        order.modifiedPerson=item.updatedBy
+        order.updatedTime=item.updatedAt
+        order.headOfDepartment=item.headOfProductionDepartment
+        order.givenPrice.amount=item.givenPrice
+        order.givenPrice.currency=item.givenPriceCurrency
+
+      })
+      
+    },
+  },
+
   methods: {
-    editOrder() {},
+    ...mapActions({
+      getOneOrder: "orders/getOneOrder",
+      createdOrder: "orders/createdOrder",
+    }),
+
+    updateOrder() {},
 
     clearOrder() {},
 
-    saveOrder() {},
+    async createdNewOrder() {
+      await this.createdOrder(this.order);
+    },
+  },
+
+  mounted() {
+    const id = this.$route.params.id;
+    if (id !== "add-order") {
+      this.getOneOrder({
+        page:0,
+        size:50,
+        id,
+      });
+      this.orderStatus = "Edit";
+    } else this.orderStatus = "Add";
   },
 };
 </script>
 
 <style lang="scss" scoped>
+
+.active-tab {
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  color: #7631FF;
+}
+
 .el-date-editor--datetime {
   width: 100%;
 }

@@ -64,6 +64,20 @@ export default (context, inject) => {
                 return '#FF4E4F'
             }
           },
+
+          orderColor(color) {
+            switch (color) {
+              case 'FINISHED':
+                return '#10BF41'
+              case 'CANCELED':
+                return '#FF4E4F'
+              case 'PENDING':
+                return 'amber'
+              case 'IN_PROCESS':
+                return '#397CFD'
+              
+            }
+          },
         }
       },
     }
