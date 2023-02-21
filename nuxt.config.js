@@ -64,7 +64,7 @@ export default {
     }
   },
 
-  // loading: { color: '#7631FF' },
+  loading: false,
 
   // loading: {
   //   name: 'chasing-dots',

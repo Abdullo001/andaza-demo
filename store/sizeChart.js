@@ -1,16 +1,16 @@
 export const state = () => ({
   chartSizes: [],
   sizeTemplateList: {},
-  sizeTemplate: []
+  sizeTemplate: [],
+
 });
 export const getters = {
   chartSizes: state => state.chartSizes,
   sizeTemplate: state => state.sizeTemplate,
-
 };
 export const mutations = {
-  setChartSizes(state, chartSize) {
-    state.chartSizes = chartSize;
+  setChartSizes(state, item) {
+    state.chartSizes = item;
   },
   setSizeTemplate(state, size) {
     state.sizeTemplateList = size;
@@ -19,7 +19,6 @@ export const mutations = {
     });
     state.sizeTemplate = size.content.map(item => item.sizes)
   },
-
 };
 export const actions = {
   getChartSizes({commit}, id) {
@@ -31,7 +30,7 @@ export const actions = {
     }
     this.$axios.$put(`/api/v1/size-charts/list?modelId=${id}`, body)
       .then(res => {
-        commit('setChartSizes', res.data);
+        commit('setChartSizes', res.data.content);
       })
       .catch(({response}) => console.log(response))
   },
