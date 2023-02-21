@@ -1,4 +1,4 @@
-<template >
+<template>
   <div>
     <v-data-table
       :headers="headers"
@@ -8,6 +8,7 @@
         itemsPerPageOptions: [10, 20, 50, 100],
       }"
       class="elevation-0"
+      hide-default-footer
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -39,6 +40,7 @@
               width="160"
               height="36"
               dark
+              @click="newSubcontract"
             >
               <v-icon>mdi-plus</v-icon>
               Row
@@ -93,8 +95,122 @@
     <v-dialog v-model="new_dialog" max-width="572">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
-          <div>Edit Cutting</div>
+          <div>New Cutting</div>
           <v-btn @click="new_dialog = !new_dialog" icon>
+            <v-icon color="#7631FF">mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+
+        <v-card-text>
+          <v-form lazy-validation v-model="new_validate" ref="new_form">
+            <v-row class="mb-4">
+              <v-col cols="6">
+                <div class="mb-2 text-body-1">Cooperation type</div>
+                <v-select
+                  v-model="newSubcontractDetail.cooperationType"
+                  label="select cooperation Type"
+                  :items="cooperation_type"
+                  append-icon="mdi-chevron-down"
+                  rounded
+                  single-line
+                  outlined
+                  validate-on-blur
+                  dense
+                  class="rounded-lg"
+                  color="#7631FF"
+                  background-color="#F8F4FE"
+                />
+                <div class="mb-2 text-body-1">Quantity</div>
+                <v-text-field
+                  v-model="newSubcontractDetail.quantity"
+                  label="Enter quantity"
+                  single-line
+                  outlined
+                  validate-on-blur
+                  dense
+                  class="rounded-lg"
+                  color="#7631FF"
+                  background-color="#F8F4FE"
+                />
+              </v-col>
+
+              <v-col cols="6">
+                <div class="mb-2 text-body-1">Partner name</div>
+                <v-select
+                  v-model="newSubcontractDetail.partnerName"
+                  label="select Partner"
+                  :items="partnerName_item"
+                  append-icon="mdi-chevron-down"
+                  rounded
+                  single-line
+                  outlined
+                  validate-on-blur
+                  dense
+                  class="rounded-lg"
+                  color="#7631FF"
+                  background-color="#F8F4FE"
+                />
+                <div class="mb-2 text-body-1">Measurement unit</div>
+                <v-select
+                  v-model="newSubcontractDetail.measurementUnit"
+                  label="select unit"
+                  :items="meansurement_unit"
+                  append-icon="mdi-chevron-down"
+                  rounded
+                  single-line
+                  outlined
+                  validate-on-blur
+                  dense
+                  class="rounded-lg"
+                  color="#7631FF"
+                  background-color="#F8F4FE"
+                />
+              </v-col>
+
+              <v-col cols="12">
+                <div class="mb-2 text-body-1">Description</div>
+                <v-textarea
+                  v-model="newSubcontractDetail.comment"
+                  label="Enter description"
+                  single-line
+                  outlined
+                  validate-on-blur
+                  dense
+                  class="rounded-lg"
+                  color="#7631FF"
+                  background-color="#F8F4FE"
+                />
+              </v-col>
+            </v-row>
+
+            <v-card-actions class="d-flex justify-center pb-6">
+              <v-btn
+                outlined
+                class="text-capitalize rounded-lg font-weight-bold mr-6"
+                color="#7631FF"
+                width="163"
+                @click="new_dialog = !new_dialog"
+                >cancel
+              </v-btn>
+              <v-btn
+                class="text-capitalize rounded-lg font-weight-bold"
+                color="#7631FF"
+                dark
+                width="163"
+                @click="setNewSubcontracts"
+                >save
+              </v-btn>
+            </v-card-actions>
+          </v-form>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="edit_dialog" max-width="572">
+      <v-card>
+        <v-card-title class="w-full d-flex justify-space-between">
+          <div>Edit Cutting</div>
+          <v-btn @click="edit_dialog = !edit_dialog" icon>
             <v-icon color="#7631FF">mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -187,7 +303,7 @@
                 class="text-capitalize rounded-lg font-weight-bold mr-6"
                 color="#7631FF"
                 width="163"
-                @click="new_dialog = !new_dialog"
+                @click="edit_dialog = !edit_dialog"
                 >cancel
               </v-btn>
               <v-btn
@@ -213,6 +329,7 @@ export default {
       cooperation_type: ["Cutting", "Sewing ", "Printing"],
       partnerName_item: ["Art", "Artatex LLC"],
       meansurement_unit: ["PSC"],
+      edit_dialog: false,
       new_dialog: false,
       new_validate: true,
       headers: [
@@ -237,7 +354,7 @@ export default {
         },
         { text: "Comment", sortable: false, value: "comment", width: "220" },
         { text: "Date", sortable: false, value: "date" },
-        { text: "Detail", sortable: false, value: "actions" },
+        { text: "Action", sortable: false, align: "center", value: "actions" },
       ],
 
       subcontractsList: [
@@ -261,6 +378,14 @@ export default {
         comment: "",
         date: "12.10.2022",
       },
+
+      newSubcontractDetail: {
+        cooperationType: "",
+        partnerName: "",
+        quantity: 0,
+        measurementUnit: "",
+        comment: "",
+      },
     };
   },
 
@@ -275,12 +400,16 @@ export default {
 
   methods: {
     editParts(item) {
+      this.edit_dialog = !this.edit_dialog;
+    },
+
+    updateSubcontracts() {},
+
+    newSubcontract() {
       this.new_dialog = !this.new_dialog;
     },
 
-    updateSubcontracts(){
-
-    }
+    setNewSubcontracts() {},
   },
 };
 </script>
