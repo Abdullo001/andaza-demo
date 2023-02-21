@@ -19,7 +19,6 @@ export default {
     const token = this.$auth.strategy.token.get()
     this.$store.commit('setToken', token)
   },
-  mounted() {
-  }
+  mounted() {}
 }
 </script>

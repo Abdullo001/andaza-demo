@@ -2,7 +2,7 @@
   <div>
     <v-data-table
       :headers="headers"
-      :items="sizeChartList"
+      :items="allSizeChart"
       :items-per-page="10"
       class="elevation-0"
       hide-default-footer
@@ -66,13 +66,17 @@
               dark
             >
               <v-icon>mdi-plus</v-icon>
-              Add row
+              size chart
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
       </template>
     </v-data-table>
     <v-divider/>
+    <v-dialog v-model="new_dialog" max-width="1000">
+
+
+    </v-dialog>
   </div>
 </template>
 
@@ -83,18 +87,17 @@ export default {
   name: 'SizeChartComponent',
   data() {
     return {
-      items: [],
+      currentTemplate: [],
       headers: [
         { text: '№', align: 'start', sortable: false, value: 'id' },
         { text: 'Code', sortable: false, value: 'code' },
         { text: 'Size name', sortable: false,  value: 'sizeName' },
-
-        { text: 'Tolerance', sortable: false,  value: 'tolerance' },
-        { text: 'Shrinkage', sortable: false,  value: 'shrinkage' },
+        { text: 'Deviation', sortable: false,  value: 'deviation' },
+        { text: 'Shrinkage', sortable: false,  value: 'shrinkagePercent' },
         { text: 'Gradation',  sortable: false, value: 'gradation' },
-        { text: 'Comment', sortable: false,  value: 'comment' },
-        { text: 'Creator',  sortable: false, value: 'creator' },
-        { text: 'Date',  sortable: false, value: 'date' },
+        { text: 'Comment', sortable: false,  value: 'description' },
+        { text: 'Creator',  sortable: false, value: 'createdBy' },
+        { text: 'Date',  sortable: false, value: 'updatedAt' },
         { text: 'Actions', sortable: false,  value: 'actions' },
       ],
       sizeChartList: [
@@ -133,13 +136,36 @@ export default {
         },
       ],
       sizeChartDialog: false,
+      new_dialog: false,
+      templateStatus: null,
+      allSizeChart: []
     }
   },
 
   computed: {
     ...mapGetters({
-      sizeTemplate: "sizeChart/sizeTemplate"
+      sizeTemplate: "sizeChart/sizeTemplate",
+      chartSizes: "sizeChart/chartSizes",
     })
+  },
+  watch: {
+    chartSizes(val) {
+      val[0].sizeTemplateSizeValues.forEach((el) => {
+        const res = {text: el.name, sortable: false, value: el.name.toLowerCase()};
+        this.headers.splice(3, 0, res);
+      });
+
+      val.forEach((item) => {
+        let oldObject = {...item};
+        delete oldObject.sizeTemplateSizeValues
+
+        item.sizeTemplateSizeValues.forEach(elem => {
+          oldObject[elem.name] = elem.size
+        })
+        this.allSizeChart.push(oldObject);
+      })
+    },
+
   },
   methods: {
     ...mapActions({
@@ -152,6 +178,7 @@ export default {
       this.headers = [...first, ...last];
 
       item = item.split(',');
+      this.currentTemplate = item;
       item.forEach((el, idx) => {
         idx = idx + 3
         let head =  {
@@ -165,7 +192,7 @@ export default {
     editSizeChart() {},
     deleteSizeChart() {},
     newDialog() {
-      console.log('hello')
+
     }
   },
   async mounted() {
@@ -173,6 +200,9 @@ export default {
     const id = this.$route.params.id;
     if(id !== 'add-model') {
       await this.getChartSizes(id);
+      this.templateStatus = true
+    } else {
+     this.templateStatus = false
     }
   }
 
