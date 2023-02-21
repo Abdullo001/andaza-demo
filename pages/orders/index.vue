@@ -134,7 +134,7 @@
           <div class="d-flex align-center my-2">
             <div class="ml-2">
               <div class="username-name">{{ item.modelName }}</div>
-              <div class="username-email">
+              <div class="username-email d-flex flex-row">
                 {{ item.modelNumber }}
                 <v-tooltip top color="green d-inline">
                   <template #activator="{ on, attrs }">
