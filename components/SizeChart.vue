@@ -87,7 +87,7 @@
           <v-form lazy-validation ref="new_validate">
             <v-row>
               <v-col
-                v-for="(el, idx) in headers"
+                v-for="(el, idx) in headFields"
                 :key="`forms_${idx}`"
                 cols="12"
                 lg="4"
@@ -97,6 +97,7 @@
                   filled dense
                   validate-on-blur
                   v-model="new_chart[el.value]"
+                  color="#7631FF"
                 />
               </v-col>
             </v-row>
@@ -116,13 +117,13 @@
             class="font-weight-bold text-capitalize rounded-lg ml-4"
             color="#7631FF" dark
             width="140" height="40"
+            @click="saveChart"
           >
             save
           </v-btn>
           <v-spacer/>
         </v-card-actions>
       </v-card>
-
     </v-dialog>
   </div>
 </template>
@@ -137,56 +138,23 @@ export default {
       new_chart: {},
       currentTemplate: [],
       headers: [
-        { text: '№', align: 'start', sortable: false, value: 'id' },
-        { text: 'Code', sortable: false, value: 'code' },
-        { text: 'Size name', sortable: false,  value: 'sizeName' },
-        { text: 'Deviation', sortable: false,  value: 'deviation' },
-        { text: 'Shrinkage', sortable: false,  value: 'shrinkagePercent' },
-        { text: 'Gradation',  sortable: false, value: 'gradation' },
-        { text: 'Comment', sortable: false,  value: 'description' },
-        { text: 'Creator',  sortable: false, value: 'createdBy' },
-        { text: 'Date',  sortable: false, value: 'updatedAt' },
-        { text: 'Actions', sortable: false,  value: 'actions' },
+        {text: '№', align: 'start', sortable: false, value: 'id'},
+        {text: 'Code', sortable: false, value: 'code'},
+        {text: 'Size name', sortable: false, value: 'sizeName'},
+        {text: 'Deviation', sortable: false, value: 'deviation'},
+        {text: 'Shrinkage', sortable: false, value: 'shrinkagePercent'},
+        {text: 'Gradation', sortable: false, value: 'gradation'},
+        {text: 'Comment', sortable: false, value: 'description'},
+        {text: 'Creator', sortable: false, value: 'createdBy'},
+        {text: 'Date', sortable: false, value: 'updatedAt'},
+        {text: 'Actions', sortable: false, value: 'actions'},
       ],
-      sizeChartList: [
-        {
-          id: 1,
-          code: 'A',
-          sizeName: 'Back full length',
-          s: '41.5',
-          m: '43.0',
-          l: '44.5',
-          x: '45',
-          xl: '46.0',
-          xxl: '48.0',
-          tolerance: '-0.2',
-          shrinkage: '5%',
-          gradation: '1.5',
-          comment: 'Women sleepwear upper part',
-          creator: 'Aziza Azimova',
-          date: '12.10.2022'
-        },
-        {
-          id: 2,
-          code: 'B',
-          sizeName: 'Back full length',
-          s: '41.5',
-          m: '43.0',
-          l: '44.5',
-          xl: '46.0',
-          xxl: '48.0',
-          tolerance: '+0.2',
-          shrinkage: '5%',
-          gradation: '1.5',
-          comment: 'Women sleepwear upper part',
-          creator: 'Aziza Azim ova',
-          date: '12.10.2022'
-        },
-      ],
+
       sizeChartDialog: false,
       new_dialog: false,
       templateStatus: null,
-      allSizeChart: []
+      allSizeChart: [],
+      headFields: []
     }
   },
 
@@ -194,19 +162,28 @@ export default {
     ...mapGetters({
       sizeTemplate: "sizeChart/sizeTemplate",
       chartSizes: "sizeChart/chartSizes",
+      newModelId: "models/newModelId"
     })
   },
   watch: {
+    headers(val) {
+      let data = [...val];
+      data.shift();
+      data = data.slice(0, -3);
+      this.headFields = data;
+    },
     chartSizes(val) {
-      val[0]?.sizeTemplateSizeValues.forEach((el) => {
-        const res = {text: el.name, sortable: false, value: el.name};
-        this.headers.splice(3, 0, res);
-      });
-      let arr = [...this.headers]
-      arr = arr.slice(0, 3)
-        .concat(arr.slice(3, -7).reverse())
-        .concat(arr.slice(-7));
-      this.headers = arr
+      if (this.headers.length <= 10) {
+        val[0]?.sizeTemplateSizeValues.forEach((el) => {
+          const res = {text: el.name, sortable: false, value: el.name.toUpperCase()};
+          this.headers.splice(3, 0, res);
+        });
+        let arr = [...this.headers]
+        arr = arr.slice(0, 3)
+          .concat(arr.slice(3, -7).reverse())
+          .concat(arr.slice(-7));
+        this.headers = arr
+      }
       val.forEach((item) => {
         let oldObject = {...item};
         delete oldObject?.sizeTemplateSizeValues
@@ -222,10 +199,23 @@ export default {
   methods: {
     ...mapActions({
       getChartSizes: 'sizeChart/getChartSizes',
-      getSizeTemplate: 'sizeChart/getSizeTemplate'
+      getSizeTemplate: 'sizeChart/getSizeTemplate',
+      createSizeChart: 'sizeChart/createSizeChart'
     }),
+    async saveChart() {
+      let data = {...this.new_chart};
+      const id = this.$route.params.id;
+      if (id === 'add-model') {
+        data.modelId = this.newModelId
+      } else {
+        data.modelId = id
+      }
+      await this.createSizeChart(data);
+      this.new_dialog = false;
+      this.$refs.new_validate.reset();
+    },
     getTemplate(item) {
-      const first = this.headers.slice(0,3);
+      const first = this.headers.slice(0, 3);
       const last = this.headers.slice(-7);
       this.headers = [...first, ...last];
 
@@ -233,16 +223,18 @@ export default {
       this.currentTemplate = item;
       item.forEach((el, idx) => {
         idx = idx + 3
-        let head =  {
+        let head = {
           text: el.toUpperCase().trim(),
           sortable: false,
-          value: el.toLowerCase().trim()
+          value: el.toUpperCase().trim()
         }
         this.headers.splice(idx, 0, head)
       })
     },
-    editSizeChart() {},
-    deleteSizeChart() {},
+    editSizeChart() {
+    },
+    deleteSizeChart() {
+    },
     newDialog() {
       this.new_dialog = true;
     }
@@ -250,26 +242,31 @@ export default {
   async mounted() {
     await this.getSizeTemplate()
     const id = this.$route.params.id;
-    if(id !== 'add-model') {
+    if (id !== 'add-model') {
       await this.getChartSizes(id);
       this.templateStatus = true
     } else {
-     this.templateStatus = false
+      this.templateStatus = false
     }
+    let data = [...this.headers];
+    data.shift();
+    data = data.slice(0, -3);
+    this.headFields = data;
   }
-
 }
 </script>
 
 <style lang="scss">
 .v-list-item.primary--text {
   color: #7631FF !important;
+
   &:after {
     content: '✔';
     display: inline-block;
   }
 }
+
 .v-list-item-group .v-list-item--active {
- color: #7631FF;
+  color: #7631FF;
 }
 </style>
