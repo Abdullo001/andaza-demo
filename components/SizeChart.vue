@@ -125,6 +125,88 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="delete_dialog" max-width="500">
+      <v-card class="pa-4 text-center">
+        <div class="d-flex justify-center mb-2">
+          <v-img src="/error-icon.svg" max-width="40"/>
+        </div>
+        <v-card-title class="d-flex justify-center">Delete Localization</v-card-title>
+        <v-card-text>
+          Are you sure you want to Delete this model parts information?
+        </v-card-text>
+        <v-card-actions class="px-16">
+          <v-btn
+            outlined
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#777C85"
+            width="140"
+            @click.stop="delete_dialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-spacer/>
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#FF4E4F"
+            width="140"
+            elevation="0"
+            dark @click="deleteChart"
+          >
+            delete
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="edit_dialog" max-width="1000">
+      <v-card>
+        <v-card-title class="d-flex align-center justify-space-between w-full">
+          <div class="title">Edit chart size</div>
+          <v-btn icon large color="#7631FF" @click="edit_dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text class="mt-6">
+          <v-form lazy-validation ref="edit_validate">
+            <v-row>
+              <v-col
+                v-for="(el, idx) in headFields"
+                :key="`forms_edit${idx}`"
+                cols="12"
+                lg="4"
+              >
+                <v-text-field
+                  :label="el.text"
+                  filled dense
+                  validate-on-blur
+                  v-model="edit_chart[el.value]"
+                  color="#7631FF"
+                />
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="pb-6">
+          <v-spacer/>
+          <v-btn
+            class="font-weight-bold text-capitalize rounded-lg border"
+            outlined color="#7631FF"
+            width="140" height="40"
+            @click="edit_dialog=false"
+          >
+            cancel
+          </v-btn>
+          <v-btn
+            class="font-weight-bold text-capitalize rounded-lg ml-4"
+            color="#7631FF" dark
+            width="140" height="40"
+            @click="editChart"
+          >
+            save
+          </v-btn>
+          <v-spacer/>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -154,7 +236,11 @@ export default {
       new_dialog: false,
       templateStatus: null,
       allSizeChart: [],
-      headFields: []
+      headFields: [],
+      delete_dialog: false,
+      selectedChart: {},
+      edit_dialog: false,
+      edit_chart: {}
     }
   },
 
@@ -184,6 +270,7 @@ export default {
           .concat(arr.slice(-7));
         this.headers = arr
       }
+      this.allSizeChart = [];
       val.forEach((item) => {
         let oldObject = {...item};
         delete oldObject?.sizeTemplateSizeValues
@@ -200,7 +287,9 @@ export default {
     ...mapActions({
       getChartSizes: 'sizeChart/getChartSizes',
       getSizeTemplate: 'sizeChart/getSizeTemplate',
-      createSizeChart: 'sizeChart/createSizeChart'
+      createSizeChart: 'sizeChart/createSizeChart',
+      deleteOneSizeChart: 'sizeChart/deleteOneSizeChart',
+      updateChartSizes: 'sizeChart/updateChartSizes'
     }),
     async saveChart() {
       let data = {...this.new_chart};
@@ -231,9 +320,24 @@ export default {
         this.headers.splice(idx, 0, head)
       })
     },
-    editSizeChart() {
+    editSizeChart(item) {
+      this.edit_dialog = true;
+      this.edit_chart = {...item}
     },
-    deleteSizeChart() {
+    async editChart() {
+      await this.updateChartSizes(this.edit_chart);
+      this.edit_dialog = false
+    },
+    deleteSizeChart(item) {
+      this.selectedChart = item
+      this.delete_dialog = true
+    },
+    async deleteChart() {
+      await this.deleteOneSizeChart({
+        chartId: this.selectedChart.id,
+        modelId: this.selectedChart.modelId
+      });
+      this.delete_dialog = false
     },
     newDialog() {
       this.new_dialog = true;
