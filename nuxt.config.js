@@ -56,6 +56,7 @@ export default {
   toast: {
     position: "bottom-center",
     duration: 4000,
+    theme: "toasted-primary",
     action:{
       text:'',
       onClick:(e,toastObject)=>{
