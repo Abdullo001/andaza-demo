@@ -185,6 +185,8 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: "ShippingInfo",
 
@@ -237,6 +239,22 @@ export default {
       },
     };
   },
+
+  methods:{
+    ...mapActions({
+      getShippingInfo: 'shippingInfo/getShippingInfo'
+    })
+
+
+  },
+
+  mounted() {
+    const id = this.$route.params.id;
+    if(id!=='add-order') {
+      this.getShippingInfo({id});
+    }
+  },
+
 };
 </script>
 <style lang="scss" scoped>
