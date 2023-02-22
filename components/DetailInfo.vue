@@ -16,6 +16,7 @@
         />
         <div class="mb-2 text-body-1 font-weight-medium">Season</div>
         <v-select
+          label="select season"
           :items="season_enums"
           v-model="orderDetail.season"
           single-line
@@ -97,6 +98,7 @@
       <v-col>
         <div class="mb-2 text-body-1 font-weight-medium">Order group</div>
         <v-select
+          label="select Order group"
           :items="orderGroup_enums"
           v-model="orderDetail.orderGroup"
           single-line
@@ -113,22 +115,26 @@
   </div>
 </template>
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
   name: "DetailInfo",
 
+
   data() {
     return {
-      season_enums: ["SS23Spring/Summer", "AW23Autumn/Winter"],
-      orderGroup_enums:['Women T-shirt',],
+      
+      season_enums: ["Spring/Summer", "Autumn/Winter"],
+      orderGroup_enums:[],
 
       orderDetail: {
-        orderNumber: "354F-89",
-        prefinanceNumber: "219/22",
-        specificationNumber: 18,
-        orderGroup: "Women T-shirt",
-        season: "SS23Spring/Summer",
-        deadline: "02.12.2022 00:00:00",
-        responsipblePerson: "John Doe",
+        orderNumber: "",
+        prefinanceNumber: "",
+        specificationNumber: "",
+        orderGroup: "",
+        season: "",
+        deadline: "",
+        responsipblePerson: "",
       },
 
       pickerOptions: {
@@ -159,6 +165,53 @@ export default {
       },
     };
   },
+
+  computed:{
+    ...mapGetters({
+      orderId: 'detailInfo/orderId',
+      modelId: 'detailInfo/modelId',
+      detailInfo: 'detailInfo/detailInfo',
+      modelGroups: 'detailInfo/modelGroups'
+    })
+  },
+
+  watch:{
+    detailInfo(item){
+      const detail=this.orderDetail
+      detail.orderNumber=item.orderNumber
+      detail.prefinanceNumber=item.preFinanceNumber
+      detail.specificationNumber=item.specificationNumber
+      detail.orderGroup=item.modelGroup
+      detail.season=item.season
+      detail.deadline=item.deadline
+      detail.responsipblePerson=item.responsiblePerson
+
+    },
+
+    modelGroups(groups){
+      groups.map(item=>{
+        this.orderGroup_enums.push(item.name)
+      })
+    }
+
+  },
+
+  methods:{
+    ...mapActions({
+      getDetailInfo:"detailInfo/getDetailInfo",
+      getModelGroup:"detailInfo/getModelGroup",
+    })
+  },
+
+  mounted(){
+    if(this.orderId){
+      this.getDetailInfo({orderId:this.orderId.id,modelId:this.modelId.modelId})
+    };
+
+    this.getModelGroup();
+  }
+
+  
 };
 </script>
 <style lang=""></style>

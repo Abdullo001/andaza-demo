@@ -331,7 +331,7 @@
 
 <script>
 import Breadcrumbs from "../../components/Breadcrumbs.vue";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
   components: {
@@ -367,6 +367,7 @@ export default {
         },
       ],
       order: {
+        id:'',
         orderNumber: "",
         clientName: "",
         modelNumber: "",
@@ -421,6 +422,8 @@ export default {
   computed: {
     ...mapGetters({
       orderDetail: "orders/oneOrder",
+      orderId: "detailInfo/orderId",
+      modelId: "detailInfo/modelId"
     }),
   },
 
@@ -428,6 +431,8 @@ export default {
     orderDetail(ordersList) {
       ordersList.map(item=>{
         const order=this.order
+        order.id=item.id
+        order.modelId=item.modelId
         order.clientName=item.client
         order.createdTime=item.createdAt
         order.creator=item.createdBy
@@ -441,7 +446,8 @@ export default {
         order.headOfDepartment=item.headOfProductionDepartment
         order.givenPrice.amount=item.givenPrice
         order.givenPrice.currency=item.givenPriceCurrency
-
+        const modelId=item.modelId
+        this.setModelId({modelId})
       })
       
     },
@@ -451,6 +457,10 @@ export default {
     ...mapActions({
       getOneOrder: "orders/getOneOrder",
       createdOrder: "orders/createdOrder",
+    }),
+    ...mapMutations({
+      setOrderId: "detailInfo/setOrderId",
+      setModelId: "detailInfo/setModelId",
     }),
 
     updateOrder() {},
@@ -471,8 +481,17 @@ export default {
         id,
       });
       this.orderStatus = "Edit";
-    } else this.orderStatus = "Add";
+      this.setOrderId({id});
+      
+    } else {
+      this.orderStatus = "Add";
+      this.setOrderId('');
+      this.setModelId('')
+    };
+
+
   },
+
 };
 </script>
 
