@@ -57,8 +57,8 @@ export const actions = {
     delete newData.shrinkagePercent;
     delete newData.modelId;
     const templateSizesValues = [];
-    if(!!Object.keys(newData).length) {
-      for(let key in newData) {
+    if (!!Object.keys(newData).length) {
+      for (let key in newData) {
         const value = newData[key];
         const item = {name: key.toUpperCase(), size: value}
         templateSizesValues.push(item);
@@ -77,16 +77,57 @@ export const actions = {
         .then(res => {
           this.$toast.success(res.message)
           dispatch('getChartSizes', data.modelId)
+        }).catch(({response}) => {
+          this.$toast.error(response.data.message)
+        })
+    }
+  },
+  async deleteOneSizeChart({dispatch}, {chartId, modelId}) {
+    await this.$axios.$delete(`/api/v1/size-charts/delete?id=${chartId}`)
+      .then(res => {
+        this.$toast.success(res.message);
+        dispatch('getChartSizes', modelId)
+      }).catch(({response}) => console.log(response))
+  },
+  async updateChartSizes({dispatch}, data) {
+    let newData = {...data};
+    delete newData.code;
+    delete newData.description;
+    delete newData.deviation;
+    delete newData.sizeName;
+    delete newData.gradation;
+    delete newData.shrinkagePercent;
+    delete newData.modelId;
+    delete newData.id;
+    delete newData.modelNumber;
+    delete newData.createdAt;
+    delete newData.updatedAt;
+    delete newData.createdBy;
+    delete newData.updatedBy;
+
+    const templateSizesValues = [];
+    if (!!Object.keys(newData).length) {
+      for (let key in newData) {
+        const value = newData[key];
+        const item = {name: key.toUpperCase(), size: value}
+        templateSizesValues.push(item);
+      }
+      const body = {
+        id: data.id,
+        code: data.code,
+        description: data.description,
+        deviation: data.deviation,
+        gradation: data.gradation,
+        modelId: data.modelId,
+        shrinkagePercent: data.shrinkagePercent,
+        sizeName: data.sizeName,
+        templateSizesValues: templateSizesValues
+      }
+      await this.$axios.$put('/api/v1/size-charts/update', body)
+        .then(res => {
+          this.$toast.success(res.message)
+          dispatch('getChartSizes', data.modelId)
         }).catch(({response}) => console.log(response))
     }
-
-
-
-
-
-    // this.$axios.$post('/api/v1/size-charts/create', data)
-    //   .then(res => {
-    //     console.log(res);
-    //   }).catch(({response}) => console.log(response));
   }
 }
