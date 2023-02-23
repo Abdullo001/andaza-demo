@@ -13,20 +13,20 @@
           class="rounded-lg mb-6"
           color="#7631FF"
           background-color="#F8F4FE"
+          readonly
         />
         <div class="mb-2 text-body-1 font-weight-medium">Season</div>
-        <v-select
+        <v-text-field
           label="select season"
-          :items="season_enums"
           v-model="orderDetail.season"
           single-line
           dense
           outlined
           validate-on-blur
           class="rounded-lg"
-          append-icon="mdi-chevron-down"
           color="#7631FF"
           background-color="#F8F4FE"
+          readonly
         />
       </v-col>
 
@@ -42,6 +42,7 @@
           class="rounded-lg mb-6"
           color="#7631FF"
           background-color="#F8F4FE"
+          readonly
         />
         <div class="mb-2 text-body-1 font-weight-medium">Deadline</div>
         <el-date-picker
@@ -52,6 +53,7 @@
           value-format="dd.MM.yyyy HH:mm:ss"
           style="min-width: 100%"
           class="picker-color"
+          readonly
         >
         </el-date-picker>
       </v-col>
@@ -62,7 +64,7 @@
         </div>
         <v-text-field
           v-model="orderDetail.specificationNumber"
-          label="Enter specification number"
+          label=" specification number"
           single-line
           outlined
           validate-on-blur
@@ -70,6 +72,7 @@
           class="rounded-lg mb-6"
           color="#7631FF"
           background-color="#F8F4FE"
+          readonly
         />
         <div class="mb-2 text-body-1 font-weight-medium">
           Responsipble person
@@ -80,35 +83,30 @@
           single-line
           outlined
           validate-on-blur
-          append-inner-icon="mdi-plus"
           dense
           class="rounded-lg mb-6"
           color="#7631FF"
           background-color="#F8F4FE"
-        >
+          readonly
+        />
           
-          <template #append>
-            <v-icon>
-              mdi-magnify
-            </v-icon>
-          </template>
-        </v-text-field>
+          
       </v-col>
 
       <v-col>
         <div class="mb-2 text-body-1 font-weight-medium">Order group</div>
-        <v-select
+        <v-text-field
           label="select Order group"
-          :items="orderGroup_enums"
           v-model="orderDetail.orderGroup"
           single-line
           dense
           outlined
           validate-on-blur
           class="rounded-lg"
-          append-icon="mdi-chevron-down"
           color="#7631FF"
           background-color="#F8F4FE"
+          readonly
+          
         />
       </v-col>
     </v-row>

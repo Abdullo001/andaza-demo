@@ -31,8 +31,10 @@
             background-color="#F8F4FE"
           />
           <v-select
-            :items="quantity_enums"
-            v-model="shippingInfo.surplusProductionUnity"
+            :items="measurementUnitList"
+            v-model="shippingInfo.quantityUnityId"
+            item-value="id"
+            item-text="name"
             style="max-width: 100px"
             single-line
             dense
@@ -107,8 +109,10 @@
             background-color="#F8F4FE"
           />
           <v-select
-            :items="quantity_enums"
-            v-model="shippingInfo.quantityUnity"
+            :items="measurementUnitList"
+            v-model="shippingInfo.quantityUnityId"
+            item-value="id"
+            item-text="name"
             style="max-width: 100px"
             single-line
             dense
@@ -134,10 +138,11 @@
             class="rounded-l-lg rounded-r-0"
             color="#7631FF"
             background-color="#F8F4FE"
+            readonly
           />
           <v-select
             :items="currency_enums"
-            v-model="shippingInfo.totalUnity"
+            v-model="shippingInfo.soldPriceOfSurplusProductsCurrency"
             style="max-width: 100px"
             single-line
             dense
@@ -147,6 +152,7 @@
             append-icon="mdi-chevron-down"
             color="#7631FF"
             background-color="#F8F4FE"
+            readonly
           />
         </div>
       </v-col>
@@ -156,7 +162,6 @@
         <div class="d-flex align-center">
           <v-text-field
             v-model="shippingInfo.packagingSize"
-            :rules="[formRules.onlyNumber]"
             label="0.00"
             single-line
             outlined
@@ -167,8 +172,10 @@
             background-color="#F8F4FE"
           />
           <v-select
-            :items="size_enums"
-            v-model="shippingInfo.packagingSizeUnity"
+            v-model="shippingInfo.packagingSizeUnityId"
+            :items="measurementUnitList"
+            item-value="id"
+            item-text="name"
             style="max-width: 100px"
             single-line
             dense
@@ -180,11 +187,25 @@
             background-color="#F8F4FE"
           />
         </div>
+
+        <div class="d-flex justify-end w-full mt-9">
+          <v-btn
+            color="#7631FF"
+            class="text-capitalize rounded-lg"
+            width="130"
+            height="44"
+            dark
+            @click="setNewShippingInfo"
+            >Save</v-btn
+          >
+        </div>
       </v-col>
     </v-row>
   </div>
 </template>
 <script>
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   name: "ShippingInfo",
 
@@ -192,21 +213,19 @@ export default {
     return {
       quantity_enums: ["PSC"],
       currency_enums: ["USD", "UZS", "RUB"],
-      size_enums: ["M3"],
+      size_enums: [],
 
       shippingInfo: {
-        actualShippingDate: "02.12.2022 10:19:31",
-        orderClosingDate: "02.12.2022 10:19:31",
-        actualShippingOrderQuantity: 1020,
-        quantityUnity: "PSC",
-        packagingSize: 2.3,
-        packagingSizeUnity: "M3",
-        surplusProductsQuantity: 200,
-        surplusProductionUnity: "PSC",
-        soldPriceOfSurplusProducts: 2.5,
+        actualShippingDate: "",
+        orderClosingDate: "",
+        actualShippingOrderQuantity: null,
+        quantityUnityId: 1,
+        packagingSize: null,
+        packagingSizeUnityId: 1,
+        surplusProductsQuantity: null,
+        soldPriceOfSurplusProducts: null,
         soldPriceOfSurplusProductsCurrency: "USD",
-        total: 500,
-        totalUnity: "USD",
+        id: this.$route.params.id,
       },
 
       pickerOptions: {
@@ -237,10 +256,57 @@ export default {
       },
     };
   },
+
+  created() {
+    this.getMeasurementUnit();
+  },
+
+  computed: {
+    ...mapGetters({
+      measurementUnitList: "shippingInfo/measurementUnitList",
+      shippingInfoDetail: "shippingInfo/shippingInfoDetail"
+    }),
+  },
+
+  watch: {
+    shippingInfoDetail(item){
+      const value=this.shippingInfo
+      value.actualShippingDate=item.data.actualShippingDate
+      value.actualShippingOrderQuantity=item.data.actualShippingOrderQuantity
+      value.quantityUnityId=item.data.actualShippingUnitId
+      value.orderClosingDate=item.data.orderClosingDate
+      value.packagingSize=item.data.packagingSize
+      value.packagingSizeUnityId=item.data.packagingSizeUnitId
+      value.soldPriceOfSurplusProducts=item.data.soldPriceOfSurplusProduct
+      value.soldPriceOfSurplusProductsCurrency=item.data.soldPriceOfSurplusProductCurrency
+      value.surplusProductsQuantity=item.data.surplusProductQuantity
+      value.total=item.data.total
+
+    }
+  },
+
+  methods: {
+    ...mapActions({
+      getShippingInfo: "shippingInfo/getShippingInfo",
+      getMeasurementUnit: "shippingInfo/getMeasurementUnit",
+      createShippingInfo: "shippingInfo/createShippingInfo",
+    }),
+
+    async setNewShippingInfo(){
+      this.createShippingInfo(this.shippingInfo)
+    }
+  },
+
+  mounted() {
+    const id = this.$route.params.id;
+    if (id !== "add-order") {
+      this.getShippingInfo({ id });
+    }
+  },
 };
 </script>
 <style lang="scss" scoped>
-  .mb-1-5{
-    margin-bottom: 6px;
-  }
+.mb-1-5 {
+  margin-bottom: 6px;
+}
 </style>
