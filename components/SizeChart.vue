@@ -130,9 +130,9 @@
         <div class="d-flex justify-center mb-2">
           <v-img src="/error-icon.svg" max-width="40"/>
         </div>
-        <v-card-title class="d-flex justify-center">Delete Localization</v-card-title>
+        <v-card-title class="d-flex justify-center">Delete size chart row</v-card-title>
         <v-card-text>
-          Are you sure you want to Delete this model parts information?
+          Are you sure you want to Delete size chart row?
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
