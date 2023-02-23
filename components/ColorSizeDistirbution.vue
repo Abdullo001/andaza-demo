@@ -142,6 +142,8 @@
   </div>
 </template>
 <script>
+import { mapGetters,mapActions } from 'vuex';
+
 export default {
   name: "ColorSizeDistirbution",
 
@@ -196,12 +198,31 @@ export default {
     };
   },
 
+  computed:{
+    ...mapGetters({
+      modelId: "detailInfo/modelId"
+    })
+  },
+
   methods: {
+
+    ...mapActions({
+      getSizeDistirbution:'sizeDistirbution/getSizeDistirbution' 
+    }),
+
     edit() {
       this.edit_dialog = !this.edit_dialog;
     },
     updateSupply() {},
   },
+
+  mounted(){
+    const id = this.$route.params.id;
+    if(id!=='add-order'){
+      this.getSizeDistirbution({modelId:this.modelId.modelId});
+      console.log(this.modelId);
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
