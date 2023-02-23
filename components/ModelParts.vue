@@ -39,7 +39,7 @@
     <v-dialog v-model="partsDialog" max-width="900">
       <v-card>
         <v-card-title>
-          <div>{{ dialogTitle }} model parts</div>
+          <div class="title">{{ dialogTitle }} model parts</div>
           <v-spacer/>
           <v-btn icon color="#7631FF" @click="partsDialog=false">
             <v-icon>mdi-close</v-icon>
@@ -61,12 +61,81 @@
               />
             </v-col>
             <v-col cols="12" lg="6">
-              <v-text-field
-                label="Composition"
-                placeholder="Enter composition"
-                v-model="newModelParts.partComposition"
+              <v-select
+                v-model="newModelParts.yarnNumberId"
+                :items="yarnNumbersList"
+                item-text="name"
+                item-value="id"
+                label="Yarn numbers"
+                placeholder="Enter yarn numbers"
                 filled dense
                 color="#7631FF"
+                append-icon="mdi-chevron-down"
+              />
+            </v-col>
+            <v-col cols="12" lg="6">
+              <v-select
+                v-model="newModelParts.canvasTypeId"
+                :items="canvasTypeList"
+                item-text="name"
+                item-value="id"
+                label="Canvas type"
+                placeholder="Enter canvas type"
+                filled dense
+                color="#7631FF"
+                append-icon="mdi-chevron-down"
+              />
+            </v-col>
+            <v-col cols="12" lg="6">
+              <v-select
+                v-model="newModelParts.yarnTypeId"
+                :items="yarnTypeList"
+                item-text="name"
+                item-value="id"
+                label="Yarn type"
+                placeholder="Enter yarn type"
+                filled dense
+                color="#7631FF"
+                append-icon="mdi-chevron-down"
+              />
+            </v-col>
+            <v-col cols="12" lg="6">
+              <v-select
+                v-model="newModelParts.compositionId"
+                :items="compositionList"
+                item-text="name"
+                item-value="id"
+                label="Composition"
+                placeholder="Enter composition"
+                filled dense
+                color="#7631FF"
+                append-icon="mdi-chevron-down"
+              />
+            </v-col>
+            <v-col cols="12" lg="6">
+              <v-text-field
+                v-model="newModelParts.density"
+                label="Density"
+                placeholder="0.00"
+                filled dense
+                color="#7631FF"
+                suffix="gr/m2"
+              />
+            </v-col>
+            <v-col cols="12" lg="6" class="d-flex align-center">
+              <div class="body-1 font-weight-medium">Fleece</div>
+              <v-spacer/>
+              <v-switch
+                inset color="#4F46E5"
+                v-model="newModelParts.withFleece"
+              />
+            </v-col>
+            <v-col cols="12" lg="6" class="d-flex align-center">
+              <div class="body-1 font-weight-medium">Peach effect</div>
+              <v-spacer/>
+              <v-switch
+                inset color="#4F46E5"
+                v-model="newModelParts.peachEffectEnabled"
               />
             </v-col>
             <v-col cols="12" lg="12">
@@ -117,9 +186,9 @@
         <div class="d-flex justify-center mb-2">
           <v-img src="/error-icon.svg" max-width="40"/>
         </div>
-        <v-card-title class="d-flex justify-center">Delete Localization</v-card-title>
+        <v-card-title class="d-flex justify-center">Delete model parts row</v-card-title>
         <v-card-text>
-          Are you sure you want to Delete this model parts information?
+          Are you sure you want to Delete model parts row ?
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -137,7 +206,7 @@
             color="#FF4E4F"
             width="140"
             elevation="0"
-            dark @click="deleteModelParts()"
+            dark @click="deleteModelParts"
           >
             delete
           </v-btn>
@@ -156,7 +225,7 @@ export default {
     return {
       headers: [
         {text: 'Part name', align: 'start', sortable: false, value: 'bodyPart'},
-        {text: 'Composition', sortable: false, value: 'partComposition'},
+        {text: 'Composition', sortable: false, value: 'composition'},
         {text: 'Comment', sortable: false, value: 'description'},
         {text: 'Creator', sortable: false, value: 'createdBy'},
         {text: 'Created at', sortable: false, value: 'createdAt'},
@@ -164,11 +233,17 @@ export default {
       ],
       partsDialog: false,
       newModelParts: {
-        bodyPartId: '',
-        partComposition: '',
-        description: '',
-        createdBy: '',
-        createAt: ''
+        bodyPartId: null,
+        canvasTypeId: null,
+        compositionId: null,
+        density: "",
+        description: "",
+        modelId: null,
+        peachEffectEnabled: true,
+        withFleece: true,
+        yarnNumberId: null,
+        yarnTypeId: null
+
       },
       dialogTitle: '',
       delete_dialog: false,
@@ -177,6 +252,22 @@ export default {
   },
   created() {
     this.getPartName();
+    this.getYarnNumbers();
+    this.getCanvasType();
+    this.getYarnType();
+    this.getComposition();
+  },
+  computed: {
+    ...mapGetters({
+      partNames: 'modelParts/partName',
+      newModelId: 'models/newModelId',
+      modelPartsList: "modelParts/modelPartsList",
+      yarnNumbersList: "modelParts/yarnNumbersList",
+      canvasTypeList: "modelParts/canvasTypeList",
+      yarnTypeList: "modelParts/yarnType",
+      compositionList: "modelParts/compositionList",
+      oneModelParts: "modelParts/oneModelParts"
+    }),
   },
   watch: {
     partsDialog(val) {
@@ -189,42 +280,40 @@ export default {
           createAt: ''
         }
       }
+    },
+    oneModelParts(val) {
+      this.newModelParts = {...val}
     }
   },
-  computed: {
-    ...mapGetters({
-      partNames: 'modelParts/partName',
-      newModelId: 'models/newModelId',
-      modelPartsList: "modelParts/modelPartsList"
-    }),
-  },
+
   methods: {
     ...mapActions({
       getPartName: 'modelParts/getPartName',
       createModelParts: 'modelParts/createModelParts',
       updateModelParts: 'modelParts/updateModelParts',
       deletePartModel: 'modelParts/deletePartModel',
-      getModelPart: 'modelParts/getModelPart'
+      getModelPart: 'modelParts/getModelPart',
+      getYarnNumbers: 'modelParts/getYarnNumbers',
+      getCanvasType: 'modelParts/getCanvasType',
+      getYarnType: 'modelParts/getYarnType',
+      getComposition: 'modelParts/getComposition',
+      getOneModelParts: 'modelParts/getOneModelParts'
     }),
     async saveModelParts() {
       const id = this.$route.params.id;
       if(id === 'add-model') {
-        await this.createModelParts({
-          data: this.newModelParts,
-          id: this.newModelId
-        });
+        this.newModelParts.modelId = this.newModelId
+        await this.createModelParts(this.newModelParts);
         this.partsDialog = false
       } else {
-        await this.createModelParts({
-          data: this.newModelParts,
-          id: id
-        });
+        this.newModelParts.modelId = id
+        await this.createModelParts(this.newModelParts);
         this.partsDialog = false
       }
     },
     editParts(item) {
       this.dialogTitle = 'Edit';
-      this.newModelParts = {...item};
+      this.getOneModelParts(item.id)
       this.partsDialog = true;
     },
     newDialog() {
@@ -266,7 +355,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 ::v-deep .v-data-table-header {
   background-color: #F4F5FA;
 }
@@ -274,4 +363,5 @@ export default {
 ::v-deep th {
   color: #000 !important;
 }
+
 </style>
