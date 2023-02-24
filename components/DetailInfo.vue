@@ -1,12 +1,11 @@
-<template >
+<template>
   <div>
     <v-row>
       <v-col>
         <div class="mb-2 text-body-1 font-weight-medium">Order number</div>
         <v-text-field
           v-model="orderDetail.orderNumber"
-          label="Enter order number"
-          single-line
+          placeholder="Enter order number"
           outlined
           validate-on-blur
           dense
@@ -17,9 +16,8 @@
         />
         <div class="mb-2 text-body-1 font-weight-medium">Season</div>
         <v-text-field
-          label="select season"
+          placeholder="select season"
           v-model="orderDetail.season"
-          single-line
           dense
           outlined
           validate-on-blur
@@ -34,8 +32,7 @@
         <div class="mb-2 text-body-1 font-weight-medium">Prefinance number</div>
         <v-text-field
           v-model="orderDetail.prefinanceNumber"
-          label="Enter prefinance number"
-          single-line
+          placeholder="Enter prefinance number"
           outlined
           validate-on-blur
           dense
@@ -64,8 +61,7 @@
         </div>
         <v-text-field
           v-model="orderDetail.specificationNumber"
-          label=" specification number"
-          single-line
+          placeholder=" specification number"
           outlined
           validate-on-blur
           dense
@@ -79,8 +75,7 @@
         </div>
         <v-text-field
           v-model="orderDetail.responsipblePerson"
-          label="Enter responsipble person"
-          single-line
+          placeholder="Enter responsipble person"
           outlined
           validate-on-blur
           dense
@@ -89,16 +84,13 @@
           background-color="#F8F4FE"
           readonly
         />
-          
-          
       </v-col>
 
       <v-col>
         <div class="mb-2 text-body-1 font-weight-medium">Order group</div>
         <v-text-field
-          label="select Order group"
+          placeholder="select Order group"
           v-model="orderDetail.orderGroup"
-          single-line
           dense
           outlined
           validate-on-blur
@@ -106,24 +98,21 @@
           color="#7631FF"
           background-color="#F8F4FE"
           readonly
-          
         />
       </v-col>
     </v-row>
   </div>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "DetailInfo",
 
-
   data() {
     return {
-      
       season_enums: ["Spring/Summer", "Autumn/Winter"],
-      orderGroup_enums:[],
+      orderGroup_enums: [],
 
       orderDetail: {
         orderNumber: "",
@@ -164,52 +153,51 @@ export default {
     };
   },
 
-  computed:{
+  computed: {
     ...mapGetters({
-      orderId: 'detailInfo/orderId',
-      modelId: 'detailInfo/modelId',
-      detailInfo: 'detailInfo/detailInfo',
-      modelGroups: 'detailInfo/modelGroups'
-    })
+      orderId: "detailInfo/orderId",
+      modelId: "detailInfo/modelId",
+      detailInfo: "detailInfo/detailInfo",
+      modelGroups: "detailInfo/modelGroups",
+    }),
   },
 
-  watch:{
-    detailInfo(item){
-      const detail=this.orderDetail
-      detail.orderNumber=item.orderNumber
-      detail.prefinanceNumber=item.preFinanceNumber
-      detail.specificationNumber=item.specificationNumber
-      detail.orderGroup=item.modelGroup
-      detail.season=item.season
-      detail.deadline=item.deadline
-      detail.responsipblePerson=item.responsiblePerson
-
+  watch: {
+    detailInfo(item) {
+      const detail = this.orderDetail;
+      detail.orderNumber = item.orderNumber;
+      detail.prefinanceNumber = item.preFinanceNumber;
+      detail.specificationNumber = item.specificationNumber;
+      detail.orderGroup = item.modelGroup;
+      detail.season = item.season;
+      detail.deadline = item.deadline;
+      detail.responsipblePerson = item.responsiblePerson;
     },
 
-    modelGroups(groups){
-      groups.map(item=>{
-        this.orderGroup_enums.push(item.name)
-      })
+    modelGroups(groups) {
+      groups.map((item) => {
+        this.orderGroup_enums.push(item.name);
+      });
+    },
+  },
+
+  methods: {
+    ...mapActions({
+      getDetailInfo: "detailInfo/getDetailInfo",
+      getModelGroup: "detailInfo/getModelGroup",
+    }),
+  },
+
+  mounted() {
+    if (this.orderId) {
+      this.getDetailInfo({
+        orderId: this.orderId.id,
+        modelId: this.modelId.modelId,
+      });
     }
 
-  },
-
-  methods:{
-    ...mapActions({
-      getDetailInfo:"detailInfo/getDetailInfo",
-      getModelGroup:"detailInfo/getModelGroup",
-    })
-  },
-
-  mounted(){
-    if(this.orderId){
-      this.getDetailInfo({orderId:this.orderId.id,modelId:this.modelId.modelId})
-    };
-
     this.getModelGroup();
-  }
-
-  
+  },
 };
 </script>
 <style lang=""></style>

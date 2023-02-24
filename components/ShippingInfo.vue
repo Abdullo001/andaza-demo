@@ -21,8 +21,7 @@
           <v-text-field
             v-model="shippingInfo.surplusProductsQuantity"
             :rules="[formRules.onlyNumber]"
-            label="0"
-            single-line
+            placeholder="0"
             outlined
             validate-on-blur
             dense
@@ -36,7 +35,6 @@
             item-value="id"
             item-text="name"
             style="max-width: 100px"
-            single-line
             dense
             outlined
             validate-on-blur
@@ -68,8 +66,7 @@
           <v-text-field
             v-model="shippingInfo.soldPriceOfSurplusProducts"
             :rules="[formRules.onlyNumber]"
-            label="0.00"
-            single-line
+            placeholder="0"
             outlined
             validate-on-blur
             dense
@@ -81,7 +78,6 @@
             :items="currency_enums"
             v-model="shippingInfo.soldPriceOfSurplusProductsCurrency"
             style="max-width: 100px"
-            single-line
             dense
             outlined
             validate-on-blur
@@ -99,8 +95,7 @@
           <v-text-field
             v-model="shippingInfo.actualShippingOrderQuantity"
             :rules="[formRules.onlyNumber]"
-            label="0.00"
-            single-line
+            placeholder="0.00"
             outlined
             validate-on-blur
             dense
@@ -114,7 +109,6 @@
             item-value="id"
             item-text="name"
             style="max-width: 100px"
-            single-line
             dense
             outlined
             validate-on-blur
@@ -130,8 +124,7 @@
           <v-text-field
             v-model="shippingInfo.total"
             :rules="[formRules.onlyNumber]"
-            label="0.00"
-            single-line
+            placeholder="0.00"
             outlined
             validate-on-blur
             dense
@@ -144,7 +137,6 @@
             :items="currency_enums"
             v-model="shippingInfo.soldPriceOfSurplusProductsCurrency"
             style="max-width: 100px"
-            single-line
             dense
             outlined
             validate-on-blur
@@ -162,8 +154,7 @@
         <div class="d-flex align-center">
           <v-text-field
             v-model="shippingInfo.packagingSize"
-            label="0.00"
-            single-line
+            placeholder="0.00"
             outlined
             validate-on-blur
             dense
@@ -177,7 +168,6 @@
             item-value="id"
             item-text="name"
             style="max-width: 100px"
-            single-line
             dense
             outlined
             validate-on-blur
@@ -264,25 +254,25 @@ export default {
   computed: {
     ...mapGetters({
       measurementUnitList: "shippingInfo/measurementUnitList",
-      shippingInfoDetail: "shippingInfo/shippingInfoDetail"
+      shippingInfoDetail: "shippingInfo/shippingInfoDetail",
     }),
   },
 
   watch: {
-    shippingInfoDetail(item){
-      const value=this.shippingInfo
-      value.actualShippingDate=item.data.actualShippingDate
-      value.actualShippingOrderQuantity=item.data.actualShippingOrderQuantity
-      value.quantityUnityId=item.data.actualShippingUnitId
-      value.orderClosingDate=item.data.orderClosingDate
-      value.packagingSize=item.data.packagingSize
-      value.packagingSizeUnityId=item.data.packagingSizeUnitId
-      value.soldPriceOfSurplusProducts=item.data.soldPriceOfSurplusProduct
-      value.soldPriceOfSurplusProductsCurrency=item.data.soldPriceOfSurplusProductCurrency
-      value.surplusProductsQuantity=item.data.surplusProductQuantity
-      value.total=item.data.total
-
-    }
+    shippingInfoDetail(item) {
+      const value = this.shippingInfo;
+      value.actualShippingDate = item.data.actualShippingDate;
+      value.actualShippingOrderQuantity = item.data.actualShippingOrderQuantity;
+      value.quantityUnityId = item.data.actualShippingUnitId;
+      value.orderClosingDate = item.data.orderClosingDate;
+      value.packagingSize = item.data.packagingSize;
+      value.packagingSizeUnityId = item.data.packagingSizeUnitId;
+      value.soldPriceOfSurplusProducts = item.data.soldPriceOfSurplusProduct;
+      value.soldPriceOfSurplusProductsCurrency =
+        item.data.soldPriceOfSurplusProductCurrency;
+      value.surplusProductsQuantity = item.data.surplusProductQuantity;
+      value.total = item.data.total;
+    },
   },
 
   methods: {
@@ -292,9 +282,9 @@ export default {
       createShippingInfo: "shippingInfo/createShippingInfo",
     }),
 
-    async setNewShippingInfo(){
-      this.createShippingInfo(this.shippingInfo)
-    }
+    async setNewShippingInfo() {
+      this.createShippingInfo(this.shippingInfo);
+    },
   },
 
   mounted() {

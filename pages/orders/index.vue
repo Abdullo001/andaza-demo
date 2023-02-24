@@ -7,7 +7,7 @@
             <v-col cols="12" lg="2" md="2">
               <v-text-field
                 v-model="filters.orderNumber"
-                label="Order number"
+                placeholder="Order number"
                 outlined
                 validate-on-blur
                 dense
@@ -18,7 +18,7 @@
             <v-col cols="12" lg="2" md="2">
               <v-text-field
                 v-model="filters.modelGroup"
-                label="Model Group"
+                placeholder="Model Group"
                 outlined
                 validate-on-blur
                 dense

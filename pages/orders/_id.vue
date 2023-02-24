@@ -37,8 +37,7 @@
             <div class="mb-2 text-body-1">Order number</div>
             <v-text-field
               v-model="order.orderNumber"
-              label="Enter order number"
-              single-line
+              placeholder="Enter order number"
               outlined
               validate-on-blur
               dense
@@ -49,8 +48,7 @@
             <div class="mb-2 text-body-1">Head of production depatment</div>
             <v-text-field
               v-model="order.headOfDepartment"
-              label="Head of production depatment"
-              single-line
+              placeholder="Head of production depatment"
               outlined
               validate-on-blur
               dense
@@ -65,8 +63,7 @@
             <div class="mb-2 text-body-1">Client name</div>
             <v-text-field
               v-model="order.clientName"
-              label="Client name"
-              single-line
+              placeholder="Client name"
               outlined
               validate-on-blur
               dense
@@ -78,8 +75,7 @@
             <div class="d-flex align-center">
               <v-text-field
                 v-model="order.givenPrice.amount"
-                label="0.00"
-                single-line
+                placeholder="0.00"
                 outlined
                 validate-on-blur
                 dense
@@ -91,7 +87,6 @@
                 :items="currency_enums"
                 v-model="order.givenPrice.currency"
                 style="max-width: 100px"
-                single-line
                 dense
                 outlined
                 validate-on-blur
@@ -104,26 +99,21 @@
 
             <div class="mb-2 text-body-1">Order priority</div>
             <v-select
-              v-model="order.priority"
-              label="select priority"
+              :background-color="statusColor.priorityColor(order.priority)"
               :items="priority"
               append-icon="mdi-chevron-down"
+              v-model="order.priority"
+              hide-details
+              class="mt-n2"
               rounded
-              single-line
-              outlined
-              validate-on-blur
-              dense
-              class="rounded-lg"
-              color="#7631FF"
-              background-color="#F8F4FE"
+              dark
             />
           </v-col>
           <v-col>
             <div class="mb-2 text-body-1">Model number</div>
             <v-text-field
               v-model="order.modelNumber"
-              label="Enter model number"
-              single-line
+              placeholder="Enter model number"
               outlined
               validate-on-blur
               dense
@@ -136,8 +126,7 @@
               <v-text-field
                 v-model="order.totalPrice.amount"
                 :rules="[formRules.onlyNumber]"
-                label="0.00"
-                single-line
+                placeholder="0.00"
                 outlined
                 validate-on-blur
                 dense
@@ -149,7 +138,6 @@
                 :items="currency_enums"
                 v-model="order.totalPrice.currency"
                 style="max-width: 100px"
-                single-line
                 dense
                 outlined
                 validate-on-blur
@@ -164,8 +152,7 @@
             <div class="mb-2 text-body-1">Model name</div>
             <v-text-field
               v-model="order.modelName"
-              label="Enter model name"
-              single-line
+              placeholder="Enter model name"
               outlined
               validate-on-blur
               dense
@@ -192,8 +179,7 @@
             <div class="mb-2 text-body-1">Description</div>
             <v-textarea
               v-model="order.description"
-              label="Enter description"
-              single-line
+              placeholder="Enter description"
               outlined
               validate-on-blur
               dense
@@ -207,27 +193,27 @@
             <div class="mb-2 text-body-1">Creator</div>
             <v-text-field
               v-model="order.creator"
-              label="Enter creator"
-              single-line
+              placeholder="Enter creator"
               outlined
               validate-on-blur
               dense
               class="rounded-lg"
               color="#7631FF"
               background-color="#F8F4FE"
+              disabled
             />
 
             <div class="mb-2 text-body-1">Modified person</div>
             <v-text-field
               v-model="order.modifiedPerson"
-              label="Enter Modified person"
-              single-line
+              placeholder="Enter Modified person"
               outlined
               validate-on-blur
               dense
               class="rounded-lg"
               color="#7631FF"
               background-color="#F8F4FE"
+              disabled
             />
           </v-col>
 
@@ -236,10 +222,11 @@
             <el-date-picker
               v-model="order.createdTime"
               type="datetime"
-              placeholder="dd.MM.yyyy HH:mm:ss"
+              placeholder="Created at"
               :picker-options="pickerOptions"
               value-format="dd.MM.yyyy HH:mm:ss"
               style="min-width: 100%"
+              disabled
               class="picker-color mb-6"
             >
             </el-date-picker>
@@ -247,10 +234,11 @@
             <el-date-picker
               v-model="order.updatedTime"
               type="datetime"
-              placeholder="dd.MM.yyyy HH:mm:ss"
+              placeholder="Update at"
               :picker-options="pickerOptions"
               value-format="dd.MM.yyyy HH:mm:ss"
               style="min-width: 100%"
+              disabled
               class="picker-color"
             >
             </el-date-picker>
@@ -260,7 +248,7 @@
       <v-card-actions class="pb-6 pr-4">
         <v-spacer />
         <v-btn
-          v-if="orderStatus==='Add'"
+          v-if="orderStatus === 'Add'"
           color="#7631FF"
           class="text-capitalize rounded-lg"
           width="130"
@@ -279,7 +267,6 @@
           @click="updateOrder"
           >Save</v-btn
         >
-        
       </v-card-actions>
     </v-card>
 
@@ -298,28 +285,28 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <ColorSizeDistirbution/>
+                <ColorSizeDistirbution />
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <DetailInfo/>
+                <DetailInfo />
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <Subcontracts/>
+                <Subcontracts />
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <ShippingInfo/>
+                <ShippingInfo />
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -342,10 +329,17 @@ export default {
     return {
       currency_enums: ["USD", "UZS", "RUB"],
       fields_status: true,
-      tab:null,
+      tab: null,
       orderStatus: "Add",
-      priority: ["LOW","NORMAL","HIGH"],
-      items:['Color/Size distirbution','Detail info','Subcontracts','Shipping info','Comment','Documents'],
+      priority: ["LOW", "NORMAL", "HIGH"],
+      items: [
+        "Color/Size distirbution",
+        "Detail info",
+        "Subcontracts",
+        "Shipping info",
+        "Comment",
+        "Documents",
+      ],
       map_links: [
         {
           text: "Home",
@@ -367,7 +361,7 @@ export default {
         },
       ],
       order: {
-        id:'',
+        id: "",
         orderNumber: "",
         clientName: "",
         modelNumber: "",
@@ -382,12 +376,12 @@ export default {
         },
         deadline: "",
         description: "",
-        creator:"",
-        headOfDepartment:"",
-        modifiedPerson:"",
-        createdTime:"",
-        updatedTime:"",
-        priority:""
+        creator: "",
+        headOfDepartment: "",
+        modifiedPerson: "",
+        createdTime: "",
+        updatedTime: "",
+        priority: "LOW",
       },
 
       pickerOptions: {
@@ -423,33 +417,32 @@ export default {
     ...mapGetters({
       orderDetail: "orders/oneOrder",
       orderId: "detailInfo/orderId",
-      modelId: "detailInfo/modelId"
+      modelId: "detailInfo/modelId",
     }),
   },
 
   watch: {
     orderDetail(ordersList) {
-      ordersList.map(item=>{
-        const order=this.order
-        order.id=item.id
-        order.modelId=item.modelId
-        order.clientName=item.client
-        order.createdTime=item.createdAt
-        order.creator=item.createdBy
-        order.deadline=item.deadLine
-        order.description=item.description
-        order.modelName=item.modelName
-        order.modelNumber=item.modelNumber
-        order.orderNumber=item.orderNumber
-        order.modifiedPerson=item.updatedBy
-        order.updatedTime=item.updatedAt
-        order.headOfDepartment=item.headOfProductionDepartment
-        order.givenPrice.amount=item.givenPrice
-        order.givenPrice.currency=item.givenPriceCurrency
-        const modelId=item.modelId
-        this.setModelId({modelId})
-      })
-      
+      ordersList.map((item) => {
+        const order = this.order;
+        order.id = item.id;
+        order.modelId = item.modelId;
+        order.clientName = item.client;
+        order.createdTime = item.createdAt;
+        order.creator = item.createdBy;
+        order.deadline = item.deadLine;
+        order.description = item.description;
+        order.modelName = item.modelName;
+        order.modelNumber = item.modelNumber;
+        order.orderNumber = item.orderNumber;
+        order.modifiedPerson = item.updatedBy;
+        order.updatedTime = item.updatedAt;
+        order.headOfDepartment = item.headOfProductionDepartment;
+        order.givenPrice.amount = item.givenPrice;
+        order.givenPrice.currency = item.givenPriceCurrency;
+        const modelId = item.modelId;
+        this.setModelId({ modelId });
+      });
     },
   },
 
@@ -476,32 +469,27 @@ export default {
     const id = this.$route.params.id;
     if (id !== "add-order") {
       this.getOneOrder({
-        page:0,
-        size:50,
+        page: 0,
+        size: 50,
         id,
       });
       this.orderStatus = "Edit";
-      this.setOrderId({id});
-      
+      this.setOrderId({ id });
     } else {
       this.orderStatus = "Add";
-      this.setOrderId('');
-      this.setModelId('')
-    };
-
-
+      this.setOrderId("");
+      this.setModelId("");
+    }
   },
-
 };
 </script>
 
 <style lang="scss" scoped>
-
 .active-tab {
   font-style: normal;
   font-weight: 500;
   line-height: 20px;
-  color: #7631FF;
+  color: #7631ff;
 }
 
 .el-date-editor--datetime {

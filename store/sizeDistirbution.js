@@ -6,7 +6,7 @@ export const state=()=>({
 
 export const actions={
   async getSizeDistirbution({commit},{modelId}){
-    this.$axios.get(`/api/v1/orders/get-size-distributions?orderId=1&modelId=1`)
+    this.$axios.get(`/api/v1/orders/size-distributions-info?modelId=1`)
     .then((res)=>{
       console.log(res);
     })
