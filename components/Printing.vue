@@ -323,6 +323,6 @@ export default {
 }
 
 .printing-date > input.el-input__inner::placeholder {
-  color: #ccc;
+  color: #CFCFCF !important;
 }
 </style>
