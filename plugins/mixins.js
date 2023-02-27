@@ -78,6 +78,18 @@ export default (context, inject) => {
               
             }
           },
+
+          priorityColor(color){
+            switch(color){
+              case 'LOW':
+                return '#10BF41'
+              case 'NORMAL':
+                return 'amber'
+              case 'HIGH':
+                return '#FF4E4F'
+
+            }
+          }
         }
       },
     }

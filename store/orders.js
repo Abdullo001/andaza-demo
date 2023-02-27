@@ -2,6 +2,10 @@ export const state=()=>({
   ordersList:[],
   oneOrder:{},
   newOrderId:null,
+  modelGroups: [],
+  usersList:[],
+  clientList:[],
+  modelList:[],
 
 })
 
@@ -9,6 +13,10 @@ export const getters={
   ordersList: state=>state.ordersList.content,
   oneOrder: state=>state.oneOrder.content,
   newOrderId:state=>state.newOrderId,
+  modelGroups: (state) => state.modelGroups.content,
+  usersList: state=>state.usersList.content,
+  clientList: state=>state.clientList.data,
+  modelList: state=>state.modelList.data,
 }
 
 export const mutations = {
@@ -20,7 +28,20 @@ export const mutations = {
   },
   setNewOrderId(state,id){
     state.newOrderId=id
-  }
+  },
+  setModelGroups(state, group) {
+    state.modelGroups = group;
+  },
+  setUsersList(state,item){
+    state.usersList=item
+  },
+  setClientList(state,item){
+    state.clientList=item;
+  },
+  setModelList(state,item){
+    state.modelList=item
+  },
+
 }
 
 export const actions = {
@@ -87,18 +108,106 @@ export const actions = {
 
   async createdOrder({commit},data){
     const order={
+      clientId:data.clientId,
       deadline: data.deadline,
       description: data.description,
       givenPrice: data.givenPrice.amount,
       givenPriceCurrency:data.givenPrice.currency,
-      headOfProductionDepartmentId:data.headOfDepartment,
+      headOfProductionDepartmentId:data.headOfDepartmentId,
+      modelId:data.modelId,
+      orderNumber:data.orderNumber,
+      priority:data.priority,
+      
+    }
+    this.$axios.post('/api/v1/orders/create',order)
+    .then(res=>{
+      commit('setNewOrderId',res.data.id);
+      this.$toast.success(res.message, {theme: 'toasted-primary'})
+      console.log(res);
+    }).catch(({response})=>{
+      console.log(response);
+      this.$toast.error(response.data.message,{theme: 'toasted-primary'})
+    })
+  },  
+
+
+
+  async getModelGroup({ commit }) {
+    const body = {
+      filter: [],
+      sorts: [],
+      page: 0,
+      size: 50,
+    };
+    await this.$axios
+      .$put(`/api/v1/model-groups/list`, body)
+      .then((res) => {
+        commit("setModelGroups", res.data);
+      })
+      .catch(({ response }) => {
+        console.log(response);
+      });
+  },
+
+  async getUsersList({commit}){
+    const body={
+      filters:[],
+      sorts:[],
+      page:0,
+      size:50,
+    };
+    await this.$axios.put(`/api/v1/user/get-users`,body)
+    .then((res)=>{
+      commit('setUsersList',res.data.data)
+    })
+    .catch((res)=>{
+      console.log(res);
+    })
+  },
+
+  async getClient({commit}){
+    await this.$axios.get(`/api/v1/partner/list-by-type?type=client`)
+    .then((res)=>{
+      commit('setClientList',res.data)
+    })
+    .catch((res)=>{
+      console.log(res);
+    })
+  },
+
+  async getModelId({commit}){
+    
+    await this.$axios.get(`/api/v1/models/pre-financed-models`)
+    .then((res)=>{
+      commit("setModelList",res.data)
+      console.log(res);
+    })
+    .catch((res)=>{
+      console.log(res);
+    })
+  },
+
+  async updateOrder({dispatch},data){
+    const order={
+      clientId:data.clientId,
+      deadline: data.deadline,
+      description: data.description,
+      givenPrice: data.givenPrice.amount,
+      givenPriceCurrency:data.givenPrice.currency,
+      headOfProductionDepartmentId:data.headOfDepartmentId,
+      id:data.id,
+      modelId:data.modelId,
       orderNumber:data.orderNumber,
       priority:data.priority,
     }
-    this.$axios.$post('/api/v1/orders/create',order)
+    this.$axios.put('/api/v1/orders/update',order)
     .then(res=>{
-      commit('setNewOrderId',res.data.clientId);
-    }).catch(({response})=>console.log(response))
+      console.log(res);
+      this.$toast.success(res.message, {theme: 'toasted-primary'})
+    })
+    .catch(res=>{
+      this.$toast.error(response.data.message,{theme: 'toasted-primary'})
+    })
   }
 
 }

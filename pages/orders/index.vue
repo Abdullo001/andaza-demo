@@ -7,7 +7,7 @@
             <v-col cols="12" lg="2" md="2">
               <v-text-field
                 v-model="filters.orderNumber"
-                label="Order number"
+                placeholder="Order number"
                 outlined
                 validate-on-blur
                 dense
@@ -16,14 +16,15 @@
               />
             </v-col>
             <v-col cols="12" lg="2" md="2">
-              <v-text-field
+              <v-select
+                :items="modelGroup_enums"
                 v-model="filters.modelGroup"
-                label="Model Group"
+                placeholder="Model Group"
+                dense
                 outlined
                 validate-on-blur
-                dense
-                hide-details
                 class="rounded-lg"
+                append-icon="mdi-chevron-down"
               />
             </v-col>
             <v-col cols="12" lg="2" md="2" style="max-width: 240px">
@@ -56,13 +57,7 @@
                   outlined
                   color="#397CFD"
                   elevation="0"
-                  class="
-                    text-capitalize
-                    mr-4
-                    border-primary
-                    rounded-lg
-                    font-weight-bold
-                  "
+                  class="text-capitalize mr-4 border-primary rounded-lg font-weight-bold"
                   @click="resetFilter"
                 >
                   Reset
@@ -127,7 +122,7 @@
         <div class="d-flex align-start m-0 p-0">
           <v-img
             :src="item.modelImageUrl"
-            class="flex-sm-grow-0 mr-2"
+            class="flex-sm-grow-0 mr-2 mt-2"
             :width="38"
             :height="38"
           />
@@ -178,6 +173,7 @@ export default {
         updatedDate: "",
       },
       status_enums: ["FINISHED", "CANCELED", "PENDING", "IN_PROCESS"],
+      modelGroup_enums: [],
       pickerOptions: {
         shortcuts: [
           {
@@ -204,6 +200,7 @@ export default {
           },
         ],
       },
+
       headers: [
         {
           text: "Order number",
@@ -222,9 +219,15 @@ export default {
       allOrders: [],
     };
   },
+
+  created() {
+    this.getModelGroup();
+  },
+
   computed: {
     ...mapGetters({
       ordersList: "orders/ordersList",
+      modelGroups: "orders/modelGroups",
     }),
   },
 
@@ -234,12 +237,19 @@ export default {
         this.allOrders = JSON.parse(JSON.stringify(orders));
       },
     },
+
+    modelGroups(groups) {
+      groups.map((item) => {
+        this.modelGroup_enums.push(item.name);
+      });
+    },
   },
 
   methods: {
     ...mapActions({
       getOrdersList: "orders/getOrdersList",
       changeStatusOrder: "orders/changeStatusOrder",
+      getModelGroup: "orders/getModelGroup",
     }),
 
     async changeStatus(item) {

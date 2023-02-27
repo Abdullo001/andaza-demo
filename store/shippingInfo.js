@@ -31,14 +31,13 @@ export const actions = {
     await this.$axios.get(`/api/v1/orders/shipping-info?orderId=${id}`)
     .then((res)=>{
       commit('setShippingInfo',res.data)
-      console.log(res);
     })
     .catch((response)=>{
       console.log(response);
     })
   },
 
-  async createShippingInfo({commit},data){
+  async createShippingInfo({dispatch},data){
     const body={
       actualShippingDate:data.actualShippingDate,
       actualShippingOrderQuantity:data.actualShippingOrderQuantity,
@@ -53,8 +52,9 @@ export const actions = {
     }
     await this.$axios.put(`/api/v1/orders/set-shipping-info`,body)
     .then(res=>{
-      commit('setNewShippingInfoId',res.data.orderId)
       console.log(res);
+      dispatch('getShippingInfo',{id:body.orderId})
+      this.$toast.success(res.data.message, {theme: 'toasted-primary'})
     })
     .catch(response=>{
       console.log(response);

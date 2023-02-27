@@ -16,7 +16,7 @@
             <span class="mr-8">Model Number</span>
             <div class="search-field">
               <v-text-field
-                label="Enter responsipble person"
+                placeholder="Enter responsipble person"
                 single-line
                 outlined
                 validate-on-blur
@@ -108,7 +108,7 @@
                 <div class="mb-2 text-body-1">Cooperation type</div>
                 <v-select
                   v-model="newSubcontractDetail.cooperationType"
-                  label="select cooperation Type"
+                  placeholder="select cooperation Type"
                   :items="cooperation_type"
                   append-icon="mdi-chevron-down"
                   rounded
@@ -123,7 +123,7 @@
                 <div class="mb-2 text-body-1">Quantity</div>
                 <v-text-field
                   v-model="newSubcontractDetail.quantity"
-                  label="Enter quantity"
+                  placeholder="Enter quantity"
                   single-line
                   outlined
                   validate-on-blur
@@ -138,7 +138,7 @@
                 <div class="mb-2 text-body-1">Partner name</div>
                 <v-select
                   v-model="newSubcontractDetail.partnerName"
-                  label="select Partner"
+                  placeholder="select Partner"
                   :items="partnerName_item"
                   append-icon="mdi-chevron-down"
                   rounded
@@ -153,7 +153,7 @@
                 <div class="mb-2 text-body-1">Measurement unit</div>
                 <v-select
                   v-model="newSubcontractDetail.measurementUnit"
-                  label="select unit"
+                  placeholder="select unit"
                   :items="meansurement_unit"
                   append-icon="mdi-chevron-down"
                   rounded
@@ -171,7 +171,7 @@
                 <div class="mb-2 text-body-1">Description</div>
                 <v-textarea
                   v-model="newSubcontractDetail.comment"
-                  label="Enter description"
+                  placeholder="Enter description"
                   single-line
                   outlined
                   validate-on-blur
@@ -222,7 +222,7 @@
                 <div class="mb-2 text-body-1">Cooperation type</div>
                 <v-select
                   v-model="subcontractsDetail.cooperationType"
-                  label="select cooperation Type"
+                  placeholder="select cooperation Type"
                   :items="cooperation_type"
                   append-icon="mdi-chevron-down"
                   rounded
@@ -237,7 +237,7 @@
                 <div class="mb-2 text-body-1">Quantity</div>
                 <v-text-field
                   v-model="subcontractsDetail.quantity"
-                  label="Enter quantity"
+                  placeholder="Enter quantity"
                   single-line
                   outlined
                   validate-on-blur
@@ -252,7 +252,7 @@
                 <div class="mb-2 text-body-1">Partner name</div>
                 <v-select
                   v-model="subcontractsDetail.partnerName"
-                  label="select Partner"
+                  placeholder="select Partner"
                   :items="partnerName_item"
                   append-icon="mdi-chevron-down"
                   rounded
@@ -267,7 +267,7 @@
                 <div class="mb-2 text-body-1">Measurement unit</div>
                 <v-select
                   v-model="subcontractsDetail.measurementUnit"
-                  label="select unit"
+                  placeholder="select unit"
                   :items="meansurement_unit"
                   append-icon="mdi-chevron-down"
                   rounded
@@ -285,7 +285,7 @@
                 <div class="mb-2 text-body-1">Description</div>
                 <v-textarea
                   v-model="subcontractsDetail.comment"
-                  label="Enter description"
+                  placeholder="Enter description"
                   single-line
                   outlined
                   validate-on-blur
