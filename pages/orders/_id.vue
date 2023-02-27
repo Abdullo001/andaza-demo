@@ -46,7 +46,7 @@
               background-color="#F8F4FE"
             />
             <div class="mb-2 text-body-1">Head of production depatment</div>
-            <v-text-field
+            <!-- <v-text-field
               v-model="order.headOfDepartment"
               placeholder="Head of production depatment"
               outlined
@@ -55,19 +55,49 @@
               class="rounded-lg"
               color="#7631FF"
               background-color="#F8F4FE"
+            /> -->
+
+            <v-select
+              :items="users"
+              v-model="order.headOfDepartmentId"
+              placeholder="Head of production depatment"
+              item-value="id"
+              item-text="name"
+              dense
+              outlined
+              validate-on-blur
+              class="rounded-lg"
+              append-icon="mdi-magnify"
+              color="#7631FF"
+              background-color="#F8F4FE"
             />
             <div class="mb-2 black--text text-body-1">Permission</div>
             <v-chip color="#10BF41" dark class="font-weight-bold">Edit</v-chip>
           </v-col>
           <v-col>
             <div class="mb-2 text-body-1">Client name</div>
-            <v-text-field
+            <!-- <v-text-field
               v-model="order.clientName"
               placeholder="Client name"
               outlined
               validate-on-blur
               dense
               class="rounded-lg"
+              color="#7631FF"
+              background-color="#F8F4FE"
+            /> -->
+
+            <v-select
+              :items="clientList"
+              v-model="order.clientId"
+              placeholder="Client name"
+              item-value="id"
+              item-text="name"
+              dense
+              outlined
+              validate-on-blur
+              class="rounded-lg"
+              append-icon="mdi-magnify"
               color="#7631FF"
               background-color="#F8F4FE"
             />
@@ -100,7 +130,7 @@
             <div class="mb-2 text-body-1">Order priority</div>
             <v-select
               :background-color="statusColor.priorityColor(order.priority)"
-              :items="priority"
+              :items="priority_enums"
               append-icon="mdi-chevron-down"
               v-model="order.priority"
               hide-details
@@ -111,7 +141,7 @@
           </v-col>
           <v-col>
             <div class="mb-2 text-body-1">Model number</div>
-            <v-text-field
+            <!-- <v-text-field
               v-model="order.modelNumber"
               placeholder="Enter model number"
               outlined
@@ -120,7 +150,23 @@
               class="rounded-lg"
               color="#7631FF"
               background-color="#F8F4FE"
+            /> -->
+
+            <v-select
+              :items="modelList"
+              v-model="order.modelId"
+              placeholder="Model number"
+              item-value="id"
+              item-text="modelNumber"
+              dense
+              outlined
+              validate-on-blur
+              class="rounded-lg"
+              append-icon="mdi-magnify"
+              color="#7631FF"
+              background-color="#F8F4FE"
             />
+
             <div class="mb-2 text-body-1">Total</div>
             <div class="d-flex align-center">
               <v-text-field
@@ -264,7 +310,7 @@
           width="130"
           height="44"
           dark
-          @click="updateOrder"
+          @click="updateOrderFunc"
           >Save</v-btn
         >
       </v-card-actions>
@@ -328,16 +374,16 @@ export default {
   data() {
     return {
       currency_enums: ["USD", "UZS", "RUB"],
+      users: [],
       fields_status: true,
       tab: null,
       orderStatus: "Add",
-      priority: ["LOW", "NORMAL", "HIGH"],
+      priority_enums: ["LOW", "NORMAL", "HIGH"],
       items: [
         "Color/Size distirbution",
         "Detail info",
         "Subcontracts",
         "Shipping info",
-        "Comment",
         "Documents",
       ],
       map_links: [
@@ -363,7 +409,7 @@ export default {
       order: {
         id: "",
         orderNumber: "",
-        clientName: "",
+        clientId: null,
         modelNumber: "",
         modelName: "",
         givenPrice: {
@@ -377,11 +423,13 @@ export default {
         deadline: "",
         description: "",
         creator: "",
-        headOfDepartment: "",
+        headOfDepartmentId: null,
         modifiedPerson: "",
         createdTime: "",
         updatedTime: "",
-        priority: "LOW",
+        priority: this.$route.params.id!=="add-order"?"":"LOW" ,
+        modelId:null,
+        
       },
 
       pickerOptions: {
@@ -413,21 +461,31 @@ export default {
     };
   },
 
+  created() {
+    this.getUsersList();
+    this.getClient();
+    this.getModelId();
+  },
+
   computed: {
     ...mapGetters({
       orderDetail: "orders/oneOrder",
       orderId: "detailInfo/orderId",
       modelId: "detailInfo/modelId",
+      usersList: "orders/usersList",
+      clientList: "orders/clientList",
+      modelList: "orders/modelList",
     }),
   },
 
   watch: {
     orderDetail(ordersList) {
+      console.log(ordersList);
       ordersList.map((item) => {
         const order = this.order;
         order.id = item.id;
         order.modelId = item.modelId;
-        order.clientName = item.client;
+        order.clientId = item.clientId;
         order.createdTime = item.createdAt;
         order.creator = item.createdBy;
         order.deadline = item.deadLine;
@@ -437,11 +495,22 @@ export default {
         order.orderNumber = item.orderNumber;
         order.modifiedPerson = item.updatedBy;
         order.updatedTime = item.updatedAt;
-        order.headOfDepartment = item.headOfProductionDepartment;
+        order.headOfDepartmentId = item.headOfProductionDepartmentId;
         order.givenPrice.amount = item.givenPrice;
         order.givenPrice.currency = item.givenPriceCurrency;
+        order.modelId=item.modelId;
+        order.priority=item.priority;
         const modelId = item.modelId;
         this.setModelId({ modelId });
+      });
+    },
+
+    usersList(list) {
+      list.map((item) => {
+        this.users.push({
+          id: item.id,
+          name: `${item.firstName} ${item.lastName}`,
+        });
       });
     },
   },
@@ -450,13 +519,19 @@ export default {
     ...mapActions({
       getOneOrder: "orders/getOneOrder",
       createdOrder: "orders/createdOrder",
+      getUsersList: "orders/getUsersList",
+      getClient: "orders/getClient",
+      getModelId: "orders/getModelId",
+      updateOrder:"orders/updateOrder",
     }),
     ...mapMutations({
       setOrderId: "detailInfo/setOrderId",
       setModelId: "detailInfo/setModelId",
     }),
 
-    updateOrder() {},
+    async updateOrderFunc() {
+      await this.updateOrder(this.order);
+    },
 
     clearOrder() {},
 

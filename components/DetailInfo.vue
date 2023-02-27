@@ -87,7 +87,7 @@
       </v-col>
 
       <v-col>
-        <div class="mb-2 text-body-1 font-weight-medium">Order group</div>
+        <div class="mb-2 text-body-1 font-weight-medium">Model group</div>
         <v-text-field
           placeholder="select Order group"
           v-model="orderDetail.orderGroup"
@@ -153,6 +153,10 @@ export default {
     };
   },
 
+  created(){
+    this.getModelGroup();
+  },
+
   computed: {
     ...mapGetters({
       orderId: "detailInfo/orderId",
@@ -161,6 +165,8 @@ export default {
       modelGroups: "detailInfo/modelGroups",
     }),
   },
+
+  
 
   watch: {
     detailInfo(item) {
@@ -196,7 +202,7 @@ export default {
       });
     }
 
-    this.getModelGroup();
+    
   },
 };
 </script>
