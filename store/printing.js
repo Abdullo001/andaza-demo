@@ -88,8 +88,7 @@ export const actions = {
     }
     this.$axios.$put(`/api/v1/prints/update`, data)
       .then(res => {
-        console.log(res);
-        dispatch('getPrintingList', {page: 0, size: 10})
+        dispatch('getModelPrints', item.modelId);
         this.$toast.success(res.message, {theme: 'toasted-primary'})
       })
       .catch(({response}) => console.log(response))
