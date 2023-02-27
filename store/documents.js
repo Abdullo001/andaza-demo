@@ -36,5 +36,21 @@ export const actions = {
       .then(res => {
         console.log(res);
       }).catch(({response}) => this.$toast.error(response.data.message))
+  },
+  async updateDocument({dispatch}, data) {
+    const config = {
+      headers: {"Content-Type": "multipart/form-data"}
+    }
+    const formData = new FormData();
+    !!data.file ? formData.append('file', data.file) : null;
+    formData.append('id', data.id);
+    formData.append('title', data.title);
+    formData.append('modelId', data.modelId);
+
+    await this.$axios.$put('/api/v1/model-resources/update', formData, config)
+      .then(res => {
+        this.$toast.success(res.message);
+        dispatch('getDocuments', {modelId: data.modelId, fileType: 'DOC'})
+      }).catch(({response}) => console.log(response));
   }
 };

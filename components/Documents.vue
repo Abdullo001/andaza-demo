@@ -59,6 +59,7 @@
                 :download="`Document.${item.extension}`"
                 v-on="on"
                 v-bind="attrs"
+                @click.stop
               >
                 <v-img src="/download.svg" max-width="24"/>
               </v-btn>
@@ -156,6 +157,61 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="edit_dialog" max-width="500">
+      <v-card>
+        <v-card-title class="w-full d-flex justify-space-between mb-6">
+          <div class="title text-capitalize">edit document</div>
+          <v-btn icon color="#7631FF" @click="edit_dialog=false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text>
+          <v-form ref="edit_validate" lazy-validation v-model="valid_edit">
+            <v-row>
+              <v-col cols="12" lg="12">
+                <v-file-input
+                  label="Upload document"
+                  filled show-size
+                  prepend-icon=""
+                  prepend-inner-icon="mdi-file-document-outline"
+                  color="#7631FF"
+                  v-model="edit_document.file"
+                  validate-on-blur
+                />
+                <v-text-field
+                  label="Title"
+                  placeholder="Enter document name"
+                  filled color="#7631FF"
+                  v-model="edit_document.title"
+                  validate-on-blur
+                  :rules="[formRules.required]"
+                />
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="pb-4">
+          <v-spacer/>
+          <v-btn
+            class="font-weight-bold text-capitalize rounded-lg border"
+            outlined color="#7631FF"
+            width="140" height="40"
+            @click="edit_dialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-btn
+            class="font-weight-bold text-capitalize rounded-lg ml-4"
+            color="#7631FF" dark
+            width="140" height="40"
+            @click="docUpdate"
+          >
+            save
+          </v-btn>
+          <v-spacer/>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -165,6 +221,14 @@ import {mapActions, mapGetters} from "vuex";
 export default {
   data() {
     return {
+      edit_document: {
+        file: null,
+        title: '',
+        modelId: '',
+        id: ''
+      },
+      valid_edit: true,
+      edit_dialog: false,
       delete_dialog: false,
       newDialog: false,
       dialogStatus: 'add',
@@ -195,9 +259,19 @@ export default {
     ...mapActions({
       getDocuments: "documents/getDocuments",
       createDocument: "documents/createDocument",
-      deleteDocument: "documents/deleteDocument"
+      deleteDocument: "documents/deleteDocument",
+      updateDocument: "documents/updateDocument"
     }),
-    editDocument() {},
+    editDocument(item) {
+      this.edit_document.id = item.id;
+      this.edit_document.title = item.title;
+      this.edit_document.modelId = item.modelId;
+      this.edit_dialog = true;
+    },
+    async docUpdate() {
+      await this.updateDocument(this.edit_document);
+      this.edit_dialog = false;
+    },
     deleteDoc(item) {
       this.currentId = item.id;
       this.delete_dialog = true;
