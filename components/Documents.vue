@@ -26,12 +26,45 @@
       </template>
       <template #item.actions="{item}">
         <div>
-          <v-btn icon class="mr-2" @click="editDocument(item)">
-            <v-img src="/edit-green.svg" max-width="20"/>
-          </v-btn>
-          <v-btn icon @click="deleteDoc(item)">
-            <v-img src="/trash-red.svg" max-width="20"/>
-          </v-btn>
+          <v-tooltip top color="#10BF41">
+            <template #activator="{on, attrs}">
+              <v-btn
+                icon class="mr-2"
+                @click="editDocument(item)"
+                v-on="on"
+                v-bind="attrs"
+              >
+                <v-img src="/edit-green.svg" max-width="20"/>
+              </v-btn>
+            </template>
+            <span>Edit</span>
+          </v-tooltip>
+          <v-tooltip top color="#FF4E4F">
+            <template #activator="{on, attrs}">
+              <v-btn
+                icon @click="deleteDoc(item)"
+                v-on="on"
+                v-bind="attrs"
+              >
+                <v-img src="/trash-red.svg" max-width="20"/>
+              </v-btn>
+            </template>
+            <span>Delete</span>
+          </v-tooltip>
+          <v-tooltip top color="#7631FF">
+            <template #activator="{on, attrs}">
+              <v-btn
+                icon class="ml-2"
+                :href="item.filePath"
+                :download="`Document.${item.extension}`"
+                v-on="on"
+                v-bind="attrs"
+              >
+                <v-img src="/download.svg" max-width="24"/>
+              </v-btn>
+            </template>
+            <span>Download</span>
+          </v-tooltip>
         </div>
       </template>
     </v-data-table>

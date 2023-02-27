@@ -26,8 +26,12 @@
       </template>
       <template #item.actions="{item}">
         <v-btn icon @click="openEditDialog(item)" :disabled="checkModelId">
-          <v-img src="/edit-green.svg" max-width="22"/>
+          <v-img src="/edit-green.svg" max-width="20"/>
         </v-btn>
+        <v-btn icon @click="currentPrint(item)">
+          <v-img src="/delete.svg" max-width="24"/>
+        </v-btn>
+
       </template>
     </v-data-table>
     <v-divider/>
@@ -114,7 +118,7 @@
               <v-col cols="12" lg="4">
                 <div class="text-body-1 font-weight-medium text-capitalize mb-2"> simple send date</div>
                 <el-date-picker
-                  v-model="newPrints.sendDate"
+                  v-model="newPrints.sentDate"
                   type="datetime"
                   placeholder="Send date"
                   :picker-options="pickerOptions"
@@ -170,6 +174,38 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="delete_dialog" max-width="500">
+      <v-card class="pa-4 text-center">
+        <div class="d-flex justify-center mb-2">
+          <v-img src="/error-icon.svg" max-width="40"/>
+        </div>
+        <v-card-title class="d-flex justify-center">Delete this printing row</v-card-title>
+        <v-card-text>
+          Are you sure you want to Delete model printing ?
+        </v-card-text>
+        <v-card-actions class="px-16">
+          <v-btn
+            outlined
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#777C85"
+            width="140"
+            @click.stop="delete_dialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-spacer/>
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#FF4E4F"
+            width="140"
+            elevation="0"
+            dark @click="deletePrinting"
+          >
+            delete
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -180,6 +216,7 @@ import {mapActions, mapGetters} from "vuex";
 export default {
   data() {
     return {
+      delete_dialog: false,
       printingValid: true,
       printing_dialog: false,
       print_types: ['Material', 'test', 'test 2'],
@@ -205,7 +242,7 @@ export default {
         partnerId: null,
         price: "",
         printTypeId: 0,
-        sendDate: ""
+        sentDate: ""
       },
       pickerOptions: {
         shortcuts: [
@@ -233,6 +270,7 @@ export default {
           },
         ],
       },
+      current_printing: null
     }
   },
   computed: {
@@ -263,8 +301,22 @@ export default {
       getPartnerList: "models/getPartnerList",
       createPrints: "printing/createPrints",
       updatePrints: "printing/updatePrints",
+      deleteOnePrinting: "printing/deleteOnePrinting",
 
     }),
+
+    currentPrint(item) {
+      this.delete_dialog = true;
+      this.current_printing = {...item};
+    },
+    async deletePrinting() {
+      const param = this.$route.params.id;
+      await this.deleteOnePrinting({
+        printId: this.current_printing.id,
+        modelId: param
+      })
+      this.delete_dialog = false
+    },
     async createNewPrints(item) {
       const id = this.$route.params.id;
       const data = this.newPrints;
