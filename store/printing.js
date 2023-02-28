@@ -84,7 +84,7 @@ export const actions = {
       partnerId: item.partnerId,
       price: item.price,
       printTypeId: item.printTypeId,
-      sentDate: item.sendDate
+      sentDate: item.sentDate
     }
     this.$axios.$put(`/api/v1/prints/update`, data)
       .then(res => {
