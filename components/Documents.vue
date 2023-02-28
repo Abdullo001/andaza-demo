@@ -277,7 +277,12 @@ export default {
       this.delete_dialog = true;
     },
     async deleteDocumentRow() {
-      await this.deleteDocument(this.currentId);
+      const param  = this.$route.params.id;
+      let modelId = '';
+      if(param === 'add-model') {
+        modelId = this.newModelId;
+      } else modelId = param;
+      await this.deleteDocument({docId: this.currentId, modelId: modelId});
       this.delete_dialog = false;
     },
     async addDocument() {
@@ -302,7 +307,10 @@ export default {
     if (id !== 'add-model') {
       await this.getDocuments({modelId: id, fileType: 'DOC'});
       this.dialogStatus = 'Edit'
-    } else this.dialogStatus = 'Add'
+    } else {
+      this.dialogStatus = 'Add'
+      this.$store.commit('documents/setDocuments', [])
+    }
   }
 }
 </script>

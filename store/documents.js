@@ -31,10 +31,11 @@ export const actions = {
         dispatch('getDocuments', {modelId: data.modelId, fileType: 'DOC'})
       }).catch(({response}) => console.log(response))
   },
-  async deleteDocument({dispatch}, id) {
-    await this.$axios.$delete(`/api/v1/model-resources/delete?id=${id}`)
+  async deleteDocument({dispatch}, {docId, modelId}) {
+    await this.$axios.$delete(`/api/v1/model-resources/delete?id=${docId}`)
       .then(res => {
-        console.log(res);
+        dispatch('getDocuments', {modelId: modelId, fileType: 'DOC'})
+        this.$toast.success(res.message);
       }).catch(({response}) => this.$toast.error(response.data.message))
   },
   async updateDocument({dispatch}, data) {
