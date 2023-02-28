@@ -73,6 +73,9 @@
           </v-toolbar-title>
         </v-toolbar>
       </template>
+      <template #item.shrinkagePercent="{item}">
+        <div>{{item.shrinkagePercent}} %</div>
+      </template>
     </v-data-table>
     <v-divider/>
     <v-dialog v-model="new_dialog" max-width="1000">
