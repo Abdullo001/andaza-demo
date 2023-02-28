@@ -274,6 +274,13 @@
               </v-card-text>
             </v-card>
           </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text class="pt-0">
+                <Samples/>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
         </v-tabs-items>
       </v-tabs>
     </v-card>
@@ -330,7 +337,6 @@ export default {
         {key: 'SS', text: ' Spring/Summer'},
         {key: 'AW', text: 'Autumn/Winter'}
       ],
-
       licence_enums: [
         {key: true, text: 'Yes'},
         {key: false, text: 'No'}
