@@ -885,12 +885,9 @@ export default {
     },
     async createNewPreFinance() {
       await this.createPreFinance(this.addPreFinances)
-      // await this.getAllDetails(this.preFinanceId)
     },
 
-    deleteRow(item, index) {
-
-    }
+    deleteRow(item, index) {}
   },
   mounted() {
     this.getExpenseGroup();
