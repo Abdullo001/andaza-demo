@@ -366,7 +366,7 @@ export default {
       let id = ''
       const params = this.$route.params.id;
       if(params === 'add-model') {
-        id = this.newModelIdw
+        id = this.newModelId
       } else id = this.current_elem.modelId;
       await this.deleteSamples({
         modelId: id,
