@@ -166,10 +166,7 @@ export default {
       console.log(this.files);
     },
     clearImages() {
-      for(let i=0; i<=3; i++) {
-        this.images[i].photo = null;
-      }
-      console.log(this.images);
+      for(let i=0; i<=3; i++) this.files[i].file = null;
     }
   }
 }
