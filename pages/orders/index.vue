@@ -97,7 +97,7 @@
               color="#7631FF"
               dark
               class="text-capitalize rounded-lg"
-              @click="addModel"
+              @click="addOrder"
             >
               <v-icon>mdi-plus</v-icon>add Order
             </v-btn>
@@ -275,10 +275,18 @@ export default {
     },
 
     viewDetails(item) {
-      this.$router.push(`/orders/${item.id}`);
+      this.$router.push({
+        name:"orders-id",
+        params: { id: item.id  },
+        query: {modelId: item.modelId},
+        hash: this.$route.hash,
+      });
     },
+    // viewDetails(item) {
+    //   this.$router.push(`/orders/${item.id}&${item.modelId}`);
+    // },
 
-    addModel() {
+    addOrder() {
       this.$router.push(`/orders/add-order`);
     },
   },

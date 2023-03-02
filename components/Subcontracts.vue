@@ -49,37 +49,6 @@
         </v-toolbar>
       </template>
 
-      <template #item.cooperationType="{ item }">
-        <v-select
-          :items="cooperation_type"
-          append-icon="mdi-chevron-down"
-          v-model="item.cooperationType"
-          class="mt-n2 mx-n6"
-          rounded
-          hide-details
-        />
-      </template>
-      <template #item.partnerName="{ item }">
-        <v-select
-          :items="partnerName_item"
-          append-icon="mdi-chevron-down"
-          v-model="item.partnerName"
-          class="mt-n2 mx-n6"
-          rounded
-          hide-details
-        />
-      </template>
-      <template #item.measurementUnit="{ item }">
-        <v-select
-          :items="meansurement_unit"
-          append-icon="mdi-chevron-down"
-          v-model="item.measurementUnit"
-          class="mt-n2 mx-n6"
-          rounded
-          hide-details
-        />
-      </template>
-
       <template #item.actions="{ item }">
         <div>
           <v-btn icon class="mr-2" @click="editParts(item)">
@@ -95,7 +64,7 @@
     <v-dialog v-model="new_dialog" max-width="572">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
-          <div>New Cutting</div>
+          <div>New subcontracts</div>
           <v-btn @click="new_dialog = !new_dialog" icon>
             <v-icon color="#7631FF">mdi-close</v-icon>
           </v-btn>
@@ -107,9 +76,11 @@
               <v-col cols="6">
                 <div class="mb-2 text-body-1">Cooperation type</div>
                 <v-select
-                  v-model="newSubcontractDetail.cooperationType"
+                  v-model="newSubcontractDetail.cooperationTypeId"
                   placeholder="select cooperation Type"
                   :items="cooperation_type"
+                  item-text="name"
+                  item-value="id"
                   append-icon="mdi-chevron-down"
                   rounded
                   single-line
@@ -137,9 +108,11 @@
               <v-col cols="6">
                 <div class="mb-2 text-body-1">Partner name</div>
                 <v-select
-                  v-model="newSubcontractDetail.partnerName"
+                  v-model="newSubcontractDetail.partnerId"
                   placeholder="select Partner"
-                  :items="partnerName_item"
+                  :items="partnerList"
+                  item-text="name"
+                  item-value="id"
                   append-icon="mdi-chevron-down"
                   rounded
                   single-line
@@ -152,9 +125,11 @@
                 />
                 <div class="mb-2 text-body-1">Measurement unit</div>
                 <v-select
-                  v-model="newSubcontractDetail.measurementUnit"
+                  v-model="newSubcontractDetail.measurementUnitId"
                   placeholder="select unit"
-                  :items="meansurement_unit"
+                  :items="measurementUnitList"
+                  item-text="name"
+                  item-value="id"
                   append-icon="mdi-chevron-down"
                   rounded
                   single-line
@@ -221,9 +196,11 @@
               <v-col cols="6">
                 <div class="mb-2 text-body-1">Cooperation type</div>
                 <v-select
-                  v-model="subcontractsDetail.cooperationType"
+                  v-model="subcontractsDetail.cooperationTypeId"
                   placeholder="select cooperation Type"
                   :items="cooperation_type"
+                  item-text="name"
+                  item-id="id"
                   append-icon="mdi-chevron-down"
                   rounded
                   single-line
@@ -251,9 +228,11 @@
               <v-col cols="6">
                 <div class="mb-2 text-body-1">Partner name</div>
                 <v-select
-                  v-model="subcontractsDetail.partnerName"
+                  v-model="subcontractsDetail.partnerId"
                   placeholder="select Partner"
-                  :items="partnerName_item"
+                  :items="partnerList"
+                  item-text="name"
+                  item-id="id"
                   append-icon="mdi-chevron-down"
                   rounded
                   single-line
@@ -266,9 +245,11 @@
                 />
                 <div class="mb-2 text-body-1">Measurement unit</div>
                 <v-select
-                  v-model="subcontractsDetail.measurementUnit"
+                  v-model="subcontractsDetail.measurementUnitId"
                   placeholder="select unit"
-                  :items="meansurement_unit"
+                  :items="measurementUnitList"
+                  item-text="name"
+                  item-id="id"
                   append-icon="mdi-chevron-down"
                   rounded
                   single-line
@@ -322,13 +303,12 @@
   </div>
 </template>
 <script>
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   name: "Subcontracts",
   data() {
     return {
-      cooperation_type: ["Cutting", "Sewing ", "Printing"],
-      partnerName_item: ["Art", "Artatex LLC"],
-      meansurement_unit: ["PSC"],
       edit_dialog: false,
       new_dialog: false,
       new_validate: true,
@@ -370,23 +350,39 @@ export default {
       ],
 
       subcontractsDetail: {
-        id: 1,
-        cooperationType: "Cutting",
-        partnerName: "Artatex LLC",
-        quantity: 800,
-        measurementUnit: "PSC",
+        id: null,
+        cooperationId:null ,
+        partnerId: null,
+        quantity: null,
+        measurementUnitId: null,
         comment: "",
-        date: "12.10.2022",
       },
 
       newSubcontractDetail: {
-        cooperationType: "",
-        partnerName: "",
-        quantity: 0,
-        measurementUnit: "",
+        cooperationTypeId: null,
+        partnerId: null,
+        quantity: 100,
+        measurementUnitId: null,
         comment: "",
+        dispatchedDate:'2023-02-03 12:41:34',
+        modelId:1,
       },
     };
+  },
+
+  created() {
+    this.getCooperationTypes();
+    this.getPartnerList();
+    this.getMeasurementUnit();
+  },
+
+  computed: {
+    ...mapGetters({
+      cooperation_type: "subcontracts/cooperation_type",
+      partnerList: "subcontracts/partnerList",
+      measurementUnitList: "subcontracts/measurementUnitList",
+      modelId: "orders/modelId"
+    }),
   },
 
   watch: {
@@ -399,17 +395,43 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      getSubcontractsList: "subcontracts/getSubcontractsList",
+      getCooperationTypes: "subcontracts/getCooperationTypes",
+      getPartnerList: "subcontracts/getPartnerList",
+      getMeasurementUnit: "subcontracts/getMeasurementUnit",
+      createSubcontracts: "subcontracts/createSubcontracts",
+    }),
+
     editParts(item) {
       this.edit_dialog = !this.edit_dialog;
     },
+
+    // getTime(){
+    //   const today=new Date();
+    //   const date = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
+    //   const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    //   this.newSubcontractDetail.dispatchedDate=date+" "+time;
+    // },
 
     updateSubcontracts() {},
 
     newSubcontract() {
       this.new_dialog = !this.new_dialog;
+     
     },
 
-    setNewSubcontracts() {},
+    
+
+    async setNewSubcontracts() {
+      await this.createSubcontracts(this.newSubcontractDetail)
+      console.log(this.newSubcontractDetail);
+      this.new_dialog = !this.new_dialog;
+    },
+  },
+
+  mounted() {
+    this.getSubcontractsList();
   },
 };
 </script>

@@ -1,14 +1,10 @@
 export const state = () => ({
   detailInfo: {},
   modelGroups: [],
-  orderId: "",
-  modelId: "",
 });
 
 export const getters = {
   detailInfo: (state) => state.detailInfo.data,
-  orderId: (state) => state.orderId,
-  modelId: (state) => state.modelId,
   modelGroups: (state) => state.modelGroups.content,
 };
 
@@ -19,12 +15,7 @@ export const mutations = {
   setModelGroups(state, group) {
     state.modelGroups = group;
   },
-  setOrderId(state, id) {
-    state.orderId = id;
-  },
-  setModelId(state, id) {
-    state.modelId = id;
-  },
+  
 };
 
 export const actions = {

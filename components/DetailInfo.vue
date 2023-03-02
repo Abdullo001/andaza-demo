@@ -159,8 +159,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      orderId: "detailInfo/orderId",
-      modelId: "detailInfo/modelId",
+      modelId: "orders/modelId",
       detailInfo: "detailInfo/detailInfo",
       modelGroups: "detailInfo/modelGroups",
     }),
@@ -195,9 +194,10 @@ export default {
   },
 
   mounted() {
-    if (this.orderId) {
+    const id = this.$route.params.id
+    if (id!=="add-order") {
       this.getDetailInfo({
-        orderId: this.orderId.id,
+        orderId: this.$route.params.id,
         modelId: this.modelId.modelId,
       });
     }
