@@ -4,13 +4,23 @@
     <v-divider class="my-6"/>
     <v-row>
       <v-col cols="12" lg="5">
-        <div class="big__image">
-          <div class="default__box">
+        <div class="big__image overflow-hidden">
+          <input
+            ref="uploaderFirst"
+            class="d-none"
+            type="file"
+            @change="firstFileChanged"
+            accept="image/*"
+          />
+          <v-img :src="images[0].photo" v-if="!!files[0].file"/>
+
+          <div class="default__box" v-else>
             <v-img src="/default-image.svg" width="70"/>
-            <v-btn text color="#5570F1" class="rounded-lg mt-6 mb-4">
+            <v-btn text color="#5570F1" class="rounded-lg mt-6 my-4" @click="getFileFirst">
               <v-img src="/upload.svg" class="mr-2"/>
               <div class="text-capitalize upload-text">Upload Image</div>
             </v-btn>
+
             <div class="default__text">
               <p>Upload a cover image for your product.</p>
               <p>File Format <span>jpeg, png</span> Recommend Size <span>600x600 (1:1)</span></p>
@@ -22,30 +32,69 @@
         <div class="text-body-1 font-weight-medium text-capitalize">Additional Images</div>
         <div class="cards mt-5">
           <div class="card__item">
-            <v-img src="/default-image.svg" max-width="70" contain/>
-            <v-btn text color="#5570F1" class="rounded-lg  mb-4">
-              <v-img src="/upload.svg" max-width="20" class="mr-2"/>
-              <div class="text-capitalize upload-text-child">Upload Image</div>
-            </v-btn>
+            <input
+              ref="uploaderSecond"
+              class="d-none"
+              type="file"
+              @change="secondFileChanged"
+              accept="image/*"
+            />
+            <v-img :src="images[1].photo" v-if="!!files[1].file"/>
+            <div class="d-flex flex-column align-center" v-else>
+              <v-img src="/default-image.svg" max-width="70" contain/>
+              <v-btn text color="#5570F1" class="rounded-lg  my-4" @click="getFileSecond">
+                <v-img src="/upload.svg" max-width="20" class="mr-2"/>
+                <div class="text-capitalize upload-text-child">Upload Image</div>
+              </v-btn>
+            </div>
           </div>
           <div class="card__item">
-            <v-img src="/default-image.svg" max-width="70" contain/>
-            <v-btn text color="#5570F1" class="rounded-lg  mb-4">
-              <v-img src="/upload.svg" max-width="20" class="mr-2"/>
-              <div class="text-capitalize upload-text-child">Upload Image</div>
-            </v-btn>
+            <input
+              ref="uploaderThird"
+              class="d-none"
+              type="file"
+              @change="thirdFileChanged"
+              accept="image/*"
+            />
+            <v-img :src="images[2].photo" v-if="!!files[2].file"/>
+            <div class="d-flex flex-column align-center" v-else>
+              <v-img src="/default-image.svg" max-width="70" contain/>
+              <v-btn text color="#5570F1" class="rounded-lg  my-4" @click="getFileThird">
+                <v-img src="/upload.svg" max-width="20" class="mr-2"/>
+                <div class="text-capitalize upload-text-child">Upload Image</div>
+              </v-btn>
+            </div>
           </div>
           <div class="card__item">
-            <v-img src="/default-image.svg" max-width="70" contain/>
-            <v-btn text color="#5570F1" class="rounded-lg  mb-4">
-              <v-img src="/upload.svg" max-width="20" class="mr-2"/>
-              <div class="text-capitalize upload-text-child">Upload Image</div>
-            </v-btn>
+            <input
+              ref="uploaderFourth"
+              class="d-none"
+              type="file"
+              @change="thirdFileFourth"
+              accept="image/*"
+            />
+            <v-img :src="images[3].photo" v-if="!!files[3].file"/>
+            <div class="d-flex flex-column align-center" v-else>
+              <v-img src="/default-image.svg" max-width="70" contain/>
+              <v-btn text color="#5570F1" class="rounded-lg  my-4" @click="getFileFourth">
+                <v-img src="/upload.svg" max-width="20" class="mr-2"/>
+                <div class="text-capitalize upload-text-child">Upload Image</div>
+              </v-btn>
+            </div>
           </div>
         </div>
         <div class="d-flex justify-center mt-8">
           <v-btn
-            class="rounded-lg white--text"
+            class="rounded-lg font-weight-bold"
+            color="#7631FF"
+            width="130"
+            outlined
+            height="44"
+            style="border-width: 2px"
+            @click="clearImages"
+          >clear</v-btn>
+          <v-btn
+            class="rounded-lg white--text ml-6"
             color="#7631FF"
             width="130"
             height="44"
@@ -60,9 +109,69 @@
 export default {
   data() {
     return {
-
+      selected_img: null,
+      avatar: null,
+      files: [
+        {file: null},
+        {file: null},
+        {file: null},
+        {file: null},
+      ],
+      images: [
+        {photo: null},
+        {photo: null},
+        {photo: null},
+        {photo: null},
+      ]
     }
   },
+  computed: {
+    images() {
+      return [
+        {photo: null},
+        {photo: null},
+        {photo: null},
+        {photo: null},
+      ]
+    }
+  },
+  methods: {
+    getFileFirst() {
+      this.$refs.uploaderFirst.click();
+    },
+    getFileSecond() {
+      this.$refs.uploaderSecond.click();
+    },
+    getFileThird() {
+      this.$refs.uploaderThird.click();
+    },
+    getFileFourth() {
+      this.$refs.uploaderFourth.click();
+    },
+    firstFileChanged(e) {
+      this.files[0].file = e.target.files[0];
+      this.images[0].photo = URL.createObjectURL(this.files[0].file);
+    },
+    secondFileChanged(e) {
+      this.files[1].file = e.target.files[0];
+      this.images[1].photo = URL.createObjectURL(this.files[1].file);
+    },
+    thirdFileChanged(e) {
+      this.files[2].file = e.target.files[0];
+      this.images[2].photo = URL.createObjectURL(this.files[2].file);
+    },
+    thirdFileFourth(e) {
+      this.files[3].file = e.target.files[0];
+      this.images[3].photo = URL.createObjectURL(this.files[3].file);
+      console.log(this.files);
+    },
+    clearImages() {
+      for(let i=0; i<=3; i++) {
+        this.images[i].photo = null;
+      }
+      console.log(this.images);
+    }
+  }
 }
 </script>
 
@@ -108,6 +217,7 @@ export default {
   gap: 20px;
 }
 .card__item {
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   background: #F4F5FA;
