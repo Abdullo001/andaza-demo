@@ -117,12 +117,6 @@ export default {
         {file: null},
         {file: null},
       ],
-      images: [
-        {photo: null},
-        {photo: null},
-        {photo: null},
-        {photo: null},
-      ]
     }
   },
   computed: {
@@ -163,7 +157,6 @@ export default {
     thirdFileFourth(e) {
       this.files[3].file = e.target.files[0];
       this.images[3].photo = URL.createObjectURL(this.files[3].file);
-      console.log(this.files);
     },
     clearImages() {
       for(let i=0; i<=3; i++) this.files[i].file = null;
