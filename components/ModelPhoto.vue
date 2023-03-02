@@ -98,6 +98,7 @@
             color="#7631FF"
             width="130"
             height="44"
+            @click="saveImages"
           >save</v-btn>
         </div>
       </v-col>
@@ -106,6 +107,8 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   data() {
     return {
@@ -127,9 +130,26 @@ export default {
         {photo: null},
         {photo: null},
       ]
-    }
+    },
+    ...mapGetters({
+      newModelId: "models/newModelId"
+    })
   },
   methods: {
+    ...mapActions({
+      uploadImages: "modelPhoto/uploadImages"
+    }),
+    async saveImages() {
+      const param = this.$route.params.id;
+      let id = '';
+      if(param === 'add-model') {
+        id = this.newModelId
+      } else id = param;
+      await this.uploadImages({
+        data: this.files,
+        modelId: id
+      });
+    },
     getFileFirst() {
       this.$refs.uploaderFirst.click();
     },
