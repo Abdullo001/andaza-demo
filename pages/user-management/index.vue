@@ -695,7 +695,6 @@ export default {
         }
       }
       user.lang = langFull()
-      // this.$store.commit('users/setCurrentUser', user)
       this.$router.push(`/user-management/${user.id}`)
     },
     handleFileImport() {
