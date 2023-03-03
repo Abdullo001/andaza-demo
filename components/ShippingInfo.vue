@@ -201,7 +201,6 @@ export default {
 
   data() {
     return {
-      quantity_enums: ["PSC"],
       currency_enums: ["USD", "UZS", "RUB"],
       size_enums: [],
 

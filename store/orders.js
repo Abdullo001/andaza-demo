@@ -1,136 +1,141 @@
-export const state=()=>({
-  ordersList:[],
-  oneOrder:{},
-  newOrderId:null,
+export const state = () => ({
+  ordersList: [],
+  oneOrder: {},
+  newOrderId: null,
   modelGroups: [],
-  usersList:[],
-  clientList:[],
-  modelList:[],
+  usersList: [],
+  clientList: [],
+  modelList: [],
+  modelId: null,
+});
 
-})
-
-export const getters={
-  ordersList: state=>state.ordersList.content,
-  oneOrder: state=>state.oneOrder.content,
-  newOrderId:state=>state.newOrderId,
+export const getters = {
+  ordersList: (state) => state.ordersList.content,
+  oneOrder: (state) => state.oneOrder.content,
+  newOrderId: (state) => state.newOrderId,
   modelGroups: (state) => state.modelGroups.content,
-  usersList: state=>state.usersList.content,
-  clientList: state=>state.clientList.data,
-  modelList: state=>state.modelList.data,
-}
+  usersList: (state) => state.usersList.content,
+  clientList: (state) => state.clientList.data,
+  modelList: (state) => state.modelList.data,
+  modelId: (state) => state.modelId,
+};
 
 export const mutations = {
   setOrders(state, order) {
-    state.ordersList = order
+    state.ordersList = order;
   },
   setOneOrder(state, details) {
-    state.oneOrder = details
+    state.oneOrder = details;
   },
-  setNewOrderId(state,id){
-    state.newOrderId=id
+  setNewOrderId(state, id) {
+    state.newOrderId = id;
   },
   setModelGroups(state, group) {
     state.modelGroups = group;
   },
-  setUsersList(state,item){
-    state.usersList=item
+  setUsersList(state, item) {
+    state.usersList = item;
   },
-  setClientList(state,item){
-    state.clientList=item;
+  setClientList(state, item) {
+    state.clientList = item;
   },
-  setModelList(state,item){
-    state.modelList=item
+  setModelList(state, item) {
+    state.modelList = item;
   },
-
-}
+  setModelId(state, id) {
+    state.modelId = id;
+  },
+};
 
 export const actions = {
-  async getOrdersList({commit}, {page, size, orderNumber,modelGroup }) {
+  async getOrdersList({ commit }, { page, size, orderNumber, modelGroup }) {
     const body = {
       filters: [
         {
-          key: 'orderNumber',
-          operator: 'LIKE',
-          propertyType: 'STRING',
-          value: orderNumber
+          key: "orderNumber",
+          operator: "LIKE",
+          propertyType: "STRING",
+          value: orderNumber,
         },
-        
-        
       ],
       sorts: [],
-      page, size
-    }
-    body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
-    modelGroup = modelGroup === null ? '' : modelGroup
-   
-    await this.$axios.$put(`/api/v1/orders/list?modelGroup=${modelGroup}`,body)
-      .then(res => {
-        commit('setOrders', res.data)
-        
+      page,
+      size,
+    };
+    body.filters = body.filters.filter(
+      (item) => item.value !== "" && item.value !== null
+    );
+    modelGroup = modelGroup === null ? "" : modelGroup;
+
+    await this.$axios
+      .$put(`/api/v1/orders/list?modelGroup=${modelGroup}`, body)
+      .then((res) => {
+        commit("setOrders", res.data);
       })
-      .catch(({response}) => {
+      .catch(({ response }) => {
         console.log(response);
-      })
+      });
   },
-  async getOneOrder({commit}, {page, size, id }) {
+  async getOneOrder({ commit }, { page, size, id }) {
     const body = {
       filters: [
         {
-          key: 'id',
-          propertyType: 'LONG',
-          operator: 'EQUAL',
-          value: id
-        }
+          key: "id",
+          propertyType: "LONG",
+          operator: "EQUAL",
+          value: id,
+        },
       ],
-      sorts:[],
-      page,size
-    }
-    body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
-    
-    await this.$axios.$put(`/api/v1/orders/list?modelGroup=`,body)
-    .then(res => {
-      commit('setOneOrder', res.data)
-      
-    })
-    .catch(({response}) => {
-      console.log(response);
-    })
-   
-  },
+      sorts: [],
+      page,
+      size,
+    };
+    body.filters = body.filters.filter(
+      (item) => item.value !== "" && item.value !== null
+    );
 
-  async changeStatusOrder({dispatch}, {id, status}) {
-    await this.$axios.$put(`/api/v1/orders/change-status?id=${id}&status=${status}`)
-      .then(res => {
-        this.$toast.success(res.message, {theme: 'toasted-primary'})
+    await this.$axios
+      .$put(`/api/v1/orders/list?modelGroup=`, body)
+      .then((res) => {
+        commit("setOneOrder", res.data);
       })
-      .catch(({response}) => console.log(response))
+      .catch(({ response }) => {
+        console.log(response);
+      });
   },
 
-  async createdOrder({commit},data){
-    const order={
-      clientId:data.clientId,
+  async changeStatusOrder({ dispatch }, { id, status }) {
+    await this.$axios
+      .$put(`/api/v1/orders/change-status?id=${id}&status=${status}`)
+      .then((res) => {
+        this.$toast.success(res.message, { theme: "toasted-primary" });
+      })
+      .catch(({ response }) => console.log(response));
+  },
+
+  async createdOrder({ commit }, data) {
+    const order = {
+      clientId: data.clientId,
       deadline: data.deadline,
       description: data.description,
       givenPrice: data.givenPrice.amount,
-      givenPriceCurrency:data.givenPrice.currency,
-      headOfProductionDepartmentId:data.headOfDepartmentId,
-      modelId:data.modelId,
-      orderNumber:data.orderNumber,
-      priority:data.priority,
-      
-    }
-    this.$axios.post('/api/v1/orders/create',order)
-    .then(res=>{
-      commit('setNewOrderId',res.data.id);
-      this.$toast.success(res.message, {theme: 'toasted-primary'})
-      console.log(res);
-    }).catch(({response})=>{
-      console.log(response);
-      this.$toast.error(response.data.message,{theme: 'toasted-primary'})
-    })
-  },  
-
-
+      givenPriceCurrency: data.givenPrice.currency,
+      headOfProductionDepartmentId: data.headOfDepartmentId,
+      modelId: data.modelId,
+      orderNumber: data.orderNumber,
+      priority: data.priority,
+    };
+    this.$axios
+      .post("/api/v1/orders/create", order)
+      .then((res) => {
+        commit("setNewOrderId", res.data.id);
+        this.$toast.success(res.message, { theme: "toasted-primary" });
+      })
+      .catch(({ response }) => {
+        console.log(response);
+        this.$toast.error(response.data.message, { theme: "toasted-primary" });
+      });
+  },
 
   async getModelGroup({ commit }) {
     const body = {
@@ -149,65 +154,67 @@ export const actions = {
       });
   },
 
-  async getUsersList({commit}){
-    const body={
-      filters:[],
-      sorts:[],
-      page:0,
-      size:50,
+  async getUsersList({ commit }) {
+    const body = {
+      filters: [],
+      sorts: [],
+      page: 0,
+      size: 50,
     };
-    await this.$axios.put(`/api/v1/user/get-users`,body)
-    .then((res)=>{
-      commit('setUsersList',res.data.data)
-    })
-    .catch((res)=>{
-      console.log(res);
-    })
+    await this.$axios
+      .put(`/api/v1/user/get-users`, body)
+      .then((res) => {
+        commit("setUsersList", res.data.data);
+      })
+      .catch((res) => {
+        console.log(res);
+      });
   },
 
-  async getClient({commit}){
-    await this.$axios.get(`/api/v1/partner/list-by-type?type=client`)
-    .then((res)=>{
-      commit('setClientList',res.data)
-    })
-    .catch((res)=>{
-      console.log(res);
-    })
+  async getClient({ commit }) {
+    await this.$axios
+      .get(`/api/v1/partner/list-by-type?type=client`)
+      .then((res) => {
+        commit("setClientList", res.data);
+      })
+      .catch((res) => {
+        console.log(res);
+      });
   },
 
-  async getModelId({commit}){
-    
-    await this.$axios.get(`/api/v1/models/pre-financed-models`)
-    .then((res)=>{
-      commit("setModelList",res.data)
-      console.log(res);
-    })
-    .catch((res)=>{
-      console.log(res);
-    })
+  async getModelId({ commit }) {
+    await this.$axios
+      .get(`/api/v1/models/pre-financed-models`)
+      .then((res) => {
+        commit("setModelList", res.data);
+      })
+      .catch((res) => {
+        console.log(res);
+      });
   },
 
-  async updateOrder({dispatch},data){
-    const order={
-      clientId:data.clientId,
+  async updateOrder({ dispatch }, data) {
+    const order = {
+      clientId: data.clientId,
       deadline: data.deadline,
       description: data.description,
       givenPrice: data.givenPrice.amount,
-      givenPriceCurrency:data.givenPrice.currency,
-      headOfProductionDepartmentId:data.headOfDepartmentId,
-      id:data.id,
-      modelId:data.modelId,
-      orderNumber:data.orderNumber,
-      priority:data.priority,
-    }
-    this.$axios.put('/api/v1/orders/update',order)
-    .then(res=>{
-      console.log(res);
-      this.$toast.success(res.message, {theme: 'toasted-primary'})
-    })
-    .catch(res=>{
-      this.$toast.error(response.data.message,{theme: 'toasted-primary'})
-    })
-  }
-
-}
+      givenPriceCurrency: data.givenPrice.currency,
+      headOfProductionDepartmentId: data.headOfDepartmentId,
+      id: data.id,
+      modelId: data.modelId,
+      orderNumber: data.orderNumber,
+      priority: data.priority,
+    };
+    this.$axios
+      .put("/api/v1/orders/update", order)
+      .then((res) => {
+        this.$toast.success(res.message, { theme: "toasted-primary" });
+        dispatch("getOneOrder", { id: res.data.data.id, page: 0, size: 50 });
+      })
+      .catch((res) => {
+        console.log(res);
+        this.$toast.error(response.data.message, { theme: "toasted-primary" });
+      });
+  },
+};

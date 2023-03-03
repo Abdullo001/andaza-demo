@@ -331,7 +331,7 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <ColorSizeDistirbution />
+                <ColorSizeDistirbution :number="order.modelId" />
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -470,8 +470,7 @@ export default {
   computed: {
     ...mapGetters({
       orderDetail: "orders/oneOrder",
-      orderId: "detailInfo/orderId",
-      modelId: "detailInfo/modelId",
+      modelId: "orders/modelId",
       usersList: "orders/usersList",
       clientList: "orders/clientList",
       modelList: "orders/modelList",
@@ -480,7 +479,6 @@ export default {
 
   watch: {
     orderDetail(ordersList) {
-      console.log(ordersList);
       ordersList.map((item) => {
         const order = this.order;
         order.id = item.id;
@@ -525,8 +523,7 @@ export default {
       updateOrder:"orders/updateOrder",
     }),
     ...mapMutations({
-      setOrderId: "detailInfo/setOrderId",
-      setModelId: "detailInfo/setModelId",
+      setModelId: "orders/setModelId",
     }),
 
     async updateOrderFunc() {
@@ -549,11 +546,9 @@ export default {
         id,
       });
       this.orderStatus = "Edit";
-      this.setOrderId({ id });
+      
     } else {
-      this.orderStatus = "Add";
-      this.setOrderId("");
-      this.setModelId("");
+      this.orderStatus = "Add"; 
     }
   },
 };
