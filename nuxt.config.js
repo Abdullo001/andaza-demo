@@ -55,7 +55,7 @@ export default {
   ],
   toast: {
     position: "bottom-center",
-    duration: 4000,
+    duration: 5000,
     theme: "toasted-primary",
     action:{
       text:'',

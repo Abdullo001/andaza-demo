@@ -13,6 +13,8 @@ export const actions = {
     this.$axios.$post(`/api/v1/model-resources/upload-photos?modelId=${modelId}`, formData, config)
       .then(res => {
         this.$toast.success(res.message)
-      }).catch(({response}) => console.log(response))
+      }).catch(({response}) => {
+        this.$toast.error(response.data.message)
+    })
   }
 };
