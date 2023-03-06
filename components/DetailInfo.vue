@@ -49,7 +49,7 @@
           :picker-options="pickerOptions"
           value-format="dd.MM.yyyy HH:mm:ss"
           style="min-width: 100%"
-          class="picker-color"
+          class="el-date-picker"
           readonly
         >
         </el-date-picker>

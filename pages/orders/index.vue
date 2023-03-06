@@ -282,9 +282,6 @@ export default {
         hash: this.$route.hash,
       });
     },
-    // viewDetails(item) {
-    //   this.$router.push(`/orders/${item.id}&${item.modelId}`);
-    // },
 
     addOrder() {
       this.$router.push(`/orders/add-order`);

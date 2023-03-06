@@ -12,7 +12,7 @@
           :picker-options="pickerOptions"
           value-format="dd.MM.yyyy HH:mm:ss"
           style="min-width: 100%"
-          class="picker-color mb-8"
+          class="el-date-picker mb-8"
         >
         </el-date-picker>
 
@@ -57,7 +57,7 @@
           :picker-options="pickerOptions"
           value-format="dd.MM.yyyy HH:mm:ss"
           style="min-width: 100%"
-          class="picker-color mb-8"
+          class="el-date-picker mb-8"
         >
         </el-date-picker>
 
