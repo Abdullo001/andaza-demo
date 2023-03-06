@@ -4,7 +4,7 @@
     <v-divider class="my-6"/>
     <v-row>
       <v-col cols="12" lg="5">
-        <div class="big__image overflow-hidden">
+        <div class="big__image overflow-hidden relative">
           <input
             ref="uploaderFirst"
             class="d-none"
@@ -12,7 +12,18 @@
             @change="firstFileChanged"
             accept="image/*"
           />
-          <v-img :src="images[0].photo" v-if="!!files[0].file"/>
+
+            <div class="update__icon">
+              <v-btn color="green" icon   @click="getFileFirst" v-if="!!files[0].file">
+                <v-img src="/upload-green.svg" max-width="22"/>
+              </v-btn>
+              <v-btn color="green" icon  @click="getFileFirst" v-if="!!files[0].file">
+                <v-img src="/trash-red.svg" max-width="22"/>
+              </v-btn>
+            </div>
+
+
+            <v-img :src="images[0].photo" contain v-if="!!files[0].file"/>
 
           <div class="default__box" v-else>
             <v-img src="/default-image.svg" width="70"/>
@@ -20,18 +31,18 @@
               <v-img src="/upload.svg" class="mr-2"/>
               <div class="text-capitalize upload-text">Upload Image</div>
             </v-btn>
-
-            <div class="default__text">
-              <p>Upload a cover image for your product.</p>
-              <p>File Format <span>jpeg, png</span> Recommend Size <span>600x600 (1:1)</span></p>
-            </div>
           </div>
+          <div class="default__text">
+            <p>Upload a cover image for your product.</p>
+            <p>File Format <span>jpeg, png</span> Recommend Size <span>600x600 (1:1)</span></p>
+          </div>
+
         </div>
       </v-col>
       <v-col>
         <div class="text-body-1 font-weight-medium text-capitalize">Additional Images</div>
         <div class="cards mt-5">
-          <div class="card__item">
+          <div class="card__item relative">
             <input
               ref="uploaderSecond"
               class="d-none"
@@ -186,6 +197,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.card-image {
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  height: 100%;
+
+}
+.update__icon {
+  border-radius: 16px;
+  position: absolute !important;
+  z-index: 10000 !important;
+  top: 16px;
+  right: 10px;
+  background-color: #fff;
+  padding: 9px;
+}
+.relative {
+  position: relative !important;
+  width: 100%;
+}
 .upload-text {
   font-weight: 500;
   font-size: 16px;
@@ -199,9 +230,11 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   border-radius: 12px;
   border: 1px solid #E1E2E9;
 }
+
 .default__box {
   display: flex;
   justify-content: center;
