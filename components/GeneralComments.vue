@@ -81,7 +81,7 @@ export default {
         id: this.commentText.id,
         type: 'GENERAL'
       }
-      if(id !== 'add-model') {
+      if(id !== 'add-model' && !!this.commentText?.id) {
         await this.updateComment(data)
       } else await this.createComments(data)
     },

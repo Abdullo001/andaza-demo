@@ -35,10 +35,12 @@ export const actions = {
         this.$toast.error(response.data.message)
     })
   },
-  updateComment({commit}, data) {
-    this.$axios.$put('/api/v1/instructions/update', data)
+  async updateComment({commit}, data) {
+    await this.$axios.$put('/api/v1/instructions/update', data)
       .then(res => {
         this.$toast.success(res.message)
-      }).catch(({response}) => console.log(response))
+      }).catch(({response}) => {
+        this.$toast.error(response.data.message)
+    })
   }
 };
