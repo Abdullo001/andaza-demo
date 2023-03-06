@@ -60,7 +60,7 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text class="pt-0">
-                <PackagingInstruct/>
+                <PaintingInstruct/>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -75,7 +75,7 @@ export default {
   name: 'Instruction',
   data() {
     return {
-      items: ['General comments', 'Sewing instruct.', 'Sample instruct', 'Fabric instruct', 'Packaging instruct', 'Accessory instruct', 'Instruction', 'Painting instruct'],
+      items: ['General comments', 'Sewing instruct.', 'Sample instruct', 'Fabric instruct', 'Packaging instruct', 'Accessory instruct', 'Painting instruct'],
       tab: null,
     }
   },

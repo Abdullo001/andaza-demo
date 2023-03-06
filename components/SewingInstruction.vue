@@ -19,7 +19,7 @@
           </div>
           <div class="table__content">
             <div>{{ commentText?.createdBy }}</div>
-            <div>{{ commentText.createdAt }}</div>
+            <div>{{ commentText?.createdAt }}</div>
           </div>
         </div>
         <div class="mt-7 d-flex justify-center">
