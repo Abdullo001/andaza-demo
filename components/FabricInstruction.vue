@@ -18,8 +18,8 @@
             <div>Date</div>
           </div>
           <div class="table__content">
-            <div>John Doe</div>
-            <div>12.10.2022</div>
+            <div>{{ commentText?.createdBy }}</div>
+            <div>{{ commentText.createdAt }}</div>
           </div>
         </div>
         <div class="mt-7 d-flex justify-center">
@@ -36,6 +36,7 @@
             color="#7631FF"
             class="text-capitalize rounded-lg"
             dark width="130" height="44"
+            @click="saveComment"
           >
             save
           </v-btn>
@@ -46,12 +47,51 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   data() {
     return {
       description: ''
     }
   },
+  computed: {
+    ...mapGetters({
+      commentText: 'instruction/commentText',
+      newModelId: 'models/newModelId'
+    })
+  },
+  watch: {
+    commentText(val) {
+      const data = JSON.parse(JSON.stringify(val))
+      this.description = data.content;
+    }
+  },
+  methods: {
+    ...mapActions({
+      createComments: 'instruction/createComments',
+      getComment: 'instruction/getComment',
+      updateComment: 'instruction/updateComment'
+    }),
+    async saveComment() {
+      const id = this.$route.params.id;
+      const data = {
+        content: this.description,
+        modelId: id === 'add-model' ? this.newModelId : id,
+        id: this.commentText.id,
+        type: 'FABRIC'
+      };
+      if(id !== 'add-model' && !!this.commentText?.id) {
+        await this.updateComment(data)
+      } else await this.createComments(data)
+    },
+  },
+  mounted() {
+    const id = this.$route.params.id;
+    if(id !== 'add-model') {
+      this.getComment({modelId: id, type: 'FABRIC'});
+    } this.$store.commit('instruction/setCommentText', {})
+  }
 }
 </script>
 
