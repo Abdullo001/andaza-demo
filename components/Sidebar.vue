@@ -243,6 +243,10 @@ export default {
             {
               title: "Model groups",
               to: "/model"
+            },
+            {
+              title: "Sample purposes",
+              to: "/sample"
             }
           ]
         },
