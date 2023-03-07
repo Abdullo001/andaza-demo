@@ -240,6 +240,10 @@ export default {
               title: 'Partners type',
               to: '/partner',
             },
+            {
+              title: "Model groups",
+              to: "/model"
+            }
           ]
         },
       ],
