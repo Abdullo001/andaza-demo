@@ -251,6 +251,10 @@ export default {
             {
               title: "Body Parts",
               to: "/body-parts"
+            },
+            {
+              title: 'Cooperation type',
+              to: "/cooperation-type"
             }
           ]
         },
