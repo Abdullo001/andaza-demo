@@ -259,6 +259,10 @@ export default {
             {
               title: "Expense Group",
               to: "/expense-group"
+            },
+            {
+              title: "Measurement Unit",
+              to: "/measurement"
             }
           ]
         },
