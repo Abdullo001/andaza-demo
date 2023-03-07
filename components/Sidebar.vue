@@ -255,6 +255,10 @@ export default {
             {
               title: 'Cooperation type',
               to: "/cooperation-type"
+            },
+            {
+              title: "Expense Group",
+              to: "/expense-group"
             }
           ]
         },
