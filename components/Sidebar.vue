@@ -263,6 +263,10 @@ export default {
             {
               title: "Measurement Unit",
               to: "/measurement"
+            },
+            {
+              title: "Package shape",
+              to: "/package-shape"
             }
           ]
         },
