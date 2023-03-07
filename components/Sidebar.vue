@@ -247,6 +247,10 @@ export default {
             {
               title: "Sample purposes",
               to: "/sample"
+            },
+            {
+              title: "Body Parts",
+              to: "/body-parts"
             }
           ]
         },
