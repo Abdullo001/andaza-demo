@@ -2,6 +2,7 @@ export const state = () => ({
   ordersList: [],
   oneOrder: {},
   newOrderId: null,
+  newModelId:null,
   modelGroups: [],
   usersList: [],
   clientList: [],
@@ -18,6 +19,7 @@ export const getters = {
   clientList: (state) => state.clientList.data,
   modelList: (state) => state.modelList.data,
   modelId: (state) => state.modelId,
+  newModelId: (state)=>state.newModelId,
 };
 
 export const mutations = {
@@ -29,6 +31,9 @@ export const mutations = {
   },
   setNewOrderId(state, id) {
     state.newOrderId = id;
+  },
+  setNewModelId(state,modelId){
+    state.newModelId=modelId
   },
   setModelGroups(state, group) {
     state.modelGroups = group;
@@ -129,6 +134,7 @@ export const actions = {
       .post("/api/v1/orders/create", order)
       .then((res) => {
         commit("setNewOrderId", res.data.id);
+        commit("setNewModelId",res.data.modelId);
         this.$toast.success(res.message, { theme: "toasted-primary" });
       })
       .catch(({ response }) => {
