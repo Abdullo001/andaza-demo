@@ -230,6 +230,18 @@ export default {
             },
           ]
         },
+        {
+          icon: 'file.svg',
+          title: 'Catalogs',
+          to: '/partner',
+          has_child: true,
+          child: [
+            {
+              title: 'Partners type',
+              to: '/partner',
+            },
+          ]
+        },
       ],
       right: true,
       search: '',
