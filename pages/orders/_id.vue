@@ -303,7 +303,7 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <ColorSizeDistirbution :number="order.modelId" />
+                <ColorSizeDistirbution  />
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -325,6 +325,13 @@
             <v-card flat>
               <v-card-text>
                 <ShippingInfo />
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <OrderDocuments />
               </v-card-text>
             </v-card>
           </v-tab-item>
