@@ -209,12 +209,12 @@ export const actions = {
     this.$axios
       .put("/api/v1/orders/update", order)
       .then((res) => {
-        this.$toast.success(res.message, { theme: "toasted-primary" });
+        this.$toast.success(res.message);
         dispatch("getOneOrder", { id: res.data.data.id, page: 0, size: 50 });
       })
       .catch((res) => {
         console.log(res);
-        this.$toast.error(response.data.message, { theme: "toasted-primary" });
+        this.$toast.error(res.data.message);
       });
   },
 };
