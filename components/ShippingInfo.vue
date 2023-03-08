@@ -298,4 +298,7 @@ export default {
 .mb-1-5 {
   margin-bottom: 6px;
 }
+.el-date-editor--datetime {
+  width: 100%;
+}
 </style>
