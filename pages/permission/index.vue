@@ -26,6 +26,7 @@
               class="rounded-lg"
               hide-details
               dense
+              append-icon="mdi-chevron-down"
               :items="property_type"
               @keyup.enter="filterPermission"
             />
@@ -39,6 +40,7 @@
               class="rounded-lg"
               hide-details
               dense
+              append-icon="mdi-chevron-down"
               @keyup.enter="filterPermission"
             />
           </v-col>

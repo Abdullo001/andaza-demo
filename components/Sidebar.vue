@@ -230,6 +230,54 @@ export default {
             },
           ]
         },
+        {
+          icon: 'catalog.svg',
+          title: 'Catalogs',
+          to: '/partner',
+          has_child: true,
+          child: [
+            {
+              title: 'Partners type',
+              to: '/partner',
+            },
+            {
+              title: "Model groups",
+              to: "/model"
+            },
+            {
+              title: "Sample purposes",
+              to: "/sample"
+            },
+            {
+              title: "Body Parts",
+              to: "/body-parts"
+            },
+            {
+              title: 'Cooperation type',
+              to: "/cooperation-type"
+            },
+            {
+              title: "Expense Group",
+              to: "/expense-group"
+            },
+            {
+              title: "Measurement Unit",
+              to: "/measurement"
+            },
+            {
+              title: "Package shape",
+              to: "/package-shape"
+            },
+            {
+              title: "Fabric catalogs",
+              to: "/fabric-catalogs"
+            },
+            {
+              title: "Product catalogs",
+              to: "/product-catalogs"
+            }
+          ]
+        },
       ],
       right: true,
       search: '',
