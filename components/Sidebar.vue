@@ -231,7 +231,7 @@ export default {
           ]
         },
         {
-          icon: 'file.svg',
+          icon: 'catalog.svg',
           title: 'Catalogs',
           to: '/partner',
           has_child: true,
