@@ -267,6 +267,10 @@ export default {
             {
               title: "Package shape",
               to: "/package-shape"
+            },
+            {
+              title: "Fabric catalogs",
+              to: "/fabric-catalogs"
             }
           ]
         },
