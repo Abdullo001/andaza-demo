@@ -2,12 +2,16 @@ export const state = () => ({
   cooperation_type: [],
   partnerList: [],
   measurementUnitList: [],
+  subcontractsList: [],
+  modelList: {},
 });
 
 export const getters = {
   cooperation_type: (state) => state.cooperation_type.data,
   partnerList: (state) => state.partnerList.content,
   measurementUnitList: (state) => state.measurementUnitList.data,
+  subcontractsList: (state) => state.subcontractsList.data,
+  modelList: (state) => state.modelList.content,
 };
 
 export const mutations = {
@@ -20,13 +24,22 @@ export const mutations = {
   getMeasurementUnitList(state, data) {
     state.measurementUnitList = data;
   },
+  setSubcontractsList(state, data) {
+    state.subcontractsList = data;
+  },
+  setModelList(state, item) {
+    state.modelList = item;
+  },
 };
 
 export const actions = {
-  async getSubcontractsList({ commit }) {
+  async getSubcontractsList({ commit }, { modelNumber }) {
+    modelNumber = modelNumber === null ? "" : modelNumber;
     this.$axios
-      .get(`/api/v1/subcontracts/get-modelNumber?modelNumber=GR-86-42`)
-      .then((res) => {})
+      .get(`/api/v1/subcontracts/get-modelNumber?modelNumber=${modelNumber}`)
+      .then((res) => {
+        commit("setSubcontractsList", res.data);
+      })
       .catch((res) => {
         console.log(res);
       });
@@ -78,53 +91,57 @@ export const actions = {
       });
   },
 
-  //   async createSubcontracts({ dispatch }, subcontracts) {
-  //     const body = {
-  //       cooperationTypeId: 1,
-  //       description: "test",
-  //       dispatchedDate: "2023-02-27 12:04:32",
-  //       measurementUnitId: 1,
-  //       modelId: 1,
-  //       partnerId: 1,
-  //       quantity: 100,
-  //       // cooperationTypeId: subcontracts.cooperationTypeId,
-  //       // description: subcontracts.comment,
-  //       // dispatchedDate: subcontracts.dispatchedDate,
-  //       // measurementUnitId: subcontracts.measurementUnitId,
-  //       // modelId: subcontracts.modelId,
-  //       // partnerId: subcontracts.partnerId,
-  //       // quantity: subcontracts.quantity,
-  //     };
-
-  //     await this.$axios
-  //       .post(`/api/v1/subcontracts/create`, body)
-  //       .then((res) => {
-  //         console.log(res);
-  //       })
-  //       .catch((res) => {
-  //         console.log(res);
-  //       });
-  //   },
-
-  async createSubcontracts({ commit }, data) {
-    const item = {
-      cooperationTypeId: 1,
-      description: "test",
-      dispatchedDate: "2023-02-28 20:04:03",
-      measurementUnitId: 2,
-      modelId: 1,
-      partnerId: 2,
-      quantity: 100,
-    };
+  async createSubcontracts({ dispatch }, data) {
     this.$axios
-      .post("/api/v1/subcontracts/create", item)
+      .post("/api/v1/subcontracts/create", data)
       .then((res) => {
-        console.log(res);
+        dispatch("getSubcontractsList", { modelNumber: "" });
         this.$toast.success(res.message, { theme: "toasted-primary" });
       })
       .catch(({ response }) => {
         console.log(response);
         this.$toast.error(response.data.message, { theme: "toasted-primary" });
+      });
+  },
+
+  async getModelList({ commit }) {
+    const body = {
+      filters: [],
+      sorts: [],
+      page: 0,
+      size: 50,
+    };
+    await this.$axios
+      .put(`/api/v1/models/list?partner=`, body)
+      .then((res) => {
+        commit("setModelList", res.data.data);
+      })
+      .catch((res) => {
+        console.log(res);
+      });
+  },
+
+  async updateSubcontracts({ dispatch },  data ) {
+    const body = {
+      cooperationTypeId: data.cooperationTypeId,
+      description: data.description,
+      dispatchedDate: data.dispatchedDate,
+      id: data.id,
+      measurementUnitId: data.measurementUnitId,
+      modelId: data.modelId,
+      partnerId: data.partnerId,
+      quantity: data.quantity,
+    };
+    await this.$axios
+      .put(`/api/v1/subcontracts/update`, body)
+      .then((res) => {
+        console.log(res);
+        dispatch("getSubcontractsList",{modelNumber:""})
+        this.$toast.success(res.message, { theme: "toasted-primary" });
+      })
+      .catch((res) => {
+        console.log(res);
+        this.$toast.error(res.data.message, { theme: "toasted-primary" });
       });
   },
 };

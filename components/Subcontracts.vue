@@ -12,24 +12,30 @@
     >
       <template #top>
         <v-toolbar elevation="0">
-          <v-toolbar-title class="w-full d-flex">
+          <v-toolbar-title class="w-full d-flex align-center">
             <span class="mr-8">Model Number</span>
             <div class="search-field">
-              <v-text-field
-                placeholder="Enter responsipble person"
-                single-line
-                outlined
-                validate-on-blur
-                append-inner-icon="mdi-plus"
-                dense
-                class="rounded-lg"
+              <v-combobox
+                v-model="modelNumber"
+                :items="modelData"
+                :search-input.sync="modelSearch"
+                item-text="modelNumber"
+                item-value="modelNumber"
+                v-on:keyup.enter="(evt) => searchSubcontracts(evt)"
+                filled
+                hide-details
+                class="rounded-lg d-flex align-center justify-center"
+                :return-object="true"
                 color="#7631FF"
-                background-color="#F8F4FE"
+                dense
+                placeholder="Enter responsible person"
               >
                 <template #append>
-                  <v-icon> mdi-magnify </v-icon>
+                  <v-icon class="d-inline-block" color="#7631FF"
+                    >mdi-magnify</v-icon
+                  >
                 </template>
-              </v-text-field>
+              </v-combobox>
             </div>
 
             <v-spacer />
@@ -145,7 +151,7 @@
               <v-col cols="12">
                 <div class="mb-2 text-body-1">Description</div>
                 <v-textarea
-                  v-model="newSubcontractDetail.comment"
+                  v-model="newSubcontractDetail.description"
                   placeholder="Enter description"
                   single-line
                   outlined
@@ -184,7 +190,7 @@
     <v-dialog v-model="edit_dialog" max-width="572">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
-          <div>Edit Cutting</div>
+          <div>Edit Subcontract</div>
           <v-btn @click="edit_dialog = !edit_dialog" icon>
             <v-icon color="#7631FF">mdi-close</v-icon>
           </v-btn>
@@ -200,7 +206,7 @@
                   placeholder="select cooperation Type"
                   :items="cooperation_type"
                   item-text="name"
-                  item-id="id"
+                  item-value="id"
                   append-icon="mdi-chevron-down"
                   rounded
                   single-line
@@ -232,7 +238,7 @@
                   placeholder="select Partner"
                   :items="partnerList"
                   item-text="name"
-                  item-id="id"
+                  item-value="id"
                   append-icon="mdi-chevron-down"
                   rounded
                   single-line
@@ -249,7 +255,7 @@
                   placeholder="select unit"
                   :items="measurementUnitList"
                   item-text="name"
-                  item-id="id"
+                  item-value="id"
                   append-icon="mdi-chevron-down"
                   rounded
                   single-line
@@ -265,7 +271,7 @@
               <v-col cols="12">
                 <div class="mb-2 text-body-1">Description</div>
                 <v-textarea
-                  v-model="subcontractsDetail.comment"
+                  v-model="subcontractsDetail.description"
                   placeholder="Enter description"
                   single-line
                   outlined
@@ -292,7 +298,7 @@
                 color="#7631FF"
                 dark
                 width="163"
-                @click="updateSubcontracts"
+                @click="updateSubcontractsView"
                 >save
               </v-btn>
             </v-card-actions>
@@ -312,6 +318,8 @@ export default {
       edit_dialog: false,
       new_dialog: false,
       new_validate: true,
+      modelSearch: "",
+      modelNumber: "",
       headers: [
         {
           text: "Cooperation type",
@@ -332,40 +340,28 @@ export default {
           value: "measurementUnit",
           width: "180",
         },
-        { text: "Comment", sortable: false, value: "comment", width: "220" },
-        { text: "Date", sortable: false, value: "date" },
+        {
+          text: "Comment",
+          sortable: false,
+          value: "description",
+          width: "220",
+        },
+        { text: "Date", sortable: false, value: "dispatchedDate" },
         { text: "Action", sortable: false, align: "center", value: "actions" },
       ],
 
-      subcontractsList: [
-        {
-          id: 1,
-          cooperationType: "Cutting",
-          partnerName: "Artatex LLC",
-          quantity: 800,
-          measurementUnit: "PSC",
-          comment: "",
-          date: "12.10.2022",
-        },
-      ],
+      subcontractsList: [],
 
-      subcontractsDetail: {
-        id: null,
-        cooperationId:null ,
-        partnerId: null,
-        quantity: null,
-        measurementUnitId: null,
-        comment: "",
-      },
+      subcontractsDetail: {},
 
       newSubcontractDetail: {
         cooperationTypeId: null,
         partnerId: null,
-        quantity: 100,
+        quantity: null,
         measurementUnitId: null,
         comment: "",
-        dispatchedDate:'2023-02-03 12:41:34',
-        modelId:1,
+        dispatchedDate: "",
+        modelId: this.$route.query.modelId,
       },
     };
   },
@@ -381,7 +377,8 @@ export default {
       cooperation_type: "subcontracts/cooperation_type",
       partnerList: "subcontracts/partnerList",
       measurementUnitList: "subcontracts/measurementUnitList",
-      modelId: "orders/modelId"
+      setSubcontractsList: "subcontracts/subcontractsList",
+      modelData: "subcontracts/modelList",
     }),
   },
 
@@ -392,6 +389,10 @@ export default {
           this.overlay = false;
         }, 2000);
     },
+
+    setSubcontractsList(subcontracts) {
+      this.subcontractsList = JSON.parse(JSON.stringify(subcontracts));
+    },
   },
 
   methods: {
@@ -401,37 +402,70 @@ export default {
       getPartnerList: "subcontracts/getPartnerList",
       getMeasurementUnit: "subcontracts/getMeasurementUnit",
       createSubcontracts: "subcontracts/createSubcontracts",
+      getModelList: "subcontracts/getModelList",
+      updateSubcontracts: "subcontracts/updateSubcontracts",
     }),
 
     editParts(item) {
       this.edit_dialog = !this.edit_dialog;
+      this.subcontractsDetail={...item}
     },
 
-    // getTime(){
-    //   const today=new Date();
-    //   const date = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
-    //   const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    //   this.newSubcontractDetail.dispatchedDate=date+" "+time;
-    // },
+    getTime() {
+      const today = new Date();
+      let day = "";
+      let month = "";
+      let date = "";
 
-    updateSubcontracts() {},
+      today.getDate().toString().length == 1
+        ? (day = `0${today.getDate()}`)
+        : (day = `${today.getDate()}`);
+      today.getMonth().toString().length == 1
+        ? (month = `0${today.getMonth()}`)
+        : (month = `${today.getMonth()}`);
+
+      date = day + "." + month + "." + today.getFullYear();
+
+      let time = "";
+      let hour = "";
+      let minut = "";
+      let second = "";
+      today.getHours().toString().length == 1
+        ? (hour = `0${today.getHours()}`)
+        : (hour = `${today.getHours()}`);
+      today.getMinutes().toString().length == 1
+        ? (minut = `0${today.getMinutes()}`)
+        : (minut = `${today.getMinutes()}`);
+      today.getSeconds().toString().length == 1
+        ? (second = `0${today.getSeconds()}`)
+        : (second = `${today.getSeconds()}`);
+      time = hour + ":" + minut + ":" + second;
+      return date+" "+time
+    },
+
+    updateSubcontractsView() {
+      this.edit_dialog = !this.edit_dialog;
+      this.updateSubcontracts(this.subcontractsDetail)
+    },
 
     newSubcontract() {
       this.new_dialog = !this.new_dialog;
-     
     },
 
-    
-
     async setNewSubcontracts() {
-      await this.createSubcontracts(this.newSubcontractDetail)
-      console.log(this.newSubcontractDetail);
+      this.newSubcontractDetail.dispatchedDate=this.getTime()
+      await this.createSubcontracts(this.newSubcontractDetail);
       this.new_dialog = !this.new_dialog;
+    },
+
+    searchSubcontracts(item) {
+      this.getSubcontractsList({ modelNumber: item.target._value });
     },
   },
 
   mounted() {
-    this.getSubcontractsList();
+    this.getSubcontractsList({ modelNumber: "" });
+    this.getModelList();
   },
 };
 </script>
