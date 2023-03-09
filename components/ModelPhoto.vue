@@ -13,17 +13,16 @@
             accept="image/*"
           />
 
-            <div class="update__icon">
-              <v-btn color="green" icon   @click="getFileFirst" v-if="!!files[0].file">
+            <div class="update__icon" v-if="!!files[0].file">
+              <v-btn color="green" icon   @click="getFileFirst" >
                 <v-img src="/upload-green.svg" max-width="22"/>
               </v-btn>
-              <v-btn color="green" icon  @click="getFileFirst" v-if="!!files[0].file">
+              <v-btn color="green" icon  @click="deleteFileFirst">
                 <v-img src="/trash-red.svg" max-width="22"/>
               </v-btn>
             </div>
 
-
-            <v-img :src="images[0].photo" contain v-if="!!files[0].file"/>
+            <img :src="images[0].photo" v-if="!!files[0].file"  class="image" alt="model photo"/>
 
           <div class="default__box" v-else>
             <v-img src="/default-image.svg" width="70"/>
@@ -31,10 +30,10 @@
               <v-img src="/upload.svg" class="mr-2"/>
               <div class="text-capitalize upload-text">Upload Image</div>
             </v-btn>
-          </div>
           <div class="default__text">
             <p>Upload a cover image for your product.</p>
             <p>File Format <span>jpeg, png</span> Recommend Size <span>600x600 (1:1)</span></p>
+          </div>
           </div>
 
         </div>
@@ -191,12 +190,21 @@ export default {
     },
     clearImages() {
       for(let i=0; i<=3; i++) this.files[i].file = null;
+    },
+    deleteFileFirst() {
+
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.image {
+  width: 100%;
+  height: 100%;
+  object-position: center;
+  object-fit: cover;
+}
 .card-image {
   object-fit: cover;
   object-position: center;
@@ -211,7 +219,7 @@ export default {
   top: 16px;
   right: 10px;
   background-color: #fff;
-  padding: 9px;
+  padding: 5px;
 }
 .relative {
   position: relative !important;
