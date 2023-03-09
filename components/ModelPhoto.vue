@@ -14,19 +14,24 @@
           />
 
             <div class="update__icon" v-if="!!files[0].file">
-              <v-btn color="green" icon   @click="getFileFirst" >
+              <v-btn color="green" icon   @click="getFile('first')">
                 <v-img src="/upload-green.svg" max-width="22"/>
               </v-btn>
-              <v-btn color="green" icon  @click="deleteFileFirst">
+              <v-btn color="green" icon  @click="deleteFile('first')">
                 <v-img src="/trash-red.svg" max-width="22"/>
               </v-btn>
             </div>
 
-            <img :src="images[0].photo" v-if="!!files[0].file"  class="image" alt="model photo"/>
+            <v-img
+              :src="images[0].photo"
+              lazy-src="/model-image.jpg"
+              v-if="!!files[0].file" width="100%"
+              @click="showImage(images[0].photo)"
+            />
 
           <div class="default__box" v-else>
             <v-img src="/default-image.svg" width="70"/>
-            <v-btn text color="#5570F1" class="rounded-lg mt-6 my-4" @click="getFileFirst">
+            <v-btn text color="#5570F1" class="rounded-lg mt-6 my-4" @click="getFile('first')">
               <v-img src="/upload.svg" class="mr-2"/>
               <div class="text-capitalize upload-text">Upload Image</div>
             </v-btn>
@@ -49,16 +54,31 @@
               @change="secondFileChanged"
               accept="image/*"
             />
-            <v-img :src="images[1].photo" v-if="!!files[1].file"/>
+
+            <div class="update__icon small" v-if="!!files[1].file">
+              <v-btn color="green" icon   @click="getFile('second')">
+                <v-img src="/upload-green.svg" max-width="18"/>
+              </v-btn>
+              <v-btn color="green" icon  @click="deleteFile('second')">
+                <v-img src="/trash-red.svg" max-width="18"/>
+              </v-btn>
+            </div>
+
+            <v-img
+              :src="images[1].photo"
+              v-if="!!files[1].file"
+              width="100%"
+              @click="showImage(images[1].photo)"
+            />
             <div class="d-flex flex-column align-center" v-else>
               <v-img src="/default-image.svg" max-width="70" contain/>
-              <v-btn text color="#5570F1" class="rounded-lg  my-4" @click="getFileSecond">
+              <v-btn text color="#5570F1" class="rounded-lg  my-4" @click="getFile('second')">
                 <v-img src="/upload.svg" max-width="20" class="mr-2"/>
                 <div class="text-capitalize upload-text-child">Upload Image</div>
               </v-btn>
             </div>
           </div>
-          <div class="card__item">
+          <div class="card__item relative">
             <input
               ref="uploaderThird"
               class="d-none"
@@ -66,16 +86,28 @@
               @change="thirdFileChanged"
               accept="image/*"
             />
-            <v-img :src="images[2].photo" v-if="!!files[2].file"/>
+            <div class="update__icon small" v-if="!!files[2].file">
+              <v-btn color="green" icon   @click="getFile('third')">
+                <v-img src="/upload-green.svg" max-width="18"/>
+              </v-btn>
+              <v-btn color="green" icon  @click="deleteFile('third')">
+                <v-img src="/trash-red.svg" max-width="18"/>
+              </v-btn>
+            </div>
+            <v-img
+              :src="images[2].photo"
+              v-if="!!files[2].file"
+              @click="showImage(images[2].photo)"
+            />
             <div class="d-flex flex-column align-center" v-else>
               <v-img src="/default-image.svg" max-width="70" contain/>
-              <v-btn text color="#5570F1" class="rounded-lg  my-4" @click="getFileThird">
+              <v-btn text color="#5570F1" class="rounded-lg  my-4" @click="getFile('third')">
                 <v-img src="/upload.svg" max-width="20" class="mr-2"/>
                 <div class="text-capitalize upload-text-child">Upload Image</div>
               </v-btn>
             </div>
           </div>
-          <div class="card__item">
+          <div class="card__item relative">
             <input
               ref="uploaderFourth"
               class="d-none"
@@ -83,10 +115,22 @@
               @change="thirdFileFourth"
               accept="image/*"
             />
-            <v-img :src="images[3].photo" v-if="!!files[3].file"/>
+            <div class="update__icon small" v-if="!!files[3].file">
+              <v-btn color="green" icon   @click="getFile('fourth')">
+                <v-img src="/upload-green.svg" max-width="18"/>
+              </v-btn>
+              <v-btn color="green" icon  @click="deleteFile('fourth')">
+                <v-img src="/trash-red.svg" max-width="18"/>
+              </v-btn>
+            </div>
+            <v-img
+              :src="images[3].photo"
+              v-if="!!files[3].file"
+              @click="showImage(images[3].photo)"
+            />
             <div class="d-flex flex-column align-center" v-else>
               <v-img src="/default-image.svg" max-width="70" contain/>
-              <v-btn text color="#5570F1" class="rounded-lg  my-4" @click="getFileFourth">
+              <v-btn text color="#5570F1" class="rounded-lg  my-4" @click="getFile('fourth')">
                 <v-img src="/upload.svg" max-width="20" class="mr-2"/>
                 <div class="text-capitalize upload-text-child">Upload Image</div>
               </v-btn>
@@ -113,6 +157,18 @@
         </div>
       </v-col>
     </v-row>
+    <v-dialog max-width="590" v-model="image_dialog">
+
+      <v-card>
+        <v-card-title class="d-flex">
+          <v-spacer/>
+          <v-btn icon color="#7631FF" large @click="image_dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-img :src="currentImage" height="500" contain/>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -130,6 +186,8 @@ export default {
         {file: null},
         {file: null},
       ],
+      currentImage: '',
+      image_dialog: false
     }
   },
   computed: {
@@ -142,12 +200,22 @@ export default {
       ]
     },
     ...mapGetters({
-      newModelId: "models/newModelId"
+      newModelId: "models/newModelId",
+      setModelImages: "modelPhoto/modelImages"
     })
+  },
+  watch: {
+    setModelImages(link) {
+      this.images.forEach((el, idx) => {
+        this.files[idx].file = link[idx]?.filePath
+        el.photo = link[idx]?.filePath;
+      })
+    }
   },
   methods: {
     ...mapActions({
-      uploadImages: "modelPhoto/uploadImages"
+      uploadImages: "modelPhoto/uploadImages",
+      getImages: "modelPhoto/getImages"
     }),
     async saveImages() {
       const param = this.$route.params.id;
@@ -160,17 +228,21 @@ export default {
         modelId: id
       });
     },
-    getFileFirst() {
-      this.$refs.uploaderFirst.click();
+    showImage(image) {
+      this.currentImage = image;
+      this.image_dialog = true;
     },
-    getFileSecond() {
-      this.$refs.uploaderSecond.click();
-    },
-    getFileThird() {
-      this.$refs.uploaderThird.click();
-    },
-    getFileFourth() {
-      this.$refs.uploaderFourth.click();
+    getFile(count) {
+      switch (count) {
+        case 'first':
+          return this.$refs.uploaderFirst.click();
+        case 'second':
+          return this.$refs.uploaderSecond.click();
+        case 'third':
+          return this.$refs.uploaderThird.click();
+        case 'fourth':
+          return this.$refs.uploaderFourth.click();
+      }
     },
     firstFileChanged(e) {
       this.files[0].file = e.target.files[0];
@@ -191,9 +263,18 @@ export default {
     clearImages() {
       for(let i=0; i<=3; i++) this.files[i].file = null;
     },
-    deleteFileFirst() {
-
+    deleteFile(count) {
+      switch (count) {
+        case 'first': this.files[0].file = null; break;
+        case 'second': this.files[1].file = null; break;
+        case 'third': this.files[2].file = null; break;
+        case 'fourth': this.files[3].file = null; break;
+      }
     }
+  },
+  mounted() {
+    const id = this.$route.params.id;
+    this.getImages(id);
   }
 }
 </script>
@@ -215,11 +296,14 @@ export default {
 .update__icon {
   border-radius: 16px;
   position: absolute !important;
-  z-index: 10000 !important;
+  z-index: 10 !important;
   top: 16px;
   right: 10px;
   background-color: #fff;
   padding: 5px;
+  &.small {
+    padding: 0 2px;
+  }
 }
 .relative {
   position: relative !important;
