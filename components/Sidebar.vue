@@ -271,6 +271,10 @@ export default {
             {
               title: "Fabric catalogs",
               to: "/fabric-catalogs"
+            },
+            {
+              title: "Product catalogs",
+              to: "/product-catalogs"
             }
           ]
         },
