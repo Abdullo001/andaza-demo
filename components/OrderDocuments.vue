@@ -12,15 +12,7 @@
           <v-toolbar-title class="w-full d-flex">
             <div class="title">Documents</div>
             <v-spacer/>
-            <v-btn
-              class="rounded-lg text-capitalize"
-              color="#7631FF"
-              width="160" height="36"
-              @click="newDialog = true"
-              dark
-            >
-              Upload document
-            </v-btn>
+            
           </v-toolbar-title>
         </v-toolbar>
       </template>
