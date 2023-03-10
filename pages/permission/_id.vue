@@ -28,7 +28,7 @@
               <v-text-field
                 :disabled="disabled"
                 label="Permission ID"
-                v-model="create_permission.permissionId"
+                v-model="create_permission.id"
                 filled
                 dense
                 color="#7631FF"
@@ -40,7 +40,7 @@
             <v-col cols="12" md="4">
               <v-text-field
                 :disabled="disabled"
-                v-model="create_permission.permissionName"
+                v-model="create_permission.name"
                 label="Permission name"
                 filled
                 dense
@@ -69,7 +69,7 @@
               <v-text-field
                 :disabled="disabled"
                 label="Permission path"
-                v-model="create_permission.permissionPath"
+                v-model="create_permission.path"
                 filled
                 dense
                 color="#7631FF"
@@ -86,8 +86,9 @@
                 class="rounded-lg"
                 hide-details
                 dense
-                :items="operator"
+                :items="statusEnums"
                 filled
+                append-icon="mdi-chevron-down"
                 color="#7631FF"
                 validate-on-blur
               >
@@ -99,7 +100,7 @@
               <el-date-picker
                 :disabled="disabled"
                 type="datetime"
-                v-model="create_permission.value"
+                v-model="create_permission.createdAt"
                 placeholder="From"
                 value-format="dd.MM.yyyy HH:mm:ss"
                 :picker-ptions="pickerOptions"
@@ -113,7 +114,7 @@
                 :disabled="disabled"
                 type="datetime"
                 placeholder="To"
-                v-model="create_permission.value_to"
+                v-model="create_permission.updatedAt"
                 value-format="dd.MM.yyyy HH:mm:ss"
                 :picker-ptions="pickerOptions"
               >
@@ -160,6 +161,8 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   data() {
     return {
@@ -167,16 +170,14 @@ export default {
       disabled: true,
       validate: true,
       create_permission: {
-        value_to: '',
-        value: '',
-        permissionName: '',
-        permissionPath: '',
+        createdAt: '',
+        updatedAt: '',
+        name: '',
+        path: '',
         status: '',
         description: '',
-        permissionId: '',
+        id: '',
       },
-
-      operator: ['EQUAL', 'NOT_EQUAL', 'LIKE', 'IN', 'BETWEEN'],
       map_links: [
         {
           text: 'Home',
@@ -197,14 +198,50 @@ export default {
           icon: false
         },
       ],
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "Cегодня",
+            onClick(picker) {
+              picker.$emit("pick", new Date());
+            },
+          },
+          {
+            text: "Вчера",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit("pick", date);
+            },
+          },
+          {
+            text: "Неделя",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", date);
+            },
+          },
+        ],
+      },
     }
+  },
+  async created() {
+    const id = this.$route.params.id;
+    await this.$store.dispatch('permission/getIdPermission', id);
+    await this.$store.commit('setPageTitle', 'Access control');
+    this.create_permission = {...this.permissionIdDAta}
+  },
+  computed:{
+    ...mapGetters({
+      permissionIdDAta: "permission/permissionIdDAta",
+    })
   },
   methods: {
     // DELETE PERMISSION
     deletePermission(){
       console.log('click');
     },
-    pickerOptions(){},
     // DISABLED BUTTON
     edit_user(){
       if (this.disabled){
@@ -216,11 +253,6 @@ export default {
         this.disabled = !this.disabled
       }
     },
-  },
-  mounted() {
-    const id = this.$route.params.id;
-    this.$store.dispatch('permission/getIdPermission', id)
-    this.$store.commit('setPageTitle', 'Access control')
   },
 }
 </script>

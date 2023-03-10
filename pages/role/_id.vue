@@ -15,9 +15,15 @@
           <v-img src="/trash.svg" max-width="16" class="mr-2"/>
           delete
         </v-btn>
-        <v-btn outlined class="text-capitalize rounded-lg" @click="edit_user">
+        <v-btn
+          outlined
+          class="text-capitalize rounded-lg"
+          @click="edit_user"
+          :color="!
+          disabled ? 'green' : null"
+        >
           <v-img src="/edit.svg " max-width="16" class="mr-2"/>
-          {{this.disabled ? 'edit' : 'save'}}
+          edit
         </v-btn>
       </v-card-title>
       <v-divider/>
@@ -30,9 +36,9 @@
                 label="Role ID"
                 filled
                 dense
+                v-model="get_one_role.id"
                 color="#7631FF"
                 placeholder="Enter role id"
-                :rules="[formRules.required]"
                 validate-on-blur
               />
             </v-col>
@@ -42,9 +48,9 @@
                 label="Role name"
                 filled
                 dense
+                v-model="get_one_role.name"
                 color="#7631FF"
                 placeholder="Enter role name"
-                :rules="[formRules.required]"
                 validate-on-blur
               />
             </v-col>
@@ -55,10 +61,10 @@
                 filled
                 rows="1"
                 dense
+                v-model="get_one_role.description"
                 auto-grow
                 color="#7631FF"
                 placeholder="Enter role description"
-                :rules="[formRules.required]"
                 validate-on-blur
               />
             </v-col>
@@ -67,65 +73,61 @@
                 :disabled="disabled"
                 label="Status"
                 class="rounded-lg"
+                :items="statusEnums"
                 hide-details
                 dense
+                append-icon="mdi-chevron-down"
+                v-model="get_one_role.status"
                 filled
                 color="#7631FF"
                 validate-on-blur
               >
               </v-select>
             </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                :disabled="disabled"
-                label="Created by"
-                filled
-                dense
-                color="#7631FF"
-                placeholder="Enter created by"
-                :rules="[formRules.required]"
-                validate-on-blur
-              />
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                :disabled="disabled"
-                label="Updated by"
-                filled
-                dense
-                color="#7631FF"
-                placeholder="Enter updated by"
-                :rules="[formRules.required]"
-                validate-on-blur
-              />
-            </v-col>
             <v-col
-              cols="12" md="4" style="max-width: 240px;"
+              cols="12" md="4"
             >
-              <el-date-picker
+              <v-text-field
                 :disabled="disabled"
-                type="datetime"
-                placeholder="From"
-                value-format="dd.MM.yyyy HH:mm:ss"
-                :picker-ptions="pickerOptions"
-              >
-              </el-date-picker>
+                label="Role name"
+                filled
+                dense
+                disabled
+                v-model="get_one_role.createdAt"
+                color="#7631FF"
+                placeholder="Enter role name"
+                validate-on-blur
+              />
             </v-col>
             <v-col
               cols="12" md="4"
             >
-              <el-date-picker
+              <v-text-field
                 :disabled="disabled"
-                type="datetime"
-                placeholder="To"
-                value-format="dd.MM.yyyy HH:mm:ss"
-                :picker-ptions="pickerOptions"
-              >
-              </el-date-picker>
+                label="Role name"
+                filled
+                dense
+                disabled
+                v-model="get_one_role.updatedAt"
+                color="#7631FF"
+                placeholder="Enter role name"
+                validate-on-blur
+              />
             </v-col>
           </v-row>
         </v-form>
       </v-card-text>
+      <v-card-actions>
+        <v-spacer/>
+        <v-btn
+          color="#7631FF"
+          dark
+          class="text-capitalize font-weight-medium mx-3 mb-4"
+          width="150"
+          @click="saveChanges"
+        >save
+        </v-btn>
+      </v-card-actions>
     </v-card>
     <v-dialog v-model="delete_dialog" max-width="500">
       <v-card class="pa-4 text-center">
@@ -242,7 +244,8 @@
             color="#7631FF"
             dark
             width="163"
-          >create
+          >
+            create
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -254,7 +257,6 @@
     >
       <v-data-table
         :headers="headers"
-        :items="items"
         class="mt-4 rounded-lg"
         :items-per-page="10"
         :footer-props="{
@@ -321,6 +323,8 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   data() {
     return {
@@ -331,6 +335,14 @@ export default {
       edit_dialog: false,
       add_dialog: false,
       loading: false,
+      get_one_role:{
+        id: "",
+        createdAt: "",
+        description: "",
+        name: "",
+        status: "",
+        updatedAt: ""
+      },
       map_links: [
         {
           text: 'Home',
@@ -353,24 +365,32 @@ export default {
       ],
       headers: [
         {text: 'ID', align: 'start', sortable: false, value: 'id',},
-        {text: 'Permission name', align: 'start', sortable: false, value: 'permissionName',},
+        {text: 'Permission name', align: 'start', sortable: false, value: 'name',},
         {text: 'Description', align: 'start', sortable: false, value: 'description',},
-        {text: 'Create', align: 'start', sortable: false, value: 'create'},
-        {text: 'Read', align: 'start', sortable: false, value: 'read',},
-        {text: 'Update', align: 'start', sortable: false, value: 'update',},
+        {text: 'Create', align: 'start', sortable: false, value: 'createdAt'},
+        {text: 'Status', align: 'start', sortable: false, value: 'status',},
+        {text: 'Update', align: 'start', sortable: false, value: 'updatedAt',},
         {text: 'Delete', align: 'start', sortable: false, value: 'delete',},
-      ],
-      items: [
-        { text: 'Desert', value: 'permissionName'},
-        { text: 'Title', value: 'create'},
-        { text: 'Desert', value: 'update'}
       ],
       permissionSelect: ['Active', 'DontActive'],
     }
   },
+  created() {
+    const id = this.$route.params.id;
+    this.$store.dispatch('permission/getRoleIdentifier', id)
+    this.$store.commit('setPageTitle', 'Access control')
+    this.get_one_role = this.roleOne
+  },
+  computed:{
+    ...mapGetters({
+      roleOne: "permission/roleOne",
+    })
+  },
   methods: {
-    pickerOptions(){},
     save() {},
+    saveChanges(){
+
+    },
     edit_user(){
 
       if (this.disabled){
@@ -383,11 +403,6 @@ export default {
       }
     },
   },
-  mounted() {
-    const id = this.$route.params.id;
-    this.$store.dispatch('permission/getRoleIdentifier', id)
-    this.$store.commit('setPageTitle', 'Access control')
-  },
 }
 </script>
 
@@ -395,5 +410,4 @@ export default {
 tbody tr {
   cursor: pointer;
 }
-
 </style>

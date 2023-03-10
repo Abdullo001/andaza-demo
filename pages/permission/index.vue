@@ -5,7 +5,7 @@
       elevation="0"
       class="rounded-t-lg"
     >
-      <v-form lazy-validation v-model="valid_search" ref="search_form">
+      <v-form ref="search_form">
         <v-row class="mx-0 px-0 mb-2 mt-4 pa-4 w-full" justify="center">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
@@ -35,8 +35,8 @@
             <v-select
               label="Status"
               outlined
-              :items="operator"
-              v-model="filter_search.operator"
+              :items="statusEnums"
+              v-model="filter_search.status"
               class="rounded-lg"
               hide-details
               dense
@@ -103,6 +103,7 @@
       :options.sync="options"
       @update:items-per-page="getItemSize"
       @click:row="(item) => rowPush(item)"
+      :server-items-length="totalElement"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -132,7 +133,7 @@
       <template #item.status="{item}">
         <div>
           <v-select
-            @click.stop
+            @change="statusChange(item)"
             :items="statusEnums"
             v-model="item.status"
             hide-details
@@ -149,13 +150,13 @@
     <v-dialog v-model="new_dialog" max-width="600" ref="new_form">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
-          <div>Edit user</div>
+          <div>New Permission</div>
           <v-btn @click="new_dialog = !new_dialog" icon>
             <v-icon color="#7631FF">mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-card-text>
-          <v-form lazy-validation v-model="new_validate" ref="new_form">
+          <v-form>
             <v-row class="mt-4">
               <v-col cols="12">
                 <v-text-field
@@ -211,7 +212,8 @@
             dark
             width="163"
             @click="save"
-          >create
+          >
+            create
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -225,17 +227,40 @@
           </v-btn>
         </v-card-title>
         <v-card-text>
-          <v-form lazy-validation v-model="new_validate" ref="new_form">
+          <v-form>
             <v-row class="mt-4">
+              <v-col cols="12" md="6">
+                <v-text-field
+                  label="ID"
+                  filled
+                  dense
+                  disabled
+                  v-model="edit_permission.id"
+                  color="#7631FF"
+                  placeholder="Enter permission name"
+                  validate-on-blur
+                />
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-select
+                  label="Permission name"
+                  filled
+                  dense
+                  :items="statusEnums"
+                  v-model="edit_permission.status"
+                  color="#7631FF"
+                  placeholder="Enter permission name"
+                  validate-on-blur
+                />
+              </v-col>
               <v-col cols="12">
                 <v-text-field
                   label="Permission name"
                   filled
                   dense
-                  v-model="edit_permission.permissionName"
+                  v-model="edit_permission.name"
                   color="#7631FF"
                   placeholder="Enter permission name"
-                  :rules="[formRules.required]"
                   validate-on-blur
                 />
               </v-col>
@@ -248,7 +273,6 @@
                   v-model="edit_permission.description"
                   color="#7631FF"
                   placeholder="Enter permission description"
-                  :rules="[formRules.required]"
                   validate-on-blur
                 />
               </v-col>
@@ -260,7 +284,6 @@
                   v-model="edit_permission.path"
                   color="#7631FF"
                   placeholder="Enter permission path"
-                  :rules="[formRules.required]"
                   validate-on-blur
                 />
               </v-col>
@@ -282,7 +305,8 @@
             dark
             width="163"
             @click="updatePermission"
-          >create
+          >
+            create
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -331,44 +355,27 @@ export default {
   data() {
     return {
       delete_dialog: false,
-      valid_search: true,
-      new_validate: true,
       edit_dialog: false,
       new_dialog: false,
       headers: [
         {text: 'ID', align: 'start', sortable: false, value: 'id'},
-        {text: 'Permission name', value: 'permissionName'},
+        {text: 'Permission name', value: 'name'},
         {text: 'Description', value: 'description'},
         {text: 'Path', value: 'path'},
         {text: 'Status', value: 'status', width: '150'},
-        {text: 'Updated', value: 'updated', align: 'center'},
-        {text: 'Created', value: 'created', align: 'center'},
-        {text: 'Actions', value: 'actions', align: 'end', sortable: false},
-      ],
-      permissions: [
-        {
-          id: 1, permissionName: 'Create permission',
-          description: 'Simple permission text a..',
-          path: '/api/v1/permission/create', status: 'ACTIVE',
-          updated: '21.11.2022 17:09:08', created: '12.10.2022 17:09:08'
-        },
-        {
-          id: 2, permissionName: 'Create permission',
-          description: 'Simple permission text a..',
-          path: '/api/v1/permission/create', status: 'DISABLED',
-          updated: '21.11.2022 17:09:08', created: '12.10.2022 17:09:08'
-        },
+        {text: 'Updated', value: 'updatedAt', align: 'center'},
+        {text: 'Created', value: 'createdAt', align: 'center'},
+        {text: 'Actions', value: 'actions', width: '180', align: 'end', sortable: false},
       ],
       options: {},
       filter_search: {
         key: '',
-        operator: '',
+        status: '',
         property_type: '',
         value: '',
         value_to: '',
       },
       id: '',
-      operator: ['EQUAL', 'NOT_EQUAL', 'LIKE', 'IN', 'BETWEEN'],
       property_type: ['BOOLEAN', 'CHAR', 'DATE', 'DOUBLE', 'BIG_DECIMAL', 'INTEGER', 'LONG', 'STRING',],
       new_permissionData: {
         name: '',
@@ -378,19 +385,46 @@ export default {
       edit_permission: {
         description: "",
         id: '',
-        permissionName: "",
+        name: "",
         path: "",
         status: ""
       },
       itemPerPage: 10,
       current_page: 0,
       menu2: false,
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "Cегодня",
+            onClick(picker) {
+              picker.$emit("pick", new Date());
+            },
+          },
+          {
+            text: "Вчера",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit("pick", date);
+            },
+          },
+          {
+            text: "Неделя",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", date);
+            },
+          },
+        ],
+      },
     }
   },
   computed: {
     ...mapGetters({
       loading: "permission/loading",
-      // permissions: 'permission/permissions'
+      permissions: "permission/permissions",
+      totalElement: "permission/totalElement",
     })
   },
   methods: {
@@ -398,70 +432,65 @@ export default {
       getPermission: 'permission/getPermission',
       postPermission: 'permission/postPermission',
       filterData: 'permission/filterData',
+      putPermission: "permission/putPermission",
     }),
+    statusChange(item) {
+      console.log(item)
+    },
     // DELETE PERMISSION
     deleteData() {
-      this.deletePermission();
-    },
-    deletePermission() {
       console.log(this.id)
     },
     // UPDATE PERMISSION
-    updatePermission() {
-      console.log('click')
+    async updatePermission() {
+      await this.putPermission(this.edit_permission);
+      this.edit_dialog = false;
     },
-
     editItem(item) {
       this.edit_dialog = true;
-      this.edit_permission = {...item}
+      this.edit_permission = {...item};
     },
-
     getItemSize(val) {
       this.itemPerPage = val;
-      this.getPermission({page: this.current_page, size: this.itemPerPage})
+      this.$store.commit("permission/setLoading", true);
+      this.getPermission({page: this.current_page, size: this.itemPerPage});
     },
-
     rowPush(item) {
-      this.$router.push(`/permission/${item.id}`)
+      // this.$router.push(`/permission/${item.id}`);
     },
-
     resetSearch() {
       this.$refs.search_form.reset();
       this.filter_search.value = this.filter_search.value_to = '';
-      this.getPermission({page: this.current_page, size: this.itemPerPage})
+      this.getPermission({page: this.current_page, size: this.itemPerPage});
     },
-
-    pickerOptions() {
-    },
-
     // POST
     async save() {
-      const valid = this.$refs.new_form.validate();
-      if (valid) {
-        await this.postPermission(this.new_permissionData);
-        this.$refs.search_form.reset();
-        this.new_dialog = false;
+      const data = this.new_permissionData;
+      await this.postPermission(data);
+      this.new_dialog = false;
+      this.new_permissionData = {
+        name: '',
+        description: '',
+        path: ''
       }
     },
-
     filterPermission() {
       this.filterData({
         key: this.filter_search.key,
-        operator: this.filter_search.operator,
+        status: this.filter_search.status,
         value: this.filter_search.value,
         value_to: this.filter_search.value_to,
         property_type: this.filter_search.property_type
       })
     },
-
     getDeleteItem(item) {
       this.delete_dialog = true;
       this.id = item.id;
     },
   },
   mounted() {
-    this.$store.commit('setPageTitle', 'Permission')
-    this.$store.dispatch('permission/getPermission', {page: this.current_page, size: this.itemPerPage})
+    this.$store.commit('setPageTitle', 'Permission');
+    this.$store.dispatch('permission/getPermission', {page: this.current_page, size: this.itemPerPage});
   }
 }
 </script>
