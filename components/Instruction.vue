@@ -11,6 +11,7 @@
           v-for="item in items"
           :key="item"
           active-class="active-tab"
+          @click="getCurrentTab(item)"
         >
           {{ item }}
         </v-tab>
@@ -60,7 +61,7 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text class="pt-0">
-                <PackagingInstruct/>
+                <PaintingInstruct/>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -71,14 +72,30 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 export default {
   name: 'Instruction',
   data() {
     return {
-      items: ['General comments', 'Sewing instruct.', 'Sample instruct', 'Fabric instruct', 'Packaging instruct', 'Accessory instruct', 'Instruction', 'Painting instruct'],
+      items: ['General instruct', 'Sewing instruct', 'Sample instruct', 'Fabric instruct', 'Packaging instruct', 'Accessory instruct', 'Print instruct'],
       tab: null,
     }
   },
+  methods: {
+    ...mapActions({
+      createComments: 'instruction/createComments',
+      getComment: 'instruction/getComment',
+      updateComment: 'instruction/updateComment'
+    }),
+    getCurrentTab(val) {
+      val = val.replace(' instruct', '').toUpperCase();
+      const id = this.$route.params.id;
+      if(id !== 'add-model') {
+        this.getComment({modelId: id, type: val});
+      } this.$store.commit('instruction/setCommentText', {})
+    }
+  }
 }
 </script>
 

@@ -1,6 +1,16 @@
-export const state = () => ({});
-export const getters = {};
-export const mutations = {};
+export const state = () => ({
+  modelImages: []
+});
+export const getters = {
+  modelImages: state => {
+    return  state.modelImages?.slice(0, 4);
+  }
+};
+export const mutations = {
+  setModelImages(state, image) {
+    state.modelImages = image;
+  }
+};
 export const actions = {
   uploadImages({commit}, {data, modelId}) {
     const config = {
@@ -15,6 +25,14 @@ export const actions = {
         this.$toast.success(res.message)
       }).catch(({response}) => {
         this.$toast.error(response.data.message)
+    })
+  },
+  async getImages({commit}, modelId) {
+    await this.$axios.$get(`/api/v1/model-resources/list?modelId=${modelId}&fileType=PHOTO`)
+      .then(res => {
+        commit('setModelImages', res.data);
+      }).catch((response) => {
+      console.log(response);
     })
   }
 };
