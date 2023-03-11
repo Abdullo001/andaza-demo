@@ -3,7 +3,7 @@
     <Breadcrumbs :maps="map_links"/>
     <v-card elevation="0" class="mt-2 rounded-lg">
       <v-card-title>
-        <div>Add prefinance</div>
+        <div>{{ title }} prefinance</div>
         <v-spacer/>
         <div>
           <v-btn outlined class="text-capitalize rounded-lg border-grey">
@@ -320,6 +320,23 @@
                     <div class="text-h6">Documents</div>
                   </v-toolbar-title>
                 </v-toolbar>
+              </template>
+              <template #item.actions="{item}">
+                <v-tooltip top color="#7631FF">
+                  <template #activator="{on, attrs}">
+                    <v-btn
+                      icon class="ml-2"
+                      :href="item.filePath"
+                      :download="`Document.${item.extension}`"
+                      v-on="on"
+                      v-bind="attrs"
+                      @click.stop
+                    >
+                      <v-img src="/download.svg" max-width="24"/>
+                    </v-btn>
+                  </template>
+                  <span>Download</span>
+                </v-tooltip>
               </template>
             </v-data-table>
           </v-tab-item>
@@ -779,6 +796,10 @@ export default {
       modelImages: 'modelPhoto/modelImages',
       documentsList: 'documents/documentsList'
     }),
+    title() {
+      const id = this.$route.params.id;
+      return id === 'create' ? 'Add' : 'Edit';
+    }
   },
   watch: {
     documentsList(val) {

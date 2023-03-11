@@ -110,6 +110,20 @@
           />
         </div>
       </template>
+      <template #item.actions="{item}">
+        <v-tooltip top color="primary">
+          <template v-slot:activator="{on, attrs}">
+            <v-btn
+              icon color="primary"
+              v-on="on" v-bind="attrs"
+              @click="$router.push(`/prefinances/${item.id}`)"
+            >
+              <v-icon>mdi-chevron-right</v-icon>
+            </v-btn>
+          </template>
+          <span>Edit</span>
+        </v-tooltip>
+      </template>
     </v-data-table>
   </div>
 </template>
@@ -138,6 +152,7 @@ export default {
         {text: 'Price', value: 'primaryRate'},
         {text: 'Currency', value: 'primaryCurrency'},
         {text: 'Status', value: 'status', align: 'center', width: 200},
+        {text: 'Actions', value: 'actions'},
       ],
       preFinanceList: [],
       itemPerPage: 10,
