@@ -38,10 +38,7 @@ export const actions = {
   async getRoleIdentifier({commit}, id){
     await this.$axios.get(`/api/v1/role/get?roleId=${id}`)
       .then(res => {
-        console.log(res.data.data)
         commit("setOneIdData", res.data.data)
-        this.$toast.success(res.data.message)
-
       })
       .catch(({response}) => {
         console.log(response)
