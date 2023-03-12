@@ -9,10 +9,10 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
+              v-model.trim="filter_model.id"
               label="Id partner type"
               outlined
               class="rounded-lg"
-              v-model.trim="filters.financeNumber"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -20,10 +20,10 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
+              v-model.trim="filter_model.name"
               label="Name partner type"
               outlined
               class="rounded-lg"
-              v-model.trim="filters.modelId"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -33,7 +33,7 @@
             cols="12" lg="2" md="2" style="max-width: 240px;"
           >
             <el-date-picker
-              v-model="search.start_time"
+              v-model.trim="filter_model.createdAt"
               type="datetime"
               placeholder="Created"
               :picker-options="pickerOptions"
@@ -45,7 +45,7 @@
             cols="12" lg="2" md="2"
           >
             <el-date-picker
-              v-model="search.end_time"
+              v-model.trim="filter_model.updatedAt"
               type="datetime"
               placeholder="Updated"
               :picker-options="pickerOptions"
@@ -78,13 +78,18 @@
       </v-form>
     </v-card>
     <v-data-table
+      class="mt-4 rounded-lg"
       :headers="headers"
-      :items="items"
-      :items-per-page="10"
+      :items="modelData"
+      :loading="loading"
+      :options.sync="options"
+      :server-items-length="modelTotalElements"
+      :items-per-page="itemPrePage"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100]
       }"
-      class="mt-4 rounded-lg"
+      @update:items-per-page="size"
+      @update:page="page"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -98,11 +103,8 @@
         </v-toolbar>
         <v-divider/>
       </template>
-      <template #item.checkbox="{ item }">
-          <v-checkbox/>
-      </template>
       <template #item.actions="{item}">
-        <div class="d-flex justify-end">
+        <div class="d-flex justify-center">
           <v-btn icon color="green" @click.stop="editItem(item)">
             <v-icon size="20">mdi-square-edit-outline</v-icon>
           </v-btn>
@@ -121,18 +123,22 @@
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
-          <v-form  ref="new_form">
+          <v-form ref="new_form">
             <v-text-field
+              v-model="create_model.name"
               filled
               label="Model group"
               placeholder="Enter model group"
               dense
+              color="#7631FF"
             />
             <v-textarea
+              v-model="create_model.description"
               filled
               label="Description"
               placeholder="Enter partner type description"
               dense
+              color="#7631FF"
             />
           </v-form>
         </v-card-text>
@@ -149,6 +155,7 @@
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF" dark
             width="163"
+            @click="save"
           >
             create
           </v-btn>
@@ -164,18 +171,22 @@
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
-          <v-form  ref="new_form">
+          <v-form ref="new_form">
             <v-text-field
+              v-model="edit_model.name"
               filled
               label="Model group"
               placeholder="Enter model group"
               dense
+              color="#7631FF"
             />
             <v-textarea
+              v-model="edit_model.description"
               filled
               label="Description"
               placeholder="Enter model group description"
               dense
+              color="#7631FF"
             />
           </v-form>
         </v-card-text>
@@ -192,6 +203,7 @@
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF" dark
             width="163"
+            @click="update"
           >
             create
           </v-btn>
@@ -224,6 +236,7 @@
             width="140"
             elevation="0"
             dark
+            @click="deleteModel"
           >
             delete
           </v-btn>
@@ -234,28 +247,42 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
-  data(){
-    return{
+  data() {
+    return {
       edit_dialog: false,
       delete_dialog: false,
       new_dialog: false,
-      search: {},
-      filters:{},
       valid_search: true,
+      itemPrePage: 10,
+      current_page: 0,
       headers: [
-        {text: "", value: "checkbox", align: "start", sortable: false, width: "50"},
         {text: "Id", value: "id", sortable: false},
-        {text: "Model group", value: "modelGroup",},
-        {text: "Created", value: "created",},
-        {text: "Created by", value: "createdBy",},
-        {text: "Updated", value: "updated",},
-        {text: "Updated By", value: "updatedBy",},
-        {text: "Actions", value: "actions", align: "end", sortable: false},
+        {text: "Name", value: "name"},
+        {text: "Description", value: "description",},
+        {text: "Updated At", value: "updatedAt",},
+        {text: "Created At", value: "createdAt",},
+        {text: "Actions", value: "actions", align: "center", sortable: false},
       ],
-      items: [
-        {id: 1, name: "valijon", description: "description", created: "created", updated: "updated"}
-      ],
+      create_model: {
+        name: "",
+        description: "",
+      },
+      edit_model: {
+        name: "",
+        description: "",
+      },
+      delete_model: {},
+      filter_model: {
+        description: "",
+        createdAt: "",
+        updatedAt: "",
+        name: "",
+        id: ""
+      },
+      options: {},
       pickerOptions: {
         shortcuts: [
           {
@@ -284,18 +311,95 @@ export default {
       },
     }
   },
-  methods:{
-    getDeleteItem(item){
-      this.delete_dialog = true
+  watch: {
+    async "options.sortBy"(elem) {
+      if (elem[0] !== undefined) {
+        if (this.options.sortDesc[0] !== undefined) {
+          const items = {
+            sortDesc: this.options.sortDesc[0],
+            sortBy: elem[0]
+          }
+          await this.sortModelData({page: this.current_page, size: this.itemPrePage, data: items})
+        }
+      }
+    }
+  },
+  async created() {
+    await this.$store.dispatch("model/getAllModelData", {})
+  },
+  computed: {
+    ...mapGetters({
+      loading: "model/loading",
+      modelData: "model/modelData",
+      modelTotalElements: "model/modelTotalElements",
+    }),
+  },
+  methods: {
+    ...mapActions({
+      getAllModelData: "model/getAllModelData",
+      createModelData: "model/createModelData",
+      updateModelData: "model/updateModelData",
+      deleteModelData: "model/deleteModelData",
+      filterModelData: "model/filterModelData",
+      sortModelData: "model/sortModelData",
+    }),
+    async deleteModel() {
+      const id = this.delete_model.id;
+      await this.deleteModelData(id);
+      this.delete_dialog = false;
     },
-    editItem(item){
-      this.edit_dialog = true
+    async update() {
+      const items = {...this.edit_model};
+      await this.updateModelData(items);
+      this.edit_dialog = false;
     },
-    resetFilters(){},
-    filterData(){},
+    async save() {
+      const data = {...this.create_model}
+      await this.createModelData(data);
+      this.new_dialog = false,
+        this.create_model = {
+          name: "",
+          description: "",
+        }
+    },
+    async page(value) {
+      this.current_page = value - 1;
+      await this.getAllModelData({page: this.current_page, size: this.itemPrePage});
+    },
+    async size(value) {
+      this.itemPrePage = value;
+      await this.getAllModelData({page: this.current_page, size: this.itemPrePage});
+    },
+    getDeleteItem(item) {
+      this.delete_model = {...item};
+      this.delete_dialog = true;
+    },
+    editItem(item) {
+      delete item.createdAt;
+      delete item.updatedAt;
+      this.edit_model = {...item};
+      this.edit_dialog = true;
+    },
+    async resetFilters() {
+      await this.getAllModelData({page: 0, size: 10})
+      this.filter_model = {
+        description: "",
+        createdAt: "",
+        updatedAt: "",
+        name: "",
+        id: ""
+      }
+    },
+    async filterData() {
+      await this.filterModelData(this.filter_model)
+    },
   },
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.el-input__inner::placeholder,
+.el-input__icon, .el-icon-time {
+  color: #919191 !important;
+}
 </style>
