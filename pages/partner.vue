@@ -12,7 +12,7 @@
               label="Id partner type"
               outlined
               class="rounded-lg"
-              v-model.trim="filters.financeNumber"
+              v-model.trim="filter_partner.id"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -23,7 +23,7 @@
               label="Name partner type"
               outlined
               class="rounded-lg"
-              v-model.trim="filters.modelId"
+              v-model.trim="filter_partner.name"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -33,11 +33,11 @@
             cols="12" lg="2" md="2" style="max-width: 240px;"
           >
             <el-date-picker
-              v-model="search.start_time"
+              v-model="filter_partner.createdAt"
               type="datetime"
               placeholder="Created"
               :picker-options="pickerOptions"
-              format="dd.MM.yyyy HH:mm:ss"
+              value-format="dd.MM.yyyy HH:mm:ss"
             >
             </el-date-picker>
           </v-col>
@@ -45,7 +45,7 @@
             cols="12" lg="2" md="2"
           >
             <el-date-picker
-              v-model="search.end_time"
+              v-model="filter_partner.updatedAt"
               type="datetime"
               placeholder="Updated"
               :picker-options="pickerOptions"
@@ -79,12 +79,16 @@
     </v-card>
     <v-data-table
       :headers="headers"
-      :items="items"
-      :items-per-page="10"
+      :items="partnerType"
+      :items-per-page="itemPrePage"
+      :options.sync="options"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100]
       }"
       class="mt-4 rounded-lg"
+      @update:items-per-page="size"
+      :server-items-length="partnerTotalElements"
+      @update:page="page"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -97,13 +101,6 @@
           </v-toolbar-title>
         </v-toolbar>
         <v-divider/>
-      </template>
-      <template #item.id="{ item }">
-          <div class="d-flex justify-space-between align-center">
-            <v-checkbox
-            />
-            {{ item.id }}
-          </div>
       </template>
       <template #item.actions="{item}">
         <div class="d-flex justify-end">
@@ -125,15 +122,17 @@
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
-          <v-form  ref="new_form">
+          <v-form ref="new_form">
             <v-text-field
               filled
-              label="partner type"
-              placeholder="enter partner type"
+              v-model="create_partner.name"
+              label="Partner type"
+              placeholder="Enter partner type"
               dense
             />
             <v-textarea
               filled
+              v-model="create_partner.description"
               label="Description"
               placeholder="Enter partner type description"
               dense
@@ -151,8 +150,10 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#7631FF"
+            dark
             width="163"
+            @click="save"
           >
             create
           </v-btn>
@@ -162,21 +163,23 @@
     <v-dialog v-model="edit_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">add partner type</div>
+          <div class="text-capitalize font-weight-bold">edit partner type</div>
           <v-btn icon color="#7631FF" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
-          <v-form  ref="new_form">
+          <v-form ref="new_form">
             <v-text-field
               filled
-              label="partner type"
-              placeholder="enter partner type"
+              v-model="edit_partner.name"
+              label="Partner type"
+              placeholder="Enter partner type"
               dense
             />
             <v-textarea
               filled
+              v-model="edit_partner.description"
               label="Description"
               placeholder="Enter partner type description"
               dense
@@ -196,6 +199,7 @@
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF" dark
             width="163"
+            @click="editPartnerType"
           >
             create
           </v-btn>
@@ -228,6 +232,7 @@
             width="140"
             elevation="0"
             dark
+            @click="deletePartner"
           >
             delete
           </v-btn>
@@ -238,26 +243,44 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
-  data(){
-    return{
+  data() {
+    return {
+      sortBy: "",
+      sortDesc: "",
       edit_dialog: false,
       delete_dialog: false,
       new_dialog: false,
-      search: {},
-      filters:{},
       valid_search: true,
       headers: [
         {text: "Id", value: "id", align: "start", sortable: false, width: "100"},
         {text: "Name", value: "name",},
         {text: "Description", value: "description",},
-        {text: "Created", value: "created",},
-        {text: "Updated", value: "updated",},
+        {text: "Created At", value: "createdAt",},
+        {text: "Updated At", value: "updatedAt",},
         {text: "Actions", value: "actions", align: "end", sortable: false},
       ],
-      items: [
-        {id: 1, name: "valijon", description: "description", created: "created", updated: "updated"}
-      ],
+      itemPrePage: 20,
+      current_page: 0,
+      create_partner: {
+        name: "",
+        description: "",
+      },
+      edit_partner: {
+        name: "",
+        description: ""
+      },
+      options: {},
+      filter_partner: {
+        description: "",
+        createdAt: "",
+        updatedAt: "",
+        name: "",
+        id: ""
+      },
+      delete_partner: {},
       pickerOptions: {
         shortcuts: [
           {
@@ -286,18 +309,90 @@ export default {
       },
     }
   },
-  methods:{
-    getDeleteItem(item){
+  watch: {
+    async "options.sortBy"(elem) {
+      if  (elem[0] !== undefined){
+        if (this.options.sortDesc[0] !== undefined) {
+          const items = {
+            sortDesc: this.options.sortDesc[0],
+            sortBy: elem[0]
+          }
+          await this.sortPartnerType({page: this.current_page, size: this.itemPrePage, data: items})
+        }
+      }
+    }
+  },
+  async created() {
+    await this.$store.dispatch("partner-type/getPartnerType", {page: this.current_page, size: this.itemPrePage});
+  },
+  computed: {
+    ...mapGetters({
+      partnerType: "partner-type/partnerType",
+      partnerTotalElements: "partner-type/partnerTotalElements",
+    })
+  },
+  methods: {
+    ...mapActions({
+      getPartnerType: 'partner-type/getPartnerType',
+      createPartnerType: "partner-type/createPartnerType",
+      deletePartnerType: "partner-type/deletePartnerType",
+      updatePartnerType: "partner-type/updatePartnerType",
+      filterPartnerType: "partner-type/filterPartnerType",
+      sortPartnerType: "partner-type/sortPartnerType",
+    }),
+    async page(value) {
+      this.current_page = value
+      await this.getPartnerType({page: 0, size: this.current_page})
+    },
+    async size(value) {
+      this.itemPrePage = value
+      await this.getPartnerType({page: this.current_page, size: this.itemPrePage})
+    },
+    async save() {
+      await this.createPartnerType({page: this.current_page, size: this.itemPrePage, data: this.create_partner});
+      this.create_partner = {
+        name: "",
+        description: ""
+      };
+      this.new_dialog = false;
+    },
+    getDeleteItem(item) {
+      this.delete_partner = {...item};
       this.delete_dialog = true
     },
-    editItem(item){
+    async deletePartner() {
+      const id = this.delete_partner.id
+      await this.deletePartnerType({id: id, page: this.current_page, size: this.itemPrePage});
+      this.delete_dialog = false;
+    },
+    async editPartnerType() {
+      await this.updatePartnerType({page: this.current_page, size: this.itemPrePage, data: this.edit_partner});
+      this.edit_dialog = false
+    },
+    editItem(item) {
+      this.edit_partner = {...item}
       this.edit_dialog = true
     },
-    resetFilters(){},
-    filterData(){},
+    async resetFilters() {
+      await this.$store.dispatch("partner-type/getPartnerType", {page: 0, size: 10});
+      this.filter_partner = {
+        description: "",
+        createdAt: "",
+        updatedAt: "",
+        name: "",
+        id: ""
+      }
+    },
+    async filterData() {
+      await this.filterPartnerType(this.filter_partner)
+    },
   },
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.el-input__inner::placeholder,
+.el-input__icon, .el-icon-time {
+  color: #919191 !important;
+}
 </style>
