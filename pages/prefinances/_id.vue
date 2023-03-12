@@ -181,7 +181,7 @@
               </v-col>
               <v-col cols="12" lg="6" class="pt-0 pr-0">
                 <v-text-field
-                  v-model="addPreFinances.createdTime"
+                  v-model="addPreFinances.createdAt"
                   filled
                   class="rounded-lg"
                   color="#7631FF"
@@ -209,7 +209,7 @@
               </v-col>
               <v-col cols="12" lg="6" class="pt-0 pr-0">
                 <v-text-field
-                  v-model="addPreFinances.updatedTime"
+                  v-model="addPreFinances.updatedAt"
                   filled
                   class="rounded-lg"
                   color="#7631FF"
@@ -603,9 +603,9 @@ export default {
         secondaryCurrency: '',
         description: '',
         owner: '',
-        createdTime: '',
+        createdAt: '',
         modifiedPerson: '',
-        updatedTime: '',
+        updatedAt: '',
       },
       headers: [
         {text: 'Name', value: 'name', align: 'start', sortable: false},
@@ -794,7 +794,8 @@ export default {
       detailsList: 'preFinance/detailsList',
       totalPrice: 'preFinance/totalPrice',
       modelImages: 'modelPhoto/modelImages',
-      documentsList: 'documents/documentsList'
+      documentsList: 'documents/documentsList',
+      onePreFinance: 'preFinance/onePreFinance'
     }),
     title() {
       const id = this.$route.params.id;
@@ -802,6 +803,13 @@ export default {
     }
   },
   watch: {
+    onePreFinance(val) {
+      const data = JSON.parse(JSON.stringify(val));
+      this.addPreFinances = data;
+      this.addPreFinances.modelNames = data.modelName;
+      this.$store.commit('preFinance/setPreFinanceId', data.id);
+      this.addPreFinances.owner = data.createdBy
+    },
     documentsList(val) {
       this.allDocuments = [...val]
     },
@@ -913,7 +921,8 @@ export default {
       createDetails: 'preFinance/createDetails',
       getAllDetails: 'preFinance/getAllDetails',
       getImages: 'modelPhoto/getImages',
-      getDocuments: 'documents/getDocuments'
+      getDocuments: 'documents/getDocuments',
+      getOnePreFinance: 'preFinance/getOnePreFinance'
     }),
     saveCalculation() {
       const calcVal = this.calculation.filter(el => el.status === false || el.usd_disabled === false);
@@ -944,17 +953,19 @@ export default {
     async createNewPreFinance() {
       await this.createPreFinance(this.addPreFinances);
     },
-
-    deleteRow(item, index) {
-    }
+    deleteRow(item, index) {}
   },
-  mounted() {
-    this.getExpenseGroup();
-    this.getMeasurementUnit();
+  async mounted() {
+    await this.getExpenseGroup();
+    await this.getMeasurementUnit();
+    const param = this.$route.params.id;
+    if(param !== 'create') {
+      await this.getOnePreFinance(param);
+      await this.getImages(param);
+      await this.getDocuments({modelId: param});
+    }
   }
 }
 </script>
 
-<style lang="scss" src="assets/abstracts/_prefinances.scss" scoped>
-
-</style>
+<style lang="scss" src="assets/abstracts/_prefinances.scss" scoped />

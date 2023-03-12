@@ -1,4 +1,3 @@
-
 export const state = () => ({
   preFinances: [],
   modelName: [],
@@ -7,7 +6,8 @@ export const state = () => ({
   expenseList: [],
   measurementUnit: [],
   detailsList: [{totalPrice: 0}],
-  loading: true
+  loading: true,
+  onePreFinance: {}
 })
 export const getters = {
   preFinancesContent: state => state.preFinances.content,
@@ -20,7 +20,8 @@ export const getters = {
   detailsList: state => state.detailsList,
   totalPrice: state => state.detailsList[0].totalPrice,
   loading: state => state.loading,
-  totalElements: state => state.preFinances.totalElements
+  totalElements: state => state.preFinances.totalElements,
+  onePreFinance: state => state.onePreFinance
 }
 export const mutations = {
   setRefinances(state, item) {
@@ -42,14 +43,17 @@ export const mutations = {
     state.measurementUnit = item;
   },
   setDetailsList(state, detail) {
-    state.detailsList = detail
+    state.detailsList = detail;
   },
   changeLoading(state, status) {
-    state.loading = status
+    state.loading = status;
   },
+  setOnePreFinance(state, item) {
+    state.onePreFinance = item;
+  }
 }
 export const actions = {
-  getPreFinancesList({commit}, {size, page, preFinanceNumber, modelNumber='', partner=''}) {
+  getPreFinancesList({commit}, {size, page, preFinanceNumber, modelNumber = '', partner = ''}) {
     const body = {
       filters: [
         {
@@ -68,9 +72,9 @@ export const actions = {
     body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
     this.$axios.$put(`/api/v1/pre-finances/list?modelNumber=${modelNumber}&partner=${partner}`, body)
       .then(res => {
-        if(res.message === 'Successfully') {
-        commit('changeLoading', false)
-        commit('setRefinances', res.data)
+        if (res.message === 'Successfully') {
+          commit('changeLoading', false)
+          commit('setRefinances', res.data)
 
         }
       })
@@ -202,5 +206,12 @@ export const actions = {
       .catch(({response}) => {
         console.log(response);
       })
+  },
+  async getOnePreFinance({commit}, id) {
+    await this.$axios.$get(`/api/v1/pre-finances/get?id=${id}`)
+      .then(res => {
+        console.log(res);
+        commit('setOnePreFinance', res.data)
+      }).catch(({response}) => console.log(response));
   }
 }

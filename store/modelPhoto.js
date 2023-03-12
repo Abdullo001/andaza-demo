@@ -27,8 +27,8 @@ export const actions = {
         this.$toast.error(response.data.message)
     })
   },
-  async getImages({commit}, modelId) {
-    await this.$axios.$get(`/api/v1/model-resources/list?modelId=${modelId}&fileType=PHOTO`)
+  async getImages({commit}, id) {
+    await this.$axios.$get(`/api/v1/model-resources/list?modelId=${id}&fileType=PHOTO`)
       .then(res => {
         commit('setModelImages', res.data);
       }).catch((response) => {
