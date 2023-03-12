@@ -5,14 +5,14 @@
       elevation="0"
       class="rounded-t-lg"
     >
-      <v-form lazy-validation v-model="valid_search" ref="filter_form">
+      <v-form>
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
+              v-model="filters.id"
               label="Id Measurement unit"
               outlined
               class="rounded-lg"
-              v-model.trim="filters.financeNumber"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -20,10 +20,10 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
+              v-model="filters.name"
               label="Name"
               outlined
               class="rounded-lg"
-              v-model.trim="filters.modelId"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -33,7 +33,7 @@
             cols="12" lg="2" md="2" style="max-width: 240px;"
           >
             <el-date-picker
-              v-model="search.start_time"
+              v-model="filters.createdAt"
               type="datetime"
               placeholder="Created"
               :picker-options="pickerOptions"
@@ -45,7 +45,7 @@
             cols="12" lg="2" md="2"
           >
             <el-date-picker
-              v-model="search.end_time"
+              v-model="filters.updatedAt"
               type="datetime"
               placeholder="Updated"
               :picker-options="pickerOptions"
@@ -79,8 +79,10 @@
     </v-card>
     <v-data-table
       :headers="headers"
-      :items="items"
-      :items-per-page="10"
+      :items="measurementUnit"
+      :items-per-page="itemPrePage"
+      :server-items-length="totalElements"
+      :loading="loading"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100]
       }"
@@ -97,9 +99,6 @@
           </v-toolbar-title>
         </v-toolbar>
         <v-divider/>
-      </template>
-      <template #item.checkbox="{ item }">
-        <v-checkbox/>
       </template>
       <template #item.actions="{item}">
         <div class="d-flex justify-end">
@@ -123,16 +122,20 @@
         <v-card-text class="mt-4">
           <v-form  ref="new_form">
             <v-text-field
+              v-model="create_measurement.name"
               filled
               label="Name"
               placeholder="Enter name measurement unit"
               dense
+              color="#7631FF"
             />
             <v-textarea
+              v-model="create_measurement.description"
               filled
               label="Description"
               placeholder="Enter measurement unit description"
               dense
+              color="#7631FF"
             />
           </v-form>
         </v-card-text>
@@ -149,6 +152,7 @@
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF" dark
             width="163"
+            @click="save"
           >
             create
           </v-btn>
@@ -166,16 +170,20 @@
         <v-card-text class="mt-4">
           <v-form  ref="new_form">
             <v-text-field
+              v-model="edit_measurement.name"
               filled
               label="Name"
               placeholder="Enter name measurement unit"
               dense
+              color="#7631FF"
             />
             <v-textarea
+              v-model="edit_measurement.description"
               filled
               label="Description"
               placeholder="Enter measurement unit description"
               dense
+              color="#7631FF"
             />
           </v-form>
         </v-card-text>
@@ -192,6 +200,7 @@
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF" dark
             width="163"
+            @click="update"
           >
             create
           </v-btn>
@@ -234,6 +243,8 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   name: "MeasurementUnitPages",
   data(){
@@ -241,21 +252,32 @@ export default {
       edit_dialog: false,
       delete_dialog: false,
       new_dialog: false,
-      search: {},
-      filters:{},
-      valid_search: true,
+      itemPrePage: 10,
+      current_page: 0,
+      options: {},
       headers: [
-        {text: "", value: "checkbox", align: "start", sortable: false, width: "50"},
         {text: "Id", value: "id", sortable: false},
         {text: "Name", value: "name",},
         {text: "Description", value: "description",},
-        {text: "Created", value: "created",},
-        {text: "Updated", value: "updated",},
-        {text: "Actions", value: "actions", align: "end", sortable: false},
+        {text: "Created At", value: "createdAt",},
+        {text: "Updated At", value: "updatedAt",},
+        {text: "Actions", value: "actions", align: "center", sortable: false},
       ],
-      items: [
-        {id: 1, name: "valijon", description: "description", created: "created", updated: "updated"}
-      ],
+      create_measurement: {
+        name: "",
+        description: "",
+      },
+      edit_measurement: {
+        name: "",
+        description: "",
+      },
+      delete_measurement: {},
+      filters: {
+        id: "",
+        name: "",
+        updatedAt: "",
+        createdAt: "",
+      },
       pickerOptions: {
         shortcuts: [
           {
@@ -284,18 +306,90 @@ export default {
       },
     }
   },
-  methods:{
-    getDeleteItem(item){
-      this.delete_dialog = true
-    },
-    editItem(item){
-      this.edit_dialog = true
-    },
-    resetFilters(){},
-    filterData(){},
+  watch: {
+    async "options.sortBy"(elem) {
+      if (elem[0] !== undefined) {
+        if (this.options.sortDesc[0] !== undefined) {
+          const items = {
+            sortDesc: this.options.sortDesc[0],
+            sortBy: elem[0]
+          }
+          await this.sortMeasurementUnit({page: this.current_page, size: this.itemPrePage, data: items})
+        }
+      }
+    }
   },
+  async created() {
+    await this.$store.dispatch("measurement/getMeasurementUnit", {page: 0, size: 10})
+  },
+  computed: {
+    ...mapGetters({
+      loading: "measurement/loading",
+      measurementUnit: "measurement/measurementUnit",
+      totalElements: "measurement/totalElements",
+    })
+  },
+  methods: {
+    ...mapActions({
+      getMeasurementUnit: "measurement/getMeasurementUnit",
+      createMeasurementUnit: "measurement/createMeasurementUnit",
+      updateMeasurementUnit: "measurement/updateMeasurementUnit",
+      deleteMeasurementUnit: "measurement/deleteMeasurementUnit",
+      filterMeasurementUnit: "measurement/filterMeasurementUnit",
+      sortMeasurementUnit: "measurement/sortMeasurementUnit",
+    }),
+    async deleteSample() {
+      const id = this.delete_measurement.id;
+      await this.deleteMeasurementUnit(id);
+      this.delete_dialog = false;
+    },
+    async save() {
+      const items = {...this.create_measurement};
+      await this.createMeasurementUnit(items);
+      this.create_measurement = {
+        name: "",
+        description: "",
+      };
+      this.new_dialog = false;
+    },
+    async update() {
+      const items = {...this.edit_measurement};
+      await this.updateMeasurementUnit(items);
+      this.edit_dialog = false;
+    },
+    async getDeleteItem(item) {
+      this.delete_measurement = {...item};
+      this.delete_dialog = true;
+    },
+    editItem(item) {
+      delete item.createdAt;
+      delete item.updatedAt;
+      this.edit_measurement = {...item};
+      this.edit_dialog = true;
+    },
+    async resetFilters() {
+      this.filters = {
+        id: "",
+        name: "",
+        updatedAt: "",
+        createdAt: "",
+      };
+      await this.getMeasurementUnit({page: 0, size: 10});
+    },
+    async filterData() {
+      const items = {...this.filters};
+      await this.filterMeasurementUnit(items);
+    },
+  },
+  mounted() {
+    this.$store.commit('setPageTitle', 'Catalogs');
+  }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.el-input__inner::placeholder,
+.el-input__icon, .el-icon-time {
+  color: #919191 !important;
+}
 </style>
