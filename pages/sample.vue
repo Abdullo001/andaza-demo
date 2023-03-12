@@ -5,14 +5,14 @@
       elevation="0"
       class="rounded-t-lg"
     >
-      <v-form lazy-validation v-model="valid_search" ref="filter_form">
+      <v-form>
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
+              v-model.trim="filters.id"
               label="Id sample purposes"
               outlined
               class="rounded-lg"
-              v-model.trim="filters.financeNumber"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -20,10 +20,10 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
+              v-model.trim="filters.name"
               label="Name"
               outlined
               class="rounded-lg"
-              v-model.trim="filters.modelId"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -33,7 +33,7 @@
             cols="12" lg="2" md="2" style="max-width: 240px;"
           >
             <el-date-picker
-              v-model="search.start_time"
+              v-model="filters.createdAt"
               type="datetime"
               placeholder="Created"
               :picker-options="pickerOptions"
@@ -45,7 +45,7 @@
             cols="12" lg="2" md="2"
           >
             <el-date-picker
-              v-model="search.end_time"
+              v-model="filters.updatedAt"
               type="datetime"
               placeholder="Updated"
               :picker-options="pickerOptions"
@@ -79,8 +79,11 @@
     </v-card>
     <v-data-table
       :headers="headers"
-      :items="items"
-      :items-per-page="10"
+      :items="sampleData"
+      :loading="loading"
+      :options.sync="options"
+      :items-per-page="itemPrePage"
+      :server-items-length="sampleTotalElements"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100]
       }"
@@ -98,11 +101,8 @@
         </v-toolbar>
         <v-divider/>
       </template>
-      <template #item.checkbox="{ item }">
-        <v-checkbox/>
-      </template>
       <template #item.actions="{item}">
-        <div class="d-flex justify-end">
+        <div class="d-flex justify-center">
           <v-btn icon color="green" @click.stop="editItem(item)">
             <v-icon size="20">mdi-square-edit-outline</v-icon>
           </v-btn>
@@ -121,18 +121,22 @@
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
-          <v-form  ref="new_form">
+          <v-form ref="new_form">
             <v-text-field
+              v-model="create_sample.name"
               filled
               label="Name"
               placeholder="Enter name sample purpose"
               dense
+              color="#7631FF"
             />
             <v-textarea
+              v-model="create_sample.description"
               filled
               label="Description"
               placeholder="Enter sample purpose description"
               dense
+              color="#7631FF"
             />
           </v-form>
         </v-card-text>
@@ -149,6 +153,7 @@
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF" dark
             width="163"
+            @click="save"
           >
             create
           </v-btn>
@@ -164,18 +169,22 @@
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
-          <v-form  ref="new_form">
+          <v-form ref="new_form">
             <v-text-field
+              v-model="edit_sample.name"
               filled
               label="Sample purpose"
               placeholder="Enter sample purpose"
               dense
+              color="#7631FF"
             />
             <v-textarea
+              v-model="edit_sample.description"
               filled
               label="Description"
               placeholder="Enter sample purpose description"
               dense
+              color="#7631FF"
             />
           </v-form>
         </v-card-text>
@@ -192,6 +201,7 @@
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF" dark
             width="163"
+            @click="update"
           >
             create
           </v-btn>
@@ -224,6 +234,7 @@
             width="140"
             elevation="0"
             dark
+            @click="deleteSample"
           >
             delete
           </v-btn>
@@ -234,28 +245,41 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   name: "SamplePurposesPages",
-  data(){
-    return{
+  data() {
+    return {
       edit_dialog: false,
       delete_dialog: false,
       new_dialog: false,
-      search: {},
-      filters:{},
-      valid_search: true,
+      itemPrePage: 10,
+      current_page: 0,
+      options: {},
       headers: [
-        {text: "", value: "checkbox", align: "start", sortable: false, width: "50"},
         {text: "Id", value: "id", sortable: false},
         {text: "Name", value: "name",},
         {text: "Description", value: "description",},
-        {text: "Created", value: "created",},
-        {text: "Updated", value: "updated",},
-        {text: "Actions", value: "actions", align: "end", sortable: false},
+        {text: "Created At", value: "createdAt",},
+        {text: "Updated At", value: "updatedAt",},
+        {text: "Actions", value: "actions", align: "center", sortable: false},
       ],
-      items: [
-        {id: 1, name: "valijon", description: "description", created: "created", updated: "updated"}
-      ],
+      create_sample: {
+        name: "",
+        description: "",
+      },
+      edit_sample: {
+        name: "",
+        description: "",
+      },
+      delete_sample: {},
+      filters: {
+        id: "",
+        name: "",
+        updatedAt: "",
+        createdAt: "",
+      },
       pickerOptions: {
         shortcuts: [
           {
@@ -284,18 +308,90 @@ export default {
       },
     }
   },
-  methods:{
-    getDeleteItem(item){
-      this.delete_dialog = true
-    },
-    editItem(item){
-      this.edit_dialog = true
-    },
-    resetFilters(){},
-    filterData(){},
+  watch: {
+    async "options.sortBy"(elem) {
+      if (elem[0] !== undefined) {
+        if (this.options.sortDesc[0] !== undefined) {
+          const items = {
+            sortDesc: this.options.sortDesc[0],
+            sortBy: elem[0]
+          }
+          await this.sortSampleData({page: this.current_page, size: this.itemPrePage, data: items})
+        }
+      }
+    }
   },
+  async created() {
+    await this.$store.dispatch("sample/getSampleData", {page: 0, size: 10})
+  },
+  computed: {
+    ...mapGetters({
+      loading: "sample/loading",
+      sampleData: "sample/sampleData",
+      sampleTotalElements: "sample/sampleTotalElements",
+    })
+  },
+  methods: {
+    ...mapActions({
+      getSampleData: "sample/getSampleData",
+      createSampleData: "sample/createSampleData",
+      updateSampleData: "sample/updateSampleData",
+      deleteSampleData: "sample/deleteSampleData",
+      filterSampleData: "sample/filterSampleData",
+      sortSampleData: "sample/sortSampleData",
+    }),
+    async deleteSample() {
+      const id = this.delete_sample.id;
+      await this.deleteSampleData(id);
+      this.delete_dialog = false;
+    },
+    async save() {
+      const items = {...this.create_sample};
+      await this.createSampleData(items);
+      this.create_sample = {
+        name: "",
+        description: "",
+      };
+      this.new_dialog = false;
+    },
+    async update() {
+      const items = {...this.edit_sample};
+      await this.updateSampleData(items);
+      this.edit_dialog = false;
+    },
+    async getDeleteItem(item) {
+      this.delete_sample = {...item};
+      this.delete_dialog = true;
+    },
+    editItem(item) {
+      delete item.createdAt;
+      delete item.updatedAt;
+      this.edit_sample = {...item};
+      this.edit_dialog = true;
+    },
+    async resetFilters() {
+      this.filters = {
+        id: "",
+        name: "",
+        updatedAt: "",
+        createdAt: "",
+      };
+      await this.getSampleData({page: 0, size: 10});
+    },
+    async filterData() {
+      const items = {...this.filters};
+      await this.filterSampleData(items);
+    },
+  },
+  mounted() {
+    this.$store.commit('setPageTitle', 'Catalogs');
+  }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.el-input__inner::placeholder,
+.el-input__icon, .el-icon-time {
+  color: #919191 !important;
+}
 </style>

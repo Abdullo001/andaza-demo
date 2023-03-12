@@ -86,12 +86,7 @@ export default {
       } else await this.createComments(data)
     },
   },
-  mounted() {
-    const id = this.$route.params.id;
-    if(id !== 'add-model') {
-      this.getComment({modelId: id, type: 'SEWING'});
-    } this.$store.commit('instruction/setCommentText', {})
-  }
+
 }
 </script>
 

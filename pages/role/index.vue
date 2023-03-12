@@ -5,7 +5,7 @@
       elevation="0"
       class="rounded-t-lg"
     >
-      <v-form lazy-validation v-model="valid_search" ref="filter_form">
+      <v-form ref="filter_form">
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
@@ -31,6 +31,7 @@
             <v-select
               label="Status"
               outlined
+              :items="statusEnums"
               class="rounded-lg"
               v-model="filters.partnerId"
               hide-details
@@ -109,11 +110,12 @@
       :options.sync="options"
       @update:items-per-page="getItemSize"
       @click:row="(item) => pushRow(item)"
+      :server-items-length="roleTotalElements"
     >
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium">Permission</div>
+            <div class="font-weight-medium">Role</div>
             <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="new_dialog = !new_dialog">
               <v-icon>mdi-plus</v-icon>
               Role
@@ -134,7 +136,7 @@
       <template #item.status="{item}">
         <div>
           <v-select
-            @click.stop="statusChange"
+            @click.stop="statusChange(item)"
             :items="statusEnums"
             hide-details
             rounded
@@ -151,13 +153,13 @@
     <v-dialog v-model="new_dialog" max-width="600" ref="new_form">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
-          <div>Create role</div>
+          <div>Create Role</div>
           <v-btn @click="new_dialog = !new_dialog" icon>
             <v-icon color="#7631FF">mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-card-text>
-          <v-form lazy-validation v-model="new_validate" ref="new_form">
+          <v-form ref="new_form">
             <v-row class="mt-4">
               <v-col cols="12">
                 <v-text-field
@@ -167,7 +169,6 @@
                   v-model="new_role.name"
                   color="#7631FF"
                   placeholder="Enter role name"
-                  :rules="[formRules.required]"
                   validate-on-blur
                 />
               </v-col>
@@ -180,19 +181,6 @@
                   rows="1"
                   color="#7631FF"
                   placeholder="Enter role description"
-                  :rules="[formRules.required]"
-                  validate-on-blur
-                />
-              </v-col>
-              <v-col cols="12">
-                <v-select
-                  label="Permission"
-                  filled
-                  dense
-                  v-model="new_permission"
-                  color="#7631FF"
-                  placeholder="Enter role permissions"
-                  :rules="[formRules.required]"
                   validate-on-blur
                 />
               </v-col>
@@ -214,7 +202,8 @@
             dark
             width="163"
             @click="save"
-          >create
+          >
+            create
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -222,36 +211,24 @@
     <v-dialog v-model="edit_dialog" max-width="600">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
-          <div>Edit user</div>
+          <div>Edit Role</div>
           <v-btn @click="edit_dialog = !edit_dialog" icon>
             <v-icon color="#7631FF">mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-card-text>
-          <v-form lazy-validation v-model="new_validate" ref="new_form">
+          <v-form ref="new_form">
             <v-row class="mt-4">
-              <v-col cols="12" md="6">
-                <v-text-field
-                  label="Role ID"
-                  filled
-                  dense
-                  v-model="edit_role.id"
-                  color="#7631FF"
-                  placeholder="Enter role id"
-                  :rules="[formRules.required]"
-                  validate-on-blur
-                />
-              </v-col>
-              <v-col cols="12" md="6">
+              <v-col cols="12">
                 <v-select
                   label="Status"
                   filled
                   dense
+                  append-icon="mdi-chevron-down"
                   v-model="edit_role.status"
                   :items="statusEnums"
                   color="#7631FF"
                   placeholder="Enter status"
-                  :rules="[formRules.required]"
                   validate-on-blur
                 />
               </v-col>
@@ -263,7 +240,6 @@
                   v-model="edit_role.name"
                   color="#7631FF"
                   placeholder="Enter role name"
-                  :rules="[formRules.required]"
                   validate-on-blur
                 />
               </v-col>
@@ -275,21 +251,6 @@
                   v-model="edit_role.description"
                   color="#7631FF"
                   placeholder="Person who sews materials"
-                  :rules="[formRules.required]"
-                  validate-on-blur
-                />
-              </v-col>
-              <v-col cols="12">
-                <v-select
-                  label="Permission"
-                  v-model="edit_permission"
-                  filled
-                  multiple
-                  chips
-                  dense
-                  color="#7631FF"
-                  placeholder="Enter permission"
-                  :rules="[formRules.required]"
                   validate-on-blur
                 />
               </v-col>
@@ -310,8 +271,9 @@
             color="#7631FF"
             dark
             width="163"
-            @click="postRoleData"
-          >create
+            @click="putRoleData"
+          >
+            create
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -358,25 +320,21 @@ import {mapActions, mapGetters} from "vuex";
 export default {
   name: 'RolePage',
   data: () => {
-    return{
+    return {
       delete_dialog: false,
-      new_validate: true,
       edit_dialog: false,
       new_dialog: false,
       options: {},
-      valid_search: '',
-      filters:{},
+      filters: {},
       menu2: '',
       headers: [
         {text: 'ID', value: 'id', sortable: false,},
-        {text: 'Role name', value: 'roleName'},
+        {text: 'Role name', value: 'name'},
         {text: 'Description', value: 'description'},
-        {text: 'Status', value: 'status', width: '150'},
-        {text: 'Created', value: 'created'},
-        {text: 'Created by', value: 'createdBy'},
-        {text: 'Updated', value: 'updated'},
-        {text: 'Updated by', value: 'updatedBy'},
-        {text: 'Actions', align: 'center', value: 'actions', sortable: false}
+        {text: 'Status', value: 'status', width: '180'},
+        {text: 'Created', value: 'createdAt'},
+        {text: 'Updated', value: 'updatedAt'},
+        {text: 'Actions', align: 'end', value: 'actions', sortable: false}
       ],
       // NEW ROLE
       new_role: {
@@ -393,89 +351,81 @@ export default {
         description: '',
         status: '',
       },
-      role: [
-        {
-          id: 1, roleName: 'Sewer',
-          description: 'Person who sews materials',
-          status: 'ACTIVE', created: '12.10.2022 17:09:08',
-          createdBy: 'John Doe', updated: '21.11.2022 17:09:08',
-          updatedBy: 'Lisa Doe'
-        },
-        {
-          id: 2, roleName: 'Sewer',
-          description: 'Person who sews materials',
-          status: 'DISABLED', created: '12.10.2022 17:09:08',
-          createdBy: 'John Doe', updated: '21.11.2022 17:09:08',
-          updatedBy: 'Lisa Doe'
-        },
-        {
-          id: 3, roleName: 'Sewer',
-          description: 'Person who sews materials',
-          status: 'PENDING', created: '12.10.2022 17:09:08',
-          createdBy: 'John Doe', updated: '21.11.2022 17:09:08',
-          updatedBy: 'Lisa Doe'
-        }
-      ],
       current_page: 0,
       itemPerPage: 10,
     }
   },
+  created() {
+    this.$store.commit('setPageTitle', 'Access control')
+    this.$store.dispatch('permission/getRoleAllData', {page: this.current_page, size: this.itemPerPage})
+  },
   computed: {
     ...mapGetters({
       loading: 'permission/loading',
-      // role: 'permission/role',
+      role: 'permission/role',
+      roleTotalElements: "permission/roleTotalElements"
     })
   },
   methods: {
     ...mapActions({
       getRoleAllData: 'permission/getRoleAllData',
       postRole: "permission/postRole",
+      updateRole: "permission/updateRole",
     }),
-    // POST ROLE
-    async postRoleData(){
-      console.log('click')
-      const validate = this.$refs.new_form.validate();
-      if (validate){
-        await this.postRole(this.new_role);
-        this.$refs.new_form.reset();
-        this.new_dialog = false;
+    // PuST ROLE
+    async putRoleData() {
+      const data = this.edit_role;
+      await this.updateRole(data);
+      this.edit_dialog = false;
+      this.edit_role = {
+        id: '',
+        name: '',
+        description: '',
+        status: '',
       }
     },
-    statusChange(){},
+    statusChange(item) {
+      console.log(item)
+    },
     // DELETE ROLE
-    deleteRole(){
+    deleteRole() {
       console.log(this.id)
     },
-    getDeleteItem(item){
+    // POST ROLE DATA
+    async save() {
+      const data = this.new_role
+      await this.postRole(data);
+      this.new_dialog = false;
+      this.$refs.new_form.reset();
+    },
+    getDeleteItem(item) {
       console.log(item);
       this.delete_dialog = true;
       this.id = item.id
     },
-    editItem(item){
-      console.log(item);
-      this.edit_role = {...item}
+    editItem(item) {
+      this.edit_role = {
+        id: item.id,
+        name: item.name,
+        description: item.description,
+        status: item.status,
+      }
       this.edit_dialog = true;
     },
     // GET ROLE
-    getItemSize(val){
+    getItemSize(val) {
       this.itemPerPage = val;
       this.getRoleAllData({page: this.current_page, size: this.itemPerPage})
     },
-    pushRow(item){
+    pushRow(item) {
       this.$router.push(`/role/${item.id}`)
     },
-    resetFilters(){},
-    save(){
-      console.log('click')
+    resetFilters() {
     },
-  },
-  mounted() {
-    this.$store.commit('setPageTitle', 'Access control')
-    this.$store.dispatch('permission/getRoleAllData', {page: this.current_page, size: this.itemPerPage})
+
   },
 }
 </script>
 
 <style scoped>
-
 </style>

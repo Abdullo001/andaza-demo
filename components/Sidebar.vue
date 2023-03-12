@@ -231,7 +231,7 @@ export default {
           ]
         },
         {
-          icon: 'file.svg',
+          icon: 'catalog.svg',
           title: 'Catalogs',
           to: '/partner',
           has_child: true,
@@ -259,6 +259,22 @@ export default {
             {
               title: "Expense Group",
               to: "/expense-group"
+            },
+            {
+              title: "Measurement Unit",
+              to: "/measurement"
+            },
+            {
+              title: "Package shape",
+              to: "/package-shape"
+            },
+            {
+              title: "Fabric catalogs",
+              to: "/fabric-catalogs"
+            },
+            {
+              title: "Product catalogs",
+              to: "/product-catalogs"
             }
           ]
         },

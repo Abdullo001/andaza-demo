@@ -5,14 +5,14 @@
       elevation="0"
       class="rounded-t-lg"
     >
-      <v-form>
+      <v-form lazy-validation v-model="valid_search" ref="filter_form">
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              v-model="filters.id"
-              label="Id Cooperation type"
+              label="Id Measurement unit"
               outlined
               class="rounded-lg"
+              v-model.trim="filters.financeNumber"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -20,10 +20,10 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              v-model="filters.name"
               label="Name"
               outlined
               class="rounded-lg"
+              v-model.trim="filters.modelId"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -33,7 +33,7 @@
             cols="12" lg="2" md="2" style="max-width: 240px;"
           >
             <el-date-picker
-              v-model="filters.createdAt"
+              v-model="search.start_time"
               type="datetime"
               placeholder="Created"
               :picker-options="pickerOptions"
@@ -45,7 +45,7 @@
             cols="12" lg="2" md="2"
           >
             <el-date-picker
-              v-model="filters.updatedAt"
+              v-model="search.end_time"
               type="datetime"
               placeholder="Updated"
               :picker-options="pickerOptions"
@@ -79,10 +79,8 @@
     </v-card>
     <v-data-table
       :headers="headers"
-      :items="cooperationType"
-      :items-per-page="itemPrePage"
-      :server-items-length="totalElements"
-      :loading="loading"
+      :items="items"
+      :items-per-page="10"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100]
       }"
@@ -91,10 +89,10 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium text-capitalize">Cooperation type</div>
+            <div class="font-weight-medium text-capitalize">Measurement unit</div>
             <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="new_dialog = true">
               <v-icon>mdi-plus</v-icon>
-              Cooperation Type
+              Measurement unit
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -104,7 +102,7 @@
         <v-checkbox/>
       </template>
       <template #item.actions="{item}">
-        <div>
+        <div class="d-flex justify-end">
           <v-btn icon color="green" @click.stop="editItem(item)">
             <v-icon size="20">mdi-square-edit-outline</v-icon>
           </v-btn>
@@ -117,7 +115,7 @@
     <v-dialog v-model="new_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Create body part</div>
+          <div class="text-capitalize font-weight-bold">Create Measurement unit</div>
           <v-btn icon color="#7631FF" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -125,20 +123,16 @@
         <v-card-text class="mt-4">
           <v-form  ref="new_form">
             <v-text-field
-              v-model="create_cooperation.name"
               filled
               label="Name"
-              placeholder="Enter name cooperation type"
+              placeholder="Enter name measurement unit"
               dense
-              color="#7631FF"
             />
             <v-textarea
-              v-model="create_cooperation.description"
               filled
               label="Description"
-              placeholder="Enter cooperation type description"
+              placeholder="Enter measurement unit description"
               dense
-              color="#7631FF"
             />
           </v-form>
         </v-card-text>
@@ -155,7 +149,6 @@
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF" dark
             width="163"
-            @click="save"
           >
             create
           </v-btn>
@@ -165,7 +158,7 @@
     <v-dialog v-model="edit_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Edit Cooperation type</div>
+          <div class="text-capitalize font-weight-bold">Edit Measurement unit</div>
           <v-btn icon color="#7631FF" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -173,20 +166,16 @@
         <v-card-text class="mt-4">
           <v-form  ref="new_form">
             <v-text-field
-              v-model="edit_cooperation.name"
               filled
               label="Name"
-              placeholder="Enter cooperation type"
+              placeholder="Enter name measurement unit"
               dense
-              color="#7631FF"
             />
             <v-textarea
-              v-model="edit_cooperation.description"
               filled
               label="Description"
-              placeholder="Enter cooperation type description"
+              placeholder="Enter measurement unit description"
               dense
-              color="#7631FF"
             />
           </v-form>
         </v-card-text>
@@ -203,7 +192,6 @@
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF" dark
             width="163"
-            @click="update"
           >
             create
           </v-btn>
@@ -215,9 +203,9 @@
         <div class="d-flex justify-center mb-2">
           <v-img src="/error-icon.svg" max-width="40"/>
         </div>
-        <v-card-title class="d-flex justify-center">Delete Cooperation type</v-card-title>
+        <v-card-title class="d-flex justify-center">Delete Measurement unit</v-card-title>
         <v-card-text>
-          Are you sure you want to Delete this cooperation type?
+          Are you sure you want to Delete this measurement unit?
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -236,7 +224,6 @@
             width="140"
             elevation="0"
             dark
-            @click="deleteCooperation"
           >
             delete
           </v-btn>
@@ -247,41 +234,28 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
-
 export default {
-  name: "CooperationTypePages",
+  name: "MeasurementUnitPages",
   data(){
     return{
       edit_dialog: false,
       delete_dialog: false,
       new_dialog: false,
-      options: {},
-      itemPrePage: 10,
-      current_page: 0,
+      search: {},
+      filters:{},
+      valid_search: true,
       headers: [
+        {text: "", value: "checkbox", align: "start", sortable: false, width: "50"},
         {text: "Id", value: "id", sortable: false},
         {text: "Name", value: "name",},
         {text: "Description", value: "description",},
-        {text: "Created At", value: "createdAt",},
-        {text: "Updated At", value: "updatedAt",},
-        {text: "Actions", value: "actions", align: "center", sortable: false},
+        {text: "Created", value: "created",},
+        {text: "Updated", value: "updated",},
+        {text: "Actions", value: "actions", align: "end", sortable: false},
       ],
-      create_cooperation: {
-        name: "",
-        description: "",
-      },
-      edit_cooperation: {
-        name: "",
-        description: "",
-      },
-      delete_cooperation: {},
-      filters: {
-        id: "",
-        name: "",
-        updatedAt: "",
-        createdAt: "",
-      },
+      items: [
+        {id: 1, name: "valijon", description: "description", created: "created", updated: "updated"}
+      ],
       pickerOptions: {
         shortcuts: [
           {
@@ -310,90 +284,18 @@ export default {
       },
     }
   },
-  watch: {
-    async "options.sortBy"(elem) {
-      if (elem[0] !== undefined) {
-        if (this.options.sortDesc[0] !== undefined) {
-          const items = {
-            sortDesc: this.options.sortDesc[0],
-            sortBy: elem[0]
-          }
-          await this.sortCooperationType({page: this.current_page, size: this.itemPrePage, data: items});
-        }
-      }
-    }
+  methods:{
+    getDeleteItem(item){
+      this.delete_dialog = true
+    },
+    editItem(item){
+      this.edit_dialog = true
+    },
+    resetFilters(){},
+    filterData(){},
   },
-  async created() {
-    await this.$store.dispatch("cooperationType/getCooperationType", {page: 0, size: 10});
-  },
-  computed:{
-    ...mapGetters({
-      loading: "cooperationType/loading",
-      cooperationType: "cooperationType/cooperationType",
-      totalElements: 'cooperationType/totalElements',
-    }),
-  },
-  methods: {
-    ...mapActions({
-      getCooperationType: "cooperationType/getCooperationType",
-      createCooperationType: "cooperationType/createCooperationType",
-      updateCooperationType: "cooperationType/updateCooperationType",
-      deleteCooperationType: "cooperationType/deleteCooperationType",
-      filterCooperationType: "cooperationType/filterCooperationType",
-      sortCooperationType: "cooperationType/sortCooperationType",
-    }),
-    async deleteCooperation() {
-      const id = this.delete_sample.id;
-      await this.deleteCooperationType(id);
-      this.delete_dialog = false;
-    },
-    async save() {
-      const items = {...this.create_cooperation};
-      await this.createCooperationType(items);
-      this.create_cooperation = {
-        name: "",
-        description: "",
-      };
-      this.new_dialog = false;
-    },
-    async update() {
-      const items = {...this.edit_cooperation};
-      await this.updateCooperationType(items);
-      this.edit_dialog = false;
-    },
-    async getDeleteItem(item) {
-      this.delete_sample = {...item};
-      this.delete_dialog = true;
-    },
-    editItem(item) {
-      delete item.createdAt;
-      delete item.updatedAt;
-      this.edit_cooperation = {...item};
-      this.edit_dialog = true;
-    },
-    async resetFilters() {
-      this.filters = {
-        id: "",
-        name: "",
-        updatedAt: "",
-        createdAt: "",
-      };
-      await this.getCooperationType({page: 0, size: 10});
-    },
-    async filterData() {
-      const items = {...this.filters};
-      await this.filterCooperationType(items);
-    },
-  },
-  mounted() {
-    this.$store.commit('setPageTitle', 'Catalogs');
-  }
 }
 </script>
 
-<style lang="scss">
-.el-input__inner::placeholder,
-.el-input__icon, .el-icon-time {
-  color: #919191 !important;
-}
+<style lang="scss" scoped>
 </style>

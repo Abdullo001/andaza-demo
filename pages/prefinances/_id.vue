@@ -3,7 +3,7 @@
     <Breadcrumbs :maps="map_links"/>
     <v-card elevation="0" class="mt-2 rounded-lg">
       <v-card-title>
-        <div>Add prefinance</div>
+        <div>{{ title }} prefinance</div>
         <v-spacer/>
         <div>
           <v-btn outlined class="text-capitalize rounded-lg border-grey">
@@ -244,11 +244,13 @@
         <v-tabs
           v-model="tab"
           background-color="transparent"
+          color="#7631FF"
         >
           <v-tab
             v-for="item in items"
             :key="item"
             class="text-capitalize"
+
           >
             {{ item }}
           </v-tab>
@@ -270,8 +272,9 @@
                       class="text-capitalize font-weight-bold rounded-lg"
                       color="#7631FF"
                       min-width="170"
-                      dark
+                      :dark="!!preFinanceId"
                       @click="new_details = true"
+                      :disabled="!preFinanceId"
                     >
                       <v-icon class="mr-2">mdi-plus</v-icon>
                       Details
@@ -315,9 +318,25 @@
                 <v-toolbar elevation="0">
                   <v-toolbar-title class="d-flex justify-space-between w-full">
                     <div class="text-h6">Documents</div>
-                    <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark>Upload document</v-btn>
                   </v-toolbar-title>
                 </v-toolbar>
+              </template>
+              <template #item.actions="{item}">
+                <v-tooltip top color="#7631FF">
+                  <template #activator="{on, attrs}">
+                    <v-btn
+                      icon class="ml-2"
+                      :href="item.filePath"
+                      :download="`Document.${item.extension}`"
+                      v-on="on"
+                      v-bind="attrs"
+                      @click.stop
+                    >
+                      <v-img src="/download.svg" max-width="24"/>
+                    </v-btn>
+                  </template>
+                  <span>Download</span>
+                </v-tooltip>
               </template>
             </v-data-table>
           </v-tab-item>
@@ -333,7 +352,11 @@
           <v-divider/>
           <v-card-text class="mt-4">
             <v-row>
-              <v-col cols="12" lg="6" md="6" v-for="(item, idx) in 4" :key="`img_${idx}`">
+              <v-col
+                cols="12" lg="6" md="6"
+                v-show="!modelImages.length"
+                v-for="(item, idx) in 4" :key="`img_${idx}`"
+              >
                 <div class="default-data" v-ripple>
                   <div class="d-flex justify-center flex-column align-center h-full">
                     <v-img
@@ -342,6 +365,16 @@
                       max-height="56"
                     />
                   </div>
+                </div>
+              </v-col>
+
+              <v-col
+                cols="12" lg="6" md="6"
+                v-for="(link, idx) in modelImages"
+                :key="`images_${idx}`"
+              >
+                <div class="rounded-lg model-images overflow-hidden">
+                  <v-img :src="link.filePath"/>
                 </div>
               </v-col>
             </v-row>
@@ -365,29 +398,31 @@
               :items-per-page="50"
               hide-default-footer
             >
-                <template #item.editable="{item}">
-                  <v-text-field
-                    solo
-                    v-model="item.editable"
-                    hide-details
-                    flat
-                    :background-color="!item.status?'#F8F4FE':'transparent'"
-                    :disabled="item.status"
-                    class="pa-0 ma-0"
-                  />
-                </template>
-                <template #item.firstCurrency="{item}">
-                  <v-text-field
-                    solo
-                    v-model="item.firstCurrency"
-                    hide-details
-                    flat
-                    :background-color="!item.usd_disabled && !item.readonly?'#F8F4FE':'transparent'"
-                    :disabled="item.usd_disabled"
-                    class="pa-0 ma-0"
-                    :readonly="item.readonly"
-                  />
-                </template>
+              <template #item.editable="{item}">
+                <v-text-field
+                  solo flat
+                  v-model="item.editable"
+                  placeholder="0.0"
+                  hide-details
+                  :background-color="!item.status?'#F8F4FE':'transparent'"
+                  :disabled="item.status"
+                  :readonly="!(Object.keys(detailsList[0]).length > 3)"
+                  class="pa-0 ma-0"
+                />
+              </template>
+              <template #item.firstCurrency="{item}">
+                <v-text-field
+                  solo
+                  v-model="item.firstCurrency"
+                  hide-details
+                  placeholder="0.0"
+                  flat
+                  :background-color="!item.usd_disabled && !item.readonly?'#F8F4FE':'transparent'"
+                  :disabled="item.usd_disabled"
+                  class="pa-0 ma-0"
+                  :readonly="!(Object.keys(detailsList[0]).length > 3) || item.readonly"
+                />
+              </template>
             </v-data-table>
           </v-card-text>
           <v-divider/>
@@ -427,6 +462,7 @@
                   v-model="details.expenseGroup"
                   validate-on-blur
                   :rules="[formRules.required]"
+                  color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" lg="4">
@@ -441,6 +477,7 @@
                   :disabled="expense_status"
                   item-value="id"
                   item-text="name"
+                  color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" lg="4">
@@ -450,6 +487,7 @@
                   v-model="details.quantity"
                   validate-on-blur
                   :rules="[formRules.required]"
+                  color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" lg="4">
@@ -463,6 +501,7 @@
                   :rules="[formRules.required]"
                   item-text="name"
                   item-value="id"
+                  color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" lg="4">
@@ -472,6 +511,7 @@
                   v-model="details.pricePerUnit"
                   validate-on-blur
                   :rules="[formRules.required]"
+                  color="#7631FF"
                 />
               </v-col>
             </v-row>
@@ -586,10 +626,10 @@ export default {
         {text: '', value: 'delete', sortable: false},
       ],
       documentsHeaders: [
-        {text: 'Type', align: 'start', sortable: false, value: 'type'},
-        {text: 'Document name', value: 'documentName'},
-        {text: 'Owner', value: 'owner'},
-        {text: 'Date', value: 'Date'},
+        {text: 'Type', align: 'start', sortable: false, value: 'extension'},
+        {text: 'Document name', value: 'title'},
+        {text: 'Owner', value: 'createdBy'},
+        {text: 'Date', value: 'createdAt'},
         {text: 'Actions', value: 'actions'},
       ],
       calculation: [
@@ -605,7 +645,7 @@ export default {
         },
         {
           name: 'Overproduction %',
-          editable: '0.0',
+          editable: '',
           firstCurrency: '0.0',
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0',
@@ -615,7 +655,7 @@ export default {
         },
         {
           name: 'Lost resource %',
-          editable: '0.0',
+          editable: '',
           firstCurrency: '0.0',
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0',
@@ -625,7 +665,7 @@ export default {
         },
         {
           name: 'General expenses %',
-          editable: '0.0',
+          editable: '',
           firstCurrency: '0.0',
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0',
@@ -635,7 +675,7 @@ export default {
         },
         {
           name: 'Extra expenses %',
-          editable: '0.0',
+          editable: '',
           firstCurrency: '0.0',
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0',
@@ -655,7 +695,7 @@ export default {
         },
         {
           name: 'Target profit %',
-          editable: '0.0',
+          editable: '',
           firstCurrency: '0.0',
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0',
@@ -666,7 +706,7 @@ export default {
         {
           name: 'Client target price',
           editable: '-',
-          firstCurrency: '0.0',
+          firstCurrency: '',
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0',
           status: true,
@@ -676,7 +716,7 @@ export default {
         {
           name: 'Given price',
           editable: '-',
-          firstCurrency: '0.0',
+          firstCurrency: '',
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0',
           status: true,
@@ -685,7 +725,7 @@ export default {
         },
         {
           name: 'Discount %',
-          editable: '0.0',
+          editable: '',
           firstCurrency: '0.0',
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0',
@@ -705,7 +745,7 @@ export default {
         },
         {
           name: 'Actual profit %',
-          editable: '0.0',
+          editable: '',
           firstCurrency: '0.0',
           secondCurrency: '0.0',
           tertiaryCurrency: '0.0',
@@ -752,12 +792,28 @@ export default {
       expenseList: 'preFinance/expenseList',
       measurementUnitList: 'preFinance/measurementUnit',
       detailsList: 'preFinance/detailsList',
-      totalPrice: 'preFinance/totalPrice'
+      totalPrice: 'preFinance/totalPrice',
+      modelImages: 'modelPhoto/modelImages',
+      documentsList: 'documents/documentsList'
     }),
+    title() {
+      const id = this.$route.params.id;
+      return id === 'create' ? 'Add' : 'Edit';
+    }
   },
   watch: {
+    documentsList(val) {
+      this.allDocuments = [...val]
+    },
+    async modelData(val) {
+      if (typeof val[0]?.id === 'number') {
+        const id = val[0]?.id;
+        await this.getImages(id);
+        await this.getDocuments({modelId: id});
+      }
+    },
     "addPreFinances.modelNumber": function (elem) {
-      if (elem !== null || elem?.length > 1) {
+      if (elem !== null || elem.length > 1) {
         this.getModelName(elem)
       }
       const {modelNumber, name, partner, id} = this.addPreFinances.modelNumber;
@@ -775,10 +831,10 @@ export default {
       }, deep: true
     },
     totalPrice(val) {
-      let data = this.calculation[0]
-      data.firstCurrency = val.toLocaleString()
-      data.secondCurrency = (val * this.addPreFinances.secondaryRate).toFixed(2)
-      data.tertiaryCurrency = (val * +this.addPreFinances.tertiaryRate).toFixed(2)
+      let data = this.calculation[0];
+      data.firstCurrency = +val.toFixed(2);
+      data.secondCurrency = (+val * +this.addPreFinances.secondaryRate).toFixed(2);
+      data.tertiaryCurrency = (+val * +this.addPreFinances.tertiaryRate).toFixed(2);
     },
     calculation: {
       handler(val) {
@@ -806,7 +862,7 @@ export default {
           (+val[0].firstCurrency + +val[1].firstCurrency +
             +val[2].firstCurrency + +val[3].firstCurrency +
             +val[4].firstCurrency).toFixed(2)
-
+        console.log(val[0].firstCurrency + ' = ' + val[1].firstCurrency)
         val[5].secondCurrency =
           (+val[0].secondCurrency + +val[1].secondCurrency +
             +val[2].secondCurrency + +val[3].secondCurrency +
@@ -855,7 +911,9 @@ export default {
       getExpenseList: 'preFinance/getExpenseList',
       getMeasurementUnit: 'preFinance/getMeasurementUnit',
       createDetails: 'preFinance/createDetails',
-      getAllDetails: 'preFinance/getAllDetails'
+      getAllDetails: 'preFinance/getAllDetails',
+      getImages: 'modelPhoto/getImages',
+      getDocuments: 'documents/getDocuments'
     }),
     saveCalculation() {
       const calcVal = this.calculation.filter(el => el.status === false || el.usd_disabled === false);
@@ -884,10 +942,11 @@ export default {
       this.details.expenseGroup = ""
     },
     async createNewPreFinance() {
-      await this.createPreFinance(this.addPreFinances)
+      await this.createPreFinance(this.addPreFinances);
     },
 
-    deleteRow(item, index) {}
+    deleteRow(item, index) {
+    }
   },
   mounted() {
     this.getExpenseGroup();

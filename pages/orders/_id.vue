@@ -46,16 +46,6 @@
               background-color="#F8F4FE"
             />
             <div class="mb-2 text-body-1">Head of production depatment</div>
-            <!-- <v-text-field
-              v-model="order.headOfDepartment"
-              placeholder="Head of production depatment"
-              outlined
-              validate-on-blur
-              dense
-              class="rounded-lg"
-              color="#7631FF"
-              background-color="#F8F4FE"
-            /> -->
 
             <v-select
               :items="users"
@@ -76,17 +66,6 @@
           </v-col>
           <v-col>
             <div class="mb-2 text-body-1">Client name</div>
-            <!-- <v-text-field
-              v-model="order.clientName"
-              placeholder="Client name"
-              outlined
-              validate-on-blur
-              dense
-              class="rounded-lg"
-              color="#7631FF"
-              background-color="#F8F4FE"
-            /> -->
-
             <v-select
               :items="clientList"
               v-model="order.clientId"
@@ -134,30 +113,21 @@
               append-icon="mdi-chevron-down"
               v-model="order.priority"
               hide-details
-              class="mt-n2"
-              rounded
+              dense
+              outlined
+              validate-on-blur
+              class="rounded-lg"
               dark
             />
           </v-col>
           <v-col>
             <div class="mb-2 text-body-1">Model number</div>
-            <!-- <v-text-field
-              v-model="order.modelNumber"
-              placeholder="Enter model number"
-              outlined
-              validate-on-blur
-              dense
-              class="rounded-lg"
-              color="#7631FF"
-              background-color="#F8F4FE"
-            /> -->
-
             <v-select
               :items="modelList"
               v-model="order.modelId"
-              placeholder="Model number"
               item-value="id"
               item-text="modelNumber"
+              placeholder="Model number"
               dense
               outlined
               validate-on-blur
@@ -205,6 +175,7 @@
               class="rounded-lg"
               color="#7631FF"
               background-color="#F8F4FE"
+              readonly
             />
 
             <div class="mb-2 text-body-1">Deadline</div>
@@ -273,19 +244,20 @@
               value-format="dd.MM.yyyy HH:mm:ss"
               style="min-width: 100%"
               disabled
-              class="picker-color mb-6"
+              class="el-date-picker mb-6"
             >
             </el-date-picker>
             <div class="mb-2 text-body-1">Updated time</div>
             <el-date-picker
               v-model="order.updatedTime"
+
               type="datetime"
               placeholder="Update at"
               :picker-options="pickerOptions"
               value-format="dd.MM.yyyy HH:mm:ss"
               style="min-width: 100%"
               disabled
-              class="picker-color"
+              class=" el-date-picker"
             >
             </el-date-picker>
           </v-col>
@@ -331,7 +303,7 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <ColorSizeDistirbution :number="order.modelId" />
+                <ColorSizeDistirbution  />
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -353,6 +325,13 @@
             <v-card flat>
               <v-card-text>
                 <ShippingInfo />
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <OrderDocuments />
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -427,9 +406,8 @@ export default {
         modifiedPerson: "",
         createdTime: "",
         updatedTime: "",
-        priority: this.$route.params.id!=="add-order"?"":"LOW" ,
-        modelId:null,
-        
+        priority: this.$route.params.id !== "add-order" ? "" : "LOW",
+        modelId: null,
       },
 
       pickerOptions: {
@@ -479,6 +457,7 @@ export default {
 
   watch: {
     orderDetail(ordersList) {
+      console.log(ordersList);
       ordersList.map((item) => {
         const order = this.order;
         order.id = item.id;
@@ -496,8 +475,8 @@ export default {
         order.headOfDepartmentId = item.headOfProductionDepartmentId;
         order.givenPrice.amount = item.givenPrice;
         order.givenPrice.currency = item.givenPriceCurrency;
-        order.modelId=item.modelId;
-        order.priority=item.priority;
+        order.modelId = item.modelId;
+        order.priority = item.priority;
         const modelId = item.modelId;
         this.setModelId({ modelId });
       });
@@ -520,7 +499,7 @@ export default {
       getUsersList: "orders/getUsersList",
       getClient: "orders/getClient",
       getModelId: "orders/getModelId",
-      updateOrder:"orders/updateOrder",
+      updateOrder: "orders/updateOrder",
     }),
     ...mapMutations({
       setModelId: "orders/setModelId",
@@ -546,9 +525,8 @@ export default {
         id,
       });
       this.orderStatus = "Edit";
-      
     } else {
-      this.orderStatus = "Add"; 
+      this.orderStatus = "Add";
     }
   },
 };
@@ -564,5 +542,10 @@ export default {
 
 .el-date-editor--datetime {
   width: 100%;
+  color: #c0c4cc;
+}
+
+.el-input__inner {
+  color: #c0c4cc;
 }
 </style>
