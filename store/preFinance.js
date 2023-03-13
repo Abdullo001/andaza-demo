@@ -210,7 +210,6 @@ export const actions = {
   async getOnePreFinance({commit}, id) {
     await this.$axios.$get(`/api/v1/pre-finances/get?id=${id}`)
       .then(res => {
-        console.log(res);
         commit('setOnePreFinance', res.data)
       }).catch(({response}) => console.log(response));
   }
