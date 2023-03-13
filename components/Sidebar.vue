@@ -278,6 +278,22 @@ export default {
             }
           ]
         },
+        {
+          icon: 'planning.svg',
+          title: 'Planning',
+          to: '/planning',
+          has_child: true,
+          child: [
+            {
+              title: 'Fabric',
+              to: '/fabric',
+            },
+            {
+              title: 'Accessory',
+              to: '/accessory',
+            },
+          ]
+        },
       ],
       right: true,
       search: '',
