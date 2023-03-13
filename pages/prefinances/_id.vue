@@ -85,6 +85,7 @@
               dense
               label="Primary Currency"
               append-icon="mdi-chevron-down"
+
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
@@ -808,7 +809,18 @@ export default {
       this.addPreFinances = data;
       this.addPreFinances.modelNames = data.modelName;
       this.$store.commit('preFinance/setPreFinanceId', data.id);
-      this.addPreFinances.owner = data.createdBy
+      this.addPreFinances.owner = data.createdBy;
+
+      this.calculation[0].firstCurrency = val?.primaryRate;
+      this.calculation[0].secondCurrency = val?.secondaryRate;
+      this.calculation[0].tertiaryCurrency = val?.tertiaryRate;
+      this.calculation[1].editable = val?.overProductionPercent;
+      this.calculation[2].editable = val?.lossPercent;
+      this.calculation[3].editable = val?.generalExpensePercent;
+      this.calculation[4].editable = val?.extraExpensePercent;
+      this.calculation[6].editable = val?.targetProfitPercent;
+      this.calculation[7].firstCurrency = val?.targetProfitPercent;
+      this.calculation[9].editable = val?.discountPercent;
     },
     documentsList(val) {
       this.allDocuments = [...val]
@@ -870,7 +882,6 @@ export default {
           (+val[0].firstCurrency + +val[1].firstCurrency +
             +val[2].firstCurrency + +val[3].firstCurrency +
             +val[4].firstCurrency).toFixed(2)
-        console.log(val[0].firstCurrency + ' = ' + val[1].firstCurrency)
         val[5].secondCurrency =
           (+val[0].secondCurrency + +val[1].secondCurrency +
             +val[2].secondCurrency + +val[3].secondCurrency +
@@ -955,14 +966,13 @@ export default {
     },
     deleteRow(item, index) {}
   },
-  async mounted() {
-    await this.getExpenseGroup();
-    await this.getMeasurementUnit();
+   mounted() {
+    this.getExpenseGroup();
+    this.getMeasurementUnit();
     const param = this.$route.params.id;
     if(param !== 'create') {
-      await this.getOnePreFinance(param);
-      await this.getImages(param);
-      await this.getDocuments({modelId: param});
+      this.getOnePreFinance(param);
+      this.getAllDetails(param);
     }
   }
 }
