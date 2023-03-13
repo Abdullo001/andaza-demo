@@ -45,12 +45,12 @@
         <el-date-picker
           v-model="orderDetail.deadline"
           type="datetime"
-          placeholder="dd.MM.yyyy HH:mm:ss"
+          placeholder="Deadline"
           :picker-options="pickerOptions"
           value-format="dd.MM.yyyy HH:mm:ss"
           style="min-width: 100%"
+          disabled
           class="el-date-picker"
-          readonly
         >
         </el-date-picker>
       </v-col>
@@ -153,7 +153,7 @@ export default {
     };
   },
 
-  created(){
+  created() {
     this.getModelGroup();
   },
 
@@ -164,8 +164,6 @@ export default {
       modelGroups: "detailInfo/modelGroups",
     }),
   },
-
-  
 
   watch: {
     detailInfo(item) {
@@ -194,16 +192,48 @@ export default {
   },
 
   mounted() {
-    const id = this.$route.params.id
-    if (id!=="add-order") {
+    const id = this.$route.params.id;
+    if (id !== "add-order") {
       this.getDetailInfo({
         orderId: this.$route.params.id,
         modelId: this.modelId.modelId,
       });
+    }else{
+      this.getDetailInfo({
+        orderId:this.$store.getters["orders/newOrderId"] ,
+        modelId: this.$store.getters["orders/newModelId"],
+      });
     }
-
-    
   },
 };
 </script>
-<style lang=""></style>
+<style lang="scss" scoped>
+.el-date-editor--datetime {
+  width: 100%;
+  color: #c0c4cc;
+}
+
+.el-input__inner {
+  color: #c0c4cc !important;
+}
+.el-input__inner {
+  color: #777 !important;
+  &::placeholder {
+    color: #777 !important;
+  }
+}
+.el-input__icon.el-icon-time {
+  color: #777 !important;
+  font-size: 18px;
+}
+.v-data-table-header {
+  background-color: #e9eaeb;
+}
+.el-input__inner {
+  background-color: #e9eaeb !important;
+}
+
+.bg-color-dataPic {
+  background-color: #f8f4fe !important;
+}
+</style>

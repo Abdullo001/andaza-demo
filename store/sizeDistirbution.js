@@ -85,32 +85,4 @@ export const actions = {
       });
   },
 
-  async getOneOrder({ commit }, { page, size, id }) {
-    const body = {
-      filters: [
-        {
-          key: "id",
-          propertyType: "LONG",
-          operator: "EQUAL",
-          value: id,
-        },
-      ],
-      sorts: [],
-      page,
-      size,
-    };
-    body.filters = body.filters.filter(
-      (item) => item.value !== "" && item.value !== null
-    );
-
-    await this.$axios
-      .$put(`/api/v1/orders/list?modelGroup=`, body)
-      .then((res) => {
-        commit("setOneOrder", res.data);
-        console.log(res);
-      })
-      .catch(({ response }) => {
-        console.log(response);
-      });
-  },
 };

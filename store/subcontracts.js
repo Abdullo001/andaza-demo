@@ -33,10 +33,11 @@ export const mutations = {
 };
 
 export const actions = {
-  async getSubcontractsList({ commit }, { modelNumber }) {
+  async getSubcontractsList({ commit }, { modelNumber,modelId }) {
     modelNumber = modelNumber === null ? "" : modelNumber;
+
     this.$axios
-      .get(`/api/v1/subcontracts/get-modelNumber?modelNumber=${modelNumber}`)
+      .get(`/api/v1/subcontracts/get-modelNumber?modelId=${modelId}&modelNumber=${modelNumber}`)
       .then((res) => {
         commit("setSubcontractsList", res.data);
       })
@@ -95,8 +96,9 @@ export const actions = {
     this.$axios
       .post("/api/v1/subcontracts/create", data)
       .then((res) => {
-        dispatch("getSubcontractsList", { modelNumber: "" });
-        this.$toast.success(res.message, { theme: "toasted-primary" });
+        console.log(res);
+        dispatch("getSubcontractsList", { modelNumber: "",modelId:res.data.data.modelId });
+        this.$toast.success(res.data.message);
       })
       .catch(({ response }) => {
         console.log(response);
@@ -136,7 +138,7 @@ export const actions = {
       .put(`/api/v1/subcontracts/update`, body)
       .then((res) => {
         console.log(res);
-        dispatch("getSubcontractsList",{modelNumber:""})
+        dispatch("getSubcontractsList",{modelNumber:"",modelId:body.modelId})
         this.$toast.success(res.message, { theme: "toasted-primary" });
       })
       .catch((res) => {
@@ -144,4 +146,15 @@ export const actions = {
         this.$toast.error(res.data.message, { theme: "toasted-primary" });
       });
   },
+
+  async deleteSubcontractServer({dispatch},{id,modelId}){
+    await this.$axios.delete(`/api/v1/subcontracts/delete?id=${id}`)
+    .then((res)=>{
+      console.log(res);
+      dispatch("getSubcontractsList",{modelNumber:"",modelId:modelId})
+    })
+    .catch((res)=>{
+      console.log(res);
+    })
+  }
 };

@@ -296,12 +296,14 @@ export default {
   },
   async mounted() {
     const id = this.$route.query.modelId;
-    if (id !== 'add-model') {
+
+    if (id !== 'add-order') {
       await this.getDocuments({modelId: id, fileType: 'DOC'});
       this.dialogStatus = 'Edit'
     } else {
       this.dialogStatus = 'Add'
-      this.$store.commit('documents/setDocuments', [])
+      await this.getDocuments({modelId: this.$store.getters["orders/newModelId"], fileType: 'DOC'});
+
     }
   }
 }

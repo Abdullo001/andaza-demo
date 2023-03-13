@@ -83,7 +83,7 @@ export default (context, inject) => {
             switch(color){
               case 'LOW':
                 return '#10BF41'
-              case 'NORMAL':
+              case 'MEDIUM':
                 return 'amber'
               case 'HIGH':
                 return '#FF4E4F'

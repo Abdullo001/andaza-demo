@@ -27,7 +27,6 @@
             dense
             class="rounded-l-lg rounded-r-0"
             color="#7631FF"
-            background-color="#F8F4FE"
           />
           <v-select
             :items="measurementUnitList"
@@ -41,7 +40,6 @@
             class="rounded-r-lg rounded-l-0"
             append-icon="mdi-chevron-down"
             color="#7631FF"
-            background-color="#F8F4FE"
           />
         </div>
       </v-col>
@@ -72,7 +70,6 @@
             dense
             class="rounded-l-lg rounded-r-0"
             color="#7631FF"
-            background-color="#F8F4FE"
           />
           <v-select
             :items="currency_enums"
@@ -84,7 +81,6 @@
             class="rounded-r-lg rounded-l-0"
             append-icon="mdi-chevron-down"
             color="#7631FF"
-            background-color="#F8F4FE"
           />
         </div>
       </v-col>
@@ -101,7 +97,6 @@
             dense
             class="rounded-l-lg rounded-r-0"
             color="#7631FF"
-            background-color="#F8F4FE"
           />
           <v-select
             :items="measurementUnitList"
@@ -115,7 +110,6 @@
             class="rounded-r-lg rounded-l-0"
             append-icon="mdi-chevron-down"
             color="#7631FF"
-            background-color="#F8F4FE"
           />
         </div>
 
@@ -130,7 +124,6 @@
             dense
             class="rounded-l-lg rounded-r-0"
             color="#7631FF"
-            background-color="#F8F4FE"
             readonly
           />
           <v-select
@@ -143,7 +136,6 @@
             class="rounded-r-lg rounded-l-0"
             append-icon="mdi-chevron-down"
             color="#7631FF"
-            background-color="#F8F4FE"
             readonly
           />
         </div>
@@ -160,7 +152,6 @@
             dense
             class="rounded-l-lg rounded-r-0"
             color="#7631FF"
-            background-color="#F8F4FE"
           />
           <v-select
             v-model="shippingInfo.packagingSizeUnityId"
@@ -174,7 +165,6 @@
             class="rounded-r-lg rounded-l-0"
             append-icon="mdi-chevron-down"
             color="#7631FF"
-            background-color="#F8F4FE"
           />
         </div>
 
@@ -185,6 +175,17 @@
             width="130"
             height="44"
             dark
+            v-if="this.$route.params.id!==`add-order`"
+            @click="setShippingInfo"
+            >Save</v-btn
+          >
+          <v-btn
+            color="#7631FF"
+            class="text-capitalize rounded-lg"
+            width="130"
+            height="44"
+            dark
+            v-else
             @click="setNewShippingInfo"
             >Save</v-btn
           >
@@ -203,7 +204,8 @@ export default {
     return {
       currency_enums: ["USD", "UZS", "RUB"],
       size_enums: [],
-
+      id: this.$route.params.id,
+      modelId: this.$route.query.modelId,
       shippingInfo: {
         actualShippingDate: "",
         orderClosingDate: "",
@@ -214,7 +216,6 @@ export default {
         surplusProductsQuantity: null,
         soldPriceOfSurplusProducts: null,
         soldPriceOfSurplusProductsCurrency: "USD",
-        id: this.$route.params.id,
       },
 
       pickerOptions: {
@@ -255,6 +256,7 @@ export default {
       measurementUnitList: "shippingInfo/measurementUnitList",
       shippingInfoDetail: "shippingInfo/shippingInfoDetail",
     }),
+
   },
 
   watch: {
@@ -281,15 +283,28 @@ export default {
       createShippingInfo: "shippingInfo/createShippingInfo",
     }),
 
-    async setNewShippingInfo() {
-      this.createShippingInfo(this.shippingInfo);
+    async setShippingInfo() {
+      this.createShippingInfo({
+        ...this.shippingInfo,
+        id: this.id,
+        modelId: this.modelId,
+      });
+    },
+
+    setNewShippingInfo() {
+      this.createShippingInfo({
+        ...this.shippingInfo,
+        id: this.$store.getters["orders/newOrderId"],
+        modelId: this.$store.getters["orders/newModelId"],
+      });
     },
   },
 
   mounted() {
     const id = this.$route.params.id;
+    const modelId = this.$route.query.modelId;
     if (id !== "add-order") {
-      this.getShippingInfo({ id });
+      this.getShippingInfo({ id, modelId });
     }
   },
 };
