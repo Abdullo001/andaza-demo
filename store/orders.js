@@ -8,11 +8,12 @@ export const state = () => ({
   clientList: [],
   modelList: [],
   modelId: null,
+  orderCondation:false,
 });
 
 export const getters = {
   ordersList: (state) => state.ordersList.content,
-  oneOrder: (state) => state.oneOrder.content,
+  oneOrder: (state) => state.oneOrder,
   newOrderId: (state) => state.newOrderId,
   modelGroups: (state) => state.modelGroups.content,
   usersList: (state) => state.usersList.content,
@@ -20,6 +21,7 @@ export const getters = {
   modelList: (state) => state.modelList.data,
   modelId: (state) => state.modelId,
   newModelId: (state)=>state.newModelId,
+  orderCondation: state=>state.orderCondation,
 };
 
 export const mutations = {
@@ -50,6 +52,9 @@ export const mutations = {
   setModelId(state, id) {
     state.modelId = id;
   },
+  setOrderCondation(state,item){
+    state.orderCondation=item;
+  }
 };
 
 export const actions = {
@@ -81,28 +86,14 @@ export const actions = {
         console.log(response);
       });
   },
-  async getOneOrder({ commit }, { page, size, id }) {
-    const body = {
-      filters: [
-        {
-          key: "id",
-          propertyType: "LONG",
-          operator: "EQUAL",
-          value: id,
-        },
-      ],
-      sorts: [],
-      page,
-      size,
-    };
-    body.filters = body.filters.filter(
-      (item) => item.value !== "" && item.value !== null
-    );
+  async getOneOrder({ commit }, { page, size, id,modelId }) {
+    
 
     await this.$axios
-      .$put(`/api/v1/orders/list?modelGroup=`, body)
+      .$get(`/api/v1/orders/get-one?orderId=${id}&modelId=${modelId}`)
       .then((res) => {
         commit("setOneOrder", res.data);
+        console.log(res);
       })
       .catch(({ response }) => {
         console.log(response);
@@ -118,7 +109,7 @@ export const actions = {
       .catch(({ response }) => console.log(response));
   },
 
-  async createdOrder({ commit }, data) {
+  async createdOrder({ commit,dispatch }, data) {
     const order = {
       clientId: data.clientId,
       deadline: data.deadline,
@@ -133,13 +124,20 @@ export const actions = {
     this.$axios
       .post("/api/v1/orders/create", order)
       .then((res) => {
-        commit("setNewOrderId", res.data.id);
-        commit("setNewModelId",res.data.modelId);
-        this.$toast.success(res.message, { theme: "toasted-primary" });
+        commit("setNewOrderId", res.data.data.id);
+        commit("setNewModelId",res.data.data.modelId);
+        dispatch("sizeDistirbution/getSizeDistirbution",{modelId:res.data.data.modelId},{root:true})
+        dispatch("sizeDistirbution/getSizeDistirbutionValue",{orderId:res.data.data.id,modelId:res.data.data.modelId},{root:true})
+        // dispatch("detailInfo/getDetailInfo",{orderId:res.data.data.id,modelId:res.data.data.modelId},{root:true})
+        dispatch("shippingInfo/getShippingInfo",{id:res.data.data.id,modelId:res.data.data.modelId},{root:true})
+        dispatch("subcontracts/getSubcontractsList",{modelNumber:"",modelId:res.data.data.modelId},{root:true})
+        dispatch("documents/getDocuments",{modelId:res.data.data.modelId},{root:true})
+        this.$toast.success(res.data.message);
+        
       })
       .catch(({ response }) => {
         console.log(response);
-        this.$toast.error(response.data.message, { theme: "toasted-primary" });
+        this.$toast.error(response.data.message);
       });
   },
 
@@ -212,15 +210,18 @@ export const actions = {
       orderNumber: data.orderNumber,
       priority: data.priority,
     };
-    this.$axios
+    console.log(order);
+    await this.$axios
       .put("/api/v1/orders/update", order)
       .then((res) => {
-        this.$toast.success(res.message);
-        dispatch("getOneOrder", { id: res.data.data.id, page: 0, size: 50 });
+        this.$toast.success(res.data.message);
+        console.log(res);
+        
+        dispatch("getOneOrder", { id: res.data.data.id,modelId:res.data.data.modelId, });
       })
       .catch((res) => {
         console.log(res);
-        this.$toast.error(res.data.message);
+        this.$toast.error(res.message);
       });
   },
 };
