@@ -3,7 +3,8 @@ export const state = () => ({
 });
 
 export const getters = {
-  fabricList: state => state.fabricList,
+  fabricList: state => state.fabricList.content,
+  totalElements: state => state.fabricList.totalElements
 };
 export const mutations = {
   setFabricList(state, fabric) {
@@ -11,11 +12,17 @@ export const mutations = {
   }
 };
 export const actions = {
-  getFabricList({commit}) {
-
-    this.$axios.$put('/api/v1/fabric-planning/list')
+  getFabricList({commit}, {page, size}) {
+    const body = {
+      filters: [],
+      sorts: [],
+      page,
+      size
+    }
+    this.$axios.$put('/api/v1/fabric-planning/list', body)
       .then(res => {
         console.log(res);
-      })
+        commit('setFabricList', res.data);
+      }).catch(({response}) => console.log(response))
   }
 };

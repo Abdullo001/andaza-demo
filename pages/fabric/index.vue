@@ -66,16 +66,13 @@
     </v-card>
     <v-data-table
       :headers="headers"
-      :items="preFinanceList"
+      :items="fabricList"
       :items-per-page="10"
-      :loading="loading"
-      @update:items-per-page="getItemSize"
-      @update:page="page"
-      :server-items-length="totalElements"
       :footer-props="{
           itemsPerPageOptions: [10, 20, 50, 100],
       }"
       :options.sync="options"
+      :server-items-length="totalElements"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -85,7 +82,7 @@
               color="#7631FF"
               class="rounded-lg text-capitalize"
               dark
-              @click="$router.push(`/prefinances/create`)"
+              @click="$router.push(`/fabric/create`)"
             >
               <v-icon>mdi-plus</v-icon>
               Fabric
@@ -94,34 +91,18 @@
         </v-toolbar>
         <v-divider/>
       </template>
-      <template #item.status="{item}">
-        <div>
-          <v-select
-            @change="changeStatus(item)"
-            :items="status_enum"
-            v-model="item.status"
-            hide-details
-            rounded
-            append-icon="mdi-chevron-down"
-            :background-color="statusColor.color(item.status)"
-            dark
-            class="text-caption mt-n2"
-            flat
-          />
-        </div>
-      </template>
       <template #item.actions="{item}">
-        <v-tooltip top color="primary">
+        <v-tooltip top color="#7631FF">
           <template v-slot:activator="{on, attrs}">
             <v-btn
-              icon color="primary"
+              icon color="#7631FF"
               v-on="on" v-bind="attrs"
-              @click="$router.push(`/prefinances/${item.id}`)"
+              @click="$router.push(`/fabric/${item.id}`)"
             >
               <v-icon>mdi-chevron-right</v-icon>
             </v-btn>
           </template>
-          <span>Edit</span>
+          <span>Details</span>
         </v-tooltip>
       </template>
     </v-data-table>
@@ -136,43 +117,44 @@ export default {
   data() {
     return {
       options: {},
-      status_enum: ['ACTIVE', 'DISABLED'],
-      new_prefinance: false,
       filters: {
         id_fabric: '',
         modelId: '',
         orderId: '',
-        createAt: ''
       },
       valid_search: '',
       menu2: false,
       headers: [
-        {text: 'Prefinance number', align: 'start', sortable: false, value: 'preFinanceNumber'},
-        {text: 'Model №', value: 'modelNumber'},
-        {text: 'Partner', value: 'partner'},
-        {text: 'Price', value: 'primaryRate'},
-        {text: 'Currency', value: 'primaryCurrency'},
-        {text: 'Status', value: 'status', align: 'center', width: 200},
+        {text: 'ID', align: 'start', sortable: false, value: 'id'},
+        {text: 'Model number', value: 'modelNumber'},
+        {text: 'Model id', value: 'modelId'},
+        {text: 'Order number', value: 'orderNumber'},
+        {text: 'Order id', value: 'orderId'},
+        {text: 'Created', value: 'createdTimeOfPlanning'},
+        {text: 'Updated', value: 'updatedTimeOfPlanning'},
         {text: 'Actions', value: 'actions'},
       ],
-      preFinanceList: [],
       itemPerPage: 10,
       current_page: 0,
     }
   },
   created() {
-    this.getFabricList();
+    this.getFabricList({page:0, size:10});
   },
   computed: {
     ...mapGetters({
-
+      fabricList: 'fabric/fabricList',
+      totalElements: 'fabric/totalElements'
     })
   },
   watch: {},
   methods: {
     ...mapActions({
-      getFabricList: 'fabric/getFabricList'
-    })
+      getFabricList: 'fabric/getFabricList',
+    }),
+    filterData() {},
+    resetFilters() {},
+
 
   },
   mounted() {
