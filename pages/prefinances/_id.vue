@@ -805,7 +805,7 @@ export default {
   },
   watch: {
     onePreFinance(val) {
-      if(Object.keys(val).length) {
+      if (Object.keys(val).length) {
         const data = JSON.parse(JSON.stringify(val));
         this.addPreFinances = data;
         this.addPreFinances.modelNames = data.modelName;
@@ -814,7 +814,7 @@ export default {
         this.calculation[0].firstCurrency = val?.primaryRate;
         this.calculation[0].secondCurrency = val?.secondaryRate;
         this.calculation[0].tertiaryCurrency = val?.tertiaryRate;
-        if(!!val?.overProductionPercent) {
+        if (!!val?.overProductionPercent) {
           this.calculation[1].editable = val?.overProductionPercent;
           this.calculation[2].editable = val?.lossPercent;
           this.calculation[3].editable = val?.generalExpensePercent;
@@ -835,8 +835,8 @@ export default {
         await this.getDocuments({modelId: id});
       }
     },
-    "addPreFinances.modelNumber": function (elem) {
-      if (elem !== null || elem.length > 1) {
+    "addPreFinances.modelNumber"(elem) {
+      if (!(typeof elem === null || typeof elem === 'object')) {
         this.getModelName(elem)
       }
       const {modelNumber, name, partner, id} = this.addPreFinances.modelNumber;
@@ -861,7 +861,7 @@ export default {
     },
     calculation: {
       handler(val) {
-        if(val[0].firstCurrency > 0) {
+        if (val[0].firstCurrency > 0) {
           const overproduction = val[1].editable;
           val[1].firstCurrency = (this.totalPrice / 100 * overproduction).toFixed(2)
           val[1].secondCurrency = (this.calculation[0].secondCurrency / 100 * overproduction).toFixed(2)
@@ -969,13 +969,14 @@ export default {
     async createNewPreFinance() {
       await this.createPreFinance(this.addPreFinances);
     },
-    deleteRow(item, index) {}
+    deleteRow(item, index) {
+    }
   },
-   mounted() {
+  mounted() {
     this.getExpenseGroup();
     this.getMeasurementUnit();
     const param = this.$route.params.id;
-    if(param !== 'create') {
+    if (param !== 'create') {
       this.getOnePreFinance(param);
       this.getAllDetails(param);
     } else {
@@ -985,11 +986,11 @@ export default {
       setTimeout(() => {
         this.calculation[0].secondCurrency = 0;
         this.calculation[0].tertiaryCurrency = 0;
-      },1000)
+      }, 1000)
     }
 
-   }
+  }
 }
 </script>
 
-<style lang="scss" src="assets/abstracts/_prefinances.scss" scoped />
+<style lang="scss" src="assets/abstracts/_prefinances.scss" scoped/>
