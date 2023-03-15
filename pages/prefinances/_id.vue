@@ -805,15 +805,17 @@ export default {
   },
   watch: {
     onePreFinance(val) {
+      console.log(this.detailsList);
+      console.log(val)
       if (Object.keys(val).length) {
         const data = JSON.parse(JSON.stringify(val));
         this.addPreFinances = data;
         this.addPreFinances.modelNames = data.modelName;
         this.$store.commit('preFinance/setPreFinanceId', data.id);
         this.addPreFinances.owner = data.createdBy;
-        this.calculation[0].firstCurrency = val?.primaryRate;
-        this.calculation[0].secondCurrency = val?.secondaryRate;
-        this.calculation[0].tertiaryCurrency = val?.tertiaryRate;
+        this.calculation[0].firstCurrency = this.detailsList[0].totalPrice;
+        this.calculation[0].secondCurrency = (this.detailsList[0].totalPrice * val?.secondaryRate).toFixed(2);
+        this.calculation[0].tertiaryCurrency = (this.detailsList[0].totalPrice * val?.tertiaryRate).toFixed(2);
         if (!!val?.overProductionPercent) {
           this.calculation[1].editable = val?.overProductionPercent;
           this.calculation[2].editable = val?.lossPercent;
