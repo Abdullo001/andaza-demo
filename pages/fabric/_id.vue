@@ -315,23 +315,15 @@ export default {
         createdTime: '',
         photosOfModels: [],
         createdAt: '',
-      }
+      },
+      orderData: [],
+      modelData: [],
+      orderSearch: '',
+      modelSearch: ''
     }
   },
-  computed: {
-    orderData() {
-      return []
-    },
-    modelData() {
-      return []
-    }
-  },
-  methods: {
-    orderSearch(val) {
-    },
-    modelSearch(val) {
-    }
-  }
+  computed: {},
+  methods: {}
 }
 </script>
 

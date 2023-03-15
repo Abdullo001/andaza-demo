@@ -21,7 +21,6 @@ export const actions = {
     }
     this.$axios.$put('/api/v1/fabric-planning/list', body)
       .then(res => {
-        console.log(res);
         commit('setFabricList', res.data);
       }).catch(({response}) => console.log(response))
   }
