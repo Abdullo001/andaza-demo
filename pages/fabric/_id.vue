@@ -46,7 +46,7 @@
               :items="modelData"
               :search-input.sync="modelSearch"
               item-text="modelNumber"
-              item-value="modelNumber"
+              item-value="modelId"
               filled
               class="rounded-lg"
               :return-object="true"
@@ -69,12 +69,13 @@
               dense
               label="Model name"
               placeholder="Model name"
-              v-model="addFabric.modelName" disabled
+              v-model="addFabric.modelName"
+              disabled
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
             <v-text-field
-              v-model="addFabric.headOfProductionDepartment"
+              v-model="addFabric.headOfProduction"
               filled
               class="rounded-lg"
               color="#7631FF"
@@ -171,7 +172,7 @@
                 class="rounded-lg"
                 color="#7631FF"
                 dense
-                label="Deadline for fabric"
+                label="Creator of planning"
                 placeholder="Enter deadline for fabric"
                 disabled
               />
@@ -203,19 +204,18 @@
             <v-col cols="12" lg="6" md="6" class="d-flex flex-wrap mt-4">
               <v-col cols="12" lg="6" class="pl-0 pt-0">
                 <v-text-field
-                  v-model="addFabric.owner"
+                  v-model="addFabric.creatorOfModel"
                   filled
                   class="rounded-lg"
                   color="#7631FF"
                   dense
-                  label="Owner"
-                  placeholder="Enter Owner"
+                  label="Creator of Model"
                   disabled
                 />
               </v-col>
               <v-col cols="12" lg="6" class="pt-0 pr-0">
                 <v-text-field
-                  v-model="addFabric.createdAt"
+                  v-model="addFabric.createdTimeOfModel"
                   filled
                   class="rounded-lg"
                   color="#7631FF"
@@ -231,24 +231,24 @@
               </v-col>
               <v-col cols="12" lg="6" class="pl-0 pt-0">
                 <v-text-field
-                  v-model="addFabric.modifiedPerson"
+                  v-model="addFabric.creatorOfOrder"
                   filled
                   class="rounded-lg"
                   color="#7631FF"
                   dense
-                  label="Modified person"
+                  label="Creator of order"
                   placeholder="Enter Modified person"
                   disabled
                 />
               </v-col>
               <v-col cols="12" lg="6" class="pt-0 pr-0">
                 <v-text-field
-                  v-model="addFabric.updatedAt"
+                  v-model="addFabric.createdTimeOfOrder"
                   filled
                   class="rounded-lg"
                   color="#7631FF"
                   dense
-                  label="Updated time"
+                  label="Created time"
                   placeholder="dd.MM.yyyy HH:mm:ss"
                   disabled
                 >
@@ -381,12 +381,16 @@ export default {
     },
     "addFabric.modelNumber"(val) {
       this.getOrderNames(val.id)
+    },
+    fabricData(val) {
+      this.addFabric = val;
     }
   },
   computed: {
     ...mapGetters({
       modelNames: 'preFinance/modelNames',
       modelData: 'preFinance/modelData',
+      fabricData: 'fabric/fabricData'
     })
   },
   methods: {
