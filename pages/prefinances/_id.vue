@@ -805,8 +805,6 @@ export default {
   },
   watch: {
     onePreFinance(val) {
-      console.log(this.detailsList);
-      console.log(val)
       if (Object.keys(val).length) {
         const data = JSON.parse(JSON.stringify(val));
         this.addPreFinances = data;

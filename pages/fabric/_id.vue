@@ -272,10 +272,54 @@
         </v-btn>
       </v-card-actions>
     </v-card>
+    <v-card  elevation="0" class="mt-3 rounded-lg">
+      <v-card-text>
+        <v-tabs
+          v-model="tab"
+          background-color="transparent"
+          color="#7631FF"
+        >
+          <v-tab
+            v-for="item in items"
+            :key="item"
+            class="text-capitalize"
+
+          >
+            {{ item }}
+          </v-tab>
+        </v-tabs>
+        <v-divider/>
+        <v-tabs-items v-model="tab">
+          <v-tab-item>
+            <FabricPlanningChart/>
+          </v-tab-item>
+        </v-tabs-items>
+      </v-card-text>
+    </v-card>
+    <v-row>
+      <v-col cols="12" lg="6">
+        <v-card class="mt-3 rounded-lg elevation-0">
+          <v-card-text>
+            <FabricCalculation/>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col cols="12" lg="6">
+        <v-card class="mt-3 rounded-lg elevation-0">
+          <v-card-text>
+            <FabricOrder/>
+            <v-divider/>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+
   </div>
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   data() {
     return {
@@ -317,13 +361,46 @@ export default {
         createdAt: '',
       },
       orderData: [],
-      modelData: [],
       orderSearch: '',
-      modelSearch: ''
+      modelSearch: '',
+      items: [
+        'Fabric planning chart',
+        'List of fabrics to be ordered',
+        'Planned fabric order',
+        'Supply fabric',
+        'Documentation'
+      ],
+      tab: null,
     }
   },
-  computed: {},
-  methods: {}
+  watch: {
+    modelSearch(elem) {
+      if (!(typeof elem === null || typeof elem === 'object')) {
+        this.getModelName(elem)
+      }
+    },
+    "addFabric.modelNumber"(val) {
+      this.getOrderNames(val.id)
+    }
+  },
+  computed: {
+    ...mapGetters({
+      modelNames: 'preFinance/modelNames',
+      modelData: 'preFinance/modelData',
+    })
+  },
+  methods: {
+    ...mapActions({
+      getModelName: 'preFinance/getModelName',
+      getOrderNames: 'fabric/getOrderNames'
+    })
+  },
+  mounted() {
+    const param = this.$route.params.id;
+    if(param === "create") {
+      this.title = 'Add'
+    } else this.title = 'Edit'
+  }
 }
 </script>
 
