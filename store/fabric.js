@@ -30,11 +30,13 @@ export const actions = {
       }).catch(({response}) => console.log(response))
   },
   async getOrderNames({commit}, id) {
-    await this.$axios.$get(`/api/v1/fabric-planning/model-order-info?modelId=${id}`)
-      .then(res => {
-        commit('setFabricData', res.data)
-      }).catch(({response}) => {
-        this.$toast.error(response.data.message)
-    })
+    if(!!id) {
+      await this.$axios.$get(`/api/v1/fabric-planning/model-order-info?modelId=${id}`)
+        .then(res => {
+          commit('setFabricData', res.data)
+        }).catch(({response}) => {
+          this.$toast.error(response.data.message)
+      })
+    }
   }
 };

@@ -197,7 +197,13 @@
             <v-col cols="12" lg="6" md="6" class="d-flex flex-wrap px-0">
               <v-col v-for="(image, idx) in 3" :key="idx">
                 <div class="image-box">
-                  <v-img src="/default-image.svg" max-width="50"/>
+                  <v-img src="/default-image.svg" max-width="50" v-if="!modelImages.length"/>
+                  <v-img
+                    :src="modelImages[idx]?.filePath"
+                    v-else max-height="150"
+                    contain class="pointer"
+                    @click="showImage(modelImages[idx]?.filePath)"
+                  />
                 </div>
               </v-col>
             </v-col>
@@ -272,7 +278,7 @@
         </v-btn>
       </v-card-actions>
     </v-card>
-    <v-card  elevation="0" class="mt-3 rounded-lg">
+    <v-card elevation="0" class="mt-3 rounded-lg">
       <v-card-text>
         <v-tabs
           v-model="tab"
@@ -313,7 +319,17 @@
         </v-card>
       </v-col>
     </v-row>
-
+    <v-dialog max-width="590" v-model="image_dialog">
+      <v-card>
+        <v-card-title class="d-flex">
+          <v-spacer/>
+          <v-btn icon color="#7631FF" large @click="image_dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-img :src="currentImage" height="500" contain/>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -323,6 +339,7 @@ import {mapActions, mapGetters} from "vuex";
 export default {
   data() {
     return {
+      image_dialog: false,
       map_links: [
         {
           text: 'Home',
@@ -379,29 +396,40 @@ export default {
         this.getModelName(elem)
       }
     },
-    "addFabric.modelNumber"(val) {
-      this.getOrderNames(val.id)
+    async "addFabric.modelNumber"(val) {
+      if (typeof val !== null || !!Object.keys(val).length) {
+        await this.getOrderNames(val?.id);
+      }
     },
     fabricData(val) {
-      this.addFabric = val;
+      this.addFabric = JSON.parse(JSON.stringify(val))
+    },
+    async addFabric(val) {
+      await this.getImages(val.modelId);
     }
   },
   computed: {
     ...mapGetters({
       modelNames: 'preFinance/modelNames',
       modelData: 'preFinance/modelData',
-      fabricData: 'fabric/fabricData'
+      fabricData: 'fabric/fabricData',
+      modelImages: 'modelPhoto/modelImages',
     })
   },
   methods: {
     ...mapActions({
       getModelName: 'preFinance/getModelName',
-      getOrderNames: 'fabric/getOrderNames'
-    })
+      getOrderNames: 'fabric/getOrderNames',
+      getImages: 'modelPhoto/getImages',
+    }),
+    showImage(image) {
+      this.currentImage = image;
+      this.image_dialog = true;
+    },
   },
   mounted() {
     const param = this.$route.params.id;
-    if(param === "create") {
+    if (param === "create") {
       this.title = 'Add'
     } else this.title = 'Edit'
   }
@@ -416,6 +444,6 @@ export default {
   justify-content: center;
   align-items: center;
   min-width: 100%;
-  min-height: 100%;
+  min-height: 90%;
 }
 </style>
