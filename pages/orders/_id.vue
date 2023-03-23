@@ -43,7 +43,6 @@
               dense
               class="rounded-lg"
               color="#7631FF"
-              background-color="#F8F4FE"
             />
             <div class="mb-2 text-body-1">Head of production depatment</div>
 
@@ -59,7 +58,6 @@
               class="rounded-lg"
               append-icon="mdi-magnify"
               color="#7631FF"
-              background-color="#F8F4FE"
             />
             <div class="mb-2 black--text text-body-1">Permission</div>
             <v-chip color="#10BF41" dark class="font-weight-bold">Edit</v-chip>
@@ -78,7 +76,6 @@
               class="rounded-lg"
               append-icon="mdi-magnify"
               color="#7631FF"
-              background-color="#F8F4FE"
             />
             <div class="mb-2 text-body-1">Given Price</div>
             <div class="d-flex align-center">
@@ -90,7 +87,6 @@
                 dense
                 class="rounded-l-lg rounded-r-0"
                 color="#7631FF"
-                background-color="#F8F4FE"
               />
               <v-select
                 :items="currency_enums"
@@ -102,7 +98,6 @@
                 class="rounded-r-lg rounded-l-0"
                 append-icon="mdi-chevron-down"
                 color="#7631FF"
-                background-color="#F8F4FE"
               />
             </div>
 
@@ -123,6 +118,7 @@
           <v-col>
             <div class="mb-2 text-body-1">Model number</div>
             <v-select
+              @change="(e) => setModelName(e)"
               :items="modelList"
               v-model="order.modelId"
               item-value="id"
@@ -134,7 +130,6 @@
               class="rounded-lg"
               append-icon="mdi-magnify"
               color="#7631FF"
-              background-color="#F8F4FE"
             />
 
             <div class="mb-2 text-body-1">Total</div>
@@ -148,7 +143,6 @@
                 dense
                 class="rounded-l-lg rounded-r-0"
                 color="#7631FF"
-                background-color="#F8F4FE"
               />
               <v-select
                 :items="currency_enums"
@@ -160,7 +154,6 @@
                 class="rounded-r-lg rounded-l-0"
                 append-icon="mdi-chevron-down"
                 color="#7631FF"
-                background-color="#F8F4FE"
               />
             </div>
           </v-col>
@@ -168,15 +161,15 @@
             <div class="mb-2 text-body-1">Model name</div>
             <v-text-field
               v-model="order.modelName"
-              placeholder="Enter model name"
+              placeholder="Enter "
               outlined
               validate-on-blur
               dense
               class="rounded-lg"
               color="#7631FF"
-              background-color="#F8F4FE"
               readonly
             />
+           
 
             <div class="mb-2 text-body-1">Deadline</div>
             <el-date-picker
@@ -186,9 +179,11 @@
               :picker-options="pickerOptions"
               value-format="dd.MM.yyyy HH:mm:ss"
               style="min-width: 100%"
-              class="picker-color"
+              class=" el-date-picker bg-color-dataPic"
             >
             </el-date-picker>
+
+           
           </v-col>
         </v-row>
         <v-row>
@@ -202,7 +197,6 @@
               dense
               class="rounded-lg"
               color="#7631FF"
-              background-color="#F8F4FE"
             />
           </v-col>
 
@@ -217,7 +211,7 @@
               class="rounded-lg"
               color="#7631FF"
               background-color="#F8F4FE"
-              disabled
+              readonly
             />
 
             <div class="mb-2 text-body-1">Modified person</div>
@@ -230,7 +224,7 @@
               class="rounded-lg"
               color="#7631FF"
               background-color="#F8F4FE"
-              disabled
+              readonly
             />
           </v-col>
 
@@ -250,14 +244,13 @@
             <div class="mb-2 text-body-1">Updated time</div>
             <el-date-picker
               v-model="order.updatedTime"
-
               type="datetime"
               placeholder="Update at"
               :picker-options="pickerOptions"
               value-format="dd.MM.yyyy HH:mm:ss"
               style="min-width: 100%"
               disabled
-              class=" el-date-picker"
+              class="el-date-picker"
             >
             </el-date-picker>
           </v-col>
@@ -303,7 +296,7 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <ColorSizeDistirbution  />
+                <ColorSizeDistirbution />
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -357,7 +350,7 @@ export default {
       fields_status: true,
       tab: null,
       orderStatus: "Add",
-      priority_enums: ["LOW", "NORMAL", "HIGH"],
+      priority_enums: ["LOW", "MEDIUM", "HIGH"],
       items: [
         "Color/Size distirbution",
         "Detail info",
@@ -410,6 +403,8 @@ export default {
         modelId: null,
       },
 
+      saveOrder: false,
+
       pickerOptions: {
         shortcuts: [
           {
@@ -456,9 +451,8 @@ export default {
   },
 
   watch: {
-    orderDetail(ordersList) {
-      console.log(ordersList);
-      ordersList.map((item) => {
+    orderDetail(item) {
+     
         const order = this.order;
         order.id = item.id;
         order.modelId = item.modelId;
@@ -479,7 +473,7 @@ export default {
         order.priority = item.priority;
         const modelId = item.modelId;
         this.setModelId({ modelId });
-      });
+      
     },
 
     usersList(list) {
@@ -514,15 +508,26 @@ export default {
     async createdNewOrder() {
       await this.createdOrder(this.order);
     },
+
+    setModelName(item) {
+
+      this.modelList.forEach((e) => {
+        if (item === e.id) {
+          this.order.modelName = e.name;
+        }
+      });
+    },
   },
 
   mounted() {
     const id = this.$route.params.id;
+    const modelId = this.$route.query.modelId;
     if (id !== "add-order") {
       this.getOneOrder({
         page: 0,
         size: 50,
         id,
+        modelId,
       });
       this.orderStatus = "Edit";
     } else {
@@ -546,6 +551,26 @@ export default {
 }
 
 .el-input__inner {
-  color: #c0c4cc;
+  color: #c0c4cc !important;
+}
+.el-input__inner {
+  color: #777 !important;
+  &::placeholder {
+    color: #777 !important;
+  }
+}
+.el-input__icon.el-icon-time {
+  color: #777 !important;
+  font-size: 18px;
+}
+.v-data-table-header {
+  background-color: #e9eaeb;
+}
+.el-input__inner {
+  background-color: #e9eaeb !important;
+}
+
+.bg-color-dataPic{
+  background-color: #F8F4FE !important;
 }
 </style>

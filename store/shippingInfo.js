@@ -27,8 +27,8 @@ export const mutations={
 }
 
 export const actions = {
-  async getShippingInfo({commit},{id}){
-    await this.$axios.get(`/api/v1/orders/shipping-info?orderId=${id}`)
+  async getShippingInfo({commit},{id,modelId}){
+    await this.$axios.get(`/api/v1/orders/shipping-info?orderId=${id}&modelId=${modelId}`)
     .then((res)=>{
       commit('setShippingInfo',res.data)
     })
@@ -44,6 +44,7 @@ export const actions = {
       actualShippingUnitId:data.quantityUnityId,
       orderClosingDate:data.orderClosingDate,
       orderId:data.id,
+      modelId:data.modelId,
       packagingSize:data.packagingSize,
       packagingSizeUnitId:data.packagingSizeUnityId,
       soldPriceOfSurplusProduct:data.soldPriceOfSurplusProducts,
@@ -53,11 +54,12 @@ export const actions = {
     await this.$axios.put(`/api/v1/orders/set-shipping-info`,body)
     .then(res=>{
       console.log(res);
-      dispatch('getShippingInfo',{id:body.orderId})
-      this.$toast.success(res.data.message, {theme: 'toasted-primary'})
+      dispatch('getShippingInfo',{id:body.orderId,modelId:body.modelId})
+      this.$toast.success(res.data.message)
     })
     .catch(response=>{
-      console.log(response);
+      console.log(response); 
+      this.$toast.error(res.data.massage) 
     })
   },
 

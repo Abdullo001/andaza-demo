@@ -60,7 +60,7 @@
           <v-btn icon class="mr-2" @click="editParts(item)">
             <v-img src="/edit-green.svg" max-width="20" />
           </v-btn>
-          <v-btn icon>
+          <v-btn icon @click="deleteSubcontractOne(item)">
             <v-img src="/trash-red.svg" max-width="20" />
           </v-btn>
         </div>
@@ -197,7 +197,7 @@
         </v-card-title>
 
         <v-card-text>
-          <v-form lazy-validation v-model="new_validate" ref="new_form">
+          <v-form lazy-validation v-model="new_validate" ref="edit_form">
             <v-row class="mb-4">
               <v-col cols="6">
                 <div class="mb-2 text-body-1">Cooperation type</div>
@@ -306,6 +306,42 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+
+    <v-dialog v-model="delete_dialog" max-width="500">
+      <v-card class="pa-4 text-center">
+        <div class="d-flex justify-center mb-2">
+          <v-img src="/error-icon.svg" max-width="40" />
+        </div>
+        <v-card-title class="d-flex justify-center"
+          >Delete size chart row</v-card-title
+        >
+        <v-card-text>
+          Are you sure you want to Delete size chart row?
+        </v-card-text>
+        <v-card-actions class="px-16">
+          <v-btn
+            outlined
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#777C85"
+            width="140"
+            @click.stop="delete_dialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-spacer />
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#FF4E4F"
+            width="140"
+            elevation="0"
+            dark
+            @click="deleteSubcontract"
+          >
+            delete
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -317,6 +353,7 @@ export default {
     return {
       edit_dialog: false,
       new_dialog: false,
+      delete_dialog: false,
       new_validate: true,
       modelSearch: "",
       modelNumber: "",
@@ -353,6 +390,7 @@ export default {
       subcontractsList: [],
 
       subcontractsDetail: {},
+      selectedSubcontract: {},
 
       newSubcontractDetail: {
         cooperationTypeId: null,
@@ -361,7 +399,6 @@ export default {
         measurementUnitId: null,
         comment: "",
         dispatchedDate: "",
-        modelId: this.$route.query.modelId,
       },
     };
   },
@@ -370,6 +407,7 @@ export default {
     this.getCooperationTypes();
     this.getPartnerList();
     this.getMeasurementUnit();
+    this.getModelList();
   },
 
   computed: {
@@ -390,6 +428,14 @@ export default {
         }, 2000);
     },
 
+    edit_dialog(val) {
+      if (!val) this.$refs.edit_form.reset();
+    },
+
+    new_dialog(val) {
+      if (!val) this.$refs.new_form.reset();
+    },
+
     setSubcontractsList(subcontracts) {
       this.subcontractsList = JSON.parse(JSON.stringify(subcontracts));
     },
@@ -404,11 +450,12 @@ export default {
       createSubcontracts: "subcontracts/createSubcontracts",
       getModelList: "subcontracts/getModelList",
       updateSubcontracts: "subcontracts/updateSubcontracts",
+      deleteSubcontractServer: "subcontracts/deleteSubcontractServer",
     }),
 
     editParts(item) {
       this.edit_dialog = !this.edit_dialog;
-      this.subcontractsDetail={...item}
+      this.subcontractsDetail = { ...item };
     },
 
     getTime() {
@@ -440,12 +487,16 @@ export default {
         ? (second = `0${today.getSeconds()}`)
         : (second = `${today.getSeconds()}`);
       time = hour + ":" + minut + ":" + second;
-      return date+" "+time
+      return date + " " + time;
     },
 
     updateSubcontractsView() {
+      const modelId =
+        this.$route.params.id !== "add-order"
+          ? this.$route.query.modelId
+          : this.$store.getters["orders/newModelId"];
       this.edit_dialog = !this.edit_dialog;
-      this.updateSubcontracts(this.subcontractsDetail)
+      this.updateSubcontracts({ ...this.subcontractsDetail,modelId });
     },
 
     newSubcontract() {
@@ -453,19 +504,47 @@ export default {
     },
 
     async setNewSubcontracts() {
-      this.newSubcontractDetail.dispatchedDate=this.getTime()
-      await this.createSubcontracts(this.newSubcontractDetail);
+      const modelId =
+        this.$route.params.id !== "add-order"
+          ? this.$route.query.modelId
+          : this.$store.getters["orders/newModelId"];
+      this.newSubcontractDetail.dispatchedDate = this.getTime();
+      await this.createSubcontracts({...this.newSubcontractDetail,modelId});
       this.new_dialog = !this.new_dialog;
     },
 
     searchSubcontracts(item) {
-      this.getSubcontractsList({ modelNumber: item.target._value });
+      const modelId =
+        this.$route.params.id !== "add-order"
+          ? this.$route.query.modelId
+          : this.$store.getters["orders/newModelId"];
+      this.getSubcontractsList({ modelNumber: item.target._value,modelId });
+    },
+
+    deleteSubcontractOne(item) {
+      this.selectedSubcontract = item;
+      this.delete_dialog = true;
+    },
+
+    deleteSubcontract() {
+      const modelId =
+        this.$route.params.id !== "add-order"
+          ? this.$route.query.modelId
+          : this.$store.getters["orders/newModelId"];
+      this.deleteSubcontractServer({
+        id: this.selectedSubcontract.id,
+        modelId: modelId,
+      });
+      this.delete_dialog = false;
     },
   },
 
   mounted() {
-    this.getSubcontractsList({ modelNumber: "" });
-    this.getModelList();
+    const id = this.$route.params.id;
+    const modelId = this.$route.query.modelId;
+    if (id !== "add-order") {
+      this.getSubcontractsList({ modelNumber: "", modelId: modelId });
+    }
   },
 };
 </script>

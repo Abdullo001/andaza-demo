@@ -50,11 +50,12 @@
 
         <v-card-text>
           <v-form lazy-validation v-model="new_validate" ref="new_form">
-            <v-row class="mb-4">
+            <v-row class="mb-4 d-flex justify-space-between" >
               <v-col
-                cols="6"
+                cols="4"
                 v-for="(item, idx) in orderSizeDetail.modelBodyParts"
                 :key="idx"
+
               >
                 <div class="mb-2 text-body-1">{{ item.bodyPart }}</div>
                 <v-text-field
@@ -69,17 +70,15 @@
                   background-color="#F8F4FE"
                 />
               </v-col>
-            </v-row>
 
-            <v-row class="mb-4">
               <v-col
-                cols="3"
+                cols="4"
                 v-for="(item, idx) in orderSizeDetail.sizeDistributions"
                 :key="idx"
               >
                 <div class="mb-2 text-body-1">{{ item.size }}</div>
                 <v-text-field
-                  v-model="item.quatity"
+                  v-model="item.quantity"
                   :placeholder="item.size"
                   single-line
                   outlined
@@ -91,6 +90,8 @@
                 />
               </v-col>
             </v-row>
+
+            
 
             <v-card-actions class="d-flex justify-center pb-6">
               <v-btn
@@ -105,9 +106,19 @@
                 class="text-capitalize rounded-lg font-weight-bold"
                 color="#7631FF"
                 dark
+                v-if="this.$route.params.id!==`add-order`"
                 width="163"
                 @click="update"
                 >save
+              </v-btn>
+              <v-btn
+                class="text-capitalize rounded-lg font-weight-bold"
+                color="#7631FF"
+                dark
+                v-else
+                width="163"
+                @click="updateNewOrder"
+                >saveBtn
               </v-btn>
             </v-card-actions>
           </v-form>
@@ -129,12 +140,12 @@ export default {
         { text: "Total", sortable: false, value: "total" },
         { text: "Actions", sortable: false, align: "center", value: "actions" },
       ],
-
       headerSizes: [],
       headerBodyPart: [],
       headers: [],
       item: {},
-      number: null,
+      newModelId:null ,
+      newOrderId:null ,
 
       orderSizeList: [],
 
@@ -153,10 +164,26 @@ export default {
       sizeValues: "sizeDistirbution/sizeValues",
       bodyPartValues: "sizeDistirbution/bodyPartValues",
       totalItem: "sizeDistirbution/total",
+      newModelIdServer:"orders/newModelId",
+      newOrderIdServer:"orders/newOrderId",
     }),
+
   },
 
   watch: {
+    newOrderIdServer:{
+      deep:true,
+      handler(id){
+        this.newOrderId=id
+      }
+    },
+    newModelIdServer:{
+      deep:true,
+      handler(id){
+        this.newModelIdId=id
+      }
+    },
+   
     sizes(list) {
       this.headerSizes = [];
       list.forEach((item) => {
@@ -197,7 +224,7 @@ export default {
       for (let item in items) {
         const sizeObj = {
           size: item,
-          quatity: items[item],
+          quantity: items[item],
         };
         value[item] = items[item];
         this.orderSizeDetail.sizeDistributions.push(sizeObj);
@@ -223,6 +250,16 @@ export default {
     edit() {
       this.edit_dialog = !this.edit_dialog;
     },
+    async updateNewOrder(){
+      await this.updateSizeDistirbutionValue({
+        ...this.orderSizeDetail,
+        modelId: this.$store.getters["orders/newModelId"],
+        orderId: this.$store.getters["orders/newOrderId"],
+        
+      });
+      this.edit_dialog = !this.edit_dialog;
+     
+    },
     async update() {
       await this.updateSizeDistirbutionValue({
         ...this.orderSizeDetail,
@@ -230,12 +267,12 @@ export default {
         orderId: this.$route.params.id,
       });
       this.edit_dialog = !this.edit_dialog;
+
     },
   },
 
   async mounted() {
     const id = this.$route.params.id;
-
     if (id !== "add-order") {
       await this.getSizeDistirbution({ modelId: this.modelId });
       await this.getSizeDistirbutionValue({
@@ -243,6 +280,8 @@ export default {
         orderId: id,
       });
     }
+    
+
   },
 };
 </script>

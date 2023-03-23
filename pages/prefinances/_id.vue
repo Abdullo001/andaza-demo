@@ -85,6 +85,7 @@
               dense
               label="Primary Currency"
               append-icon="mdi-chevron-down"
+
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
@@ -181,7 +182,7 @@
               </v-col>
               <v-col cols="12" lg="6" class="pt-0 pr-0">
                 <v-text-field
-                  v-model="addPreFinances.createdTime"
+                  v-model="addPreFinances.createdAt"
                   filled
                   class="rounded-lg"
                   color="#7631FF"
@@ -209,7 +210,7 @@
               </v-col>
               <v-col cols="12" lg="6" class="pt-0 pr-0">
                 <v-text-field
-                  v-model="addPreFinances.updatedTime"
+                  v-model="addPreFinances.updatedAt"
                   filled
                   class="rounded-lg"
                   color="#7631FF"
@@ -367,7 +368,6 @@
                   </div>
                 </div>
               </v-col>
-
               <v-col
                 cols="12" lg="6" md="6"
                 v-for="(link, idx) in modelImages"
@@ -603,9 +603,9 @@ export default {
         secondaryCurrency: '',
         description: '',
         owner: '',
-        createdTime: '',
+        createdAt: '',
         modifiedPerson: '',
-        updatedTime: '',
+        updatedAt: '',
       },
       headers: [
         {text: 'Name', value: 'name', align: 'start', sortable: false},
@@ -794,7 +794,8 @@ export default {
       detailsList: 'preFinance/detailsList',
       totalPrice: 'preFinance/totalPrice',
       modelImages: 'modelPhoto/modelImages',
-      documentsList: 'documents/documentsList'
+      documentsList: 'documents/documentsList',
+      onePreFinance: 'preFinance/onePreFinance'
     }),
     title() {
       const id = this.$route.params.id;
@@ -802,6 +803,27 @@ export default {
     }
   },
   watch: {
+    onePreFinance(val) {
+      if (Object.keys(val).length) {
+        const data = JSON.parse(JSON.stringify(val));
+        this.addPreFinances = data;
+        this.addPreFinances.modelNames = data.modelName;
+        this.$store.commit('preFinance/setPreFinanceId', data.id);
+        this.addPreFinances.owner = data.createdBy;
+        this.calculation[0].firstCurrency = this.detailsList[0].totalPrice;
+        this.calculation[0].secondCurrency = (this.detailsList[0].totalPrice * val?.secondaryRate).toFixed(2);
+        this.calculation[0].tertiaryCurrency = (this.detailsList[0].totalPrice * val?.tertiaryRate).toFixed(2);
+        if (!!val?.overProductionPercent) {
+          this.calculation[1].editable = val?.overProductionPercent;
+          this.calculation[2].editable = val?.lossPercent;
+          this.calculation[3].editable = val?.generalExpensePercent;
+          this.calculation[4].editable = val?.extraExpensePercent;
+          this.calculation[6].editable = val?.targetProfitPercent;
+          this.calculation[7].firstCurrency = val?.targetProfitPercent;
+          this.calculation[9].editable = val?.discountPercent;
+        }
+      }
+    },
     documentsList(val) {
       this.allDocuments = [...val]
     },
@@ -812,8 +834,8 @@ export default {
         await this.getDocuments({modelId: id});
       }
     },
-    "addPreFinances.modelNumber": function (elem) {
-      if (elem !== null || elem.length > 1) {
+    "addPreFinances.modelNumber"(elem) {
+      if (!(typeof elem === null || typeof elem === 'object')) {
         this.getModelName(elem)
       }
       const {modelNumber, name, partner, id} = this.addPreFinances.modelNumber;
@@ -838,67 +860,68 @@ export default {
     },
     calculation: {
       handler(val) {
-        const overproduction = val[1].editable;
-        val[1].firstCurrency = (this.totalPrice / 100 * overproduction).toFixed(2)
-        val[1].secondCurrency = (this.calculation[0].secondCurrency / 100 * overproduction).toFixed(2)
-        val[1].tertiaryCurrency = (this.calculation[0].tertiaryCurrency / 100 * overproduction).toFixed(2)
+        if (val[0].firstCurrency > 0) {
+          const overproduction = val[1].editable;
+          val[1].firstCurrency = (this.totalPrice / 100 * overproduction).toFixed(2)
+          val[1].secondCurrency = (this.calculation[0].secondCurrency / 100 * overproduction).toFixed(2)
+          val[1].tertiaryCurrency = (this.calculation[0].tertiaryCurrency / 100 * overproduction).toFixed(2)
 
-        const lostResource = val[2].editable;
-        val[2].firstCurrency = (this.totalPrice / 100 * lostResource).toFixed(2)
-        val[2].secondCurrency = (this.calculation[0].secondCurrency / 100 * lostResource).toFixed(2)
-        val[2].tertiaryCurrency = (this.calculation[0].tertiaryCurrency / 100 * lostResource).toFixed(2)
+          const lostResource = val[2].editable;
+          val[2].firstCurrency = (this.totalPrice / 100 * lostResource).toFixed(2)
+          val[2].secondCurrency = (this.calculation[0].secondCurrency / 100 * lostResource).toFixed(2)
+          val[2].tertiaryCurrency = (this.calculation[0].tertiaryCurrency / 100 * lostResource).toFixed(2)
 
-        const generalExpenses = val[3].editable;
-        val[3].firstCurrency = (this.totalPrice / 100 * generalExpenses).toFixed(2)
-        val[3].secondCurrency = (this.calculation[0].secondCurrency / 100 * generalExpenses).toFixed(2)
-        val[3].tertiaryCurrency = (this.calculation[0].tertiaryCurrency / 100 * generalExpenses).toFixed(2)
+          const generalExpenses = val[3].editable;
+          val[3].firstCurrency = (this.totalPrice / 100 * generalExpenses).toFixed(2)
+          val[3].secondCurrency = (this.calculation[0].secondCurrency / 100 * generalExpenses).toFixed(2)
+          val[3].tertiaryCurrency = (this.calculation[0].tertiaryCurrency / 100 * generalExpenses).toFixed(2)
 
-        const extraExpenses = val[4].editable;
-        val[4].firstCurrency = (this.totalPrice / 100 * extraExpenses).toFixed(2)
-        val[4].secondCurrency = (this.calculation[0].secondCurrency / 100 * extraExpenses).toFixed(2)
-        val[4].tertiaryCurrency = (this.calculation[0].tertiaryCurrency / 100 * extraExpenses).toFixed(2)
+          const extraExpenses = val[4].editable;
+          val[4].firstCurrency = (this.totalPrice / 100 * extraExpenses).toFixed(2)
+          val[4].secondCurrency = (this.calculation[0].secondCurrency / 100 * extraExpenses).toFixed(2)
+          val[4].tertiaryCurrency = (this.calculation[0].tertiaryCurrency / 100 * extraExpenses).toFixed(2)
 
-        val[5].firstCurrency =
-          (+val[0].firstCurrency + +val[1].firstCurrency +
-            +val[2].firstCurrency + +val[3].firstCurrency +
-            +val[4].firstCurrency).toFixed(2)
-        console.log(val[0].firstCurrency + ' = ' + val[1].firstCurrency)
-        val[5].secondCurrency =
-          (+val[0].secondCurrency + +val[1].secondCurrency +
-            +val[2].secondCurrency + +val[3].secondCurrency +
-            +val[4].secondCurrency).toFixed(2)
+          val[5].firstCurrency =
+            (+val[0].firstCurrency + +val[1].firstCurrency +
+              +val[2].firstCurrency + +val[3].firstCurrency +
+              +val[4].firstCurrency).toFixed(2)
+          val[5].secondCurrency =
+            (+val[0].secondCurrency + +val[1].secondCurrency +
+              +val[2].secondCurrency + +val[3].secondCurrency +
+              +val[4].secondCurrency).toFixed(2)
 
-        val[5].tertiaryCurrency =
-          (+val[0].tertiaryCurrency + +val[1].tertiaryCurrency +
-            +val[2].tertiaryCurrency + +val[3].tertiaryCurrency +
-            +val[4].tertiaryCurrency).toFixed(2)
+          val[5].tertiaryCurrency =
+            (+val[0].tertiaryCurrency + +val[1].tertiaryCurrency +
+              +val[2].tertiaryCurrency + +val[3].tertiaryCurrency +
+              +val[4].tertiaryCurrency).toFixed(2)
 
-        const targetProfit = val[6].editable;
-        val[6].firstCurrency = (val[5].firstCurrency / 100 * targetProfit).toFixed(2);
-        val[6].secondCurrency = (val[6].firstCurrency * this.addPreFinances.secondaryRate).toFixed(2);
-        val[6].tertiaryCurrency = (val[6].firstCurrency * this.addPreFinances.tertiaryRate).toFixed(2);
+          const targetProfit = val[6].editable;
+          val[6].firstCurrency = (val[5].firstCurrency / 100 * targetProfit).toFixed(2);
+          val[6].secondCurrency = (val[6].firstCurrency * this.addPreFinances.secondaryRate).toFixed(2);
+          val[6].tertiaryCurrency = (val[6].firstCurrency * this.addPreFinances.tertiaryRate).toFixed(2);
 
-        val[7].secondCurrency = (val[7].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2);
-        val[7].tertiaryCurrency = (val[7].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2)
+          val[7].secondCurrency = (val[7].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2);
+          val[7].tertiaryCurrency = (val[7].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2)
 
-        val[8].firstCurrency = (+val[5].firstCurrency + +val[6].firstCurrency).toFixed(2);
-        val[8].secondCurrency = (val[8].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2);
-        val[8].tertiaryCurrency = (val[8].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2);
+          val[8].firstCurrency = (+val[5].firstCurrency + +val[6].firstCurrency).toFixed(2);
+          val[8].secondCurrency = (val[8].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2);
+          val[8].tertiaryCurrency = (val[8].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2);
 
-        const discount = val[9].editable;
-        val[9].firstCurrency = (val[8].firstCurrency / 100 * discount).toFixed(2);
-        val[9].secondCurrency = (val[9].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2);
-        val[9].tertiaryCurrency = (val[9].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2);
+          const discount = val[9].editable;
+          val[9].firstCurrency = (val[8].firstCurrency / 100 * discount).toFixed(2);
+          val[9].secondCurrency = (val[9].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2);
+          val[9].tertiaryCurrency = (val[9].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2);
 
-        val[10].firstCurrency = (val[8].firstCurrency - val[9].firstCurrency).toFixed(2);
-        val[10].secondCurrency = (val[8].secondCurrency - val[9].secondCurrency).toFixed(2);
-        val[10].tertiaryCurrency = (val[8].tertiaryCurrency - val[9].tertiaryCurrency).toFixed(2);
+          val[10].firstCurrency = (val[8].firstCurrency - val[9].firstCurrency).toFixed(2);
+          val[10].secondCurrency = (val[8].secondCurrency - val[9].secondCurrency).toFixed(2);
+          val[10].tertiaryCurrency = (val[8].tertiaryCurrency - val[9].tertiaryCurrency).toFixed(2);
 
-        val[12].firstCurrency = (val[10].firstCurrency - val[5].firstCurrency).toFixed(2);
-        val[12].secondCurrency = (val[12].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2)
-        val[12].tertiaryCurrency = (val[12].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2)
+          val[12].firstCurrency = (val[10].firstCurrency - val[5].firstCurrency).toFixed(2);
+          val[12].secondCurrency = (val[12].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2)
+          val[12].tertiaryCurrency = (val[12].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2)
 
-        val[11].editable = ((val[12].firstCurrency / val[5].firstCurrency) * 100).toFixed(2)
+          val[11].editable = ((val[12].firstCurrency / val[5].firstCurrency) * 100).toFixed(2)
+        }
       }, deep: true
     }
   },
@@ -913,7 +936,8 @@ export default {
       createDetails: 'preFinance/createDetails',
       getAllDetails: 'preFinance/getAllDetails',
       getImages: 'modelPhoto/getImages',
-      getDocuments: 'documents/getDocuments'
+      getDocuments: 'documents/getDocuments',
+      getOnePreFinance: 'preFinance/getOnePreFinance'
     }),
     saveCalculation() {
       const calcVal = this.calculation.filter(el => el.status === false || el.usd_disabled === false);
@@ -944,17 +968,28 @@ export default {
     async createNewPreFinance() {
       await this.createPreFinance(this.addPreFinances);
     },
-
     deleteRow(item, index) {
     }
   },
   mounted() {
     this.getExpenseGroup();
     this.getMeasurementUnit();
+    const param = this.$route.params.id;
+    if (param !== 'create') {
+      this.getOnePreFinance(param);
+      this.getAllDetails(param);
+    } else {
+      this.$store.commit('modelPhoto/setModelImages', []);
+      this.$store.commit('documents/setDocuments', []);
+      this.$store.commit('preFinance/setDetailsList', [{totalPrice: 0}]);
+      setTimeout(() => {
+        this.calculation[0].secondCurrency = 0;
+        this.calculation[0].tertiaryCurrency = 0;
+      }, 1000)
+    }
+
   }
 }
 </script>
 
-<style lang="scss" src="assets/abstracts/_prefinances.scss" scoped>
-
-</style>
+<style lang="scss" src="assets/abstracts/_prefinances.scss" scoped/>

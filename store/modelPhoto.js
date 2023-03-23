@@ -3,7 +3,7 @@ export const state = () => ({
 });
 export const getters = {
   modelImages: state => {
-    return  state.modelImages?.slice(0, 4);
+    return state.modelImages?.slice(0, 4);
   }
 };
 export const mutations = {
@@ -17,18 +17,18 @@ export const actions = {
       headers: {"Content-Type": "multipart/form-data"}
     }
     const formData = new FormData();
-    for(let file=0; file <= 3; file++) {
-      if(data[file].file !== null) formData.append('files', data[file].file)
+    for (let file = 0; file <= 3; file++) {
+      if (data[file].file !== null) formData.append('files', data[file].file)
     }
     this.$axios.$post(`/api/v1/model-resources/upload-photos?modelId=${modelId}`, formData, config)
       .then(res => {
         this.$toast.success(res.message)
       }).catch(({response}) => {
-        this.$toast.error(response.data.message)
+      this.$toast.error(response.data.message)
     })
   },
-  async getImages({commit}, modelId) {
-    await this.$axios.$get(`/api/v1/model-resources/list?modelId=${modelId}&fileType=PHOTO`)
+  getImages({commit}, id) {
+    this.$axios.$get(`/api/v1/model-resources/list?modelId=${id}&fileType=PHOTO`)
       .then(res => {
         commit('setModelImages', res.data);
       }).catch((response) => {

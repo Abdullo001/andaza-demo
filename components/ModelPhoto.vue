@@ -158,7 +158,6 @@
       </v-col>
     </v-row>
     <v-dialog max-width="590" v-model="image_dialog">
-
       <v-card>
         <v-card-title class="d-flex">
           <v-spacer/>

@@ -281,6 +281,8 @@ export default {
         query: {modelId: item.modelId},
         hash: this.$route.hash,
       });
+      this.$store.commit["orders/setModelId",item.modelId]
+      
     },
 
     addOrder() {
