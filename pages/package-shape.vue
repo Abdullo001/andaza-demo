@@ -198,10 +198,14 @@
               dense
               color="#7631FF"
             />
-            <v-text-field
+            <v-select
               v-model="edit_package.measurement"
+              :items="measurement"
               filled
               disabled
+              append-icon="mdi-chevron-down"
+              item-text="name"
+              item-value="id"
               label="Measurement unit ID"
               placeholder="Select Measurement unit ID"
               dense
@@ -284,7 +288,7 @@ export default {
         {text: "Description", value: "description",},
         {text: "Created At", value: "createdAt",},
         {text: "Updated At", value: "updatedAt",},
-        {text: "Measurement", value: "measurement",},
+        {text: "Measurement", value: "measurementUnit",},
         {text: "Actions", value: "actions", align: "center", sortable: false},
       ],
       create_package: {
@@ -295,7 +299,10 @@ export default {
       edit_package: {
         name: "",
         description: "",
-        measurement: "",
+        measurement: {
+          id: "",
+          name: "",
+        },
       },
       delete_package: {},
       filters: {
@@ -386,7 +393,7 @@ export default {
         name: this.edit_package.name,
         id: this.edit_package.id,
         description: this.edit_package.description,
-        measurementId: this.edit_package.measurement
+        measurementId: this.edit_package.measurement.id,
       }
       await this.updatePackageShape(items);
       this.edit_dialog = false;
@@ -398,7 +405,15 @@ export default {
     editItem(item) {
       delete item.createdAt;
       delete item.updatedAt;
-      this.edit_package = {...item};
+      this.edit_package = {
+        name: item.name,
+        id: item.id,
+        description: item.description,
+        measurement: {
+          id: item.measurementUnitId,
+          name: item.measurementUnit,
+        }
+      }
       this.edit_dialog = true;
     },
     async resetFilters() {
