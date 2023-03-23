@@ -5,14 +5,14 @@
       elevation="0"
       class="rounded-t-lg"
     >
-      <v-form lazy-validation v-model="valid_search" ref="filter_form">
+      <v-form>
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
+              v-model="filters.id"
               label="Id packege shape"
               outlined
               class="rounded-lg"
-              v-model.trim="filters.financeNumber"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -20,10 +20,10 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
+              v-model="filters.name"
               label="Name"
               outlined
               class="rounded-lg"
-              v-model.trim="filters.modelId"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -33,7 +33,7 @@
             cols="12" lg="2" md="2" style="max-width: 240px;"
           >
             <el-date-picker
-              v-model="search.start_time"
+              v-model="filters.createdAt"
               type="datetime"
               placeholder="Created"
               :picker-options="pickerOptions"
@@ -45,7 +45,7 @@
             cols="12" lg="2" md="2"
           >
             <el-date-picker
-              v-model="search.end_time"
+              v-model="filters.updatedAt"
               type="datetime"
               placeholder="Updated"
               :picker-options="pickerOptions"
@@ -79,7 +79,10 @@
     </v-card>
     <v-data-table
       :headers="headers"
-      :items="items"
+      :items="packageShape"
+      :loading="loading"
+      :server-items-length="totalElements"
+      :options.sync="options"
       :items-per-page="10"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100]
@@ -98,11 +101,8 @@
         </v-toolbar>
         <v-divider/>
       </template>
-      <template #item.checkbox="{ item }">
-        <v-checkbox/>
-      </template>
       <template #item.actions="{item}">
-        <div class="d-flex justify-end">
+        <div>
           <v-btn icon color="green" @click.stop="editItem(item)">
             <v-icon size="20">mdi-square-edit-outline</v-icon>
           </v-btn>
@@ -121,25 +121,34 @@
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
-          <v-form  ref="new_form">
+          <v-form ref="new_form">
             <v-text-field
+              v-model="create_package.name"
               filled
               label="Name"
               placeholder="Enter name package shape"
               dense
+              color="#7631FF"
             />
             <v-textarea
+              v-model="create_package.description"
               filled
               label="Description"
               placeholder="Enter package shape description"
               dense
+              color="#7631FF"
             />
             <v-select
+              v-model="create_package.measurementId"
+              :items="measurement"
               filled
+              item-text="name"
+              item-value="id"
               append-icon="mdi-chevron-down"
               label="Measurement unit ID"
               placeholder="Select Measurement unit ID"
               dense
+              color="#7631FF"
             />
           </v-form>
         </v-card-text>
@@ -156,6 +165,7 @@
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF" dark
             width="163"
+            @click="save"
           >
             create
           </v-btn>
@@ -171,18 +181,31 @@
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
-          <v-form  ref="new_form">
+          <v-form ref="new_form">
             <v-text-field
+              v-model="edit_package.name"
               filled
               label="Name"
               placeholder="Enter name package shape"
               dense
+              color="#7631FF"
             />
             <v-textarea
+              v-model="edit_package.description"
               filled
               label="Description"
               placeholder="Enter package shape description"
               dense
+              color="#7631FF"
+            />
+            <v-text-field
+              v-model="edit_package.measurement"
+              filled
+              disabled
+              label="Measurement unit ID"
+              placeholder="Select Measurement unit ID"
+              dense
+              color="#7631FF"
             />
           </v-form>
         </v-card-text>
@@ -199,6 +222,7 @@
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF" dark
             width="163"
+            @click="update"
           >
             create
           </v-btn>
@@ -231,6 +255,7 @@
             width="140"
             elevation="0"
             dark
+            @click="deletePackage"
           >
             delete
           </v-btn>
@@ -241,29 +266,44 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   name: "PackageShapePage",
-  data(){
-    return{
+  data() {
+    return {
       edit_dialog: false,
       delete_dialog: false,
       new_dialog: false,
-      search: {},
-      filters:{},
-      valid_search: true,
+      itemPrePage: 10,
+      current_page: 0,
+      options: {},
       headers: [
-        {text: "", value: "checkbox", align: "start", sortable: false, width: "50"},
         {text: "Id", value: "id", sortable: false},
         {text: "Name", value: "name",},
         {text: "Description", value: "description",},
-        {text: "Measurement Name", value: "measurementName",},
-        {text: "Created", value: "created",},
-        {text: "Updated", value: "updated",},
-        {text: "Actions", value: "actions", align: "end", sortable: false},
+        {text: "Created At", value: "createdAt",},
+        {text: "Updated At", value: "updatedAt",},
+        {text: "Measurement", value: "measurement",},
+        {text: "Actions", value: "actions", align: "center", sortable: false},
       ],
-      items: [
-        {id: 1, name: "valijon", description: "description", created: "created", updated: "updated"}
-      ],
+      create_package: {
+        name: "",
+        measurementId: "",
+        description: "",
+      },
+      edit_package: {
+        name: "",
+        description: "",
+        measurement: "",
+      },
+      delete_package: {},
+      filters: {
+        id: "",
+        name: "",
+        updatedAt: "",
+        createdAt: "",
+      },
       pickerOptions: {
         shortcuts: [
           {
@@ -292,18 +332,98 @@ export default {
       },
     }
   },
-  methods:{
-    getDeleteItem(item){
-      this.delete_dialog = true
-    },
-    editItem(item){
-      this.edit_dialog = true
-    },
-    resetFilters(){},
-    filterData(){},
+  watch: {
+    async "options.sortBy"(elem) {
+      if (elem[0] !== undefined) {
+        if (this.options.sortDesc[0] !== undefined) {
+          const items = {
+            sortDesc: this.options.sortDesc[0],
+            sortBy: elem[0]
+          }
+          await this.sortPackageShape({page: this.current_page, size: this.itemPrePage, data: items})
+        }
+      }
+    }
   },
+  async created() {
+    await this.$store.dispatch("packageshape/getPackageShape", {page: 0, size: 10});
+    await this.$store.dispatch("packageshape/getMeasurementUnit");
+  },
+  computed: {
+    ...mapGetters({
+      loading: "packageshape/loading",
+      packageShape: "packageshape/packageShape",
+      totalElements: "packageshape/totalElements",
+      measurement: "packageshape/measurement",
+    })
+  },
+  methods: {
+    ...mapActions({
+      getPackageShape: "packageshape/getPackageShape",
+      createPackageShape: "packageshape/createPackageShape",
+      updatePackageShape: "packageshape/updatePackageShape",
+      deletePackageShape: "packageshape/deletePackageShape",
+      filterPackageShape: "packageshape/filterPackageShape",
+      sortPackageShape: "packageshape/sortPackageShape",
+    }),
+    async deletePackage() {
+      const id = this.delete_package.id;
+      await this.deletePackageShape(id);
+      this.delete_dialog = false;
+    },
+    async save() {
+      const items = {...this.create_package};
+      await this.createPackageShape(items);
+      this.create_package = {
+        name: "",
+        measurementId: "",
+        description: "",
+      };
+      this.new_dialog = false;
+    },
+    async update() {
+      const items = {
+        name: this.edit_package.name,
+        id: this.edit_package.id,
+        description: this.edit_package.description,
+        measurementId: this.edit_package.measurement
+      }
+      await this.updatePackageShape(items);
+      this.edit_dialog = false;
+    },
+    async getDeleteItem(item) {
+      this.delete_package = {...item};
+      this.delete_dialog = true;
+    },
+    editItem(item) {
+      delete item.createdAt;
+      delete item.updatedAt;
+      this.edit_package = {...item};
+      this.edit_dialog = true;
+    },
+    async resetFilters() {
+      this.filters = {
+        id: "",
+        name: "",
+        updatedAt: "",
+        createdAt: "",
+      };
+      await this.getPackageShape({page: 0, size: 10});
+    },
+    async filterData() {
+      const items = {...this.filters};
+      await this.filterPackageShape(items);
+    },
+  },
+  mounted() {
+    this.$store.commit('setPageTitle', 'Catalogs');
+  }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.el-input__inner::placeholder,
+.el-input__icon, .el-icon-time {
+  color: #919191 !important;
+}
 </style>
