@@ -472,7 +472,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 .image-box {
   background: #F8F4FE;
   border-radius: 8px;
@@ -489,8 +489,8 @@ export default {
   &::placeholder {
     color: #cccccc;
   }
-  > .el-input__inner {
-    background: #7631FF;
+  >input.el-input__inner {
+    background: #F8F4FE !important;
     border: 0 !important;
     &::placeholder {
       color: #cccccc;
