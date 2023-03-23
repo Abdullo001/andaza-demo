@@ -151,19 +151,15 @@
               </v-chip>
             </v-col>
             <v-col cols="12" lg="3" md="3">
-              <v-text-field
+              <el-date-picker
                 v-model="addFabric.deadlineForFabric"
-                filled
-                class="rounded-lg"
-                color="#7631FF"
-                dense
-                label="Deadline for fabric"
-                placeholder="Enter deadline for fabric"
+                type="datetime"
+                placeholder="Deadline for fabric"
+                :picker-options="pickerOptions"
+                format="dd.MM.yyyy HH:mm:ss"
+                class="custom-picker"
               >
-                <template #append>
-                  <v-img src="/date-icon.svg"/>
-                </template>
-              </v-text-field>
+              </el-date-picker>
             </v-col>
             <v-col cols="12" lg="3" md="3">
               <v-text-field
@@ -195,15 +191,16 @@
           </v-row>
           <v-row class="ma-0">
             <v-col cols="12" lg="6" md="6" class="d-flex flex-wrap px-0">
-              <v-col v-for="(image, idx) in 3" :key="idx">
+              <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4">
                 <div class="image-box">
-                  <v-img src="/default-image.svg" max-width="50" v-if="!modelImages.length"/>
                   <v-img
                     :src="modelImages[idx]?.filePath"
-                    v-else max-height="150"
+                    v-if="!!modelImages[idx]?.filePath"
+                    max-height="150"
                     contain class="pointer"
                     @click="showImage(modelImages[idx]?.filePath)"
                   />
+                  <v-img src="/default-image.svg" max-width="50" v-else/>
                 </div>
               </v-col>
             </v-col>
@@ -339,6 +336,8 @@ import {mapActions, mapGetters} from "vuex";
 export default {
   data() {
     return {
+      date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+      menu: false,
       image_dialog: false,
       map_links: [
         {
@@ -388,9 +387,43 @@ export default {
         'Documentation'
       ],
       tab: null,
+      currentImage: '',
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "Cегодня",
+            onClick(picker) {
+              picker.$emit("pick", new Date());
+            },
+          },
+          {
+            text: "Вчера",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit("pick", date);
+            },
+          },
+          {
+            text: "Неделя",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", date);
+            },
+          },
+        ],
+      },
     }
   },
   watch: {
+    date(val) {
+      if (!val) return null
+      if(val.split('-')[0] > 1000) {
+        const [year, month, day] = val.split('-')
+        return this.date = `${day}-${month}-${year}`
+      }
+    },
     modelSearch(elem) {
       if (!(typeof elem === null || typeof elem === 'object')) {
         this.getModelName(elem)
@@ -406,6 +439,7 @@ export default {
     },
     async addFabric(val) {
       await this.getImages(val.modelId);
+      this.$store.commit('fabric/setModelId', val.modelId)
     }
   },
   computed: {
@@ -431,7 +465,9 @@ export default {
     const param = this.$route.params.id;
     if (param === "create") {
       this.title = 'Add'
-    } else this.title = 'Edit'
+    } else this.title = 'Edit';
+
+    this.$store.commit('modelPhoto/setModelImages', [])
   }
 }
 </script>
@@ -445,5 +481,20 @@ export default {
   align-items: center;
   min-width: 100%;
   min-height: 90%;
+}
+.custom-picker {
+  width: 100%;
+  border: 0 !important;
+  background: #F8F4FE;
+  &::placeholder {
+    color: #cccccc;
+  }
+  > .el-input__inner {
+    background: #7631FF;
+    border: 0 !important;
+    &::placeholder {
+      color: #cccccc;
+    }
+  }
 }
 </style>

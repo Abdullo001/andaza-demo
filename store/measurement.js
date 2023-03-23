@@ -37,7 +37,7 @@ export const actions = {
       })
   },
   async filterMeasurementUnit({commit}, data) {
-    const body = {
+    const bodyUnit = {
       filters: [
         {
           key: 'id',
@@ -63,8 +63,8 @@ export const actions = {
       page: 0,
       size: 10,
     }
-    body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
-    await this.$axios.$put('/api/v1/measurement-unit/list', body)
+    bodyUnit.filters = bodyUnit.filters.filter(item => item.value !== '' && item.value !== null)
+    await this.$axios.$put('/api/v1/measurement-unit/list', bodyUnit)
       .then(res => {
         commit('setMeasurementUnit', res.data)
       })
