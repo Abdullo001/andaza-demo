@@ -85,6 +85,7 @@
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100]
       }"
+      :loading="loading"
       class="mt-4 rounded-lg"
       @update:items-per-page="size"
       :server-items-length="partnerTotalElements"
@@ -129,6 +130,7 @@
               label="Partner type"
               placeholder="Enter partner type"
               dense
+              color="#7631FF"
             />
             <v-textarea
               filled
@@ -136,6 +138,7 @@
               label="Description"
               placeholder="Enter partner type description"
               dense
+              color="#7631FF"
             />
           </v-form>
         </v-card-text>
@@ -176,6 +179,7 @@
               label="Partner type"
               placeholder="Enter partner type"
               dense
+              color="#7631FF"
             />
             <v-textarea
               filled
@@ -183,6 +187,7 @@
               label="Description"
               placeholder="Enter partner type description"
               dense
+              color="#7631FF"
             />
           </v-form>
         </v-card-text>
@@ -260,7 +265,7 @@ export default {
         {text: "Description", value: "description",},
         {text: "Created At", value: "createdAt",},
         {text: "Updated At", value: "updatedAt",},
-        {text: "Actions", value: "actions", align: "end", sortable: false},
+        {text: "Actions", value: "actions", align: "center", sortable: false},
       ],
       itemPrePage: 20,
       current_page: 0,
@@ -323,22 +328,23 @@ export default {
     }
   },
   async created() {
-    await this.$store.dispatch("partner-type/getPartnerType", {page: this.current_page, size: this.itemPrePage});
+    await this.$store.dispatch("partnerType/getPartnerType", {page: this.current_page, size: this.itemPrePage});
   },
   computed: {
     ...mapGetters({
-      partnerType: "partner-type/partnerType",
-      partnerTotalElements: "partner-type/partnerTotalElements",
+      loading: "partnerType/loading",
+      partnerType: "partnerType/partnerType",
+      partnerTotalElements: "partnerType/partnerTotalElements",
     })
   },
   methods: {
     ...mapActions({
-      getPartnerType: 'partner-type/getPartnerType',
-      createPartnerType: "partner-type/createPartnerType",
-      deletePartnerType: "partner-type/deletePartnerType",
-      updatePartnerType: "partner-type/updatePartnerType",
-      filterPartnerType: "partner-type/filterPartnerType",
-      sortPartnerType: "partner-type/sortPartnerType",
+      getPartnerType: 'partnerType/getPartnerType',
+      createPartnerType: "partnerType/createPartnerType",
+      deletePartnerType: "partnerType/deletePartnerType",
+      updatePartnerType: "partnerType/updatePartnerType",
+      filterPartnerType: "partnerType/filterPartnerType",
+      sortPartnerType: "partnerType/sortPartnerType",
     }),
     async page(value) {
       this.current_page = value
@@ -374,7 +380,7 @@ export default {
       this.edit_dialog = true
     },
     async resetFilters() {
-      await this.$store.dispatch("partner-type/getPartnerType", {page: 0, size: 10});
+      await this.$store.dispatch("partnerType/getPartnerType", {page: 0, size: 10});
       this.filter_partner = {
         description: "",
         createdAt: "",
@@ -387,6 +393,9 @@ export default {
       await this.filterPartnerType(this.filter_partner)
     },
   },
+  mounted() {
+    this.$store.commit('setPageTitle', 'Catalogs');
+  }
 }
 </script>
 
