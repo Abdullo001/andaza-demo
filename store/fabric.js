@@ -2,13 +2,19 @@ export const state = () => ({
   fabricList: [],
   fabricData: [],
   modelId: '',
+  fabricPlanningId: '',
+  planningChartList: [],
+  onePlanningChart: {}
 });
 
 export const getters = {
   fabricList: state => state.fabricList.content,
   totalElements: state => state.fabricList.totalElements,
   fabricData: state => state.fabricData,
-  modelId: state => state.modelId
+  modelId: state => state.modelId,
+  fabricPlanningId: state => state.fabricPlanningId,
+  planningChartList: state => state.planningChartList,
+  onePlanningChart: state => state.onePlanningChart
 };
 export const mutations = {
   setFabricList(state, fabric) {
@@ -19,17 +25,26 @@ export const mutations = {
   },
   setModelId(state, id) {
     state.modelId = id;
+  },
+  setFabricPlanningId(state, id) {
+    state.fabricPlanningId = id;
+  },
+  setPlanningChartList(state, chartList) {
+    state.planningChartList = chartList;
+  },
+  setOnePlanningChart(state, item) {
+    state.onePlanningChart = item;
   }
 };
 export const actions = {
-  getFabricList({commit}, {page, size}) {
+  async getFabricList({commit}, {page, size}) {
     const body = {
       filters: [],
       sorts: [],
       page,
       size
     }
-    this.$axios.$put('/api/v1/fabric-planning/list', body)
+    await this.$axios.$put('/api/v1/fabric-planning/list', body)
       .then(res => {
         commit('setFabricList', res.data);
       }).catch(({response}) => console.log(response))
@@ -44,11 +59,13 @@ export const actions = {
       })
     }
   },
-  async savePlanning({commit}, data) {
+  async savePlanning({commit, dispatch, state}, data) {
     await this.$axios.$post('/api/v1/fabric-planning/create', data)
       .then(res => {
-        console.log(res);
-      }).catch(({response}) => console.log(response))
+        this.$toast.success(res.message)
+        commit('setFabricPlanningId', res.data.id)
+        dispatch('getPlanningChartList', res.data.id)
+      }).catch(({response}) => this.$toast.error(response.data.message))
   },
   async createPlanningChart({commit}, data) {
     await this.$axios.$post('/api/v1/fabric-planning-chart/create', data)
@@ -57,5 +74,17 @@ export const actions = {
       }).catch(({response}) => {
         this.$toast.error(response.data.message);
       })
-  }
+  },
+  async getPlanningChartList({commit}, id) {
+    await this.$axios.$get(`/api/v1/fabric-planning-chart/list?fabricPlanningId=${id}`)
+      .then(res => {
+        commit('setPlanningChartList', res.data)
+      }).catch(({response}) => console.log(response))
+  },
+  async getPlanningChartListOne({commit}, id) {
+    await this.$axios.$get(`/api/v1/fabric-planning/get-one?id=${id}`)
+      .then(res => {
+        commit('setOnePlanningChart', res.data)
+      }).catch(({response}) => console.log(response))
+  },
 };
