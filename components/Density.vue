@@ -27,10 +27,10 @@
       <template #item.actions="{item}">
         <div class="d-flex justify-end">
           <v-btn icon color="green" @click.stop="editItem(item)">
-            <v-icon size="20">mdi-square-edit-outline</v-icon>
+            <v-img src="edit-active.svg" max-width="22"/>
           </v-btn>
           <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-            <v-icon size="20">mdi-trash-can-outline</v-icon>
+            <v-img src="delete.svg" max-width="27"/>
           </v-btn>
         </div>
       </template>
@@ -50,12 +50,14 @@
               label="Density level"
               placeholder="Select density level"
               dense
+              color="#7631FF"
             />
             <v-textarea
               filled
               label="Description"
               placeholder="Enter Density description"
               dense
+              color="#7631FF"
             />
           </v-form>
         </v-card-text>
@@ -93,12 +95,14 @@
               label="Density level"
               placeholder="Select Density level"
               dense
+              color="#7631FF"
             />
             <v-textarea
               filled
               label="Description"
               placeholder="Enter Density"
               dense
+              color="#7631FF"
             />
           </v-form>
         </v-card-text>
@@ -172,7 +176,7 @@ export default {
         {text: "Description", value: "description"},
         {text: "Creator", value: "creator"},
         {text: "Created date", value: "Created date"},
-        {text: "Actions", value: "actions", sortable: false},
+        {text: "Actions", value: "actions", align: "center", sortable: false},
       ],
       items: [
         {catalog: "Catalog"}

@@ -115,6 +115,7 @@ export const actions = {
         commit("setLoading", false);
       })
       .catch(({response}) => {
+        commit("setLoading", false);
         console.log(response);
       })
   },

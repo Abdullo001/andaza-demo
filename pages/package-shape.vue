@@ -104,10 +104,10 @@
       <template #item.actions="{item}">
         <div>
           <v-btn icon color="green" @click.stop="editItem(item)">
-            <v-icon size="20">mdi-square-edit-outline</v-icon>
+            <v-img src="edit-active.svg" max-width="22"/>
           </v-btn>
           <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-            <v-icon size="20">mdi-trash-can-outline</v-icon>
+            <v-img src="delete.svg" max-width="27"/>
           </v-btn>
         </div>
       </template>

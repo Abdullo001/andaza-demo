@@ -86,10 +86,10 @@
         </template>
         <template #item.actions="{item}">
           <v-btn icon color="green" @click.stop="editItem(item)">
-            <v-icon size="20">mdi-square-edit-outline</v-icon>
+            <v-img src="edit-active.svg" max-width="22"/>
           </v-btn>
           <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-            <v-icon size="20">mdi-trash-can-outline</v-icon>
+            <v-img src="delete.svg" max-width="27"/>
           </v-btn>
         </template>
       </v-data-table>
@@ -275,11 +275,11 @@ export default {
       },
       headers: [
         {text: 'ID', align: 'start', sortable: false, value: 'id'},
-        {text: 'Lang', value: 'lang'},
+        {text: 'Lang', value: 'lang', width: 80},
         {text: 'Key', value: 'key'},
         {text: 'Message', value: 'message', width: 500},
-        {text: 'Updated At', value: 'updatedAt'},
-        {text: 'Actions', sortable: false, value: 'actions', width: 120},
+        {text: 'Updated At', value: 'updatedAt', width: 114},
+        {text: 'Actions', sortable: false, align: "center", value: 'actions', width: 120},
       ],
       new_localization: {
         key: '',
