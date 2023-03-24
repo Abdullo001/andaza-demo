@@ -298,6 +298,9 @@
           <v-tab-item>
             <FabricPlanningChart/>
           </v-tab-item>
+          <v-tab-item>
+            <FabricOrdered/>
+          </v-tab-item>
         </v-tabs-items>
       </v-card-text>
     </v-card>
@@ -445,6 +448,7 @@ export default {
       this.getPlanningChartList(val)
     },
     onePlanningChart(val) {
+      this.$store.commit('fabric/setModelId', val.modelId);
       this.getImages(val.modelId);
       const data = this.addFabric;
         data.orderNumber = val.orderNumber;
