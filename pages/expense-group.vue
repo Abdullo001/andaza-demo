@@ -80,6 +80,7 @@
     <v-data-table
       :headers="headers"
       :items="expenseGroup"
+      :loading="loading"
       :server-items-length="totalElements"
       :options.sync="options"
       :items-per-page="10"

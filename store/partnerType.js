@@ -1,11 +1,16 @@
 export const state = () => ({
   partnerType: [],
+  loading: true,
 })
 export const getters = {
   partnerType: state => state.partnerType.content,
+  loading: state => state.loading,
   partnerTotalElements: state => state.partnerType.totalElements,
 }
 export const mutations = {
+  setLoading(state, loading){
+    state.loading = loading
+  },
   setPartnerType(state, partnerTypes){
     state.partnerType = partnerTypes
   },
@@ -25,10 +30,10 @@ export const actions = {
     };
     await this.$axios.$put('/api/v1/partner-type/list', body)
       .then(res => {
-        commit('setPartnerType', res.data)
+        commit('setPartnerType', res.data);
       })
       .catch(({response}) => {
-        console.log(response)
+        console.log(response);
       })
   },
   async filterPartnerType({commit}, data){
@@ -61,30 +66,30 @@ export const actions = {
     body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
     await this.$axios.$put('/api/v1/partner-type/list', body)
       .then(res => {
-        commit('setPartnerType', res.data)
+        commit('setPartnerType', res.data);
       })
       .catch(({response}) => {
-        console.log(response)
+        console.log(response);
       })
   },
   async updatePartnerType({dispatch}, {data, page, size}){
     await this.$axios.$put(`/api/v1/partner-type/update`, data)
       .then(res => {
-        this.$toast.success(res.message)
-        dispatch('getPartnerType', {page: page, size: size})
+        this.$toast.success(res.message);
+        dispatch('getPartnerType', {page: page, size: size});
       })
       .catch(({response}) => {
-        console.log(response)
+        console.log(response);
       })
   },
   async deletePartnerType({dispatch}, {id, page, size}){
     await this.$axios.$delete(`/api/v1/partner-type/delete?id=${id}`)
       .then(res => {
-        this.$toast.success(res.message)
-        dispatch('getPartnerType', {page: page, size: size})
+        this.$toast.success(res.message);
+        dispatch('getPartnerType', {page: page, size: size});
       })
       .catch(({response}) => {
-        console.log(response)
+        console.log(response);
       })
   },
   async createPartnerType({dispatch}, {data, page, size}){
@@ -94,7 +99,7 @@ export const actions = {
         dispatch('getPartnerType', {page: page, size: size})
       })
       .catch(({response}) => {
-        console.log(response)
+        console.log(response);
       })
   },
   async getPartnerType({commit}, {page, size}){
@@ -106,10 +111,11 @@ export const actions = {
     }
     await this.$axios.$put('/api/v1/partner-type/list', body)
       .then(res => {
-        commit('setPartnerType', res.data)
+        commit('setPartnerType', res.data);
+        commit("setLoading", false);
       })
       .catch(({response}) => {
-        console.log(response)
+        console.log(response);
       })
   },
 }

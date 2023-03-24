@@ -81,6 +81,7 @@
       :headers="headers"
       :items="cooperationType"
       :items-per-page="itemPrePage"
+      :options.sync="options"
       :server-items-length="totalElements"
       :loading="loading"
       :footer-props="{

@@ -81,6 +81,7 @@
       :headers="headers"
       :items="bodyParts"
       :options.sync="options"
+      :loading="loading"
       :server-items-length="bodyPartsTotalElements"
       :items-per-page="itemPrePage"
       :footer-props="{

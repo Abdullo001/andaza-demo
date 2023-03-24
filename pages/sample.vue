@@ -352,7 +352,7 @@ export default {
         name: "",
         description: "",
       };
-      this.new_dialog = false;
+      this.new_dialog = false;``
     },
     async update() {
       const items = {...this.edit_sample};
