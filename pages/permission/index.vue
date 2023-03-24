@@ -124,10 +124,10 @@
 
       <template #item.actions="{item}">
         <v-btn icon color="green" @click.stop="editItem(item)">
-          <v-icon size="20">mdi-square-edit-outline</v-icon>
+          <v-img src="edit-active.svg" max-width="22"/>
         </v-btn>
         <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-          <v-icon size="20">mdi-trash-can-outline</v-icon>
+          <v-img src="delete.svg" max-width="27"/>
         </v-btn>
       </template>
       <template #item.status="{item}">
@@ -365,7 +365,7 @@ export default {
         {text: 'Status', value: 'status', width: '150'},
         {text: 'Updated', value: 'updatedAt', align: 'center'},
         {text: 'Created', value: 'createdAt', align: 'center'},
-        {text: 'Actions', value: 'actions', width: '180', align: 'end', sortable: false},
+        {text: 'Actions', value: 'actions', width: '180', align: 'center', sortable: false},
       ],
       options: {},
       filter_search: {

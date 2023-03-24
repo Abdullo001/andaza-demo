@@ -25,12 +25,12 @@
         <v-checkbox/>
       </template>
       <template #item.actions="{item}">
-        <div class="d-flex justify-end">
+        <div>
           <v-btn icon color="green" @click.stop="editItem(item)">
-            <v-icon size="20">mdi-square-edit-outline</v-icon>
+            <v-img src="edit-active.svg" max-width="22"/>
           </v-btn>
           <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-            <v-icon size="20">mdi-trash-can-outline</v-icon>
+            <v-img src="delete.svg" max-width="27"/>
           </v-btn>
         </div>
       </template>
@@ -51,12 +51,14 @@
               placeholder="Select Peach effect existence"
               append-icon="mdi-chevron-down"
               dense
+              color="#7631FF"
             />
             <v-textarea
               filled
               label="Description"
               placeholder="Enter Peach effect description"
               dense
+              color="#7631FF"
             />
           </v-form>
         </v-card-text>
@@ -95,12 +97,14 @@
               label="Peach effect existence"
               placeholder="Select Peach effect existence"
               dense
+              color="#7631FF"
             />
             <v-textarea
               filled
               label="Description"
               placeholder="Enter Peach effect description"
               dense
+              color="#7631FF"
             />
           </v-form>
         </v-card-text>
@@ -174,7 +178,7 @@ export default {
         {text: "Description", value: "description"},
         {text: "Creator", value: "creator"},
         {text: "Created date", value: "Created date"},
-        {text: "Actions", value: "actions", sortable: false},
+        {text: "Actions", value: "actions", align: "center", sortable: false},
       ],
       items: [
         {catalog: "Catalog"}

@@ -127,10 +127,10 @@
 
       <template #item.actions="{item}">
         <v-btn icon color="green" @click.stop="editItem(item)">
-          <v-icon size="20">mdi-square-edit-outline</v-icon>
+          <v-img src="edit-active.svg" max-width="22"/>
         </v-btn>
         <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-          <v-icon size="20">mdi-trash-can-outline</v-icon>
+          <v-img src="delete.svg" max-width="27"/>
         </v-btn>
       </template>
       <template #item.status="{item}">
@@ -334,7 +334,7 @@ export default {
         {text: 'Status', value: 'status', width: '180'},
         {text: 'Created', value: 'createdAt'},
         {text: 'Updated', value: 'updatedAt'},
-        {text: 'Actions', align: 'end', value: 'actions', sortable: false}
+        {text: 'Actions', align: 'center', value: 'actions', sortable: false}
       ],
       // NEW ROLE
       new_role: {
@@ -421,6 +421,7 @@ export default {
       this.$router.push(`/role/${item.id}`)
     },
     resetFilters() {
+
     },
 
   },
