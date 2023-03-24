@@ -313,10 +313,10 @@
           <v-img src="/error-icon.svg" max-width="40" />
         </div>
         <v-card-title class="d-flex justify-center"
-          >Delete size chart row</v-card-title
+          >Delete subcontract row</v-card-title
         >
         <v-card-text>
-          Are you sure you want to Delete size chart row?
+          Are you sure you want to Delete subcontract row?
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn

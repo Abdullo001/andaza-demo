@@ -5,7 +5,7 @@ export const state = () => ({
   sizeValues: [],
   bodyPartValues: {},
   total: null,
-  order:[],
+  order: [],
 });
 
 export const getters = {
@@ -14,7 +14,7 @@ export const getters = {
   sizeValues: (state) => state.sizeValues.sizeDistributions,
   bodyPartValues: (state) => state.bodyPartValues.bodyPartsCodes,
   total: (state) => state.total,
-  modelId: (state)=>state.order?.content[0]?.modelId
+  modelId: (state) => state.order?.content[0]?.modelId,
 };
 
 export const mutations = {
@@ -37,9 +37,9 @@ export const mutations = {
   setBodyPartsValues(state, item) {
     state.bodyPartValues = item;
   },
-  setOneOrder(state,item){
-    state.order=item
-  }
+  setOneOrder(state, item) {
+    state.order = item;
+  },
 };
 
 export const actions = {
@@ -64,6 +64,7 @@ export const actions = {
         commit("setSizeValues", res.data.data);
         commit("setBodyPartsValues", res.data.data);
         commit("setTotal", res.data.data);
+        console.log(res);
       })
       .catch((res) => {
         console.log(res);
@@ -78,11 +79,25 @@ export const actions = {
           modelId: data.modelId,
           orderId: data.orderId,
         });
-        this.$toast.success(res.message, { theme: "toasted-primary" });
+        this.$toast.success(res.data.message);
       })
       .catch((res) => {
         console.log(res);
+        this.$toast.error(res.data.message);
       });
   },
 
+  async deleteSizeDistirbutionFunc({ dispatch }, { orderId, modelId }) {
+    await this.$axios.delete(
+      `api/v1/orders/delete-size-distributions?modelId=${modelId}&orderId=${orderId}`)
+      .then((res)=>{
+        dispatch("getSizeDistirbutionValue",{orderId,modelId})
+        this.$toast.success(res.data.message);
+      })
+      .catch((res)=>{
+        console.log(res);
+        this.$toast.error(res.data.message);
+        
+      })
+  },
 };
