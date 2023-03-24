@@ -32,7 +32,7 @@
           <v-btn icon class="mr-2" @click="edit()">
             <v-img src="/edit-green.svg" max-width="20" />
           </v-btn>
-          <v-btn icon>
+          <v-btn icon @click="delete_dialog=true">
             <v-img src="/trash-red.svg" max-width="20" />
           </v-btn>
         </div>
@@ -42,7 +42,7 @@
     <v-dialog v-model="edit_dialog" max-width="572">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
-          <div>Edit</div>
+          <div>Add color/Size</div>
           <v-btn @click="edit_dialog = !edit_dialog" icon>
             <v-icon color="#7631FF">mdi-close</v-icon>
           </v-btn>
@@ -50,12 +50,11 @@
 
         <v-card-text>
           <v-form lazy-validation v-model="new_validate" ref="new_form">
-            <v-row class="mb-4 d-flex justify-space-between" >
+            <v-row class="mb-4 d-flex justify-space-between">
               <v-col
-                cols="4"
+                cols="6"
                 v-for="(item, idx) in orderSizeDetail.modelBodyParts"
                 :key="idx"
-
               >
                 <div class="mb-2 text-body-1">{{ item.bodyPart }}</div>
                 <v-text-field
@@ -70,9 +69,11 @@
                   background-color="#F8F4FE"
                 />
               </v-col>
+            </v-row>
 
+            <v-row class="mb-4 d-flex justify-space-between">
               <v-col
-                cols="4"
+                cols="3"
                 v-for="(item, idx) in orderSizeDetail.sizeDistributions"
                 :key="idx"
               >
@@ -91,8 +92,6 @@
               </v-col>
             </v-row>
 
-            
-
             <v-card-actions class="d-flex justify-center pb-6">
               <v-btn
                 outlined
@@ -106,7 +105,7 @@
                 class="text-capitalize rounded-lg font-weight-bold"
                 color="#7631FF"
                 dark
-                v-if="this.$route.params.id!==`add-order`"
+                v-if="this.$route.params.id !== `add-order`"
                 width="163"
                 @click="update"
                 >save
@@ -125,6 +124,42 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+
+    <v-dialog v-model="delete_dialog" max-width="500">
+      <v-card class="pa-4 text-center">
+        <div class="d-flex justify-center mb-2">
+          <v-img src="/error-icon.svg" max-width="40" />
+        </div>
+        <v-card-title class="d-flex justify-center"
+          >Delete Color/Size distirbution</v-card-title
+        >
+        <v-card-text>
+          Are you sure you want to Delete Color/Size distirbution?
+        </v-card-text>
+        <v-card-actions class="px-16">
+          <v-btn
+            outlined
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#777C85"
+            width="140"
+            @click.stop="delete_dialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-spacer />
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#FF4E4F"
+            width="140"
+            elevation="0"
+            dark
+            @click="deleteSizeDistirbution"
+          >
+            delete
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -135,6 +170,7 @@ export default {
   data() {
     return {
       edit_dialog: false,
+      delete_dialog: false,
       new_validate: true,
       templeHeaders: [
         { text: "Total", sortable: false, value: "total" },
@@ -144,8 +180,8 @@ export default {
       headerBodyPart: [],
       headers: [],
       item: {},
-      newModelId:null ,
-      newOrderId:null ,
+      newModelId: null,
+      newOrderId: null,
 
       orderSizeList: [],
 
@@ -164,26 +200,25 @@ export default {
       sizeValues: "sizeDistirbution/sizeValues",
       bodyPartValues: "sizeDistirbution/bodyPartValues",
       totalItem: "sizeDistirbution/total",
-      newModelIdServer:"orders/newModelId",
-      newOrderIdServer:"orders/newOrderId",
+      newModelIdServer: "orders/newModelId",
+      newOrderIdServer: "orders/newOrderId",
     }),
-
   },
 
   watch: {
-    newOrderIdServer:{
-      deep:true,
-      handler(id){
-        this.newOrderId=id
-      }
+    newOrderIdServer: {
+      deep: true,
+      handler(id) {
+        this.newOrderId = id;
+      },
     },
-    newModelIdServer:{
-      deep:true,
-      handler(id){
-        this.newModelIdId=id
-      }
+    newModelIdServer: {
+      deep: true,
+      handler(id) {
+        this.newModelIdId = id;
+      },
     },
-   
+
     sizes(list) {
       this.headerSizes = [];
       list.forEach((item) => {
@@ -219,6 +254,7 @@ export default {
     },
 
     sizeValues(items) {
+      console.log(items);
       this.orderSizeDetail.sizeDistributions = [];
       const value = {};
       for (let item in items) {
@@ -245,20 +281,19 @@ export default {
       getSizeDistirbutionValue: "sizeDistirbution/getSizeDistirbutionValue",
       updateSizeDistirbutionValue:
         "sizeDistirbution/updateSizeDistirbutionValue",
+      deleteSizeDistirbutionFunc: "sizeDistirbution/deleteSizeDistirbutionFunc",
     }),
 
     edit() {
       this.edit_dialog = !this.edit_dialog;
     },
-    async updateNewOrder(){
+    async updateNewOrder() {
       await this.updateSizeDistirbutionValue({
         ...this.orderSizeDetail,
         modelId: this.$store.getters["orders/newModelId"],
         orderId: this.$store.getters["orders/newOrderId"],
-        
       });
       this.edit_dialog = !this.edit_dialog;
-     
     },
     async update() {
       await this.updateSizeDistirbutionValue({
@@ -267,7 +302,18 @@ export default {
         orderId: this.$route.params.id,
       });
       this.edit_dialog = !this.edit_dialog;
+    },
 
+    deleteSizeDistirbution() {
+      const id = this.$route.params.id;
+      if (id !== "add-order") {
+        this.deleteSizeDistirbutionFunc({ orderId: id, modelId: this.modelId });
+      } else {
+        this.deleteSizeDistirbutionFunc({
+          modelId: this.$store.getters["orders/newModelId"],
+          orderId: this.$store.getters["orders/newOrderId"],
+        });
+      }
     },
   },
 
@@ -280,8 +326,6 @@ export default {
         orderId: id,
       });
     }
-    
-
   },
 };
 </script>

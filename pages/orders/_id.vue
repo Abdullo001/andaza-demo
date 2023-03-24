@@ -3,7 +3,7 @@
     <Breadcrumbs :maps="map_links" />
     <v-card elevation="0">
       <v-card-title>
-        <div>{{ orderStatus }} Orders</div>
+        <div>{{ orderStatus }} order</div>
         <v-spacer />
         <div>
           <v-btn
@@ -77,10 +77,10 @@
               append-icon="mdi-magnify"
               color="#7631FF"
             />
-            <div class="mb-2 text-body-1">Given Price</div>
+            <div class="mb-2 text-body-1">Price with discount</div>
             <div class="d-flex align-center">
               <v-text-field
-                v-model="order.givenPrice.amount"
+                v-model="order.priceWithDiscount[0]"
                 placeholder="0.00"
                 outlined
                 validate-on-blur
@@ -90,7 +90,7 @@
               />
               <v-select
                 :items="currency_enums"
-                v-model="order.givenPrice.currency"
+                v-model="order.priceWithDiscountCurrency"
                 style="max-width: 100px"
                 dense
                 outlined
@@ -169,7 +169,6 @@
               color="#7631FF"
               readonly
             />
-           
 
             <div class="mb-2 text-body-1">Deadline</div>
             <el-date-picker
@@ -179,11 +178,9 @@
               :picker-options="pickerOptions"
               value-format="dd.MM.yyyy HH:mm:ss"
               style="min-width: 100%"
-              class=" el-date-picker bg-color-dataPic"
+              class="el-date-picker bg-color-dataPic"
             >
             </el-date-picker>
-
-           
           </v-col>
         </v-row>
         <v-row>
@@ -384,13 +381,12 @@ export default {
         clientId: null,
         modelNumber: "",
         modelName: "",
-        givenPrice: {
-          amount: "",
-          currency: "USD",
-        },
+        priceWithDiscount: [],
+        priceWithDiscountCurrency: "USD",
+
         totalPrice: {
           amount: "",
-          currency: "USD",
+          currency: "",
         },
         deadline: "",
         description: "",
@@ -402,6 +398,8 @@ export default {
         priority: this.$route.params.id !== "add-order" ? "" : "LOW",
         modelId: null,
       },
+
+      modelInfo: {},
 
       saveOrder: false,
 
@@ -447,33 +445,32 @@ export default {
       usersList: "orders/usersList",
       clientList: "orders/clientList",
       modelList: "orders/modelList",
+      infoToOrder: "orders/infoToOrder",
     }),
   },
 
   watch: {
     orderDetail(item) {
-     
-        const order = this.order;
-        order.id = item.id;
-        order.modelId = item.modelId;
-        order.clientId = item.clientId;
-        order.createdTime = item.createdAt;
-        order.creator = item.createdBy;
-        order.deadline = item.deadLine;
-        order.description = item.description;
-        order.modelName = item.modelName;
-        order.modelNumber = item.modelNumber;
-        order.orderNumber = item.orderNumber;
-        order.modifiedPerson = item.updatedBy;
-        order.updatedTime = item.updatedAt;
-        order.headOfDepartmentId = item.headOfProductionDepartmentId;
-        order.givenPrice.amount = item.givenPrice;
-        order.givenPrice.currency = item.givenPriceCurrency;
-        order.modelId = item.modelId;
-        order.priority = item.priority;
-        const modelId = item.modelId;
-        this.setModelId({ modelId });
-      
+      const order = this.order;
+      order.id = item.id;
+      order.modelId = item.modelId;
+      order.clientId = item.clientId;
+      order.createdTime = item.createdAt;
+      order.creator = item.createdBy;
+      order.deadline = item.deadLine;
+      order.description = item.description;
+      order.modelName = item.modelName;
+      order.modelNumber = item.modelNumber;
+      order.orderNumber = item.orderNumber;
+      order.modifiedPerson = item.updatedBy;
+      order.updatedTime = item.updatedAt;
+      order.headOfDepartmentId = item.headOfProductionDepartmentId;
+      order.priceWithDiscount.push(item.priceWithDiscount);
+      order.priceWithDiscountCurrency = item.priceWithDiscountCurrency;
+      order.modelId = item.modelId;
+      order.priority = item.priority;
+      const modelId = item.modelId;
+      this.setModelId({ modelId });
     },
 
     usersList(list) {
@@ -483,6 +480,14 @@ export default {
           name: `${item.firstName} ${item.lastName}`,
         });
       });
+    },
+
+    infoToOrder: {
+      deep: true,
+      immediate: true,
+      handler(info) {
+        this.modelInfo = { ...info };
+      },
     },
   },
 
@@ -494,6 +499,7 @@ export default {
       getClient: "orders/getClient",
       getModelId: "orders/getModelId",
       updateOrder: "orders/updateOrder",
+      getGivePrice: "orders/getGivePrice",
     }),
     ...mapMutations({
       setModelId: "orders/setModelId",
@@ -510,12 +516,20 @@ export default {
     },
 
     setModelName(item) {
-
       this.modelList.forEach((e) => {
         if (item === e.id) {
           this.order.modelName = e.name;
+          this.getGivePrice({ id: item });
+
+          console.log(this.order.priceWithDiscount);
         }
+
+        this.order.priceWithDiscount.shift();
+        this.order.priceWithDiscount.push(this.modelInfo.priceWithDiscount);
       });
+
+      // newOrder.priceWithDiscount=this.modelInfo.priceWithDiscount
+      // newOrder.priceWithDiscountCurrency=this.modelInfo.priceWithDiscountCurrency
     },
   },
 
@@ -570,7 +584,7 @@ export default {
   background-color: #e9eaeb !important;
 }
 
-.bg-color-dataPic{
-  background-color: #F8F4FE !important;
+.bg-color-dataPic {
+  background-color: #f8f4fe !important;
 }
 </style>

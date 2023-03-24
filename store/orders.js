@@ -2,13 +2,14 @@ export const state = () => ({
   ordersList: [],
   oneOrder: {},
   newOrderId: null,
-  newModelId:null,
+  newModelId: null,
   modelGroups: [],
   usersList: [],
   clientList: [],
   modelList: [],
   modelId: null,
-  orderCondation:false,
+  orderCondation: false,
+  infoToOrder: {},
 });
 
 export const getters = {
@@ -20,8 +21,9 @@ export const getters = {
   clientList: (state) => state.clientList.data,
   modelList: (state) => state.modelList.data,
   modelId: (state) => state.modelId,
-  newModelId: (state)=>state.newModelId,
-  orderCondation: state=>state.orderCondation,
+  newModelId: (state) => state.newModelId,
+  orderCondation: (state) => state.orderCondation,
+  infoToOrder: (state) => state.infoToOrder,
 };
 
 export const mutations = {
@@ -34,8 +36,8 @@ export const mutations = {
   setNewOrderId(state, id) {
     state.newOrderId = id;
   },
-  setNewModelId(state,modelId){
-    state.newModelId=modelId
+  setNewModelId(state, modelId) {
+    state.newModelId = modelId;
   },
   setModelGroups(state, group) {
     state.modelGroups = group;
@@ -52,8 +54,11 @@ export const mutations = {
   setModelId(state, id) {
     state.modelId = id;
   },
-  setOrderCondation(state,item){
-    state.orderCondation=item;
+  setOrderCondation(state, item) {
+    state.orderCondation = item;
+  },
+  setInfoToOrder(state,item){
+    state.infoToOrder=item;
   }
 };
 
@@ -86,14 +91,11 @@ export const actions = {
         console.log(response);
       });
   },
-  async getOneOrder({ commit }, { page, size, id,modelId }) {
-    
-
+  async getOneOrder({ commit }, { page, size, id, modelId }) {
     await this.$axios
       .$get(`/api/v1/orders/get-one?orderId=${id}&modelId=${modelId}`)
       .then((res) => {
         commit("setOneOrder", res.data);
-        console.log(res);
       })
       .catch(({ response }) => {
         console.log(response);
@@ -109,7 +111,7 @@ export const actions = {
       .catch(({ response }) => console.log(response));
   },
 
-  async createdOrder({ commit,dispatch }, data) {
+  async createdOrder({ commit, dispatch }, data) {
     const order = {
       clientId: data.clientId,
       deadline: data.deadline,
@@ -125,15 +127,34 @@ export const actions = {
       .post("/api/v1/orders/create", order)
       .then((res) => {
         commit("setNewOrderId", res.data.data.id);
-        commit("setNewModelId",res.data.data.modelId);
-        dispatch("sizeDistirbution/getSizeDistirbution",{modelId:res.data.data.modelId},{root:true})
-        dispatch("sizeDistirbution/getSizeDistirbutionValue",{orderId:res.data.data.id,modelId:res.data.data.modelId},{root:true})
+        commit("setNewModelId", res.data.data.modelId);
+        dispatch(
+          "sizeDistirbution/getSizeDistirbution",
+          { modelId: res.data.data.modelId },
+          { root: true }
+        );
+        dispatch(
+          "sizeDistirbution/getSizeDistirbutionValue",
+          { orderId: res.data.data.id, modelId: res.data.data.modelId },
+          { root: true }
+        );
         // dispatch("detailInfo/getDetailInfo",{orderId:res.data.data.id,modelId:res.data.data.modelId},{root:true})
-        dispatch("shippingInfo/getShippingInfo",{id:res.data.data.id,modelId:res.data.data.modelId},{root:true})
-        dispatch("subcontracts/getSubcontractsList",{modelNumber:"",modelId:res.data.data.modelId},{root:true})
-        dispatch("documents/getDocuments",{modelId:res.data.data.modelId},{root:true})
+        dispatch(
+          "shippingInfo/getShippingInfo",
+          { id: res.data.data.id, modelId: res.data.data.modelId },
+          { root: true }
+        );
+        dispatch(
+          "subcontracts/getSubcontractsList",
+          { modelNumber: "", modelId: res.data.data.modelId },
+          { root: true }
+        );
+        dispatch(
+          "documents/getDocuments",
+          { modelId: res.data.data.modelId },
+          { root: true }
+        );
         this.$toast.success(res.data.message);
-        
       })
       .catch(({ response }) => {
         console.log(response);
@@ -202,26 +223,38 @@ export const actions = {
       clientId: data.clientId,
       deadline: data.deadline,
       description: data.description,
-      givenPrice: data.givenPrice.amount,
-      givenPriceCurrency: data.givenPrice.currency,
+      priceWithDiscount: data.priceWithDiscount,
+      priceWithDiscountCurrency: data.priceWithDiscountCurrency,
       headOfProductionDepartmentId: data.headOfDepartmentId,
       id: data.id,
       modelId: data.modelId,
       orderNumber: data.orderNumber,
       priority: data.priority,
     };
-    console.log(order);
     await this.$axios
       .put("/api/v1/orders/update", order)
       .then((res) => {
         this.$toast.success(res.data.message);
-        console.log(res);
-        
-        dispatch("getOneOrder", { id: res.data.data.id,modelId:res.data.data.modelId, });
+
+        dispatch("getOneOrder", {
+          id: res.data.data.id,
+          modelId: res.data.data.modelId,
+        });
       })
       .catch((res) => {
         console.log(res);
         this.$toast.error(res.message);
+      });
+  },
+
+  async getGivePrice({ commit }, { id }) {
+    await this.$axios
+      .get(`/api/v1/models/info-to-order?id=${id}`)
+      .then((res) => {
+        commit("setInfoToOrder",res.data.data)
+      })
+      .catch((res) => {
+        console.log(res);
       });
   },
 };
