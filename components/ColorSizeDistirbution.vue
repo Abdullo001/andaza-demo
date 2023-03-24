@@ -32,7 +32,7 @@
           <v-btn icon class="mr-2" @click="edit()">
             <v-img src="/edit-green.svg" max-width="20" />
           </v-btn>
-          <v-btn icon @click="delete_dialog=true">
+          <v-btn icon @click="delete_dialog = true">
             <v-img src="/trash-red.svg" max-width="20" />
           </v-btn>
         </div>
@@ -117,7 +117,7 @@
                 v-else
                 width="163"
                 @click="updateNewOrder"
-                >saveBtn
+                >save
               </v-btn>
             </v-card-actions>
           </v-form>
@@ -308,11 +308,13 @@ export default {
       const id = this.$route.params.id;
       if (id !== "add-order") {
         this.deleteSizeDistirbutionFunc({ orderId: id, modelId: this.modelId });
+        this.delete_dialog = false;
       } else {
         this.deleteSizeDistirbutionFunc({
           modelId: this.$store.getters["orders/newModelId"],
           orderId: this.$store.getters["orders/newOrderId"],
         });
+        this.delete_dialog = false;
       }
     },
   },
