@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="mt-4">
     <v-data-table
       :headers="chartHeaders"
-      :items="planningCharts"
+      :items="planningChartList"
       hide-default-footer
     >
       <template #top>
@@ -21,6 +21,15 @@
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
+      </template>
+      <template #item.actions="{item}">
+         <v-btn icon class="mr-3">
+           <v-img src="/edit-green.svg" max-width="22"/>
+         </v-btn>
+        <v-btn icon>
+          <v-img src="/delete.svg" max-width="27"/>
+        </v-btn>
+
       </template>
     </v-data-table>
     <v-dialog
@@ -45,7 +54,7 @@
                 <v-select
                   :items="modelPartsList"
                   item-text="bodyPart"
-                  item-value="bodyPartId"
+                  item-value="id"
                   label="Part name"
                   filled dense
                   validate-on-blur
@@ -173,20 +182,21 @@
 import {mapActions, mapGetters} from "vuex";
 
 export default {
+    name: 'PrintingChartComponent',
   data() {
     return {
       chartHeaders: [
-        {text: 'Part', align: 'start', sortable: false, value: 'part'},
+        {text: 'Part', align: 'start', sortable: false, value: 'bodyPartName'},
         {text: 'Fabric specification', value: 'fabricSpecification'},
         {text: 'VAR.1', value: 'var1'},
         {text: 'VAR.2', value: 'var2'},
         {text: 'Quantity', value: 'quantity'},
-        {text: 'M/U', value: 'measurementUnit'},
+        {text: 'M/U', value: 'quantityUnit'},
         {text: 'Width type', value: 'widthType'},
         {text: 'Width(cm)', value: 'width'},
         {text: 'Density kg/m2', value: 'density'},
-        {text: 'Comment', value: 'comment'},
-        {text: 'Actions', value: 'actions'},
+        {text: 'Comment', value: 'description'},
+        {text: 'Actions', value: 'actions', align: 'center'},
       ],
       planningCharts: [],
       new_dialog: false,
@@ -212,32 +222,28 @@ export default {
     ...mapGetters({
       modelPartsList: 'modelParts/modelPartsList',
       modelId: 'fabric/modelId',
-      measurementUnit: 'measurement/measurementUnit'
+      measurementUnit: 'measurement/measurementUnit',
+      fabricPlanningId: 'fabric/fabricPlanningId',
+      planningChartList: 'fabric/planningChartList',
     })
   },
   watch: {
     modelId(val) {
       this.getModelPart(val);
-    }
+    },
   },
   methods: {
     ...mapActions({
       getModelPart: 'modelParts/getModelPart',
       createPlanningChart: 'fabric/createPlanningChart',
       getMeasurementUnit: 'measurement/getMeasurementUnit',
-      savePlanning: 'fabric/savePlanning'
+
     }),
-    async createPlanning() {
-      const body = {
-        deadline: '',
-        modelId: '',
-        orderId: ''
-      }
-      await this.savePlanning(body);
-    },
+
     async createChart() {
       const valid = this.$refs.new_validate.validate();
       if(valid) {
+        this.fabric_planning.fabricPlanningId = this.fabricPlanningId;
         await this.createPlanningChart(this.fabric_planning);
         this.new_dialog = false;
         this.$refs.new_validate.reset();
