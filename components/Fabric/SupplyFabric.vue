@@ -2,7 +2,7 @@
   <div class="mt-4">
     <v-data-table
       :headers="headers"
-      :items="fabricOrdersList"
+      :items="supplyFabricList"
       :items-per-page="10"
       class="elevation-0"
       hide-default-footer
@@ -11,10 +11,8 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
-
 export default {
-  name: 'FabricOrderedComponent',
+  name: 'FabricSupplyComponent',
   data() {
     return {
       headers: [
@@ -36,30 +34,11 @@ export default {
         { text: 'M/U', value: 'quantityOnePcUnit' },
         { text: 'Total fabric', value: 'total' },
       ],
+      supplyFabricList: []
     }
   },
   computed: {
-    ...mapGetters({
-      fabricOrdersList: 'fabricOrdered/fabricOrdersList',
-      fabricPlanningId: 'fabric/fabricPlanningId',
-    })
-  },
-  watch: {
-    fabricPlanningId(val) {
-      this.getFabricOrdered(val);
-    }
-  },
-  methods: {
-    ...mapActions({
-      getFabricOrdered: 'fabricOrdered/getFabricOrdered',
 
-    })
-  },
-  mounted() {
-    const param = this.$route.params.id;
-    if(param !== 'create') {
-      this.getFabricOrdered(param)
-    }
   }
 }
 </script>

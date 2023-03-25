@@ -301,6 +301,12 @@
           <v-tab-item>
             <FabricOrdered/>
           </v-tab-item>
+          <v-tab-item>
+            <FabricPlannedOrder/>
+          </v-tab-item>
+          <v-tab-item>
+            <FabricSupplyFabric/>
+          </v-tab-item>
         </v-tabs-items>
       </v-card-text>
     </v-card>
@@ -510,6 +516,7 @@ export default {
     const param = this.$route.params.id;
     if (param === "create") {
       this.title = 'Add'
+      this.$store.commit('fabric/setPlanningChartList', [])
     } else {
       this.title = 'Edit';
       this.$store.commit('fabric/setFabricPlanningId', param);
