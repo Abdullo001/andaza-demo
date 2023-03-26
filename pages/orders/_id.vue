@@ -80,7 +80,7 @@
             <div class="mb-2 text-body-1">Price with discount</div>
             <div class="d-flex align-center">
               <v-text-field
-                v-model="order.priceWithDiscount[0]"
+                v-model="order.priceWithDiscount"
                 placeholder="0.00"
                 outlined
                 validate-on-blur
@@ -381,8 +381,8 @@ export default {
         clientId: null,
         modelNumber: "",
         modelName: "",
-        priceWithDiscount: [],
-        priceWithDiscountCurrency: "USD",
+        priceWithDiscount: null,
+        priceWithDiscountCurrency: "",
 
         totalPrice: {
           amount: "",
@@ -450,6 +450,17 @@ export default {
   },
 
   watch: {
+    infoToOrder: {
+      deep: true,
+      immediate: true,
+      handler(info) {
+        const order = this.order;
+        order.priceWithDiscount = info.priceWithDiscount;
+        order.priceWithDiscountCurrency = info.priceWithDiscountCurrency;
+        this.$store.commit["setInfoToOrder",{}]
+      },
+    },
+
     orderDetail(item) {
       const order = this.order;
       order.id = item.id;
@@ -465,7 +476,7 @@ export default {
       order.modifiedPerson = item.updatedBy;
       order.updatedTime = item.updatedAt;
       order.headOfDepartmentId = item.headOfProductionDepartmentId;
-      order.priceWithDiscount.push(item.priceWithDiscount);
+      order.priceWithDiscount = item.priceWithDiscount;
       order.priceWithDiscountCurrency = item.priceWithDiscountCurrency;
       order.modelId = item.modelId;
       order.priority = item.priority;
@@ -480,14 +491,6 @@ export default {
           name: `${item.firstName} ${item.lastName}`,
         });
       });
-    },
-
-    infoToOrder: {
-      deep: true,
-      immediate: true,
-      handler(info) {
-        this.modelInfo = { ...info };
-      },
     },
   },
 
@@ -519,17 +522,12 @@ export default {
       this.modelList.forEach((e) => {
         if (item === e.id) {
           this.order.modelName = e.name;
-          this.getGivePrice({ id: item });
-
-          console.log(this.order.priceWithDiscount);
         }
-
-        this.order.priceWithDiscount.shift();
-        this.order.priceWithDiscount.push(this.modelInfo.priceWithDiscount);
       });
 
-      // newOrder.priceWithDiscount=this.modelInfo.priceWithDiscount
-      // newOrder.priceWithDiscountCurrency=this.modelInfo.priceWithDiscountCurrency
+      this.getGivePrice({ id: item });
+
+      console.log(this.order.priceWithDiscount);
     },
   },
 

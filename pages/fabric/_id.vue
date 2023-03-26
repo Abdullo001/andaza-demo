@@ -288,7 +288,7 @@
           <v-tab
             v-for="item in items"
             :key="item"
-            class="text-capitalize"
+            class="text-none"
           >
             {{ item }}
           </v-tab>
@@ -297,6 +297,15 @@
         <v-tabs-items v-model="tab">
           <v-tab-item>
             <FabricPlanningChart/>
+          </v-tab-item>
+          <v-tab-item>
+            <FabricOrdered/>
+          </v-tab-item>
+          <v-tab-item>
+            <FabricPlannedOrder/>
+          </v-tab-item>
+          <v-tab-item>
+            <FabricSupplyFabric/>
           </v-tab-item>
         </v-tabs-items>
       </v-card-text>
@@ -395,32 +404,6 @@ export default {
       ],
       tab: null,
       currentImage: '',
-      pickerOptions: {
-        shortcuts: [
-          {
-            text: "Cегодня",
-            onClick(picker) {
-              picker.$emit("pick", new Date());
-            },
-          },
-          {
-            text: "Вчера",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit("pick", date);
-            },
-          },
-          {
-            text: "Неделя",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", date);
-            },
-          },
-        ],
-      },
     }
   },
   watch: {
@@ -445,6 +428,7 @@ export default {
       this.getPlanningChartList(val)
     },
     onePlanningChart(val) {
+      this.$store.commit('fabric/setModelId', val.modelId);
       this.getImages(val.modelId);
       const data = this.addFabric;
         data.orderNumber = val.orderNumber;
@@ -506,6 +490,7 @@ export default {
     const param = this.$route.params.id;
     if (param === "create") {
       this.title = 'Add'
+      this.$store.commit('fabric/setPlanningChartList', [])
     } else {
       this.title = 'Edit';
       this.$store.commit('fabric/setFabricPlanningId', param);

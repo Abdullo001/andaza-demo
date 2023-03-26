@@ -116,8 +116,8 @@ export const actions = {
       clientId: data.clientId,
       deadline: data.deadline,
       description: data.description,
-      givenPrice: data.givenPrice.amount,
-      givenPriceCurrency: data.givenPrice.currency,
+      priceWithDiscount: data.priceWithDiscount,
+      priceWithDiscountCurrency: data.priceWithDiscountCurrency,
       headOfProductionDepartmentId: data.headOfDepartmentId,
       modelId: data.modelId,
       orderNumber: data.orderNumber,
@@ -212,6 +212,7 @@ export const actions = {
       .get(`/api/v1/models/pre-financed-models`)
       .then((res) => {
         commit("setModelList", res.data);
+        console.log(res);
       })
       .catch((res) => {
         console.log(res);
