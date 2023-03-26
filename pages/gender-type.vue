@@ -1,123 +1,82 @@
 
 <template>
   <div>
-    <v-card elevation="0" class="rounded-t-lg">
-      <v-card-title>
-        <div>Colors</div>
-        <v-spacer/>
-        <div>
-          <v-btn
-            outlined
-            elevation="0"
-            color="#777C85"
-            class="text-capitalize rounded-lg mr-4"
+    <v-card
+      color="#fff"
+      elevation="0"
+      class="rounded-t-lg"
+    >
+      <v-form lazy-validation v-model="valid_search" ref="filter_form">
+        <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
+          <v-col cols="12" lg="2" md="2">
+            <v-text-field
+              label="ID gender type"
+              outlined
+              class="rounded-lg"
+              v-model.trim="filter_partner.id"
+              hide-details
+              dense
+              @keydown.enter="filterData"
+            />
+          </v-col>
+          <v-col cols="12" lg="2" md="2">
+            <v-text-field
+              label="Name gender type"
+              outlined
+              class="rounded-lg"
+              v-model.trim="filter_partner.name"
+              hide-details
+              dense
+              @keydown.enter="filterData"
+            />
+          </v-col>
+          <v-col
+            cols="12" lg="2" md="2" style="max-width: 240px;"
           >
-            <v-img src="/trash.svg" class="mr-1"/>
-            Delete
-          </v-btn>
-          <v-btn
-            outlined
-            elevation="0"
-            class="text-capitalize rounded-lg"
-            color="#777C85"
+            <el-date-picker
+              v-model="filter_partner.createdAt"
+              type="datetime"
+              placeholder="Created"
+              :picker-options="pickerOptions"
+              value-format="dd.MM.yyyy HH:mm:ss"
+            >
+            </el-date-picker>
+          </v-col>
+          <v-col
+            cols="12" lg="2" md="2"
           >
-            <v-img :src="fields_status ? '/edit.svg' : '/edit-active.svg'" class="mr-1"/>
-            Edit
-          </v-btn>
-        </div>
-      </v-card-title>
-      <v-divider/>
-      <v-card-text class="mt-4">
-        <v-row>
-          <v-col cols="12" lg="3" md="6">
-            <v-text-field
-              label="Group code"
-              filled
-              disabled
-              dense
-              placeholder="Enter Group code"
-              class="mb-4"
-              color="#7631FF"
-            />
-          </v-col>
-          <v-col cols="12" lg="3" md="6">
-            <v-text-field
-              label="Group name"
-              filled
-              dense
-              disabled
-              placeholder="Enter Group name"
-              class="mb-4"
-              color="#7631FF"
-            />
-          </v-col>
-          <v-col cols="12" lg="3" md="6">
-            <v-text-field
-              label="Creator"
-              filled
-              disabled
-              dense
-              placeholder="Enter Creator"
-              class="mb-4"
-              color="#7631FF"
-            />
-          </v-col>
-          <v-col cols="12" lg="3" md="6">
-            <v-text-field
-              label="Created date"
-              filled
-              dense
-              disabled
-              placeholder="Select Created date"
-              class="mb-4"
-              color="#7631FF"
+            <el-date-picker
+              v-model="filter_partner.updatedAt"
+              type="datetime"
+              placeholder="Updated"
+              :picker-options="pickerOptions"
+              value-format="dd.MM.yyyy HH:mm:ss"
             >
-              <template #append>
-                <v-img src="/date-icon.svg"/>
-              </template>
-            </v-text-field>
+            </el-date-picker>
           </v-col>
-          <v-col cols="12" lg="3" md="6">
-            <v-text-field
-              label="Update by"
-              filled dense
-              item-value="id"
-              item-text="name"
-              placeholder="Enter Update by"
-              class="mb-4"
-              disabled
-              color="#7631FF"
-            />
-          </v-col>
-          <v-col cols="12" lg="3" md="6">
-            <v-text-field
-              label="Update date"
-              filled dense
-              append-icon="mdi-chevron-down"
-              placeholder="Select Update date"
-              class="mb-4"
-              disabled
-              color="#7631FF"
-            >
-              <template #append>
-                <v-img src="/date-icon.svg"/>
-              </template>
-            </v-text-field>
+          <v-spacer/>
+          <v-col cols="12" lg="2" md="2">
+            <div class="d-flex justify-end">
+              <v-btn
+                width="140" outlined
+                color="#397CFD" elevation="0"
+                class="text-capitalize mr-4 rounded-lg"
+                @click.stop="resetFilters"
+              >
+                Reset
+              </v-btn>
+              <v-btn
+                width="140" color="#397CFD" dark
+                elevation="0"
+                class="text-capitalize rounded-lg"
+                @click="filterData"
+              >
+                Search
+              </v-btn>
+            </div>
           </v-col>
         </v-row>
-      </v-card-text>
-      <v-card-actions class="pb-6 pr-4">
-        <v-spacer/>
-        <v-btn
-          color="#7631FF"
-          class="text-capitalize rounded-lg"
-          width="130"
-          height="44"
-          dark
-        >
-          save
-        </v-btn>
-      </v-card-actions>
+      </v-form>
     </v-card>
     <v-data-table
       :headers="headers"
@@ -131,10 +90,10 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium text-capitalize">Colors</div>
+            <div class="font-weight-medium text-capitalize">Gender Type</div>
             <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="new_dialog = true">
               <v-icon>mdi-plus</v-icon>
-              Add Color
+              Add Gender Type
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -157,7 +116,7 @@
     <v-dialog v-model="new_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Add Color</div>
+          <div class="text-capitalize font-weight-bold">Add gender type</div>
           <v-btn icon color="#7631FF" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -165,35 +124,16 @@
         <v-card-text class="mt-4">
           <v-form  ref="new_form">
             <v-row>
-              <v-col cols="12" lg="6">
+              <v-col cols="12">
                 <v-text-field
                   filled
-                  label="Color code"
-                  placeholder="Enter Color code"
+                  label="Gender type"
+                  placeholder="Enter Gender type"
                   dense
                   color="#7631FF"
                 />
               </v-col>
-              <v-col cols="12" lg="6">
-                <v-text-field
-                  filled
-                  label="Color name"
-                  placeholder="Enter Color name"
-                  dense
-                  color="#7631FF"
-                />
-              </v-col>
-              <v-col cols="12" lg="6">
-                <v-text-field
-                  filled
-                  label="Code and apperance"
-                  placeholder="Enter Code and apperance"
-                  dense
-                  color="#7631FF"
-                >
-                </v-text-field>
-              </v-col>
-              <v-col cols="12" lg="6">
+              <v-col cols="12">
                 <v-text-field
                   filled
                   label="Description"
@@ -227,7 +167,7 @@
     <v-dialog v-model="edit_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Edit Size</div>
+          <div class="text-capitalize font-weight-bold">Edit Gender type</div>
           <v-btn icon color="#7631FF" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -235,35 +175,16 @@
         <v-card-text class="mt-4">
           <v-form  ref="new_form">
             <v-row>
-              <v-col cols="12" lg="6">
+              <v-col cols="12">
                 <v-text-field
                   filled
-                  label="Color code"
-                  placeholder="Enter Color code"
+                  label="Gender type"
+                  placeholder="Enter Gender type"
                   dense
                   color="#7631FF"
                 />
               </v-col>
-              <v-col cols="12" lg="6">
-                <v-text-field
-                  filled
-                  label="Color name"
-                  placeholder="Enter Color name"
-                  dense
-                  color="#7631FF"
-                />
-              </v-col>
-              <v-col cols="12" lg="6">
-                <v-text-field
-                  filled
-                  label="Code and apperance"
-                  placeholder="Enter Code and apperance"
-                  dense
-                  color="#7631FF"
-                >
-                </v-text-field>
-              </v-col>
-              <v-col cols="12" lg="6">
+              <v-col cols="12">
                 <v-text-field
                   filled
                   label="Description"
@@ -299,9 +220,9 @@
         <div class="d-flex justify-center mb-2">
           <v-img src="/error-icon.svg" max-width="40"/>
         </div>
-        <v-card-title class="d-flex justify-center">Delete Color</v-card-title>
+        <v-card-title class="d-flex justify-center">Delete Gender type</v-card-title>
         <v-card-text>
-          Are you sure you want to Delete this color?
+          Are you sure you want to Delete this gender type?
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -334,23 +255,26 @@ export default {
   name: "SizeCatalogsPages",
   data() {
     return {
+      valid_search: "",
+      filter_partner: {},
       color: "",
       fields_status: true,
       edit_dialog: false,
       new_dialog: false,
       delete_dialog: false,
       headers: [
-        {text: "Catalogs group code", value: "catalog"},
-        {text: "Gender", value: "gender"},
-        {text: "Model group", value: "modelGroup"},
-        {text: "Siz", value: "size"},
-        {text: "Europen size", value: "europenSize"},
+        {text: "Id", value: "id", sortable: false},
+        {text: "Name", value: "name"},
         {text: "Description", value: "description"},
+        {text: "Created", value: "created"},
+        {text: "Updated", value: "updated"},
         {text: "Actions", value: "actions", align: "center", sortable: false},
       ],
       items: [
-        {catalog: "Catalog"}
-      ]
+        {id: "Catalog"}
+      ],
+      pickerOptions: {},
+      resetFilters(){},
     }
   },
   methods:{
@@ -360,6 +284,7 @@ export default {
     getDeleteItem(item){
       this.delete_dialog = true
     },
+    filterData(){},
   },
   mounted() {
     this.$store.commit('setPageTitle', 'Catalogs');

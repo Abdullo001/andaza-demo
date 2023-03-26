@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card elevation="0">
+    <v-card elevation="0" class="rounded-t-lg">
       <v-card-title>
         <div>Size</div>
         <v-spacer/>

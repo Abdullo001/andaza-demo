@@ -288,6 +288,10 @@ export default {
               title: 'Colors',
               to: '/colors',
             },
+            {
+              title: 'Gender type',
+              to: '/gender-type',
+            },
           ]
         },
         {
