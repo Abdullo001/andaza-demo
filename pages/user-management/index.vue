@@ -50,7 +50,7 @@
               v-model="search.start_time"
               type="datetime"
               placeholder="From"
-              :picker-options="pickerOptions"
+              :picker-options="pickerShortcuts"
               format="dd.MM.yyyy HH:mm:ss"
             >
             </el-date-picker>
@@ -62,7 +62,7 @@
               v-model="search.end_time"
               type="datetime"
               placeholder="To"
-              :picker-options="pickerOptions"
+              :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
             >
             </el-date-picker>
@@ -533,32 +533,6 @@ export default {
         {text: 'Status', align: 'start', sortable: false, value: 'status', width: 180},
         {text: 'Actions', align: 'end', sortable: false, value: 'actions', width: 90},
       ],
-      pickerOptions: {
-        shortcuts: [
-          {
-            text: "Cегодня",
-            onClick(picker) {
-              picker.$emit("pick", new Date());
-            },
-          },
-          {
-            text: "Вчера",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit("pick", date);
-            },
-          },
-          {
-            text: "Неделя",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", date);
-            },
-          },
-        ],
-      },
       new_user: false,
       user_status: '',
       status_list: ['ACTIVE', 'DISABLED', 'PENDING'],

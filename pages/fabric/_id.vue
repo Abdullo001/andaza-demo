@@ -156,7 +156,7 @@
                   v-model="addFabric.deadlineForFabric"
                   type="datetime"
                   placeholder="Deadline for fabric"
-                  :picker-options="pickerOptions"
+                  :picker-options="pickerShortcuts"
                   value-format="dd.MM.yyyy HH:mm:ss"
                   class="custom-picker"
                 >

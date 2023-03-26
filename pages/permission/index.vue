@@ -51,7 +51,7 @@
               type="datetime"
               v-model="filter_search.value"
               placeholder="From"
-              :picker-options="pickerOptions"
+              :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
             >
             </el-date-picker>
@@ -63,7 +63,7 @@
               type="datetime"
               placeholder="To"
               v-model="filter_search.value_to"
-              :picker-options="pickerOptions"
+              :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
             >
             </el-date-picker>
@@ -393,32 +393,6 @@ export default {
       itemPerPage: 10,
       current_page: 0,
       menu2: false,
-      pickerOptions: {
-        shortcuts: [
-          {
-            text: "Cегодня",
-            onClick(picker) {
-              picker.$emit("pick", new Date());
-            },
-          },
-          {
-            text: "Вчера",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit("pick", date);
-            },
-          },
-          {
-            text: "Неделя",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", date);
-            },
-          },
-        ],
-      },
     }
   },
   computed: {

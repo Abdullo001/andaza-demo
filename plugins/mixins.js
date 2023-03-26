@@ -79,8 +79,8 @@ export default (context, inject) => {
             }
           },
 
-          priorityColor(color){
-            switch(color){
+          priorityColor(color) {
+            switch (color) {
               case 'LOW':
                 return '#10BF41'
               case 'MEDIUM':
@@ -92,33 +92,34 @@ export default (context, inject) => {
           },
         }
       },
-      pickerOptions: {
-        shortcuts: [
-          {
-            text: "Cегодня",
-            onClick(picker) {
-              picker.$emit("pick", new Date());
+      pickerShortcuts() {
+        return {
+          shortcuts: [
+            {
+              text: "Cегодня",
+              onClick(picker) {
+                picker.$emit("pick", new Date());
+              },
             },
-          },
-          {
-            text: "Вчера",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit("pick", date);
+            {
+              text: "Вчера",
+              onClick(picker) {
+                const date = new Date();
+                date.setTime(date.getTime() - 3600 * 1000 * 24);
+                picker.$emit("pick", date);
+              },
             },
-          },
-          {
-            text: "Неделя",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", date);
+            {
+              text: "Неделя",
+              onClick(picker) {
+                const date = new Date();
+                date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                picker.$emit("pick", date);
+              },
             },
-          },
-        ],
+          ]
+        }
       },
     }
   })
-
 }
