@@ -33,7 +33,7 @@
                 type="datetime"
                 class="rounded-lg d-block el-date-picker"
                 placeholder="Created at"
-                :picker-options="pickerOptions"
+                :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy HH:mm:ss"
               >
               </el-date-picker>
@@ -44,7 +44,7 @@
                 type="datetime"
                 class="rounded-lg d-block el-date-picker"
                 placeholder="Updated at"
-                :picker-options="pickerOptions"
+                :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy HH:mm:ss"
               >
               </el-date-picker>
@@ -174,33 +174,6 @@ export default {
       },
       status_enums: ["FINISHED", "CANCELED", "PENDING", "IN_PROCESS"],
       modelGroup_enums: [],
-      pickerOptions: {
-        shortcuts: [
-          {
-            text: "Cегодня",
-            onClick(picker) {
-              picker.$emit("pick", new Date());
-            },
-          },
-          {
-            text: "Вчера",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit("pick", date);
-            },
-          },
-          {
-            text: "Неделя",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", date);
-            },
-          },
-        ],
-      },
-
       headers: [
         {
           text: "Order number",
@@ -282,7 +255,7 @@ export default {
         hash: this.$route.hash,
       });
       this.$store.commit["orders/setModelId",item.modelId]
-      
+
     },
 
     addOrder() {

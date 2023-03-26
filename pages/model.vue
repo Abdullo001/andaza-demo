@@ -36,7 +36,7 @@
               v-model.trim="filter_model.createdAt"
               type="datetime"
               placeholder="Created"
-              :picker-options="pickerOptions"
+              :picker-options="pickerShortcuts"
               format="dd.MM.yyyy HH:mm:ss"
             >
             </el-date-picker>
@@ -48,7 +48,7 @@
               v-model.trim="filter_model.updatedAt"
               type="datetime"
               placeholder="Updated"
-              :picker-options="pickerOptions"
+              :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
             >
             </el-date-picker>
@@ -283,32 +283,6 @@ export default {
         id: ""
       },
       options: {},
-      pickerOptions: {
-        shortcuts: [
-          {
-            text: "Cегодня",
-            onClick(picker) {
-              picker.$emit("pick", new Date());
-            },
-          },
-          {
-            text: "Вчера",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit("pick", date);
-            },
-          },
-          {
-            text: "Неделя",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", date);
-            },
-          },
-        ],
-      },
     }
   },
   watch: {
