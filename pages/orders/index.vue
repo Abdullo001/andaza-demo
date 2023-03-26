@@ -282,7 +282,7 @@ export default {
         hash: this.$route.hash,
       });
       this.$store.commit["orders/setModelId",item.modelId]
-      
+
     },
 
     addOrder() {

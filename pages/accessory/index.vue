@@ -131,7 +131,7 @@ export default {
 
       accessoryList:[],
 
-      
+
 
       pickerOptions: {
         shortcuts: [

@@ -198,32 +198,6 @@ export default {
           icon: false
         },
       ],
-      pickerOptions: {
-        shortcuts: [
-          {
-            text: "Cегодня",
-            onClick(picker) {
-              picker.$emit("pick", new Date());
-            },
-          },
-          {
-            text: "Вчера",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit("pick", date);
-            },
-          },
-          {
-            text: "Неделя",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", date);
-            },
-          },
-        ],
-      },
     }
   },
   async created() {

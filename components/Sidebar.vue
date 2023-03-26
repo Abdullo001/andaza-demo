@@ -279,6 +279,10 @@ export default {
             {
               title: "Partners",
               to: "/partners"
+            },
+            {
+              title: "Size",
+              to: "/catalog-size"
             }
           ]
         },

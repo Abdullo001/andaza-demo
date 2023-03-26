@@ -273,10 +273,10 @@
                   />
                 </div>
               </div>
-              
+
             </div>
           </v-col>
-          
+
           <v-col cols="3">
             <div class="mb-2 text-body-1">Creator of model</div>
             <v-text-field
@@ -322,7 +322,7 @@
               </template>
             </v-text-field>
           </v-col>
-          
+
         </v-row>
       </v-card-text>
     </v-card>
