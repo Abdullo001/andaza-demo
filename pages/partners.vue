@@ -2,7 +2,7 @@
   <div>
     <v-card elevation="0">
       <v-card-title>
-        <div> Fabric catalogs</div>
+        <div>Partners</div>
         <v-spacer/>
         <div>
           <v-btn
@@ -28,66 +28,80 @@
       <v-divider/>
       <v-card-text class="mt-4">
         <v-row>
-          <v-col cols="12" lg="4" md="6">
+          <v-col cols="12" lg="3" md="6">
             <v-text-field
-              label="Catalogs group code"
+              label="Group code"
               filled
+              disabled
               dense
-              placeholder="Enter Catalogs group code"
+              placeholder="Enter Group code"
               class="mb-4"
               color="#7631FF"
             />
           </v-col>
-          <v-col cols="12" lg="4" md="6">
+          <v-col cols="12" lg="3" md="6">
             <v-text-field
-              label="Catalogs group name"
+              label="Group name"
               filled
               dense
-              placeholder="Enter Catalogs group name"
+              disabled
+              placeholder="Enter Group name"
               class="mb-4"
               color="#7631FF"
             />
           </v-col>
-          <v-col cols="12" lg="4" md="6">
-            <v-text-field
-              label="Group parts code"
-              filled
-              dense
-              placeholder="Enter Group parts code"
-              class="mb-4"
-              color="#7631FF"
-            />
-          </v-col>
-          <v-col cols="12" lg="4" md="6">
-            <v-text-field
-              label="Group part name"
-              filled
-              dense
-              placeholder="Select Group part name"
-              class="mb-4"
-              color="#7631FF"
-            />
-          </v-col>
-          <v-col cols="12" lg="4" md="6">
+          <v-col cols="12" lg="3" md="6">
             <v-text-field
               label="Creator"
-              filled dense
-              item-value="id"
-              item-text="name"
+              filled
+              disabled
+              dense
               placeholder="Enter Creator"
               class="mb-4"
               color="#7631FF"
             />
           </v-col>
-          <v-col cols="12" lg="4" md="6">
-            <v-select
+          <v-col cols="12" lg="3" md="6">
+            <v-text-field
               label="Created date"
-              filled dense
-              append-icon="mdi-chevron-down"
+              filled
+              dense
+              disabled
               placeholder="Select Created date"
               class="mb-4"
               color="#7631FF"
+            >
+              <template #append>
+                <v-img src="/date-icon.svg"/>
+              </template>
+            </v-text-field>
+          </v-col>
+          <v-col cols="12" lg="3" md="6">
+            <v-text-field
+              label="Update by"
+              filled dense
+              item-value="id"
+              item-text="name"
+              placeholder="Enter Update by"
+              class="mb-4"
+              disabled
+              color="#7631FF"
             />
+          </v-col>
+          <v-col cols="12" lg="3" md="6">
+            <v-select
+              label="Update date"
+              filled dense
+              append-icon="mdi-chevron-down"
+              placeholder="Select Update date"
+              class="mb-4"
+              disabled
+              color="#7631FF"
+            >
+              <template #append>
+                <v-img src="/date-icon.svg"/>
+              </template>
+            </v-select>
           </v-col>
         </v-row>
       </v-card-text>
@@ -104,47 +118,28 @@
         </v-btn>
       </v-card-actions>
     </v-card>
-    <v-card>
+    <v-card class="mt-5 elevation-0">
       <v-tabs
         color="#7631FF"
         v-model="tab"
       >
         <v-tab
           class="text-capitalize"
-          v-for="item in items"
+          v-for="item in tab_items"
           :key="item"
         >
           {{ item }}
         </v-tab>
         <v-tabs-slider color="#7631FF"/>
-        <v-tabs-items
-          v-model="tab"
-        >
-          <v-tab-item
-            v-for="component in componentsData"
-            :key="component"
-          >
-            <div v-if="component === 'CanvasTypePage'">
-              <CanvasTypePage/>
-            </div>
-            <div v-if="component === 'YarnTypePage'">
-              <YarnTypePages/>
-            </div>
-            <div v-if="component === 'YarnNumberPage'">
-              <YarnNumberPage/>
-            </div>
-            <div v-if="component === 'CompositionPage'">
-              <CompositionPage/>
-            </div>
-            <div v-if="component === 'DensityPage'">
-              <DensityPage/>
-            </div>
-            <div v-if="component === 'Wool'">
-              <WoolPage/>
-            </div>
-            <div v-if="component === 'PeachEffectPage'">
-              <PeachEffectPage/>
-            </div>
+        <v-tabs-items v-model="tab">
+          <v-tab-item>
+            <SuppliersPages/>
+          </v-tab-item>
+          <v-tab-item>
+            <ClientsPages/>
+          </v-tab-item>
+          <v-tab-item>
+            <SubcontractorsPages/>
           </v-tab-item>
         </v-tabs-items>
       </v-tabs>
@@ -153,34 +148,19 @@
 </template>
 
 <script>
-
-import CanvasTypePage from "../components/fabricCatalogs/CanvasType.vue";
-import YarnTypePages from "../components/fabricCatalogs/YarnType.vue";
-import YarnNumberPage from "../components/fabricCatalogs/YarnNumberPage.vue";
-import CompositionPage from "../components/fabricCatalogs/Composition.vue";
-import DensityPage from "../components/fabricCatalogs/Density.vue";
-import WoolPage from "../components/fabricCatalogs/Wool.vue";
-import PeachEffectPage from "../components/fabricCatalogs/PeachEffect.vue";
+import ClientsPages from "@/components/partners/Clients.vue";
+import SubcontractorsPages from "@/components/partners/Subcontractors.vue";
+import SuppliersPages from "@/components/partners/Suppliers.vue";
 
 export default {
-  name: 'addOrEditModelsPage',
-  components: {PeachEffectPage, WoolPage, DensityPage, CompositionPage, YarnNumberPage, YarnTypePages, CanvasTypePage},
+  name: "PartnersPages",
+  components: {SuppliersPages, SubcontractorsPages, ClientsPages},
   data() {
     return {
       new_dialog: false,
-      items: ['Canvas type', 'Yarn type', 'Yarn number', 'Composition', 'Density', 'Wool', 'Peach effect'],
-      componentsData: ["CanvasTypePage", "YarnTypePage", "YarnNumberPage", "CompositionPage", "DensityPage", "Wool", "PeachEffectPage"],
+      tab_items: ["Suppliers", "Clients", "Subcontractors"],
       tab: null,
       fields_status: true,
-      headers: [
-        {text: "Catalogs group code", value: "catalog"},
-        {text: "Group part code", value: "group"},
-        {text: "Canvas type", value: "canvasType"},
-        {text: "Canvas type specifiaction", value: "specifiaction"},
-        {text: "Description", value: "description"},
-        {text: "Creator", value: "creator"},
-        {text: "Created date", value: "Created date"},
-      ],
       pickerOptions: {
         shortcuts: [
           {

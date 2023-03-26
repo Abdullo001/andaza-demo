@@ -106,6 +106,7 @@
     </v-card>
     <v-card>
       <v-tabs
+        color="#7631FF"
         v-model="tab"
       >
         <v-tab
@@ -119,31 +120,14 @@
         <v-tabs-items
           v-model="tab"
         >
-          <v-tab-item
-            v-for="component in componentsData"
-            :key="component"
-          >
-            <div v-if="component === 'CanvasTypePage'">
-              <CanvasTypePage/>
-            </div>
-            <div v-if="component === 'YarnTypePage'">
-              <YarnTypePages/>
-            </div>
-            <div v-if="component === 'YarnNumberPage'">
-              <YarnNumberPage/>
-            </div>
-            <div v-if="component === 'CompositionPage'">
-              <CompositionPage/>
-            </div>
-            <div v-if="component === 'DensityPage'">
-              <DensityPage/>
-            </div>
-            <div v-if="component === 'Wool'">
-              <WoolPage/>
-            </div>
-            <div v-if="component === 'PeachEffectPage'">
-              <PeachEffectPage/>
-            </div>
+          <v-tab-item>
+            <ProductTypePages/>
+          </v-tab-item>
+          <v-tab-item>
+            <GenderTypePages/>
+          </v-tab-item>
+          <v-tab-item>
+            <SizeCatalogsPages/>
           </v-tab-item>
         </v-tabs-items>
       </v-tabs>
@@ -153,22 +137,17 @@
 
 <script>
 
-import CanvasTypePage from "../components/CanvasType.vue";
-import YarnTypePages from "../components/YarnType.vue";
-import YarnNumberPage from "../components/YarnNumberPage.vue";
-import CompositionPage from "../components/Composition.vue";
-import DensityPage from "../components/Density.vue";
-import WoolPage from "../components/Wool.vue";
-import PeachEffectPage from "../components/PeachEffect.vue";
+import GenderTypePages from "@/components/productCatalogs/GenderType.vue";
+import SizeCatalogsPages from "@/components/productCatalogs/SizeCatalogs.vue";
+import ProductTypePages from "@/components/productCatalogs/ProcuctType.vue";
 
 export default {
   name: 'addOrEditModelsPage',
-  components: {PeachEffectPage, WoolPage, DensityPage, CompositionPage, YarnNumberPage, YarnTypePages, CanvasTypePage},
+  components: {ProductTypePages, SizeCatalogsPages, GenderTypePages},
   data() {
     return {
       new_dialog: false,
-      items: ['Canvas type', 'Yarn type', 'Yarn number', 'Composition', 'Density', 'Wool', 'Peach effect'],
-      componentsData: ["CanvasTypePage", "YarnTypePage", "YarnNumberPage", "CompositionPage", "DensityPage", "Wool", "PeachEffectPage"],
+      items: ["Product Type", "Gender Type", "Size"],
       tab: null,
       fields_status: true,
       headers: [
@@ -208,7 +187,9 @@ export default {
       },
     }
   },
-
+  mounted() {
+    this.$store.commit('setPageTitle', 'Catalogs');
+  },
 }
 </script>
 
