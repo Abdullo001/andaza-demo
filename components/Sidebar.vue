@@ -283,7 +283,11 @@ export default {
             {
               title: "Size",
               to: "/catalog-size"
-            }
+            },
+            {
+              title: 'Colors',
+              to: '/colors',
+            },
           ]
         },
         {
