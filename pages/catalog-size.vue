@@ -253,34 +253,79 @@
     <v-dialog v-model="edit_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Edit Canvas type</div>
+          <div class="text-capitalize font-weight-bold">Edit Size</div>
           <v-btn icon color="#7631FF" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form  ref="new_form">
-            <v-text-field
-              filled
-              label="Canvas type"
-              placeholder="Select canvas type"
-              dense
-              color="#7631FF"
-            />
-            <v-text-field
-              filled
-              label="Canvas type specification"
-              placeholder="Enter Canvas type specification"
-              dense
-              color="#7631FF"
-            />
-            <v-textarea
-              filled
-              label="Description"
-              placeholder="Enter Canvas type"
-              dense
-              color="#7631FF"
-            />
+            <v-row>
+              <v-col cols="12" lg="6">
+                <v-select
+                  label="Gender"
+                  filled dense
+                  append-icon="mdi-chevron-down"
+                  placeholder="Select Gender"
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <v-select
+                  label="Product type"
+                  filled dense
+                  append-icon="mdi-chevron-down"
+                  placeholder="Select Product type"
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <v-text-field
+                  filled
+                  label="Size from"
+                  placeholder="Enter Size from"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <v-text-field
+                  filled
+                  label="Gradation"
+                  placeholder="Enter Gradation"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <v-text-field
+                  filled
+                  label="Size to "
+                  placeholder="Enter Size to "
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <v-text-field
+                  filled
+                  label="Description"
+                  placeholder="Enter Description"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12">
+                <v-combobox
+                  append-icon="mdi-chevron-down"
+                  filled
+                  label="Europe size"
+                  placeholder="Enter Europe size"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+            </v-row>
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
@@ -297,7 +342,7 @@
             color="#7631FF" dark
             width="163"
           >
-            save
+            add
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -307,9 +352,9 @@
         <div class="d-flex justify-center mb-2">
           <v-img src="/error-icon.svg" max-width="40"/>
         </div>
-        <v-card-title class="d-flex justify-center">Delete Canvas type</v-card-title>
+        <v-card-title class="d-flex justify-center">Delete Size</v-card-title>
         <v-card-text>
-          Are you sure you want to Delete this Canvas type?
+          Are you sure you want to Delete this size?
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
