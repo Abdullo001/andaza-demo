@@ -249,6 +249,7 @@
                   :items="statusEnums"
                   v-model="edit_permission.status"
                   color="#7631FF"
+                  append-icon="mdi-chevron-down"
                   placeholder="Enter permission name"
                   validate-on-blur
                 />

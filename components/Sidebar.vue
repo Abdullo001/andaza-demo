@@ -275,6 +275,10 @@ export default {
             {
               title: "Product catalogs",
               to: "/product-catalogs"
+            },
+            {
+              title: "Partners",
+              to: "/partners"
             }
           ]
         },
