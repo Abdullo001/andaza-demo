@@ -4,7 +4,7 @@
     <v-card
       color="#fff"
       elevation="0"
-      class="rounded-t-lg"
+      class="rounded-lg"
     >
       <v-form lazy-validation v-model="valid_search" ref="filter_form">
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
@@ -88,7 +88,7 @@
       class="mt-4 rounded-lg"
     >
       <template #top>
-        <v-toolbar elevation="0">
+        <v-toolbar elevation="0" class="rounded-lg">
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium text-capitalize">Gender Type</div>
             <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="new_dialog = true">
@@ -134,7 +134,7 @@
                 />
               </v-col>
               <v-col cols="12">
-                <v-text-field
+                <v-textarea
                   filled
                   label="Description"
                   placeholder="Enter Description"
@@ -185,7 +185,7 @@
                 />
               </v-col>
               <v-col cols="12">
-                <v-text-field
+                <v-textarea
                   filled
                   label="Description"
                   placeholder="Enter Description"
