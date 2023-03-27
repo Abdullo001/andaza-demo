@@ -1,10 +1,24 @@
+import partner from "@/pages/partner.vue";
+
 export const state = () => ({
-  warehouseCode: []
+  warehouseList: [],
+  partnerLists: []
 });
-export const getters = {};
-export const mutations = {};
+export const getters = {
+  partnerLists: state => state.partnerLists,
+  warehouseList: state => state.warehouseList,
+
+};
+export const mutations = {
+  setPartners(state, partner) {
+    state.partnerLists = partner;
+  },
+  setWarehouseList(state, item) {
+    state.warehouseList = item;
+  }
+};
 export const actions = {
-  getWarehouseCodeList({commit}, {name, code}) {
+  getWarehouseCodeList({commit}, {name='', code=''}) {
     const body = {
       filters: [
         {
@@ -24,6 +38,30 @@ export const actions = {
       page: 0,
       size: 10
     }
-    body.filters(el => el.value)
+    body.filters = body.filters.filter(el => el.value !== '' && el.value !== null);
+    this.$axios.$put('/api/v1/warehouse/list', body)
+      .then(res => {
+        commit('setWarehouseList', res.data.content);
+      }).catch(({response}) => console.log(response))
+  },
+  getPartnerName({commit}, name) {
+    const body = {
+      filters: [
+        {
+          key: 'name',
+          operator: 'LIKE',
+          propertyType: 'STRING',
+          value: name
+        },
+      ],
+      sorts: [],
+      page: 0,
+      size: 10
+    }
+
+    this.$axios.$put('/api/v1/partner/list', body)
+      .then(res => {
+        commit('setPartners', res.data.content);
+      }).catch(({response}) => console.log(response))
   }
 };
