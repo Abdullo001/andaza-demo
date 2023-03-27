@@ -37,6 +37,7 @@
           :background-color="item.editable?'#F8F4FE':'transparent'"
           class="pa-0 ma-0"
           :disabled="!item.editable"
+          :readonly="true"
         />
       </template>
       <template #footer>
@@ -126,7 +127,7 @@ export default {
         },
         {
           id: 5,
-          name: 'Over porduction %',
+          name: 'Over production %',
           first: '',
           second: '',
           third: '',
@@ -143,10 +144,21 @@ export default {
       ]
     }
   },
+  watch: {
+    calculation: {
+      handler(val) {
+        val[0].third = (+val[0].first + +val[0].second).toFixed(2);
+        val[1].third = (+val[1].first + +val[1].second).toFixed(2);
+        if(!!val[4].first) {
+          val[5].first = ((val[0].third * val[1].third * val[2].first) / (val[3].first * val[4].first)).toFixed(2);
+        }
+      }, deep: true
+    }
+  }
 }
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 td.text-center {
   padding: 0 !important;
 }
