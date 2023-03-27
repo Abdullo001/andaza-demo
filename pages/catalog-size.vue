@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card elevation="0">
+    <v-card elevation="0" class="rounded-t-lg">
       <v-card-title>
         <div>Size</div>
         <v-spacer/>
@@ -219,7 +219,12 @@
                 />
               </v-col>
               <v-col cols="12">
-                <v-combobox
+                <v-autocomplete
+                  chips
+                  multiple
+                  small-chips
+                  deletable-chips
+                  :items="select"
                   append-icon="mdi-chevron-down"
                   filled
                   label="Europe size"
@@ -400,6 +405,7 @@ export default {
         {text: "Description", value: "description"},
         {text: "Actions", value: "actions", align: "center", sortable: false},
       ],
+      select: ["one", "two", "three"],
       items: [
         {catalog: "Catalog"}
       ]

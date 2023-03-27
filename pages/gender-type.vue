@@ -1,18 +1,19 @@
+
 <template>
   <div>
     <v-card
       color="#fff"
       elevation="0"
-      class="rounded-t-lg"
+      class="rounded-lg"
     >
-      <v-form>
+      <v-form lazy-validation v-model="valid_search" ref="filter_form">
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              v-model="filters.id"
-              label="Id Measurement unit"
+              label="ID gender type"
               outlined
               class="rounded-lg"
+              v-model.trim="filter_partner.id"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -20,10 +21,10 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              v-model="filters.name"
-              label="Name"
+              label="Name gender type"
               outlined
               class="rounded-lg"
+              v-model.trim="filter_partner.name"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -33,11 +34,11 @@
             cols="12" lg="2" md="2" style="max-width: 240px;"
           >
             <el-date-picker
-              v-model="filters.createdAt"
+              v-model="filter_partner.createdAt"
               type="datetime"
               placeholder="Created"
-              :picker-options="pickerShortcuts"
-              format="dd.MM.yyyy HH:mm:ss"
+              :picker-options="pickerOptions"
+              value-format="dd.MM.yyyy HH:mm:ss"
             >
             </el-date-picker>
           </v-col>
@@ -45,10 +46,10 @@
             cols="12" lg="2" md="2"
           >
             <el-date-picker
-              v-model="filters.updatedAt"
+              v-model="filter_partner.updatedAt"
               type="datetime"
               placeholder="Updated"
-              :picker-options="pickerShortcuts"
+              :picker-options="pickerOptions"
               value-format="dd.MM.yyyy HH:mm:ss"
             >
             </el-date-picker>
@@ -79,27 +80,28 @@
     </v-card>
     <v-data-table
       :headers="headers"
-      :items="measurementUnit"
-      :items-per-page="itemPrePage"
-      :options.sync="options"
-      :server-items-length="totalElements"
-      :loading="loading"
+      :items-per-page="10"
+      :items="items"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100]
       }"
       class="mt-4 rounded-lg"
     >
       <template #top>
-        <v-toolbar elevation="0">
+        <v-toolbar elevation="0" class="rounded-lg">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium text-capitalize">Measurement unit</div>
+            <div class="font-weight-medium text-capitalize">Gender Type</div>
             <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="new_dialog = true">
               <v-icon>mdi-plus</v-icon>
-              Measurement unit
+              Add Gender Type
+              Add Gender Type
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
         <v-divider/>
+      </template>
+      <template #item.checkbox="{ item }">
+        <v-checkbox/>
       </template>
       <template #item.actions="{item}">
         <div>
@@ -115,29 +117,33 @@
     <v-dialog v-model="new_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Create Measurement unit</div>
+          <div class="text-capitalize font-weight-bold">Add gender type</div>
           <v-btn icon color="#7631FF" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form  ref="new_form">
-            <v-text-field
-              v-model="create_measurement.name"
-              filled
-              label="Name"
-              placeholder="Enter name measurement unit"
-              dense
-              color="#7631FF"
-            />
-            <v-textarea
-              v-model="create_measurement.description"
-              filled
-              label="Description"
-              placeholder="Enter measurement unit description"
-              dense
-              color="#7631FF"
-            />
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  filled
+                  label="Gender type"
+                  placeholder="Enter Gender type"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12">
+                <v-textarea
+                  filled
+                  label="Description"
+                  placeholder="Enter Description"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+            </v-row>
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
@@ -153,9 +159,8 @@
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF" dark
             width="163"
-            @click="save"
           >
-            create
+            Add
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -163,29 +168,33 @@
     <v-dialog v-model="edit_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Edit Measurement unit</div>
+          <div class="text-capitalize font-weight-bold">Edit Gender type</div>
           <v-btn icon color="#7631FF" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form  ref="new_form">
-            <v-text-field
-              v-model="edit_measurement.name"
-              filled
-              label="Name"
-              placeholder="Enter name measurement unit"
-              dense
-              color="#7631FF"
-            />
-            <v-textarea
-              v-model="edit_measurement.description"
-              filled
-              label="Description"
-              placeholder="Enter measurement unit description"
-              dense
-              color="#7631FF"
-            />
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  filled
+                  label="Gender type"
+                  placeholder="Enter Gender type"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12">
+                <v-textarea
+                  filled
+                  label="Description"
+                  placeholder="Enter Description"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+            </v-row>
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
@@ -201,9 +210,8 @@
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF" dark
             width="163"
-            @click="update"
           >
-            create
+            add
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -213,9 +221,9 @@
         <div class="d-flex justify-center mb-2">
           <v-img src="/error-icon.svg" max-width="40"/>
         </div>
-        <v-card-title class="d-flex justify-center">Delete Measurement unit</v-card-title>
+        <v-card-title class="d-flex justify-center">Delete Gender type</v-card-title>
         <v-card-text>
-          Are you sure you want to Delete this measurement unit?
+          Are you sure you want to Delete this gender type?
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -244,117 +252,40 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
-
 export default {
-  name: "MeasurementUnitPages",
-  data(){
-    return{
+  name: "SizeCatalogsPages",
+  data() {
+    return {
+      valid_search: "",
+      filter_partner: {},
+      color: "",
+      fields_status: true,
       edit_dialog: false,
-      delete_dialog: false,
       new_dialog: false,
-      itemPrePage: 10,
-      current_page: 0,
-      options: {},
+      delete_dialog: false,
       headers: [
         {text: "Id", value: "id", sortable: false},
-        {text: "Name", value: "name",},
-        {text: "Description", value: "description",},
-        {text: "Created At", value: "createdAt",},
-        {text: "Updated At", value: "updatedAt",},
+        {text: "Name", value: "name"},
+        {text: "Description", value: "description"},
+        {text: "Created", value: "created"},
+        {text: "Updated", value: "updated"},
         {text: "Actions", value: "actions", align: "center", sortable: false},
       ],
-      create_measurement: {
-        name: "",
-        description: "",
-      },
-      edit_measurement: {
-        name: "",
-        description: "",
-      },
-      delete_measurement: {},
-      filters: {
-        id: "",
-        name: "",
-        updatedAt: "",
-        createdAt: "",
-      },
+      items: [
+        {id: "Catalog"}
+      ],
+      pickerOptions: {},
+      resetFilters(){},
     }
   },
-  watch: {
-    async "options.sortBy"(elem) {
-      if (elem[0] !== undefined) {
-        if (this.options.sortDesc[0] !== undefined) {
-          const items = {
-            sortDesc: this.options.sortDesc[0],
-            sortBy: elem[0]
-          }
-          await this.sortMeasurementUnit({page: this.current_page, size: this.itemPrePage, data: items})
-        }
-      }
-    }
-  },
-  async created() {
-    await this.$store.dispatch("measurement/getMeasurementUnit", {page: 0, size: 10})
-  },
-  computed: {
-    ...mapGetters({
-      loading: "measurement/loading",
-      measurementUnit: "measurement/measurementUnit",
-      totalElements: "measurement/totalElements",
-    })
-  },
-  methods: {
-    ...mapActions({
-      getMeasurementUnit: "measurement/getMeasurementUnit",
-      createMeasurementUnit: "measurement/createMeasurementUnit",
-      updateMeasurementUnit: "measurement/updateMeasurementUnit",
-      deleteMeasurementUnit: "measurement/deleteMeasurementUnit",
-      filterMeasurementUnit: "measurement/filterMeasurementUnit",
-      sortMeasurementUnit: "measurement/sortMeasurementUnit",
-    }),
-    async deleteSample() {
-      const id = this.delete_measurement.id;
-      await this.deleteMeasurementUnit(id);
-      this.delete_dialog = false;
+  methods:{
+    editItem(item){
+      this.edit_dialog = true
     },
-    async save() {
-      const items = {...this.create_measurement};
-      await this.createMeasurementUnit(items);
-      this.create_measurement = {
-        name: "",
-        description: "",
-      };
-      this.new_dialog = false;
+    getDeleteItem(item){
+      this.delete_dialog = true
     },
-    async update() {
-      const items = {...this.edit_measurement};
-      await this.updateMeasurementUnit(items);
-      this.edit_dialog = false;
-    },
-    async getDeleteItem(item) {
-      this.delete_measurement = {...item};
-      this.delete_dialog = true;
-    },
-    editItem(item) {
-      delete item.createdAt;
-      delete item.updatedAt;
-      this.edit_measurement = {...item};
-      this.edit_dialog = true;
-    },
-    async resetFilters() {
-      this.filters = {
-        id: "",
-        name: "",
-        updatedAt: "",
-        createdAt: "",
-      };
-      await this.getMeasurementUnit({page: 0, size: 10});
-    },
-    async filterData() {
-      const items = {...this.filters};
-      await this.filterMeasurementUnit(items);
-    },
+    filterData(){},
   },
   mounted() {
     this.$store.commit('setPageTitle', 'Catalogs');
@@ -362,9 +293,6 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.el-input__inner::placeholder,
-.el-input__icon, .el-icon-time {
-  color: #919191 !important;
-}
+<style lang="sass" scoped>
+
 </style>
