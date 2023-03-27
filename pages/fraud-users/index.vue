@@ -38,7 +38,7 @@
                 v-model="filter.end_time"
                 type="datetime"
                 placeholder="Blocked date time"
-                :picker-options="pickerOptions"
+                :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy HH:mm:ss"
               >
               </el-date-picker>
@@ -121,32 +121,6 @@ export default {
         {text: 'Unblocked date', value: 'unblockDateTime'},
         {text: 'Status', value: 'status', width: 200},
       ],
-      pickerOptions: {
-        shortcuts: [
-          {
-            text: "Cегодня",
-            onClick(picker) {
-              picker.$emit("pick", new Date());
-            },
-          },
-          {
-            text: "Вчера",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit("pick", date);
-            },
-          },
-          {
-            text: "Неделя",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", date);
-            },
-          },
-        ],
-      },
     }
   },
   created() {

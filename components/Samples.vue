@@ -71,7 +71,7 @@
                   v-model="new_samples.sentDate"
                   type="datetime"
                   placeholder="Send date"
-                  :picker-options="pickerOptions"
+                  :picker-options="pickerShortcuts"
                   value-format="dd.MM.yyyy HH:mm:ss"
                   class="printing-date"
                   style="width: 100%; color: #7631FF;"
@@ -161,7 +161,7 @@
                   v-model="edit_samples.sentDate"
                   type="datetime"
                   placeholder="Send date"
-                  :picker-options="pickerOptions"
+                  :picker-options="pickerShortcuts"
                   value-format="dd.MM.yyyy HH:mm:ss"
                   class="printing-date"
                   style="width: 100%; color: #7631FF;"
@@ -291,32 +291,6 @@ export default {
         {text: 'Actions', sortable: false, value: 'actions'},
       ],
       allSamples: [],
-      pickerOptions: {
-        shortcuts: [
-          {
-            text: "Cегодня",
-            onClick(picker) {
-              picker.$emit("pick", new Date());
-            },
-          },
-          {
-            text: "Вчера",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit("pick", date);
-            },
-          },
-          {
-            text: "Неделя",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", date);
-            },
-          },
-        ],
-      },
       result_enum: ['OK', 'NG'],
       current_elem: {}
     }

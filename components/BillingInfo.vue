@@ -28,7 +28,7 @@
               v-model="billingInfo.contractExpireDate"
               type="datetime"
               placeholder="dd.MM.yyyy HH:mm:ss"
-              :picker-options="pickerOptions"
+              :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
               style="min-width: 100%;"
               class="picker-color"
@@ -79,7 +79,7 @@
               v-model="billingInfo.contractDate"
               type="datetime"
               placeholder="dd.MM.yyyy HH:mm:ss"
-              :picker-options="pickerOptions"
+              :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
               style="min-width: 100%;"
               class="picker-color"
@@ -248,32 +248,6 @@ export default {
         },
         measurementUnit: 'sm',
         discountPercent: ''
-      },
-      pickerOptions: {
-        shortcuts: [
-          {
-            text: "Cегодня",
-            onClick(picker) {
-              picker.$emit("pick", new Date());
-            },
-          },
-          {
-            text: "Вчера",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit("pick", date);
-            },
-          },
-          {
-            text: "Неделя",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", date);
-            },
-          },
-        ],
       },
     }
   }

@@ -175,7 +175,7 @@
               v-model="order.deadline"
               type="datetime"
               placeholder="dd.MM.yyyy HH:mm:ss"
-              :picker-options="pickerOptions"
+              :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
               style="min-width: 100%"
               class="el-date-picker bg-color-dataPic"
@@ -231,7 +231,7 @@
               v-model="order.createdTime"
               type="datetime"
               placeholder="Created at"
-              :picker-options="pickerOptions"
+              :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
               style="min-width: 100%"
               disabled
@@ -243,7 +243,7 @@
               v-model="order.updatedTime"
               type="datetime"
               placeholder="Update at"
-              :picker-options="pickerOptions"
+              :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
               style="min-width: 100%"
               disabled
@@ -398,37 +398,8 @@ export default {
         priority: this.$route.params.id !== "add-order" ? "" : "LOW",
         modelId: null,
       },
-
       modelInfo: {},
-
       saveOrder: false,
-
-      pickerOptions: {
-        shortcuts: [
-          {
-            text: "Cегодня",
-            onClick(picker) {
-              picker.$emit("pick", new Date());
-            },
-          },
-          {
-            text: "Вчера",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit("pick", date);
-            },
-          },
-          {
-            text: "Неделя",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", date);
-            },
-          },
-        ],
-      },
     };
   },
 

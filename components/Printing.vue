@@ -121,7 +121,7 @@
                   v-model="newPrints.sentDate"
                   type="datetime"
                   placeholder="Send date"
-                  :picker-options="pickerOptions"
+                  :picker-options="pickerShortcuts"
                   value-format="dd.MM.yyyy HH:mm:ss"
                   class="printing-date"
                   style="width: 100%; color: #7631FF;"
@@ -243,32 +243,6 @@ export default {
         price: "",
         printTypeId: 0,
         sentDate: ""
-      },
-      pickerOptions: {
-        shortcuts: [
-          {
-            text: "Cегодня",
-            onClick(picker) {
-              picker.$emit("pick", new Date());
-            },
-          },
-          {
-            text: "Вчера",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit("pick", date);
-            },
-          },
-          {
-            text: "Неделя",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", date);
-            },
-          },
-        ],
       },
       current_printing: null
     }
