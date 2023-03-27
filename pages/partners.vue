@@ -163,7 +163,9 @@ export default {
       fields_status: true,
     }
   },
-
+  mounted() {
+    this.$store.commit('setPageTitle', 'Catalogs');
+  }
 }
 </script>
 
