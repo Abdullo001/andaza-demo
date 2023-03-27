@@ -94,6 +94,7 @@
             <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="new_dialog = true">
               <v-icon>mdi-plus</v-icon>
               Add Gender Type
+              Add Gender Type
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
