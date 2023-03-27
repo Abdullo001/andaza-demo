@@ -13,7 +13,7 @@
            <div class="font-weight-bold text-body-1 mb-2">Partner name</div>
            <v-combobox
              v-model="details.partnerName"
-             :items="partner_enums"
+             :items="partnerLists"
              :search-input.sync="partnerName"
              item-text="name"
              item-value="id"
@@ -34,9 +34,9 @@
            <div class="font-weight-bold text-body-1 mb-2">Warehouse code</div>
            <v-combobox
              v-model="details.warehouseCode"
-             :items="warehouseCodeList"
+             :items="warehouseList"
              :search-input.sync="warehouseCode"
-             item-text="name"
+             item-text="code"
              item-value="id"
              filled
              class="rounded-lg"
@@ -53,12 +53,24 @@
          </v-col>
          <v-col cols="12" lg="3">
            <div class="font-weight-bold text-body-1 mb-2">Warehouse name</div>
-            <v-text-field
-              placeholder="Enter warehouse name"
-              filled dense
-              color="#7631FF"
-              class="rounded-lg"
-            />
+           <v-combobox
+             v-model="details.warehouseName"
+             :items="warehouseList"
+             :search-input.sync="warehouseName"
+             item-text="name"
+             item-value="id"
+             filled
+             class="rounded-lg"
+             :return-object="true"
+             color="#7631FF"
+             dense
+             placeholder="Enter warehouse code"
+             append-icon="mdi-chevron-down"
+           >
+             <template #append>
+               <v-icon color="#7631FF">mdi-magnify</v-icon>
+             </template>
+           </v-combobox>
          </v-col>
          <v-col cols="12" lg="3">
            <div class="font-weight-bold text-body-1 mb-2">Delivery time</div>
@@ -75,6 +87,18 @@
        </v-row>
      </template>
     </v-data-table>
+    <v-divider/>
+    <div class="d-flex mt-6">
+      <v-spacer/>
+      <v-btn
+        class="text-capitalize rounded-lg font-weight-bold"
+        color="#7631FF" dark
+        height="44"
+        width="133"
+      >
+        order
+      </v-btn>
+    </div>
   </div>
 </template>
 
@@ -109,23 +133,44 @@ export default {
         warehouseName: '',
         deliveryTime: ''
       },
-
-      warehouseCodeList: [],
-
       partnerName: '',
       warehouseCode: '',
-
+      warehouseName: '',
       plannedOrderList: []
     }
   },
   computed: {
     ...mapGetters({
-      partner_enums: 'models/partner_enums'
+      partnerLists: 'plannedOrder/partnerLists',
+      warehouseList: 'plannedOrder/warehouseList'
     })
+  },
+  watch: {
+    partnerName(val) {
+      if(!!val && val !== '') {
+      this.getPartnerName(val);
+      }
+    },
+    warehouseCode(val) {
+      if(!!val && val !== '')
+      this.getWarehouseCodeList({code: val});
+    },
+    warehouseName(val) {
+      if(!!val && val !== '')
+        this.getWarehouseCodeList({name: val});
+    },
+    "details.warehouseCode"(val) {
+      this.details.warehouseName = val;
+    },
+    "details.warehouseName"(val) {
+      this.details.warehouseCode = val;
+    }
   },
   methods: {
     ...mapActions({
-      getPartnerList: 'models/getPartnerList'
+      getPartnerList: 'models/getPartnerList',
+      getPartnerName: 'plannedOrder/getPartnerName',
+      getWarehouseCodeList: 'plannedOrder/getWarehouseCodeList'
     })
   }
 }
