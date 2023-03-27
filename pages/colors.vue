@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <v-card elevation="0" class="rounded-t-lg">
+    <v-card elevation="0" class="rounded-lg">
       <v-card-title>
         <div>Colors</div>
         <v-spacer/>
@@ -129,7 +129,7 @@
       class="mt-4 rounded-lg"
     >
       <template #top>
-        <v-toolbar elevation="0">
+        <v-toolbar class="rounded-lg" elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium text-capitalize">Colors</div>
             <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="new_dialog = true">
@@ -140,9 +140,11 @@
         </v-toolbar>
         <v-divider/>
       </template>
-      <template #item.checkbox="{ item }">
-        <v-checkbox/>
+
+      <template #item.apperance="{ item }">
+        <input type="color" :value="item.apperance" disabled>
       </template>
+
       <template #item.actions="{item}">
         <div>
           <v-btn icon color="green" @click.stop="editItem(item)">
@@ -184,14 +186,36 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <v-text-field
-                  filled
-                  label="Code and apperance"
-                  placeholder="Enter Code and apperance"
-                  dense
-                  color="#7631FF"
+                <v-menu
+                  v-model="menu"
+                  :close-on-content-click="false"
                 >
-                </v-text-field>
+                  <template #activator="{ on, attrs }">
+                    <v-text-field
+                      filled
+                      label="Code and apperance"
+                      placeholder="Enter Code and apperance"
+                      dense
+                      color="#7631FF"
+                      v-model="color"
+                      v-on="on"
+                      v-bind="attrs"
+                    />
+                  </template>
+                  <v-card>
+                    <v-card-text>
+                      <v-color-picker
+                        canvas-height="100"
+                        v-model="color"
+                      >
+                      </v-color-picker>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-spacer/>
+                      <v-btn class="text-capitalize primary darken-1" small @click="menu = false">save</v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-menu>
               </v-col>
               <v-col cols="12" lg="6">
                 <v-text-field
@@ -254,14 +278,36 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <v-text-field
-                  filled
-                  label="Code and apperance"
-                  placeholder="Enter Code and apperance"
-                  dense
-                  color="#7631FF"
+                <v-menu
+                  v-model="edit_menu"
+                  :close-on-content-click="false"
                 >
-                </v-text-field>
+                  <template #activator="{ on, attrs }">
+                    <v-text-field
+                      filled
+                      label="Code and apperance"
+                      placeholder="Enter Code and apperance"
+                      dense
+                      color="#7631FF"
+                      v-model="color"
+                      v-on="on"
+                      v-bind="attrs"
+                    />
+                  </template>
+                  <v-card>
+                    <v-card-text>
+                      <v-color-picker
+                        canvas-height="100"
+                        v-model="color"
+                      >
+                      </v-color-picker>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-spacer/>
+                      <v-btn class="text-capitalize primary darken-1" small @click="edit_menu = false">save</v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-menu>
               </v-col>
               <v-col cols="12" lg="6">
                 <v-text-field
@@ -334,22 +380,26 @@ export default {
   name: "SizeCatalogsPages",
   data() {
     return {
+      edit_menu: false,
+      menu: false,
       color: "",
       fields_status: true,
       edit_dialog: false,
       new_dialog: false,
       delete_dialog: false,
       headers: [
-        {text: "Catalogs group code", value: "catalog"},
-        {text: "Gender", value: "gender"},
-        {text: "Model group", value: "modelGroup"},
-        {text: "Siz", value: "size"},
-        {text: "Europen size", value: "europenSize"},
+        {text: "ID", value: "id", sortable: false},
+        {text: "Color code", value: "colorCode"},
+        {text: "Name", value: "name"},
+        {text: "Apperance", value: "apperance"},
+        {text: "Pantone code", value: "pantoneCode"},
         {text: "Description", value: "description"},
+        {text: "Created", value: "created"},
+        {text: "Updated", value: "updated"},
         {text: "Actions", value: "actions", align: "center", sortable: false},
       ],
       items: [
-        {catalog: "Catalog"}
+        {colorCode: "Catalog", apperance: "#FF0000FF"}
       ]
     }
   },
