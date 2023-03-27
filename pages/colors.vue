@@ -1,8 +1,9 @@
+
 <template>
   <div>
     <v-card elevation="0" class="rounded-t-lg">
       <v-card-title>
-        <div>Size</div>
+        <div>Colors</div>
         <v-spacer/>
         <div>
           <v-btn
@@ -130,10 +131,10 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium text-capitalize">Size</div>
+            <div class="font-weight-medium text-capitalize">Colors</div>
             <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="new_dialog = true">
               <v-icon>mdi-plus</v-icon>
-              Add Size
+              Add Color
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -156,7 +157,7 @@
     <v-dialog v-model="new_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Add size</div>
+          <div class="text-capitalize font-weight-bold">Add Color</div>
           <v-btn icon color="#7631FF" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -165,28 +166,10 @@
           <v-form  ref="new_form">
             <v-row>
               <v-col cols="12" lg="6">
-                <v-select
-                  label="Gender"
-                  filled dense
-                  append-icon="mdi-chevron-down"
-                  placeholder="Select Gender"
-                  color="#7631FF"
-                />
-              </v-col>
-              <v-col cols="12" lg="6">
-                <v-select
-                  label="Product type"
-                  filled dense
-                  append-icon="mdi-chevron-down"
-                  placeholder="Select Product type"
-                  color="#7631FF"
-                />
-              </v-col>
-              <v-col cols="12" lg="6">
                 <v-text-field
                   filled
-                  label="Size from"
-                  placeholder="Enter Size from"
+                  label="Color code"
+                  placeholder="Enter Color code"
                   dense
                   color="#7631FF"
                 />
@@ -194,8 +177,8 @@
               <v-col cols="12" lg="6">
                 <v-text-field
                   filled
-                  label="Gradation"
-                  placeholder="Enter Gradation"
+                  label="Color name"
+                  placeholder="Enter Color name"
                   dense
                   color="#7631FF"
                 />
@@ -203,32 +186,18 @@
               <v-col cols="12" lg="6">
                 <v-text-field
                   filled
-                  label="Size to "
-                  placeholder="Enter Size to "
+                  label="Code and apperance"
+                  placeholder="Enter Code and apperance"
                   dense
                   color="#7631FF"
-                />
+                >
+                </v-text-field>
               </v-col>
               <v-col cols="12" lg="6">
                 <v-text-field
                   filled
                   label="Description"
                   placeholder="Enter Description"
-                  dense
-                  color="#7631FF"
-                />
-              </v-col>
-              <v-col cols="12">
-                <v-autocomplete
-                  chips
-                  multiple
-                  small-chips
-                  deletable-chips
-                  :items="select"
-                  append-icon="mdi-chevron-down"
-                  filled
-                  label="Europe size"
-                  placeholder="Enter Europe size"
                   dense
                   color="#7631FF"
                 />
@@ -267,28 +236,10 @@
           <v-form  ref="new_form">
             <v-row>
               <v-col cols="12" lg="6">
-                <v-select
-                  label="Gender"
-                  filled dense
-                  append-icon="mdi-chevron-down"
-                  placeholder="Select Gender"
-                  color="#7631FF"
-                />
-              </v-col>
-              <v-col cols="12" lg="6">
-                <v-select
-                  label="Product type"
-                  filled dense
-                  append-icon="mdi-chevron-down"
-                  placeholder="Select Product type"
-                  color="#7631FF"
-                />
-              </v-col>
-              <v-col cols="12" lg="6">
                 <v-text-field
                   filled
-                  label="Size from"
-                  placeholder="Enter Size from"
+                  label="Color code"
+                  placeholder="Enter Color code"
                   dense
                   color="#7631FF"
                 />
@@ -296,8 +247,8 @@
               <v-col cols="12" lg="6">
                 <v-text-field
                   filled
-                  label="Gradation"
-                  placeholder="Enter Gradation"
+                  label="Color name"
+                  placeholder="Enter Color name"
                   dense
                   color="#7631FF"
                 />
@@ -305,27 +256,18 @@
               <v-col cols="12" lg="6">
                 <v-text-field
                   filled
-                  label="Size to "
-                  placeholder="Enter Size to "
+                  label="Code and apperance"
+                  placeholder="Enter Code and apperance"
                   dense
                   color="#7631FF"
-                />
+                >
+                </v-text-field>
               </v-col>
               <v-col cols="12" lg="6">
                 <v-text-field
                   filled
                   label="Description"
                   placeholder="Enter Description"
-                  dense
-                  color="#7631FF"
-                />
-              </v-col>
-              <v-col cols="12">
-                <v-combobox
-                  append-icon="mdi-chevron-down"
-                  filled
-                  label="Europe size"
-                  placeholder="Enter Europe size"
                   dense
                   color="#7631FF"
                 />
@@ -357,9 +299,9 @@
         <div class="d-flex justify-center mb-2">
           <v-img src="/error-icon.svg" max-width="40"/>
         </div>
-        <v-card-title class="d-flex justify-center">Delete Size</v-card-title>
+        <v-card-title class="d-flex justify-center">Delete Color</v-card-title>
         <v-card-text>
-          Are you sure you want to Delete this size?
+          Are you sure you want to Delete this color?
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -392,6 +334,7 @@ export default {
   name: "SizeCatalogsPages",
   data() {
     return {
+      color: "",
       fields_status: true,
       edit_dialog: false,
       new_dialog: false,
@@ -405,7 +348,6 @@ export default {
         {text: "Description", value: "description"},
         {text: "Actions", value: "actions", align: "center", sortable: false},
       ],
-      select: ["one", "two", "three"],
       items: [
         {catalog: "Catalog"}
       ]
