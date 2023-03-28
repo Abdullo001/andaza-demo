@@ -1,110 +1,81 @@
 <template>
   <div>
-    <v-card elevation="0">
-      <v-card-title>
-        <div> Product catalogs</div>
-        <v-spacer/>
-        <div>
-          <v-btn
-            outlined
-            elevation="0"
-            color="#777C85"
-            class="text-capitalize rounded-lg mr-4"
+    <v-card
+      color="#fff"
+      elevation="0"
+      class="rounded-lg"
+    >
+      <v-form lazy-validation v-model="valid_search" ref="filter_form">
+        <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
+          <v-col cols="12" lg="2" md="2">
+            <v-text-field
+              label="Color code"
+              outlined
+              class="rounded-lg"
+              hide-details
+              dense
+              @keydown.enter="filterData"
+            />
+          </v-col>
+          <v-col cols="12" lg="2" md="2">
+            <v-text-field
+              label="Color name"
+              outlined
+              class="rounded-lg"
+              hide-details
+              dense
+              @keydown.enter="filterData"
+            />
+          </v-col>
+          <v-col
+            cols="12" lg="2" md="2" style="max-width: 240px;"
           >
-            <v-img src="/trash.svg" class="mr-1"/>
-            Delete
-          </v-btn>
-          <v-btn
-            outlined
-            elevation="0"
-            class="text-capitalize rounded-lg"
-            color="#777C85"
+            <el-date-picker
+              v-model="filter_partner.createdAt"
+              type="datetime"
+              placeholder="Created"
+              :picker-options="pickerShortcuts"
+              value-format="dd.MM.yyyy HH:mm:ss"
+            >
+            </el-date-picker>
+          </v-col>
+          <v-col
+            cols="12" lg="2" md="2"
           >
-            <v-img :src="fields_status ? '/edit.svg' : '/edit-active.svg'" class="mr-1"/>
-            Edit
-          </v-btn>
-        </div>
-      </v-card-title>
-      <v-divider/>
-      <v-card-text class="mt-4">
-        <v-row>
-          <v-col cols="12" lg="4" md="6">
-            <v-text-field
-              label="Catalogs group code"
-              filled
-              dense
-              placeholder="Enter Catalogs group code"
-              class="mb-4"
-              color="#7631FF"
-            />
+            <el-date-picker
+              v-model="filter_partner.updatedAt"
+              type="datetime"
+              placeholder="Updated"
+              :picker-options="pickerShortcuts"
+              value-format="dd.MM.yyyy HH:mm:ss"
+            >
+            </el-date-picker>
           </v-col>
-          <v-col cols="12" lg="4" md="6">
-            <v-text-field
-              label="Catalogs group name"
-              filled
-              dense
-              placeholder="Enter Catalogs group name"
-              class="mb-4"
-              color="#7631FF"
-            />
-          </v-col>
-          <v-col cols="12" lg="4" md="6">
-            <v-text-field
-              label="Group parts code"
-              filled
-              dense
-              placeholder="Enter Group parts code"
-              class="mb-4"
-              color="#7631FF"
-            />
-          </v-col>
-          <v-col cols="12" lg="4" md="6">
-            <v-text-field
-              label="Group part name"
-              filled
-              dense
-              placeholder="Select Group part name"
-              class="mb-4"
-              color="#7631FF"
-            />
-          </v-col>
-          <v-col cols="12" lg="4" md="6">
-            <v-text-field
-              label="Creator"
-              filled dense
-              item-value="id"
-              item-text="name"
-              placeholder="Enter Creator"
-              class="mb-4"
-              color="#7631FF"
-            />
-          </v-col>
-          <v-col cols="12" lg="4" md="6">
-            <v-select
-              label="Created date"
-              filled dense
-              append-icon="mdi-chevron-down"
-              placeholder="Select Created date"
-              class="mb-4"
-              color="#7631FF"
-            />
+          <v-spacer/>
+          <v-col cols="12" lg="2" md="2">
+            <div class="d-flex justify-end">
+              <v-btn
+                width="140" outlined
+                color="#397CFD" elevation="0"
+                class="text-capitalize mr-4 rounded-lg"
+                @click.stop="resetFilters"
+              >
+                Reset
+              </v-btn>
+              <v-btn
+                width="140" color="#397CFD" dark
+                elevation="0"
+                class="text-capitalize rounded-lg"
+                @click="filterData"
+              >
+                Search
+              </v-btn>
+            </div>
           </v-col>
         </v-row>
-      </v-card-text>
-      <v-card-actions class="pb-6 pr-4">
-        <v-spacer/>
-        <v-btn
-          color="#7631FF"
-          class="text-capitalize rounded-lg"
-          width="130"
-          height="44"
-          dark
-        >
-          save
-        </v-btn>
-      </v-card-actions>
+      </v-form>
     </v-card>
-    <v-card>
+    <v-card class="rounded-lg mt-5 elevation-0">
       <v-tabs
         color="#7631FF"
         v-model="tab"
@@ -142,10 +113,12 @@ import SizeCatalogsPages from "@/components/productCatalogs/SizeCatalogs.vue";
 import ProductTypePages from "@/components/productCatalogs/ProcuctType.vue";
 
 export default {
-  name: 'addOrEditModelsPage',
+  name: 'CatalogProductPage',
   components: {ProductTypePages, SizeCatalogsPages, GenderTypePages},
   data() {
     return {
+      filter_partner: {},
+      valid_search: true,
       new_dialog: false,
       items: ["Product Type", "Gender Type", "Size"],
       tab: null,
@@ -161,6 +134,10 @@ export default {
       ],
     }
   },
+  methods: {
+    filterData(){},
+    resetFilters(){},
+  },
   mounted() {
     this.$store.commit('setPageTitle', 'Catalogs');
   },
@@ -168,15 +145,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.active-tab {
-  font-style: normal;
-  font-weight: 500;
-  line-height: 20px;
-  color: #7631FF;
-}
 
-.el-date-editor--datetime {
-  width: 100%;
-  border: 5px solid red;
-}
 </style>

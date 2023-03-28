@@ -10,7 +10,7 @@
       class="mt-4 rounded-lg"
     >
       <template #top>
-        <v-toolbar elevation="0">
+        <v-toolbar elevation="0" class="rounded-lg">
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium text-capitalize">Peach effect</div>
             <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="new_dialog = true">

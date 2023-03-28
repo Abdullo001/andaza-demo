@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card elevation="0">
+    <v-card elevation="0" class="rounded-lg">
       <v-card-title>
         <div>Partners</div>
         <v-spacer/>
@@ -118,7 +118,7 @@
         </v-btn>
       </v-card-actions>
     </v-card>
-    <v-card class="mt-5 elevation-0">
+    <v-card class="mt-5 elevation-0 rounded-lg">
       <v-tabs
         color="#7631FF"
         v-model="tab"
