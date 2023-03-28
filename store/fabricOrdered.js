@@ -16,5 +16,5 @@ export const actions = {
       .then(res => {
         commit('setFabricOrdersList', res.data);
       }).catch(({response}) => console.log(response));
-  }
+  },
 };
