@@ -1,12 +1,13 @@
-import partner from "@/pages/partner.vue";
-
 export const state = () => ({
   warehouseList: [],
-  partnerLists: []
+  partnerLists: [],
+  plannedOrderList: [],
+
 });
 export const getters = {
   partnerLists: state => state.partnerLists,
   warehouseList: state => state.warehouseList,
+  plannedOrderList: state => state.plannedOrderList,
 
 };
 export const mutations = {
@@ -15,6 +16,9 @@ export const mutations = {
   },
   setWarehouseList(state, item) {
     state.warehouseList = item;
+  },
+  setPlannedOrderList(state, item) {
+    state.plannedOrderList = item;
   }
 };
 export const actions = {
@@ -63,5 +67,18 @@ export const actions = {
       .then(res => {
         commit('setPartners', res.data.content);
       }).catch(({response}) => console.log(response))
+  },
+  getPlannedOrderList({commit}, id) {
+    this.$axios.$get(`/api/v1/fabric-planning-chart/get-planned-order?fabricPlanningId=${id}`)
+      .then(res => {
+        commit('setPlannedOrderList', res.data);
+      }).catch(({response}) => console.log(response));
+  },
+  createPlanningOrder({dispatch}, {data, id}) {
+    this.$axios.$put(`/api/v1/fabric-planning-chart/set-planned-order`, data)
+      .then(res => {
+        dispatch('getPlannedOrderList', id);
+        this.$toast.success(res.message);
+      }).catch(({response}) => console.log(response));
   }
 };
