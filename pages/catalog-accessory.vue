@@ -10,7 +10,7 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Color code"
+              label="ID"
               outlined
               class="rounded-lg"
               hide-details
@@ -20,7 +20,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Color name"
+              label="Accessory name"
               outlined
               class="rounded-lg"
               hide-details
@@ -86,22 +86,20 @@
       class="mt-4 rounded-lg"
     >
       <template #top>
-        <v-toolbar class="rounded-lg" elevation="0">
+        <v-toolbar elevation="0" class="rounded-lg">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium text-capitalize">Colors</div>
+            <div class="font-weight-medium text-capitalize">Accessory</div>
             <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="new_dialog = true">
               <v-icon>mdi-plus</v-icon>
-              Add Color
+              Add Accessory
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
         <v-divider/>
       </template>
-
-      <template #item.apperance="{ item }">
-        <input type="color" :value="item.apperance" disabled>
+      <template #item.checkbox="{ item }">
+        <v-checkbox/>
       </template>
-
       <template #item.actions="{item}">
         <div>
           <v-btn icon color="green" @click.stop="editItem(item)">
@@ -116,7 +114,7 @@
     <v-dialog v-model="new_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Add Color</div>
+          <div class="text-capitalize font-weight-bold">Add Accessory</div>
           <v-btn icon color="#7631FF" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -125,57 +123,37 @@
           <v-form  ref="new_form">
             <v-row>
               <v-col cols="12" lg="6">
-                <v-text-field
+                <v-select
                   filled
-                  label="Color code"
-                  placeholder="Enter Color code"
+                  label="Name"
+                  placeholder="Enter Gender type"
                   dense
+                  append-icon="mdi-chevron-down"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <v-text-field
+                <v-select
                   filled
-                  label="Color name"
-                  placeholder="Enter Color name"
+                  label="Specification"
+                  placeholder="Select Specification"
                   dense
+                  append-icon="mdi-chevron-down"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <v-menu
-                  v-model="menu"
-                  :close-on-content-click="false"
-                >
-                  <template #activator="{ on, attrs }">
-                    <v-text-field
-                      filled
-                      label="Code and apperance"
-                      placeholder="Enter Code and apperance"
-                      dense
-                      color="#7631FF"
-                      v-model="color"
-                      v-on="on"
-                      v-bind="attrs"
-                    />
-                  </template>
-                  <v-card>
-                    <v-card-text>
-                      <v-color-picker
-                        canvas-height="100"
-                        v-model="color"
-                      >
-                      </v-color-picker>
-                    </v-card-text>
-                    <v-card-actions>
-                      <v-spacer/>
-                      <v-btn class="text-capitalize primary darken-1" small @click="menu = false">save</v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-menu>
+                <v-select
+                  filled
+                  label="Measurement unit"
+                  placeholder="Select Measurement unit"
+                  dense
+                  append-icon="mdi-chevron-down"
+                  color="#7631FF"
+                />
               </v-col>
-              <v-col cols="12" lg="6">
-                <v-text-field
+              <v-col cols="12">
+                <v-textarea
                   filled
                   label="Description"
                   placeholder="Enter Description"
@@ -208,7 +186,7 @@
     <v-dialog v-model="edit_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Edit Size</div>
+          <div class="text-capitalize font-weight-bold">Edit Accessory</div>
           <v-btn icon color="#7631FF" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -217,57 +195,37 @@
           <v-form  ref="edit_form">
             <v-row>
               <v-col cols="12" lg="6">
-                <v-text-field
+                <v-select
                   filled
-                  label="Color code"
-                  placeholder="Enter Color code"
+                  label="Name"
+                  placeholder="Enter Gender type"
                   dense
+                  append-icon="mdi-chevron-down"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <v-text-field
+                <v-select
                   filled
-                  label="Color name"
-                  placeholder="Enter Color name"
+                  label="Specification"
+                  placeholder="Select Specification"
                   dense
+                  append-icon="mdi-chevron-down"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <v-menu
-                  v-model="edit_menu"
-                  :close-on-content-click="false"
-                >
-                  <template #activator="{ on, attrs }">
-                    <v-text-field
-                      filled
-                      label="Code and apperance"
-                      placeholder="Enter Code and apperance"
-                      dense
-                      color="#7631FF"
-                      v-model="color"
-                      v-on="on"
-                      v-bind="attrs"
-                    />
-                  </template>
-                  <v-card>
-                    <v-card-text>
-                      <v-color-picker
-                        canvas-height="100"
-                        v-model="color"
-                      >
-                      </v-color-picker>
-                    </v-card-text>
-                    <v-card-actions>
-                      <v-spacer/>
-                      <v-btn class="text-capitalize primary darken-1" small @click="edit_menu = false">save</v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-menu>
+                <v-select
+                  filled
+                  label="Measurement unit"
+                  placeholder="Select Measurement unit"
+                  dense
+                  append-icon="mdi-chevron-down"
+                  color="#7631FF"
+                />
               </v-col>
-              <v-col cols="12" lg="6">
-                <v-text-field
+              <v-col cols="12">
+                <v-textarea
                   filled
                   label="Description"
                   placeholder="Enter Description"
@@ -302,9 +260,9 @@
         <div class="d-flex justify-center mb-2">
           <v-img src="/error-icon.svg" max-width="40"/>
         </div>
-        <v-card-title class="d-flex justify-center">Delete Color</v-card-title>
+        <v-card-title class="d-flex justify-center">Delete Accessory</v-card-title>
         <v-card-text>
-          Are you sure you want to Delete this color?
+          Are you sure you want to Delete this Accessory?
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -334,32 +292,30 @@
 
 <script>
 export default {
-  name: "CatalogsColorPages",
+  name: "CatalogAccessoryPage",
   data() {
     return {
+      valid_search: "",
       filter_partner: {},
-      valid_search: true,
-      edit_menu: false,
-      menu: false,
       color: "",
       fields_status: true,
       edit_dialog: false,
       new_dialog: false,
       delete_dialog: false,
       headers: [
-        {text: "ID", value: "id", sortable: false},
-        {text: "Color code", value: "colorCode"},
+        {text: "Id", value: "id", sortable: false},
         {text: "Name", value: "name"},
-        {text: "Apperance", value: "apperance"},
-        {text: "Pantone code", value: "pantoneCode"},
+        {text: "Specification", value: "specification"},
+        {text: "Measurement unit", value: "measurementUnit"},
         {text: "Description", value: "description"},
         {text: "Created", value: "created"},
         {text: "Updated", value: "updated"},
         {text: "Actions", value: "actions", align: "center", sortable: false},
       ],
       items: [
-        {colorCode: "Catalog", apperance: "#FF0000FF"}
-      ]
+        {id: "Catalog"}
+      ],
+      resetFilters(){},
     }
   },
   methods:{
@@ -370,7 +326,6 @@ export default {
       this.delete_dialog = true
     },
     filterData(){},
-    resetFilters(){},
   },
   mounted() {
     this.$store.commit('setPageTitle', 'Catalogs');

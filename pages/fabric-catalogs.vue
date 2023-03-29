@@ -1,8 +1,8 @@
 <template>
   <div>
-    <v-card elevation="0">
+    <v-card elevation="0" class="rounded-lg">
       <v-card-title>
-        <div> Fabric catalogs</div>
+        <div>Fabric catalogs</div>
         <v-spacer/>
         <div>
           <v-btn
@@ -28,66 +28,75 @@
       <v-divider/>
       <v-card-text class="mt-4">
         <v-row>
-          <v-col cols="12" lg="4" md="6">
+          <v-col cols="12" lg="3" md="6">
             <v-text-field
               label="Catalogs group code"
               filled
+              disabled
               dense
-              placeholder="Enter Catalogs group code"
+              placeholder="Enter Catalogs Group code"
               class="mb-4"
               color="#7631FF"
             />
           </v-col>
-          <v-col cols="12" lg="4" md="6">
+          <v-col cols="12" lg="3" md="6">
             <v-text-field
               label="Catalogs group name"
               filled
               dense
+              disabled
               placeholder="Enter Catalogs group name"
               class="mb-4"
               color="#7631FF"
             />
           </v-col>
-          <v-col cols="12" lg="4" md="6">
+          <v-col cols="12" lg="3" md="6">
             <v-text-field
               label="Group parts code"
               filled
               dense
+              disabled
               placeholder="Enter Group parts code"
               class="mb-4"
               color="#7631FF"
             />
           </v-col>
-          <v-col cols="12" lg="4" md="6">
+          <v-col cols="12" lg="3" md="6">
             <v-text-field
               label="Group part name"
               filled
               dense
-              placeholder="Select Group part name"
+              disabled
+              placeholder="Enter Group part name"
               class="mb-4"
               color="#7631FF"
             />
           </v-col>
-          <v-col cols="12" lg="4" md="6">
+          <v-col cols="12" lg="3" md="6">
             <v-text-field
               label="Creator"
-              filled dense
-              item-value="id"
-              item-text="name"
+              filled
+              disabled
+              dense
               placeholder="Enter Creator"
               class="mb-4"
               color="#7631FF"
             />
           </v-col>
-          <v-col cols="12" lg="4" md="6">
-            <v-select
+          <v-col cols="12" lg="3" md="6">
+            <v-text-field
               label="Created date"
-              filled dense
-              append-icon="mdi-chevron-down"
+              filled
+              dense
+              disabled
               placeholder="Select Created date"
               class="mb-4"
               color="#7631FF"
-            />
+            >
+              <template #append>
+                <v-img src="/date-icon.svg"/>
+              </template>
+            </v-text-field>
           </v-col>
         </v-row>
       </v-card-text>
@@ -104,7 +113,7 @@
         </v-btn>
       </v-card-actions>
     </v-card>
-    <v-card>
+    <v-card class="elevation-0 rounded-lg mt-5">
       <v-tabs
         color="#7631FF"
         v-model="tab"
@@ -163,7 +172,7 @@ import WoolPage from "../components/fabricCatalogs/Wool.vue";
 import PeachEffectPage from "../components/fabricCatalogs/PeachEffect.vue";
 
 export default {
-  name: 'addOrEditModelsPage',
+  name: 'CatalogFabricPage',
   components: {PeachEffectPage, WoolPage, DensityPage, CompositionPage, YarnNumberPage, YarnTypePages, CanvasTypePage},
   data() {
     return {

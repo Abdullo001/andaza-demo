@@ -292,6 +292,10 @@ export default {
               title: 'Gender type',
               to: '/gender-type',
             },
+            {
+              title: 'Accessory',
+              to: '/catalog-accessory',
+            },
           ]
         },
         {
