@@ -314,6 +314,22 @@ export default {
             },
           ]
         },
+        {
+          icon: 'prod2.svg',
+          title: 'Production',
+          to: '/production',
+          has_child: true,
+          child: [
+            {
+              title: 'Planning of production',
+              to: '/planning-production',
+            },
+            {
+              title: 'Working operations',
+              to: '/working-operations',
+            },
+          ]
+        },
       ],
       right: true,
       search: '',
