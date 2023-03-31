@@ -6,7 +6,7 @@
         <div>{{ title }} Fabric</div>
         <v-spacer/>
         <div>
-          <v-btn outlined class="text-capitalize rounded-lg border-grey">
+          <v-btn outlined class="text-capitalize rounded-lg">
             <v-img src="/clear.svg" max-width="16" class="mr-2"/>
             clear
           </v-btn>
