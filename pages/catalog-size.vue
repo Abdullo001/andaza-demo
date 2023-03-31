@@ -96,9 +96,6 @@
         </v-toolbar>
         <v-divider/>
       </template>
-      <template #item.checkbox="{ item }">
-        <v-checkbox/>
-      </template>
       <template #item.actions="{item}">
         <div>
           <v-btn icon color="green" @click.stop="editItem(item)">
