@@ -23,7 +23,7 @@
             <div class="text-body-1 mb-3">Order number</div>
             <v-combobox
               v-model="planning.orderNumber"
-              items=""
+              items="orderList"
               :search-input.sync="orderSearch"
               item-text="orderNumber"
               item-value="orderId"
@@ -42,7 +42,7 @@
             <div class="text-body-1 mb-3">Model number</div>
             <v-combobox
               v-model="planning.modelNumber"
-              items=""
+              items="modelList"
               :search-input.sync="modelSearch"
               item-text="modelNumber"
               item-value="id"
@@ -235,11 +235,13 @@
         </v-btn>
       </v-card-actions>
     </v-card>
+    <ProductionPlanning class="mt-4"/>
   </div>
 </template>
 
 <script>
 export default {
+  name: 'ProductionOfPlanningPage',
   data() {
     return {
       planning: {
@@ -259,6 +261,9 @@ export default {
         orderQuantity: '',
         productionQuantity: '',
       },
+      orderList: [],
+      modelList: [],
+
       orderSearch: '',
       modelSearch: '',
     }
