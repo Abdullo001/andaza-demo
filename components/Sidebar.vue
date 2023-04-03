@@ -70,8 +70,8 @@
       <v-spacer/>
       <div>
         <v-text-field
-          label="Search"
-          placeholder="search..."
+          :label="$t('appBar.search')"
+          :placeholder="$t('appBar.pSearch')"
           v-model="search"
           single-line
           clearable
@@ -95,15 +95,18 @@
       </v-btn>
       <div class="language d-flex mr-7" @click="selectedLang">
         <div class="language__selected">
-          <img :src="active_flag" alt="flag">
-          <span class="ml-2 mr-1">{{ active_lang }}</span>
+          <img :src="`/${$i18n.locale}.svg`" alt="flag">
+          <span class="ml-2 mr-1 text-capitalize">{{ $i18n.locale }}</span>
           <v-icon color="#7631FF">mdi-chevron-down</v-icon>
         </div>
 
         <div class="language__list">
-          <span v-for="(lang, idx) in no_selected_lang" :key="idx" @click="selectLang(lang)">
-            <img :src="lang.icon" alt="flag"> {{ lang.title }}
-          </span>
+          <span v-for="(lang, idx) in availableLocales" :key="idx">
+            <nuxt-link :to="switchLocalePath(lang.code)" class="d-flex align-center">
+              <img :src="lang.icon" alt="flag">
+              {{ lang.title }}
+            </nuxt-link>
+            </span>
         </div>
       </div>
       <div class="profile">
@@ -135,225 +138,214 @@ export default {
       clipped: false,
       drawer: true,
       fixed: false,
-      items: [
-        {
-          icon: 'house.svg',
-          title: 'Dashboard',
-          has_child: true,
-          to: '/',
-          child: [
-            {
-              title: 'Analytics',
-              to: '/analytics',
-            },
-          ]
-        },
-        {
-          icon: 'user.svg',
-          title: 'User management',
-          to: '/user-management',
-          has_child: false,
-        },
-        {
-          icon: 'localization.svg',
-          title: 'Localization',
-          to: '/localization',
-          has_child: false,
-        },
-        {
-          icon: 'prefinances.svg',
-          title: 'Prefinances',
-          to: '/prefinances',
-          has_child: false,
-        },
-        {
-          icon: 'lock.svg',
-          title: 'Fraud management',
-          to: '/fraud-devices',
-          has_child: true,
-          child: [
-            {
-              title: 'Devices',
-              to: '/fraud-devices',
-            },
-            {
-              title: 'Users',
-              to: '/fraud-users',
-            },
-          ]
-        },
-        {
-          icon: 'access.svg',
-          title: 'Access control',
-          to: '/permission',
-          has_child: true,
-          child: [
-            {
-              title: 'Permission',
-              to: '/permission',
-            },
-            {
-              title: 'Role',
-              to: '/role',
-            },
-          ]
-        },
-        {
-          icon: 'billing.svg',
-          title: 'Billing',
-          to: '/billing',
-          has_child: true,
-          child: [
-            {
-              title: 'Company',
-              to: '/billing-company',
-            },
-            {
-              title: 'Billing',
-              to: '/billing-billing',
-            },
-          ]
-        },
-        {
-          icon: 'file.svg',
-          title: 'Lists',
-          to: '/models',
-          has_child: true,
-          child: [
-            {
-              title: 'Models',
-              to: '/models',
-            },
-            {
-              title: 'Orders',
-              to: '/orders',
-            },
-          ]
-        },
-        {
-          icon: 'catalog.svg',
-          title: 'Catalogs',
-          to: '/partner',
-          has_child: true,
-          child: [
-            {
-              title: 'Partners type',
-              to: '/partner',
-            },
-            {
-              title: "Model groups",
-              to: "/model"
-            },
-            {
-              title: "Sample purposes",
-              to: "/sample"
-            },
-            {
-              title: "Body Parts",
-              to: "/body-parts"
-            },
-            {
-              title: 'Cooperation type',
-              to: "/cooperation-type"
-            },
-            {
-              title: "Expense Group",
-              to: "/expense-group"
-            },
-            {
-              title: "Measurement Unit",
-              to: "/measurement"
-            },
-            {
-              title: "Package shape",
-              to: "/package-shape"
-            },
-            {
-              title: "Fabric catalogs",
-              to: "/fabric-catalogs"
-            },
-            {
-              title: "Product catalogs",
-              to: "/product-catalogs"
-            },
-            {
-              title: "Partners",
-              to: "/partners"
-            },
-            {
-              title: "Size",
-              to: "/catalog-size"
-            },
-            {
-              title: 'Colors',
-              to: '/colors',
-            },
-            {
-              title: 'Gender type',
-              to: '/gender-type',
-            },
-            {
-              title: 'Accessory',
-              to: '/catalog-accessory',
-            },
-          ]
-        },
-        {
-          icon: 'planning.svg',
-          title: 'Planning',
-          to: '/planning',
-          has_child: true,
-          child: [
-            {
-              title: 'Fabric',
-              to: '/fabric',
-            },
-            {
-              title: 'Accessory',
-              to: '/accessory',
-            },
-          ]
-        },
-        {
-          icon: 'prod2.svg',
-          title: 'Production',
-          to: '/production',
-          has_child: true,
-          child: [
-            {
-              title: 'Planning of production',
-              to: '/planning-production',
-            },
-            {
-              title: 'Working operations',
-              to: '/working-operations',
-            },
-          ]
-        },
-      ],
       right: true,
       search: '',
-      no_selected_lang: [
-        {title: "Uz", code: "uz", icon: "/uz.svg"},
-        {title: "Ru", code: "ru", icon: "/ru.svg"},
-      ],
-      lang_list: [
-        {title: "En", code: "en", icon: "/us.svg"},
-        {title: "Uz", code: "uz", icon: "/uz.svg"},
-        {title: "Ru", code: "ru", icon: "/ru.svg"},
-      ],
-      active_lang: "En",
-      active_flag: '/us.svg',
-
     }
   },
-  watch: {
-    active_lang(current) {
-      return this.no_selected_lang = this.lang_list.filter(el => el.title !== current)
-    }
-  },
-
   computed: {
+    items: {
+      get(){
+        return [
+          {
+            icon: 'house.svg',
+            title: this.$t('sidebar.dashboard'),
+            has_child: true,
+            to: this.localePath('/'),
+            child: [
+              {
+                title: this.$t('sidebar.analytics'),
+                to: this.localePath('/analytics'),
+              },
+            ]
+          },
+          {
+            icon: 'user.svg',
+            title: this.$t('sidebar.userManagement'),
+            to: this.localePath('/user-management'),
+            has_child: false,
+          },
+          {
+            icon: 'localization.svg',
+            title: this.$t('sidebar.localization'),
+            to: this.localePath('/localization'),
+            has_child: false,
+          },
+          {
+            icon: 'prefinances.svg',
+            title: this.$t('sidebar.prefinances'),
+            to: this.localePath('/prefinances'),
+            has_child: false,
+          },
+          {
+            icon: 'lock.svg',
+            title: this.$t('sidebar.fraudManagement'),
+            to: this.localePath('/fraud-devices'),
+            has_child: true,
+            child: [
+              {
+                title: this.$t('sidebar.devices'),
+                to: this.localePath('/fraud-devices'),
+              },
+              {
+                title: this.$t('sidebar.users'),
+                to: this.localePath('/fraud-users'),
+              },
+            ]
+          },
+          {
+            icon: 'access.svg',
+            title: this.$t('sidebar.accessControl'),
+            to: this.localePath('/permission'),
+            has_child: true,
+            child: [
+              {
+                title: this.$t('sidebar.permission'),
+                to: this.localePath('/permission'),
+              },
+              {
+                title: this.$t('sidebar.role'),
+                to: this.localePath('/role'),
+              },
+            ]
+          },
+          {
+            icon: 'billing.svg',
+            title: this.$t('sidebar.billing'),
+            to: this.localePath('/billing'),
+            has_child: true,
+            child: [
+              {
+                title: this.$t('sidebar.company'),
+                to: this.localePath('/billing-company'),
+              },
+              {
+                title: this.$t('sidebar.billing'),
+                to: this.localePath('/billing-billing'),
+              },
+            ]
+          },
+          {
+            icon: 'file.svg',
+            title: this.$t('sidebar.lists'),
+            to: this.localePath('/models'),
+            has_child: true,
+            child: [
+              {
+                title: this.$t('sidebar.models'),
+                to: this.localePath('/models'),
+              },
+              {
+                title: this.$t('sidebar.orders'),
+                to: this.localePath('/orders'),
+              },
+            ]
+          },
+          {
+            icon: 'catalog.svg',
+            title: this.$t('sidebar.catalogs'),
+            to: this.localePath('/partner'),
+            has_child: true,
+            child: [
+              {
+                title: this.$t('sidebar.partnersType'),
+                to: this.localePath('/partner',)
+              },
+              {
+                title: this.$t('sidebar.modelGroups'),
+                to: this.localePath("/model")
+              },
+              {
+                title: this.$t('sidebar.samplePurposes'),
+                to: this.localePath("/sample")
+              },
+              {
+                title: this.$t('sidebar.bodyParts'),
+                to: this.localePath("/body-parts")
+              },
+              {
+                title: this.$t('sidebar.cooperationType'),
+                to: this.localePath("/cooperation-type")
+              },
+              {
+                title: this.$t('sidebar.expenseGroup'),
+                to: this.localePath("/expense-group")
+              },
+              {
+                title: this.$t('sidebar.measurementUnit'),
+                to: this.localePath("/measurement")
+              },
+              {
+                title: this.$t('sidebar.packageShape'),
+                to: this.localePath("/package-shape")
+              },
+              {
+                title: this.$t('sidebar.fabricCatalogs'),
+                to: this.localePath("/fabric-catalogs")
+              },
+              {
+                title: this.$t('sidebar.productCatalogs'),
+                to: this.localePath("/product-catalogs")
+              },
+              {
+                title: this.$t('sidebar.partners'),
+                to: this.localePath("/partners")
+              },
+              {
+                title: this.$t('sidebar.size'),
+                to: this.localePath("/catalog-size")
+              },
+              {
+                title: this.$t('sidebar.colors'),
+                to: this.localePath('/colors'),
+              },
+              {
+                title: this.$t('sidebar.genderType'),
+                to: this.localePath('/gender-type'),
+              },
+              {
+                title: this.$t('sidebar.accessory'),
+                to: this.localePath('/catalog-accessory'),
+              },
+            ]
+          },
+          {
+            icon: 'planning.svg',
+            title: this.$t('sidebar.planning'),
+            to: this.localePath('/planning'),
+            has_child: true,
+            child: [
+              {
+                title: this.$t('sidebar.fabric'),
+                to: this.localePath('/fabric'),
+              },
+              {
+                title: this.$t('sidebar.accessory'),
+                to: this.localePath('/accessory'),
+              },
+            ]
+          },
+          {
+            icon: 'prod2.svg',
+            title: this.$t('sidebar.production'),
+            to: this.localePath('/production'),
+            has_child: true,
+            child: [
+              {
+                title: this.$t('sidebar.planningOfProduction'),
+                to: this.localePath('/planning-production'),
+              },
+              {
+                title: this.$t('sidebar.workingOperations'),
+                to: this.localePath('/working-operations'),
+              },
+            ]
+          },
+        ]
+      }
+    },
+    availableLocales () {
+      return this.$i18n.locales.filter(i => i.code !== this.$i18n.locale)
+    },
     ...mapGetters({
       pageTitle: 'pageTitle'
     })
@@ -366,14 +358,7 @@ export default {
       const current_lang = document.querySelector('.language__list');
       current_lang.classList.toggle('active')
     },
-    selectLang(selected) {
-      this.active_lang = selected.title;
-      this.active_flag = selected.icon;
-    },
   },
-  mounted() {
-
-  }
 }
 </script>
 
