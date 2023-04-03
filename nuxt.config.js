@@ -50,9 +50,49 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     "@nuxtjs/toast",
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    '@nuxtjs/i18n',
     // ['@nuxtjs/auth']
   ],
+
+  i18n: {
+    useCookie: false,
+    alwaysRedirect: true,
+    detectBrowserLanguage: false,
+    locales: [
+      {
+        code: "ru",
+        iso: "ru-RU",
+        name: "Russian",
+        file: "ru/index.js",
+        icon: "/ru.svg",
+        title: "Ru"
+      },
+      {
+        code: "uz",
+        iso: "uz-UZ",
+        name: "O'zbek",
+        file: "uz/index.js",
+        icon: "/uz.svg",
+        title: "Uz"
+      },
+      {
+        code: "en",
+        iso: "en-US",
+        name: "English",
+        file: "en/index.js",
+        icon: "/en.svg",
+        title: "En"
+      }
+    ],
+    lazy: true,
+    seo: true,
+    langDir: "locales/",
+    strategy: 'prefix_except_default',
+    defaultLocale: "en",
+    parsePages: true,
+  },
+
   toast: {
     position: "bottom-center",
     duration: 5000,
