@@ -32,7 +32,7 @@
           </v-btn>
         </v-card-title>
         <v-card-text>
-          <v-row>
+          <v-row justify="center">
             <v-col cols="12" lg="4">
               <div class="text-body-1 mb-3 font-weight-bold">Working process</div>
               <v-select
@@ -202,6 +202,25 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.custom-picker {
+  width: 100% !important;
+  background: #F8F4FE;
+  border-radius: 10px 10px 0 0 !important;
+  &::placeholder {
+    color: #cccccc;
+  }
+  >input.el-input__inner {
+    border-radius: 10px 10px 0 0 !important;
 
+    background: #F8F4FE !important;
+    border: 0;
+    border-bottom: 1px solid #777777 !important;
+    width: 100% !important;
+    height: 52px !important;
+    &::placeholder {
+      color: #9A979D !important;
+    }
+  }
+}
 </style>
