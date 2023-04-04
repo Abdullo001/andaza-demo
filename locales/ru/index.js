@@ -105,4 +105,30 @@ export default {
       actions: "Действия",
     }
   },
+  localization: {
+    dialog: {
+      key: "Ключ",
+      message: "Сообщение",
+      reset: "Перезагрузить",
+      search: "Поиск",
+      localization: "Локализация",
+      addLocalization: "Добавить локализацию",
+      messageContent: "Содержание сообщения",
+      cancel: "Отмена",
+      add: "Добавлять",
+      editLocalization: "Изменить локализацию",
+      language: "Язык",
+      save: "Сохранять",
+      deleteDilaog: "Удалить локализацию",
+      deletetext: "Вы уверены, что хотите удалить эту информацию о пользователе?",
+      delete: "Удалить",
+    },
+    table: {
+      lang: "Ланг",
+      key: "Ключ",
+      message: "Сообщение",
+      updatedAt: "Обновлено в",
+      actions: "Действия",
+    },
+  },
 }

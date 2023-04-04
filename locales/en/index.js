@@ -105,4 +105,30 @@ export default {
       actions: "Actions",
     }
   },
+  localization: {
+    dialog: {
+      key: "Key",
+      message: "Message",
+      reset: "Reset",
+      search: "Search",
+      localization: "Localization",
+      addLocalization: "Add localization",
+      messageContent: "Message content",
+      cancel: "Cancel",
+      add: "Add",
+      editLocalization: "Edit localization",
+      language: "Language",
+      save: "Save",
+      deleteDilaog: "Delete Localization",
+      deletetext: "Are you sure you want to Delete this user information?",
+      delete: "delete",
+    },
+    table: {
+      lang: "Lang",
+      key: "Key",
+      message: "Message",
+      updatedAt: "Updated At",
+      actions: "Actions",
+    },
+  },
 }

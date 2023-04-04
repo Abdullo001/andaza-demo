@@ -105,4 +105,30 @@ export default {
       actions: "Harakatlar",
     }
   },
+  localization: {
+    dialog: {
+      key: "Kalit",
+      message: "Xabar",
+      reset: "Qayta o'rnatish",
+      search: "Qidirmoq",
+      localization: "Mahalliylashtirish",
+      addLocalization: "Mahalliylashtirishni qo'shing",
+      messageContent: "Xabar mazmuni",
+      cancel: "Bekor qilish",
+      add: "Qo'shish",
+      editLocalization: "Mahalliylashtirishni tahrirlash",
+      language: "Til",
+      save: "Saqlash",
+      deleteDilaog: "Lokalizatsiyani o'chirish",
+      deletetext: "Haqiqatan ham bu foydalanuvchi maʼlumotlarini oʻchirib tashlamoqchimisiz?",
+      delete: "Oʻchirish",
+    },
+    table: {
+      lang: "Lang",
+      key: "Kalit",
+      message: "Xabar",
+      updatedAt: "Yangilangan",
+      actions: "Harakatlar",
+    },
+  },
 }
