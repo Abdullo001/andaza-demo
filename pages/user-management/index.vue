@@ -525,12 +525,12 @@ export default {
       date: '',
       menu2: false,
       headers: [
-        {text: 'ID', align: 'start', sortable: true, value: 'id'},
+        {text: 'ID', align: 'start', sortable: true, value: 'id' ,width: 62},
         {text: this.$t('userManagement.table.userName'), align: 'start', sortable: false, value: 'username'},
-        {text: this.$t('userManagement.table.firstName'), align: 'start', sortable: true, value: 'firstName'},
+        {text: this.$t('userManagement.table.firstName'), align: 'start', sortable: true, value: 'firstName', width: 113},
         {text: this.$t('userManagement.table.lastName'), align: 'start', sortable: true, value: 'lastName'},
         {text: this.$t('userManagement.table.phoneNumber'), align: 'start', sortable: false, value: 'phoneNumber'},
-        {text: this.$t('userManagement.table.updateAt'), align: 'start', sortable: true, value: 'updatedAt'},
+        {text: this.$t('userManagement.table.updateAt'), align: 'start', sortable: true, value: 'updatedAt', width: 135},
         {text: this.$t('userManagement.table.lang'), align: 'start', sortable: false, value: 'lang'},
         {text: this.$t('userManagement.table.status'), align: 'start', sortable: false, value: 'status', width: 180},
         {text: this.$t('userManagement.table.actions'), align: 'end', sortable: false, value: 'actions', width: 90},
@@ -717,7 +717,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('users/getUsers', {page: this.current_page, size: this.itemPerPage})
-    this.$store.commit('setPageTitle', 'User management');
+    this.$store.commit('setPageTitle', this.$t('userManagement.dialog.userManagement'));
   }
 }
 </script>

@@ -12,7 +12,7 @@
             class="text-capitalize rounded-lg mr-4"
           >
             <v-img src="/trash.svg" class="mr-1"/>
-            Delete
+            {{ $t('fraudUsers.child.delete') }}
           </v-btn>
           <v-btn
             outlined
@@ -23,7 +23,7 @@
             :color="!fields_status ? 'green' : null"
           >
             <v-img :src="fields_status ? '/edit.svg' : '/edit-active.svg'" class="mr-1"/>
-            Edit
+            {{ $t('fraudUsers.child.edit') }}
           </v-btn>
         </div>
       </v-card-title>
@@ -32,7 +32,7 @@
         <v-form lazy-validation ref="device_info" v-model="valid">
           <v-row>
             <v-col>
-              <div class="mb-1 text-body-1 mt-4">Account ID</div>
+              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudUsers.child.accountId') }}</div>
               <v-text-field
                 v-model="account.accountId"
                 filled
@@ -41,7 +41,7 @@
                 style="max-width: 400px"
                 :disabled="fields_status"
               />
-              <div class="mb-1 text-body-1 mt-4">Blocked by</div>
+              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudUsers.child.blockedBy') }}</div>
               <v-text-field
                 v-model="account.blockedBy"
                 filled
@@ -53,7 +53,7 @@
 
             </v-col>
             <v-col>
-              <div class="mb-1 text-body-1 mt-4">Blocked date time</div>
+              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudUsers.child.blockedTime') }}</div>
               <v-text-field
                 v-model="account.blockedDate"
                 filled
@@ -62,7 +62,7 @@
                 style="max-width: 400px"
                 :disabled="fields_status"
               />
-              <div class="mb-1 text-body-1 mt-4">Unblocked date time</div>
+              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudUsers.child.unblockedTime') }}</div>
               <v-text-field
                 v-model="account.unblockedDate"
                 filled
@@ -73,7 +73,7 @@
               />
             </v-col>
             <v-col>
-              <div class="mb-1 text-body-1 mt-4">Status</div>
+              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudUsers.child.status') }}</div>
               <v-select
                 v-model="account.status"
                 :items="status_enums"
@@ -96,7 +96,7 @@
           class="text-capitalize font-weight-medium mx-3 mb-4"
           width="150"
           @click="saveChanges"
-        >save
+        >{{ $t('fraudUsers.child.save') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -111,21 +111,21 @@ export default {
     return {
       map_links: [
         {
-          text: 'Home',
+          text: this.$t('fraudUsers.child.home'),
           disabled: false,
-          to: '/',
+          to: this.localePath('/'),
           icon: true
         },
         {
-          text: 'Account',
+          text: this.$t('fraudUsers.child.account'),
           disabled: false,
-          to: '/fraud-users',
+          to: this.localePath('/fraud-users'),
           icon: true
         },
         {
-          text: 'Details',
+          text: this.$t('fraudUsers.child.details'),
           disabled: true,
-          to: '/fraud-account/2',
+          to: this.localePath('/fraud-account/2'),
           icon: false
         },
       ],

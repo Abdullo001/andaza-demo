@@ -88,10 +88,10 @@
         </template>
         <template #item.actions="{item}">
           <v-btn icon color="green" @click.stop="editItem(item)">
-            <v-img src="edit-active.svg" max-width="22"/>
+            <v-img src="/edit-active.svg" max-width="22"/>
           </v-btn>
           <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-            <v-img src="delete.svg" max-width="27"/>
+            <v-img src="/delete.svg" max-width="27"/>
           </v-btn>
         </template>
       </v-data-table>
@@ -276,11 +276,11 @@ export default {
         message: ''
       },
       headers: [
-        {text: 'ID', align: 'start', sortable: false, value: 'id'},
+        {text: 'ID', align: 'start', sortable: false, value: 'id', width: 50},
         {text: this.$t('localization.table.lang'), value: 'lang', width: 80},
-        {text: this.$t('localization.table.key'), value: 'key'},
+        {text: this.$t('localization.table.key'), value: 'key', width: 150},
         {text: this.$t('localization.table.message'), value: 'message', width: 500},
-        {text: this.$t('localization.table.updatedAt'), value: 'updatedAt', width: 114},
+        {text: this.$t('localization.table.updatedAt'), value: 'updatedAt', width: 128},
         {text: this.$t('localization.table.actions'), sortable: false, align: "center", value: 'actions', width: 120},
       ],
       new_localization: {
