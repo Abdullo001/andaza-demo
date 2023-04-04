@@ -9,7 +9,7 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Refinance number"
+              :label="$t('prefinances.dialog.refinanceNumber')"
               outlined
               class="rounded-lg"
               v-model.trim="filters.financeNumber"
@@ -20,7 +20,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Model №"
+              :label="$t('prefinances.dialog.modelN')"
               outlined
               class="rounded-lg"
               v-model.trim="filters.modelId"
@@ -31,7 +31,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Partner"
+              :label="$t('prefinances.dialog.partner')"
               outlined
               class="rounded-lg"
               v-model.trim="filters.partnerId"
@@ -49,7 +49,7 @@
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
-                Reset
+                {{ $t('prefinances.dialog.reset') }}
               </v-btn>
               <v-btn
                 width="140" color="#397CFD" dark
@@ -57,7 +57,7 @@
                 class="text-capitalize rounded-lg"
                 @click="filterData"
               >
-                Search
+                {{ $t('prefinances.dialog.search') }}
               </v-btn>
             </div>
           </v-col>
@@ -80,15 +80,15 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium">Prefinance</div>
+            <div class="font-weight-medium">{{ $t('prefinances.dialog.prefinance') }}</div>
             <v-btn
               color="#7631FF"
               class="rounded-lg text-capitalize"
               dark
-              @click="$router.push(`/prefinances/create`)"
+              @click="$router.push(localePath(`/prefinances/create`))"
             >
               <v-icon>mdi-plus</v-icon>
-              Prefinance
+              {{ $t('prefinances.dialog.prefinance') }}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -116,12 +116,12 @@
             <v-btn
               icon color="primary"
               v-on="on" v-bind="attrs"
-              @click="$router.push(`/prefinances/${item.id}`)"
+              @click="$router.push(localePath(`/prefinances/${item.id}`))"
             >
               <v-icon>mdi-chevron-right</v-icon>
             </v-btn>
           </template>
-          <span>Edit</span>
+          <span>{{ $t('prefinances.dialog.edit') }}</span>
         </v-tooltip>
       </template>
     </v-data-table>
@@ -146,13 +146,13 @@ export default {
       valid_search: '',
       menu2: false,
       headers: [
-        {text: 'Prefinance number', align: 'start', sortable: false, value: 'preFinanceNumber'},
-        {text: 'Model №', value: 'modelNumber'},
-        {text: 'Partner', value: 'partner'},
-        {text: 'Price', value: 'primaryRate'},
-        {text: 'Currency', value: 'primaryCurrency'},
-        {text: 'Status', value: 'status', align: 'center', width: 200},
-        {text: 'Actions', value: 'actions'},
+        {text: this.$t('prefinances.table.prefinanceNumber'), align: 'start', sortable: false, value: 'preFinanceNumber'},
+        {text: this.$t('prefinances.table.modelN'), value: 'modelNumber'},
+        {text: this.$t('prefinances.table.partner'), value: 'partner'},
+        {text: this.$t('prefinances.table.price'), value: 'primaryRate'},
+        {text: this.$t('prefinances.table.currency'), value: 'primaryCurrency'},
+        {text: this.$t('prefinances.table.status'), value: 'status', align: 'center', width: 200},
+        {text: this.$t('prefinances.table.actions'), value: 'actions'},
       ],
       preFinanceList: [],
       itemPerPage: 10,
@@ -236,7 +236,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.commit('setPageTitle', 'Prefinances')
+    this.$store.commit('setPageTitle', this.$t('prefinances.dialog.prefinances'))
   }
 }
 </script>
