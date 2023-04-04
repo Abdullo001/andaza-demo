@@ -5,40 +5,42 @@
       :items="accessoryAllData"
       :items-per-page="10"
       :footer-props="{
-        itemsPerPageOptions: [10, 20, 50, 100]
+        itemsPerPageOptions: [10, 20, 50, 100],
       }"
       class="mt-4 rounded-lg"
     >
       <template #top>
         <v-toolbar elevation="0" class="rounded-lg">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium text-capitalize">Accessory planning chart</div>
+            <div class="font-weight-medium text-capitalize">
+              Accessory planning chart
+            </div>
             <v-btn
               color="#7631FF"
               class="rounded-lg white--text text-capitalize"
               @click="new_dialog = true"
-              :disabled="!(accessoryData.id !== undefined)"
+              :disabled="checkId"
+              :dark="!checkId"
             >
               <v-icon>mdi-plus</v-icon>
               Add Accessory
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
-        <v-divider/>
+        <v-divider />
       </template>
-      <template #item.actions="{item}">
+      <template #item.actions="{ item }">
         <div>
           <v-btn icon color="green" @click.stop="editItem(item)">
-            <v-img src="/edit-active.svg" max-width="22"/>
+            <v-img src="/edit-active.svg" max-width="22" />
           </v-btn>
           <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-            <v-img src="/delete.svg" max-width="27"/>
+            <v-img src="/delete.svg" max-width="27" />
           </v-btn>
         </div>
       </template>
     </v-data-table>
-    <div>
-    </div>
+    
     <v-dialog v-model="new_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
@@ -48,7 +50,7 @@
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
-          <v-form  ref="new_form" lazy-validation v-model="validate">
+          <v-form ref="new_form" lazy-validation v-model="validate">
             <v-row>
               <v-col cols="12" md="6">
                 <v-select
@@ -103,12 +105,13 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="mb-2 text-body-1">Price per unit</div>
-                <div class="d-flex align-center">
+                <div class="d-flex align-center mt-8">
                   <v-text-field
                     v-model="create_accessory_chart.accessoryPricePerUnit"
                     filled
+                    label="Price per unit"
                     placeholder="0.0"
+                    dense
                     color="#7631FF"
                     :rules="[formRules.required]"
                   />
@@ -135,18 +138,18 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-              <v-select
-                :items="measurementUnit"
-                filled
-                item-text="name"
-                item-value="id"
-                label="Measurement unit"
-                placeholder="Select Measurement unit"
-                dense
-                append-icon="mdi-chevron-down"
-                color="#7631FF"
-                :rules="[formRules.required]"
-              />
+                <v-select
+                  :items="measurementUnit"
+                  filled
+                  item-text="name"
+                  item-value="id"
+                  label="Measurement unit"
+                  placeholder="Select Measurement unit"
+                  dense
+                  append-icon="mdi-chevron-down"
+                  color="#7631FF"
+                  :rules="[formRules.required]"
+                />
               </v-col>
               <v-col cols="12" md="6">
                 <v-text-field
@@ -176,7 +179,8 @@
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined
+            color="#7631FF"
             width="163"
             @click="new_dialog = false"
           >
@@ -184,7 +188,8 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#7631FF"
+            dark
             width="163"
             @click="create"
           >
@@ -202,7 +207,7 @@
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
-          <v-form  ref="edit_form">
+          <v-form ref="edit_form">
             <v-row>
               <v-col cols="12" md="6">
                 <v-text-field
@@ -298,7 +303,8 @@
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined
+            color="#7631FF"
             width="163"
             @click="edit_dialog = false"
           >
@@ -306,7 +312,8 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#7631FF"
+            dark
             width="163"
             @click="update"
           >
@@ -318,9 +325,11 @@
     <v-dialog v-model="delete_dialog" max-width="500">
       <v-card class="pa-4 text-center">
         <div class="d-flex justify-center mb-2">
-          <v-img src="/error-icon.svg" max-width="40"/>
+          <v-img src="/error-icon.svg" max-width="40" />
         </div>
-        <v-card-title class="d-flex justify-center">Delete Accessory planning chart</v-card-title>
+        <v-card-title class="d-flex justify-center"
+          >Delete Accessory planning chart</v-card-title
+        >
         <v-card-text>
           Are you sure you want to Delete this accessory planning chart?
         </v-card-text>
@@ -334,7 +343,7 @@
           >
             cancel
           </v-btn>
-          <v-spacer/>
+          <v-spacer />
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             color="#FF4E4F"
@@ -352,7 +361,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "AccessoryChartPages",
@@ -369,7 +378,7 @@ export default {
         quantity: "",
         var1: "",
         var2: "",
-        wastage: ""
+        wastage: "",
       },
       edit_accessory_chart: {
         accessoryId: null,
@@ -381,7 +390,7 @@ export default {
         quantity: "",
         var1: "",
         var2: "",
-        wastage: ""
+        wastage: "",
       },
       delete_acceccory_chart: {},
       currency_enums: ["USD", "UZS", "RUB"],
@@ -389,110 +398,118 @@ export default {
       new_dialog: false,
       delete_dialog: false,
       headers: [
-        {text: "Name", value: "name"},
-        {text: "Quantity", value: "quantityUnitName"},
-        {text: "Price Per Unit", value: "pricePerUnit"},
-        {text: "Currency", value: "pricePerUnitCurrency"},
-        {text: "VAR.1", value: "var1"},
-        {text: "VAR.1", value: "var2"},
-        {text: "isActive", value: "isActive"},
-        {text: "Quantity Unit Id", value: "quantityUnitId"},
-        {text: "quantity", value: "quantity"},
-        {text: "Production Quantity", value: "productionQuantity"},
-        {text: "Wastage", value: "wastage"},
-        {text: "totalAccessory", value: "totalAccessory"},
-        {text: "Created At", value: "createdAt"},
-        {text: "Updated At", value: "updatedAt"},
-        {text: "Specification", value: "specification"},
-        {text: "Description", value: "description"},
-        {text: "Actions", value: "actions", align: "center", sortable: false},
+        { text: "Name", value: "name" },
+        { text: "Specification", value: "specification" },
+        { text: "VAR.1", value: "var1" },
+        { text: "VAR.2", value: "var2" },
+        { text: "Price P/U", value: "pricePerUnit" },
+        { text: "Currency", value: "pricePerUnitCurrency" },
+        { text: "Quantity", value: "quantity" },
+        { text: "M/U", value: "quantityUnitName" },
+        { text: "Wastage", value: "wastage" },
+        { text: "Production Quantity", value: "productionQuantity" },
+        { text: "totalAccessory", value: "totalAccessory" },
+        { text: "Description", value: "description" },
+        { text: "Actions", value: "actions", align: "center", sortable: false },
       ],
-    }
+    };
   },
   watch: {
-    "create_accessory_chart.specification"(val){
-      this.create_accessory_chart.accessoryId = val
+    "create_accessory_chart.specification"(val) {
+      this.create_accessory_chart.accessoryId = val;
     },
-    "create_accessory_chart.accessoryId"(val){
-      this.create_accessory_chart.specification = val
+    "create_accessory_chart.accessoryId"(val) {
+      this.create_accessory_chart.specification = val;
     },
   },
   created() {
-    this.getMeasurementUnit({page: 0, size: 20});
+    this.getMeasurementUnit({ page: 0, size: 20 });
     this.getAccessoryList();
   },
-  computed:{
+  computed: {
     ...mapGetters({
       accessoryData: "accessory/accessoryData",
       measurementUnit: "measurement/measurementUnit",
       nameData: "accessoryChart/nameData",
       accessoryAllData: "accessoryChart/accessoryAllData",
-    })
+    }),
+    checkId() {
+      const param = this.$route.params.id;
+      if (param === 'create') {
+        const id = this.$store.getters['accessory/newId']
+        return id === null
+      } else return false
+    }
   },
-  methods:{
+  methods: {
     ...mapActions({
       getMeasurementUnit: "measurement/getMeasurementUnit",
       createChartAccessory: "accessoryChart/createChartAccessory",
       getAccessoryList: "accessoryChart/getAccessoryList",
       updateChartAccessory: "accessoryChart/updateChartAccessory",
       deleteChartAccessory: "accessoryChart/deleteChartAccessory",
+      getChartAllData: "accessoryChart/getChartAllData",
     }),
-    async deleteChart(){
+    async deleteChart() {
       const items = this.delete_acceccory_chart;
-      await this.deleteChartAccessory({id: items.id, accessoryPlanningId: items.accessoryPlanningId});
+      await this.deleteChartAccessory({
+        id: items.id,
+        accessoryPlanningId: items.accessoryPlanningId,
+      });
       this.delete_dialog = false;
     },
-    async update(){
+    async update() {
       const edit_validate = this.$refs.edit_form.validate();
-      if  (edit_validate){
-        const items  = {
+      if (edit_validate) {
+        const items = {
           accessoryId: this.edit_accessory_chart.accessoryId,
           accessoryPlanningId: this.edit_accessory_chart.accessoryPlanningId,
-          accessoryPricePerCurrency: this.edit_accessory_chart.accessoryPricePerCurrency,
-          accessoryPricePerUnit: this.edit_accessory_chart.accessoryPricePerUnit,
+          accessoryPricePerCurrency:
+            this.edit_accessory_chart.accessoryPricePerCurrency,
+          accessoryPricePerUnit:
+            this.edit_accessory_chart.accessoryPricePerUnit,
           description: this.edit_accessory_chart.description,
           id: this.edit_accessory_chart.id,
           quantity: this.edit_accessory_chart.quantity,
           var1: this.edit_accessory_chart.var1,
           var2: this.edit_accessory_chart.var2,
           wastage: this.edit_accessory_chart.wastage,
-        }
+        };
         await this.updateChartAccessory(items);
         this.$refs.edit_form.reset();
         this.edit_dialog = false;
       }
     },
-    async create(){
+    async create() {
       const validate = this.$refs.new_form.validate();
-      if  (validate){
-        if (this.accessoryData.id !== undefined){
-          delete this.create_accessory_chart.specification;
-          this.create_accessory_chart.accessoryPlanningId = this.accessoryData.id;
+      if (validate) {
+        if (true) {
+          this.create_accessory_chart.accessoryPlanningId =this.$route.params.id;
           await this.createChartAccessory(this.create_accessory_chart);
+          console.log(this.create_accessory_chart);
           this.new_dialog = false;
           this.$refs.new_form.reset();
         }
       }
     },
-    editItem(item){
-      this.edit_accessory_chart = {...item};
+    editItem(item) {
+      this.edit_accessory_chart = { ...item };
       this.edit_dialog = true;
     },
-    getDeleteItem(item){
+    getDeleteItem(item) {
       this.delete_dialog = true;
       this.delete_acceccory_chart.id = item.id;
-      this.delete_acceccory_chart.accessoryPlanningId = item.accessoryPlanningId;
+      this.delete_acceccory_chart.accessoryPlanningId =
+        item.accessoryPlanningId;
     },
   },
   mounted() {
-    const id = this.accessoryData.id;
-    if (id !== undefined){
-      this.$store.dispatch("accessoryChart/getChartAllData", this.accessoryData.id);
+    const id = this.$route.params.id;
+    if (id !== "create") {
+      this.getChartAllData(id);
     }
-  }
-}
+  },
+};
 </script>
 
-<style lang="sass">
-
-</style>
+<style lang="sass"></style>

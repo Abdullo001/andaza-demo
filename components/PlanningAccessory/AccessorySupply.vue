@@ -165,11 +165,10 @@ export default {
   },
   computed: {
     ...mapGetters({
-      partnerLists: 'plannedOrder/partnerLists',
-      warehouseList: 'plannedOrder/warehouseList',
+      partnerLists: 'accessoryOrder/partnerLists',
+      warehouseList: 'accessoryOrder/warehouseList',
       fabricPlanningId: 'fabric/fabricPlanningId',
-      plannedOrderList: 'plannedOrder/plannedOrderList',
-      modelId: 'fabric/modelId'
+      plannedOrderList: 'accessoryOrder/plannedOrderList',
     })
   },
   watch: {
