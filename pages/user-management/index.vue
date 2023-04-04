@@ -9,7 +9,7 @@
         <v-row class="mx-0 px-0 mb-2 mt-4 pa-4 w-full" justify="center">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="User ID"
+              :label="$t('userManagement.dialog.userId')"
               outlined
               class="rounded-lg"
               v-model="search.user_id"
@@ -21,7 +21,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="First name"
+              :label="$t('userManagement.dialog.firstName')"
               outlined
               class="rounded-lg"
               v-model="search.first_name"
@@ -33,7 +33,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Last name"
+              :label="$t('userManagement.dialog.lastName')"
               outlined
               class="rounded-lg"
               v-model="search.last_name"
@@ -49,7 +49,7 @@
             <el-date-picker
               v-model="search.start_time"
               type="datetime"
-              placeholder="From"
+              :placeholder="$t('from')"
               :picker-options="pickerShortcuts"
               format="dd.MM.yyyy HH:mm:ss"
             >
@@ -61,7 +61,7 @@
             <el-date-picker
               v-model="search.end_time"
               type="datetime"
-              placeholder="To"
+              :placeholder="$t('to')"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
             >
@@ -75,7 +75,7 @@
                 class="text-capitalize mr-4 rounded-lg font-weight-bold"
                 @click.stop="resetSearch"
               >
-                Reset
+                {{ $t('userManagement.dialog.reset') }}
               </v-btn>
               <v-btn
                 width="140" color="#397CFD" dark
@@ -83,7 +83,7 @@
                 class="text-capitalize rounded-lg font-weight-bold"
                 @click="filter"
               >
-                Search
+                {{ $t('userManagement.dialog.search') }}
               </v-btn>
             </div>
           </v-col>
@@ -94,9 +94,11 @@
     <v-data-table
       :headers="headers"
       :items="users"
+      :no-data-text="$t('noDataText')"
       :items-per-page="10"
       :footer-props="{
-        itemsPerPageOptions: [10, 20, 50, 100]
+        itemsPerPageOptions: [10, 20, 50, 100],
+        itemsPerPageText: this.$t('allDataTableText')
       }"
       :loading="loading"
       class="mt-4 rounded-lg"
@@ -108,10 +110,10 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium">Users</div>
+            <div class="font-weight-medium">{{ $t('userManagement.dialog.users') }}</div>
             <v-btn color="#7631FF" class="rounded-lg" dark @click.stop="new_user = true">
               <v-icon>mdi-plus</v-icon>
-              user
+              {{ $t('userManagement.dialog.user') }}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -135,7 +137,7 @@
                 </v-icon>
               </v-btn>
             </template>
-            <span>Details</span>
+            <span>{{ $t('userManagement.dialog.details') }}</span>
           </v-tooltip>
         </div>
       </template>
@@ -175,7 +177,7 @@
                     <v-img src="/copy.svg" width="15" class="ml-2 pointer"/>
                   </div>
                 </template>
-                <span>Copy</span>
+                <span>{{ $t('userManagement.dialog.details') }}</span>
               </v-tooltip>
             </div>
           </div>
@@ -190,7 +192,7 @@
                 <v-img src="/copy.svg" width="15" class="ml-2 pointer"/>
               </div>
             </template>
-            <span>Copy</span>
+            <span>{{ $t('userManagement.dialog.copy') }}</span>
           </v-tooltip>
         </div>
       </template>
@@ -201,9 +203,9 @@
         <div class="d-flex justify-center mb-2">
           <v-img src="/error-icon.svg" max-width="40"/>
         </div>
-        <v-card-title class="d-flex justify-center">Delete User information</v-card-title>
+        <v-card-title class="d-flex justify-center">{{ $t('userManagement.dialog.deleteDialog') }}</v-card-title>
         <v-card-text>
-          Are you sure you want to Delete this user information?
+          {{ $t('userManagement.dialog.deleteText') }}
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -213,7 +215,7 @@
             width="140"
             @click.stop="deleteDialog = false"
           >
-            cancel
+            {{ $t('userManagement.dialog.cancel') }}
           </v-btn>
           <v-spacer/>
           <v-btn
@@ -223,7 +225,7 @@
             elevation="0"
             dark
           >
-            delete
+            {{ $t('userManagement.dialog.delete') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -231,7 +233,7 @@
     <v-dialog v-model="new_user" max-width="680" persistent>
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
-          <div>Add user</div>
+          <div> {{ $t('userManagement.dialog.addUser') }}</div>
           <v-btn icon @click="resetUserDialog">
             <v-icon color="#7631FF">mdi-close</v-icon>
           </v-btn>
@@ -245,7 +247,7 @@
                   <v-btn color="#F1EBFE" elevation="0" class="rounded-lg ml-6 text-capitalize"
                          @click="handleFileImport">
                     <v-img src="/upload-btn-icon.svg" width="20" class="mr-2"/>
-                    <div class="btn-color">Upload photo</div>
+                    <div class="btn-color">{{ $t('userManagement.dialog.uploadPhoto') }}</div>
                   </v-btn>
                   <input
                     ref="uploader"
@@ -258,11 +260,11 @@
               </v-col>
               <v-col cols="12" lg="6" align-self="end">
                 <v-text-field
-                  label="Username"
+                  :label="$t('userManagement.dialog.userName')"
                   filled
                   dense
                   color="#7631FF"
-                  placeholder="Enter username"
+                  :placeholder="$t('userManagement.dialog.enterUsername')"
                   v-model="user_data.username"
                   :rules="[formRules.required]"
                   validate-on-blur
@@ -272,11 +274,11 @@
             <v-row class="mt-4">
               <v-col cols="12" lg="6">
                 <v-text-field
-                  label="First name"
+                  :label="$t('userManagement.dialog.firstName')"
                   filled
                   dense
                   color="#7631FF"
-                  placeholder="Enter first name"
+                  :placeholder="$t('userManagement.dialog.enterFirstName')"
                   v-model="user_data.firstname"
                   :rules="[formRules.required]"
                   validate-on-blur
@@ -284,11 +286,11 @@
               </v-col>
               <v-col cols="12" lg="6">
                 <v-text-field
-                  label="Last name"
+                  :label="$t('userManagement.dialog.lastName')"
                   filled
                   dense
                   color="#7631FF"
-                  placeholder="Enter last name"
+                  :placeholder="$t('userManagement.dialog.enterLastName')"
                   v-model="user_data.lastname"
                   :rules="[formRules.required]"
                   validate-on-blur
@@ -296,7 +298,7 @@
               </v-col>
               <v-col cols="12" lg="6">
                 <v-text-field
-                  label="Phone number"
+                  :label="$t('userManagement.dialog.phoneNumber')"
                   filled
                   dense
                   color="#7631FF"
@@ -310,11 +312,11 @@
 
               <v-col cols="12" lg="6">
                 <v-text-field
-                  label="E-mail"
+                  :label="$t('userManagement.dialog.eMail')"
                   filled
                   dense
                   color="#7631FF"
-                  placeholder="Enter e-mail"
+                  :placeholder="$t('userManagement.dialog.entereMail')"
                   class="mb-3"
                   v-model="user_data.email"
                   validate-on-blur
@@ -323,11 +325,11 @@
               <v-col cols="12" lg="6">
                 <v-select
                   :items="gender_enums"
-                  label="Gender"
+                  :label="$t('userManagement.dialog.gender')"
                   filled
                   dense
                   color="#7631FF"
-                  placeholder="Select gender"
+                  :placeholder="$t('userManagement.dialog.selectGender')"
                   class="mb-3"
                   v-model="user_data.gender"
                   :rules="[formRules.required]"
@@ -369,7 +371,7 @@
             color="#7631FF"
             width="163"
             @click="resetUserDialog"
-          >cancel
+          >{{ $t('userManagement.dialog.cancel') }}
           </v-btn>
           <v-btn
             class="text-capitalize rounded-lg font-weight-bold"
@@ -377,7 +379,7 @@
             dark
             width="163"
             @click="addUser"
-          >add
+          >{{ $t('userManagement.dialog.add') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -385,7 +387,7 @@
     <v-dialog v-model="edit_user" max-width="680">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
-          <div>Edit user</div>
+          <div>{{ $t('userManagement.dialog.editUser') }}</div>
           <v-btn icon @click="edit_user = false">
             <v-icon color="#7631FF">mdi-close</v-icon>
           </v-btn>
@@ -395,11 +397,11 @@
           <v-row class="mt-4">
             <v-col cols="12" lg="6">
               <v-text-field
-                label="First name"
+                :label="$t('userManagement.dialog.firstName')"
                 filled
                 dense
                 color="#7631FF"
-                placeholder="Enter first name"
+                :placeholder="$t('userManagement.dialog.enterFirstName')"
                 v-model="user_update_data.firstName"
                 :rules="[formRules.required]"
                 validate-on-blur
@@ -408,11 +410,11 @@
             </v-col>
             <v-col cols="12" lg="6">
               <v-text-field
-                label="Last name"
+                :label="$t('userManagement.dialog.lastName')"
                 filled
                 dense
                 color="#7631FF"
-                placeholder="Enter last name"
+                :placeholder="$t('userManagement.dialog.enterLastName')"
                 v-model="user_update_data.lastName"
                 :rules="[formRules.required]"
                 validate-on-blur
@@ -421,7 +423,7 @@
             </v-col>
             <v-col cols="12" lg="6">
               <v-text-field
-                label="Phone number"
+                :label="$t('userManagement.dialog.phoneNumber')"
                 filled
                 dense
                 color="#7631FF"
@@ -435,11 +437,11 @@
             </v-col>
             <v-col cols="12" lg="6">
               <v-text-field
-                label="Username"
+                :label="$t('userManagement.dialog.userName')"
                 filled
                 dense
                 color="#7631FF"
-                placeholder="Enter username"
+                :placeholder="$t('userManagement.dialog.enterUsername')"
                 v-model="user_update_data.username"
                 :rules="[formRules.required]"
                 validate-on-blur
@@ -448,11 +450,11 @@
             </v-col>
             <v-col cols="12" lg="6">
               <v-text-field
-                label="E-mail"
+                :label="$t('userManagement.dialog.eMail')"
                 filled
                 dense
                 color="#7631FF"
-                placeholder="Enter e-mail"
+                :placeholder="$t('userManagement.dialog.entereMail')"
                 class="mb-3"
                 v-model="user_update_data.email"
                 :rules="[formRules.required]"
@@ -479,7 +481,7 @@
             color="#7631FF"
             width="163"
             @click.stop="edit_user = false"
-          >cancel
+          >{{ $t('userManagement.dialog.cancel') }}
           </v-btn>
           <v-btn
             class="text-capitalize rounded-lg font-weight-bold"
@@ -487,7 +489,7 @@
             dark
             width="163"
             @click="changeUserStatus"
-          >add
+          >{{ $t('userManagement.dialog.add') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -524,14 +526,14 @@ export default {
       menu2: false,
       headers: [
         {text: 'ID', align: 'start', sortable: true, value: 'id'},
-        {text: 'Username', align: 'start', sortable: false, value: 'username'},
-        {text: 'First Name', align: 'start', sortable: true, value: 'firstName'},
-        {text: 'Last Name', align: 'start', sortable: true, value: 'lastName'},
-        {text: 'Phone number', align: 'start', sortable: false, value: 'phoneNumber'},
-        {text: 'Update at', align: 'start', sortable: true, value: 'updatedAt'},
-        {text: 'Lang', align: 'start', sortable: false, value: 'lang'},
-        {text: 'Status', align: 'start', sortable: false, value: 'status', width: 180},
-        {text: 'Actions', align: 'end', sortable: false, value: 'actions', width: 90},
+        {text: this.$t('userManagement.table.userName'), align: 'start', sortable: false, value: 'username'},
+        {text: this.$t('userManagement.table.firstName'), align: 'start', sortable: true, value: 'firstName'},
+        {text: this.$t('userManagement.table.lastName'), align: 'start', sortable: true, value: 'lastName'},
+        {text: this.$t('userManagement.table.phoneNumber'), align: 'start', sortable: false, value: 'phoneNumber'},
+        {text: this.$t('userManagement.table.updateAt'), align: 'start', sortable: true, value: 'updatedAt'},
+        {text: this.$t('userManagement.table.lang'), align: 'start', sortable: false, value: 'lang'},
+        {text: this.$t('userManagement.table.status'), align: 'start', sortable: false, value: 'status', width: 180},
+        {text: this.$t('userManagement.table.actions'), align: 'end', sortable: false, value: 'actions', width: 90},
       ],
       new_user: false,
       user_status: '',
@@ -617,22 +619,22 @@ export default {
         })
     },
     getDataFromApi() {
-      this.fakeApiCall()
+      this.fakeApiCall();
     },
     fakeApiCall() {
       return new Promise((resolve, reject) => {
-        const {sortBy, sortDesc, page, itemsPerPage} = this.options
-        this.sortUser({sortBy: sortBy, sortDesc: sortDesc})
+        const {sortBy, sortDesc, page, itemsPerPage} = this.options;
+        this.sortUser({sortBy: sortBy, sortDesc: sortDesc});
       })
     },
     getItemSize(val) {
       this.itemPerPage = val;
-      this.getUsers({page: this.current_page, size: this.itemPerPage})
+      this.getUsers({page: this.current_page, size: this.itemPerPage});
     },
     page(val) {
       // arrows < > value page
-      this.current_page = val - 1
-      this.getUsers({page: this.current_page, size: this.itemPerPage})
+      this.current_page = val - 1;
+      this.getUsers({page: this.current_page, size: this.itemPerPage});
 
     },
     async changeUserStatus() {
@@ -651,9 +653,9 @@ export default {
     async addUser() {
       const valid = this.$refs.new_user.validate()
       if (valid) {
-        const user = {...this.user_data}
-        user.lang = user.lang.title
-        await this.createUser(user)
+        const user = {...this.user_data};
+        user.lang = user.lang.title;
+        await this.createUser(user);
       }
     },
     getUserInfo(data) {
@@ -661,15 +663,15 @@ export default {
       const langFull = () => {
         switch (user.lang) {
           case 'UZ':
-            return {title: "UZ", code: "uz", icon: "/uz.svg"}
+            return {title: "UZ", code: "uz", icon: "/uz.svg"};
           case 'RU':
-            return {title: "RU", code: "ru", icon: "/ru.svg"}
+            return {title: "RU", code: "ru", icon: "/ru.svg"};
           case 'EN':
-            return {title: "EN", code: "en", icon: "/us.svg"}
+            return {title: "EN", code: "en", icon: "/us.svg"};
         }
       }
       user.lang = langFull()
-      this.$router.push(`/user-management/${user.id}`)
+      this.$router.push(this.localePath(`/user-management/${user.id}`));
     },
     handleFileImport() {
       this.$refs.uploader.click();
@@ -701,13 +703,13 @@ export default {
     },
     resetSearch() {
       this.$refs.search_form.reset();
-      this.search.end_time = this.search.start_time = ''
-      this.getUsers({page: this.current_page, size: this.itemPerPage})
+      this.search.end_time = this.search.start_time = '';
+      this.getUsers({page: this.current_page, size: this.itemPerPage});
     },
     editItem(item) {
       this.edit_user = !this.edit_user;
-      this.user_status = item.status
-      this.user_update_data = {...item}
+      this.user_status = item.status;
+      this.user_update_data = {...item};
     },
     deleteItem(item) {
       this.deleteDialog = !this.deleteDialog;

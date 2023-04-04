@@ -12,7 +12,7 @@
             class="text-capitalize rounded-lg mr-4"
           >
             <v-img src="/trash.svg" class="mr-1"/>
-            Delete
+            {{ $t('userManagement.child.delete') }}
           </v-btn>
           <v-btn
             outlined
@@ -22,7 +22,7 @@
             :color="!fields_status ? 'green' : '#777C85'"
           >
             <v-img :src="fields_status ? '/edit.svg' : '/edit-active.svg'" class="mr-1"/>
-            Edit
+            {{ $t('userManagement.child.edit') }}
           </v-btn>
         </div>
       </v-card-title>
@@ -30,7 +30,7 @@
       <v-card-text>
         <v-row>
           <v-col>
-            <div class="mb-2 text-body-1">Photo</div>
+            <div class="mb-2 text-body-1">{{ $t('userManagement.child.photo') }}</div>
             <div class="overlay" @click="handleFileImport">
               <v-img :src="one_user.photo" class="rounded-lg mb-4" width="120"/>
               <v-icon
@@ -46,7 +46,7 @@
                 accept="image/*"
               />
             </div>
-            <div class="mb-1 text-body-1">Username</div>
+            <div class="mb-1 text-body-1">{{ $t('userManagement.child.username') }}</div>
             <v-text-field
               v-model="one_user.username"
               filled
@@ -55,7 +55,7 @@
               style="max-width: 400px"
               :disabled="fields_status"
             />
-            <div class="mb-2 text-body-1">Lang</div>
+            <div class="mb-2 text-body-1">{{ $t('userManagement.child.lang') }}</div>
             <v-select
               :items="lang_list"
               v-model="one_user.lang" append-icon="mdi-chevron-down"
@@ -84,7 +84,7 @@
               disabled
               style="max-width: 400px"
             />
-            <div class="mb-1 text-body-1">Lastname</div>
+            <div class="mb-1 text-body-1">{{ $t('userManagement.child.lastName') }}</div>
             <v-text-field
               filled
               v-model="one_user.lastName"
@@ -92,7 +92,7 @@
               :disabled="fields_status"
               style="max-width: 400px"
             />
-            <div class="mb-2 text-body-1">E-mail</div>
+            <div class="mb-2 text-body-1">{{ $t('userManagement.child.eMail') }}</div>
             <v-text-field
               filled
               v-model="one_user.email"
@@ -100,7 +100,7 @@
               :disabled="fields_status"
               style="max-width: 400px"
             />
-            <div class="mb-2 text-body-1">Registered date</div>
+            <div class="mb-2 text-body-1">{{ $t('userManagement.child.registeredDate') }}</div>
             <v-text-field
               filled
               v-model="one_user.registeredDate"
@@ -110,7 +110,7 @@
             />
           </v-col>
           <v-col>
-            <div class="mb-2 text-body-1">First name</div>
+            <div class="mb-2 text-body-1">{{ $t('userManagement.child.firstName') }}</div>
             <v-text-field
               filled
               v-model="one_user.firstName"
@@ -118,7 +118,7 @@
               :disabled="fields_status"
               style="max-width: 400px"
             />
-            <div class="mb-1 text-body-1">Phone number</div>
+            <div class="mb-1 text-body-1">{{ $t('userManagement.child.phoneNumber') }}</div>
             <v-text-field
               filled
               v-model="one_user.phoneNumber"
@@ -126,7 +126,7 @@
               :disabled="fields_status"
               style="max-width: 400px"
             />
-            <div class="mb-2 text-body-1">Status</div>
+            <div class="mb-2 text-body-1">{{ $t('userManagement.child.status') }}</div>
             <v-select
               filled
               v-model="one_user.status"
@@ -147,7 +147,7 @@
           class="text-capitalize font-weight-medium mx-3 mb-4"
           width="150"
           @click="saveChanges"
-        >save
+        >{{ $t('userManagement.child.save') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -162,21 +162,21 @@ export default {
     return {
       map_links: [
         {
-          text: 'Home',
+          text: this.$t('userManagement.child.home'),
           disabled: false,
-          to: '/',
+          to: this.localePath('/'),
           icon: true
         },
         {
-          text: 'User-management',
+          text: this.$t('userManagement.child.userManagement'),
           disabled: false,
-          to: '/user-management',
+          to: this.localePath('/user-management'),
           icon: true
         },
         {
-          text: 'Details',
+          text: this.$t('userManagement.child.details'),
           disabled: true,
-          to: '/user-management/7a42ec47-7351-4128-9db9-5236adbbfe6d',
+          to: this.localePath(`/user-management/${this.$route.params.id}`),
           icon: false
         },
       ],
