@@ -422,6 +422,7 @@ export default {
     },
     fabricData(val) {
       this.addFabric = JSON.parse(JSON.stringify(val))
+      console.log(this.addFabric);
     },
     async addFabric(val) {
       await this.getImages(val.modelId);
@@ -481,6 +482,7 @@ export default {
           modelId: this.addFabric.modelId,
           orderId: this.addFabric.orderId
         }
+        
         await this.savePlanning(body);
       }
     },

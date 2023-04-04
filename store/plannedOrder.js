@@ -69,7 +69,7 @@ export const actions = {
       }).catch(({response}) => console.log(response))
   },
   getPlannedOrderList({commit}, id) {
-    this.$axios.$get(`/api/v1/fabric-planning-chart/get-planned-order?accessoryPlanningId=${id}`)
+    this.$axios.$get(`/api/v1/fabric-planning-chart/get-planned-order?fabricPlanningId=${id}`)
       .then(res => {
         commit('setPlannedOrderList', res.data);
       }).catch(({response}) => console.log(response));

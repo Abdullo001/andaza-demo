@@ -71,6 +71,7 @@ export const actions = {
   async getChartAllData({commit}, id){
     await this.$axios.get(`/api/v1/accessory-planning-chart/list?accessoryPlanningId=${id}`)
       .then(res => {
+        console.log(res);
         commit("setAllChartAccessory", res.data.data);
       })
       .catch(({response}) => {

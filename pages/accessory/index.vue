@@ -77,7 +77,7 @@
         </v-form>
       </v-card-text>
     </v-card>
-    <v-data-table
+    <!-- <v-data-table
       class="mt-4 rounded-lg pt-4"
       :headers="headers"
       :items="accessoryList"
@@ -90,7 +90,16 @@
       @update:page="page"
       @update:items-per-page="size"
       :server-items-length="totalElements"
-    >
+    > -->
+    <v-data-table
+    class="mt-4 rounded-lg pt-4"
+    :headers="headers"
+    :items="accessoryList"
+    :items-per-page="10"
+    :footer-props="{
+      itemsPerPageOptions: [10, 20, 50, 100],
+    }"
+  >
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title
