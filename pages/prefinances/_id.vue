@@ -3,16 +3,16 @@
     <Breadcrumbs :maps="map_links"/>
     <v-card elevation="0" class="mt-2 rounded-lg">
       <v-card-title>
-        <div>{{ title }} prefinance</div>
+        <div>{{ title }} {{ $t('prefinances.child.prefinance') }}</div>
         <v-spacer/>
         <div>
           <v-btn outlined class="text-capitalize rounded-lg border-grey">
             <v-img src="/clear.svg" max-width="16" class="mr-2"/>
-            clear
+            {{ $t('prefinances.child.clear') }}
           </v-btn>
           <v-btn outlined class="text-capitalize rounded-lg ml-4">
             <v-img src="/edit.svg" max-width="16" class="mr-2"/>
-            edit
+            {{ $t('prefinances.child.edit') }}
           </v-btn>
         </div>
       </v-card-title>
@@ -25,8 +25,8 @@
               class="rounded-lg"
               color="#7631FF"
               dense
-              label="Prefinance number"
-              placeholder="Enter prefinance number"
+              :label="$t('prefinances.child.prefinanceNumber')"
+              :placeholder="$t('prefinances.child.enterPrefinanceNumber')"
               v-model="addPreFinances.preFinanceNumber"
               disabled
             />
@@ -43,8 +43,8 @@
               :return-object="true"
               color="#7631FF"
               dense
-              label="Model number"
-              placeholder="Enter model number"
+              :label="$t('prefinances.child.modelNumber')"
+              :placeholder="$t('prefinances.child.enterModelNumber')"
               append-icon="mdi-chevron-down"
             >
               <template #append>
@@ -58,8 +58,8 @@
               class="rounded-lg"
               color="#7631FF"
               dense
-              label="Model name"
-              placeholder="Model name"
+              :label="$t('prefinances.child.modelName')"
+              :placeholder="$t('prefinances.child.enterModelName')"
               v-model="addPreFinances.modelNames" disabled
             />
           </v-col>
@@ -70,8 +70,8 @@
               class="rounded-lg"
               color="#7631FF"
               dense disabled
-              label="Partner"
-              placeholder="Partner name or phone"
+              :label="$t('prefinances.child.partner')"
+              :placeholder="$t('prefinances.child.partnerNamePhone')"
               append-icon=""
             />
           </v-col>
@@ -83,7 +83,7 @@
               class="rounded-lg"
               color="#7631FF"
               dense
-              label="Primary Currency"
+              :label="$t('prefinances.child.primaryCurrency')"
               append-icon="mdi-chevron-down"
 
             />
@@ -95,7 +95,7 @@
               filled dense
               class="rounded-lg"
               color="#7631FF"
-              label="Secondary Currency"
+              :label="$t('prefinances.child.secondaryCurrency')"
               append-icon="mdi-chevron-down"
             />
           </v-col>
@@ -107,17 +107,17 @@
               class="rounded-lg"
               color="#7631FF"
               dense
-              label="Tertiary Currency"
+              :label="$t('prefinances.child.tertiaryCurrency')"
               append-icon="mdi-chevron-down"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
-            <div class="text-body-1 font-weight-medium">Permission</div>
+            <div class="text-body-1 font-weight-medium">{{ $t('prefinances.child.permission') }}</div>
             <v-chip
               color="#10BF41"
               class="text-capitalize px-4 mt-3 font-weight-bold"
               dark>
-              edit
+              {{ $t('prefinances.child.edit') }}
             </v-chip>
           </v-col>
           <v-col cols="12" lg="3" md="3">
@@ -127,7 +127,7 @@
               class="rounded-lg"
               color="#7631FF"
               dense
-              label="Primary Rare"
+              :label="$t('prefinances.child.primaryRare')"
               placeholder="0"
             />
           </v-col>
@@ -138,7 +138,7 @@
               class="rounded-lg"
               color="#7631FF"
               dense
-              label="Secondary Rate"
+              :label="$t('prefinances.child.secondaryRate')"
               placeholder="0"
             />
           </v-col>
@@ -149,7 +149,7 @@
               class="rounded-lg"
               color="#7631FF"
               dense
-              label="Tertiary Rate"
+              :label="$t('prefinances.child.tertiaryRate')"
               placeholder="0"
             />
           </v-col>
@@ -162,9 +162,9 @@
                 class="rounded-lg"
                 color="#7631FF"
                 dense
-                label="Description"
+                :label="$t('prefinances.child.description')"
                 rows="4"
-                placeholder="Enter description"
+                :placeholder="$t('prefinances.child.enterDescription')"
               />
             </v-col>
             <v-col cols="12" lg="6" md="6" class="d-flex flex-wrap">
@@ -175,8 +175,8 @@
                   class="rounded-lg"
                   color="#7631FF"
                   dense
-                  label="Owner"
-                  placeholder="Enter Owner"
+                  :label="$t('prefinances.child.owner')"
+                  :placeholder="$t('prefinances.child.enterOwner')"
                   disabled
                 />
               </v-col>
@@ -187,7 +187,7 @@
                   class="rounded-lg"
                   color="#7631FF"
                   dense
-                  label="Created time"
+                  :label="$t('prefinances.child.createdTime')"
                   placeholder="dd.MM.yyyy HH:mm:ss"
                   disabled
                 >
@@ -203,8 +203,8 @@
                   class="rounded-lg"
                   color="#7631FF"
                   dense
-                  label="Modified person"
-                  placeholder="Enter Modified person"
+                  :label="$t('prefinances.child.modifiedPerson')"
+                  :placeholder="$t('prefinances.child.enterModifiedPerson')"
                   disabled
                 />
               </v-col>
@@ -215,7 +215,7 @@
                   class="rounded-lg"
                   color="#7631FF"
                   dense
-                  label="Updated time"
+                  :label="$t('prefinances.child.updatedTime')"
                   placeholder="dd.MM.yyyy HH:mm:ss"
                   disabled
                 >
@@ -236,7 +236,7 @@
           style="min-width: 130px;"
           @click="createNewPreFinance"
         >
-          save
+          {{ $t('prefinances.child.save') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -263,6 +263,10 @@
               :headers="detailsHeaders"
               :items="detailsList"
               hide-default-footer
+              :no-data-text="$t('noDataText')"
+              :footer-props="{
+                itemsPerPageText: this.$t('allDataTableText')
+              }"
             >
               <template #top>
                 <v-divider/>
@@ -278,7 +282,7 @@
                       :disabled="!preFinanceId"
                     >
                       <v-icon class="mr-2">mdi-plus</v-icon>
-                      Details
+                      {{ $t('prefinances.child.details') }}
                     </v-btn>
                   </v-toolbar-title>
                 </v-toolbar>
@@ -296,13 +300,13 @@
                       <v-img src="/delete.svg" max-width="29"/>
                     </v-btn>
                   </template>
-                  <span>Delete</span>
+                  <span>{{ $t('prefinances.child.delete') }}</span>
                 </v-tooltip>
               </template>
               <template #footer>
                 <v-divider/>
                 <div class="d-flex justify-end mt-4 mr-2 text-body-1">
-                  Total price: {{ totalPrice }} USD
+                  {{ $t('prefinances.child.totalPrice') }}: {{ totalPrice }} USD
                 </div>
               </template>
 
@@ -314,11 +318,15 @@
               :headers="documentsHeaders"
               :items="allDocuments"
               hide-default-footer
+              :no-data-text="$t('noDataText')"
+              :footer-props="{
+                itemsPerPageText: this.$t('allDataTableText')
+              }"
             >
               <template #top>
                 <v-toolbar elevation="0">
                   <v-toolbar-title class="d-flex justify-space-between w-full">
-                    <div class="text-h6">Documents</div>
+                    <div class="text-h6">{{ $t('prefinances.child.documents') }}</div>
                   </v-toolbar-title>
                 </v-toolbar>
               </template>
@@ -336,7 +344,7 @@
                       <v-img src="/download.svg" max-width="24"/>
                     </v-btn>
                   </template>
-                  <span>Download</span>
+                  <span>{{ $t('prefinances.child.download') }}</span>
                 </v-tooltip>
               </template>
             </v-data-table>
@@ -349,7 +357,7 @@
     <v-row>
       <v-col cols="12" lg="5" class="mb-4">
         <v-card class="mt-4 rounded-lg" elevation="0" height="100%">
-          <v-card-title>Photos of models</v-card-title>
+          <v-card-title>{{ $t('prefinances.child.photosModels') }}</v-card-title>
           <v-divider/>
           <v-card-text class="mt-4">
             <v-row>
@@ -384,11 +392,11 @@
       <v-col cols="12" lg="7">
         <v-card class="mt-4 rounded-lg" elevation="0">
           <v-card-title>
-            Calculations
+            {{ $t('prefinances.child.calculations') }}
             <v-spacer/>
             <v-btn outlined class="text-capitalize rounded-lg">
               <v-img src="/clear.svg" max-width="16" class="mr-2"/>
-              clear
+              {{ $t('prefinances.child.clear') }}
             </v-btn>
           </v-card-title>
           <v-card-text>
@@ -396,7 +404,11 @@
               :headers="headers"
               :items="calculation"
               :items-per-page="50"
+              :no-data-text="$t('noDataText')"
               hide-default-footer
+              :footer-props="{
+                itemsPerPageText: this.$t('allDataTableText')
+              }"
             >
               <template #item.editable="{item}">
                 <v-text-field
@@ -434,7 +446,7 @@
               dark min-width="130"
               @click="saveCalculation"
             >
-              create
+              {{ $t('prefinances.child.create') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -443,7 +455,7 @@
     <v-dialog max-width="1000" v-model="new_details">
       <v-card>
         <v-card-title class="d-flex justify-space-between align-center w-full">
-          <div class="text-capitalize">New details</div>
+          <div class="text-capitalize">{{ $t('prefinances.child.newDetails') }}</div>
           <v-btn icon color="#7631FF" @click="new_details = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -453,7 +465,7 @@
             <v-row>
               <v-col cols="12" lg="4">
                 <v-combobox
-                  label="Expense group"
+                  :label="$t('prefinances.child.expenseGroup')"
                   filled dense
                   append-icon="mdi-chevron-down"
                   :items="expenseGroup"
@@ -467,7 +479,7 @@
               </v-col>
               <v-col cols="12" lg="4">
                 <v-select
-                  label="Expense"
+                  :label="$t('prefinances.child.expense')"
                   append-icon="mdi-chevron-down"
                   filled dense
                   :items="expenseList"
@@ -482,7 +494,7 @@
               </v-col>
               <v-col cols="12" lg="4">
                 <v-text-field
-                  label="Quantity"
+                  :label="$t('prefinances.child.quantity')"
                   filled dense
                   v-model="details.quantity"
                   validate-on-blur
@@ -492,7 +504,7 @@
               </v-col>
               <v-col cols="12" lg="4">
                 <v-select
-                  label="Measurement unit"
+                  :label="$t('prefinances.child.measurementunit')"
                   append-icon="mdi-chevron-down"
                   filled dense
                   :items="measurementUnitList"
@@ -506,7 +518,7 @@
               </v-col>
               <v-col cols="12" lg="4">
                 <v-text-field
-                  label="Price per unit"
+                  :label="$t('prefinances.child.pricePerUnit')"
                   filled dense
                   v-model="details.pricePerUnit"
                   validate-on-blur
@@ -524,14 +536,14 @@
             text
             class="text-capitalize font-weight-bold"
             @click="new_details = false"
-          >cancel
+          >{{ $t('prefinances.child.cancel') }}
           </v-btn>
           <v-btn
             color="#7631FF"
             text
             class="text-capitalize font-weight-bold"
             @click="createDetailsNew"
-          >save
+          >{{ $t('prefinances.child.save') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -572,21 +584,21 @@ export default {
       },
       map_links: [
         {
-          text: 'Home',
+          text: this.$t('prefinances.child.home'),
           disabled: false,
-          to: '/',
+          to: this.localePath('/'),
           icon: true
         },
         {
-          text: 'Prefinances',
+          text: this.$t('prefinances.child.prefinances'),
           disabled: false,
-          to: '/prefinances',
+          to: this.localePath('/prefinances'),
           icon: true
         },
         {
-          text: 'Details',
+          text: this.$t('prefinances.child.details'),
           disabled: true,
-          to: '/user-management/7a42ec47-7351-4128-9db9-5236adbbfe6d',
+          to: this.localePath(`/user-management/${this.$route.params.id}`),
           icon: false
         },
       ],
@@ -608,29 +620,34 @@ export default {
         updatedAt: '',
       },
       headers: [
-        {text: 'Name', value: 'name', align: 'start', sortable: false},
+        {text: this.$t('prefinances.child.name'), value: 'name', align: 'start', sortable: false},
         {text: '', value: 'editable', sortable: false, width: 110},
         {text: 'USD', value: 'firstCurrency', sortable: false, width: 110},
         {text: 'UZS', value: 'secondCurrency', sortable: false, width: 110},
         {text: 'RUB', value: 'tertiaryCurrency', sortable: false, width: 110},
       ],
       detailsHeaders: [
-        {text: 'Expense group', align: 'start', sortable: false, value: 'expenseGroup'},
-        {text: 'Expense', value: 'expense'},
-        {text: 'Expense type description', value: 'expenseGroupDescription'},
-        {text: 'Quantity', value: 'quantity'},
-        {text: 'Measurement unit', value: 'measurementUnit'},
-        {text: 'Currency', value: 'currency'},
-        {text: 'Price per unit', value: 'pricePerUnit'},
-        {text: 'Price', value: 'price'},
+        {
+          text: this.$t('prefinances.child.detailsHeaders.expenseGroup'),
+          align: 'start',
+          sortable: false,
+          value: 'expenseGroup'
+        },
+        {text: this.$t('prefinances.child.detailsHeaders.expense'), value: 'expense'},
+        {text: this.$t('prefinances.child.detailsHeaders.expenseDescription'), value: 'expenseGroupDescription'},
+        {text: this.$t('prefinances.child.detailsHeaders.quantity'), value: 'quantity'},
+        {text: this.$t('prefinances.child.detailsHeaders.measurementUnit'), value: 'measurementUnit'},
+        {text: this.$t('prefinances.child.detailsHeaders.currency'), value: 'currency'},
+        {text: this.$t('prefinances.child.detailsHeaders.priceUnit'), value: 'pricePerUnit'},
+        {text: this.$t('prefinances.child.detailsHeaders.price'), value: 'price'},
         {text: '', value: 'delete', sortable: false},
       ],
       documentsHeaders: [
-        {text: 'Type', align: 'start', sortable: false, value: 'extension'},
-        {text: 'Document name', value: 'title'},
-        {text: 'Owner', value: 'createdBy'},
-        {text: 'Date', value: 'createdAt'},
-        {text: 'Actions', value: 'actions'},
+        {text: this.$t('prefinances.child.documentsHeaders.type'), align: 'start', sortable: false, value: 'extension'},
+        {text: this.$t('prefinances.child.documentsHeaders.documentName'), value: 'title'},
+        {text: this.$t('prefinances.child.documentsHeaders.owner'), value: 'createdBy'},
+        {text: this.$t('prefinances.child.documentsHeaders.date'), value: 'createdAt'},
+        {text: this.$t('prefinances.child.documentsHeaders.actions'), value: 'actions'},
       ],
       calculation: [
         {
