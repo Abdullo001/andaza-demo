@@ -12,7 +12,7 @@
             class="text-capitalize rounded-lg mr-4"
           >
             <v-img src="/trash.svg" class="mr-1"/>
-            Delete
+            {{ $t('fraudDevices.child.delete') }}
           </v-btn>
           <v-btn
             outlined
@@ -23,7 +23,7 @@
             :color="!fields_status ? 'green' : null"
           >
             <v-img :src="fields_status ? '/edit.svg' : '/edit-active.svg'" class="mr-1"/>
-            Edit
+            {{ $t('fraudDevices.child.edit') }}
           </v-btn>
         </div>
       </v-card-title>
@@ -32,7 +32,7 @@
         <v-form lazy-validation ref="device_info" v-model="valid">
           <v-row>
             <v-col>
-              <div class="mb-1 text-body-1 mt-4">Device ID</div>
+              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudDevices.child.deviceId') }}</div>
               <v-text-field
                 v-model="device.deviceId"
                 filled
@@ -41,7 +41,7 @@
                 style="max-width: 400px"
                 :disabled="fields_status"
               />
-              <div class="mb-1 text-body-1 mt-4">Status</div>
+              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudDevices.child.status') }}</div>
               <v-select
                 v-model="device.status"
                 :items="status_enums"
@@ -52,7 +52,7 @@
                 :disabled="fields_status"
                 append-icon="mdi-chevron-down"
               />
-              <div class="mb-1 text-body-1 mt-4">Reason</div>
+              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudDevices.child.reason') }}</div>
               <v-text-field
                 v-model="device.reason"
                 filled
@@ -63,7 +63,7 @@
               />
             </v-col>
             <v-col>
-              <div class="mb-1 text-body-1 mt-4">Device №</div>
+              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudDevices.child.deviceN') }}</div>
               <v-text-field
                 v-model="device.deviceNumber"
                 filled
@@ -72,7 +72,7 @@
                 style="max-width: 400px"
                 :disabled="fields_status"
               />
-              <div class="mb-1 text-body-1 mt-4">Blocked date time</div>
+              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudDevices.child.blockedTime') }}</div>
               <v-text-field
                 v-model="device.blockedDate"
                 filled
@@ -81,7 +81,7 @@
                 style="max-width: 400px"
                 :disabled="fields_status"
               />
-              <div class="mb-1 text-body-1 mt-4">Device type</div>
+              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudDevices.child.deviceType') }}</div>
               <v-text-field
                 v-model="device.deviceType"
                 filled
@@ -92,7 +92,7 @@
               />
             </v-col>
             <v-col>
-              <div class="mb-1 text-body-1 mt-4">Blocked by</div>
+              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudDevices.child.blockedBy') }}</div>
               <v-text-field
                 v-model="device.blockedBy"
                 filled
@@ -101,7 +101,7 @@
                 style="max-width: 400px"
                 :disabled="fields_status"
               />
-              <div class="mb-1 text-body-1 mt-4">Unblocked date time</div>
+              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudDevices.child.unblockedTime') }}</div>
               <v-text-field
                 v-model="device.unblockedDate"
                 filled
@@ -122,7 +122,7 @@
           class="text-capitalize font-weight-medium mx-3 mb-4"
           width="150"
           @click="saveChanges"
-        >save
+        >{{ $t('fraudDevices.child.save') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -137,21 +137,21 @@ export default {
     return {
       map_links: [
         {
-          text: 'Home',
+          text: this.$t('fraudDevices.child.home'),
           disabled: false,
-          to: '/',
+          to: this.localePath('/'),
           icon: true
         },
         {
-          text: 'Devices',
+          text: this.$t('fraudDevices.child.devices'),
           disabled: false,
-          to: '/fraud-devices',
+          to: this.localePath('/fraud-devices'),
           icon: true
         },
         {
-          text: 'Details',
+          text: this.$t('fraudDevices.child.details'),
           disabled: true,
-          to: '/fraud-device/2',
+          to: this.localePath('/fraud-device/2'),
           icon: false
         },
       ],

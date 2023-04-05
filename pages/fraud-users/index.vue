@@ -7,7 +7,7 @@
             <v-col cols="12" lg="2" md="2">
               <v-text-field
                 v-model="filter.accountId"
-                label="Account ID"
+                :label="$t('fraudUsers.dialog.accountId')"
                 outlined validate-on-blur
                 dense hide-details
                 class="rounded-lg"
@@ -16,7 +16,7 @@
             <v-col cols="12" lg="2" md="2">
               <v-text-field
                 v-model="filter.blockedBy"
-                label="Blocked by"
+                :label="$t('fraudUsers.dialog.blockedBy')"
                 outlined validate-on-blur
                 dense hide-details
                 class="rounded-lg"
@@ -25,7 +25,7 @@
             <v-col cols="12" lg="2" md="2">
               <v-select
                 v-model="filter.status"
-                label="Status"
+                :label="$t('fraudUsers.dialog.status')"
                 :items="status_enums"
                 outlined dense hide-details
                 validate-on-blur
@@ -37,7 +37,7 @@
               <el-date-picker
                 v-model="filter.end_time"
                 type="datetime"
-                placeholder="Blocked date time"
+                :placeholder="$t('fraudUsers.dialog.blockedTime')"
                 :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy HH:mm:ss"
               >
@@ -52,7 +52,7 @@
                   class="text-capitalize mr-4 rounded-lg font-weight-bold"
                   @click.stop="resetSearch"
                 >
-                  Reset
+                  {{ $t('fraudUsers.dialog.reset') }}
                 </v-btn>
                 <v-btn
                   width="140" color="#397CFD" dark
@@ -60,7 +60,7 @@
                   class="text-capitalize rounded-lg font-weight-bold"
                   @click="filterDevices"
                 >
-                  Search
+                  {{ $t('fraudUsers.dialog.search') }}
                 </v-btn>
               </div>
             </v-col>
@@ -78,7 +78,7 @@
     >
       <template #top>
         <v-toolbar elevation="0">
-          <v-toolbar-title>Account</v-toolbar-title>
+          <v-toolbar-title> {{ $t('fraudUsers.dialog.account') }}</v-toolbar-title>
         </v-toolbar>
       </template>
       <template #item.status="{ item }">
@@ -114,12 +114,12 @@ export default {
         status: ''
       },
       headers: [
-        {text: 'Account ID', align: 'start', sortable: false, value: 'blockedAccountId'},
-        {text: 'Blocked by', value: 'blockedBy'},
-        {text: 'Period', value: 'period'},
-        {text: 'Blocked date', value: 'blockedDateTime'},
-        {text: 'Unblocked date', value: 'unblockDateTime'},
-        {text: 'Status', value: 'status', width: 200},
+        {text: this.$t('fraudUsers.table.accountId'), align: 'start', sortable: false, value: 'blockedAccountId'},
+        {text: this.$t('fraudUsers.table.blockedBy'), value: 'blockedBy'},
+        {text: this.$t('fraudUsers.table.period'), value: 'period'},
+        {text: this.$t('fraudUsers.table.blockedDate'), value: 'blockedDateTime'},
+        {text: this.$t('fraudUsers.table.unblockedDate'), value: 'unblockDateTime'},
+        {text: this.$t('fraudUsers.table.status'), value: 'status', width: 200},
       ],
     }
   },
@@ -143,7 +143,7 @@ export default {
     }),
     changeStatus() {},
     viewDetails(item) {
-      this.$router.push(`/fraud-users/${item.blockedAccountId}`)
+      this.$router.push(this.localePath(`/fraud-users/${item.blockedAccountId}`));
     },
     deviceStatusColor(color) {
       switch (color) {
@@ -160,11 +160,11 @@ export default {
         deviceId: this.filter.deviceId,
         deviceNumber: this.filter.deviceNumber,
         status: this.filter.status
-      })
+      });
     }
   },
   mounted() {
-    this.$store.commit('setPageTitle', 'Fraud management')
+    this.$store.commit('setPageTitle', this.$t('fraudUsers.dialog.fraudManagement'));
   }
 }
 </script>

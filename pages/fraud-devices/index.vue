@@ -7,7 +7,7 @@
             <v-col cols="12" lg="2" md="2">
               <v-text-field
                 v-model="filter.deviceId"
-                label="Device ID"
+                :label="$t('fraudDevices.dialog.deviceId')"
                 outlined validate-on-blur
                 dense hide-details
                 class="rounded-lg"
@@ -16,7 +16,7 @@
             <v-col cols="12" lg="2" md="2">
               <v-text-field
                 v-model="filter.deviceNumber"
-                label="Device №"
+                :label="$t('fraudDevices.dialog.deviceN')"
                 outlined validate-on-blur
                 dense hide-details
                 class="rounded-lg"
@@ -25,7 +25,7 @@
             <v-col cols="12" lg="2" md="2">
               <v-select
                 v-model="filter.status"
-                label="Status"
+                :label="$t('fraudDevices.dialog.status')"
                 :items="status_enums"
                 outlined dense hide-details
                 validate-on-blur
@@ -37,7 +37,7 @@
               <el-date-picker
                 v-model="filter.end_time"
                 type="datetime"
-                placeholder="Blocked date time"
+                :placeholder="$t('fraudDevices.dialog.blockedDateTime')"
                 :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy HH:mm:ss"
               >
@@ -52,7 +52,7 @@
                   class="text-capitalize mr-4 rounded-lg font-weight-bold"
                   @click.stop="resetSearch"
                 >
-                  Reset
+                  {{ $t('fraudDevices.dialog.reset') }}
                 </v-btn>
                 <v-btn
                   width="140" color="#397CFD" dark
@@ -60,7 +60,7 @@
                   class="text-capitalize rounded-lg font-weight-bold"
                   @click="filterDevices"
                 >
-                  Search
+                  {{ $t('fraudDevices.dialog.search') }}
                 </v-btn>
               </div>
             </v-col>
@@ -78,7 +78,7 @@
     >
       <template #top>
         <v-toolbar elevation="0">
-          <v-toolbar-title>Devices</v-toolbar-title>
+          <v-toolbar-title>  {{ $t('fraudDevices.dialog.devices') }}</v-toolbar-title>
         </v-toolbar>
       </template>
       <template #item.status="{ item }">
@@ -114,13 +114,13 @@ export default {
         status: ''
       },
       headers: [
-        {text: 'Device ID', align: 'start', sortable: false, value: 'deviceId'},
-        {text: 'Device №', value: 'blockedDeviceId'},
-        {text: 'Blocked by', value: 'blockedBy'},
-        {text: 'Device type', value: 'deviceType'},
-        {text: 'Blocked date', value: 'blockedDateTime'},
-        {text: 'Unblocked date', value: 'unblockDateTime'},
-        {text: 'Status', value: 'status', width: 200},
+        {text: this.$t('fraudDevices.table.deviceId'), align: 'start', sortable: false, value: 'deviceId'},
+        {text: this.$t('fraudDevices.table.deviceN'), value: 'blockedDeviceId'},
+        {text: this.$t('fraudDevices.table.blockedBy'), value: 'blockedBy'},
+        {text: this.$t('fraudDevices.table.deviceType'), value: 'deviceType'},
+        {text: this.$t('fraudDevices.table.blockedDate'), value: 'blockedDateTime'},
+        {text: this.$t('fraudDevices.table.unblockedDate'), value: 'unblockDateTime'},
+        {text: this.$t('fraudDevices.table.status'), value: 'status', width: 200},
       ],
       all_devices: []
     }
@@ -170,7 +170,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.commit('setPageTitle', 'Fraud management')
+    this.$store.commit('setPageTitle', this.$t('fraudDevices.dialog.fraudManagement'))
   }
 }
 </script>
