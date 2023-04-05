@@ -3,7 +3,7 @@
     <Breadcrumbs :maps="map_links"/>
     <v-card elevation="0">
       <v-card-title>
-        <div>{{ modelStatus }} Models</div>
+        <div>{{ modelStatus }} {{ $t('listsModels.child.models') }}</div>
         <v-spacer/>
         <div>
           <v-btn
@@ -12,7 +12,7 @@
             color="#7631FF"
             class="text-capitalize rounded-lg mr-4 font-weight-bold"
           >
-            Prefinance
+            {{ $t('listsModels.child.prefinance') }}
           </v-btn>
           <v-btn
             outlined
@@ -21,7 +21,7 @@
             class="text-capitalize rounded-lg mr-4"
           >
             <v-img src="/trash.svg" class="mr-1"/>
-            Delete
+            {{ $t('listsModels.child.delete') }}
           </v-btn>
           <v-btn
             outlined
@@ -30,7 +30,7 @@
             color="#777C85"
           >
             <v-img :src="fields_status ? '/edit.svg' : '/edit-active.svg'" class="mr-1"/>
-            Edit
+            {{ $t('listsModels.child.edit') }}
           </v-btn>
         </div>
       </v-card-title>
@@ -40,11 +40,11 @@
           <v-col>
             <v-text-field
               v-model="model.number"
-              label="Model number"
+              :label="$t('listsModels.child.modelNumber')"
               filled
               dense
               style="max-width: 400px"
-              placeholder="Enter model number"
+              :placeholder="$t('listsModels.child.enterModelNumber')"
               class="mb-4"
               color="#7631FF"
             />
@@ -53,12 +53,12 @@
               :items="partner_enums"
               item-value="id"
               item-text="name"
-              label="Partner"
+              :label="$t('listsModels.child.partner')"
               filled
               dense
               append-icon="mdi-chevron-down"
               style="max-width: 400px"
-              placeholder="Select season"
+              :placeholder="$t('listsModels.child.selectSeason')"
               class="mb-4"
               color="#7631FF"
             />
@@ -66,17 +66,17 @@
           <v-col>
             <v-text-field
               v-model="model.name"
-              label="Model name"
+              :label="$t('listsModels.child.modelName')"
               filled
               dense
               style="max-width: 400px"
-              placeholder="Model name"
+              :placeholder="$t('listsModels.child.modelName')"
               class="mb-4"
               color="#7631FF"
             />
             <v-select
               v-model="model.season"
-              label="Season"
+              :label="$t('listsModels.child.season')"
               filled
               dense
               :items="season_enums"
@@ -84,7 +84,7 @@
               item-text="text"
               append-icon="mdi-chevron-down"
               style="max-width: 400px"
-              placeholder="Select season"
+              :placeholder="$t('listsModels.child.selectSeason')"
               class="mb-4"
               color="#7631FF"
             />
@@ -92,27 +92,27 @@
           <v-col>
             <v-select
               v-model="model.group"
-              label="Model group"
+              :label="$t('listsModels.child.modelGroup')"
               filled dense
               :items="modelGroups"
               item-value="id"
               item-text="name"
               append-icon="mdi-chevron-down"
               style="max-width: 400px"
-              placeholder="Select model group"
+              :placeholder="$t('listsModels.child.selectModelGroup')"
               class="mb-4"
               color="#7631FF"
             />
             <v-select
               v-model="model.licence"
-              label="License"
+              :label="$t('listsModels.child.license')"
               filled dense
               :items="licence_enums"
               item-text="text"
               item-value="key"
               append-icon="mdi-chevron-down"
               style="max-width: 400px"
-              placeholder="Select model group"
+              :placeholder="$t('listsModels.child.selectModelGroup')"
               class="mb-4"
               color="#7631FF"
             />
@@ -120,21 +120,21 @@
           <v-col>
             <v-text-field
               v-model="model.composition"
-              label="Composition"
+              :label="$t('listsModels.child.composition')"
               filled dense
               style="max-width: 400px"
-              placeholder="Enter model composition"
+              :placeholder="$t('listsModels.child.entermodelComposition')"
               class="mb-4"
               color="#7631FF"
             />
             <v-select
               v-model="model.gender"
-              label="Gender"
+              :label="$t('listsModels.child.gender')"
               filled dense
               :items="gander_enums"
               append-icon="mdi-chevron-down"
               style="max-width: 400px"
-              placeholder="Select gender"
+              :placeholder="$t('listsModels.child.selectGender')"
               class="mb-4"
               color="#7631FF"
             />
@@ -142,7 +142,7 @@
         </v-row>
         <v-row>
           <v-col cols="12" lg="4">
-            <div class="mb-2 black--text text-body-1">Permission</div>
+            <div class="mb-2 black--text text-body-1">{{ $t('listsModels.child.permission') }}</div>
             <v-chip color="#10BF41" dark class="font-weight-bold">Edit</v-chip>
           </v-col>
         </v-row>
@@ -150,9 +150,9 @@
           <v-col cols="12" lg="6">
             <v-textarea
               v-model="model.description"
-              label="Description"
+              :label="$t('listsModels.child.description')"
               filled dense
-              placeholder="Enter description"
+              :placeholder="$t('listsModels.child.enterDescription')"
               class="mb-4"
               color="#7631FF"
             />
@@ -160,19 +160,19 @@
           <v-col cols="12" lg="3">
             <v-text-field
               v-model="model.creator"
-              label="Creator"
+              :label="$t('listsModels.child.creator')"
               filled dense
               style="max-width: 400px"
-              placeholder="Enter Creator"
+              :placeholder="$t('listsModels.child.enterCreator')"
               class="mb-4"
               disabled
             />
             <v-text-field
               v-model="model.modifiedPerson"
-              label="Modified person"
+              :label="$t('listsModels.child.modifiedPerson')"
               filled dense
               style="max-width: 400px"
-              placeholder="Enter Modified person"
+              :placeholder="$t('listsModels.child.enterModifiedPerson')"
               class="mb-4" disabled
             />
           </v-col>
@@ -183,7 +183,7 @@
               class="rounded-lg mb-4"
               color="#7631FF"
               dense
-              label="Created time"
+              :label="$t('listsModels.child.createdTime')"
               placeholder="dd.MM.yyyy HH:mm:ss"
               disabled
             >
@@ -197,7 +197,7 @@
               class="rounded-lg mb-4"
               color="#7631FF"
               dense
-              label="Updated time"
+              :label="$t('listsModels.child.updatedTime')"
               placeholder="dd.MM.yyyy HH:mm:ss"
               disabled
             >
@@ -218,7 +218,7 @@
           height="44"
           dark
           @click="createNewModel"
-        >save
+        >{{ $t('listsModels.child.save') }}
         </v-btn>
         <v-btn
           v-else
@@ -228,7 +228,7 @@
           height="44"
           dark
           @click="updateModels"
-        >save
+        >{{ $t('listsModels.child.save') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -308,27 +308,36 @@ export default {
   name: 'addOrEditModelsPage',
   data() {
     return {
-      items: ['Model parts', 'Size chart', 'Printing', 'Documents', 'Samples', 'Model photo', 'Instruction', 'Orders this model'],
+      items: [
+        this.$t('listsModels.child.modelParts'),
+        this.$t('listsModels.child.sizeChart'),
+        this.$t('listsModels.child.printing'),
+        this.$t('listsModels.child.documents'),
+        this.$t('listsModels.child.samples'),
+        this.$t('listsModels.child.modelPhoto'),
+        this.$t('listsModels.child.instruction'),
+        this.$t('listsModels.child.ordersThisModel')
+      ],
       tab: null,
       modelStatus: 'Add',
       fields_status: true,
       map_links: [
         {
-          text: 'Home',
+          text: this.$t('listsModels.child.home'),
           disabled: false,
-          to: '/',
+          to: this.localePath('/'),
           icon: true
         },
         {
-          text: 'Models',
+          text: this.$t('listsModels.child.models'),
           disabled: false,
-          to: '/models',
+          to: this.localePath('/models'),
           icon: true
         },
         {
-          text: 'add models',
+          text: this.$t('listsModels.child.addModels'),
           disabled: true,
-          to: '/models/7',
+          to: this.localePath('/models/7'),
           icon: false
         },
       ],

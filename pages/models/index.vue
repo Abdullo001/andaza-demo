@@ -7,7 +7,7 @@
             <v-col cols="12" lg="2" md="2">
               <v-text-field
                 v-model.trim="filters.modelNumber"
-                label="Model №"
+                :label="$t('listsModels.dialog.modelN')"
                 outlined validate-on-blur
                 dense hide-details
                 class="rounded-lg"
@@ -17,7 +17,7 @@
             <v-col cols="12" lg="2" md="2">
               <v-text-field
                 v-model.trim="filters.partner"
-                label="Partner"
+                :label="$t('listsModels.dialog.partner')"
                 outlined validate-on-blur
                 dense hide-details
                 class="rounded-lg"
@@ -27,7 +27,7 @@
             <v-col cols="12" lg="2" md="2">
               <v-select
                 v-model="filters.status"
-                label="Status"
+                :label="$t('listsModels.dialog.status')"
                 :items="status_enums"
                 outlined dense hide-details
                 validate-on-blur
@@ -54,7 +54,7 @@
                   class="text-capitalize mr-4 border-primary rounded-lg font-weight-bold"
                   @click.stop="resetFilter"
                 >
-                  Reset
+                  {{ $t('listsModels.dialog.reset') }}
                 </v-btn>
                 <v-btn
                   width="140" color="#397CFD" dark
@@ -62,7 +62,7 @@
                   class="text-capitalize rounded-lg font-weight-bold"
                   @click="filterModel"
                 >
-                  Search
+                  {{ $t('listsModels.dialog.search') }}
                 </v-btn>
               </div>
             </v-col>
@@ -82,14 +82,14 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex w-full align-center justify-space-between">
-            <div>Models</div>
+            <div>{{ $t('listsModels.dialog.models') }}</div>
             <v-btn
               color="#7631FF"
               dark class="text-capitalize rounded-lg"
               @click="addModel"
             >
               <v-icon>mdi-plus</v-icon>
-              add model
+              {{ $t('listsModels.dialog.addModel') }}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -137,15 +137,15 @@ export default {
       },
       status_enums: ['ACTIVE', 'DISABLED', 'PENDING'],
       headers: [
-        {text: 'Model №', align: 'start', sortable: false, value: 'modelNumber'},
-        {text: 'Model name', value: 'name'},
-        {text: 'Composition', value: 'composition'},
-        {text: 'Model group', value: 'modelGroup'},
-        {text: 'License', value: 'licenceRequired'},
-        {text: 'Order o/d', value: 'order'},
-        {text: 'Deadline', value: 'deadline'},
-        {text: 'Status', value: 'status', width: 200},
-        {text: 'Actions', value: 'actions'},
+        {text: this.$t('listsModels.table.modelN'), align: 'start', sortable: false, value: 'modelNumber'},
+        {text: this.$t('listsModels.table.modelName'), value: 'name'},
+        {text: this.$t('listsModels.table.composition'), value: 'composition'},
+        {text: this.$t('listsModels.table.modelGroup'), value: 'modelGroup'},
+        {text: this.$t('listsModels.table.license'), value: 'licenceRequired'},
+        {text: this.$t('listsModels.table.order'), value: 'order'},
+        {text: this.$t('listsModels.table.deadline'), value: 'deadline'},
+        {text: this.$t('listsModels.table.status'), value: 'status', width: 200},
+        {text: this.$t('listsModels.table.actions'), value: 'actions'},
       ],
       allModels: []
     }
@@ -184,14 +184,14 @@ export default {
       })
     },
     viewDetails(item) {
-      this.$router.push(`/models/${item.id}`)
+      this.$router.push(this.localePath(`/models/${item.id}`))
     },
     addModel() {
-      this.$router.push(`/models/add-model`)
+      this.$router.push(this.localePath(`/models/add-model`))
     }
   },
   async mounted() {
-    this.$store.commit('setPageTitle', 'Lists');
+    this.$store.commit('setPageTitle', this.$t('listsModels.dialog.lists'));
     await this.getModelsList({page: 0, size: 50, modelNumber: '', partner: '', status: ''})
   }
 }

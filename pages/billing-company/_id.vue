@@ -138,21 +138,21 @@ export default {
     return {
       map_links: [
         {
-          text: 'Home',
+          text: this.$t('billingCompany.child.home'),
           disabled: false,
-          to: '/',
+          to: this.localePath('/'),
           icon: true
         },
         {
-          text: 'Billing company',
+          text: this.$t('billingCompany.child.billingCompany'),
           disabled: false,
-          to: '/billing-company',
+          to: this.localePath('/billing-company'),
           icon: true
         },
         {
-          text: 'Details',
+          text: this.$t('billingCompany.child.details'),
           disabled: true,
-          to: '/billing-company/7a42ec47-7351-4128-9db9-5236adbbfe6d',
+          to: this.localePath('/billing-company/7a42ec47-7351-4128-9db9-5236adbbfe6d'),
           icon: false
         },
       ],
@@ -170,13 +170,13 @@ export default {
       },
       headers: [
         {text: 'ID', align: 'start', sortable: false, value: 'id'},
-        {text: 'Contract number', value: 'contractNumber'},
-        {text: 'Contract date', value: 'contractDate'},
-        {text: 'Expire date', value: 'expireDate'},
-        {text: 'Users', value: 'users'},
-        {text: 'Price per quote', value: 'pricePerQuote'},
-        {text: 'Measurement unit', value: 'measurementUnit'},
-        {text: 'Discount(%)', value: 'discount'},
+        {text: this.$t('billingCompany.child.contractNumber'), value: 'contractNumber'},
+        {text: this.$t('billingCompany.child.contractDate'), value: 'contractDate'},
+        {text: this.$t('billingCompany.child.expireDate'), value: 'expireDate'},
+        {text: this.$t('billingCompany.child.users'), value: 'users'},
+        {text: this.$t('billingCompany.child.pricePerQuote'), value: 'pricePerQuote'},
+        {text: this.$t('billingCompany.child.measurementUnit'), value: 'measurementUnit'},
+        {text: this.$t('billingCompany.child.discount'), value: 'discount'},
         // {text: 'Actions', value: 'actions'},
       ],
       billing: [

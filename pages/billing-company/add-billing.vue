@@ -8,7 +8,7 @@
           step="1"
           :color="e1 > 1 ? 'green' : '#7631FF' "
         >
-          Billing info
+          {{ $t('billingCompany.addBilling.billingInfo') }}
         </v-stepper-step>
         <v-divider/>
 
@@ -17,7 +17,7 @@
           step="2"
           :color="e1 > 2 ? 'green' : '#7631FF' "
         >
-          Generate licence
+          {{ $t('billingCompany.addBilling.generateLicence') }}
         </v-stepper-step>
         <v-divider/>
 
@@ -26,7 +26,7 @@
           :complete="e1 > 3"
           :color="e1 > 3 ? 'green' : '#7631FF' "
         >
-          Preview invoicen
+          {{ $t('billingCompany.addBilling.previewInvoicen') }}
         </v-stepper-step>
         <v-divider/>
 
@@ -35,7 +35,7 @@
           :complete="e1 > 4"
           :color="e1 > 4 ? 'green' : '#7631FF' "
         >
-          Print invoice
+          {{ $t('billingCompany.addBilling.printInvoice') }}
         </v-stepper-step>
       </v-stepper-header>
 
@@ -55,7 +55,7 @@
               class="border-indigo mr-4 rounded-lg font-weight-bold"
               min-width="160"
             >
-              Cancel
+              {{ $t('billingCompany.addBilling.cancel') }}
             </v-btn>
 
             <v-btn
@@ -65,7 +65,7 @@
               class="text-capitalize rounded-lg"
               min-width="160"
             >
-              Next
+              {{ $t('billingCompany.addBilling.next') }}
             </v-btn>
           </div>
         </v-stepper-content>
@@ -87,7 +87,7 @@
               min-width="160"
               @click="e1 = 1"
             >
-              Cancel
+              {{ $t('billingCompany.addBilling.cancel') }}
             </v-btn>
 
             <v-btn
@@ -97,7 +97,7 @@
               class="text-capitalize rounded-lg"
               min-width="160"
             >
-              Next
+              {{ $t('billingCompany.addBilling.next') }}
             </v-btn>
           </div>
         </v-stepper-content>
@@ -119,7 +119,7 @@
               min-width="160"
               @click="e1 = 2"
             >
-              Cancel
+              {{ $t('billingCompany.addBilling.cancel') }}
             </v-btn>
 
             <v-btn
@@ -129,7 +129,7 @@
               class="text-capitalize rounded-lg"
               min-width="160"
             >
-              Next
+              {{ $t('billingCompany.addBilling.next') }}
             </v-btn>
           </div>
 
@@ -151,7 +151,7 @@
               min-width="160"
               @click="e1 = 3"
             >
-              Cancel
+              {{ $t('billingCompany.addBilling.cancel') }}
             </v-btn>
 
             <v-btn
@@ -161,7 +161,7 @@
               class="text-capitalize rounded-lg"
               min-width="160"
             >
-              Next
+              {{ $t('billingCompany.addBilling.next') }}
             </v-btn>
           </div>
         </v-stepper-content>
@@ -177,21 +177,21 @@ export default {
     return {
       map_links: [
         {
-          text: 'Home',
+          text: this.$t('billingCompany.addBilling.home'),
           disabled: false,
-          to: '/',
+          to: this.localePath('/'),
           icon: true
         },
         {
-          text: 'Billing company',
+          text: this.$t('billingCompany.addBilling.billingCompany'),
           disabled: false,
-          to: '/billing-company',
+          to: this.localePath('/billing-company'),
           icon: true
         },
         {
-          text: 'Add billing',
+          text: this.$t('billingCompany.addBilling.addBilling'),
           disabled: true,
-          to: '/billing-company/7a42ec47-7351-4128-9db9-5236adbbfe6d',
+          to: this.localePath('/billing-company/7a42ec47-7351-4128-9db9-5236adbbfe6d'),
           icon: false
         },
       ],

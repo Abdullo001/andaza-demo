@@ -9,7 +9,7 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Role ID"
+              :label="$t('permissionRole.dialog.roleId')"
               outlined
               class="rounded-lg"
               v-model="filters.financeNumber"
@@ -19,7 +19,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Role name"
+              :label="$t('permissionRole.dialog.roleName')"
               outlined
               class="rounded-lg"
               v-model="filters.modelId"
@@ -29,7 +29,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-select
-              label="Status"
+              :label="$t('permissionRole.dialog.status')"
               outlined
               :items="statusEnums"
               class="rounded-lg"
@@ -53,7 +53,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="filters.createAt"
-                  label="Created at"
+                  :label="$t('permissionRole.dialog.createdAt')"
                   readonly
                   v-bind="attrs"
                   v-on="on"
@@ -84,14 +84,14 @@
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
-                Reset
+                {{ $t('permissionRole.dialog.reset') }}
               </v-btn>
               <v-btn
                 width="140" color="#397CFD" dark
                 elevation="0"
                 class="text-capitalize rounded-lg"
               >
-                Search
+                {{ $t('permissionRole.dialog.search') }}
               </v-btn>
             </div>
           </v-col>
@@ -102,8 +102,10 @@
       :headers="headers"
       :items="role"
       :items-per-page="10"
+      :no-data-text="$t('noDataText')"
       :footer-props="{
-        itemsPerPageOptions: [10, 20, 50]
+        itemsPerPageOptions: [10, 20, 50],
+        temsPerPageText: this.$t('allDataTableText')
       }"
       :loading="loading"
       class="mt-4 rounded-lg"
@@ -115,10 +117,10 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium">Role</div>
+            <div class="font-weight-medium">{{  $t('permissionRole.dialog.role') }}</div>
             <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="new_dialog = !new_dialog">
               <v-icon>mdi-plus</v-icon>
-              Role
+              {{ $t('permissionRole.dialog.role') }}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -127,10 +129,10 @@
 
       <template #item.actions="{item}">
         <v-btn icon color="green" @click.stop="editItem(item)">
-          <v-img src="edit-active.svg" max-width="22"/>
+          <v-img src="/edit-active.svg" max-width="22"/>
         </v-btn>
         <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-          <v-img src="delete.svg" max-width="27"/>
+          <v-img src="/delete.svg" max-width="27"/>
         </v-btn>
       </template>
       <template #item.status="{item}">
@@ -153,7 +155,7 @@
     <v-dialog v-model="new_dialog" max-width="600" ref="new_form">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
-          <div>Create Role</div>
+          <div>{{ $t('permissionRole.dialog.createRole') }}</div>
           <v-btn @click="new_dialog = !new_dialog" icon>
             <v-icon color="#7631FF">mdi-close</v-icon>
           </v-btn>
@@ -163,7 +165,7 @@
             <v-row class="mt-4">
               <v-col cols="12">
                 <v-text-field
-                  label="Role name"
+                  :label="$t('permissionRole.dialog.roleName')"
                   filled
                   dense
                   v-model="new_role.name"
@@ -174,7 +176,7 @@
               </v-col>
               <v-col cols="12">
                 <v-textarea
-                  label="Description"
+                  :label="$t('permissionRole.dialog.description')"
                   filled
                   v-model="new_role.description"
                   dense
@@ -194,7 +196,7 @@
             color="#7631FF"
             width="163"
             @click="new_dialog = !new_dialog"
-          >cancel
+          >{{ $t('permissionRole.dialog.cancel') }}
           </v-btn>
           <v-btn
             class="text-capitalize rounded-lg font-weight-bold"
@@ -203,7 +205,7 @@
             width="163"
             @click="save"
           >
-            create
+            {{ $t('permissionRole.dialog.create') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -211,7 +213,7 @@
     <v-dialog v-model="edit_dialog" max-width="600">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
-          <div>Edit Role</div>
+          <div>{{ $t('permissionRole.dialog.editRole') }}</div>
           <v-btn @click="edit_dialog = !edit_dialog" icon>
             <v-icon color="#7631FF">mdi-close</v-icon>
           </v-btn>
@@ -221,7 +223,7 @@
             <v-row class="mt-4">
               <v-col cols="12">
                 <v-select
-                  label="Status"
+                  :label="$t('permissionRole.dialog.status')"
                   filled
                   dense
                   append-icon="mdi-chevron-down"
@@ -234,7 +236,7 @@
               </v-col>
               <v-col cols="12">
                 <v-text-field
-                  label="Role name"
+                  :label="$t('permissionRole.dialog.roleName')"
                   filled
                   dense
                   v-model="edit_role.name"
@@ -245,7 +247,7 @@
               </v-col>
               <v-col cols="12">
                 <v-textarea
-                  label="Description"
+                  :label="$t('permissionRole.dialog.description')"
                   filled
                   dense
                   v-model="edit_role.description"
@@ -264,7 +266,7 @@
             color="#7631FF"
             width="163"
             @click="edit_dialog = !edit_dialog"
-          >cancel
+          >{{ $t('permissionRole.dialog.cancel') }}
           </v-btn>
           <v-btn
             class="text-capitalize rounded-lg font-weight-bold"
@@ -273,7 +275,7 @@
             width="163"
             @click="putRoleData"
           >
-            create
+            {{ $t('permissionRole.dialog.create') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -283,9 +285,9 @@
         <div class="d-flex justify-center mb-2">
           <v-img src="/error-icon.svg" max-width="40"/>
         </div>
-        <v-card-title class="d-flex justify-center">Delete Permission</v-card-title>
+        <v-card-title class="d-flex justify-center">{{ $t('permissionRole.dialog.deleteDialog') }}</v-card-title>
         <v-card-text>
-          Are you sure you want to Delete this permission?
+          {{ $t('permissionRole.dialog.deleteText') }}
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -295,7 +297,7 @@
             width="140"
             @click.stop="delete_dialog = false"
           >
-            cancel
+            {{ $t('permissionRole.dialog.cancel') }}
           </v-btn>
           <v-spacer/>
           <v-btn
@@ -306,7 +308,7 @@
             dark
             @click="deleteRole"
           >
-            delete
+            {{ $t('permissionRole.dialog.delete') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -319,7 +321,7 @@ import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: 'RolePage',
-  data: () => {
+  data() {
     return {
       delete_dialog: false,
       edit_dialog: false,
@@ -329,12 +331,12 @@ export default {
       menu2: '',
       headers: [
         {text: 'ID', value: 'id', sortable: false,},
-        {text: 'Role name', value: 'name'},
-        {text: 'Description', value: 'description'},
-        {text: 'Status', value: 'status', width: '180'},
-        {text: 'Created', value: 'createdAt'},
-        {text: 'Updated', value: 'updatedAt'},
-        {text: 'Actions', align: 'center', value: 'actions', sortable: false}
+        {text: this.$t('permissionRole.table.roleName'), value: 'name'},
+        {text: this.$t('permissionRole.table.description'), value: 'description'},
+        {text: this.$t('permissionRole.table.status'), value: 'status', width: '180'},
+        {text: this.$t('permissionRole.table.created'), value: 'createdAt'},
+        {text: this.$t('permissionRole.table.updated'), value: 'updatedAt'},
+        {text: this.$t('permissionRole.table.actions'), align: 'center', value: 'actions', sortable: false}
       ],
       // NEW ROLE
       new_role: {
@@ -356,7 +358,7 @@ export default {
     }
   },
   created() {
-    this.$store.commit('setPageTitle', 'Access control')
+    this.$store.commit('setPageTitle', this.$t('permissionRole.dialog.accessControl'))
     this.$store.dispatch('permission/getRoleAllData', {page: this.current_page, size: this.itemPerPage})
   },
   computed: {
@@ -418,7 +420,7 @@ export default {
       this.getRoleAllData({page: this.current_page, size: this.itemPerPage})
     },
     pushRow(item) {
-      this.$router.push(`/role/${item.id}`)
+      this.$router.push(this.localePath(`/role/${item.id}`))
     },
     resetFilters() {
 
