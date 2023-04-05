@@ -7,7 +7,7 @@
             <v-col cols="12" lg="2" md="2">
               <v-text-field
                 v-model="filter.companyName"
-                label="Company name"
+                :label="$t('billingCompany.dialog.companyName')"
                 outlined validate-on-blur
                 dense hide-details
                 class="rounded-lg"
@@ -25,7 +25,7 @@
             <v-col cols="12" lg="2" md="2">
               <v-select
                 v-model="filter.status"
-                label="Status"
+                :label="$t('billingCompany.dialog.status')"
                 :items="status_enums"
                 outlined dense hide-details
                 validate-on-blur
@@ -37,7 +37,7 @@
               <el-date-picker
                 v-model="filter.createdAt"
                 type="datetime"
-                placeholder="Created at"
+                :placeholder="$t('billingCompany.dialog.createdAt')"
                 :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy HH:mm:ss"
               >
@@ -52,7 +52,7 @@
                   class="text-capitalize mr-4 border-primary rounded-lg font-weight-bold"
                   @click.stop="resetSearch"
                 >
-                  Reset
+                  {{ $t('billingCompany.dialog.reset') }}
                 </v-btn>
                 <v-btn
                   width="140" color="#397CFD" dark
@@ -60,7 +60,7 @@
                   class="text-capitalize rounded-lg font-weight-bold"
                   @click="filterCompany"
                 >
-                  Search
+                  {{ $t('billingCompany.dialog.search') }}
                 </v-btn>
               </div>
             </v-col>
@@ -79,13 +79,13 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex w-full align-center justify-space-between">
-            <div>Company</div>
+            <div>{{ $t('billingCompany.dialog.company') }}</div>
             <v-btn
               color="#7631FF"
               dark class="text-capitalize rounded-lg"
               @click="new_dialog = !new_dialog"
             >
-              <v-icon>mdi-plus</v-icon>add Company
+              <v-icon>mdi-plus</v-icon>{{ $t('billingCompany.dialog.addCompany') }}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -114,7 +114,7 @@
                     <v-img src="/copy.svg" width="15" class="ml-2 pointer"/>
                   </div>
                 </template>
-                <span>Copy</span>
+                <span>{{ $t('billingCompany.dialog.copy') }}</span>
               </v-tooltip>
             </div>
           </div>
@@ -124,7 +124,7 @@
     <v-dialog v-model="new_dialog" max-width="700">
       <v-card>
         <v-card-title class="text-capitalize mb-4 d-flex justify-space-between">
-          <div>add company</div>
+          <div>{{ $t('billingCompany.dialog.addCompany') }}</div>
           <v-btn icon color="#7631FF" @click="new_dialog = !new_dialog">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -134,8 +134,8 @@
             <v-row>
               <v-col cols="12" lg="6">
                 <v-text-field
-                  label="Company name"
-                  placeholder="Enter company name"
+                  :label="$t('billingCompany.dialog.companyName')"
+                  :placeholder="$t('billingCompany.dialog.enterCompanyName')"
                   filled dense
                   validate-on-blur
                   v-model="newCompany.companyName"
@@ -145,8 +145,8 @@
               </v-col>
               <v-col cols="12" lg="6">
                 <v-text-field
-                  label="Owner fullname"
-                  placeholder="Enter owner name"
+                  :label="$t('billingCompany.dialog.ownerFullname')"
+                  :placeholder="$t('billingCompany.dialog.enterOwnerName')"
                   filled dense
                   validate-on-blur
                   v-model="newCompany.ownerFullName"
@@ -156,8 +156,8 @@
               </v-col>
               <v-col cols="12" lg="6">
                 <v-text-field
-                  label="E-mail"
-                  placeholder="Enter e-mail"
+                  :label="$t('billingCompany.dialog.eMail')"
+                  :placeholder="$t('billingCompany.dialog.entereMail')"
                   filled dense
                   validate-on-blur
                   v-model="newCompany.email"
@@ -167,7 +167,7 @@
               </v-col>
               <v-col cols="12" lg="6">
                 <v-text-field
-                  label="Phone number"
+                  :label="$t('billingCompany.dialog.phoneNumber')"
                   placeholder="(--) --- -- --"
                   filled dense
                   validate-on-blur
@@ -200,7 +200,7 @@
             class="text-capitalize border rounded-lg mr-2 font-weight-bold"
             @click="new_dialog = false"
           >
-            Cancel
+            {{ $t('billingCompany.dialog.cancel') }}
           </v-btn>
           <v-btn
             color="#7631FF"
@@ -208,7 +208,7 @@
             class="text-capitalize rounded-lg"
             dark
           >
-            Add
+            {{ $t('billingCompany.dialog.add') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -245,13 +245,13 @@ export default {
       },
       headers: [
         {text: 'ID', align: 'start', sortable: false, value: 'id'},
-        {text: 'Company name', value: 'companyName'},
-        {text: 'Owner', value: 'owner', width: 280},
-        {text: 'Phone number', value: 'phoneNumber'},
+        {text: this.$t('billingCompany.table.companyName'), value: 'companyName'},
+        {text: this.$t('billingCompany.table.owner'), value: 'owner', width: 280},
+        {text: this.$t('billingCompany.table.phoneNumber'), value: 'phoneNumber'},
         {text: 'INN', value: 'inn'},
-        {text: 'Created', value: 'created'},
-        {text: 'Updated', value: 'updated'},
-        {text: 'Status', value: 'status', width: 200},
+        {text: this.$t('billingCompany.table.created'), value: 'created'},
+        {text: this.$t('billingCompany.table.updated'), value: 'updated'},
+        {text: this.$t('billingCompany.table.status'), value: 'status', width: 200},
       ],
       billingCompany: [
         {
@@ -314,7 +314,7 @@ export default {
 
   },
   mounted() {
-    this.$store.commit('setPageTitle', 'Billing')
+    this.$store.commit('setPageTitle', this.$t('billingCompany.dialog.billing'))
   }
 }
 </script>
