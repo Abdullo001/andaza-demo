@@ -17,7 +17,7 @@
             </v-col>
             <v-col cols="12" lg="2" md="2">
               <v-select
-                :items="modelGroup_enums"
+                :items="modelGroups"
                 v-model="filters.modelGroup"
                 placeholder="Model Group"
                 dense
@@ -29,7 +29,7 @@
             </v-col>
             <v-col cols="12" lg="2" md="2" style="max-width: 240px">
               <el-date-picker
-                v-model="filters.createdDate"
+                v-model="filters.createdAt"
                 type="datetime"
                 class="rounded-lg d-block el-date-picker"
                 placeholder="Created at"
@@ -40,7 +40,7 @@
             </v-col>
             <v-col cols="12" lg="2" md="2">
               <el-date-picker
-                v-model="filters.updatedDate"
+                v-model="filters.updatedAt"
                 type="datetime"
                 class="rounded-lg d-block el-date-picker"
                 placeholder="Updated at"
@@ -49,7 +49,7 @@
               >
               </el-date-picker>
             </v-col>
-            <v-spacer />
+            <v-spacer/>
             <v-col cols="12" lg="3">
               <div class="d-flex justify-end">
                 <v-btn
@@ -81,11 +81,15 @@
     <v-data-table
       class="mt-4 rounded-lg pt-4"
       :headers="headers"
-      :items="allOrders"
-      :items-per-page="10"
+      :items="ordersList"
+      :loading="loading"
+      :items-per-page="itemPrePage"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100],
       }"
+      @update:page="page"
+      @update:items-per-page="size"
+      :server-items-length="totalElements"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -99,7 +103,8 @@
               class="text-capitalize rounded-lg"
               @click="addOrder"
             >
-              <v-icon>mdi-plus</v-icon>add Order
+              <v-icon>mdi-plus</v-icon>
+              add Order
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -117,7 +122,6 @@
           dark
         />
       </template>
-
       <template #item.model="{ item }">
         <div class="d-flex align-start m-0 p-0">
           <v-img
@@ -138,7 +142,7 @@
                       v-bind="attrs"
                       v-on="on"
                     >
-                      <v-img src="/copy.svg" width="15" class="ml-2 pointer" />
+                      <v-img src="/copy.svg" width="15" class="ml-2 pointer"/>
                     </div>
                   </template>
                   <span>Copy</span>
@@ -148,7 +152,6 @@
           </div>
         </div>
       </template>
-
       <template #item.action="{ item }">
         <v-btn icon @click="viewDetails(item)">
           <v-icon>mdi-chevron-right</v-icon>
@@ -159,118 +162,81 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   data() {
     return {
+      itemPrePage: 10,
+      current_page: 0,
       new_dialog: false,
       filter_form: true,
       filters: {
         orderNumber: "",
         modelGroup: "",
-        createdDate: "",
-        updatedDate: "",
+        createdAt: "",
+        updatedAt: "",
       },
       status_enums: ["FINISHED", "CANCELED", "PENDING", "IN_PROCESS"],
       modelGroup_enums: [],
       headers: [
-        {
-          text: "Order number",
-          align: "start",
-          sortable: false,
-          value: "orderNumber",
-        },
-        { text: "Model", value: "model", width: 200 },
-        { text: "Client Name", value: "client" },
-        { text: "Created by", value: "createdBy" },
-        { text: "Created at", value: "createdAt" },
-        { text: "Status", value: "status", width: 215 },
-        { text: "Deadline", value: "deadLine" },
-        { text: "Actions", value: "action" },
+        {text: "Order number", align: "start", sortable: false, value: "orderNumber"},
+        {text: "Model", value: "model", width: 200},
+        {text: "Client Name", value: "client"},
+        {text: "Created by", value: "createdBy"},
+        {text: "Created at", value: "createdAt"},
+        {text: "Status", value: "status", width: 215},
+        {text: "Deadline", value: "deadLine"},
+        {text: "Actions", value: "action", sortable: false},
       ],
-      allOrders: [],
     };
   },
-
   created() {
-    this.getModelGroup();
+    this.$store.dispatch("orders/getModelGroup");
   },
-
   computed: {
     ...mapGetters({
+      loading: "orders/loading",
       ordersList: "orders/ordersList",
       modelGroups: "orders/modelGroups",
+      totalElements: "orders/totalElements",
     }),
   },
-
-  watch: {
-    ordersList: {
-      handler(orders) {
-        this.allOrders = JSON.parse(JSON.stringify(orders));
-      },
-    },
-
-    modelGroups(groups) {
-      groups.map((item) => {
-        this.modelGroup_enums.push(item.name);
-      });
-    },
-  },
-
   methods: {
     ...mapActions({
       getOrdersList: "orders/getOrdersList",
       changeStatusOrder: "orders/changeStatusOrder",
-      getModelGroup: "orders/getModelGroup",
+      filterOrderList: "orders/filterOrderList",
     }),
-
-    async changeStatus(item) {
-      await this.changeStatusOrder({ id: item.id, status: item.status });
+    async page(value) {
+      this.current_page = value - 1;
+      await this.getOrdersList({page: this.current_page, size: this.itemPrePage});
+    },
+    async size(value) {
+      this.itemPrePage = value;
+      await this.getOrdersList({page: 0, size: this.itemPrePage});
     },
     async resetFilter() {
-      this.$refs.filters.reset();
-      await this.getOrdersList({
-        page: 0,
-        size: 50,
-        orderNumber: "",
-        modelGroup: "",
-      });
+      this.filters = {orderNumber: "", modelGroup: "", createdAt: "", updatedAt: "",},
+        await this.getOrdersList({page: 0, size: 10});
     },
-
     async filterOrder() {
-      await this.getOrdersList({
-        page: 0,
-        size: 50,
-        orderNumber: this.filters.orderNumber,
-        modelGroup: this.filters.modelGroup,
-      });
+      await this.filterOrderList({page: 0, size: 10, data: this.filters});
     },
-
-    viewDetails(item) {
-      this.$router.push({
-        name:"orders-id",
-        params: { id: item.id  },
-        query: {modelId: item.modelId},
-        hash: this.$route.hash,
-      });
-      this.$store.commit["orders/setModelId",item.modelId]
-
+    async changeStatus(item) {
+      await this.changeStatusOrder({id: item.id, status: item.status});
     },
-
     addOrder() {
       this.$router.push(`/orders/add-order`);
     },
+    async viewDetails(item) {
+      await this.$router.push(`/orders/${item.id}?modelId=${item.modelId}`);
+      await this.$store.commit("orders/setModelId", item.modelId)
+    },
   },
-
   async mounted() {
     this.$store.commit("setPageTitle", "Lists");
-    await this.getOrdersList({
-      page: 0,
-      size: 50,
-      orderNumber: "",
-      modelGroup: "",
-    });
+    await this.getOrdersList({page: 0, size: 10, modelGroup: "",});
   },
 };
 </script>
@@ -281,13 +247,16 @@ export default {
     color: #777 !important;
   }
 }
+
 .el-input__icon.el-icon-time {
   color: #777 !important;
   font-size: 18px;
 }
+
 .v-data-table-header {
   background-color: #e9eaeb;
 }
+
 tbody > tr {
   cursor: pointer;
 }

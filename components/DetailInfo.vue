@@ -6,25 +6,25 @@
         <v-text-field
           v-model="orderDetail.orderNumber"
           placeholder="Enter order number"
-          outlined
           validate-on-blur
+          filled
           dense
           class="rounded-lg mb-6"
           color="#7631FF"
           background-color="#F8F4FE"
-          readonly
+          disabled
         />
         <div class="mb-2 text-body-1 font-weight-medium">Season</div>
         <v-text-field
           placeholder="select season"
           v-model="orderDetail.season"
           dense
-          outlined
+          filled
           validate-on-blur
           class="rounded-lg"
           color="#7631FF"
           background-color="#F8F4FE"
-          readonly
+          disabled
         />
       </v-col>
 
@@ -33,26 +33,30 @@
         <v-text-field
           v-model="orderDetail.prefinanceNumber"
           placeholder="Enter prefinance number"
-          outlined
+          filled
           validate-on-blur
           dense
           class="rounded-lg mb-6"
           color="#7631FF"
           background-color="#F8F4FE"
-          readonly
+          disabled
         />
         <div class="mb-2 text-body-1 font-weight-medium">Deadline</div>
-        <el-date-picker
+        <v-text-field
           v-model="orderDetail.deadline"
-          type="datetime"
           placeholder="Deadline"
-          :picker-options="pickerShortcuts"
-          value-format="dd.MM.yyyy HH:mm:ss"
-          style="min-width: 100%"
+          filled
+          validate-on-blur
+          dense
           disabled
-          class="el-date-picker"
+          class="rounded-lg mb-6"
+          color="#7631FF"
+          background-color="#F8F4FE"
         >
-        </el-date-picker>
+          <template #append>
+            <v-img src="/date-icon.svg"/>
+          </template>
+        </v-text-field>
       </v-col>
 
       <v-col>
@@ -62,13 +66,13 @@
         <v-text-field
           v-model="orderDetail.specificationNumber"
           placeholder=" specification number"
-          outlined
+          filled
           validate-on-blur
           dense
           class="rounded-lg mb-6"
           color="#7631FF"
           background-color="#F8F4FE"
-          readonly
+          disabled
         />
         <div class="mb-2 text-body-1 font-weight-medium">
           Responsipble person
@@ -76,13 +80,13 @@
         <v-text-field
           v-model="orderDetail.responsipblePerson"
           placeholder="Enter responsipble person"
-          outlined
+          filled
           validate-on-blur
           dense
           class="rounded-lg mb-6"
           color="#7631FF"
           background-color="#F8F4FE"
-          readonly
+          disabled
         />
       </v-col>
 
@@ -92,12 +96,12 @@
           placeholder="select Order group"
           v-model="orderDetail.orderGroup"
           dense
-          outlined
+          filled
           validate-on-blur
           class="rounded-lg"
           color="#7631FF"
           background-color="#F8F4FE"
-          readonly
+          disabled
         />
       </v-col>
     </v-row>

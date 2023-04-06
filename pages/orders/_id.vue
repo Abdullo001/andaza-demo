@@ -1,19 +1,18 @@
 <template>
   <div>
-    <Breadcrumbs :maps="map_links" />
+    <Breadcrumbs :maps="map_links"/>
     <v-card elevation="0">
       <v-card-title>
         <div>{{ orderStatus }} order</div>
-        <v-spacer />
+        <v-spacer/>
         <div>
           <v-btn
             outlined
             elevation="0"
             color="#777C85"
             class="text-capitalize rounded-lg mr-4"
-            @click="clearOrder"
           >
-            <v-img src="/trash.svg" class="mr-1" />
+            <v-img src="/trash.svg" class="mr-1"/>
             Clear
           </v-btn>
           <v-btn
@@ -30,22 +29,21 @@
           </v-btn>
         </div>
       </v-card-title>
-      <v-divider />
+      <v-divider/>
       <v-card-text class="mt-4">
         <v-row>
           <v-col>
             <div class="mb-2 text-body-1">Order number</div>
             <v-text-field
+              filled
               v-model="order.orderNumber"
               placeholder="Enter order number"
-              outlined
               validate-on-blur
               dense
               class="rounded-lg"
               color="#7631FF"
             />
             <div class="mb-2 text-body-1">Head of production depatment</div>
-
             <v-select
               :items="users"
               v-model="order.headOfDepartmentId"
@@ -53,7 +51,7 @@
               item-value="id"
               item-text="name"
               dense
-              outlined
+              filled
               validate-on-blur
               class="rounded-lg"
               append-icon="mdi-magnify"
@@ -71,7 +69,7 @@
               item-value="id"
               item-text="name"
               dense
-              outlined
+              filled
               validate-on-blur
               class="rounded-lg"
               append-icon="mdi-magnify"
@@ -82,7 +80,7 @@
               <v-text-field
                 v-model="order.priceWithDiscount"
                 placeholder="0.00"
-                outlined
+                filled
                 validate-on-blur
                 dense
                 class="rounded-l-lg rounded-r-0"
@@ -93,14 +91,13 @@
                 v-model="order.priceWithDiscountCurrency"
                 style="max-width: 100px"
                 dense
-                outlined
+                filled
                 validate-on-blur
                 class="rounded-r-lg rounded-l-0"
                 append-icon="mdi-chevron-down"
                 color="#7631FF"
               />
             </div>
-
             <div class="mb-2 text-body-1">Order priority</div>
             <v-select
               :background-color="statusColor.priorityColor(order.priority)"
@@ -109,7 +106,7 @@
               v-model="order.priority"
               hide-details
               dense
-              outlined
+              filled
               validate-on-blur
               class="rounded-lg"
               dark
@@ -125,20 +122,19 @@
               item-text="modelNumber"
               placeholder="Model number"
               dense
-              outlined
+              filled
               validate-on-blur
               class="rounded-lg"
               append-icon="mdi-magnify"
               color="#7631FF"
             />
-
             <div class="mb-2 text-body-1">Total</div>
             <div class="d-flex align-center">
               <v-text-field
                 v-model="order.totalPrice.amount"
                 :rules="[formRules.onlyNumber]"
                 placeholder="0.00"
-                outlined
+                filled
                 validate-on-blur
                 dense
                 class="rounded-l-lg rounded-r-0"
@@ -149,7 +145,7 @@
                 v-model="order.totalPrice.currency"
                 style="max-width: 100px"
                 dense
-                outlined
+                filled
                 validate-on-blur
                 class="rounded-r-lg rounded-l-0"
                 append-icon="mdi-chevron-down"
@@ -161,15 +157,14 @@
             <div class="mb-2 text-body-1">Model name</div>
             <v-text-field
               v-model="order.modelName"
-              placeholder="Enter "
-              outlined
+              placeholder="Enter"
+              filled
               validate-on-blur
               dense
               class="rounded-lg"
               color="#7631FF"
               readonly
             />
-
             <div class="mb-2 text-body-1">Deadline</div>
             <el-date-picker
               v-model="order.deadline"
@@ -189,20 +184,19 @@
             <v-textarea
               v-model="order.description"
               placeholder="Enter description"
-              outlined
+              filled
               validate-on-blur
               dense
               class="rounded-lg"
               color="#7631FF"
             />
           </v-col>
-
           <v-col cols="12" lg="3">
             <div class="mb-2 text-body-1">Creator</div>
             <v-text-field
               v-model="order.creator"
               placeholder="Enter creator"
-              outlined
+              filled
               validate-on-blur
               dense
               class="rounded-lg"
@@ -210,12 +204,11 @@
               background-color="#F8F4FE"
               readonly
             />
-
             <div class="mb-2 text-body-1">Modified person</div>
             <v-text-field
               v-model="order.modifiedPerson"
               placeholder="Enter Modified person"
-              outlined
+              filled
               validate-on-blur
               dense
               class="rounded-lg"
@@ -227,34 +220,45 @@
 
           <v-col cols="12" lg="3">
             <div class="mb-2 text-body-1">Created time</div>
-            <el-date-picker
+            <v-text-field
               v-model="order.createdTime"
-              type="datetime"
               placeholder="Created at"
-              :picker-options="pickerShortcuts"
-              value-format="dd.MM.yyyy HH:mm:ss"
-              style="min-width: 100%"
+              filled
+              validate-on-blur
+              dense
               disabled
-              class="el-date-picker mb-6"
+              class="rounded-lg"
+              color="#7631FF"
+              background-color="#F8F4FE"
+              readonly
             >
-            </el-date-picker>
+              <template #append>
+                <v-img src="/date-icon.svg"/>
+              </template>
+            </v-text-field>
+
             <div class="mb-2 text-body-1">Updated time</div>
-            <el-date-picker
+            <v-text-field
               v-model="order.updatedTime"
-              type="datetime"
               placeholder="Update at"
-              :picker-options="pickerShortcuts"
-              value-format="dd.MM.yyyy HH:mm:ss"
-              style="min-width: 100%"
+              filled
+              validate-on-blur
+              dense
               disabled
-              class="el-date-picker"
+              class="rounded-lg"
+              color="#7631FF"
+              background-color="#F8F4FE"
+              readonly
             >
-            </el-date-picker>
+              <template #append>
+                <v-img src="/date-icon.svg"/>
+              </template>
+            </v-text-field>
           </v-col>
         </v-row>
       </v-card-text>
       <v-card-actions class="pb-6 pr-4">
-        <v-spacer />
+        <v-spacer/>
         <v-btn
           v-if="orderStatus === 'Add'"
           color="#7631FF"
@@ -263,7 +267,9 @@
           height="44"
           dark
           @click="createdNewOrder"
-          >Save</v-btn
+        >
+          Save
+        </v-btn
         >
         <v-btn
           v-else
@@ -273,14 +279,16 @@
           height="44"
           dark
           @click="updateOrderFunc"
-          >Save</v-btn
+        >
+          Save
+        </v-btn
         >
       </v-card-actions>
     </v-card>
 
     <v-card class="mt-6 mb-8" flat>
       <v-tabs v-model="tab">
-        <v-tabs-slider color="#7631FF" />
+        <v-tabs-slider color="#7631FF"/>
         <v-tab
           class="text-capitalize"
           v-for="item in items"
@@ -293,35 +301,35 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <ColorSizeDistirbution />
+                <ColorSizeDistirbution/>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <DetailInfo />
+                <DetailInfo/>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <Subcontracts />
+                <Subcontracts/>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <ShippingInfo />
+                <ShippingInfo/>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <OrderDocuments />
+                <OrderDocuments/>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -333,13 +341,12 @@
 
 <script>
 import Breadcrumbs from "../../components/Breadcrumbs.vue";
-import { mapActions, mapGetters, mapMutations } from "vuex";
+import {mapActions, mapGetters, mapMutations} from "vuex";
 
 export default {
   components: {
     Breadcrumbs,
   },
-
   data() {
     return {
       currency_enums: ["USD", "UZS", "RUB"],
@@ -402,13 +409,11 @@ export default {
       saveOrder: false,
     };
   },
-
   created() {
     this.getUsersList();
     this.getClient();
     this.getModelId();
   },
-
   computed: {
     ...mapGetters({
       orderDetail: "orders/oneOrder",
@@ -416,22 +421,9 @@ export default {
       usersList: "orders/usersList",
       clientList: "orders/clientList",
       modelList: "orders/modelList",
-      infoToOrder: "orders/infoToOrder",
     }),
   },
-
   watch: {
-    infoToOrder: {
-      deep: true,
-      immediate: true,
-      handler(info) {
-        const order = this.order;
-        order.priceWithDiscount = info.priceWithDiscount;
-        order.priceWithDiscountCurrency = info.priceWithDiscountCurrency;
-        this.$store.commit["setInfoToOrder",{}]
-      },
-    },
-
     orderDetail(item) {
       const order = this.order;
       order.id = item.id;
@@ -452,9 +444,8 @@ export default {
       order.modelId = item.modelId;
       order.priority = item.priority;
       const modelId = item.modelId;
-      this.setModelId({ modelId });
+      this.setModelId({modelId});
     },
-
     usersList(list) {
       list.map((item) => {
         this.users.push({
@@ -464,7 +455,6 @@ export default {
       });
     },
   },
-
   methods: {
     ...mapActions({
       getOneOrder: "orders/getOneOrder",
@@ -478,43 +468,27 @@ export default {
     ...mapMutations({
       setModelId: "orders/setModelId",
     }),
-
     async updateOrderFunc() {
       await this.updateOrder(this.order);
     },
-
-    clearOrder() {},
-
     async createdNewOrder() {
       await this.createdOrder(this.order);
     },
-
     setModelName(item) {
       this.modelList.forEach((e) => {
         if (item === e.id) {
           this.order.modelName = e.name;
         }
       });
-
-      this.getGivePrice({ id: item });
-
-      console.log(this.order.priceWithDiscount);
+      this.getGivePrice({id: item});
     },
   },
-
   mounted() {
     const id = this.$route.params.id;
     const modelId = this.$route.query.modelId;
     if (id !== "add-order") {
-      this.getOneOrder({
-        page: 0,
-        size: 50,
-        id,
-        modelId,
-      });
+      this.getOneOrder({ id, modelId });
       this.orderStatus = "Edit";
-    } else {
-      this.orderStatus = "Add";
     }
   },
 };
@@ -536,19 +510,24 @@ export default {
 .el-input__inner {
   color: #c0c4cc !important;
 }
+
 .el-input__inner {
   color: #777 !important;
+
   &::placeholder {
     color: #777 !important;
   }
 }
+
 .el-input__icon.el-icon-time {
   color: #777 !important;
   font-size: 18px;
 }
+
 .v-data-table-header {
   background-color: #e9eaeb;
 }
+
 .el-input__inner {
   background-color: #e9eaeb !important;
 }
