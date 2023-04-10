@@ -22,7 +22,6 @@ export const getters = {
   modelList: (state) => state.modelList.data,
   modelId: (state) => state.modelId,
   newModelId: (state) => state.newModelId,
-  orderCondation: (state) => state.orderCondation,
   infoToOrder: (state) => state.infoToOrder,
 };
 

@@ -126,13 +126,6 @@ import {mapGetters} from 'vuex'
 
 export default {
   name: 'SidebarComponent',
-  // head: {
-  //   script: [
-  //     {
-  //       src: "https://raw.githubusercontent.com/biggora/device-uuid/master/lib/device-uuid.min.js",
-  //     },
-  //   ],
-  // },
   data() {
     return {
       clipped: false,
