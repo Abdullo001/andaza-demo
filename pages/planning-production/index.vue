@@ -9,10 +9,10 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="ID fabric"
+              label="ID planning"
               outlined
               class="rounded-lg"
-              v-model.trim="filters.id_fabric"
+              v-model.trim="filters.idPlanning"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -20,25 +20,36 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Model №"
+              label="Name"
               outlined
               class="rounded-lg"
-              v-model.trim="filters.modelId"
+              v-model.trim="filters.name"
               hide-details
               dense
               @keydown.enter="filterData"
             />
           </v-col>
           <v-col cols="12" lg="2" md="2">
-            <v-text-field
-              label="Order №"
-              outlined
-              class="rounded-lg"
-              v-model.trim="filters.orderId"
-              hide-details
-              dense
-              @keydown.enter="filterData"
-            />
+            <el-date-picker
+              v-model="filters.createdAt"
+              type="datetime"
+              placeholder="Created"
+              :picker-options="pickerShortcuts"
+              format="dd.MM.yyyy HH:mm:ss"
+              style="width: 100%;"
+            >
+            </el-date-picker>
+          </v-col>
+          <v-col cols="12" lg="2" md="2">
+            <el-date-picker
+              v-model="filters.updatedAt"
+              type="datetime"
+              placeholder="Update"
+              :picker-options="pickerShortcuts"
+              format="dd.MM.yyyy HH:mm:ss"
+              style="width: 100%;"
+            >
+            </el-date-picker>
           </v-col>
           <v-spacer/>
           <v-col cols="12" lg="4">
@@ -67,7 +78,7 @@
 
     <v-data-table
       :headers="headers"
-      :items="fabricList"
+      :items="planningList"
       :items-per-page="10"
       :footer-props="{
           itemsPerPageOptions: [10, 20, 50, 100],
@@ -78,15 +89,15 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium">Fabric</div>
+            <div class="font-weight-medium">Planning of production</div>
             <v-btn
               color="#7631FF"
               class="rounded-lg text-capitalize"
               dark
-              @click="$router.push(`/fabric/create`)"
+              @click="$router.push(`/planning-production/create`)"
             >
               <v-icon>mdi-plus</v-icon>
-              Fabric
+              Planning
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -114,20 +125,19 @@
 import {mapActions, mapGetters} from "vuex";
 
 export default {
-  name: 'FabricPage',
   data() {
     return {
       options: {},
+      valid_search: true,
       filters: {
-        id_fabric: '',
-        modelId: '',
-        orderId: '',
+        idPlanning: '',
+        name: '',
+        createdAt: '',
+        updatedAt: ''
       },
-      valid_search: '',
-      menu2: false,
       headers: [
         {text: 'ID', align: 'start', sortable: false, value: 'id'},
-        {text: 'Model number', value: 'modelNumber'},
+        {text: 'Model number', value: 'modelName'},
         {text: 'Model id', value: 'modelId'},
         {text: 'Order number', value: 'orderNumber'},
         {text: 'Order id', value: 'orderId'},
@@ -139,33 +149,25 @@ export default {
       current_page: 0,
     }
   },
-  created() {
-    this.getFabricList({page:0, size:10});
-  },
   computed: {
     ...mapGetters({
-      fabricList: 'fabric/fabricList',
-      totalElements: 'fabric/totalElements'
+      planningList: 'production/planning/planningList',
+      totalElements: 'production/planning/totalElements'
     })
   },
-  watch: {},
   methods: {
     ...mapActions({
-      getFabricList: 'fabric/getFabricList',
+      getPlanningList: 'production/planning/getPlanningList'
     }),
     filterData() {},
     resetFilters() {},
-
-
   },
-  mounted() {
-    this.$store.commit('setPageTitle', 'Planning')
+  async mounted() {
+    await this.getPlanningList({page: 0, size: 20})
   }
 }
 </script>
 
-<style lang="scss">
-.v-data-table-header {
-  background-color: #E9EAEB;
-}
+<style lang="scss" scoped>
+
 </style>

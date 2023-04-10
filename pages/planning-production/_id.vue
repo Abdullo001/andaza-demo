@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Breadcrumbs :maps="map_links"/>
     <v-card elevation="0" class="mt-2 rounded-lg">
       <v-card-title>
         <div>Planning of production</div>
@@ -23,7 +24,7 @@
             <div class="text-body-1 mb-3">Order number</div>
             <v-combobox
               v-model="planning.orderNumber"
-              items="orderList"
+              :items="orderList"
               :search-input.sync="orderSearch"
               item-text="orderNumber"
               item-value="orderId"
@@ -42,7 +43,7 @@
             <div class="text-body-1 mb-3">Model number</div>
             <v-combobox
               v-model="planning.modelNumber"
-              items="modelList"
+              :items="modelData"
               :search-input.sync="modelSearch"
               item-text="modelNumber"
               item-value="id"
@@ -240,6 +241,8 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   name: 'ProductionOfPlanningPage',
   data() {
@@ -263,11 +266,58 @@ export default {
       },
       orderList: [],
       modelList: [],
-
       orderSearch: '',
       modelSearch: '',
+      map_links: [
+        {
+          text: this.$t('listsModels.child.home'),
+          disabled: false,
+          to: this.localePath('/'),
+          icon: true
+        },
+        {
+          text: 'Planning of production',
+          disabled: false,
+          to: this.localePath('/planning-production'),
+          icon: true
+        },
+        {
+          text: 'Details',
+          disabled: true,
+          to: this.localePath('/models/7'),
+          icon: false
+        },
+      ],
     }
   },
+  computed: {
+    ...mapGetters({
+      modelData: 'preFinance/modelData',
+      infoToOrder: 'orders/infoToOrder'
+    })
+  },
+  watch: {
+    modelSearch(elem) {
+      if (!(typeof elem === null || typeof elem === 'object')) {
+        this.getModelName(elem)
+      }
+    },
+    async "planning.modelNumber"(val) {
+      if (typeof val !== null || !!Object.keys(val).length) {
+        await this.getGivenPrice(val?.id);
+      }
+
+    },
+    infoToOrder(val) {
+      console.log(val);
+    }
+  },
+  methods: {
+    ...mapActions({
+      getModelName: 'preFinance/getModelName',
+      getGivenPrice: 'orders/getGivePrice'
+    })
+  }
 }
 </script>
 
