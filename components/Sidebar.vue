@@ -35,7 +35,7 @@
           </v-list-item>
 
           <v-list-group v-else>
-             <template #prependIcon>
+            <template #prependIcon>
               <v-img class="mt-n1" :src="`/sidebar/${nav.icon}`"/>
             </template>
 
@@ -89,26 +89,33 @@
           </template>
         </v-text-field>
       </div>
-        <v-spacer/>
+      <v-spacer/>
       <v-btn text class="mr-6" color="indigo">
         <v-img src="/notification.svg"/>
       </v-btn>
-      <div class="language d-flex mr-7" @click="selectedLang">
-        <div class="language__selected">
-          <img :src="`/${$i18n.locale}.svg`" alt="flag">
-          <span class="ml-2 mr-1 text-capitalize">{{ $i18n.locale }}</span>
-          <v-icon color="#7631FF">mdi-chevron-down</v-icon>
-        </div>
+      <v-card
+        v-click-outside="onClickOutsideStandard"
+        @click="clickShowLang"
+        class="mr-7 elevation-0"
+        :ripple="false"
+      >
+        <div class="language d-flex">
+          <div class="language__selected">
+            <img :src="`/${$i18n.locale}.svg`" alt="flag">
+            <span class="ml-2 mr-1 text-capitalize">{{ $i18n.locale }}</span>
+            <v-icon color="#7631FF">mdi-chevron-down</v-icon>
+          </div>
 
-        <div class="language__list">
+          <div :class="`language__list ${active ? 'active' : null}`">
           <span v-for="(lang, idx) in availableLocales" :key="idx">
             <nuxt-link :to="switchLocalePath(lang.code)" class="d-flex align-center">
               <img :src="lang.icon" alt="flag">
-              {{ lang.title }}
+              <span style="color: black">{{ lang.title }}</span>
             </nuxt-link>
             </span>
+          </div>
         </div>
-      </div>
+      </v-card>
       <div class="profile">
         <div class="mr-3">
           <div class="profile__title">Khamidullaev Abbos</div>
@@ -133,6 +140,7 @@ export default {
       fixed: false,
       right: true,
       search: '',
+      active: false,
     }
   },
   computed: {
@@ -344,6 +352,12 @@ export default {
     })
   },
   methods: {
+    clickShowLang(){
+      this.active = !this.active;
+    },
+    onClickOutsideStandard(){
+      this.active = false;
+    },
     getSearch() {
       console.log('hello search')
     },
