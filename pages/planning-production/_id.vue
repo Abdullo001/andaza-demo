@@ -181,7 +181,7 @@
             <div class="text-body-1 mb-3">Overproduction, %</div>
             <v-text-field
               filled dense
-              v-model="planning.overproduction"
+              v-model="planning.overProductionPercent"
               class="rounded-lg"
               label="Enter overproduction"
               color="#7631FF"
@@ -210,14 +210,14 @@
           <v-col cols="12" lg="6" md="6" class="d-flex flex-wrap px-0">
             <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4">
               <div class="image-box">
-<!--                <v-img-->
-<!--                  :src="modelImages[idx]?.filePath"-->
-<!--                  v-if="!!modelImages[idx]?.filePath"-->
-<!--                  max-height="150"-->
-<!--                  contain class="pointer"-->
-<!--                  @click="showImage(modelImages[idx]?.filePath)"-->
-<!--                />-->
-                <v-img src="/default-image.svg" max-width="70"/>
+                <v-img
+                  :src="modelImages[idx]?.filePath"
+                  v-if="!!modelImages[idx]?.filePath"
+                  max-height="150"
+                  contain class="pointer"
+                  @click="showImage(modelImages[idx]?.filePath)"
+                />
+                <v-img src="/default-image.svg" max-width="70" v-else/>
               </div>
             </v-col>
           </v-col>
@@ -236,6 +236,17 @@
         </v-btn>
       </v-card-actions>
     </v-card>
+    <v-dialog max-width="590" v-model="image_dialog">
+      <v-card>
+        <v-card-title class="d-flex">
+          <v-spacer/>
+          <v-btn icon color="#7631FF" large @click="image_dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-img :src="currentImage" height="500" contain/>
+      </v-card>
+    </v-dialog>
     <ProductionPlanning class="mt-4"/>
   </div>
 </template>
@@ -247,6 +258,8 @@ export default {
   name: 'ProductionOfPlanningPage',
   data() {
     return {
+      currentImage: '',
+      image_dialog: false,
       planning: {
         orderNumber: '',
         modelNumber: '',
@@ -260,7 +273,7 @@ export default {
         orderClosingDate: '',
         deadline: '',
         shippingDate: '',
-        overproduction: '',
+        overProductionPercent: '',
         orderQuantity: '',
         productionQuantity: '',
       },
@@ -293,7 +306,8 @@ export default {
   computed: {
     ...mapGetters({
       modelData: 'preFinance/modelData',
-      infoToOrder: 'orders/infoToOrder'
+      modelInfo: 'production/planning/modelInfo',
+      modelImages: 'modelPhoto/modelImages',
     })
   },
   watch: {
@@ -303,20 +317,26 @@ export default {
       }
     },
     async "planning.modelNumber"(val) {
-      if (typeof val !== null || !!Object.keys(val).length) {
-        await this.getGivenPrice(val?.id);
+      if (typeof val !== null || !!Object.keys(val).length || val?.id) {
+        await this.getModelInfo(val?.id);
       }
-
     },
-    infoToOrder(val) {
-      console.log(val);
+    modelInfo(val) {
+      val.modelNumber = this.planning.modelNumber
+      this.getImages(val?.modelId);
+      this.planning = JSON.parse(JSON.stringify(val))
     }
   },
   methods: {
     ...mapActions({
       getModelName: 'preFinance/getModelName',
-      getGivenPrice: 'orders/getGivePrice'
-    })
+      getModelInfo: 'production/planning/getModelInfo',
+      getImages: 'modelPhoto/getImages',
+    }),
+    showImage(image) {
+      this.currentImage = image;
+      this.image_dialog = true;
+    },
   }
 }
 </script>
