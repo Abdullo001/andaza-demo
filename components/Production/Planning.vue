@@ -36,19 +36,25 @@
             <v-col cols="12" lg="4">
               <div class="text-body-1 mb-3 font-weight-bold">Working process</div>
               <v-select
-                filled
+                :items="processList"
+                item-text="name"
+                item-value="id"
+                filled color="#7631FF"
                 append-icon="mdi-chevron-down"
                 placeholder="Select working process"
-                v-model="new_process.workingProcess"
+                v-model="new_process.processId"
               />
             </v-col>
             <v-col cols="12" lg="4">
               <div class="text-body-1 mb-3 font-weight-bold">Workshop</div>
               <v-select
-                filled
+                :items="workshopList"
+                item-text="name"
+                item-value="id"
+                filled color="#7631FF"
                 append-icon="mdi-chevron-down"
                 placeholder="Select workshop"
-                v-model="new_process.workshop"
+                v-model="new_process.workshopId"
               />
             </v-col>
             <v-col cols="12" lg="4">
@@ -90,16 +96,19 @@
             <v-col cols="12" lg="4">
               <div class="text-body-1 mb-3 font-weight-bold">Fabric color</div>
               <v-select
-                filled
+                :items="colorsList"
+                item-value="id"
+                item-text="name"
+                filled color="#7631FF"
                 append-icon="mdi-chevron-down"
                 placeholder="Select fabric color"
-                v-model="new_process.fabricColor"
+                v-model="new_process.colorId"
               />
             </v-col>
             <v-col cols="12" lg="4">
               <div class="text-body-1 mb-3 font-weight-bold">Quantity</div>
               <v-text-field
-                filled
+                filled color="#7631FF"
                 placeholder="0"
                 v-model="new_process.quantity"
               />
@@ -107,16 +116,17 @@
             <v-col cols="12" lg="4">
               <div class="text-body-1 mb-3 font-weight-bold">Currency</div>
               <v-select
-                filled
+                :items="currencyEnums"
+                filled color="#7631FF"
                 append-icon="mdi-chevron-down"
                 placeholder="Select currency"
-                v-model="new_process.currency"
+                v-model="new_process.unitPriceCurrency"
               />
             </v-col>
             <v-col cols="12" lg="4">
               <div class="text-body-1 mb-3 font-weight-bold">Unit price</div>
               <v-text-field
-                filled
+                filled color="#7631FF"
                 placeholder="0"
                 v-model="new_process.unitPrice"
               />
@@ -124,7 +134,7 @@
             <v-col cols="12" lg="6">
               <div class="text-body-1 mb-3 font-weight-bold">Comment</div>
               <v-text-field
-                filled
+                filled color="#7631FF"
                 placeholder="Comment"
                 v-model="new_process.description"
               />
@@ -155,6 +165,8 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   name: 'ProductionOfPlanningComponent',
   data() {
@@ -178,20 +190,28 @@ export default {
       planningList: [],
       dialog: false,
       title: 'Add',
+      currencyEnums: ['UZS', 'RUB', 'USD'],
       new_process: {
-        workingProcess: '',
-        workshop: '',
+        processId: '',
+        workshopId: '',
         contractDate: '',
         startedDate: '',
         finishedDate: '',
-        fabricColor: '',
+        colorId: '',
         description: '',
         quantity: '',
-        currency: '',
+        unitPriceCurrency: '',
         unitPrice: '',
-        totalPrice: '',
+        productionId: ''
       }
     }
+  },
+  computed: {
+    ...mapGetters({
+      processList: 'production/planning/processList',
+      workshopList: 'production/planning/workshopList',
+      colorsList: 'production/planning/colorsList'
+    })
   },
   methods: {
     openDialog(title) {
