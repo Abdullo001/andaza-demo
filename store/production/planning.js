@@ -4,7 +4,8 @@ export const state = () => ({
   processList: {},
   workshopList: [],
   colorsList: {},
-  productionId: ''
+  productionId: '',
+  processingList: {}
 });
 export const getters = {
   planningList: state => state.planningList.content,
@@ -13,7 +14,9 @@ export const getters = {
   processList: state => state.processList.content,
   workshopList: state => state.workshopList,
   colorsList: state => state.colorsList.content,
-  productionId: state => state.productionId
+  productionId: state => state.productionId,
+  processingList: state => state.processingList.content,
+  processingTotalElements: state => state.processingList.totalElements
 }
 export const mutations = {
   setPlanningList(state, planning) {
@@ -30,6 +33,12 @@ export const mutations = {
   },
   setColorsList(state, color) {
     state.colorsList = color;
+  },
+  setProductionId(state, id) {
+    state.productionId = id;
+  },
+  setProcessingList(state, item) {
+    state.processingList = item;
   }
 }
 export const actions = {
@@ -80,16 +89,36 @@ export const actions = {
         commit('setColorsList', res.data)
       }).catch(({response}) => console.log(response))
   },
-  createProcessPlanning({commit}, data) {
+  createProcessPlanning({commit, dispatch}, data) {
     this.$axios.$post('/api/v1/production/create', data)
       .then(res => {
+        commit('setProductionId', res.data.id);
+        dispatch('getProcessingList', {
+          id: res.data.id,
+          page: 0, size: 10
+        });
         this.$toast.success(res.message)
       }).catch(({response}) => console.log(response));
   },
-  createProcessing({commit}, data) {
+  createProcessing({dispatch}, data) {
     this.$axios.$post('/api/v1/process-planning/create', data)
       .then(res => {
-        console.log(res);
+        dispatch('getProcessingList', {
+          id: data.productionId,
+          page: 0, size: 10
+        })
+        this.$toast.success(res.message);
+      }).catch(({response}) => console.log(response));
+  },
+  getProcessingList({commit}, {id, page = 0, size= 10}) {
+    const body = {
+      filters: [],
+      sorts: [],
+      page, size,
+    }
+    this.$axios.$put(`/api/v1/process-planning/list?productionId=${id}`, body)
+      .then(res => {
+        commit('setProcessingList', res.data);
       }).catch(({response}) => console.log(response));
   }
 }

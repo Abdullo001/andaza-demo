@@ -2,8 +2,12 @@
   <v-card flat>
     <v-data-table
       :headers="headers"
-      :items="planningList"
+      :items="processingList"
       :items-per-page="10"
+      :server-items-length="processingTotalElements"
+      :footer-props="{
+        itemsPerPageOptions: [10, 20, 50, 100],
+      }"
     >
       <template #top>
         <v-card-title class="d-flex">
@@ -20,6 +24,12 @@
           </v-btn>
         </v-card-title>
       </template>
+      <template #item.totalPrice="{item}">
+        {{item.totalPrice.toLocaleString()}}
+      </template>
+      <template #item.unitPrice="{item}">
+        {{item.unitPrice.toLocaleString()}}
+      </template>
     </v-data-table>
 
     <v-dialog v-model="dialog" max-width="1000">
@@ -32,114 +42,116 @@
           </v-btn>
         </v-card-title>
         <v-card-text>
-          <v-row justify="center">
-            <v-col cols="12" lg="4">
-              <div class="text-body-1 mb-3 font-weight-bold">Working process</div>
-              <v-select
-                :items="processList"
-                item-text="name"
-                item-value="id"
-                filled color="#7631FF"
-                append-icon="mdi-chevron-down"
-                placeholder="Select working process"
-                v-model="new_process.processId"
-              />
-            </v-col>
-            <v-col cols="12" lg="4">
-              <div class="text-body-1 mb-3 font-weight-bold">Workshop</div>
-              <v-select
-                :items="workshopList"
-                item-text="name"
-                item-value="id"
-                filled color="#7631FF"
-                append-icon="mdi-chevron-down"
-                placeholder="Select workshop"
-                v-model="new_process.workshopId"
-              />
-            </v-col>
-            <v-col cols="12" lg="4">
-              <div class="text-body-1 mb-3 font-weight-bold">Contract date</div>
-              <el-date-picker
-                v-model="new_process.contractDate"
-                type="datetime"
-                placeholder="DD.MM.YYYY"
-                :picker-options="pickerShortcuts"
-                value-format="dd.MM.yyyy HH:mm:ss"
-                class="custom-picker"
-              >
-              </el-date-picker>
-            </v-col>
-            <v-col cols="12" lg="4">
-              <div class="text-body-1 mb-3 font-weight-bold">Started date</div>
-              <el-date-picker
-                v-model="new_process.startedDate"
-                type="datetime"
-                placeholder="DD.MM.YYYY"
-                :picker-options="pickerShortcuts"
-                value-format="dd.MM.yyyy HH:mm:ss"
-                class="custom-picker"
-              >
-              </el-date-picker>
-            </v-col>
-            <v-col cols="12" lg="4">
-              <div class="text-body-1 mb-3 font-weight-bold">Finished date</div>
-              <el-date-picker
-                v-model="new_process.finishedDate"
-                type="datetime"
-                placeholder="DD.MM.YYYY"
-                :picker-options="pickerShortcuts"
-                value-format="dd.MM.yyyy HH:mm:ss"
-                class="custom-picker"
-              >
-              </el-date-picker>
-            </v-col>
-            <v-col cols="12" lg="4">
-              <div class="text-body-1 mb-3 font-weight-bold">Fabric color</div>
-              <v-select
-                :items="colorsList"
-                item-value="id"
-                item-text="name"
-                filled color="#7631FF"
-                append-icon="mdi-chevron-down"
-                placeholder="Select fabric color"
-                v-model="new_process.colorId"
-              />
-            </v-col>
-            <v-col cols="12" lg="4">
-              <div class="text-body-1 mb-3 font-weight-bold">Quantity</div>
-              <v-text-field
-                filled color="#7631FF"
-                placeholder="0"
-                v-model="new_process.quantity"
-              />
-            </v-col>
-            <v-col cols="12" lg="4">
-              <div class="text-body-1 mb-3 font-weight-bold">Currency</div>
-              <v-select
-                :items="currencyEnums"
-                filled color="#7631FF"
-                append-icon="mdi-chevron-down"
-                placeholder="Select currency"
-                v-model="new_process.unitPriceCurrency"
-              />
-            </v-col>
-            <v-col cols="12" lg="4">
-              <div class="text-body-1 mb-3 font-weight-bold">Unit price</div>
-              <v-text-field
-                filled color="#7631FF"
-                placeholder="0"
-                v-model="new_process.unitPrice"
-              />
-            </v-col>
-            <v-col cols="12" lg="6">
-              <div class="text-body-1 mb-3 font-weight-bold">Comment</div>
-              <v-text-field
-                filled color="#7631FF"
-                placeholder="Comment"
-                v-model="new_process.description"
-              />
-            </v-col>
-          </v-row>
+          <v-form v-model="validate" ref="processing">
+            <v-row justify="center">
+              <v-col cols="12" lg="4">
+                <div class="text-body-1 mb-3 font-weight-bold">Working process</div>
+                <v-select
+                  :items="processList"
+                  item-text="name"
+                  item-value="id"
+                  filled color="#7631FF"
+                  append-icon="mdi-chevron-down"
+                  placeholder="Select working process"
+                  v-model="new_process.processId"
+                />
+              </v-col>
+              <v-col cols="12" lg="4">
+                <div class="text-body-1 mb-3 font-weight-bold">Workshop</div>
+                <v-select
+                  :items="workshopList"
+                  item-text="name"
+                  item-value="id"
+                  filled color="#7631FF"
+                  append-icon="mdi-chevron-down"
+                  placeholder="Select workshop"
+                  v-model="new_process.workshopId"
+                />
+              </v-col>
+              <v-col cols="12" lg="4">
+                <div class="text-body-1 mb-3 font-weight-bold">Contract date</div>
+                <el-date-picker
+                  v-model="new_process.contractDate"
+                  type="datetime"
+                  placeholder="DD.MM.YYYY"
+                  :picker-options="pickerShortcuts"
+                  value-format="dd.MM.yyyy HH:mm:ss"
+                  class="custom-picker"
+                >
+                </el-date-picker>
+              </v-col>
+              <v-col cols="12" lg="4">
+                <div class="text-body-1 mb-3 font-weight-bold">Started date</div>
+                <el-date-picker
+                  v-model="new_process.startedDate"
+                  type="datetime"
+                  placeholder="DD.MM.YYYY"
+                  :picker-options="pickerShortcuts"
+                  value-format="dd.MM.yyyy HH:mm:ss"
+                  class="custom-picker"
+                >
+                </el-date-picker>
+              </v-col>
+              <v-col cols="12" lg="4">
+                <div class="text-body-1 mb-3 font-weight-bold">Finished date</div>
+                <el-date-picker
+                  v-model="new_process.finishedDate"
+                  type="datetime"
+                  placeholder="DD.MM.YYYY"
+                  :picker-options="pickerShortcuts"
+                  value-format="dd.MM.yyyy HH:mm:ss"
+                  class="custom-picker"
+                >
+                </el-date-picker>
+              </v-col>
+              <v-col cols="12" lg="4">
+                <div class="text-body-1 mb-3 font-weight-bold">Fabric color</div>
+                <v-select
+                  :items="colorsList"
+                  item-value="id"
+                  item-text="name"
+                  filled color="#7631FF"
+                  append-icon="mdi-chevron-down"
+                  placeholder="Select fabric color"
+                  v-model="new_process.colorId"
+                />
+              </v-col>
+              <v-col cols="12" lg="4">
+                <div class="text-body-1 mb-3 font-weight-bold">Quantity</div>
+                <v-text-field
+                  filled color="#7631FF"
+                  placeholder="0"
+                  v-model="new_process.quantity"
+                />
+              </v-col>
+              <v-col cols="12" lg="4">
+                <div class="text-body-1 mb-3 font-weight-bold">Currency</div>
+                <v-select
+                  :items="currencyEnums"
+                  filled color="#7631FF"
+                  append-icon="mdi-chevron-down"
+                  placeholder="Select currency"
+                  v-model="new_process.unitPriceCurrency"
+                />
+              </v-col>
+              <v-col cols="12" lg="4">
+                <div class="text-body-1 mb-3 font-weight-bold">Unit price</div>
+                <v-text-field
+                  filled color="#7631FF"
+                  placeholder="0"
+                  v-model="new_process.unitPrice"
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <div class="text-body-1 mb-3 font-weight-bold">Comment</div>
+                <v-text-field
+                  filled color="#7631FF"
+                  placeholder="Comment"
+                  v-model="new_process.description"
+                />
+              </v-col>
+            </v-row>
+          </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-6">
           <v-btn
@@ -155,6 +167,7 @@
             class="rounded-lg text-capitalize font-weight-bold ml-8"
             color="#7631FF" dark
             width="163" height="44"
+            @click="saveProcessing"
           >
             add
           </v-btn>
@@ -165,27 +178,27 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: 'ProductionOfPlanningComponent',
   data() {
     return {
+      validate: true,
       headers: [
-        {text: 'Working process', align: 'start', sortable: false, value: 'workingProcess'},
+        {text: 'Process', align: 'start', sortable: false, value: 'process'},
         {text: 'Workshop', sortable: false, value: 'workshop'},
         {text: 'Contract date', sortable: false, value: 'contractDate'},
         {text: 'Started date', sortable: false, value: 'startedDate'},
         {text: 'Finished date', sortable: false, value: 'finishedDate'},
-        {text: 'Fabric color', sortable: false, value: 'fabricColor'},
+        {text: 'Color', sortable: false, value: 'color'},
         {text: 'Comment', sortable: false, value: 'description'},
         {text: 'Quantity', sortable: false, value: 'quantity'},
-        {text: 'Currency', sortable: false, value: 'currency'},
+        {text: 'Currency', sortable: false, value: 'unitPriceCurrency'},
         {text: 'Unit price', sortable: false, value: 'unitPrice'},
         {text: 'Total price', sortable: false, value: 'totalPrice'},
         {text: 'Created date', sortable: false, value: 'createdDate'},
         {text: '', sortable: false, value: 'actions'},
-
       ],
       planningList: [],
       dialog: false,
@@ -210,10 +223,22 @@ export default {
     ...mapGetters({
       processList: 'production/planning/processList',
       workshopList: 'production/planning/workshopList',
-      colorsList: 'production/planning/colorsList'
+      colorsList: 'production/planning/colorsList',
+      productionId: 'production/planning/productionId',
+      processingList: 'production/planning/processingList',
+      processingTotalElements: 'production/planning/processingTotalElements'
     })
   },
   methods: {
+    ...mapActions({
+      createProcessing: 'production/planning/createProcessing'
+    }),
+    async saveProcessing() {
+      this.new_process.productionId = this.productionId;
+      await this.createProcessing(this.new_process);
+      this.$refs.processing.reset();
+      this.dialog = false;
+    },
     openDialog(title) {
       this.title = title;
       this.dialog = true;
