@@ -165,7 +165,7 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: 'ProductionOfPlanningComponent',
@@ -214,6 +214,12 @@ export default {
     })
   },
   methods: {
+    ...mapActions({
+      createProcessing: 'production/planning/createProcessing'
+    }),
+    saveProcessing() {
+      this.createProcessing(this.new_process);
+    },
     openDialog(title) {
       this.title = title;
       this.dialog = true;

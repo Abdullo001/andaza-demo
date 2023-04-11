@@ -7,7 +7,7 @@ export const state = () => ({
   productionId: ''
 });
 export const getters = {
-  planningList: state => state.planningList.content,
+  planningList: state => state.planningList?.content.filter(obj => Object.keys(obj).length !== 0),
   totalElements: state => state.planningList.totalElements,
   modelInfo: state => state.modelInfo,
   processList: state => state.processList.content,
@@ -87,9 +87,10 @@ export const actions = {
       }).catch(({response}) => console.log(response));
   },
   createProcessing({commit}, data) {
-    this.$axios.$post('/api/v1/process-planning/create', data)
-      .then(res => {
-        console.log(res);
-      }).catch(({response}) => console.log(response));
+    console.log(data);
+    // this.$axios.$post('/api/v1/process-planning/create', data)
+    //   .then(res => {
+    //     console.log(res);
+    //   }).catch(({response}) => console.log(response));
   }
 }
