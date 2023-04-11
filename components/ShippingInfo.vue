@@ -22,7 +22,7 @@
             v-model="shippingInfo.surplusProductsQuantity"
             :rules="[formRules.onlyNumber]"
             placeholder="0"
-            outlined
+            filled
             validate-on-blur
             dense
             class="rounded-l-lg rounded-r-0"
@@ -35,7 +35,7 @@
             item-text="name"
             style="max-width: 100px"
             dense
-            outlined
+            filled
             validate-on-blur
             class="rounded-r-lg rounded-l-0"
             append-icon="mdi-chevron-down"
@@ -65,7 +65,7 @@
             v-model="shippingInfo.soldPriceOfSurplusProducts"
             :rules="[formRules.onlyNumber]"
             placeholder="0"
-            outlined
+            filled
             validate-on-blur
             dense
             class="rounded-l-lg rounded-r-0"
@@ -76,7 +76,7 @@
             v-model="shippingInfo.soldPriceOfSurplusProductsCurrency"
             style="max-width: 100px"
             dense
-            outlined
+            filled
             validate-on-blur
             class="rounded-r-lg rounded-l-0"
             append-icon="mdi-chevron-down"
@@ -84,7 +84,6 @@
           />
         </div>
       </v-col>
-
       <v-col>
         <div class="mb-2 text-body-1">Actual shipping order quantity</div>
         <div class="d-flex align-center mb-1-5">
@@ -92,7 +91,7 @@
             v-model="shippingInfo.actualShippingOrderQuantity"
             :rules="[formRules.onlyNumber]"
             placeholder="0.00"
-            outlined
+            filled
             validate-on-blur
             dense
             class="rounded-l-lg rounded-r-0"
@@ -105,7 +104,7 @@
             item-text="name"
             style="max-width: 100px"
             dense
-            outlined
+            filled
             validate-on-blur
             class="rounded-r-lg rounded-l-0"
             append-icon="mdi-chevron-down"
@@ -119,7 +118,7 @@
             v-model="shippingInfo.total"
             :rules="[formRules.onlyNumber]"
             placeholder="0.00"
-            outlined
+            filled
             validate-on-blur
             dense
             class="rounded-l-lg rounded-r-0"
@@ -131,7 +130,7 @@
             v-model="shippingInfo.soldPriceOfSurplusProductsCurrency"
             style="max-width: 100px"
             dense
-            outlined
+            filled
             validate-on-blur
             class="rounded-r-lg rounded-l-0"
             append-icon="mdi-chevron-down"
@@ -147,7 +146,7 @@
           <v-text-field
             v-model="shippingInfo.packagingSize"
             placeholder="0.00"
-            outlined
+            filled
             validate-on-blur
             dense
             class="rounded-l-lg rounded-r-0"
@@ -160,7 +159,7 @@
             item-text="name"
             style="max-width: 100px"
             dense
-            outlined
+            filled
             validate-on-blur
             class="rounded-r-lg rounded-l-0"
             append-icon="mdi-chevron-down"

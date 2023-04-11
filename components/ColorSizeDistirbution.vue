@@ -61,7 +61,7 @@
                   v-model="item.value"
                   :placeholder="item.bodyPart"
                   single-line
-                  outlined
+                  filled
                   validate-on-blur
                   dense
                   class="rounded-lg"
@@ -82,7 +82,7 @@
                   v-model="item.quantity"
                   :placeholder="item.size"
                   single-line
-                  outlined
+                  filled
                   validate-on-blur
                   dense
                   class="rounded-lg"
@@ -254,7 +254,6 @@ export default {
     },
 
     sizeValues(items) {
-      console.log(items);
       this.orderSizeDetail.sizeDistributions = [];
       const value = {};
       for (let item in items) {

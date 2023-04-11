@@ -29,6 +29,7 @@
                 color="#7631FF"
                 dense
                 placeholder="Enter responsible person"
+                prepend-icon=""
               >
                 <template #append>
                   <v-icon class="d-inline-block" color="#7631FF"
@@ -90,7 +91,7 @@
                   append-icon="mdi-chevron-down"
                   rounded
                   single-line
-                  outlined
+                  filled
                   validate-on-blur
                   dense
                   class="rounded-lg"
@@ -102,7 +103,7 @@
                   v-model="newSubcontractDetail.quantity"
                   placeholder="Enter quantity"
                   single-line
-                  outlined
+                  filled
                   validate-on-blur
                   dense
                   class="rounded-lg"
@@ -122,7 +123,7 @@
                   append-icon="mdi-chevron-down"
                   rounded
                   single-line
-                  outlined
+                  filled
                   validate-on-blur
                   dense
                   class="rounded-lg"
@@ -139,7 +140,7 @@
                   append-icon="mdi-chevron-down"
                   rounded
                   single-line
-                  outlined
+                  filled
                   validate-on-blur
                   dense
                   class="rounded-lg"
@@ -154,7 +155,7 @@
                   v-model="newSubcontractDetail.description"
                   placeholder="Enter description"
                   single-line
-                  outlined
+                  filled
                   validate-on-blur
                   dense
                   class="rounded-lg"
@@ -210,7 +211,7 @@
                   append-icon="mdi-chevron-down"
                   rounded
                   single-line
-                  outlined
+                  filled
                   validate-on-blur
                   dense
                   class="rounded-lg"
@@ -222,7 +223,7 @@
                   v-model="subcontractsDetail.quantity"
                   placeholder="Enter quantity"
                   single-line
-                  outlined
+                  filled
                   validate-on-blur
                   dense
                   class="rounded-lg"
@@ -242,7 +243,7 @@
                   append-icon="mdi-chevron-down"
                   rounded
                   single-line
-                  outlined
+                  filled
                   validate-on-blur
                   dense
                   class="rounded-lg"
@@ -259,7 +260,7 @@
                   append-icon="mdi-chevron-down"
                   rounded
                   single-line
-                  outlined
+                  filled
                   validate-on-blur
                   dense
                   class="rounded-lg"
@@ -274,7 +275,7 @@
                   v-model="subcontractsDetail.description"
                   placeholder="Enter description"
                   single-line
-                  outlined
+                  filled
                   validate-on-blur
                   dense
                   class="rounded-lg"
