@@ -78,7 +78,7 @@
 
     <v-data-table
       :headers="headers"
-      :items="planningList"
+      :items="filteredPlanning"
       :items-per-page="10"
       :footer-props="{
           itemsPerPageOptions: [10, 20, 50, 100],
@@ -123,6 +123,8 @@
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+import {all} from "core-js/internals/document-all";
+import login from "@/pages/login.vue";
 
 export default {
   data() {
@@ -147,13 +149,21 @@ export default {
       ],
       itemPerPage: 10,
       current_page: 0,
+      filteredPlanning: []
     }
   },
   computed: {
     ...mapGetters({
       planningList: 'production/planning/planningList',
       totalElements: 'production/planning/totalElements'
-    })
+    }),
+  },
+  watch: {
+    planningList(val) {
+      let data  = JSON.parse(JSON.stringify(val));
+      data = data.filter(obj => Object.keys(obj).length !== 0);
+      this.filteredPlanning = data;
+    }
   },
   methods: {
     ...mapActions({
