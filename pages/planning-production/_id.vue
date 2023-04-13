@@ -313,6 +313,7 @@ export default {
       modelData: 'preFinance/modelData',
       modelInfo: 'production/planning/modelInfo',
       modelImages: 'modelPhoto/modelImages',
+      productionId: 'production/planning/productionId'
     })
   },
   watch: {
@@ -328,7 +329,6 @@ export default {
     },
     modelInfo(val) {
       this.getImages(val?.modelId);
-      // val.modelNumber = this.planning.modelNumber
       this.planning = JSON.parse(JSON.stringify(val))
     }
   },
@@ -340,7 +340,8 @@ export default {
       getProcessList: 'production/planning/getProcessList',
       getWorkshopList: 'production/planning/getWorkshopList',
       getColorsList: 'production/planning/getColorsList',
-      createProcessPlanning: 'production/planning/createProcessPlanning'
+      createProcessPlanning: 'production/planning/createProcessPlanning',
+      getProcessingList: 'production/planning/getProcessingList'
     }),
     async savePlanning() {
       const data = {modelId: this.planning.modelId}
@@ -350,6 +351,17 @@ export default {
       this.currentImage = image;
       this.image_dialog = true;
     },
+  },
+  mounted() {
+    const param = this.$route.params.id;
+    if(param !== 'create') {
+      this.getModelInfo(param);
+      this.getProcessingList({
+        id: this.productionId,
+        page: 0,
+        size: 10
+      })
+    }
   }
 }
 </script>
