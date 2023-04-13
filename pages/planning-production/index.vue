@@ -109,7 +109,7 @@
             <v-btn
               icon color="#7631FF"
               v-on="on" v-bind="attrs"
-              @click="$router.push(`/fabric/${item.id}`)"
+              @click="$router.push(`/planning-production/${item.id}`)"
             >
               <v-icon>mdi-chevron-right</v-icon>
             </v-btn>
@@ -139,12 +139,12 @@ export default {
       },
       headers: [
         {text: 'ID', align: 'start', sortable: false, value: 'id'},
-        {text: 'Model number', value: 'modelName'},
-        {text: 'Model id', value: 'modelId'},
         {text: 'Order number', value: 'orderNumber'},
-        {text: 'Order id', value: 'orderId'},
-        {text: 'Created', value: 'createdTimeOfPlanning'},
-        {text: 'Updated', value: 'updatedTimeOfPlanning'},
+        {text: 'Model number', value: 'modelNumber'},
+        {text: 'Order quantity', value: 'orderQuantity'},
+        {text: 'Deadline of prod.', value: 'deadline'},
+        {text: 'Quantity', value: 'productionQuantity'},
+        {text: 'Status', value: 'status'},
         {text: 'Actions', value: 'actions'},
       ],
       itemPerPage: 10,
