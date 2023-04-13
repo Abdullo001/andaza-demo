@@ -29,6 +29,16 @@ export default (context, inject) => {
       },
       statusColor() {
         return {
+          prodColor(color) {
+            switch (color) {
+              case 'ACTIVE':
+                return '#10BF41'
+              case 'DISABLED':
+                return '#FF4E4F'
+              case 'FINISHED':
+                return 'primary'
+            }
+          },
           color(color) {
             switch (color) {
               case 'ACTIVE':
@@ -43,18 +53,7 @@ export default (context, inject) => {
                 return '#FF4E4F'
             }
           },
-          modelColor(color) {
-            switch (color) {
-              case 'Finished':
-                return '#10BF41'
-              case 'Cancelled':
-                return '#FF4E4F'
-              case 'Pending':
-                return 'amber'
-              case 'In process':
-                return 'blue'
-            }
-          },
+
           licenseColor(color) {
             const status = color ? 'Yes' : 'NO'
             switch (status) {

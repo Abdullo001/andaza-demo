@@ -5,7 +5,8 @@ export const state = () => ({
   workshopList: [],
   colorsList: {},
   productionId: '',
-  processingList: {}
+  processingList: {},
+  statusList: []
 });
 export const getters = {
   planningList: state => state.planningList.content,
@@ -16,7 +17,8 @@ export const getters = {
   colorsList: state => state.colorsList.content,
   productionId: state => state.productionId,
   processingList: state => state.processingList.content,
-  processingTotalElements: state => state.processingList.totalElements
+  processingTotalElements: state => state.processingList.totalElements,
+  statusList: state => state.statusList
 }
 export const mutations = {
   setPlanningList(state, planning) {
@@ -39,10 +41,13 @@ export const mutations = {
   },
   setProcessingList(state, item) {
     state.processingList = item;
+  },
+  setStatusList(state, status) {
+    state.statusList = status;
   }
 }
 export const actions = {
-  getPlanningList({commit}, {page= 0, size= 10}) {
+  getPlanningList({commit}, {page = 0, size = 10}) {
     const body = {
       filters: [],
       sorts: [],
@@ -58,7 +63,7 @@ export const actions = {
       .then(res => {
         commit('setModelInfo', res.data)
       }).catch(({response}) => {
-        this.$toast.error(response.data.message);
+      this.$toast.error(response.data.message);
     })
   },
   getProcessList({commit}) {
@@ -110,7 +115,7 @@ export const actions = {
         this.$toast.success(res.message);
       }).catch(({response}) => console.log(response));
   },
-  getProcessingList({commit}, {id, page = 0, size= 10}) {
+  getProcessingList({commit}, {id, page = 0, size = 10}) {
     const body = {
       filters: [],
       sorts: [],
@@ -120,5 +125,25 @@ export const actions = {
       .then(res => {
         commit('setProcessingList', res.data);
       }).catch(({response}) => console.log(response));
+  },
+  getStatusList({commit}) {
+    const body = {
+      filters: [],
+      sorts: [],
+      page: 0, size: 10
+    }
+    this.$axios.$put('/api/v1/status/list', body)
+      .then(res => {
+        commit('setStatusList', res.data.content);
+      }).catch(({response}) => console.log(response))
+  },
+  updateStatus({dispatch}, {id, statusId, page, size}) {
+    this.$axios.$put(`/api/v1/production/change-status?id=${id}&statusId=${statusId}`)
+      .then(res => {
+        this.$toast.success(res.message);
+        dispatch('getPlanningList', {page, size})
+      }).catch(({response}) => {
+      console.log(response);
+    })
   }
 }
