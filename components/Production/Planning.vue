@@ -25,10 +25,17 @@
         </v-card-title>
       </template>
       <template #item.totalPrice="{item}">
-        {{item.totalPrice.toLocaleString()}}
+        {{ item.totalPrice.toLocaleString() }}
       </template>
       <template #item.unitPrice="{item}">
-        {{item.unitPrice.toLocaleString()}}
+        {{ item.unitPrice.toLocaleString() }}
+      </template>
+      <template #item.radio="{item}">
+        <v-radio
+          v-model="selectedProcess"
+          :value="item.id"
+          color="#7631FF"
+        ></v-radio>
       </template>
     </v-data-table>
 
@@ -186,6 +193,7 @@ export default {
     return {
       validate: true,
       headers: [
+        {text: '', align: 'start', sortable: false, value: 'radio'},
         {text: 'Process', align: 'start', sortable: false, value: 'process'},
         {text: 'Workshop', sortable: false, value: 'workshop'},
         {text: 'Contract date', sortable: false, value: 'contractDate'},
@@ -215,8 +223,9 @@ export default {
         quantity: '',
         unitPriceCurrency: '',
         unitPrice: '',
-        productionId: ''
-      }
+        productionId: '',
+      },
+      selectedProcess: null
     }
   },
   computed: {
@@ -252,10 +261,12 @@ export default {
   width: 100% !important;
   background: #F8F4FE;
   border-radius: 10px 10px 0 0 !important;
+
   &::placeholder {
     color: #cccccc;
   }
-  >input.el-input__inner {
+
+  > input.el-input__inner {
     border-radius: 10px 10px 0 0 !important;
 
     background: #F8F4FE !important;
@@ -263,6 +274,7 @@ export default {
     border-bottom: 1px solid #777777 !important;
     width: 100% !important;
     height: 52px !important;
+
     &::placeholder {
       color: #9A979D !important;
     }
