@@ -1,13 +1,18 @@
 <template>
   <v-card flat>
     <v-data-table
+      id="myTable"
       :headers="headers"
       :items="processingList"
       :items-per-page="10"
       :server-items-length="processingTotalElements"
+      show-select
+      :single-select="true"
+      v-model="selectedProcess"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100],
       }"
+      checkbox-color="#7631FF"
     >
       <template #top>
         <v-card-title class="d-flex">
@@ -29,13 +34,6 @@
       </template>
       <template #item.unitPrice="{item}">
         {{ item.unitPrice.toLocaleString() }}
-      </template>
-      <template #item.radio="{item}">
-        <v-radio
-          v-model="selectedProcess"
-          :value="item.id"
-          color="#7631FF"
-        ></v-radio>
       </template>
     </v-data-table>
 
@@ -225,10 +223,12 @@ export default {
         unitPrice: '',
         productionId: '',
       },
-      selectedProcess: null
+      selectedProcess: [],
+      processRow: null
     }
   },
   computed: {
+
     ...mapGetters({
       processList: 'production/planning/processList',
       workshopList: 'production/planning/workshopList',
