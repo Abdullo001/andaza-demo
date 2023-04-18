@@ -3,7 +3,7 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'ATP - Mytex',
+    title: 'ATP - textile',
     htmlAttrs: {
       lang: 'en'
     },
