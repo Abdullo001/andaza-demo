@@ -1,5 +1,5 @@
 <template>
-  <v-card flat>
+  <div class="mb-6">
     <v-data-table
       id="myTable"
       :headers="headers"
@@ -44,7 +44,6 @@
         </v-btn>
       </template>
     </v-data-table>
-
     <v-dialog v-model="dialog" max-width="1000">
       <v-card flat>
         <v-card-title class="d-flex mb-4">
@@ -212,14 +211,26 @@
             color="#FF4E4F"
             width="140"
             elevation="0"
-            dark @click="deleteItem('delete')"
+            dark @click="removeProcess"
           >
             {{ $t('localization.dialog.delete') }}
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </v-card>
+    <div class="d-flex">
+      <v-spacer/>
+      <v-btn
+        color="#7631FF"
+        class="rounded-lg text-capitalize font-weight-bold mt-4"
+        width="194" height="44"
+        @click="goWorking"
+        dark
+      >
+        Working operations
+      </v-btn>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -265,7 +276,7 @@ export default {
         productionId: '',
       },
       selectedProcess: [],
-      processRow: null
+      currentProcessId: ''
     }
   },
   computed: {
@@ -332,7 +343,16 @@ export default {
     },
     deleteItem(item) {
       this.delete_dialog = true;
-
+      this.currentProcessId = item.id;
+    },
+    async removeProcess() {
+      await this.deleteProcessing(this.currentProcessId);
+      this.delete_dialog = false;
+    },
+    goWorking() {
+      if(this.selectedProcess.length) {
+        this.$router.push(`/working-process/${this.selectedProcess[0].id}`);
+      }
     }
   }
 }
