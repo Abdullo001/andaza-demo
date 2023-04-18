@@ -128,7 +128,11 @@ export const actions = {
   deleteProcessing({dispatch, state}, id) {
     this.$axios.$delete(`/api/v1/process-planning/delete?id=${id}`)
       .then(res => {
-        console.log(res);
+        this.$toast.success(res.message);
+        dispatch('getProcessingList', {
+          id: state.productionId,
+          page: 0, size: 10
+        })
       }).catch(({response}) => console.log(response));
   },
   getProcessingList({commit}, {id, page = 0, size = 10}) {
