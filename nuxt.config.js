@@ -51,8 +51,7 @@ export default {
     '@nuxtjs/axios',
     "@nuxtjs/toast",
     '@nuxtjs/auth-next',
-    '@nuxtjs/i18n',
-    // ['@nuxtjs/auth']
+    '@nuxtjs/i18n'
   ],
 
   i18n: {
@@ -90,7 +89,7 @@ export default {
     langDir: "locales/",
     strategy: 'prefix_except_default',
     defaultLocale: "en",
-    parsePages: true,
+    parsePages: true
   },
 
   toast: {
