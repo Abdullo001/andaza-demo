@@ -92,7 +92,7 @@
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Responsible person</div>
+            <div class="text-body-1 mb-3">Planning creator</div>
             <v-text-field
               filled dense
               v-model="planning.planningCreator"
@@ -230,7 +230,7 @@
           height="40"
           color="#7631FF"
           class="font-weight-bold rounded-lg"
-          dark
+          dark @click="savePlanning"
         >
           save
         </v-btn>
@@ -303,11 +303,17 @@ export default {
       ],
     }
   },
+  created() {
+    this.getProcessList();
+    this.getWorkshopList();
+    this.getColorsList();
+  },
   computed: {
     ...mapGetters({
       modelData: 'preFinance/modelData',
       modelInfo: 'production/planning/modelInfo',
       modelImages: 'modelPhoto/modelImages',
+      productionId: 'production/planning/productionId'
     })
   },
   watch: {
@@ -316,13 +322,12 @@ export default {
         this.getModelName(elem)
       }
     },
-    async "planning.modelNumber"(val) {
-      if (typeof val !== null || !!Object.keys(val).length || val?.id) {
-        await this.getModelInfo(val?.id);
+    "planning.modelNumber"(val) {
+      if (val?.id ?? false) {
+        this.getModelInfo(val?.id);
       }
     },
     modelInfo(val) {
-      val.modelNumber = this.planning.modelNumber
       this.getImages(val?.modelId);
       this.planning = JSON.parse(JSON.stringify(val))
     }
@@ -332,11 +337,31 @@ export default {
       getModelName: 'preFinance/getModelName',
       getModelInfo: 'production/planning/getModelInfo',
       getImages: 'modelPhoto/getImages',
+      getProcessList: 'production/planning/getProcessList',
+      getWorkshopList: 'production/planning/getWorkshopList',
+      getColorsList: 'production/planning/getColorsList',
+      createProcessPlanning: 'production/planning/createProcessPlanning',
+      getProcessingList: 'production/planning/getProcessingList'
     }),
+    async savePlanning() {
+      const data = {modelId: this.planning.modelId}
+      await this.createProcessPlanning(data);
+    },
     showImage(image) {
       this.currentImage = image;
       this.image_dialog = true;
     },
+  },
+  mounted() {
+    const param = this.$route.params.id;
+    if(param !== 'create') {
+      this.getModelInfo(param);
+      this.getProcessingList({
+        id: this.productionId,
+        page: 0,
+        size: 10
+      })
+    }
   }
 }
 </script>

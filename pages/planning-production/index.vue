@@ -78,7 +78,7 @@
 
     <v-data-table
       :headers="headers"
-      :items="planningList"
+      :items="filteredPlanning"
       :items-per-page="10"
       :footer-props="{
           itemsPerPageOptions: [10, 20, 50, 100],
@@ -109,7 +109,7 @@
             <v-btn
               icon color="#7631FF"
               v-on="on" v-bind="attrs"
-              @click="$router.push(`/fabric/${item.id}`)"
+              @click="getCurrentRow(item)"
             >
               <v-icon>mdi-chevron-right</v-icon>
             </v-btn>
@@ -117,12 +117,29 @@
           <span>Details</span>
         </v-tooltip>
       </template>
+      <template #item.status="{item}">
+        <v-select
+          @change="changeStatus(item)"
+          :background-color="prodColor(item.statusId)"
+          :items="status_enums"
+          append-icon="mdi-chevron-down"
+          item-text="name"
+          item-value="id"
+          v-model="item.statusId"
+          hide-details
+          class="mt-n2"
+          dark
+          rounded
+        />
+      </template>
     </v-data-table>
   </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+import {all} from "core-js/internals/document-all";
+import login from "@/pages/login.vue";
 
 export default {
   data() {
@@ -137,33 +154,72 @@ export default {
       },
       headers: [
         {text: 'ID', align: 'start', sortable: false, value: 'id'},
-        {text: 'Model number', value: 'modelName'},
-        {text: 'Model id', value: 'modelId'},
         {text: 'Order number', value: 'orderNumber'},
-        {text: 'Order id', value: 'orderId'},
-        {text: 'Created', value: 'createdTimeOfPlanning'},
-        {text: 'Updated', value: 'updatedTimeOfPlanning'},
+        {text: 'Model number', value: 'modelNumber'},
+        {text: 'Order quantity', value: 'orderQuantity'},
+        {text: 'Deadline of prod.', value: 'deadline'},
+        {text: 'Quantity', value: 'productionQuantity'},
+        {text: 'Status', value: 'status', width: 200},
         {text: 'Actions', value: 'actions'},
       ],
       itemPerPage: 10,
       current_page: 0,
+      filteredPlanning: [],
+      status_enums: [],
+      current_status: ''
     }
   },
   computed: {
     ...mapGetters({
       planningList: 'production/planning/planningList',
-      totalElements: 'production/planning/totalElements'
-    })
+      totalElements: 'production/planning/totalElements',
+      statusList: 'production/planning/statusList'
+    }),
+  },
+  watch: {
+    statusList(val) {
+      this.status_enums = JSON.parse(JSON.stringify(val));
+    },
+    planningList(val) {
+      let data  = JSON.parse(JSON.stringify(val));
+      data = data.filter(obj => Object.keys(obj).length !== 0);
+      this.filteredPlanning = data;
+    }
   },
   methods: {
     ...mapActions({
-      getPlanningList: 'production/planning/getPlanningList'
+      getPlanningList: 'production/planning/getPlanningList',
+      getStatusList: 'production/planning/getStatusList',
+      updateStatus: 'production/planning/updateStatus'
     }),
+    getCurrentRow(row) {
+      this.$router.push(`/planning-production/${row.modelId}`);
+      this.$store.commit('production/planning/setProductionId', row.id);
+    },
+    prodColor(color) {
+      switch (color) {
+        case 1:
+          return '#10BF41'
+        case 3:
+          return '#FF4E4F'
+        case 2:
+          return '#4B86FE'
+      }
+    },
     filterData() {},
     resetFilters() {},
+    changeStatus(item) {
+      this.updateStatus({
+        id: item.id,
+        statusId: item.statusId,
+        page: this.current_page,
+        size: this.itemPerPage
+      })
+    },
   },
   async mounted() {
-    await this.getPlanningList({page: 0, size: 20})
+    await this.getPlanningList({page: 0, size: 20});
+    await this.getStatusList()
   }
 }
 </script>

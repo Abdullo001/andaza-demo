@@ -3,7 +3,7 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'ATP - Mytex',
+    title: 'ATP - textile',
     htmlAttrs: {
       lang: 'en'
     },
@@ -51,8 +51,7 @@ export default {
     '@nuxtjs/axios',
     "@nuxtjs/toast",
     '@nuxtjs/auth-next',
-    '@nuxtjs/i18n',
-    // ['@nuxtjs/auth']
+    '@nuxtjs/i18n'
   ],
 
   i18n: {
@@ -90,7 +89,7 @@ export default {
     langDir: "locales/",
     strategy: 'prefix_except_default',
     defaultLocale: "en",
-    parsePages: true,
+    parsePages: true
   },
 
   toast: {
