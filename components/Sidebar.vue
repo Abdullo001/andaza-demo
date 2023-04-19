@@ -337,7 +337,7 @@ export default {
               },
               {
                 title: this.$t('sidebar.workingOperations'),
-                to: this.localePath('/working-operations'),
+                to: this.localePath('/working-operations/'),
               },
             ]
           },
