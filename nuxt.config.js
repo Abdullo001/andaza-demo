@@ -14,7 +14,7 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/svg', href: '/logo.svg' }
+      { rel: 'icon', type: 'image/svg', href: '/logo.svg' },
     ]
   },
   script: [
@@ -38,7 +38,8 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
-    '@nuxtjs/style-resources'
+    '@nuxtjs/style-resources',
+    '@nuxtjs/pwa'
   ],
   styleResources: {
     scss: [
@@ -51,8 +52,48 @@ export default {
     '@nuxtjs/axios',
     "@nuxtjs/toast",
     '@nuxtjs/auth-next',
-    '@nuxtjs/i18n'
+    '@nuxtjs/i18n',
+    '@nuxtjs/pwa'
   ],
+  pwa: {
+    manifest: {
+      name: 'ATP',
+      short_name: 'ATP',
+      lang: 'en',
+      display: 'standalone',
+      description: 'Automatization of Textile Production',
+      useWebmanifestExtension: false,
+      icons: [
+        {
+          src: '/logo-144x144.png',
+          sizes: '144x144',
+          type: 'image/png'
+        },
+        {
+          src: '/logo-64x64.png',
+          sizes: '64x64',
+          type: 'image/png'
+        },
+        {
+          src: '/logo-32x32.png',
+          sizes: '32x32',
+          type: 'image/png'
+        },
+        {
+          src: '/logo-16x16.png',
+          sizes: '16x16',
+          type: 'image/png'
+        }
+      ]
+    },
+    workbox: {
+      navigateFallback: '/'
+    },
+    devOptions: {
+      enabled: true,
+      type: 'module'
+    }
+  },
 
   i18n: {
     useCookie: false,
