@@ -1,18 +1,19 @@
 <template>
   <div>
+    <Breadcrumbs :maps="map_links"/>
     <v-card elevation="0" class="mt-2 rounded-lg">
       <v-card-title>
-        <div>Working operations</div>
-        <v-chip color="green" dark class="ml-4">Edit</v-chip>
+        <div>{{ $t('workingProcess.dialog.workingOperations') }}</div>
+        <v-chip color="green" dark class="ml-4">{{ $t('workingProcess.dialog.edit') }}</v-chip>
         <v-spacer/>
         <div>
           <v-btn outlined class="text-capitalize rounded-lg">
             <v-img src="/clear.svg" max-width="16" class="mr-2"/>
-            clear
+            {{ $t('workingProcess.dialog.clear') }}
           </v-btn>
           <v-btn outlined class="text-capitalize rounded-lg ml-4">
             <v-img src="/edit.svg" max-width="16" class="mr-2"/>
-            edit
+            {{ $t('workingProcess.dialog.edit') }}
           </v-btn>
         </div>
       </v-card-title>
@@ -20,7 +21,7 @@
       <v-card-text class="pb-0">
         <v-row>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">working process</div>
+            <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.workingProcess') }}</div>
             <v-text-field
               filled dense
               v-model="working_operations.workingProcess"
@@ -29,7 +30,7 @@
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Process type</div>
+            <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.processType') }}</div>
             <v-text-field
               v-model="working_operations.processType"
               filled
@@ -42,7 +43,7 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Invoice Number</div>
+            <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.invoiceNumber') }}</div>
             <v-text-field
               v-model="working_operations.invoiceNumber"
               filled
@@ -54,7 +55,7 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Workshop</div>
+            <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.workShop') }}</div>
             <v-text-field
               filled dense
               v-model="working_operations.workshop"
@@ -63,7 +64,7 @@
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Contract date</div>
+            <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.contractDate') }}</div>
             <v-text-field
               v-model="working_operations.contractDate"
               filled dense
@@ -76,7 +77,7 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Shipping date</div>
+            <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.shippingDate') }}</div>
             <v-text-field
               v-model="working_operations.shippingDate"
               filled dense
@@ -89,7 +90,7 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Order number</div>
+            <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.orderNumber') }}</div>
             <v-text-field
               v-model="working_operations.orderNumber"
               filled dense
@@ -102,7 +103,7 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Model number</div>
+            <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.modelNumber') }}</div>
             <v-text-field
               v-model="working_operations.modelNumber"
               filled dense
@@ -111,7 +112,7 @@
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Model name</div>
+            <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.modelName') }}</div>
             <v-text-field
               v-model="working_operations.modelName"
               filled dense
@@ -120,7 +121,7 @@
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Overproduction, %</div>
+            <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.overProduction') }}, %</div>
             <v-text-field
               filled dense
               v-model="working_operations.overProductionPercent"
@@ -129,7 +130,7 @@
             />
           </v-col>
         </v-row>
-        <div class="text-body-1 mb-3">Photos of models</div>
+        <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.photosModels') }}</div>
         <v-row>
           <v-col cols="12" lg="6" md="6" class="d-flex flex-wrap px-0">
             <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4">
@@ -157,7 +158,7 @@
           dark
           @click="save"
         >
-          save
+          {{ $t('workingProcess.dialog.save') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -206,10 +207,37 @@ export default {
       planning: {
         modelNumber: ""
       },
+      processPlanningId: "",
+      map_links: [
+        {
+          text: this.$t('listsModels.child.home'),
+          disabled: false,
+          to: this.localePath('/'),
+          icon: true
+        },
+        {
+          text: this.$t('workingProcess.dialog.planningProduction'),
+          disabled: false,
+          to: this.localePath('/planning-production'),
+          icon: true
+        },
+        {
+          text: 'Planning of production child',
+          disabled: false,
+          to: this.localePath(`/planning-production/${this.$route.query.id}`),
+          icon: true
+        },
+        {
+          text: this.$t('workingProcess.dialog.workingOperations'),
+          disabled: true,
+          to: this.localePath('/planning-production'),
+          icon: false
+        },
+      ],
     }
   },
   async created() {
-    await this.getWorkingInfo();
+    await this.getWorkingInfo(this.$route.params.id);
   },
   computed: {
     ...mapGetters({
@@ -218,6 +246,7 @@ export default {
       invoiceNumber: "workingOperations/invoiceNumber",
       modelInfo: 'production/planning/modelInfo',
       modelImages: 'modelPhoto/modelImages',
+      planningId: "workingOperations/planningId",
     })
   },
   watch: {
@@ -257,6 +286,9 @@ export default {
       this.currentImage = image;
       this.image_dialog = true;
     },
+  },
+  mounted() {
+    this.processPlanningId = this.$route.params.id;
   }
 }
 </script>

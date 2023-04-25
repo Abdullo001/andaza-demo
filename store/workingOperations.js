@@ -2,6 +2,7 @@ export const state = () => ({
   mainsList: [],
   invoiceNumber: [],
   message: 200,
+  planningId : "",
 });
 export const getters = {
   mainsList: state => state.mainsList.main,
@@ -21,15 +22,6 @@ export const mutations = {
   },
 };
 export const actions = {
-  async getWorkingOperationPdf({dispatch}, id) {
-    await this.$axios.get(`/api/v1/working-operations/delete-details?detailsId=${id}`)
-      .then(res => {
-        console.log(res)
-      })
-      .catch(({response}) => {
-        console.log(response)
-      })
-  },
   async deleteWorkingOperation({dispatch}, data) {
     await this.$axios.$delete(`/api/v1/working-operations/delete-details?detailsId=${data.id}`)
       .then(res => {
@@ -37,7 +29,6 @@ export const actions = {
         this.$toast.success(res.message);
       })
       .catch(({response}) => {
-        console.log(response)
         this.$toast.error(response.data.message);
       })
   },
@@ -48,7 +39,6 @@ export const actions = {
         dispatch("getWorkingInfo", data.processPlanningId)
       })
       .catch(({response}) => {
-        console.log(response)
         this.$toast.error(response.data.message);
       })
   },
@@ -63,8 +53,9 @@ export const actions = {
       })
   },
   async getWorkingInfo({commit}, id) {
-    await this.$axios.get(`/api/v1/working-operations/info?processPlanningId=4`)
+    await this.$axios.get(`/api/v1/working-operations/info?processPlanningId=${id}`)
       .then(res => {
+        commit("setSuccessMessage", res.status);
         commit("setWorkingMain", res.data.data);
       })
       .catch(({response}) => {

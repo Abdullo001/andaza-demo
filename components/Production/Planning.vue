@@ -351,10 +351,10 @@ export default {
     },
     goWorking() {
       if(this.selectedProcess.length) {
-        this.$router.push(`/working-process/${this.selectedProcess[0].id}`);
+        this.$router.push(`/working-process/${this.selectedProcess[0].id}?id=${this.$route.params.id}`);
       }
     }
-  }
+  },
 }
 </script>
 

@@ -335,10 +335,6 @@ export default {
                 title: this.$t('sidebar.planningOfProduction'),
                 to: this.localePath('/planning-production'),
               },
-              {
-                title: this.$t('sidebar.workingOperations'),
-                to: this.localePath('/working-operations/'),
-              },
             ]
           },
         ]
