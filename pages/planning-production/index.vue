@@ -12,7 +12,7 @@
               label="ID planning"
               outlined
               class="rounded-lg"
-              v-model.trim="filters.idPlanning"
+              v-model.trim="filters.id"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -85,6 +85,9 @@
       }"
       :options.sync="options"
       :server-items-length="totalElements"
+      :no-data-text="$t('noDataText')"
+      @update:items-per-page="getItemSize"
+      @update:page="page"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -147,7 +150,7 @@ export default {
       options: {},
       valid_search: true,
       filters: {
-        idPlanning: '',
+        id: '',
         name: '',
         createdAt: '',
         updatedAt: ''
@@ -181,7 +184,7 @@ export default {
       this.status_enums = JSON.parse(JSON.stringify(val));
     },
     planningList(val) {
-      let data  = JSON.parse(JSON.stringify(val));
+      let data = JSON.parse(JSON.stringify(val));
       data = data.filter(obj => Object.keys(obj).length !== 0);
       this.filteredPlanning = data;
     }
@@ -206,19 +209,53 @@ export default {
           return '#4B86FE'
       }
     },
-    filterData() {},
-    resetFilters() {},
-    changeStatus(item) {
-      this.updateStatus({
+    async filterData() {
+      await this.getPlanningList({
+        page: this.current_page,
+        size: this.itemPerPage,
+        id: this.filters.id
+      })
+    },
+    async resetFilters() {
+      await this.getPlanningList({
+        page: this.current_page,
+        size: this.itemPerPage,
+        id: ''
+      });
+      this.filters = {
+        id: '',
+        name: '',
+        createdAt: '',
+        updatedAt: ''
+      }
+    },
+    async changeStatus(item) {
+      await this.updateStatus({
         id: item.id,
         statusId: item.statusId,
         page: this.current_page,
         size: this.itemPerPage
       })
     },
+    async page(val) {
+      this.current_page = val - 1;
+      await this.getPlanningList({
+        page: this.current_page,
+        size: this.itemPerPage,
+        id: this.filters.id
+      })
+    },
+    async getItemSize(val) {
+      this.itemPerPage = val;
+      await this.getPlanningList({
+        page: this.current_page,
+        size: this.itemPerPage,
+        id: this.filters.id
+      })
+    },
   },
   async mounted() {
-    await this.getPlanningList({page: 0, size: 20});
+    await this.getPlanningList({page: 0, size: 20, id: ''});
     await this.getStatusList()
   }
 }
