@@ -23,10 +23,11 @@
           <v-col cols="12" lg="3">
             <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.workingProcess') }}</div>
             <v-text-field
-              filled dense
+              filled
               v-model="working_operations.workingProcess"
               class="rounded-lg"
               disabled
+              :label="$t('workingProcess.dialog.enterWorkingProcessing')"
             />
           </v-col>
           <v-col cols="12" lg="3">
@@ -36,9 +37,8 @@
               filled
               class="rounded-lg"
               color="#7631FF"
-              dense
               disabled
-              placeholder="Search by model number"
+              :label="$t('workingProcess.dialog.enterProcessType')"
             >
             </v-text-field>
           </v-col>
@@ -49,27 +49,28 @@
               filled
               class="rounded-lg"
               color="#7631FF"
-              dense
-              placeholder="Search by model number"
+              :label="$t('workingProcess.dialog.searchModelNumber')"
             >
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3">
             <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.workShop') }}</div>
             <v-text-field
-              filled dense
+              filled
               v-model="working_operations.workshop"
               class="rounded-lg"
               disabled
+              :label="$t('workingProcess.dialog.enterWorkshop')"
             />
           </v-col>
           <v-col cols="12" lg="3">
             <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.contractDate') }}</div>
             <v-text-field
               v-model="working_operations.contractDate"
-              filled dense
+              filled
               class="rounded-lg"
               disabled
+              :label="$t('workingProcess.dialog.enterContractDate')"
             >
               <template #append>
                 <v-img src="/clock-disabled.svg" width="24"/>
@@ -80,9 +81,10 @@
             <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.shippingDate') }}</div>
             <v-text-field
               v-model="working_operations.shippingDate"
-              filled dense
+              filled
               class="rounded-lg"
               disabled
+              :label="$t('workingProcess.dialog.enterShippingDate')"
             >
               <template #append>
                 <v-img src="/clock-disabled.svg" width="24"/>
@@ -93,9 +95,10 @@
             <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.orderNumber') }}</div>
             <v-text-field
               v-model="working_operations.orderNumber"
-              filled dense
+              filled
               class="rounded-lg"
               disabled
+              :label="$t('workingProcess.dialog.enterOrderNumber')"
             >
               <template #append>
                 <v-img src="/clock-disabled.svg" width="24"/>
@@ -106,27 +109,30 @@
             <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.modelNumber') }}</div>
             <v-text-field
               v-model="working_operations.modelNumber"
-              filled dense
+              filled
               class="rounded-lg"
               disabled
+              :label="$t('workingProcess.dialog.enterModelNumber')"
             />
           </v-col>
           <v-col cols="12" lg="3">
             <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.modelName') }}</div>
             <v-text-field
               v-model="working_operations.modelName"
-              filled dense
+              filled
               class="rounded-lg"
               disabled
+              :label="$t('workingProcess.dialog.enterModelName')"
             />
           </v-col>
           <v-col cols="12" lg="3">
             <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.overProduction') }}, %</div>
             <v-text-field
-              filled dense
+              filled
               v-model="working_operations.overProductionPercent"
               class="rounded-lg"
               disabled
+              :label="$t('workingProcess.dialog.enterOverproduction')"
             />
           </v-col>
         </v-row>
@@ -222,7 +228,7 @@ export default {
           icon: true
         },
         {
-          text: 'Planning of production child',
+          text: this.$t('workingProcess.dialog.planningDetails'),
           disabled: false,
           to: this.localePath(`/planning-production/${this.$route.query.id}`),
           icon: true
