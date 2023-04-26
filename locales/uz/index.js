@@ -517,7 +517,7 @@ export default {
       workingOperations: "Ishlash operatsiyalari",
       edit: "Tahrirlash",
       clear: "Tozalash",
-      workingProcess: "Шsh jarayoni",
+      workingProcess: "Ish jarayoni",
       processType: "Jarayon turi",
       invoiceNumber: "Hisob-faktura raqami",
       workShop: "Seminar",
