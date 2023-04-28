@@ -30,9 +30,10 @@
             />
           </v-col>
           <v-col
-            cols="12" lg="2" md="2" style="max-width: 240px;"
+            cols="12" lg="2" md="2"
           >
             <el-date-picker
+              style="width: 100%"
               v-model="filters.createdAt"
               type="datetime"
               placeholder="Created"
@@ -45,6 +46,7 @@
             cols="12" lg="2" md="2"
           >
             <el-date-picker
+              style="width: 100%;"
               v-model="filters.updatedAt"
               type="datetime"
               placeholder="Updated"

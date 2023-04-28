@@ -43,7 +43,6 @@
               v-model="accessoryDetail.orderNumber"
               placeholder="Search by order number"
               validate-on-blur
-              dense
               filled
               :return-object="true"
               disabled
@@ -55,7 +54,6 @@
             <v-text-field
               v-model="accessoryDetail.clientName"
               validate-on-blur
-              dense
               filled
               disabled
               class="rounded-lg"
@@ -69,7 +67,6 @@
                 :rules="[formRules.onlyNumber]"
                 placeholder="0.00"
                 validate-on-blur
-                dense
                 filled
                 class="rounded-l-lg rounded-r-0"
                 color="#7631FF"
@@ -78,7 +75,6 @@
                 v-model="accessoryDetail.exRatePrimaryCurrency"
                 :items="currency_enums"
                 style="max-width: 100px"
-                dense
                 filled
                 validate-on-blur
                 class="rounded-r-lg rounded-l-0"
@@ -90,7 +86,6 @@
             <v-text-field
               v-model="accessoryDetail.creatorOfPlanning"
               validate-on-blur
-              dense
               filled
               disabled
               class="rounded-lg"
@@ -100,7 +95,6 @@
             <v-text-field
               v-model="accessoryDetail.creatorOfOrder"
               validate-on-blur
-              dense
               filled
               disabled
               class="rounded-lg"
@@ -114,7 +108,6 @@
               v-model="accessoryDetail.modelNumber"
               placeholder="Search by model number"
               validate-on-blur
-              dense
               item-text="modelNumber"
               item-value="id"
               filled
@@ -131,7 +124,6 @@
             <v-text-field
               v-model="accessoryDetail.orderStatus"
               validate-on-blur
-              dense
               filled
               disabled
               class="rounded-lg"
@@ -144,7 +136,6 @@
                 :rules="[formRules.onlyNumber]"
                 placeholder="0.00"
                 validate-on-blur
-                dense
                 filled
                 class="rounded-l-lg rounded-r-0"
                 color="#7631FF"
@@ -153,7 +144,6 @@
                 v-model="accessoryDetail.exRateSecondaryCurrency"
                 :items="['UZS']"
                 style="max-width: 100px"
-                dense
                 filled
                 validate-on-blur
                 class="rounded-r-lg rounded-l-0"
@@ -165,7 +155,6 @@
             <v-text-field
               v-model="accessoryDetail.createdTimeOfModel"
               validate-on-blur
-              dense
               filled
               disabled
               class="rounded-lg"
@@ -179,7 +168,6 @@
             <v-text-field
               v-model="accessoryDetail.createdTimeOfOrder"
               validate-on-blur
-              dense
               filled
               disabled
               class="rounded-lg"
@@ -195,7 +183,6 @@
             <v-text-field
               v-model="accessoryDetail.modelName"
               validate-on-blur
-              dense
               filled
               disabled
               class="rounded-lg"
@@ -206,7 +193,6 @@
             <v-text-field
               v-model="accessoryDetail.orderDeadline"
               validate-on-blur
-              dense
               filled
               disabled
               class="rounded-lg"
@@ -225,7 +211,6 @@
                 disabled
                 filled
                 validate-on-blur
-                dense
                 class="rounded-l-lg rounded-r-0"
                 color="#7631FF"
               />
@@ -233,7 +218,6 @@
                 v-model="accessoryDetail.exRatePreFinancedDayCurrency"
                 :items="currency_enums"
                 style="max-width: 100px"
-                dense
                 disabled
                 filled
                 validate-on-blur
@@ -246,7 +230,6 @@
             <v-text-field
               v-model="accessoryDetail.creatorOfModel"
               validate-on-blur
-              dense
               filled
               disabled
               class="rounded-lg"
@@ -258,7 +241,6 @@
             <v-text-field
               v-model="accessoryDetail.headOfProductionDepartment"
               validate-on-blur
-              dense
               filled
               disabled
               class="rounded-lg"
@@ -268,7 +250,6 @@
             <v-text-field
               v-model="accessoryDetail.shippingDate"
               validate-on-blur
-              dense
               filled
               disabled
               class="rounded-lg"
@@ -287,7 +268,6 @@
                 disabled
                 filled
                 validate-on-blur
-                dense
                 class="rounded-l-lg rounded-r-0"
                 color="#7631FF"
               />
@@ -295,7 +275,6 @@
                 v-model="accessoryDetail.differenceCurrency"
                 :items="currency_enums"
                 style="max-width: 100px"
-                dense
                 disabled
                 filled
                 validate-on-blur
@@ -308,7 +287,6 @@
             <v-text-field
               v-model="accessoryDetail.createdTimeOfModel"
               validate-on-blur
-              dense
               filled
               disabled
               class="rounded-lg"

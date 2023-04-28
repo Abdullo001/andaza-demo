@@ -9,7 +9,7 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="ID planning"
+              :label="$t('planningProduction.dialog.planningId')"
               outlined
               class="rounded-lg"
               v-model.trim="filters.id"
@@ -20,7 +20,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Name"
+              :label="$t('planningProduction.dialog.name')"
               outlined
               class="rounded-lg"
               v-model.trim="filters.name"
@@ -33,7 +33,7 @@
             <el-date-picker
               v-model="filters.createdAt"
               type="datetime"
-              placeholder="Created"
+              :placeholder="$t('planningProduction.dialog.created')"
               :picker-options="pickerShortcuts"
               format="dd.MM.yyyy HH:mm:ss"
               style="width: 100%;"
@@ -44,7 +44,7 @@
             <el-date-picker
               v-model="filters.updatedAt"
               type="datetime"
-              placeholder="Update"
+              :placeholder="$t('planningProduction.dialog.update')"
               :picker-options="pickerShortcuts"
               format="dd.MM.yyyy HH:mm:ss"
               style="width: 100%;"
@@ -60,7 +60,7 @@
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
-                Reset
+                {{ $t('planningProduction.dialog.reset') }}
               </v-btn>
               <v-btn
                 width="140" color="#397CFD" dark
@@ -68,14 +68,13 @@
                 class="text-capitalize rounded-lg"
                 @click="filterData"
               >
-                Search
+                {{ $t('planningProduction.dialog.search') }}
               </v-btn>
             </div>
           </v-col>
         </v-row>
       </v-form>
     </v-card>
-
     <v-data-table
       :headers="headers"
       :items="filteredPlanning"
@@ -92,15 +91,15 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium">Planning of production</div>
+            <div class="font-weight-medium">{{ $t('planningProduction.dialog.planningProduction') }}</div>
             <v-btn
               color="#7631FF"
               class="rounded-lg text-capitalize"
               dark
-              @click="$router.push(`/planning-production/create`)"
+              @click="$router.push(localePath(`/planning-production/create`))"
             >
               <v-icon>mdi-plus</v-icon>
-              Planning
+              {{ $t('planningProduction.dialog.planning') }}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -117,7 +116,7 @@
               <v-icon>mdi-chevron-right</v-icon>
             </v-btn>
           </template>
-          <span>Details</span>
+          <span>{{ $t('planningProduction.dialog.details') }}</span>
         </v-tooltip>
       </template>
       <template #item.status="{item}">
@@ -141,8 +140,6 @@
 
 <script>
 import {mapActions, mapGetters} from "vuex";
-import {all} from "core-js/internals/document-all";
-import login from "@/pages/login.vue";
 
 export default {
   data() {
@@ -157,13 +154,13 @@ export default {
       },
       headers: [
         {text: 'ID', align: 'start', sortable: false, value: 'id'},
-        {text: 'Order number', value: 'orderNumber'},
-        {text: 'Model number', value: 'modelNumber'},
-        {text: 'Order quantity', value: 'orderQuantity'},
-        {text: 'Deadline of prod.', value: 'deadline'},
-        {text: 'Quantity', value: 'productionQuantity'},
-        {text: 'Status', value: 'status', width: 200},
-        {text: 'Actions', value: 'actions'},
+        {text: this.$t('planningProduction.table.orderNumber'), value: 'orderNumber'},
+        {text: this.$t('planningProduction.table.modelNumber'), value: 'modelNumber'},
+        {text: this.$t('planningProduction.table.orderQuantity'), value: 'orderQuantity'},
+        {text: this.$t('planningProduction.table.deadlineProd'), value: 'deadline'},
+        {text: this.$t('planningProduction.table.quantity'), value: 'productionQuantity'},
+        {text: this.$t('planningProduction.table.status'), value: 'status', width: 200},
+        {text: this.$t('planningProduction.table.actions'), value: 'actions'},
       ],
       itemPerPage: 10,
       current_page: 0,
@@ -196,7 +193,7 @@ export default {
       updateStatus: 'production/planning/updateStatus'
     }),
     getCurrentRow(row) {
-      this.$router.push(`/planning-production/${row.modelId}`);
+      this.$router.push(this.localePath(`/planning-production/${row.modelId}`));
       this.$store.commit('production/planning/setProductionId', row.id);
     },
     prodColor(color) {

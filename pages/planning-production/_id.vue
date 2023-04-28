@@ -3,17 +3,17 @@
     <Breadcrumbs :maps="map_links"/>
     <v-card elevation="0" class="mt-2 rounded-lg">
       <v-card-title>
-        <div>Planning of production</div>
-        <v-chip color="green" dark class="ml-4">Edit</v-chip>
+        <div>{{ $t('planningProduction.dialog.planningProduction') }}</div>
+        <v-chip color="green" dark class="ml-4">{{ $t('planningProduction.dialog.edit') }}</v-chip>
         <v-spacer/>
         <div>
           <v-btn outlined class="text-capitalize rounded-lg">
             <v-img src="/clear.svg" max-width="16" class="mr-2"/>
-            clear
+            {{ $t('planningProduction.dialog.clear') }}
           </v-btn>
           <v-btn outlined class="text-capitalize rounded-lg ml-4">
             <v-img src="/edit.svg" max-width="16" class="mr-2"/>
-            edit
+            {{ $t('planningProduction.dialog.edit') }}
           </v-btn>
         </div>
       </v-card-title>
@@ -21,7 +21,7 @@
       <v-card-text class="pb-0">
         <v-row>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Order number</div>
+            <div class="text-body-1 mb-3"> {{ $t('planningProduction.dialog.orderNumber') }}</div>
             <v-combobox
               v-model="planning.orderNumber"
               :items="orderList"
@@ -33,14 +33,14 @@
               :return-object="true"
               color="#7631FF"
               dense disabled
-              placeholder="Search by order number"
+              :placeholder="$t('planningProduction.dialog.searchOrderNumber')"
               append-icon=""
-              label="Search by order number"
+              :label="$t('planningProduction.dialog.searchOrderNumber')"
             >
             </v-combobox>
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Model number</div>
+            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.modelNumber') }}</div>
             <v-combobox
               v-model="planning.modelNumber"
               :items="modelData"
@@ -52,9 +52,9 @@
               :return-object="true"
               color="#7631FF"
               dense
-              placeholder="Search by model number"
+              :placeholder="$t('planningProduction.dialog.searchModelNumber')"
               append-icon="mdi-chevron-down"
-              label="Search by model number"
+              :label="$t('planningProduction.dialog.searchModelNumber')"
             >
               <template #append>
                 <v-icon color="#7631FF">mdi-magnify</v-icon>
@@ -62,72 +62,72 @@
             </v-combobox>
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Model name</div>
+            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.modelName') }}</div>
             <v-text-field
               filled dense
               v-model="planning.modelName"
               class="rounded-lg"
-              label="Enter model name"
+              :label="$t('planningProduction.dialog.enterModelName')"
               disabled
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Client name</div>
+            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.clientName') }}</div>
             <v-text-field
               filled dense
               v-model="planning.clientName"
               class="rounded-lg"
-              label="Enter client name"
+              :label="$t('planningProduction.dialog.enterClientName')"
               disabled
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Responsible person</div>
+            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.responsiblePerson') }}</div>
             <v-text-field
               filled dense
               v-model="planning.responsiblePerson"
               class="rounded-lg"
-              label="Enter responsible person"
+              :label="$t('planningProduction.dialog.enterResponsiblePerson')"
               disabled
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Planning creator</div>
+            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.planningCreator') }}</div>
             <v-text-field
               filled dense
               v-model="planning.planningCreator"
               class="rounded-lg"
-              label="Enter planning creator"
+              :label="$t('planningProduction.dialog.enterPlanningCreator')"
               disabled
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Head of production</div>
+            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.headProduction') }}</div>
             <v-text-field
               filled dense
               v-model="planning.headOfProduction"
               class="rounded-lg"
-              label="Enter head of production"
+              :label="$t('planningProduction.dialog.enterHeadProduction')"
               disabled
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Order status</div>
+            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.orderStatus') }}</div>
             <v-text-field
               filled dense
               v-model="planning.orderStatus"
               class="rounded-lg"
-              label="Enter order status"
+              :label="$t('planningProduction.dialog.enterOrderStatus')"
               disabled
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Order opening date</div>
+            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.orderOpeningDate') }}</div>
             <v-text-field
               filled dense
               v-model="planning.orderOpeningDate"
               class="rounded-lg"
-              label="Enter order status"
+              :label="$t('planningProduction.dialog.enterOrderStatus')"
               disabled
             >
               <template #append>
@@ -136,12 +136,12 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Order closing date</div>
+            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.orderClosingDate') }}</div>
             <v-text-field
               filled dense
               v-model="planning.orderClosingDate"
               class="rounded-lg"
-              label="Enter order closing date"
+              :label="$t('planningProduction.dialog.orderClosingDate')"
               disabled
             >
               <template #append>
@@ -150,12 +150,12 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Deadline</div>
+            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.deadline') }}</div>
             <v-text-field
               filled dense
               v-model="planning.deadline"
               class="rounded-lg"
-              label="Enter deadline"
+              :label="$t('planningProduction.dialog.enterDeadline')"
               disabled
             >
               <template #append>
@@ -164,12 +164,12 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Shipping date</div>
+            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.shippingDate') }}</div>
             <v-text-field
               filled dense
               v-model="planning.shippingDate"
               class="rounded-lg"
-              label="Enter shipping date"
+              :label="$t('planningProduction.dialog.enterShippingDate')"
               disabled
             >
               <template #append>
@@ -178,32 +178,32 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Overproduction, %</div>
+            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.overproduction') }}, %</div>
             <v-text-field
               filled dense
               v-model="planning.overProductionPercent"
               class="rounded-lg"
-              label="Enter overproduction"
+              :label="$t('planningProduction.dialog.enterOverproduction')"
               color="#7631FF"
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Order quantity</div>
+            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.orderQuantity') }}</div>
             <v-text-field
               filled dense
               v-model="planning.orderQuantity"
               class="rounded-lg"
-              label="Enter overproduction"
+              :label="$t('planningProduction.dialog.orderQuantity')"
               disabled
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">Production quantity</div>
+            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.productionQuantity') }}</div>
             <v-text-field
               filled dense
               v-model="planning.productionQuantity"
               class="rounded-lg"
-              label="Enter production quantity"
+              :label="$t('planningProduction.dialog.enterProductionQuantity')"
               disabled
             />
           </v-col>
@@ -232,7 +232,7 @@
           class="font-weight-bold rounded-lg"
           dark @click="savePlanning"
         >
-          save
+          {{ $t('planningProduction.dialog.save') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -289,13 +289,13 @@ export default {
           icon: true
         },
         {
-          text: 'Planning of production',
+          text: this.$t('planningProduction.table.planningProduction'),
           disabled: false,
           to: this.localePath('/planning-production'),
           icon: true
         },
         {
-          text: 'Details',
+          text: this.$t('planningProduction.table.details'),
           disabled: true,
           to: this.localePath('/models/7'),
           icon: false
