@@ -14,15 +14,6 @@
               />
             </v-col>
             <v-col cols="12" lg="2" md="2">
-              <v-text-field
-                v-model="filter.blockedBy"
-                :label="$t('fraudUsers.dialog.blockedBy')"
-                outlined validate-on-blur
-                dense hide-details
-                class="rounded-lg"
-              />
-            </v-col>
-            <v-col cols="12" lg="2" md="2">
               <v-select
                 v-model="filter.status"
                 :label="$t('fraudUsers.dialog.status')"
@@ -36,9 +27,20 @@
             <v-col cols="12" lg="2" md="2">
               <el-date-picker
                 style="width: 100%;"
-                v-model="filter.end_time"
+                v-model="filter.from"
                 type="datetime"
-                :placeholder="$t('fraudUsers.dialog.blockedTime')"
+                placeholder="From"
+                :picker-options="pickerShortcuts"
+                value-format="dd.MM.yyyy HH:mm:ss"
+              >
+              </el-date-picker>
+            </v-col>
+            <v-col cols="12" lg="2" md="2">
+              <el-date-picker
+                style="width: 100%;"
+                v-model="filter.to"
+                type="datetime"
+                placeholder="To"
                 :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy HH:mm:ss"
               >
@@ -196,9 +198,9 @@ export default {
       filter_form: true,
       status_enums: ['UNBLOCKED', 'BLOCKED'],
       filter: {
-        blockedAt: '',
+        from: '',
+        to: '',
         accountId: '',
-        blockedBy: '',
         status: ''
       },
       account_list: [],
@@ -245,15 +247,17 @@ export default {
       }
     },
     async resetSearch() {
-      await this.$refs.filters.reset();
+      this.filter = {
+        from: '',
+        to: '',
+        accountId: '',
+        status: ''
+      };
       await this.getAccounts({page: 0, size: 15});
     },
     async filterDevices() {
-      await this.filterAccount({
-        deviceId: this.filter.deviceId,
-        deviceNumber: this.filter.deviceNumber,
-        status: this.filter.status
-      });
+      const item = {...this.filter};
+      await this.filterAccount(item);
     }
   },
   async mounted() {

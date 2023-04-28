@@ -6,13 +6,13 @@
       class="rounded-t-lg"
     >
       <v-form ref="filter_form">
-        <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
+        <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="center">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
               :label="$t('permissionRole.dialog.roleId')"
               outlined
               class="rounded-lg"
-              v-model="filters.financeNumber"
+              v-model="filters.id"
               hide-details
               dense
             />
@@ -22,7 +22,7 @@
               :label="$t('permissionRole.dialog.roleName')"
               outlined
               class="rounded-lg"
-              v-model="filters.modelId"
+              v-model="filters.key"
               hide-details
               dense
             />
@@ -33,51 +33,38 @@
               outlined
               :items="statusEnums"
               class="rounded-lg"
-              v-model="filters.partnerId"
+              v-model="filters.status"
               hide-details
               append-icon="mdi-chevron-down"
               dense
             />
           </v-col>
           <v-col
+            cols="12" lg="2" md="2" style="max-width: 240px;"
+          >
+            <el-date-picker
+              type="datetime"
+              v-model="filters.value"
+              :placeholder="$t('from')"
+              :picker-options="pickerShortcuts"
+              value-format="dd.MM.yyyy HH:mm:ss"
+            >
+            </el-date-picker>
+          </v-col>
+          <v-col
             cols="12" lg="2" md="2"
           >
-            <v-menu
-              v-model="menu2"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              transition="scale-transition"
-              offset-y
-              min-width="auto"
+            <el-date-picker
+              type="datetime"
+              v-model="filters.value_to"
+              :placeholder="$t('to')"
+              :picker-options="pickerShortcuts"
+              value-format="dd.MM.yyyy HH:mm:ss"
             >
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                  v-model="filters.createAt"
-                  :label="$t('permissionRole.dialog.createdAt')"
-                  readonly
-                  v-bind="attrs"
-                  v-on="on"
-                  outlined
-                  dense
-                  append-icon="mdi-lock"
-                  class="rounded-lg"
-                  hide-details
-                  style="width: 200px"
-                >
-                  <template #append>
-                    <v-img src="/date-icon.svg"/>
-                  </template>
-                </v-text-field>
-              </template>
-              <v-date-picker
-                v-model="filters.createAt"
-                @input="menu2 = false"
-                color="#7631FF"
-              ></v-date-picker>
-            </v-menu>
+            </el-date-picker>
           </v-col>
           <v-col class="" cols="12" lg="4">
-            <div class="d-flex justify-end">
+            <div class="d-flex justify-center">
               <v-btn
                 width="140" outlined
                 color="#397CFD" elevation="0"
@@ -90,6 +77,7 @@
                 width="140" color="#397CFD" dark
                 elevation="0"
                 class="text-capitalize rounded-lg"
+                @click="filterRole"
               >
                 {{ $t('permissionRole.dialog.search') }}
               </v-btn>
@@ -302,8 +290,13 @@ export default {
       edit_dialog: false,
       new_dialog: false,
       options: {},
-      filters: {},
-      menu2: '',
+      filters: {
+        id: "",
+        key: "",
+        status: "",
+        value: "",
+        value_to: "",
+      },
       headers: [
         {text: 'ID', value: 'id', sortable: false,},
         {text: this.$t('permissionRole.table.roleName'), value: 'name'},
@@ -352,6 +345,7 @@ export default {
       postRole: "permission/postRole",
       updateRole: "permission/updateRole",
       changeStatusRole: "permission/changeStatusRole",
+      filterRoleData: "permission/filterRoleData",
     }),
     async putRoleData() {
       const data = this.edit_role;
@@ -388,9 +382,13 @@ export default {
     },
     async resetFilters() {
       await this.$refs.filter_form.reset();
+      this.filters.value = this.filters.value_to = "";
       await this.getRoleAllData({page: 0, size: 10});
     },
-
+    async filterRole(){
+      const item = {...this.filters};
+      await this.filterRoleData(item);
+    },
   },
 }
 </script>

@@ -229,8 +229,8 @@ export default {
         status: ''
       },
       headers: [
-        {text: this.$t('fraudDevices.table.deviceId'), align: 'start', sortable: false, value: 'deviceId'},
-        {text: this.$t('fraudDevices.table.deviceN'), value: 'blockedDeviceId'},
+        {text: "ID",sortable: false, value: 'deviceId'},
+        {text: this.$t('fraudDevices.table.deviceId'), align: 'start', sortable: false, value: 'blockedDeviceId'},
         {text: this.$t('fraudDevices.table.blockedBy'), value: 'blockedBy'},
         {text: this.$t('fraudDevices.table.deviceType'), value: 'deviceType'},
         {text: this.$t('fraudDevices.table.blockedDate'), value: 'blockedDateTime'},

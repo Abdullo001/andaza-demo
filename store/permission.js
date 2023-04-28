@@ -40,7 +40,7 @@ export const actions = {
       })
       .catch(({response}) => {
         console.log(response)
-        this.$toast.error(response.message)
+        this.$toast.error(response.data.message)
       })
   },
   async getRoleIdentifier({commit}, id){
@@ -65,6 +65,50 @@ export const actions = {
         commit("setAllRole", res.data)
       })
       .catch(response =>  {
+        console.log(response)
+      })
+  },
+  async filterRoleData(context, data) {
+    const { id, key, status, value, value_to } = data;
+    const body = {
+      filters: [
+        {
+          key: "id",
+          operator: 'EQUAL',
+          propertyType: 'LONG',
+          value: id,
+        },
+        {
+          key: "name",
+          operator: "LIKE",
+          propertyType: "STRING",
+          value: key,
+        },
+        {
+          key: "status",
+          operator: "EQUAL",
+          propertyType: "STATUS",
+          value: status,
+        },
+        {
+          key: 'createdAt',
+          operator: 'BETWEEN',
+          propertyType: 'DATE',
+          value: value,
+          valueTo: value_to === null ? "" : value_to
+        },
+      ],
+      sort: [],
+      size: 10,
+      page: 0,
+    };
+    body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
+    await this.$axios.$put(`/api/v1/role/list`, body)
+      .then(res => {
+        context.commit('setAllRole', res.data)
+        this.$toast.success(res.message, {theme: 'toasted-primary'})
+      })
+      .catch(({response}) => {
         console.log(response)
       })
   },
@@ -137,38 +181,34 @@ export const actions = {
         this.$toast.error(response.errorMessages, {theme: 'toasted-primary'})
       })
   },
-  async filterData(context, {key, status, property_type, value, value_to}) {
+  async filterData(context, data) {
+    const { key, property_type, status, value, value_to } = data;
     const body = {
       filters: [
         {
-          key: "key",
+          key: "name",
           operator: "LIKE",
-          property_type: "STRING",
+          propertyType: "STRING",
           value: key,
         },
         {
           key: "status",
-          operator: "LIKE",
-          property_type: "STRING",
+          operator: "EQUAL",
+          propertyType: "STATUS",
           value: status,
         },
         {
-          key: "property_type",
+          key: "path",
           operator: "LIKE",
-          property_type: "STRING",
+          propertyType: "STRING",
           value: property_type,
         },
         {
-          key: "value",
-          operator: "LIKE",
-          property_type: "STRING",
+          key: 'createdAt',
+          operator: 'BETWEEN',
+          propertyType: 'DATE',
           value: value,
-        },
-        {
-          key: "value_to",
-          operator: "LIKE",
-          property_type: "STRING",
-          value: value_to,
+          valueTo: value_to
         },
       ],
       sort: [],
@@ -178,9 +218,8 @@ export const actions = {
     body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
     await this.$axios.$put(`/api/v1/permission/list`, body)
       .then(res => {
-        this.$toast.success(res.message, {theme: 'toasted-primary'})
         context.commit('setAllPermission', res.data)
-        console.log(res)
+        this.$toast.success(res.message, {theme: 'toasted-primary'})
       })
       .catch(({response}) => {
         console.log(response)

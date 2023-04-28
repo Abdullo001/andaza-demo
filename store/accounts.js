@@ -43,48 +43,43 @@ export const actions = {
         console.log(response);
       })
   },
-  async filterAccount({commit}, {deviceId, deviceNumber, status, createdAt}) {
+  async filterAccount({commit}, data) {
+    const { accountId, status, from, to } = data;
     const body = {
       filters: [
         {
-          key: 'deviceId',
-          operator: 'LIKE',
-          propertyType: 'STRING',
-          value: deviceId
-        },
-        {
-          key: 'blockedDateTime',
+          key: 'id',
           operator: 'EQUAL',
-          propertyType: 'INTEGER',
-          value: deviceNumber
+          propertyType: 'LONG',
+          value: accountId
         },
         {
           key: 'status',
-          operator: 'LIKE',
-          propertyType: 'STRING',
+          operator: 'EQUAL',
+          propertyType: 'BLOCKING_STATUS',
           value: status
         },
         {
           key: 'createdAt',
           operator: 'BETWEEN',
           propertyType: 'DATE',
-          value: createdAt
-        }
+          value: from,
+          valueTo: to
+        },
       ],
       sort: [],
       page: 0,
       size: 10
     }
     body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
-    await this.$axios.$put('/api/v1/fraud-management/blocked-devices', body)
+    await this.$axios.$put('/api/v1/fraud-management/blocked-accounts', body)
       .then(res => {
-        console.log(res);
-        commit('changeLoading', false)
+        commit("setAccounts", res.data);
+        commit('changeLoading', false);
       })
       .catch(({response}) => {
-        console.log(response);
         this.$toast.error(response.data.message);
-        commit('changeLoading', false)
+        commit('changeLoading', false);
       })
   }
 }

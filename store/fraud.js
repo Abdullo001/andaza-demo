@@ -51,26 +51,33 @@ export const actions = {
     const body = {
       filters: [
         {
-          key: 'deviceId',
+          key: 'id',
           operator: 'EQUAL',
           propertyType: 'LONG',
           value: deviceId
         },
         {
           key: 'status',
-          operator: 'LIKE',
-          propertyType: 'DOUBLE',
+          operator: 'EQUAL',
+          propertyType: 'BLOCKING_STATUS',
           value: status
+        },
+        {
+          key: 'createdAt',
+          operator: 'BETWEEN',
+          propertyType: 'DATE',
+          value: from,
+          valueTo: to
         },
       ],
       sort: [],
       page: 0,
       size: 10
     }
-    body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
+    body.filters = body.filters.filter(item => item.value !== '' && item.value !== null && item.value !== undefined)
     await this.$axios.$put('/api/v1/fraud-management/blocked-devices', body)
       .then(res => {
-        console.log(res);
+        commit("setDevices", res.data)
         commit('changeLoading', false)
       })
       .catch(({response}) => {

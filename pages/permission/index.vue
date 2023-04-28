@@ -127,9 +127,6 @@
         <v-btn icon color="green" @click.stop="editItem(item)">
           <v-img src="/edit-active.svg" max-width="22"/>
         </v-btn>
-        <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-          <v-img src="/delete.svg" max-width="27"/>
-        </v-btn>
       </template>
       <template #item.status="{item}">
         <div>
@@ -313,39 +310,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="delete_dialog" max-width="500">
-      <v-card class="pa-4 text-center">
-        <div class="d-flex justify-center mb-2">
-          <v-img src="/error-icon.svg" max-width="40"/>
-        </div>
-        <v-card-title class="d-flex justify-center">{{ $t('permissionControl.dialog.deleteDialog') }}</v-card-title>
-        <v-card-text>
-          {{ $t('permissionControl.dialog.deleteText') }}
-        </v-card-text>
-        <v-card-actions class="px-16">
-          <v-btn
-            outlined
-            class="rounded-lg text-capitalize font-weight-bold"
-            color="#777C85"
-            width="140"
-            @click.stop="delete_dialog = false"
-          >
-            {{ $t('permissionControl.dialog.cancel') }}
-          </v-btn>
-          <v-spacer/>
-          <v-btn
-            class="rounded-lg text-capitalize font-weight-bold"
-            color="#FF4E4F"
-            width="140"
-            elevation="0"
-            dark
-            @click="deleteData"
-          >
-            {{ $t('permissionControl.dialog.delete') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </div>
 </template>
 
@@ -356,7 +320,6 @@ export default {
   name: 'PermissionPage',
   data() {
     return {
-      delete_dialog: false,
       edit_dialog: false,
       new_dialog: false,
       headers: [
@@ -423,9 +386,6 @@ export default {
     async statusChange(item) {
       await this.changeStatusPermission({id: item.id, status: item.status});
     },
-    deleteData() {
-      console.log(this.id)
-    },
     async updatePermission() {
       await this.putPermission(this.edit_permission);
       this.edit_dialog = false;
@@ -454,18 +414,9 @@ export default {
         path: ''
       }
     },
-    filterPermission() {
-      this.filterData({
-        key: this.filter_search.key,
-        status: this.filter_search.status,
-        value: this.filter_search.value,
-        value_to: this.filter_search.value_to,
-        property_type: this.filter_search.property_type
-      })
-    },
-    getDeleteItem(item) {
-      this.delete_dialog = true;
-      this.id = item.id;
+    async filterPermission() {
+      const item = {...this.filter_search};
+      await this.filterData(item);
     },
   },
   mounted() {
@@ -482,7 +433,10 @@ tbody {
     }
   }
 }
-
+.el-input__inner::placeholder,
+.el-input__icon, .el-icon-time {
+  color: #919191 !important;
+}
 .v-data-table-header {
   background-color: #E9EAEB;
 }
