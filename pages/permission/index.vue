@@ -93,7 +93,7 @@
     </v-card>
     <v-data-table
       :headers="headers"
-      :items="permissions"
+      :items="permission_list"
       :items-per-page="10"
       :no-data-text="$t('noDataText')"
       :footer-props="{
@@ -104,7 +104,6 @@
       class="mt-4 rounded-lg"
       :options.sync="options"
       @update:items-per-page="getItemSize"
-      @click:row="(item) => rowPush(item)"
       :server-items-length="totalElement"
     >
       <template #top>
@@ -365,11 +364,12 @@ export default {
         {text: this.$t('permissionControl.table.permissionName'), value: 'name'},
         {text: this.$t('permissionControl.table.description'), value: 'description'},
         {text: this.$t('permissionControl.table.path'), value: 'path'},
+        {text: this.$t('permissionControl.table.created'), value: 'createdAt', align: 'center'},
         {text: this.$t('permissionControl.table.status'), value: 'status', width: '150'},
         {text: this.$t('permissionControl.table.updated'), value: 'updatedAt', align: 'center'},
-        {text: this.$t('permissionControl.table.created'), value: 'createdAt', align: 'center'},
         {text: this.$t('permissionControl.table.actions'), value: 'actions', width: '180', align: 'center', sortable: false},
       ],
+      permission_list: [],
       options: {},
       filter_search: {
         key: '',
@@ -397,6 +397,14 @@ export default {
       menu2: false,
     }
   },
+  watch: {
+    permissions(val){
+      this.permission_list = JSON.parse(JSON.stringify(val));
+    },
+  },
+  async created(){
+    await this.$store.dispatch('permission/getPermission', {page: this.current_page, size: this.itemPerPage});
+  },
   computed: {
     ...mapGetters({
       loading: "permission/loading",
@@ -410,15 +418,14 @@ export default {
       postPermission: 'permission/postPermission',
       filterData: 'permission/filterData',
       putPermission: "permission/putPermission",
+      changeStatusPermission: "permission/changeStatusPermission",
     }),
-    statusChange(item) {
-      console.log(item)
+    async statusChange(item) {
+      await this.changeStatusPermission({id: item.id, status: item.status});
     },
-    // DELETE PERMISSION
     deleteData() {
       console.log(this.id)
     },
-    // UPDATE PERMISSION
     async updatePermission() {
       await this.putPermission(this.edit_permission);
       this.edit_dialog = false;
@@ -432,15 +439,11 @@ export default {
       this.$store.commit("permission/setLoading", true);
       this.getPermission({page: this.current_page, size: this.itemPerPage});
     },
-    rowPush(item) {
-      // this.$router.push(`/permission/${item.id}`);
-    },
     resetSearch() {
       this.$refs.search_form.reset();
       this.filter_search.value = this.filter_search.value_to = '';
       this.getPermission({page: this.current_page, size: this.itemPerPage});
     },
-    // POST
     async save() {
       const data = this.new_permissionData;
       await this.postPermission(data);
@@ -467,7 +470,6 @@ export default {
   },
   mounted() {
     this.$store.commit('setPageTitle', this.$t('permissionControl.dialog.permission'));
-    this.$store.dispatch('permission/getPermission', {page: this.current_page, size: this.itemPerPage});
   }
 }
 </script>

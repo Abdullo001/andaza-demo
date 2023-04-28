@@ -453,7 +453,7 @@ export default {
         {text: this.$t('workingProcess.workingTable.unitPriceCurrency'), sortable: false, value: 'unitPriceCurrency'},
         {text: this.$t('workingProcess.workingTable.vatTaxPercent'), sortable: false, value: 'vatTaxPercent'},
         {text: this.$t('workingProcess.workingTable.weight'), sortable: false, value: 'weight'},
-        {text: this.$t('workingProcess.workingTable.actions'), sortable: false, value: 'actions', width: 150, align: "center"},
+        {text: this.$t('workingProcess.workingTable.actions'), sortable: false, value: 'actions', width: 116, align: "center"},
       ],
       items: [],
       working_arr: [],

@@ -16,16 +16,16 @@
     >
       <template #top>
         <v-card-title class="d-flex">
-          <div class="title">Planning of production</div>
+          <div class="title">{{ $t('planningProduction.planning.planningProduction') }}</div>
           <v-spacer/>
           <v-btn
             color="#7631FF" dark
             class="rounded-lg text-capitalize font-weight-bold"
-            width="200" height="40"
-            @click="openDialog('add')"
+            height="40"
+            @click="openDialog($t('planningProduction.dialog.add'))"
           >
             <v-icon>mdi-plus</v-icon>
-            add processing
+            {{ $t('planningProduction.planning.addProcessing') }}
           </v-btn>
         </v-card-title>
       </template>
@@ -47,7 +47,7 @@
     <v-dialog v-model="dialog" max-width="1000">
       <v-card flat>
         <v-card-title class="d-flex mb-4">
-          <div class="title text-capitalize">{{ title }} process</div>
+          <div class="title text-capitalize">{{ title }} {{ $t('planningProduction.planning.process') }}</div>
           <v-spacer/>
           <v-btn color="#7631FF" icon @click="dialog=false">
             <v-icon>mdi-close</v-icon>
@@ -57,31 +57,31 @@
           <v-form v-model="validate" ref="processing">
             <v-row justify="center">
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">Working process</div>
+                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('planningProduction.planning.workingProcess') }}</div>
                 <v-select
                   :items="processList"
                   item-text="name"
                   item-value="id"
                   filled color="#7631FF"
                   append-icon="mdi-chevron-down"
-                  placeholder="Select working process"
+                  :placeholder="$t('planningProduction.planning.selectWorkingProcess')"
                   v-model="new_process.processId"
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">Workshop</div>
+                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('planningProduction.planning.workshop') }}</div>
                 <v-select
                   :items="workshopList"
                   item-text="name"
                   item-value="id"
                   filled color="#7631FF"
                   append-icon="mdi-chevron-down"
-                  placeholder="Select workshop"
+                  :placeholder="$t('planningProduction.planning.selectWorkshop')"
                   v-model="new_process.workshopId"
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">Contract date</div>
+                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('planningProduction.planning.contractDate') }}</div>
                 <el-date-picker
                   v-model="new_process.contractDate"
                   type="datetime"
@@ -93,7 +93,7 @@
                 </el-date-picker>
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">Started date</div>
+                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('planningProduction.planning.startedDate') }}</div>
                 <el-date-picker
                   v-model="new_process.startedDate"
                   type="datetime"
@@ -105,7 +105,7 @@
                 </el-date-picker>
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">Finished date</div>
+                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('planningProduction.planning.finishedDate') }}</div>
                 <el-date-picker
                   v-model="new_process.finishedDate"
                   type="datetime"
@@ -117,19 +117,19 @@
                 </el-date-picker>
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">Fabric color</div>
+                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('planningProduction.planning.fabricColor') }}</div>
                 <v-select
                   :items="colorsList"
                   item-value="id"
                   item-text="name"
                   filled color="#7631FF"
                   append-icon="mdi-chevron-down"
-                  placeholder="Select fabric color"
+                  :placeholder="$t('planningProduction.planning.selectFabricColor')"
                   v-model="new_process.colorId"
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">Quantity</div>
+                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('planningProduction.planning.quantity') }}</div>
                 <v-text-field
                   filled color="#7631FF"
                   placeholder="0"
@@ -137,17 +137,17 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">Currency</div>
+                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('planningProduction.planning.currency') }}</div>
                 <v-select
                   :items="currencyEnums"
                   filled color="#7631FF"
                   append-icon="mdi-chevron-down"
-                  placeholder="Select currency"
+                  :placeholder="$t('planningProduction.planning.selectCurrency')"
                   v-model="new_process.unitPriceCurrency"
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">Unit price</div>
+                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('planningProduction.planning.unitPrice') }}</div>
                 <v-text-field
                   filled color="#7631FF"
                   placeholder="0"
@@ -155,10 +155,10 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="text-body-1 mb-3 font-weight-bold">Comment</div>
+                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('planningProduction.planning.comment') }}</div>
                 <v-text-field
                   filled color="#7631FF"
-                  placeholder="Comment"
+                  :placeholder="$t('planningProduction.planning.comment')"
                   v-model="new_process.description"
                 />
               </v-col>
@@ -173,7 +173,7 @@
             width="163" height="44"
             @click="dialog=false"
           >
-            cancel
+            {{ $t('planningProduction.planning.cancel') }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold ml-8"
@@ -227,7 +227,7 @@
         @click="goWorking"
         dark
       >
-        Working operations
+        {{ $t('planningProduction.planning.workingOperations') }}
       </v-btn>
     </div>
   </div>
@@ -243,24 +243,24 @@ export default {
       validate: true,
       delete_dialog: false,
       headers: [
-        {text: 'Process', align: 'start', sortable: false, value: 'process'},
-        {text: 'Workshop', sortable: false, value: 'workshop'},
-        {text: 'Contract date', sortable: false, value: 'contractDate'},
-        {text: 'Started date', sortable: false, value: 'startedDate'},
-        {text: 'Finished date', sortable: false, value: 'finishedDate'},
-        {text: 'Color', sortable: false, value: 'color'},
-        {text: 'Comment', sortable: false, value: 'description'},
-        {text: 'Quantity', sortable: false, value: 'quantity'},
-        {text: 'Currency', sortable: false, value: 'unitPriceCurrency'},
-        {text: 'Unit price', sortable: false, value: 'unitPrice'},
-        {text: 'Total price', sortable: false, value: 'totalPrice'},
-        {text: 'Created date', sortable: false, value: 'createdDate'},
-        {text: 'Actions', sortable: false, value: 'actions'},
+        {text: this.$t('planningProduction.planning.process'), align: 'start', sortable: false, value: 'process'},
+        {text: this.$t('planningProduction.planning.workshop'), sortable: false, value: 'workshop'},
+        {text: this.$t('planningProduction.planning.contractDate'), sortable: false, value: 'contractDate'},
+        {text: this.$t('planningProduction.planning.startedDate'), sortable: false, value: 'startedDate'},
+        {text: this.$t('planningProduction.planning.finishedDate'), sortable: false, value: 'finishedDate'},
+        {text: this.$t('planningProduction.planning.color'), sortable: false, value: 'color'},
+        {text: this.$t('planningProduction.planning.comment'), sortable: false, value: 'description'},
+        {text: this.$t('planningProduction.planning.quantity'), sortable: false, value: 'quantity'},
+        {text: this.$t('planningProduction.planning.currency'), sortable: false, value: 'unitPriceCurrency'},
+        {text: this.$t('planningProduction.planning.unitPrice'), sortable: false, value: 'unitPrice'},
+        {text: this.$t('planningProduction.planning.totalPrice'), sortable: false, value: 'totalPrice'},
+        {text: this.$t('planningProduction.planning.createdDate'), sortable: false, value: 'createdDate'},
+        {text: this.$t('planningProduction.planning.actions'), sortable: false, value: 'actions'},
       ],
       planningList: [],
       dialog: false,
-      title: 'Add',
-      btnText: 'save',
+      title: this.$t('planningProduction.dialog.add'),
+      btnText: this.$t('planningProduction.dialog.save'),
       currencyEnums: ['UZS', 'RUB', 'USD'],
       new_process: {
         processId: '',
@@ -307,7 +307,7 @@ export default {
       deleteProcessing: 'production/planning/deleteProcessing'
     }),
     async saveProcessing() {
-      if(this.title === 'add') {
+      if(this.title === this.$t('planningProduction.dialog.add')) {
         this.new_process.productionId = this.productionId;
         await this.createProcessing(this.new_process);
         this.$refs.processing.reset();
@@ -324,8 +324,8 @@ export default {
     },
     editItem(item) {
       this.dialog = true;
-      this.title = 'Edit';
-      this.btnText = 'update';
+      this.title = this.$t('planningProduction.dialog.edit');
+      this.btnText = this.$t('planningProduction.dialog.update');
       this.new_process = {
         processId: item.processId,
         workshopId: item.workshopId,
@@ -351,7 +351,7 @@ export default {
     },
     goWorking() {
       if(this.selectedProcess.length) {
-        this.$router.push(`/working-process/${this.selectedProcess[0].id}?id=${this.$route.params.id}`);
+        this.$router.push(this.localePath(`/working-process/${this.selectedProcess[0].id}?id=${this.$route.params.id}`));
       }
     }
   },

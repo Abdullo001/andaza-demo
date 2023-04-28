@@ -100,7 +100,7 @@
     </v-card>
     <v-data-table
       :headers="headers"
-      :items="role"
+      :items="all_role"
       :items-per-page="10"
       :no-data-text="$t('noDataText')"
       :footer-props="{
@@ -111,7 +111,6 @@
       class="mt-4 rounded-lg"
       :options.sync="options"
       @update:items-per-page="getItemSize"
-      @click:row="(item) => pushRow(item)"
       :server-items-length="roleTotalElements"
     >
       <template #top>
@@ -131,14 +130,23 @@
         <v-btn icon color="green" @click.stop="editItem(item)">
           <v-img src="/edit-active.svg" max-width="22"/>
         </v-btn>
-        <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-          <v-img src="/delete.svg" max-width="27"/>
-        </v-btn>
+        <v-tooltip top color="primary">
+          <template v-slot:activator="{on, attrs}">
+            <v-btn
+              icon color="primary"
+              v-on="on" v-bind="attrs"
+              @click="$router.push(localePath(`/role/${item.id}`))"
+            >
+              <v-icon>mdi-chevron-right</v-icon>
+            </v-btn>
+          </template>
+          <span>{{ $t('prefinances.dialog.edit') }}</span>
+        </v-tooltip>
       </template>
       <template #item.status="{item}">
         <div>
           <v-select
-            @click.stop="statusChange(item)"
+            @change="statusChange(item)"
             :items="statusEnums"
             hide-details
             rounded
@@ -280,39 +288,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="delete_dialog" max-width="500">
-      <v-card class="pa-4 text-center">
-        <div class="d-flex justify-center mb-2">
-          <v-img src="/error-icon.svg" max-width="40"/>
-        </div>
-        <v-card-title class="d-flex justify-center">{{ $t('permissionRole.dialog.deleteDialog') }}</v-card-title>
-        <v-card-text>
-          {{ $t('permissionRole.dialog.deleteText') }}
-        </v-card-text>
-        <v-card-actions class="px-16">
-          <v-btn
-            outlined
-            class="rounded-lg text-capitalize font-weight-bold"
-            color="#777C85"
-            width="140"
-            @click.stop="delete_dialog = false"
-          >
-            {{ $t('permissionRole.dialog.cancel') }}
-          </v-btn>
-          <v-spacer/>
-          <v-btn
-            class="rounded-lg text-capitalize font-weight-bold"
-            color="#FF4E4F"
-            width="140"
-            elevation="0"
-            dark
-            @click="deleteRole"
-          >
-            {{ $t('permissionRole.dialog.delete') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </div>
 </template>
 
@@ -333,19 +308,17 @@ export default {
         {text: 'ID', value: 'id', sortable: false,},
         {text: this.$t('permissionRole.table.roleName'), value: 'name'},
         {text: this.$t('permissionRole.table.description'), value: 'description'},
-        {text: this.$t('permissionRole.table.status'), value: 'status', width: '180'},
         {text: this.$t('permissionRole.table.created'), value: 'createdAt'},
+        {text: this.$t('permissionRole.table.status'), value: 'status', width: '180'},
         {text: this.$t('permissionRole.table.updated'), value: 'updatedAt'},
         {text: this.$t('permissionRole.table.actions'), align: 'center', value: 'actions', sortable: false}
       ],
-      // NEW ROLE
+      all_role: [],
       new_role: {
         name: '',
         description: '',
       },
       new_permission: [],
-      id: '',
-      // EDIT ROLE
       edit_permission: [],
       edit_role: {
         id: '',
@@ -357,9 +330,14 @@ export default {
       itemPerPage: 10,
     }
   },
-  created() {
+  watch: {
+    role(elem){
+      this.all_role = JSON.parse(JSON.stringify(elem));
+    },
+  },
+  async created() {
     this.$store.commit('setPageTitle', this.$t('permissionRole.dialog.accessControl'))
-    this.$store.dispatch('permission/getRoleAllData', {page: this.current_page, size: this.itemPerPage})
+    await this.$store.dispatch('permission/getRoleAllData', {page: this.current_page, size: this.itemPerPage})
   },
   computed: {
     ...mapGetters({
@@ -373,8 +351,8 @@ export default {
       getRoleAllData: 'permission/getRoleAllData',
       postRole: "permission/postRole",
       updateRole: "permission/updateRole",
+      changeStatusRole: "permission/changeStatusRole",
     }),
-    // PuST ROLE
     async putRoleData() {
       const data = this.edit_role;
       await this.updateRole(data);
@@ -386,24 +364,14 @@ export default {
         status: '',
       }
     },
-    statusChange(item) {
-      console.log(item)
+    async statusChange(item) {
+      await this.changeStatusRole({id: item.id, status: item.status});
     },
-    // DELETE ROLE
-    deleteRole() {
-      console.log(this.id)
-    },
-    // POST ROLE DATA
     async save() {
-      const data = this.new_role
+      const data = {...this.new_role}
       await this.postRole(data);
       this.new_dialog = false;
       this.$refs.new_form.reset();
-    },
-    getDeleteItem(item) {
-      console.log(item);
-      this.delete_dialog = true;
-      this.id = item.id
     },
     editItem(item) {
       this.edit_role = {
@@ -414,16 +382,13 @@ export default {
       }
       this.edit_dialog = true;
     },
-    // GET ROLE
     getItemSize(val) {
       this.itemPerPage = val;
       this.getRoleAllData({page: this.current_page, size: this.itemPerPage})
     },
-    pushRow(item) {
-      this.$router.push(this.localePath(`/role/${item.id}`))
-    },
-    resetFilters() {
-
+    async resetFilters() {
+      await this.$refs.filter_form.reset();
+      await this.getRoleAllData({page: 0, size: 10});
     },
 
   },

@@ -77,20 +77,6 @@
         </v-form>
       </v-card-text>
     </v-card>
-    <!-- <v-data-table
-      class="mt-4 rounded-lg pt-4"
-      :headers="headers"
-      :items="accessoryList"
-      :loading="loading"
-      :options.sync="options"
-      :items-per-page="itemPrePage"
-      :footer-props="{
-        itemsPerPageOptions: [10, 20, 50, 100],
-      }"
-      @update:page="page"
-      @update:items-per-page="size"
-      :server-items-length="totalElements"
-    > -->
     <v-data-table
     class="mt-4 rounded-lg pt-4"
     :headers="headers"
