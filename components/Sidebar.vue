@@ -280,8 +280,8 @@ export default {
                 to: this.localePath("/package-shape")
               },
               {
-                title: this.$t('sidebar.fabricCatalogs'),
-                to: this.localePath("/fabric-catalogs")
+                title: "Catalog Groups",
+                to: this.localePath("/catalog-groups")
               },
               {
                 title: this.$t('sidebar.productCatalogs'),

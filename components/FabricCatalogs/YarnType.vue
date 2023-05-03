@@ -3,7 +3,9 @@
     <v-data-table
       :headers="headers"
       :items-per-page="10"
-      :items="items"
+      :loading="loading"
+      :server-items-length="totalElements"
+      :items="yarn_type_list"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100]
       }"
@@ -25,12 +27,12 @@
         <v-checkbox/>
       </template>
       <template #item.actions="{item}">
-        <div >
+        <div>
           <v-btn icon color="green" @click.stop="editItem(item)">
-            <v-img src="edit-active.svg" max-width="22"/>
+            <v-img src="/edit-active.svg" max-width="22"/>
           </v-btn>
           <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-            <v-img src="delete.svg" max-width="27"/>
+            <v-img src="/delete.svg" max-width="27"/>
           </v-btn>
         </div>
       </template>
@@ -44,26 +46,30 @@
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
-          <v-form  ref="new_form">
+          <v-form ref="new_form" lazy-validation v-model="validate">
             <v-text-field
+              v-model="create_yarn_type.name"
               filled
+              :rules="[ formRules.required ]"
               label="Yarn type"
               placeholder="Select yarn type"
-              dense
               color="#7631FF"
             />
             <v-text-field
+              v-model="create_yarn_type.specification"
               filled
+              :rules="[ formRules.required ]"
               label="Canvas type specification"
               placeholder="Enter yarn type specification"
-              dense
               color="#7631FF"
             />
             <v-textarea
+              v-model="create_yarn_type.description"
               filled
+              rows="1"
+              auto-grow
               label="Description"
               placeholder="Enter yarn type"
-              dense
               color="#7631FF"
             />
           </v-form>
@@ -81,6 +87,7 @@
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF" dark
             width="163"
+            @click="save"
           >
             create
           </v-btn>
@@ -96,8 +103,10 @@
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
-          <v-form  ref="new_form">
+          <v-form ref="edit_form" lazy-validation v-model="editValidate">
             <v-text-field
+              v-model="edit_yarn_type.name"
+              :rules="[ formRules.required ]"
               filled
               label="Yarn type"
               placeholder="Select yarn type"
@@ -105,6 +114,8 @@
               color="#7631FF"
             />
             <v-text-field
+              v-model="edit_yarn_type.specification"
+              :rules="[ formRules.required ]"
               filled
               label="Canvas type specification"
               placeholder="Enter yarn type specification"
@@ -112,6 +123,7 @@
               color="#7631FF"
             />
             <v-textarea
+              v-model="edit_yarn_type.description"
               filled
               label="Description"
               placeholder="Enter yarn type"
@@ -133,6 +145,7 @@
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF" dark
             width="163"
+            @click="update"
           >
             save
           </v-btn>
@@ -165,6 +178,7 @@
             width="140"
             elevation="0"
             dark
+            @click="deleteYarn"
           >
             delete
           </v-btn>
@@ -175,35 +189,92 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   name: "YarnTypePage",
   data() {
     return {
+      editValidate: true,
+      validate: true,
       edit_dialog: false,
       new_dialog: false,
       delete_dialog: false,
+      create_yarn_type: {
+        catalogGroupId: "",
+        description: "",
+        name: "",
+        specification: "",
+      },
+      edit_yarn_type: {
+        catalogGroupId: "",
+        description: "",
+        name: "",
+        specification: "",
+      },
+      delete_yarn_id: "",
       headers: [
-        {text: "Catalogs group code", value: "catalog"},
-        {text: "Group part code", value: "group"},
-        {text: "Canvas type", value: "canvasType"},
-        {text: "Canvas type specifiaction", value: "specifiaction"},
-        {text: "Description", value: "description"},
-        {text: "Creator", value: "creator"},
-        {text: "Created date", value: "Created date"},
+        {text: "ID", value: "id", sortable: false},
+        {text: "Name", value: "name", sortable: false},
+        {text: "Catalogs group code", value: "catalogGroupCode", sortable: false},
+        {text: "Catalog Group Name", value: "catalogGroupName", sortable: false},
+        {text: "Description", value: "description", sortable: false},
+        {text: "createdAt", value: "createdAt", sortable: false},
+        {text: "updatedAt", value: "updatedAt", sortable: false},
         {text: "Actions", value: "actions", align: "center", sortable: false},
       ],
-      items: [
-        {catalog: "Catalog"}
-      ]
     }
   },
-  methods:{
-    editItem(item){
-      this.edit_dialog = true
+  computed: {
+    ...mapGetters({
+      loading: "yarnType/loading",
+      yarn_type_list: "yarnType/yarn_type_list",
+      totalElements: "yarnType/totalElements",
+      catalogGroupId: "catalogGroups/catalogGroupId",
+    })
+  },
+  methods: {
+    ...mapActions({
+      getYarnTypeList: "yarnType/getYarnTypeList",
+      createYarnType: "yarnType/createYarnType",
+      updateYarnType: "yarnType/updateYarnType",
+      deleteYarnType: "yarnType/deleteYarnType",
+    }),
+    async save() {
+      const validate = this.$refs.new_form.validate();
+      if (validate) {
+        const item = {...this.create_yarn_type};
+        await this.createYarnType(item);
+        this.$refs.new_form.reset();
+        this.new_dialog = false;
+      }
     },
-    getDeleteItem(item){
-      this.delete_dialog = true
+    async update(){
+      const edit_validate = this.$refs.edit_form.validate();
+      const {catalogGroupId, name, id, specification, description} = this.edit_yarn_type;
+      if (edit_validate){
+        const item = {catalogGroupId, name, id, specification, description};
+        await this.updateYarnType(item);
+        this.edit_dialog = false;
+      };
     },
+    async deleteYarn(){
+      await this.deleteYarnType({id: this.delete_yarn_id, groupId: this.create_yarn_type.catalogGroupId});
+      this.delete_dialog = false;
+    },
+    editItem(item) {
+      this.edit_yarn_type = {...item};
+      this.edit_dialog = true;
+    },
+    getDeleteItem(item) {
+      this.delete_yarn_id = item.id;
+      this.delete_dialog = true;
+    },
+  },
+  async mounted() {
+    const catalogGroupId = this.catalogGroupId;
+    this.create_yarn_type.catalogGroupId = catalogGroupId;
+    await this.getYarnTypeList({page: 0, size: 10, id: catalogGroupId});
   },
 }
 </script>
