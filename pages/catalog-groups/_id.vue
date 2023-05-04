@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Breadcrumbs :maps="map_links"/>
     <v-card elevation="0" class="rounded-lg">
       <v-card-title>
         <div>Fabric catalogs</div>
@@ -20,7 +21,6 @@
             class="text-capitalize rounded-lg"
             color="#777C85"
           >
-            <v-img :src="fields_status ? '/edit.svg' : '/edit-active.svg'" class="mr-1"/>
             Edit
           </v-btn>
         </div>
@@ -29,67 +29,43 @@
       <v-card-text class="mt-4">
         <v-row>
           <v-col cols="12" lg="3" md="6">
+            <div class="mb-2 text-body-1">Catalogs group code</div>
             <v-text-field
-              label="Catalogs group code"
+              v-model="catalogs_list.groupCode"
+              label="Enter Catalogs group code"
               filled
-              disabled
-              dense
-              placeholder="Enter Catalogs Group code"
               class="mb-4"
               color="#7631FF"
             />
           </v-col>
           <v-col cols="12" lg="3" md="6">
+            <div class="mb-2 text-body-1">Catalogs group name</div>
             <v-text-field
-              label="Catalogs group name"
+              v-model="catalogs_list.groupName"
+              label="Enter Catalogs group name"
               filled
-              dense
-              disabled
-              placeholder="Enter Catalogs group name"
               class="mb-4"
               color="#7631FF"
             />
           </v-col>
           <v-col cols="12" lg="3" md="6">
+            <div class="mb-2 text-body-1">Creator</div>
             <v-text-field
-              label="Group parts code"
+              v-model="catalogs_list.createdAt"
               filled
-              dense
               disabled
-              placeholder="Enter Group parts code"
+              label="Enter Creator"
               class="mb-4"
               color="#7631FF"
             />
           </v-col>
           <v-col cols="12" lg="3" md="6">
+            <div class="mb-2 text-body-1">Created date</div>
             <v-text-field
-              label="Group part name"
-              filled
-              dense
-              disabled
-              placeholder="Enter Group part name"
-              class="mb-4"
-              color="#7631FF"
-            />
-          </v-col>
-          <v-col cols="12" lg="3" md="6">
-            <v-text-field
-              label="Creator"
+              v-model="catalogs_list.updatedAt"
               filled
               disabled
-              dense
-              placeholder="Enter Creator"
-              class="mb-4"
-              color="#7631FF"
-            />
-          </v-col>
-          <v-col cols="12" lg="3" md="6">
-            <v-text-field
-              label="Created date"
-              filled
-              dense
-              disabled
-              placeholder="Select Created date"
+              label="Enter Created date"
               class="mb-4"
               color="#7631FF"
             >
@@ -108,6 +84,7 @@
           width="130"
           height="44"
           dark
+          @click="save"
         >
           save
         </v-btn>
@@ -115,6 +92,7 @@
     </v-card>
     <v-card class="elevation-0 rounded-lg mt-5">
       <v-tabs
+        v-if="catalogGroupId !== ''"
         color="#7631FF"
         v-model="tab"
       >
@@ -137,22 +115,13 @@
               <CanvasTypePage/>
             </div>
             <div v-if="component === 'YarnTypePage'">
-              <YarnTypePages/>
+              <YarnTypePage/>
             </div>
             <div v-if="component === 'YarnNumberPage'">
               <YarnNumberPage/>
             </div>
             <div v-if="component === 'CompositionPage'">
               <CompositionPage/>
-            </div>
-            <div v-if="component === 'DensityPage'">
-              <DensityPage/>
-            </div>
-            <div v-if="component === 'Wool'">
-              <WoolPage/>
-            </div>
-            <div v-if="component === 'PeachEffectPage'">
-              <PeachEffectPage/>
             </div>
           </v-tab-item>
         </v-tabs-items>
@@ -162,43 +131,83 @@
 </template>
 
 <script>
-
+import {mapActions, mapGetters} from "vuex";
+import CanvasTypePage from "../../components/FabricCatalogs/CanvasType.vue";
+import YarnTypePage from "../../components/FabricCatalogs/YarnType.vue";
+import YarnNumberPage from "../../components/FabricCatalogs/YarnNumberPage.vue";
+import CompositionPage from "../../components/FabricCatalogs/Composition.vue";
 
 export default {
-  name: 'CatalogFabricPage',
-  components: {PeachEffectPage, WoolPage, DensityPage, CompositionPage, YarnNumberPage, YarnTypePages, CanvasTypePage},
+  components: {CompositionPage, YarnNumberPage, YarnTypePage, CanvasTypePage},
   data() {
     return {
-      new_dialog: false,
-      items: ['Canvas type', 'Yarn type', 'Yarn number', 'Composition', 'Density', 'Wool', 'Peach effect'],
-      componentsData: ["CanvasTypePage", "YarnTypePage", "YarnNumberPage", "CompositionPage", "DensityPage", "Wool", "PeachEffectPage"],
+      tab_boolean: false,
       tab: null,
-      fields_status: true,
-      headers: [
-        {text: "Catalogs group code", value: "catalog"},
-        {text: "Group part code", value: "group"},
-        {text: "Canvas type", value: "canvasType"},
-        {text: "Canvas type specifiaction", value: "specifiaction"},
-        {text: "Description", value: "description"},
-        {text: "Creator", value: "creator"},
-        {text: "Created date", value: "Created date"},
+      items: ['Canvas type', 'Yarn type', 'Yarn number', 'Composition'],
+      componentsData: ["CanvasTypePage", "YarnTypePage", "YarnNumberPage", "CompositionPage"],
+      catalogs_list: {
+        groupCode: "",
+        groupName: "",
+        createdAt: "",
+        updatedAt: ""
+      },
+      map_links: [
+        {
+          text: this.$t('billingCompany.child.home'),
+          disabled: false,
+          to: this.localePath('/'),
+          icon: true
+        },
+        {
+          text: "Catalog Groups",
+          disabled: false,
+          to: this.localePath('/catalog-groups'),
+          icon: true
+        },
+        {
+          text: this.$t('billingCompany.child.details'),
+          disabled: true,
+          to: this.localePath('/catalog-groups/'),
+          icon: false
+        },
       ],
     }
   },
-
+  watch: {
+    async catalog_one_list(elem) {
+      this.catalogs_list = JSON.parse(JSON.stringify(elem));
+    },
+  },
+  computed: {
+    ...mapGetters({
+      catalog_one_list: "catalogGroups/catalog_one_list",
+      catalogGroupId: "catalogGroups/catalogGroupId",
+    })
+  },
+  methods: {
+    ...mapActions({
+      getCatalogOneId: "catalogGroups/getCatalogOneId",
+      createFabricCatalogs: "catalogGroups/createFabricCatalogs",
+    }),
+    async save() {
+      const {groupCode, groupName} = this.catalogs_list;
+      const item = {groupCode, groupName}
+      await this.createFabricCatalogs(item);
+    },
+  },
+  async mounted() {
+    if (this.$route.params.id !== "create") {
+      this.tab_boolean = true;
+      const id = this.$route.params.id;
+      await this.$store.commit("catalogGroups/setCatalogGroupId", id);
+      const catalog_one_id = this.$route.params.id;
+      await this.getCatalogOneId(catalog_one_id);
+    }
+    await this.$store.commit('setPageTitle', 'Catalogs');
+  },
 }
 </script>
 
 <style lang="scss" scoped>
-.active-tab {
-  font-style: normal;
-  font-weight: 500;
-  line-height: 20px;
-  color: #7631FF;
-}
 
-.el-date-editor--datetime {
-  width: 100%;
-  border: 5px solid red;
-}
 </style>
