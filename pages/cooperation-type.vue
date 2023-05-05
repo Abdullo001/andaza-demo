@@ -90,6 +90,8 @@
         itemsPerPageOptions: [10, 20, 50, 100]
       }"
       class="mt-4 rounded-lg"
+      @update:page="page"
+      @update:items-per-page="size"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -126,7 +128,7 @@
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
-          <v-form  ref="new_form">
+          <v-form ref="new_form">
             <v-text-field
               v-model="create_cooperation.name"
               filled
@@ -174,7 +176,7 @@
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
-          <v-form  ref="new_form">
+          <v-form ref="new_form">
             <v-text-field
               v-model="edit_cooperation.name"
               filled
@@ -254,8 +256,8 @@ import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "CooperationTypePages",
-  data(){
-    return{
+  data() {
+    return {
       edit_dialog: false,
       delete_dialog: false,
       new_dialog: false,
@@ -303,7 +305,7 @@ export default {
   async created() {
     await this.$store.dispatch("cooperationType/getCooperationType", {page: 0, size: 10});
   },
-  computed:{
+  computed: {
     ...mapGetters({
       loading: "cooperationType/loading",
       cooperationType: "cooperationType/cooperationType",
@@ -319,6 +321,14 @@ export default {
       filterCooperationType: "cooperationType/filterCooperationType",
       sortCooperationType: "cooperationType/sortCooperationType",
     }),
+    async size(val) {
+      this.itemPrePage = val;
+      await this.$store.dispatch("cooperationType/getCooperationType", {page: 0, size: this.itemPrePage});
+    },
+    async page(val) {
+      this.current_page = val - 1;
+      await this.$store.dispatch("cooperationType/getCooperationType", {page: this.current_page, size: this.itemPrePage});
+    },
     async deleteCooperation() {
       const id = this.delete_sample.id;
       await this.deleteCooperationType(id);

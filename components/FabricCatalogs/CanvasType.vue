@@ -2,7 +2,7 @@
   <div>
     <v-data-table
       :headers="headers"
-      :items-per-page="10"
+      :items-per-page="itemPrePage"
       :loading="loading"
       :items="canvas_type_list"
       :server-items-length="totalElements"
@@ -10,6 +10,8 @@
         itemsPerPageOptions: [10, 20, 50, 100]
       }"
       class="mt-4 rounded-lg"
+      @update:page="page"
+      @update:items-per-page="size"
     >
       <template #top>
         <v-toolbar elevation="0" class="rounded-lg">
@@ -194,6 +196,8 @@ export default {
   name: "CanvasTypePage",
   data() {
     return {
+      itemPrePage: 10,
+      current_page: 0,
       validate: true,
       edit_dialog: false,
       new_dialog: false,
@@ -237,6 +241,14 @@ export default {
       updateCanvasType: "canvasType/updateCanvasType",
       deleteCanvasType: "canvasType/deleteCanvasType",
     }),
+    async size(val) {
+      this.itemPrePage = val;
+      await this.getCanvasTypeList({page: 0, size: this.itemPrePage, id: this.create_canvas_type.catalogGroupId});
+    },
+    async page(val) {
+      this.current_page = val - 1;
+      await this.getCanvasTypeList({page: this.current_page, size: this.itemPrePage, id: this.create_canvas_type.catalogGroupId});
+    },
     async save() {
       const validate = this.$refs.new_form.validate();
       if (validate) {
@@ -252,7 +264,7 @@ export default {
       await this.updateCanvasType(item);
       this.edit_dialog = false;
     },
-    async deleteCanvas(){
+    async deleteCanvas() {
       await this.deleteCanvasType({id: this.delete_canvas_id, groupId: this.create_canvas_type.catalogGroupId});
       this.delete_dialog = false
     },

@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <v-card
@@ -81,7 +80,8 @@
     <v-data-table
       :headers="headers"
       :items-per-page="10"
-      :items="items"
+      :loading="loading"
+      :items="accessory_thin_list"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100]
       }"
@@ -125,31 +125,29 @@
           <v-form  ref="new_form">
             <v-row>
               <v-col cols="12" lg="6">
-                <v-select
+                <v-text-field
                   filled
                   label="Name"
                   placeholder="Enter Gender type"
-                  dense
-                  append-icon="mdi-chevron-down"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <v-select
+                <v-text-field
                   filled
                   label="Specification"
                   placeholder="Select Specification"
-                  dense
-                  append-icon="mdi-chevron-down"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" lg="6">
                 <v-select
+                  :items="measurement"
                   filled
+                  item-text="name"
+                  item-value="id"
                   label="Measurement unit"
                   placeholder="Select Measurement unit"
-                  dense
                   append-icon="mdi-chevron-down"
                   color="#7631FF"
                 />
@@ -157,9 +155,10 @@
               <v-col cols="12">
                 <v-textarea
                   filled
+                  rows="1"
+                  auto-grow
                   label="Description"
                   placeholder="Enter Description"
-                  dense
                   color="#7631FF"
                 />
               </v-col>
@@ -293,10 +292,19 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   name: "CatalogAccessoryPage",
   data() {
     return {
+      create_accessory: {
+        measurementUnitId: "",
+        name: "",
+        specification: "",
+        accessoryTypeId: "",
+        description: "",
+      },
       valid_search: "",
       filter_partner: {},
       color: "",
@@ -306,12 +314,9 @@ export default {
       delete_dialog: false,
       headers: [
         {text: "Id", value: "id", sortable: false},
-        {text: "Name", value: "name"},
-        {text: "Specification", value: "specification"},
-        {text: "Measurement unit", value: "measurementUnit"},
-        {text: "Description", value: "description"},
-        {text: "Created", value: "created"},
-        {text: "Updated", value: "updated"},
+        {text: "Name", value: "name", sortable: false},
+        {text: "Specification", value: "specification", sortable: false},
+        {text: "Measurement unit", value: "measurementUnit", sortable: false},
         {text: "Actions", value: "actions", align: "center", sortable: false},
       ],
       items: [
@@ -320,7 +325,21 @@ export default {
       resetFilters(){},
     }
   },
+  async created(){
+    await this.getAccessoryThinList({page: 0, size: 10});
+    await this.$store.dispatch("packageshape/getMeasurementUnit");
+  },
+  computed: {
+    ...mapGetters({
+      loading: "catalogAccessory/loading",
+      accessory_thin_list: "catalogAccessory/accessory_thin_list",
+      measurement: "packageshape/measurement",
+    })
+  },
   methods:{
+    ...mapActions({
+      getAccessoryThinList: "catalogAccessory/getAccessoryThinList",
+    }),
     editItem(item){
       this.edit_dialog = true
     },

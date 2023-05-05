@@ -283,10 +283,10 @@ export default {
                 title: "Catalog Groups",
                 to: this.localePath("/catalog-groups")
               },
-              {
-                title: this.$t('sidebar.productCatalogs'),
-                to: this.localePath("/product-catalogs")
-              },
+              // {
+              //   title: this.$t('sidebar.productCatalogs'),
+              //   to: this.localePath("/product-catalogs")
+              // },
               {
                 title: this.$t('sidebar.partners'),
                 to: this.localePath("/partners")

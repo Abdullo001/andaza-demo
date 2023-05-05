@@ -2,7 +2,7 @@
   <div>
     <v-data-table
       :headers="headers"
-      :items-per-page="10"
+      :items-per-page="itemPrePage"
       :loading="loading"
       :server-items-length="totalElements"
       :items="yarn_type_list"
@@ -10,6 +10,8 @@
         itemsPerPageOptions: [10, 20, 50, 100]
       }"
       class="mt-4 rounded-lg"
+      @update:items-per-page="size"
+      @update:page="page"
     >
       <template #top>
         <v-toolbar elevation="0" class="rounded-lg">
@@ -195,6 +197,8 @@ export default {
   name: "YarnTypePage",
   data() {
     return {
+      itemPrePage: 10,
+      current_page: 0,
       editValidate: true,
       validate: true,
       edit_dialog: false,
@@ -240,6 +244,14 @@ export default {
       updateYarnType: "yarnType/updateYarnType",
       deleteYarnType: "yarnType/deleteYarnType",
     }),
+    async size(val) {
+      this.itemPrePage = val;
+      await this.getYarnTypeList({page: 0, size: this.itemPrePage, id: this.create_yarn_type.catalogGroupId});
+    },
+    async page(val) {
+      this.current_page = val - 1;
+      await this.getYarnTypeList({page: this.current_page, size: this.itemPrePage, id: this.create_yarn_type.catalogGroupId});
+    },
     async save() {
       const validate = this.$refs.new_form.validate();
       if (validate) {
@@ -249,16 +261,17 @@ export default {
         this.new_dialog = false;
       }
     },
-    async update(){
+    async update() {
       const edit_validate = this.$refs.edit_form.validate();
       const {catalogGroupId, name, id, specification, description} = this.edit_yarn_type;
-      if (edit_validate){
+      if (edit_validate) {
         const item = {catalogGroupId, name, id, specification, description};
         await this.updateYarnType(item);
         this.edit_dialog = false;
-      };
+      }
+      ;
     },
-    async deleteYarn(){
+    async deleteYarn() {
       await this.deleteYarnType({id: this.delete_yarn_id, groupId: this.create_yarn_type.catalogGroupId});
       this.delete_dialog = false;
     },
