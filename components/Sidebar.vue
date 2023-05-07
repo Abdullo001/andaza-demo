@@ -280,7 +280,7 @@ export default {
                 to: this.localePath("/package-shape")
               },
               {
-                title: "Catalog Groups",
+                title: this.$t('sidebar.catalogGroups'),
                 to: this.localePath("/catalog-groups")
               },
               // {
@@ -292,15 +292,15 @@ export default {
                 to: this.localePath("/partners")
               },
               {
-                title: this.$t('sidebar.size'),
-                to: this.localePath("/catalog-size")
+                title: this.$t('sidebar.sizeTemplate'),
+                to: this.localePath("/size-template")
               },
               {
                 title: this.$t('sidebar.colors'),
                 to: this.localePath('/colors'),
               },
               {
-                title: "Accessory Type",
+                title: this.$t('sidebar.accessoryType'),
                 to: this.localePath('/accessory-type'),
               },
               {
