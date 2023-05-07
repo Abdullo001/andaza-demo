@@ -90,6 +90,8 @@
         itemsPerPageOptions: [10, 20, 50, 100]
       }"
       class="mt-4 rounded-lg"
+      @update:page="page"
+      @update:items-per-page="size"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -129,7 +131,6 @@
               filled
               label="Name"
               placeholder="Enter name package shape"
-              dense
               color="#7631FF"
             />
             <v-textarea
@@ -137,7 +138,6 @@
               filled
               label="Description"
               placeholder="Enter package shape description"
-              dense
               color="#7631FF"
             />
             <v-select
@@ -149,7 +149,6 @@
               append-icon="mdi-chevron-down"
               label="Measurement unit ID"
               placeholder="Select Measurement unit ID"
-              dense
               color="#7631FF"
             />
           </v-form>
@@ -189,7 +188,6 @@
               filled
               label="Name"
               placeholder="Enter name package shape"
-              dense
               color="#7631FF"
             />
             <v-textarea
@@ -197,7 +195,6 @@
               filled
               label="Description"
               placeholder="Enter package shape description"
-              dense
               color="#7631FF"
             />
             <v-select
@@ -210,7 +207,6 @@
               item-value="id"
               label="Measurement unit ID"
               placeholder="Select Measurement unit ID"
-              dense
               color="#7631FF"
             />
           </v-form>
@@ -349,6 +345,14 @@ export default {
       filterPackageShape: "packageshape/filterPackageShape",
       sortPackageShape: "packageshape/sortPackageShape",
     }),
+    async size(val) {
+      this.itemPrePage = val;
+      await this.$store.dispatch("packageshape/getPackageShape", {page: 0, size: this.itemPrePage});
+    },
+    async page(val) {
+      this.current_page = val - 1;
+      await this.$store.dispatch("packageshape/getPackageShape", {page: this.current_page, size: this.itemPrePage});
+    },
     async deletePackage() {
       const id = this.delete_package.id;
       await this.deletePackageShape(id);

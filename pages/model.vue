@@ -301,7 +301,7 @@ export default {
     }
   },
   async created() {
-    await this.$store.dispatch("model/getAllModelData", {})
+    await this.$store.dispatch("model/getAllModelData", {page: this.current_page, size: this.itemPrePage})
   },
   computed: {
     ...mapGetters({

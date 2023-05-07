@@ -90,6 +90,8 @@
         itemsPerPageOptions: [10, 20, 50, 100]
       }"
       class="mt-4 rounded-lg"
+      @update:items-per-page="size"
+      @update:page="page"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -316,6 +318,14 @@ export default {
       filterBodyParts: "bodyParts/filterBodyParts",
       sortBodyParts: "bodyParts/sortBodyParts",
     }),
+    async size(val){
+      this.itemPrePage = val;
+      await this.$store.dispatch("bodyParts/getBodyParts", {page: 0, size: this.itemPrePage});
+    },
+    async page(val){
+      this.current_page = val -1 ;
+      await this.$store.dispatch("bodyParts/getBodyParts", {page: this.create_bodyParts, size: this.itemPrePage});
+    },
     async deleteBody() {
       const id = this.delete_bodyParts.id;
       await this.deleteBodyParts(id);

@@ -2,7 +2,7 @@
   <div>
     <v-data-table
       :headers="headers"
-      :items-per-page="10"
+      :items-per-page="itemPrePage"
       :server-items-length="totalElements"
       :loading="loading"
       :items="composition_list"
@@ -10,6 +10,8 @@
         itemsPerPageOptions: [10, 20, 50, 100]
       }"
       class="mt-4 rounded-lg"
+      @update:items-per-page="size"
+      @update:page="page"
     >
       <template #top>
         <v-toolbar elevation="0" class="rounded-lg">
@@ -178,6 +180,8 @@ export default {
   name: "CompositionPage",
   data() {
     return {
+      itemPrePage: 10,
+      current_page: 0,
       edit_validate: true,
       validate: true,
       edit_dialog: false,
@@ -221,6 +225,14 @@ export default {
       updateComposition: "composition/updateComposition",
       deleteComposition: "composition/deleteComposition",
     }),
+    async size(val){
+      this.itemPrePage = val;
+      await this.getCompositionList({page: 0, size: this.itemPrePage, id: this.create_composition.catalogGroupId});
+    },
+    async page(val){
+      this.current_page = val - 1;
+      await this.getCompositionList({page: this.current_page, size: this.itemPrePage, id: this.create_composition.catalogGroupId});
+    },
     async save() {
       const validate = this.$refs.new_form.validate();
       if (validate) {

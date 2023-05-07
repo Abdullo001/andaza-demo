@@ -90,6 +90,8 @@
         itemsPerPageOptions: [10, 20, 50, 100]
       }"
       class="mt-4 rounded-lg"
+      @update:page="page"
+      @update:items-per-page="size"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -298,7 +300,7 @@ export default {
     }
   },
   async created() {
-    await this.$store.dispatch("sample/getSampleData", {page: 0, size: 10})
+    await this.$store.dispatch("sample/getSampleData", {page: 0, size: 10});
   },
   computed: {
     ...mapGetters({
@@ -316,6 +318,14 @@ export default {
       filterSampleData: "sample/filterSampleData",
       sortSampleData: "sample/sortSampleData",
     }),
+    async size(val){
+      this.itemPrePage = val;
+      await this.$store.dispatch("sample/getSampleData", {page: 0, size: this.itemPrePage});
+    },
+    async page(val){
+      this.current_page = val - 1;
+      await this.$store.dispatch("sample/getSampleData", {page: this.current_page, size: this.itemPrePage});
+    },
     async deleteSample() {
       const id = this.delete_sample.id;
       await this.deleteSampleData(id);

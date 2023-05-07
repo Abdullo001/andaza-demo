@@ -89,13 +89,15 @@
         itemsPerPageOptions: [10, 20, 50, 100]
       }"
       class="mt-4 rounded-lg"
-
+      @update:items-per-page="size"
+      @update:page="page"
     >
       <template #top>
         <v-toolbar elevation="0" class="rounded-lg">
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium text-capitalize">Catalog groups</div>
-            <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="$router.push(`/catalog-groups/create`)">
+            <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark
+                   @click="$router.push(`/catalog-groups/create`)">
               <v-icon>mdi-plus</v-icon>
               Catalog groups
             </v-btn>
@@ -161,6 +163,14 @@ export default {
       getCatalogGroupsList: "catalogGroups/getCatalogGroupsList",
       filterCatalogGroupsList: "catalogGroups/filterCatalogGroupsList",
     }),
+    async size(val) {
+      this.itemPrePage = val;
+      await this.getCatalogGroupsList({page: 0, size: this.itemPrePage});
+    },
+    async page(val) {
+      this.current_page = val - 1;
+      await this.getCatalogGroupsList({page: this.current_page, size: this.itemPrePage});
+    },
     async resetFilters() {
       this.filters = {
         id: "",
