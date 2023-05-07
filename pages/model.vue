@@ -370,6 +370,9 @@ export default {
       await this.filterModelData(this.filter_model)
     },
   },
+  mounted() {
+    this.$store.commit('setPageTitle', 'Catalogs');
+  }
 }
 </script>
 

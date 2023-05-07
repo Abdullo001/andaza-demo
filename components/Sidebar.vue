@@ -300,8 +300,8 @@ export default {
                 to: this.localePath('/colors'),
               },
               {
-                title: this.$t('sidebar.genderType'),
-                to: this.localePath('/gender-type'),
+                title: "Accessory Type",
+                to: this.localePath('/accessory-type'),
               },
               {
                 title: this.$t('sidebar.accessory'),

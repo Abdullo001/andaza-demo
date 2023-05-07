@@ -1,25 +1,25 @@
 export const state = () => ({
   loading: true,
-  colors_thin_list: [],
+  accessory_type_list: [],
 });
 export const getters = {
   loading: state => state.loading,
-  colors_thin_list: state => state.colors_thin_list.content,
-  totalElements: state => state.colors_thin_list.totalElements,
+  accessory_type_list: state => state.accessory_type_list.content,
+  totalElements: state => state.accessory_type_list.totalElements,
 };
 export const mutations = {
   setLoading(state, loadings){
     state.loading = loadings
   },
-  setColorsThinList(state, colorsList){
-    state.colors_thin_list = colorsList
+  setAccessoryTypeList(state, accessoryTypes){
+    state.accessory_type_list = accessoryTypes
   },
 };
 export const actions = {
-  async deleteColorsList({dispatch}, id){
+  async deleteAccessoryType({dispatch}, id){
     await this.$axios.$delete(`/api/v1/colors/delete?id=${id}`)
       .then(res => {
-        dispatch("getColorsThinList", {page: 0, size: 10});
+        dispatch("getAccessoryTypeList", {page: 0, size: 10});
         this.$toast.success(res.message);
       })
       .catch(({response}) => {
@@ -27,10 +27,10 @@ export const actions = {
         this.$toast.error(response.message);
       })
   },
-  async updateColorsList({dispatch}, data){
-    await this.$axios.$put('/api/v1/colors/update', data)
+  async updateAccessoryType({dispatch}, data){
+    await this.$axios.$put('/api/v1/accessory-type/update', data)
       .then(res => {
-        dispatch("getColorsThinList", {page: 0, size: 10});
+        dispatch("getAccessoryTypeList", {page: 0, size: 10});
         this.$toast.success(res.message);
       })
       .catch(({response}) => {
@@ -38,10 +38,10 @@ export const actions = {
         this.$toast.error(response.message);
       })
   },
-  async createColorsList({dispatch}, data){
-    await this.$axios.$post('/api/v1/colors/create', data)
+  async createAccessoryType({dispatch}, data){
+    await this.$axios.$post('/api/v1/accessory-type/create', data)
       .then(res => {
-        dispatch("getColorsThinList", {page: 0, size: 10});
+        dispatch("getAccessoryTypeList", {page: 0, size: 10});
         this.$toast.success(res.message);
       })
       .catch(({response}) => {
@@ -49,16 +49,16 @@ export const actions = {
         this.$toast.error(response.message);
       })
   },
-  async getColorsThinList({commit}, {page, size}){
+  async getAccessoryTypeList({commit}, {page, size}){
     const body = {
       filters: [],
       sorts: [],
       page,
       size,
     }
-    await this.$axios.$put('/api/v1/colors/list', body)
+    await this.$axios.$put('/api/v1/accessory-type/list', body)
       .then(res => {
-        commit("setColorsThinList", res.data);
+        commit("setAccessoryTypeList", res.data);
         commit("setLoading", false);
       })
       .catch(({response}) => {
@@ -66,18 +66,18 @@ export const actions = {
         commit("setLoading", false);
       })
   },
-  async filterColorsThinList({commit}, data){
-    const { code, name, createdAt, updatedAt } = data;
+  async filterAccessoryTypeList({commit}, data){
+    const { id, name, createdAt, updatedAt } = data;
     const body = {
       filters: [
         {
-          key: "colorCodeHex",
-          operator: 'LIKE',
-          propertyType: 'STRING',
-          value: code,
+          key: "id",
+          operator: 'EQUAL',
+          propertyType: 'LONG',
+          value: id,
         },
         {
-          key: "groupName",
+          key: "name",
           operator: "LIKE",
           propertyType: "STRING",
           value: name,
@@ -95,9 +95,9 @@ export const actions = {
       page: 0,
     };
     body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
-    await this.$axios.$put('/api/v1/colors/list', body)
+    await this.$axios.$put('/api/v1/accessory-type/list', body)
       .then(res => {
-        commit("setColorsThinList", res.data);
+        commit("setAccessoryTypeList", res.data);
       })
       .catch(({response}) => {
         console.log(response)

@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <v-card
@@ -6,14 +5,15 @@
       elevation="0"
       class="rounded-lg"
     >
-      <v-form lazy-validation v-model="valid_search" ref="filter_form">
+      <v-form ref="filter_form">
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="ID gender type"
+              v-model="filter_partner.id"
+              label="ID Accessory type"
+              placeholder="Enter ID Accessory type"
               outlined
               class="rounded-lg"
-              v-model.trim="filter_partner.id"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -21,7 +21,9 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Name gender type"
+              v-model="filter_partner.name"
+              label="Accessory type name"
+              placeholder="Enter Accessory type name"
               outlined
               class="rounded-lg"
               v-model.trim="filter_partner.name"
@@ -38,7 +40,7 @@
               v-model="filter_partner.createdAt"
               type="datetime"
               placeholder="Created"
-              :picker-options="pickerOptions"
+              :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
             >
             </el-date-picker>
@@ -51,7 +53,7 @@
               v-model="filter_partner.updatedAt"
               type="datetime"
               placeholder="Updated"
-              :picker-options="pickerOptions"
+              :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
             >
             </el-date-picker>
@@ -82,20 +84,24 @@
     </v-card>
     <v-data-table
       :headers="headers"
-      :items-per-page="10"
-      :items="items"
+      :items-per-page="itemPrePage"
+      :loading="loading"
+      :items="accessory_type_list"
+      :server-items-length="totalElements"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100]
       }"
       class="mt-4 rounded-lg"
+      @update:page="page"
+      @update:items-per-page="size"
     >
       <template #top>
         <v-toolbar elevation="0" class="rounded-lg">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium text-capitalize">Gender Type</div>
+            <div class="font-weight-medium text-capitalize">Accessory Type</div>
             <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="new_dialog = true">
               <v-icon>mdi-plus</v-icon>
-              Add Gender Type
+              Add Accessory Type
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -118,29 +124,32 @@
     <v-dialog v-model="new_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Add gender type</div>
+          <div class="text-capitalize font-weight-bold">Add Accessory type</div>
           <v-btn icon color="#7631FF" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
-          <v-form  ref="new_form">
+          <v-form ref="new_form" lazy-validation v-model="validate">
             <v-row>
               <v-col cols="12">
                 <v-text-field
+                  v-model="create_accessory_type.name"
                   filled
-                  label="Gender type"
-                  placeholder="Enter Gender type"
-                  dense
+                  :rules="[formRules.required]"
+                  label="Accessory type name"
+                  placeholder="Enter Accessory type name"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12">
                 <v-textarea
+                  rows="1"
+                  auto-grow
+                  v-model="create_accessory_type.description"
                   filled
                   label="Description"
                   placeholder="Enter Description"
-                  dense
                   color="#7631FF"
                 />
               </v-col>
@@ -160,6 +169,7 @@
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF" dark
             width="163"
+            @click="save"
           >
             Add
           </v-btn>
@@ -169,29 +179,29 @@
     <v-dialog v-model="edit_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Edit Gender type</div>
+          <div class="text-capitalize font-weight-bold">Edit Accessory type</div>
           <v-btn icon color="#7631FF" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
-          <v-form  ref="new_form">
+          <v-form ref="edit_form" lazy-validation v-model="edit_validate">
             <v-row>
               <v-col cols="12">
                 <v-text-field
+                  v-model="edit_accessory_type.name"
                   filled
-                  label="Gender type"
-                  placeholder="Enter Gender type"
-                  dense
+                  label="Accessory type name"
+                  placeholder="Enter Accessory type name"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12">
                 <v-textarea
+                  v-model="edit_accessory_type.description"
                   filled
                   label="Description"
                   placeholder="Enter Description"
-                  dense
                   color="#7631FF"
                 />
               </v-col>
@@ -211,6 +221,7 @@
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF" dark
             width="163"
+            @click="update"
           >
             add
           </v-btn>
@@ -243,6 +254,7 @@
             width="140"
             elevation="0"
             dark
+            @click="deleteItem"
           >
             delete
           </v-btn>
@@ -253,40 +265,113 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   name: "CatalogGenderPage",
   data() {
     return {
-      valid_search: "",
-      filter_partner: {},
-      color: "",
-      fields_status: true,
+      itemPrePage: 10,
+      current_page: 0,
+      delete_accessory_id: "",
+      edit_validate: true,
+      edit_accessory_type: {
+        description: "",
+        name: "",
+        id: "",
+      },
+      validate: true,
+      create_accessory_type: {
+        description: "",
+        name: ""
+      },
+      filter_partner: {
+        id: "",
+        name: "",
+        createdAt: "",
+        updatedAt: "",
+      },
       edit_dialog: false,
       new_dialog: false,
       delete_dialog: false,
       headers: [
         {text: "Id", value: "id", sortable: false},
-        {text: "Name", value: "name"},
-        {text: "Description", value: "description"},
-        {text: "Created", value: "created"},
-        {text: "Updated", value: "updated"},
+        {text: "Name", value: "name", sortable: false},
+        {text: "Description", value: "description", sortable: false},
+        {text: "CreatedAt", value: "createdAt", sortable: false},
+        {text: "UpdatedAt", value: "updatedAt", sortable: false},
         {text: "Actions", value: "actions", align: "center", sortable: false},
       ],
-      items: [
-        {id: "Catalog"}
-      ],
-      pickerOptions: {},
-      resetFilters(){},
     }
   },
-  methods:{
-    editItem(item){
-      this.edit_dialog = true
+  async created() {
+    await this.getAccessoryTypeList({page: 0, size: 10});
+  },
+  computed: {
+    ...mapGetters({
+      loading: "accessoryType/loading",
+      accessory_type_list: "accessoryType/accessory_type_list",
+      totalElements: "accessoryType/totalElements",
+    })
+  },
+  methods: {
+    ...mapActions({
+      getAccessoryTypeList: "accessoryType/getAccessoryTypeList",
+      createAccessoryType: "accessoryType/createAccessoryType",
+      updateAccessoryType: "accessoryType/updateAccessoryType",
+      deleteAccessoryType: "accessoryType/deleteAccessoryType",
+      filterAccessoryTypeList: "accessoryType/filterAccessoryTypeList",
+    }),
+    async size(val){
+      this.itemPrePage = val;
+      await this.getAccessoryTypeList({page: 0, size: this.itemPrePage});
     },
-    getDeleteItem(item){
-      this.delete_dialog = true
+    async page(val){
+      this.current_page = val - 1;
+      await this.getAccessoryTypeList({page: this.current_page, size: this.itemPrePage});
     },
-    filterData(){},
+    async save() {
+      const validate = this.$refs.new_form.validate();
+      if (validate) {
+        const item = {...this.create_accessory_type};
+        await this.createAccessoryType(item);
+        this.$refs.new_form.reset();
+        this.new_dialog = false;
+      };
+    },
+    async update() {
+      const edit_validate = this.$refs.edit_form.validate();
+      if (edit_validate) {
+        const {id, description, name} = this.edit_accessory_type;
+        const item = {id, description, name};
+        await this.updateAccessoryType(item);
+        this.edit_dialog = false;
+      }
+    },
+    async deleteItem() {
+      await this.deleteAccessoryType(this.delete_accessory_id);
+      this.delete_dialog = false;
+    },
+    editItem(item) {
+      this.edit_accessory_type = {...item};
+      this.edit_dialog = true;
+    },
+    getDeleteItem(item) {
+      this.delete_accessory_id = item.id;
+      this.delete_dialog = true;
+    },
+    async resetFilters() {
+      this.filter_partner = {
+        id: "",
+        name: "",
+        createdAt: "",
+        updatedAt: "",
+      };
+      await this.getAccessoryTypeList({page: 0, size: 10});
+    },
+    async filterData() {
+      await this.filterAccessoryTypeList(this.filter_partner);
+    },
   },
   mounted() {
     this.$store.commit('setPageTitle', 'Catalogs');
@@ -294,6 +379,9 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-
+<style lang="scss">
+.el-input__inner::placeholder,
+.el-input__icon, .el-icon-time {
+  color: #919191 !important;
+}
 </style>

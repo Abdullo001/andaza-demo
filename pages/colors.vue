@@ -83,6 +83,8 @@
       :headers="headers"
       :items-per-page="itemPrePage"
       :items="colors_thin_list"
+      :loading="loading"
+      :server-items-length="totalElements"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100]
       }"
@@ -378,7 +380,9 @@ export default {
   },
   computed: {
     ...mapGetters({
+      loading: "colors/loading",
       colors_thin_list: "colors/colors_thin_list",
+      totalElements: "colors/totalElements",
     }),
   },
   methods: {
