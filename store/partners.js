@@ -1,11 +1,15 @@
 export const state = () => ({
   loading: true,
   partner_list: [],
+  partner_type: [],
+  partner_one_list: []
 });
 export const getters = {
   loading: state => state.loading,
   partner_list: state => state.partner_list.content,
   totalElements: state => state.partner_list.totalElements,
+  partner_type: state => state.partner_type.content,
+  partner_one_list: state => state.partner_one_list,
 };
 export const mutations = {
   setLoading(state, loadings) {
@@ -14,13 +18,34 @@ export const mutations = {
   setPartnersList(state, partnersList) {
     state.partner_list = partnersList
   },
+  setPartnerType(state, partnerType){
+    state.partner_type = partnerType
+  },
+  setPartnerOneList(state, partnerOne){
+    state.partner_one_list = partnerOne
+  },
 };
 export const actions = {
+  async getPartnerType({commit}, {page, size}){
+    const body = {
+      filters: [],
+      sorts: [],
+      page,
+      size,
+    }
+    await this.$axios.$put(`/api/v1/partner-type/list`, body)
+      .then(res => {
+        commit("setPartnerType", res.data)
+      })
+      .catch(({response}) => {
+        console.log(response)
+      })
+  },
   async changeStatus({dispatch}, data){
     const { id, status } = data
     await this.$axios.$put(`/api/v1/partner/change-status?id=${id}&status=${status}`)
       .then(res => {
-        console.log(res)
+        this.$toast.success(res.message);
       })
       .catch(({response}) => {
         console.log(response)
@@ -29,7 +54,7 @@ export const actions = {
   async updatePartnerList({dispatch}, data) {
     await this.$axios.$put('/api/v1/partner/update', data)
       .then(res => {
-        dispatch("getAccessoryThinList", {page: 0, size: 10});
+        dispatch("getPartnerList", {page: 0, size: 10});
         this.$toast.success(res.message);
       })
       .catch(({response}) => {
@@ -37,7 +62,16 @@ export const actions = {
         this.$toast.error(response.message);
       })
   },
-  async createAccessoryList({dispatch}, data) {
+  async getPartnerOneList({commit}, id){
+    await this.$axios.get(`/api/v1/partner/get?id=${id}`)
+      .then(res => {
+        commit("setPartnerOneList", res.data.data)
+      })
+      .catch(({response}) => {
+        console.log(response)
+      })
+  },
+  async createPartnerList({dispatch}, data) {
     await this.$axios.$post('/api/v1/partner/create', data)
       .then(res => {
         dispatch("getPartnerList", {page: 0, size: 10});
@@ -66,27 +100,32 @@ export const actions = {
       })
   },
   async filterPartnerList({commit}, data) {
-    const {code, name, createdAt, updatedAt} = data;
+    const {phoneNumber, name, status, email} = data;
     const body = {
       filters: [
         {
-          key: "colorCodeHex",
+          key: "phoneNumber",
           operator: 'LIKE',
           propertyType: 'STRING',
-          value: code,
+          value: phoneNumber,
         },
         {
-          key: "groupName",
+          key: "name",
           operator: "LIKE",
           propertyType: "STRING",
           value: name,
         },
         {
-          key: 'createdAt',
-          operator: 'BETWEEN',
-          propertyType: 'DATE',
-          value: createdAt,
-          valueTo: updatedAt === null ? "" : updatedAt
+          key: 'email',
+          operator: "LIKE",
+          propertyType: "STRING",
+          value: email
+        },
+        {
+          key: 'status',
+          operator: 'EQUAL',
+          propertyType: 'STATUS',
+          value: status
         },
       ],
       sort: [],
@@ -94,9 +133,9 @@ export const actions = {
       page: 0,
     };
     body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
-    await this.$axios.get('/api/v1/colors/thin-list', body)
+    await this.$axios.$put('/api/v1/partner/list', body)
       .then(res => {
-        commit("setColorsThinList", res.data.data);
+        commit("setPartnersList", res.data);
       })
       .catch(({response}) => {
         console.log(response)
