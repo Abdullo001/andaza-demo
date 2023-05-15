@@ -162,7 +162,7 @@
             width="163"
             @click="save"
           >
-            {{ $t("samplePurposes.dialog.createBn") }}
+            {{ $t("samplePurposes.dialog.createBtn") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -271,12 +271,32 @@ export default {
       current_page: 0,
       options: {},
       headers: [
-        { text: "Id", value: "id", sortable: false },
-        { text: "Name", value: "name" },
-        { text: "Description", value: "description" },
-        { text: "Created At", value: "createdAt" },
-        { text: "Updated At", value: "updatedAt" },
-        { text: "Actions", value: "actions", align: "center", sortable: false },
+        {
+          text: this.$t("samplePurposes.table.id"),
+          value: "id",
+          align: "start",
+          sortable: false,
+          width: "100",
+        },
+        { text: this.$t("samplePurposes.table.name"), value: "name" },
+        {
+          text: this.$t("samplePurposes.table.description"),
+          value: "description",
+        },
+        {
+          text: this.$t("samplePurposes.table.createdAt"),
+          value: "createdAt",
+        },
+        {
+          text: this.$t("samplePurposes.table.updatedAt"),
+          value: "updatedAt",
+        },
+        {
+          text: this.$t("samplePurposes.table.actions"),
+          value: "actions",
+          align: "center",
+          sortable: false,
+        },
       ],
       create_sample: {
         name: "",
