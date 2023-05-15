@@ -812,7 +812,8 @@ export default {
       totalPrice: 'preFinance/totalPrice',
       modelImages: 'modelPhoto/modelImages',
       documentsList: 'documents/documentsList',
-      onePreFinance: 'preFinance/onePreFinance'
+      onePreFinance: 'preFinance/onePreFinance',
+      modelNumber: 'preFinance/modelNumber'
     }),
     title() {
       const id = this.$route.params.id;
@@ -820,6 +821,9 @@ export default {
     }
   },
   watch: {
+    modelNumber(val) {
+      this.addPreFinances.modelNumber = val;
+    },
     onePreFinance(val) {
       if (Object.keys(val).length) {
         const data = JSON.parse(JSON.stringify(val));
@@ -830,7 +834,9 @@ export default {
         this.calculation[0].firstCurrency = this.detailsList[0].totalPrice;
         this.calculation[0].secondCurrency = (this.detailsList[0].totalPrice * val?.secondaryRate).toFixed(2);
         this.calculation[0].tertiaryCurrency = (this.detailsList[0].totalPrice * val?.tertiaryRate).toFixed(2);
+        console.log(val);
         if (!!val?.overProductionPercent) {
+          console.log('worked')
           this.calculation[1].editable = val?.overProductionPercent;
           this.calculation[2].editable = val?.lossPercent;
           this.calculation[3].editable = val?.generalExpensePercent;
@@ -985,8 +991,7 @@ export default {
     async createNewPreFinance() {
       await this.createPreFinance(this.addPreFinances);
     },
-    deleteRow(item, index) {
-    }
+    deleteRow(item, index) {}
   },
   mounted() {
     this.getExpenseGroup();

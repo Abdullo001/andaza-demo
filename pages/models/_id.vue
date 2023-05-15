@@ -11,6 +11,7 @@
             elevation="0"
             color="#7631FF"
             class="text-capitalize rounded-lg mr-4 font-weight-bold"
+            @click="redirectPrefinance"
           >
             {{ $t('listsModels.child.prefinance') }}
           </v-btn>
@@ -303,9 +304,11 @@
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+import Breadcrumbs from "../../components/Breadcrumbs.vue";
 
 export default {
   name: 'addOrEditModelsPage',
+  components: {Breadcrumbs},
   data() {
     return {
       items: [
@@ -404,6 +407,11 @@ export default {
       updateModel: 'models/updateModel'
 
     }),
+    redirectPrefinance() {
+      const id = this.$route.params.id;
+      this.$store.commit('preFinance/setModelNumber', id);
+      this.$router.push(this.localePath('/prefinances/create'));
+    },
     async createNewModel() {
       await this.createModel(this.model);
     },
