@@ -814,7 +814,7 @@ export default {
       modelImages: 'modelPhoto/modelImages',
       documentsList: 'documents/documentsList',
       onePreFinance: 'preFinance/onePreFinance',
-      modelNumber: 'preFinance/modelNumber'
+      selectedModelNumber: 'preFinance/modelNumber'
     }),
     title() {
       const id = this.$route.params.id;
@@ -822,8 +822,9 @@ export default {
     }
   },
   watch: {
-    modelNumber(val) {
-      this.addPreFinances.modelNumber = val;
+    selectedModelNumber(val) {
+      console.log(val);
+      // this.addPreFinances.modelNumber = val;
     },
     onePreFinance(val) {
       if (Object.keys(val).length) {
@@ -945,7 +946,7 @@ export default {
           val[11].editable = ((val[12].firstCurrency / val[5].firstCurrency) * 100).toFixed(2)
         }
       }, deep: true
-    }
+    },
   },
   methods: {
     ...mapActions({
