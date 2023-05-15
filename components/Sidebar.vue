@@ -299,10 +299,10 @@ export default {
                 title: this.$t('sidebar.colors'),
                 to: this.localePath('/colors'),
               },
-              {
-                title: this.$t('sidebar.accessoryType'),
-                to: this.localePath('/accessory-type'),
-              },
+              // {
+              //   title: this.$t('sidebar.accessoryType'),
+              //   to: this.localePath('/accessory-type'),
+              // },
               {
                 title: this.$t('sidebar.accessory'),
                 to: this.localePath('/catalog-accessory'),
