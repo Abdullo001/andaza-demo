@@ -19,6 +19,8 @@ export default {
     const token = this.$auth.strategy.token.get()
     this.$store.commit('setToken', token)
   },
-  mounted() {}
+  mounted() {
+    document.addEventListener('contextmenu', event => event.preventDefault());
+  }
 }
 </script>

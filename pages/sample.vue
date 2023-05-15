@@ -25,8 +25,13 @@
               @keydown.enter="filterData"
             />
           </v-col>
-          <v-col cols="12" lg="2" md="2" style="max-width: 240px">
+
+          <v-col
+            cols="12" lg="2" md="2"
+          >
+
             <el-date-picker
+              style="width: 100%"
               v-model="filters.createdAt"
               type="datetime"
               :placeholder="$t('samplePurposes.child.created')"
@@ -37,6 +42,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <el-date-picker
+              style="width: 100%"
               v-model="filters.updatedAt"
               type="datetime"
               :placeholder="$t('samplePurposes.child.updated')"
@@ -84,6 +90,8 @@
         itemsPerPageOptions: [10, 20, 50, 100],
       }"
       class="mt-4 rounded-lg"
+      @update:page="page"
+      @update:items-per-page="size"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -109,10 +117,12 @@
       <template #item.actions="{ item }">
         <div class="d-flex justify-center">
           <v-btn icon color="green" @click.stop="editItem(item)">
-            <v-img src="edit-active.svg" max-width="22" />
+
+            <v-img src="/edit-active.svg" max-width="22"/>
           </v-btn>
           <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-            <v-img src="delete.svg" max-width="27" />
+            <v-img src="/delete.svg" max-width="27"/>
+
           </v-btn>
         </div>
       </template>
@@ -346,7 +356,9 @@ export default {
     },
   },
   async created() {
-    await this.$store.dispatch("sample/getSampleData", { page: 0, size: 10 });
+
+    await this.$store.dispatch("sample/getSampleData", {page: 0, size: 10});
+
   },
   computed: {
     ...mapGetters({
@@ -364,6 +376,14 @@ export default {
       filterSampleData: "sample/filterSampleData",
       sortSampleData: "sample/sortSampleData",
     }),
+    async size(val){
+      this.itemPrePage = val;
+      await this.$store.dispatch("sample/getSampleData", {page: 0, size: this.itemPrePage});
+    },
+    async page(val){
+      this.current_page = val - 1;
+      await this.$store.dispatch("sample/getSampleData", {page: this.current_page, size: this.itemPrePage});
+    },
     async deleteSample() {
       const id = this.delete_sample.id;
       await this.deleteSampleData(id);

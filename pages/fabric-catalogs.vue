@@ -163,13 +163,6 @@
 
 <script>
 
-import CanvasTypePage from "../components/fabricCatalogs/CanvasType.vue";
-import YarnTypePages from "../components/fabricCatalogs/YarnType.vue";
-import YarnNumberPage from "../components/fabricCatalogs/YarnNumberPage.vue";
-import CompositionPage from "../components/fabricCatalogs/Composition.vue";
-import DensityPage from "../components/fabricCatalogs/Density.vue";
-import WoolPage from "../components/fabricCatalogs/Wool.vue";
-import PeachEffectPage from "../components/fabricCatalogs/PeachEffect.vue";
 
 export default {
   name: 'CatalogFabricPage',

@@ -64,6 +64,7 @@
         </v-row>
       </v-form>
     </v-card>
+
     <v-data-table
       :headers="headers"
       :items="fabricList"

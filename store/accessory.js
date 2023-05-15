@@ -147,6 +147,12 @@ export const actions = {
           propertyType: "STRING",
           value: name,
         },
+        {
+          key: 'status',
+          operator: 'EQUAL',
+          propertyType: 'STATUS',
+          value: 'ACTIVE'
+        }
       ],
       sorts: [],
       page: 0,

@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <v-card
@@ -6,11 +5,12 @@
       elevation="0"
       class="rounded-lg"
     >
-      <v-form lazy-validation v-model="valid_search" ref="filter_form">
+      <v-form>
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="ID"
+              v-model="filter_accessory.id"
+              label="ID Accessory"
               outlined
               class="rounded-lg"
               hide-details
@@ -20,6 +20,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
+              v-model="filter_accessory.name"
               label="Accessory name"
               outlined
               class="rounded-lg"
@@ -29,10 +30,11 @@
             />
           </v-col>
           <v-col
-            cols="12" lg="2" md="2" style="max-width: 240px;"
+            cols="12" lg="2" md="2"
           >
             <el-date-picker
-              v-model="filter_partner.createdAt"
+              style="width: 100%"
+              v-model="filter_accessory.createdAt"
               type="datetime"
               placeholder="Created"
               :picker-options="pickerShortcuts"
@@ -44,7 +46,8 @@
             cols="12" lg="2" md="2"
           >
             <el-date-picker
-              v-model="filter_partner.updatedAt"
+              style="width: 100%"
+              v-model="filter_accessory.updatedAt"
               type="datetime"
               placeholder="Updated"
               :picker-options="pickerShortcuts"
@@ -78,12 +81,16 @@
     </v-card>
     <v-data-table
       :headers="headers"
-      :items-per-page="10"
-      :items="items"
+      :items-per-page="itemPrePage"
+      :loading="loading"
+      :server-items-length="totalElements"
+      :items="accessory_list"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100]
       }"
       class="mt-4 rounded-lg"
+      @update:page="page"
+      @update:items-per-page="size"
     >
       <template #top>
         <v-toolbar elevation="0" class="rounded-lg">
@@ -103,10 +110,10 @@
       <template #item.actions="{item}">
         <div>
           <v-btn icon color="green" @click.stop="editItem(item)">
-            <v-img src="edit-active.svg" max-width="22"/>
+            <v-img src="/edit-active.svg" max-width="22"/>
           </v-btn>
           <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-            <v-img src="delete.svg" max-width="27"/>
+            <v-img src="/delete.svg" max-width="27"/>
           </v-btn>
         </div>
       </template>
@@ -120,44 +127,68 @@
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
-          <v-form  ref="new_form">
+          <v-form ref="new_form" lazy-validation v-model="validate">
             <v-row>
               <v-col cols="12" lg="6">
-                <v-select
-                  filled
-                  label="Name"
-                  placeholder="Enter Gender type"
+                <v-text-field
+                  :rules="[ formRules.required ]"
+                  v-model="create_accessory.name"
                   dense
-                  append-icon="mdi-chevron-down"
+                  filled
+                  label="Name accessory"
+                  placeholder="Enter Name accessory"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <v-select
+                <v-text-field
+                  v-model="create_accessory.specification"
                   filled
+                  dense
                   label="Specification"
                   placeholder="Select Specification"
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <v-select
+                  v-model="create_accessory.measurementUnitId"
+                  :items="measurement"
+                  :rules="[ formRules.required ]"
+                  filled
                   dense
+                  item-text="name"
+                  item-value="id"
+                  label="Measurement unit"
+                  placeholder="Select Measurement unit"
                   append-icon="mdi-chevron-down"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" lg="6">
                 <v-select
+                  v-model="create_accessory.accessoryTypeId"
+                  :items="accessory_type_id"
+                  :rules="[ formRules.required ]"
                   filled
-                  label="Measurement unit"
-                  placeholder="Select Measurement unit"
                   dense
+                  item-text="name"
+                  item-value="id"
+                  label="Accessory Type"
+                  placeholder="Select Accessory type"
                   append-icon="mdi-chevron-down"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12">
                 <v-textarea
+                  v-model="create_accessory.description"
                   filled
+                  rows="1"
+                  dense
+                  auto-grow
                   label="Description"
                   placeholder="Enter Description"
-                  dense
                   color="#7631FF"
                 />
               </v-col>
@@ -177,6 +208,7 @@
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF" dark
             width="163"
+            @click="save"
           >
             Add
           </v-btn>
@@ -192,31 +224,37 @@
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
-          <v-form  ref="edit_form">
+          <v-form ref="edit_form" lazy-validation v-model="edit_validate">
             <v-row>
               <v-col cols="12" lg="6">
-                <v-select
+                <v-text-field
+                  v-model="edit_accessory.name"
+                  :rules="[ formRules.required ]"
                   filled
-                  label="Name"
-                  placeholder="Enter Gender type"
+                  label="Name accessory"
+                  placeholder="Enter Name accessory"
                   dense
-                  append-icon="mdi-chevron-down"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <v-select
+                <v-text-field
+                  v-model="edit_accessory.specification"
                   filled
                   label="Specification"
                   placeholder="Select Specification"
                   dense
-                  append-icon="mdi-chevron-down"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" lg="6">
                 <v-select
+                  v-model="edit_accessory.measurementUnitId"
+                  :rules="[ formRules.required ]"
                   filled
+                  :items="measurement"
+                  item-text="name"
+                  item-value="id"
                   label="Measurement unit"
                   placeholder="Select Measurement unit"
                   dense
@@ -224,8 +262,24 @@
                   color="#7631FF"
                 />
               </v-col>
+              <v-col cols="12" lg="6">
+                <v-select
+                  v-model="edit_accessory.accessoryTypeId"
+                  :items="accessory_type_id"
+                  :rules="[ formRules.required ]"
+                  filled
+                  item-text="name"
+                  item-value="id"
+                  label="Accessory Type"
+                  placeholder="Select Accessory type"
+                  dense
+                  append-icon="mdi-chevron-down"
+                  color="#7631FF"
+                />
+              </v-col>
               <v-col cols="12">
                 <v-textarea
+                  v-model="edit_accessory.description"
                   filled
                   label="Description"
                   placeholder="Enter Description"
@@ -249,6 +303,7 @@
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF" dark
             width="163"
+            @click="update"
           >
             add
           </v-btn>
@@ -281,6 +336,7 @@
             width="140"
             elevation="0"
             dark
+            @click="deleteItem"
           >
             delete
           </v-btn>
@@ -291,41 +347,122 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   name: "CatalogAccessoryPage",
   data() {
     return {
-      valid_search: "",
-      filter_partner: {},
-      color: "",
-      fields_status: true,
+      itemPrePage: 10,
+      current_page: 0,
+      delete_accessory_id: "",
+      edit_validate: true,
+      validate: true,
+      create_accessory: {
+        measurementUnitId: "",
+        name: "",
+        specification: "",
+        accessoryTypeId: "",
+        description: "",
+      },
+      edit_accessory: {},
+      filter_accessory: {
+        id: "",
+        name: "",
+        updatedAt: "",
+        createdAt: "",
+      },
       edit_dialog: false,
       new_dialog: false,
       delete_dialog: false,
       headers: [
         {text: "Id", value: "id", sortable: false},
-        {text: "Name", value: "name"},
-        {text: "Specification", value: "specification"},
-        {text: "Measurement unit", value: "measurementUnit"},
-        {text: "Description", value: "description"},
-        {text: "Created", value: "created"},
-        {text: "Updated", value: "updated"},
+        {text: "Name", value: "name", sortable: false},
+        {text: "Specification", value: "specification", sortable: false},
+        {text: "Measurement unit", value: "measurementUnit", sortable: false},
+        {text: "Accessory Type", value: "accessoryType", sortable: false},
+        {text: "CreatedAt", value: "createdAt", sortable: false},
+        {text: "Description", value: "description", sortable: false},
+        {text: "UpdatedAt", value: "updatedAt", sortable: false},
         {text: "Actions", value: "actions", align: "center", sortable: false},
       ],
-      items: [
-        {id: "Catalog"}
-      ],
-      resetFilters(){},
     }
   },
-  methods:{
-    editItem(item){
-      this.edit_dialog = true
+  async created() {
+    await this.getAccessoryList({page: 0, size: 10});
+    await this.$store.dispatch("packageshape/getMeasurementUnit");
+    await this.getAccessoryTypeId({page: 0, size: 50});
+  },
+  computed: {
+    ...mapGetters({
+      loading: "catalogAccessory/loading",
+      accessory_list: "catalogAccessory/accessory_list",
+      measurement: "packageshape/measurement",
+      totalElements: "catalogAccessory/totalElements",
+      accessory_type_id: "catalogAccessory/accessory_type_id",
+    })
+  },
+  methods: {
+    ...mapActions({
+      getAccessoryList: "catalogAccessory/getAccessoryList",
+      getAccessoryTypeId: "catalogAccessory/getAccessoryTypeId",
+      createAccessoryList: "catalogAccessory/createAccessoryList",
+      updateAccessoryList: "catalogAccessory/updateAccessoryList",
+      deleteAccessoryList: "catalogAccessory/deleteAccessoryList",
+      filterAccessoryList: "catalogAccessory/filterAccessoryList"
+    }),
+    async size(val) {
+      this.itemPrePage = val;
+      await this.getAccessoryList({page: 0, size: this.itemPrePage});
     },
-    getDeleteItem(item){
-      this.delete_dialog = true
+    async page(val) {
+      this.current_page = val - 1;
+      await this.getAccessoryList({page: this.current_page, size: this.itemPrePage});
     },
-    filterData(){},
+    async save() {
+      const validate = this.$refs.new_form.validate();
+      if (validate) {
+        const item = {...this.create_accessory};
+        await this.createAccessoryList(item);
+        this.$refs.new_form.reset();
+        this.new_dialog = false;
+      }
+      ;
+    },
+    async update() {
+      const edit_validate = this.$refs.edit_form.validate();
+      if (edit_validate) {
+        const {accessoryTypeId, id, description, measurementUnitId, name, specification} = this.edit_accessory;
+        const item = {accessoryTypeId, id, description, measurementUnitId, name, specification};
+        await this.updateAccessoryList(item);
+        this.edit_dialog = false;
+      }
+      ;
+    },
+    async deleteItem() {
+      await this.deleteAccessoryList(this.delete_accessory_id);
+      this.delete_dialog = false;
+    },
+    editItem(item) {
+      this.edit_accessory = {...item};
+      this.edit_dialog = true;
+    },
+    getDeleteItem(item) {
+      this.delete_accessory_id = item.id;
+      this.delete_dialog = true;
+    },
+    async filterData() {
+      await this.filterAccessoryList(this.filter_accessory);
+    },
+    async resetFilters() {
+      this.filter_accessory = {
+        id: "",
+        name: "",
+        createdAt: "",
+        updatedAt: ""
+      }
+      await this.getAccessoryList({page: 0, size: 10});
+    },
   },
   mounted() {
     this.$store.commit('setPageTitle', 'Catalogs');
@@ -333,6 +470,9 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-
+<style lang="scss">
+.el-input__inner::placeholder,
+.el-input__icon, .el-icon-time {
+  color: #919191 !important;
+}
 </style>

@@ -30,9 +30,10 @@
             />
           </v-col>
           <v-col
-            cols="12" lg="2" md="2" style="max-width: 240px;"
+            cols="12" lg="2" md="2"
           >
             <el-date-picker
+              style="width: 100%;"
               v-model="filters.createdAt"
               type="datetime"
               placeholder="Created"
@@ -45,6 +46,7 @@
             cols="12" lg="2" md="2"
           >
             <el-date-picker
+              style="width: 100%;"
               v-model="filters.updatedAt"
               type="datetime"
               placeholder="Updated"
@@ -88,6 +90,8 @@
         itemsPerPageOptions: [10, 20, 50, 100]
       }"
       class="mt-4 rounded-lg"
+      @update:items-per-page="size"
+      @update:page="page"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -104,10 +108,10 @@
       <template #item.actions="{item}">
         <div>
           <v-btn icon color="green" @click.stop="editItem(item)">
-            <v-img src="edit-active.svg" max-width="22"/>
+            <v-img src="/edit-active.svg" max-width="22"/>
           </v-btn>
           <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-            <v-img src="delete.svg" max-width="27"/>
+            <v-img src="/delete.svg" max-width="27"/>
           </v-btn>
         </div>
       </template>
@@ -121,7 +125,7 @@
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
-          <v-form  ref="new_form">
+          <v-form ref="new_form">
             <v-text-field
               v-model="create_measurement.name"
               filled
@@ -169,7 +173,7 @@
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
-          <v-form  ref="new_form">
+          <v-form ref="new_form">
             <v-text-field
               v-model="edit_measurement.name"
               filled
@@ -234,6 +238,7 @@
             width="140"
             elevation="0"
             dark
+            @click="deleteSample"
           >
             delete
           </v-btn>
@@ -248,8 +253,8 @@ import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "MeasurementUnitPages",
-  data(){
-    return{
+  data() {
+    return {
       edit_dialog: false,
       delete_dialog: false,
       new_dialog: false,
@@ -313,6 +318,14 @@ export default {
       filterMeasurementUnit: "measurement/filterMeasurementUnit",
       sortMeasurementUnit: "measurement/sortMeasurementUnit",
     }),
+    async size(val) {
+      this.itemPrePage = val;
+      await this.$store.dispatch("measurement/getMeasurementUnit", {page: 0, size: this.itemPrePage});
+    },
+    async page(val) {
+      this.current_page = val - 1;
+      await this.$store.dispatch("measurement/getMeasurementUnit", {page: this.current_page, size: this.itemPrePage});
+    },
     async deleteSample() {
       const id = this.delete_measurement.id;
       await this.deleteMeasurementUnit(id);

@@ -93,7 +93,7 @@
     </v-card>
     <v-data-table
       :headers="headers"
-      :items="permissions"
+      :items="permission_list"
       :items-per-page="10"
       :no-data-text="$t('noDataText')"
       :footer-props="{
@@ -104,7 +104,6 @@
       class="mt-4 rounded-lg"
       :options.sync="options"
       @update:items-per-page="getItemSize"
-      @click:row="(item) => rowPush(item)"
       :server-items-length="totalElement"
     >
       <template #top>
@@ -127,9 +126,6 @@
       <template #item.actions="{item}">
         <v-btn icon color="green" @click.stop="editItem(item)">
           <v-img src="/edit-active.svg" max-width="22"/>
-        </v-btn>
-        <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-          <v-img src="/delete.svg" max-width="27"/>
         </v-btn>
       </template>
       <template #item.status="{item}">
@@ -314,39 +310,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="delete_dialog" max-width="500">
-      <v-card class="pa-4 text-center">
-        <div class="d-flex justify-center mb-2">
-          <v-img src="/error-icon.svg" max-width="40"/>
-        </div>
-        <v-card-title class="d-flex justify-center">{{ $t('permissionControl.dialog.deleteDialog') }}</v-card-title>
-        <v-card-text>
-          {{ $t('permissionControl.dialog.deleteText') }}
-        </v-card-text>
-        <v-card-actions class="px-16">
-          <v-btn
-            outlined
-            class="rounded-lg text-capitalize font-weight-bold"
-            color="#777C85"
-            width="140"
-            @click.stop="delete_dialog = false"
-          >
-            {{ $t('permissionControl.dialog.cancel') }}
-          </v-btn>
-          <v-spacer/>
-          <v-btn
-            class="rounded-lg text-capitalize font-weight-bold"
-            color="#FF4E4F"
-            width="140"
-            elevation="0"
-            dark
-            @click="deleteData"
-          >
-            {{ $t('permissionControl.dialog.delete') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </div>
 </template>
 
@@ -357,7 +320,6 @@ export default {
   name: 'PermissionPage',
   data() {
     return {
-      delete_dialog: false,
       edit_dialog: false,
       new_dialog: false,
       headers: [
@@ -365,11 +327,12 @@ export default {
         {text: this.$t('permissionControl.table.permissionName'), value: 'name'},
         {text: this.$t('permissionControl.table.description'), value: 'description'},
         {text: this.$t('permissionControl.table.path'), value: 'path'},
+        {text: this.$t('permissionControl.table.created'), value: 'createdAt', align: 'center'},
         {text: this.$t('permissionControl.table.status'), value: 'status', width: '150'},
         {text: this.$t('permissionControl.table.updated'), value: 'updatedAt', align: 'center'},
-        {text: this.$t('permissionControl.table.created'), value: 'createdAt', align: 'center'},
         {text: this.$t('permissionControl.table.actions'), value: 'actions', width: '180', align: 'center', sortable: false},
       ],
+      permission_list: [],
       options: {},
       filter_search: {
         key: '',
@@ -397,6 +360,14 @@ export default {
       menu2: false,
     }
   },
+  watch: {
+    permissions(val){
+      this.permission_list = JSON.parse(JSON.stringify(val));
+    },
+  },
+  async created(){
+    await this.$store.dispatch('permission/getPermission', {page: this.current_page, size: this.itemPerPage});
+  },
   computed: {
     ...mapGetters({
       loading: "permission/loading",
@@ -410,15 +381,11 @@ export default {
       postPermission: 'permission/postPermission',
       filterData: 'permission/filterData',
       putPermission: "permission/putPermission",
+      changeStatusPermission: "permission/changeStatusPermission",
     }),
-    statusChange(item) {
-      console.log(item)
+    async statusChange(item) {
+      await this.changeStatusPermission({id: item.id, status: item.status});
     },
-    // DELETE PERMISSION
-    deleteData() {
-      console.log(this.id)
-    },
-    // UPDATE PERMISSION
     async updatePermission() {
       await this.putPermission(this.edit_permission);
       this.edit_dialog = false;
@@ -432,15 +399,11 @@ export default {
       this.$store.commit("permission/setLoading", true);
       this.getPermission({page: this.current_page, size: this.itemPerPage});
     },
-    rowPush(item) {
-      // this.$router.push(`/permission/${item.id}`);
-    },
     resetSearch() {
       this.$refs.search_form.reset();
       this.filter_search.value = this.filter_search.value_to = '';
       this.getPermission({page: this.current_page, size: this.itemPerPage});
     },
-    // POST
     async save() {
       const data = this.new_permissionData;
       await this.postPermission(data);
@@ -451,23 +414,13 @@ export default {
         path: ''
       }
     },
-    filterPermission() {
-      this.filterData({
-        key: this.filter_search.key,
-        status: this.filter_search.status,
-        value: this.filter_search.value,
-        value_to: this.filter_search.value_to,
-        property_type: this.filter_search.property_type
-      })
-    },
-    getDeleteItem(item) {
-      this.delete_dialog = true;
-      this.id = item.id;
+    async filterPermission() {
+      const item = {...this.filter_search};
+      await this.filterData(item);
     },
   },
   mounted() {
     this.$store.commit('setPageTitle', this.$t('permissionControl.dialog.permission'));
-    this.$store.dispatch('permission/getPermission', {page: this.current_page, size: this.itemPerPage});
   }
 }
 </script>
@@ -480,7 +433,10 @@ tbody {
     }
   }
 }
-
+.el-input__inner::placeholder,
+.el-input__icon, .el-icon-time {
+  color: #919191 !important;
+}
 .v-data-table-header {
   background-color: #E9EAEB;
 }

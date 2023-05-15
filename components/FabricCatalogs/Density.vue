@@ -12,10 +12,10 @@
       <template #top>
         <v-toolbar elevation="0" class="rounded-lg">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium text-capitalize">Peach effect</div>
+            <div class="font-weight-medium text-capitalize">Density</div>
             <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="new_dialog = true">
               <v-icon>mdi-plus</v-icon>
-              Peach effect
+              Density
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -25,12 +25,12 @@
         <v-checkbox/>
       </template>
       <template #item.actions="{item}">
-        <div>
+        <div class="d-flex justify-end">
           <v-btn icon color="green" @click.stop="editItem(item)">
-            <v-img src="edit-active.svg" max-width="22"/>
+            <v-img src="/edit-active.svg" max-width="22"/>
           </v-btn>
           <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-            <v-img src="delete.svg" max-width="27"/>
+            <v-img src="/delete.svg" max-width="27"/>
           </v-btn>
         </div>
       </template>
@@ -38,25 +38,24 @@
     <v-dialog v-model="new_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Create Peach effect</div>
+          <div class="text-capitalize font-weight-bold">Create Density</div>
           <v-btn icon color="#7631FF" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form  ref="new_form">
-            <v-select
+            <v-text-field
               filled
-              label="Peach effect existence"
-              placeholder="Select Peach effect existence"
-              append-icon="mdi-chevron-down"
+              label="Density level"
+              placeholder="Select density level"
               dense
               color="#7631FF"
             />
             <v-textarea
               filled
               label="Description"
-              placeholder="Enter Peach effect description"
+              placeholder="Enter Density description"
               dense
               color="#7631FF"
             />
@@ -84,25 +83,24 @@
     <v-dialog v-model="edit_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Edit Peach effect</div>
+          <div class="text-capitalize font-weight-bold">Edit Density</div>
           <v-btn icon color="#7631FF" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form  ref="new_form">
-            <v-select
+            <v-text-field
               filled
-              append-icon="mdi-chevron-down"
-              label="Peach effect existence"
-              placeholder="Select Peach effect existence"
+              label="Density level"
+              placeholder="Select Density level"
               dense
               color="#7631FF"
             />
             <v-textarea
               filled
               label="Description"
-              placeholder="Enter Peach effect description"
+              placeholder="Enter Density"
               dense
               color="#7631FF"
             />
@@ -132,9 +130,9 @@
         <div class="d-flex justify-center mb-2">
           <v-img src="/error-icon.svg" max-width="40"/>
         </div>
-        <v-card-title class="d-flex justify-center">Delete Peach effect</v-card-title>
+        <v-card-title class="d-flex justify-center">Delete Density</v-card-title>
         <v-card-text>
-          Are you sure you want to Delete this Peach effect?
+          Are you sure you want to Delete this Density?
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -164,7 +162,7 @@
 
 <script>
 export default {
-  name: "PeachEffectPage",
+  name: "DensityPage",
   data() {
     return {
       edit_dialog: false,

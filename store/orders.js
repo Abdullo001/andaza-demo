@@ -1,5 +1,6 @@
 export const state = () => ({
   ordersList: [],
+  loading: true,
   oneOrder: {},
   newOrderId: null,
   newModelId: null,
@@ -14,19 +15,23 @@ export const state = () => ({
 
 export const getters = {
   ordersList: (state) => state.ordersList.content,
+  loading: (state) => state.loading,
+  totalElements: (state) => state.ordersList.totalElements,
   oneOrder: (state) => state.oneOrder,
   newOrderId: (state) => state.newOrderId,
-  modelGroups: (state) => state.modelGroups.content,
+  modelGroups: (state) => state.modelGroups.map(elem => elem.name),
   usersList: (state) => state.usersList.content,
   clientList: (state) => state.clientList.data,
   modelList: (state) => state.modelList.data,
   modelId: (state) => state.modelId,
   newModelId: (state) => state.newModelId,
-  orderCondation: (state) => state.orderCondation,
   infoToOrder: (state) => state.infoToOrder,
 };
 
 export const mutations = {
+  setLoading(state, loadings){
+    state.loading = loadings
+  },
   setOrders(state, order) {
     state.ordersList = order;
   },
@@ -63,35 +68,8 @@ export const mutations = {
 };
 
 export const actions = {
-  async getOrdersList({ commit }, { page, size, orderNumber, modelGroup }) {
-    const body = {
-      filters: [
-        {
-          key: "orderNumber",
-          operator: "LIKE",
-          propertyType: "STRING",
-          value: orderNumber,
-        },
-      ],
-      sorts: [],
-      page,
-      size,
-    };
-    body.filters = body.filters.filter(
-      (item) => item.value !== "" && item.value !== null
-    );
-    modelGroup = modelGroup === null ? "" : modelGroup;
 
-    await this.$axios
-      .$put(`/api/v1/orders/list?modelGroup=${modelGroup}`, body)
-      .then((res) => {
-        commit("setOrders", res.data);
-      })
-      .catch(({ response }) => {
-        console.log(response);
-      });
-  },
-  async getOneOrder({ commit }, { page, size, id, modelId }) {
+  async getOneOrder({ commit }, { id, modelId }) {
     await this.$axios
       .$get(`/api/v1/orders/get-one?orderId=${id}&modelId=${modelId}`)
       .then((res) => {
@@ -101,7 +79,6 @@ export const actions = {
         console.log(response);
       });
   },
-
   async changeStatusOrder({ dispatch }, { id, status }) {
     await this.$axios
       .$put(`/api/v1/orders/change-status?id=${id}&status=${status}`)
@@ -110,7 +87,6 @@ export const actions = {
       })
       .catch(({ response }) => console.log(response));
   },
-
   async createdOrder({ commit, dispatch }, data) {
     const order = {
       clientId: data.clientId,
@@ -161,24 +137,6 @@ export const actions = {
         this.$toast.error(response.data.message);
       });
   },
-
-  async getModelGroup({ commit }) {
-    const body = {
-      filter: [],
-      sorts: [],
-      page: 0,
-      size: 50,
-    };
-    await this.$axios
-      .$put(`/api/v1/model-groups/list`, body)
-      .then((res) => {
-        commit("setModelGroups", res.data);
-      })
-      .catch(({ response }) => {
-        console.log(response);
-      });
-  },
-
   async getUsersList({ commit }) {
     const body = {
       filters: [],
@@ -195,7 +153,6 @@ export const actions = {
         console.log(res);
       });
   },
-
   async getClient({ commit }) {
     await this.$axios
       .get(`/api/v1/partner/list-by-type?type=client`)
@@ -206,19 +163,16 @@ export const actions = {
         console.log(res);
       });
   },
-
   async getModelId({ commit }) {
     await this.$axios
       .get(`/api/v1/models/pre-financed-models`)
       .then((res) => {
         commit("setModelList", res.data);
-        console.log(res);
       })
       .catch((res) => {
         console.log(res);
       });
   },
-
   async updateOrder({ dispatch }, data) {
     const order = {
       clientId: data.clientId,
@@ -236,7 +190,6 @@ export const actions = {
       .put("/api/v1/orders/update", order)
       .then((res) => {
         this.$toast.success(res.data.message);
-
         dispatch("getOneOrder", {
           id: res.data.data.id,
           modelId: res.data.data.modelId,
@@ -247,7 +200,6 @@ export const actions = {
         this.$toast.error(res.message);
       });
   },
-
   async getGivePrice({ commit }, { id }) {
     await this.$axios
       .get(`/api/v1/models/info-to-order?id=${id}`)
@@ -256,6 +208,71 @@ export const actions = {
       })
       .catch((res) => {
         console.log(res);
+      });
+  },
+  async filterOrderList({ commit }, {page, size, data}) {
+    const body = {
+      filters: [
+        {
+          key: "orderNumber",
+          operator: "LIKE",
+          property_type: "STRING",
+          value: data.orderNumber,
+        },
+        {
+          key: 'createdAt',
+          operator: 'BETWEEN',
+          propertyType: 'DATE',
+          value: data.createdAt,
+          valueTo: data.updatedAt
+        },
+      ],
+      sorts: [],
+      page,
+      size,
+    };
+    body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
+    const modelGroup = data.modelGroup !== null ? data.modelGroup : ""
+    await this.$axios
+      .$put(`/api/v1/orders/list?modelGroup=${modelGroup}`, body)
+      .then((res) => {
+        commit("setOrders", res.data);
+      })
+      .catch(({ response }) => {
+        console.log(response);
+      });
+  },
+  async getOrdersList({ commit }, { page, size, modelGroup = "" }) {
+    const body = {
+      filters: [],
+      sorts: [],
+      page,
+      size,
+    };
+    await this.$axios
+      .$put(`/api/v1/orders/list?modelGroup=${modelGroup}`, body)
+      .then((res) => {
+        commit("setOrders", res.data);
+        commit("setLoading", false);
+      })
+      .catch(({ response }) => {
+        console.log(response);
+      });
+  },
+  async getModelGroup({ commit }) {
+    const body = {
+      filter: [],
+      sorts: [],
+      page: 0,
+      size: 50,
+    };
+    await this.$axios
+      .$put(`/api/v1/model-groups/list`, body)
+      .then((res) => {
+        commit("setModelGroups", res.data.content);
+      })
+      .catch(({ response }) => {
+        console.log(response);
       });
   },
 };

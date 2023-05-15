@@ -25,8 +25,12 @@
               @keydown.enter="filterData"
             />
           </v-col>
-          <v-col cols="12" lg="2" md="2" style="max-width: 240px">
+
+          <v-col
+            cols="12" lg="2" md="2"
+          >
             <el-date-picker
+              style="width: 100%;"
               v-model="filter_partner.createdAt"
               type="datetime"
               :placeholder="$t('catalogsPartnerType.child.created')"
@@ -37,6 +41,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <el-date-picker
+              style="width: 100%"
               v-model="filter_partner.updatedAt"
               type="datetime"
               :placeholder="$t('catalogsPartnerType.child.updated')"
@@ -109,10 +114,12 @@
       <template #item.actions="{ item }">
         <div>
           <v-btn icon color="green" @click.stop="editItem(item)">
-            <v-img src="/edit-active.svg" max-width="22" />
+
+            <v-img src="/edit-active.svg" max-width="22"/>
           </v-btn>
           <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-            <v-img src="/delete.svg" max-width="27" />
+            <v-img src="/delete.svg" max-width="27"/>
+
           </v-btn>
         </div>
       </template>

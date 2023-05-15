@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <v-card
@@ -10,6 +9,7 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
+              v-model="filter_colors.code"
               label="Color code"
               outlined
               class="rounded-lg"
@@ -20,6 +20,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
+              v-model="filter_colors.name"
               label="Color name"
               outlined
               class="rounded-lg"
@@ -29,10 +30,11 @@
             />
           </v-col>
           <v-col
-            cols="12" lg="2" md="2" style="max-width: 240px;"
+            cols="12" lg="2" md="2"
           >
             <el-date-picker
-              v-model="filter_partner.createdAt"
+              style="width: 100%"
+              v-model="filter_colors.createdAt"
               type="datetime"
               placeholder="Created"
               :picker-options="pickerShortcuts"
@@ -44,7 +46,8 @@
             cols="12" lg="2" md="2"
           >
             <el-date-picker
-              v-model="filter_partner.updatedAt"
+              style="width: 100%;"
+              v-model="filter_colors.updatedAt"
               type="datetime"
               placeholder="Updated"
               :picker-options="pickerShortcuts"
@@ -78,12 +81,16 @@
     </v-card>
     <v-data-table
       :headers="headers"
-      :items-per-page="10"
-      :items="items"
+      :items-per-page="itemPrePage"
+      :items="colors_thin_list"
+      :loading="loading"
+      :server-items-length="totalElements"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100]
       }"
       class="mt-4 rounded-lg"
+      @update:items-per-page="size"
+      @update:page="page"
     >
       <template #top>
         <v-toolbar class="rounded-lg" elevation="0">
@@ -97,18 +104,17 @@
         </v-toolbar>
         <v-divider/>
       </template>
-
-      <template #item.apperance="{ item }">
-        <input type="color" :value="item.apperance" disabled>
+      <template #item.colorCodeHex="{ item }">
+        <v-chip label style="height: 25px; width: 30px" :color="item.colorCodeHex"/>
+        {{ item.colorCodeHex }}
       </template>
-
       <template #item.actions="{item}">
         <div>
-          <v-btn icon color="green" @click.stop="editItem(item)">
-            <v-img src="edit-active.svg" max-width="22"/>
+          <v-btn icon color="green" @click="editItem(item)">
+            <v-img src="/edit-active.svg" max-width="22"/>
           </v-btn>
-          <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-            <v-img src="delete.svg" max-width="27"/>
+          <v-btn icon color="red" @click="getDeleteItem(item)">
+            <v-img src="/delete.svg" max-width="27"/>
           </v-btn>
         </div>
       </template>
@@ -122,27 +128,19 @@
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
-          <v-form  ref="new_form">
+          <v-form ref="new_form" v-model="validate" lazy-validation>
             <v-row>
-              <v-col cols="12" lg="6">
+              <v-col cols="12">
                 <v-text-field
-                  filled
-                  label="Color code"
-                  placeholder="Enter Color code"
-                  dense
-                  color="#7631FF"
-                />
-              </v-col>
-              <v-col cols="12" lg="6">
-                <v-text-field
+                  v-model="create_colors.name"
                   filled
                   label="Color name"
                   placeholder="Enter Color name"
-                  dense
                   color="#7631FF"
+                  :rules="[formRules.required]"
                 />
               </v-col>
-              <v-col cols="12" lg="6">
+              <v-col cols="12">
                 <v-menu
                   v-model="menu"
                   :close-on-content-click="false"
@@ -150,11 +148,11 @@
                   <template #activator="{ on, attrs }">
                     <v-text-field
                       filled
+                      :rules="[formRules.required]"
                       label="Code and apperance"
                       placeholder="Enter Code and apperance"
-                      dense
                       color="#7631FF"
-                      v-model="color"
+                      v-model="create_colors.colorCodeHex"
                       v-on="on"
                       v-bind="attrs"
                     />
@@ -162,8 +160,9 @@
                   <v-card>
                     <v-card-text>
                       <v-color-picker
+                        mode.sync="hex"
                         canvas-height="100"
-                        v-model="color"
+                        v-model="create_colors.colorCodeHex"
                       >
                       </v-color-picker>
                     </v-card-text>
@@ -174,12 +173,14 @@
                   </v-card>
                 </v-menu>
               </v-col>
-              <v-col cols="12" lg="6">
-                <v-text-field
+              <v-col cols="12">
+                <v-textarea
+                  v-model="create_colors.description"
+                  rows="1"
+                  auto-grow
                   filled
                   label="Description"
                   placeholder="Enter Description"
-                  dense
                   color="#7631FF"
                 />
               </v-col>
@@ -199,6 +200,7 @@
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF" dark
             width="163"
+            @click="save"
           >
             Add
           </v-btn>
@@ -214,39 +216,31 @@
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
-          <v-form  ref="edit_form">
+          <v-form ref="edit_form" v-model="edit_validate" lazy-validation>
             <v-row>
-              <v-col cols="12" lg="6">
+              <v-col cols="12">
                 <v-text-field
-                  filled
-                  label="Color code"
-                  placeholder="Enter Color code"
-                  dense
-                  color="#7631FF"
-                />
-              </v-col>
-              <v-col cols="12" lg="6">
-                <v-text-field
+                  :rules="[formRules.required]"
+                  v-model="edit_colors.name"
                   filled
                   label="Color name"
                   placeholder="Enter Color name"
-                  dense
                   color="#7631FF"
                 />
               </v-col>
-              <v-col cols="12" lg="6">
+              <v-col cols="12">
                 <v-menu
                   v-model="edit_menu"
                   :close-on-content-click="false"
                 >
                   <template #activator="{ on, attrs }">
                     <v-text-field
+                      :rules="[formRules.required]"
+                      v-model="edit_colors.colorCodeHex"
                       filled
                       label="Code and apperance"
                       placeholder="Enter Code and apperance"
-                      dense
                       color="#7631FF"
-                      v-model="color"
                       v-on="on"
                       v-bind="attrs"
                     />
@@ -254,8 +248,8 @@
                   <v-card>
                     <v-card-text>
                       <v-color-picker
+                        v-model="edit_colors.colorCodeHex"
                         canvas-height="100"
-                        v-model="color"
                       >
                       </v-color-picker>
                     </v-card-text>
@@ -266,12 +260,12 @@
                   </v-card>
                 </v-menu>
               </v-col>
-              <v-col cols="12" lg="6">
+              <v-col cols="12">
                 <v-text-field
+                  v-model="edit_colors.description"
                   filled
                   label="Description"
                   placeholder="Enter Description"
-                  dense
                   color="#7631FF"
                 />
               </v-col>
@@ -291,6 +285,7 @@
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF" dark
             width="163"
+            @click="update"
           >
             add
           </v-btn>
@@ -323,6 +318,7 @@
             width="140"
             elevation="0"
             dark
+            @click="deleteItem"
           >
             delete
           </v-btn>
@@ -333,47 +329,117 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   name: "CatalogsColorPages",
   data() {
     return {
-      filter_partner: {},
+      edit_validate: true,
+      validate: true,
+      itemPrePage: 0,
+      current_page: 10,
+      edit_colors: {
+        id: "",
+        colorCodeHex: "",
+        description: "",
+        name: ""
+      },
+      create_colors: {
+        description: "",
+        colorCodeHex: "",
+        name: "",
+      },
+      delete_colors_id: "",
+      filter_colors: {
+        code: "",
+        name: "",
+        createdAt: "",
+        updatedAt: ""
+      },
       valid_search: true,
       edit_menu: false,
       menu: false,
-      color: "",
-      fields_status: true,
       edit_dialog: false,
       new_dialog: false,
       delete_dialog: false,
       headers: [
         {text: "ID", value: "id", sortable: false},
-        {text: "Color code", value: "colorCode"},
-        {text: "Name", value: "name"},
-        {text: "Apperance", value: "apperance"},
-        {text: "Pantone code", value: "pantoneCode"},
-        {text: "Description", value: "description"},
-        {text: "Created", value: "created"},
-        {text: "Updated", value: "updated"},
+        {text: "Name", value: "name", sortable: false},
+        {text: "Color Code Hex", value: "colorCodeHex", sortable: false},
+        {text: "isActive", value: "isActive", sortable: false},
+        {text: "Description", value: "description", sortable: false},
+        {text: "CreatedAt", value: "createdAt", sortable: false},
+        {text: "UpdatedAt", value: "updatedAt", sortable: false},
         {text: "Actions", value: "actions", align: "center", sortable: false},
       ],
-      items: [
-        {colorCode: "Catalog", apperance: "#FF0000FF"}
-      ]
     }
   },
-  methods:{
-    editItem(item){
+  async created() {
+    await this.getColorsThinList({page: 0, size: 10});
+  },
+  computed: {
+    ...mapGetters({
+      loading: "colors/loading",
+      colors_thin_list: "colors/colors_thin_list",
+      totalElements: "colors/totalElements",
+    }),
+  },
+  methods: {
+    ...mapActions({
+      getColorsThinList: "colors/getColorsThinList",
+      createColorsList: "colors/createColorsList",
+      updateColorsList: "colors/updateColorsList",
+      deleteColorsList: "colors/deleteColorsList",
+      filterColorsThinList: "colors/filterColorsThinList",
+    }),
+    async size(val) {
+      this.itemPrePage = val
+      await this.getColorsThinList({page: this.current_page, size: this.itemPrePage});
+    },
+    async page(val) {
+      this.current_page = val - 1;
+      await this.getColorsThinList({page: this.current_page, size: this.itemPrePage});
+    },
+    async save() {
+      const validate = this.$refs.new_form.validate();
+      if (validate) {
+        const item = {...this.create_colors};
+        await this.createColorsList(item);
+        this.new_dialog = false;
+      }
+    },
+    async update() {
+      const edit_validate = this.$refs.edit_form.validate();
+      if (edit_validate){
+        const {id, colorCodeHex, description, name} = this.edit_colors;
+        const item = {id, colorCodeHex, description, name};
+        await this.updateColorsList(item);
+        this.edit_dialog = false;
+      }
+    },
+    async deleteItem() {
+      await this.deleteColorsList(this.delete_colors_id);
+      this.delete_dialog = false;
+    },
+    editItem(item) {
+      this.edit_colors = {...item};
       this.edit_dialog = true
     },
-    getDeleteItem(item){
-      this.delete_dialog = true
+    getDeleteItem(item) {
+      this.delete_colors_id = item.id;
+      this.delete_dialog = true;
     },
-    filterData(){},
-    resetFilters(){},
+    async filterData() {
+      await this.filterColorsThinList(this.filter_colors);
+    },
+    async resetFilters() {
+      this.filter_colors = {};
+      await this.getColorsThinList({page: 0, size: 10});
+    },
   },
-  mounted() {
-    this.$store.commit('setPageTitle', 'Catalogs');
+  async mounted() {
+    await this.$store.commit('setPageTitle', 'Catalogs');
   }
 }
 </script>
