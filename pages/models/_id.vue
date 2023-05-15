@@ -408,8 +408,7 @@ export default {
 
     }),
     redirectPrefinance() {
-      const id = this.$route.params.id;
-      this.$store.commit('preFinance/setModelNumber', id);
+      this.$store.commit('preFinance/setModelNumber', this.model.number);
       this.$router.push(this.localePath('/prefinances/create'));
     },
     async createNewModel() {

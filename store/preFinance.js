@@ -27,7 +27,7 @@ export const getters = {
 }
 export const mutations = {
   setModelNumber(state, number) {
-    state.modelNumber =number;
+    state.modelNumber = number;
   },
   setRefinances(state, item) {
     state.preFinances = item;
