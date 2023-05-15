@@ -77,7 +77,8 @@ export default {
       details: "Tafsilotlar",
       copy: "Nusxalash",
       deleteDialog: "Foydalanuvchi ma'lumotlarini o'chirish",
-      deleteText: "Haqiqatan ham bu foydalanuvchi maʼlumotlarini oʻchirib tashlamoqchimisiz?",
+      deleteText:
+        "Haqiqatan ham bu foydalanuvchi maʼlumotlarini oʻchirib tashlamoqchimisiz?",
       cancel: "Bekor qilish",
       delete: "Oʻchirish",
       save: "Saqlash",
@@ -105,7 +106,7 @@ export default {
       lang: "Lang",
       status: "Status",
       actions: "Harakatlar",
-    }
+    },
   },
   localization: {
     dialog: {
@@ -122,7 +123,8 @@ export default {
       language: "Til",
       save: "Saqlash",
       deleteDilaog: "Lokalizatsiyani o'chirish",
-      deletetext: "Haqiqatan ham bu foydalanuvchi maʼlumotlarini oʻchirib tashlamoqchimisiz?",
+      deletetext:
+        "Haqiqatan ham bu foydalanuvchi maʼlumotlarini oʻchirib tashlamoqchimisiz?",
       delete: "Oʻchirish",
     },
     table: {
@@ -253,7 +255,7 @@ export default {
       blockedDate: "Bloklangan sana",
       unblockedDate: "Blokdan chiqarilgan sana",
       status: "Holat",
-    }
+    },
   },
   fraudUsers: {
     child: {
@@ -286,7 +288,7 @@ export default {
       blockedDate: "Bloklangan sana",
       unblockedDate: "Blokdan chiqarilgan sana",
       status: "Holat",
-    }
+    },
   },
   permissionControl: {
     dialog: {
@@ -345,7 +347,7 @@ export default {
       created: "Yaratilgan",
       updated: "Yangilangan",
       actions: "Harakatlar",
-    }
+    },
   },
   billingCompany: {
     addBilling: {
@@ -408,7 +410,7 @@ export default {
       created: "Yaratilgan",
       updated: "Yangilangan",
       status: "Holat",
-    }
+    },
   },
   listsModels: {
     child: {
@@ -492,7 +494,7 @@ export default {
       unitPrice: "Donasining narxi",
       comment: "Izoh",
       cancel: "bekor qilish",
-      workingOperations:  "Ishlash operatsiyalari",
+      workingOperations: "Ishlash operatsiyalari",
       color: "Rang",
       totalPrice: "Umumiy narx",
       createdDate: "Yaratilgan sana",
@@ -623,5 +625,107 @@ export default {
       enterModelName: "Model nomini kiriting",
       enterOverproduction: "Ortiqcha ishlab chiqarishni kiriting",
     },
-  }
-}
+  },
+
+  catalogsPartnerType: {
+    child: {
+      idPartnerType: "Hamkor turi identifikatori",
+      namePartnerType: "Hamkor turi nomi",
+      created: "Yaratilgan",
+      updated: "Yangilangan",
+      reset: "Qayta tiklash",
+      search: "Qidirish",
+    },
+    table: {
+      id: "Id",
+      name: "Ism",
+      description: "Tavsif",
+      createdAt: "Yaratilgan",
+      updatedAt: "Yangilangan",
+      actions: "Amallar",
+    },
+    dialog: {
+      addPartnerType: "hamkor turini qo'shing",
+      partnerType: "Hamkor turi",
+      enterPartnerType: "Hamkor turini kiriting",
+      description: "Tavsif",
+      descriptionPlacholder: "Hamkor turi tavsifini kiriting",
+      cancelBtn: "Bekor qilish",
+      createBtn: "Yaratish",
+      editDialog: "Hamkor turini tahrirlash",
+      editBtn: "Saqlash",
+      deleteDialog: "Hamkor turini o'chirish",
+      deleteText: "Haqiqatan ham bu hamkor turini oʻchirib tashlamoqchimisiz?",
+      deleteBtn: "O'chirish",
+    },
+  },
+
+  catalogsModelGroup: {
+    child: {
+      idPartnerType: "Model guruhi identifikatori",
+      namePartnerType: "Model guruhi nomi",
+      created: "Yaratilgan",
+      updated: "Yangilangan",
+      reset: "Qayta tiklash",
+      search: "Qidirish",
+    },
+    table: {
+      id: "Id",
+      name: "Ism",
+      description: "Tavsif",
+      createdAt: "Yaratilgan",
+      updatedAt: "Yangilangan",
+      actions: "Amallar",
+    },
+
+    dialog: {
+      addModelGroup: "modellar guruhini qo'shing",
+      modelGroup: "Model guruhi",
+      enterModelGroup: "Model guruhlarini kiriting",
+      description: "Tavsif",
+      descriptionPlacholder: "Model guruhini tavsifini kiriting",
+      cancelBtn: "Bekor qilish",
+      createBtn: "Yaratish",
+      editDialog: "Model guruhini tahrirlash",
+      editBtn: "Saqlash",
+      deleteDialog: "Model guruhini o'chirish",
+      deleteText: "Haqiqatan ham bu model guruhini oʻchirib tashlamoqchimisiz?",
+      deleteBtn: "O'chirish",
+    },
+  },
+
+  samplePurposes: {
+    child: {
+      idSearch: "Namuna maqsadi identifikatori",
+      name: "Nomi ",
+      created: "Yaratilgan",
+      updated: "Yangilangan",
+      reset: "Qayta tiklash",
+      search: "Qidirish",
+    },
+    table: {
+      id: "Id",
+      name: "Ism",
+      description: "Tavsif",
+      createdAt: "Yaratilgan",
+      updatedAt: "Yangilangan",
+      actions: "Amallar",
+    },
+
+    dialog: {
+      menuName: "Namuna Maqsadi",
+      addMainName: "Namuna maqsadini yaratish",
+      name: "Nomi",
+      enterMainName: " Namuna maqsadi nomi kiriting",
+      description: "Tavsif",
+      descriptionPlacholder: "Namuna maqsadi tavsifini kiriting",
+      cancelBtn: "Bekor qilish",
+      createBtn: "Yaratish",
+      editDialog: " Namuna maqsadi tahrirlash",
+      editBtn: "Saqlash",
+      deleteDialog: "Namuna maqsadini o'chirish",
+      deleteText: "Haqiqatan ham bu namuna maqsadini oʻchirib tashlamoqchimisiz?",
+      deleteBtn: "O'chirish",
+    },
+  },
+};
