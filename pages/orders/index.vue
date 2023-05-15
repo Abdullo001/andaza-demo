@@ -248,12 +248,12 @@ export default {
     },
 
     viewDetails(item) {
-      this.$router.push({
-        name:"orders-id",
-        params: { id: item.id  },
-        query: {modelId: item.modelId},
-        hash: this.$route.hash,
-      });
+      // this.$router.push({
+      //   name:"orders-id",
+      //   params: { id: item.id  },
+      //   query: {modelId: item.modelId},
+      // });
+      this.$router.push(this.localePath(`/orders/${item.id}?modelId=${item.modelId}`))
       this.$store.commit["orders/setModelId",item.modelId]
 
     },
