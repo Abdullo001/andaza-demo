@@ -127,7 +127,7 @@
       <template #item.actions="{item}">
         <div>
           <v-btn icon color="green" @click.stop="editItem(item)">
-            <v-img src="edit-active.svg" max-width="22"/>
+            <v-img src="/edit-active.svg" max-width="22"/>
           </v-btn>
         </div>
       </template>
