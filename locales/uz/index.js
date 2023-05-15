@@ -623,5 +623,75 @@ export default {
       enterModelName: "Model nomini kiriting",
       enterOverproduction: "Ortiqcha ishlab chiqarishni kiriting",
     },
-  }
+  },
+
+  catalogsPartnerType:{
+    child:{
+      idPartnerType:"Hamkor turi identifikatori",
+      namePartnerType:"Hamkor turi nomi",
+      created:"Yaratilgan",
+      updated:"Yangilangan",
+      reset:"Qayta tiklash",
+      search:"Qidirish",
+  
+    },
+    table:{
+      id:"Id",
+      name:"Ism",
+      description:"Tavsif",
+      createdAt:"Yaratilgan",
+      updatedAt:"Yangilangan",      
+      actions: "Amallar",
+    },
+    dialog:{
+      addPartnerType:"hamkor turini qo'shing",
+      partnerType:"Hamkor turi",
+      enterPartnerType:"Hamkor turini kiriting",
+      description:"Tavsif",
+      descriptionPlacholder:"Hamkor turi tavsifini kiriting",
+      cancelBtn:"Bekor qilish",
+      createBtn:"Yaratish",
+      editDialog:"Hamkor turini tahrirlash",
+      editBtn:"Saqlash",
+      deleteDialog:"Hamkor turini o'chirish",
+      deleteText:"Haqiqatan ham bu hamkor turini oʻchirib tashlamoqchimisiz?",
+      deleteBtn:"O'chirish"
+    }
+  },
+  
+  catalogsModelGroup:{
+    child:{
+      idPartnerType:"Model guruhi identifikatori",
+      namePartnerType:"Model guruhi nomi",
+      created:"Yaratilgan",
+      updated:"Yangilangan",
+      reset:"Qayta tiklash",
+      search:"Qidirish",
+  
+    },
+    table:{
+      id:"Id",
+      name:"Ism",
+      description:"Tavsif",
+      createdAt:"Yaratilgan",
+      updatedAt:"Yangilangan",      
+      actions: "Amallar",
+    },
+  
+    dialog:{
+      addModelGroup:"modellar guruhini qo'shing",
+      modelGroup:"Model guruhi",
+      enterModelGroup:"Model guruhlarini kiriting",
+      description:"Tavsif",
+      descriptionPlacholder:"Model guruhini tavsifini kiriting",
+      cancelBtn:"Bekor qilish",
+      createBtn:"Yaratish",
+      editDialog:"Model guruhini tahrirlash",
+      editBtn:"Saqlash",
+      deleteDialog:"Model guruhini o'chirish",
+      deleteText:"Haqiqatan ham bu model guruhini oʻchirib tashlamoqchimisiz?",
+      deleteBtn:"O'chirish"
+    }
+  
+  },
 }

@@ -623,5 +623,110 @@ export default {
       enterModelName: "Введите название модели",
       enterOverproduction: "Введите перепроизводство",
     },
-  }
+  },
+
+  catalogsPartnerType: {
+    child: {
+      idPartnerType: "Идентификатор типа партнера",
+      namePartnerType: "Имя типа партнера",
+      created: "Созданный",
+      updated: "Обновлено",
+      reset: "Перезагрузить",
+      search: "Поиск",
+    },
+    table: {
+      id: "Ид",
+      name: "Имя",
+      description: "Описание",
+      createdAt: "Создан в",
+      updatedAt: "Обновлено в",
+      actions: "Действия",
+    },
+    dialog: {
+      addPartnerType: "добавить тип партнера",
+      partnerType: "Тип партнера",
+      enterPartnerType: "Введите тип партнера",
+      description: "Описание",
+      descriptionPlacholder: "Введите описание типа партнера",
+      cancelBtn: "Отмена",
+      createBtn: "Создавать",
+      editDialog: "изменить тип партнера",
+      editBtn: "Сохранять",
+      deleteDialog: "Удалить тип партнера",
+      deleteText: "Вы уверены, что хотите удалить этот тип партнера?",
+      deleteBtn: "Удалить",
+    },
+  },
+  
+  catalogsModelGroup: {
+    child: {
+      idPartnerType: "Идентификатор группу моделa",
+      namePartnerType: "Имя группу моделей",
+      created: "Созданный",
+      updated: "Обновлено",
+      reset: "Перезагрузить",
+      search: "Поиск",
+    },
+    table: {
+      id: "Ид",
+      name: "Имя",
+      description: "Описание",
+      createdAt: "Создан в",
+      updatedAt: "Обновлено в",
+      actions: "Действия",
+    },
+  
+    dialog: {
+      addModelGroup: "добавить группу моделей",
+      modelGroup: "Группы моделей",
+      enterModelGroup: "Введите Группы моделей",
+      description: "Описание",
+      descriptionPlacholder: "Введите описание типа партнера",
+      cancelBtn: "Отмена",
+      createBtn: "Создавать",
+      editDialog: "изменить группу моделей",
+      editBtn: "Сохранять",
+      deleteDialog: "Удалить тип партнера",
+      deleteText: "Вы уверены, что хотите удалить этот тип партнера?",
+      deleteBtn: "Удалить",
+    },
+  },
+  
+  samplePurposes: {
+    child: {
+      idSearch: "Идентификатор назначение образца",
+      name: "Имя ",
+      created: "Созданный",
+      updated: "Обновлено",
+      reset: "Перезагрузить",
+      search: "Поиск",
+    },
+  
+    table: {
+      id: "Ид",
+      name: "Имя",
+      description: "Описание",
+      createdAt: "Создан в",
+      updatedAt: "Обновлено в",
+      actions: "Действия",
+    },
+  
+    dialog: {
+      addMainName: "Создать назначение образца",
+      name: "Имя",
+      enterMainName: "Введите назначение образца",
+      descriptionPlacholder: "Введите образец описания цели",
+      editDialog: "отредактировать назначение образца",
+      deleteDialog: "Удалить пример цели",
+      deleteText: "Вы уверены, что хотите удалить этот назначение образца?",
+      editBtn: "Сохранять",
+      description: "Описание",
+      cancelBtn: "Отмена",
+      createBtn: "Создавать",
+      deleteBtn: "Удалить",
+  
+      menuName: "назначение образца ",
+  
+    },
+  },
 }
