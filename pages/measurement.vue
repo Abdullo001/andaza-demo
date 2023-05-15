@@ -238,6 +238,7 @@
             width="140"
             elevation="0"
             dark
+            @click="deleteSample"
           >
             delete
           </v-btn>

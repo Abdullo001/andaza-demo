@@ -89,7 +89,7 @@ export const actions = {
         dispatch('getMeasurementUnit', {page: 0, size: 10})
       })
       .catch(({response}) => {
-        console.log(response)
+        this.$toast.error(response.data.message);
       })
   },
   async createMeasurementUnit({dispatch}, data) {
