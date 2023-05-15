@@ -64,7 +64,6 @@ export const actions = {
         commit("setSizeValues", res.data.data);
         commit("setBodyPartsValues", res.data.data);
         commit("setTotal", res.data.data);
-        console.log(res);
       })
       .catch((res) => {
         console.log(res);
@@ -97,7 +96,7 @@ export const actions = {
       .catch((res)=>{
         console.log(res);
         this.$toast.error(res.data.message);
-        
+
       })
   },
 };

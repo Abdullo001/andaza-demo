@@ -312,7 +312,7 @@
 
             </v-data-table>
           </v-tab-item>
-          <!--          TODO:  Documents tabs table-->
+          <!--          TODO:  Documents tabs table  -->
           <v-tab-item>
             <v-data-table
               :headers="documentsHeaders"
@@ -337,6 +337,7 @@
                       icon class="ml-2"
                       :href="item.filePath"
                       :download="`Document.${item.extension}`"
+                      target="_blank"
                       v-on="on"
                       v-bind="attrs"
                       @click.stop
@@ -446,7 +447,7 @@
               dark min-width="130"
               @click="saveCalculation"
             >
-              {{ $t('prefinances.child.create') }}
+              {{ $route.params.id === 'crate' ? $t('prefinances.child.create') : $t('prefinances.child.save') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -834,9 +835,7 @@ export default {
         this.calculation[0].firstCurrency = this.detailsList[0].totalPrice;
         this.calculation[0].secondCurrency = (this.detailsList[0].totalPrice * val?.secondaryRate).toFixed(2);
         this.calculation[0].tertiaryCurrency = (this.detailsList[0].totalPrice * val?.tertiaryRate).toFixed(2);
-        console.log(val);
-        if (!!val?.overProductionPercent) {
-          console.log('worked')
+        if (val?.overProductionPercent >= 0) {
           this.calculation[1].editable = val?.overProductionPercent;
           this.calculation[2].editable = val?.lossPercent;
           this.calculation[3].editable = val?.generalExpensePercent;
