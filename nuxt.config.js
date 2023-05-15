@@ -206,7 +206,9 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-
+    transpile: [
+      'defu'
+    ]
   },
   server: {
     port: process.env.PORT || 8000,

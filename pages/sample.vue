@@ -108,10 +108,10 @@
       <template #item.actions="{item}">
         <div class="d-flex justify-center">
           <v-btn icon color="green" @click.stop="editItem(item)">
-            <v-img src="edit-active.svg" max-width="22"/>
+            <v-img src="/edit-active.svg" max-width="22"/>
           </v-btn>
           <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-            <v-img src="delete.svg" max-width="27"/>
+            <v-img src="/delete.svg" max-width="27"/>
           </v-btn>
         </div>
       </template>
