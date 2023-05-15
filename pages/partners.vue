@@ -227,6 +227,7 @@
                   placeholder="Created"
                   :picker-options="pickerShortcuts"
                   value-format="dd.MM.yyyy HH:mm:ss"
+                  class="custom-picker2"
                 >
                 </el-date-picker>
               </v-col>
@@ -337,7 +338,7 @@
               <v-col cols="12" md="6">
                 <v-select
                   v-model="edit_partner.partnerTypeId"
-                  :items="partner_list"
+                  :items="partner_type"
                   item-text="name"
                   item-value="id"
                   filled
@@ -396,10 +397,11 @@
               >
                 <el-date-picker
                   v-model="edit_partner.contractDate"
-                  style="width: 100%"
+                  style="width: 100%; height: 100%;"
                   type="datetime"
                   placeholder="Created"
                   :picker-options="pickerShortcuts"
+                  class="custom-picker2"
                   value-format="dd.MM.yyyy HH:mm:ss"
                 >
                 </el-date-picker>
@@ -703,5 +705,26 @@ export default {
 .el-input__inner::placeholder,
 .el-input__icon, .el-icon-time {
   color: #919191 !important;
+}
+.custom-picker2 {
+  width: 100% !important;
+
+  background: #f8f4fe;
+  border-radius: 10px 10px 0 0 !important;
+  &::placeholder {
+    color: #cccccc;
+  }
+  > input.el-input__inner {
+    border-radius: 10px 10px 0 0 !important;
+
+    background: #f8f4fe !important;
+    border: 0;
+    border-bottom: 1px solid #777777 !important;
+    width: 100% !important;
+    height: 52px !important;
+    &::placeholder {
+      color: #9a979d !important;
+    }
+  }
 }
 </style>
