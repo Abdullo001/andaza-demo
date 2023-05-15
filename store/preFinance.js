@@ -7,7 +7,8 @@ export const state = () => ({
   measurementUnit: [],
   detailsList: [{totalPrice: 0}],
   loading: true,
-  onePreFinance: {}
+  onePreFinance: {},
+  modelNumber: ''
 })
 export const getters = {
   preFinancesContent: state => state.preFinances.content,
@@ -21,9 +22,13 @@ export const getters = {
   totalPrice: state => state.detailsList[0].totalPrice,
   loading: state => state.loading,
   totalElements: state => state.preFinances.totalElements,
-  onePreFinance: state => state.onePreFinance
+  onePreFinance: state => state.onePreFinance,
+  modelNumber: state => state.modelNumber
 }
 export const mutations = {
+  setModelNumber(state, number) {
+    state.modelNumber =number;
+  },
   setRefinances(state, item) {
     state.preFinances = item;
   },
