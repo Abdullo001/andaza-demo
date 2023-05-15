@@ -1,10 +1,10 @@
 <template>
   <div>
-    <Breadcrumbs :maps="map_links"/>
+    <Breadcrumbs :maps="map_links" />
     <v-card elevation="0">
       <v-card-title>
         <div>{{ orderStatus }} order</div>
-        <v-spacer/>
+        <v-spacer />
         <div>
           <v-btn
             outlined
@@ -12,7 +12,7 @@
             color="#777C85"
             class="text-capitalize rounded-lg mr-4"
           >
-            <v-img src="/trash.svg" class="mr-1"/>
+            <v-img src="/trash.svg" class="mr-1" />
             Clear
           </v-btn>
           <v-btn
@@ -29,7 +29,7 @@
           </v-btn>
         </div>
       </v-card-title>
-      <v-divider/>
+      <v-divider />
       <v-card-text class="mt-4">
         <v-row>
           <v-col>
@@ -44,37 +44,60 @@
               color="#7631FF"
             />
             <div class="mb-2 text-body-1">Head of production depatment</div>
-            <v-select
-              :items="users"
-              v-model="order.headOfDepartmentId"
-              placeholder="Head of production depatment"
-              item-value="id"
-              item-text="name"
-              dense
-              filled
-              validate-on-blur
-              class="rounded-lg"
-              append-icon="mdi-magnify"
-              color="#7631FF"
-            />
+
+            <div class="search-field">
+              <v-combobox
+                v-model="order.headOfDepartmentId"
+                :items="users"
+                :search-input.sync="HODSearch"
+                style="margin-bottom:22px"
+                item-text="name"
+                item-value="id"
+                filled
+                hide-details
+                class="rounded-lg d-flex align-center justify-center"
+                :return-object="true"
+                color="#7631FF"
+                dense
+                placeholder="Enter responsible person"
+                prepend-icon=""
+              >
+                <template #append>
+                  <v-icon class="d-inline-block" color="#7631FF"
+                    >mdi-magnify</v-icon
+                  >
+                </template>
+              </v-combobox>
+            </div>
             <div class="mb-2 black--text text-body-1">Permission</div>
             <v-chip color="#10BF41" dark class="font-weight-bold">Edit</v-chip>
           </v-col>
           <v-col>
             <div class="mb-2 text-body-1">Client name</div>
-            <v-select
-              :items="clientList"
+
+            <v-combobox
               v-model="order.clientId"
-              placeholder="Client name"
-              item-value="id"
+              :items="clientList"
+              :search-input.sync="clientIdSearch"
+              style="margin-bottom:22px"
+
               item-text="name"
-              dense
+              item-value="id"
               filled
-              validate-on-blur
-              class="rounded-lg"
-              append-icon="mdi-magnify"
+              hide-details
+              class="rounded-lg d-flex align-center justify-center"
+              :return-object="true"
               color="#7631FF"
-            />
+              dense
+              placeholder="Enter responsible person"
+              prepend-icon=""
+            >
+              <template #append>
+                <v-icon class="d-inline-block" color="#7631FF"
+                  >mdi-magnify</v-icon
+                >
+              </template>
+            </v-combobox>
             <div class="mb-2 text-body-1">Price with discount</div>
             <div class="d-flex align-center">
               <v-text-field
@@ -114,20 +137,31 @@
           </v-col>
           <v-col>
             <div class="mb-2 text-body-1">Model number</div>
-            <v-select
+
+            <v-combobox
+              v-model="order.modelId"
               @change="(e) => setModelName(e)"
               :items="modelList"
-              v-model="order.modelId"
-              item-value="id"
+              :search-input.sync="modelIdSearch"
+              style="margin-bottom:22px"
+
               item-text="modelNumber"
-              placeholder="Model number"
-              dense
+              item-value="id"
               filled
-              validate-on-blur
-              class="rounded-lg"
-              append-icon="mdi-magnify"
+              hide-details
+              class="rounded-lg d-flex align-center justify-center"
+              :return-object="true"
               color="#7631FF"
-            />
+              dense
+              placeholder="Enter responsible person"
+              prepend-icon=""
+            >
+              <template #append>
+                <v-icon class="d-inline-block" color="#7631FF"
+                  >mdi-magnify</v-icon
+                >
+              </template>
+            </v-combobox>
             <div class="mb-2 text-body-1">Total</div>
             <div class="d-flex align-center">
               <v-text-field
@@ -156,7 +190,7 @@
           <v-col>
             <div class="mb-2 text-body-1">Model name</div>
             <v-text-field
-              v-model="order.modelName"
+              v-model="selectedModelInfo.name"
               placeholder="Enter"
               filled
               validate-on-blur
@@ -166,16 +200,17 @@
               readonly
             />
             <div class="mb-2 text-body-1">Deadline</div>
-            <el-date-picker
-              v-model="order.deadline"
-              type="datetime"
-              placeholder="dd.MM.yyyy HH:mm:ss"
-              :picker-options="pickerShortcuts"
-              value-format="dd.MM.yyyy HH:mm:ss"
-              style="min-width: 100%"
-              class="el-date-picker bg-color-dataPic"
-            >
-            </el-date-picker>
+            <div style="height: 40px !important">
+              <el-date-picker
+                v-model="order.deadline"
+                type="datetime"
+                placeholder="dd.MM.yyyy HH:mm:ss"
+                :picker-options="pickerShortcuts"
+                value-format="dd.MM.yyyy HH:mm:ss"
+                class="custom-picker-2"
+              >
+              </el-date-picker>
+            </div>
           </v-col>
         </v-row>
         <v-row>
@@ -233,7 +268,7 @@
               readonly
             >
               <template #append>
-                <v-img src="/date-icon.svg"/>
+                <v-img src="/date-icon.svg" />
               </template>
             </v-text-field>
 
@@ -251,14 +286,14 @@
               readonly
             >
               <template #append>
-                <v-img src="/date-icon.svg"/>
+                <v-img src="/date-icon.svg" />
               </template>
             </v-text-field>
           </v-col>
         </v-row>
       </v-card-text>
       <v-card-actions class="pb-6 pr-4">
-        <v-spacer/>
+        <v-spacer />
         <v-btn
           v-if="orderStatus === 'Add'"
           color="#7631FF"
@@ -269,8 +304,7 @@
           @click="createdNewOrder"
         >
           Save
-        </v-btn
-        >
+        </v-btn>
         <v-btn
           v-else
           color="#7631FF"
@@ -281,14 +315,13 @@
           @click="updateOrderFunc"
         >
           Save
-        </v-btn
-        >
+        </v-btn>
       </v-card-actions>
     </v-card>
 
     <v-card class="mt-6 mb-8" flat>
       <v-tabs v-model="tab">
-        <v-tabs-slider color="#7631FF"/>
+        <v-tabs-slider color="#7631FF" />
         <v-tab
           class="text-capitalize"
           v-for="item in items"
@@ -301,35 +334,35 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <ColorSizeDistirbution/>
+                <ColorSizeDistirbution />
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <DetailInfo/>
+                <DetailInfo />
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <Subcontracts/>
+                <Subcontracts />
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <ShippingInfo/>
+                <ShippingInfo />
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <OrderDocuments/>
+                <OrderDocuments />
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -341,7 +374,7 @@
 
 <script>
 import Breadcrumbs from "../../components/Breadcrumbs.vue";
-import {mapActions, mapGetters, mapMutations} from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
   components: {
@@ -354,6 +387,9 @@ export default {
       fields_status: true,
       tab: null,
       orderStatus: "Add",
+      HODSearch: "",
+      clientIdSearch: "",
+      modelIdSearch: "",
       priority_enums: ["LOW", "MEDIUM", "HIGH"],
       items: [
         "Color/Size distirbution",
@@ -405,6 +441,8 @@ export default {
         priority: this.$route.params.id !== "add-order" ? "" : "LOW",
         modelId: null,
       },
+
+      selectedModelInfo: {},
       modelInfo: {},
       saveOrder: false,
     };
@@ -421,6 +459,7 @@ export default {
       usersList: "orders/usersList",
       clientList: "orders/clientList",
       modelList: "orders/modelList",
+      infoToOrder: "orders/infoToOrder",
     }),
   },
   watch: {
@@ -444,7 +483,7 @@ export default {
       order.modelId = item.modelId;
       order.priority = item.priority;
       const modelId = item.modelId;
-      this.setModelId({modelId});
+      this.setModelId({ modelId });
     },
     usersList(list) {
       list.map((item) => {
@@ -453,6 +492,10 @@ export default {
           name: `${item.firstName} ${item.lastName}`,
         });
       });
+    },
+
+    infoToOrder(item) {
+      this.selectedModelInfo = { ...item };
     },
   },
   methods: {
@@ -475,12 +518,18 @@ export default {
       await this.createdOrder(this.order);
     },
     setModelName(item) {
+      console.log(item);
       this.modelList.forEach((e) => {
         if (item === e.id) {
           this.order.modelName = e.name;
+          console.log(e);
         }
       });
-      this.getGivePrice({id: item});
+      if (item) {
+        this.getGivePrice({ id: item.id });
+      } else {
+        this.selectedModelInfo.name = "";
+      }
     },
   },
   mounted() {
@@ -494,7 +543,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .active-tab {
   font-style: normal;
   font-weight: 500;
@@ -502,37 +551,24 @@ export default {
   color: #7631ff;
 }
 
-.el-date-editor--datetime {
-  width: 100%;
-  color: #c0c4cc;
-}
-
-.el-input__inner {
-  color: #c0c4cc !important;
-}
-
-.el-input__inner {
-  color: #777 !important;
-
+.custom-picker-2 {
+  width: 100% !important;
+  background: #f8f4fe;
+  border-radius: 10px 10px 0 0 !important;
   &::placeholder {
-    color: #777 !important;
+    color: #cccccc;
   }
-}
+  > input.el-input__inner {
+    border-radius: 10px 10px 0 0 !important;
 
-.el-input__icon.el-icon-time {
-  color: #777 !important;
-  font-size: 18px;
-}
-
-.v-data-table-header {
-  background-color: #e9eaeb;
-}
-
-.el-input__inner {
-  background-color: #e9eaeb !important;
-}
-
-.bg-color-dataPic {
-  background-color: #f8f4fe !important;
+    background: #f8f4fe !important;
+    border: 0;
+    border-bottom: 1px solid #777777 !important;
+    width: 100% !important;
+    height: 40px !important;
+    &::placeholder {
+      color: #9a979d !important;
+    }
+  }
 }
 </style>
