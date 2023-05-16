@@ -81,7 +81,6 @@
                   validate-on-blur
                   color="#7631FF"
                   v-model="fabric_planning.var1"
-                  :rules="[formRules.required]"
                 />
               </v-col>
               <v-col lg="6">
@@ -91,7 +90,6 @@
                   validate-on-blur
                   color="#7631FF"
                   v-model="fabric_planning.var2"
-                  :rules="[formRules.required]"
                 />
               </v-col>
               <v-col lg="6">
@@ -103,7 +101,6 @@
                   append-icon="mdi-chevron-down"
                   color="#7631FF"
                   v-model="fabric_planning.widthType"
-                  :rules="[formRules.required]"
                 />
               </v-col>
               <v-col lg="6">
@@ -137,7 +134,6 @@
                   validate-on-blur
                   color="#7631FF"
                   v-model="fabric_planning.description"
-                  :rules="[formRules.required]"
                 />
               </v-col>
               <v-col lg="6">
