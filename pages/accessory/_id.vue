@@ -264,21 +264,24 @@
               <v-text-field
                 v-model="accessoryDetail.differenceRate"
                 :rules="[formRules.onlyNumber]"
+                :background-color="accessoryDetail.differenceRate>=0?'green':'red'"
                 placeholder="0.00"
                 disabled
                 filled
                 validate-on-blur
                 class="rounded-l-lg rounded-r-0"
                 color="#7631FF"
+                dark
               />
               <v-select
                 v-model="accessoryDetail.differenceCurrency"
                 :items="currency_enums"
+                :background-color="accessoryDetail.differenceRate>=0?'green':'red'"
                 style="max-width: 100px"
                 disabled
                 filled
                 validate-on-blur
-                class="rounded-r-lg rounded-l-0"
+                class="rounded-r-lg rounded-l-0  "
                 append-icon="mdi-chevron-down"
                 color="#7631FF"
               />
@@ -403,9 +406,9 @@ export default {
         modelId: null,
         orderId: null,
         exRatePrimaryCurrency: "",
-        exRatePrimaryRate: "",
+        exRatePrimaryRate: null,
         exRateSecondaryCurrency: "",
-        exRateSecondaryRate: "",
+        exRateSecondaryRate: null,
 
         orderNumber: "",
         modelNumber: "",
@@ -422,6 +425,7 @@ export default {
         creatorOfOrder: "",
         createdTimeOfOrder: "",
       },
+      handleDiffirence: null,
 
       title: "Add",
       search: "",
@@ -484,8 +488,19 @@ export default {
       }
     },
 
+    "accessoryDetail.exRateSecondaryRate"(val) {
+      if (typeof(this.accessoryDetail.exRateSecondaryRate)!==undefined) {
+        this.accessoryDetail.differenceRate =
+          val - this.accessoryDetail.exRatePreFinancedDay;
+      }
+
+      this.accessoryDetail.differenceRate=this.accessoryDetail.differenceRate?this.accessoryDetail.differenceRate:0
+
+    },
+
     accessoryData(item) {
       this.accessoryDetail = JSON.parse(JSON.stringify(item));
+      console.log(item);
     },
 
     OneData(val) {

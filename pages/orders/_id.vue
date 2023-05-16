@@ -47,7 +47,7 @@
 
             <div class="search-field">
               <v-combobox
-                v-model="order.headOfDepartmentId"
+                v-model="order.headOfDepartment"
                 :items="users"
                 :search-input.sync="HODSearch"
                 style="margin-bottom:22px"
@@ -76,7 +76,7 @@
             <div class="mb-2 text-body-1">Client name</div>
 
             <v-combobox
-              v-model="order.clientId"
+              v-model="order.client"
               :items="clientList"
               :search-input.sync="clientIdSearch"
               style="margin-bottom:22px"
@@ -139,7 +139,7 @@
             <div class="mb-2 text-body-1">Model number</div>
 
             <v-combobox
-              v-model="order.modelId"
+              v-model="order.modelNumber"
               @change="(e) => setModelName(e)"
               :items="modelList"
               :search-input.sync="modelIdSearch"
@@ -190,7 +190,7 @@
           <v-col>
             <div class="mb-2 text-body-1">Model name</div>
             <v-text-field
-              v-model="selectedModelInfo.name"
+              v-model="order.modelName"
               placeholder="Enter"
               filled
               validate-on-blur
@@ -422,6 +422,7 @@ export default {
         id: "",
         orderNumber: "",
         clientId: null,
+        client:"",
         modelNumber: "",
         modelName: "",
         priceWithDiscount: null,
@@ -435,6 +436,8 @@ export default {
         description: "",
         creator: "",
         headOfDepartmentId: null,
+        headOfDepartment:"",
+
         modifiedPerson: "",
         createdTime: "",
         updatedTime: "",
@@ -464,6 +467,7 @@ export default {
   },
   watch: {
     orderDetail(item) {
+      
       const order = this.order;
       order.id = item.id;
       order.modelId = item.modelId;
@@ -482,6 +486,8 @@ export default {
       order.priceWithDiscountCurrency = item.priceWithDiscountCurrency;
       order.modelId = item.modelId;
       order.priority = item.priority;
+      order.headOfDepartment=item.headOfProductionDepartment
+      order.client=item.client
       const modelId = item.modelId;
       this.setModelId({ modelId });
     },
@@ -496,6 +502,10 @@ export default {
 
     infoToOrder(item) {
       this.selectedModelInfo = { ...item };
+      this.order.priceWithDiscount=item.priceWithDiscount
+      this.order.priceWithDiscountCurrency=item.priceWithDiscountCurrency
+
+
     },
   },
   methods: {
@@ -518,18 +528,13 @@ export default {
       await this.createdOrder(this.order);
     },
     setModelName(item) {
+
+      this.order.modelName = item.name;
       console.log(item);
-      this.modelList.forEach((e) => {
-        if (item === e.id) {
-          this.order.modelName = e.name;
-          console.log(e);
-        }
-      });
-      if (item) {
-        this.getGivePrice({ id: item.id });
-      } else {
-        this.selectedModelInfo.name = "";
-      }
+      this.getGivePrice({ id: item.id });
+
+      
+      
     },
   },
   mounted() {
