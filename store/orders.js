@@ -205,6 +205,7 @@ export const actions = {
       .get(`/api/v1/models/info-to-order?id=${id}`)
       .then((res) => {
         commit("setInfoToOrder",res.data.data)
+        console.log(res);
       })
       .catch((res) => {
         console.log(res);

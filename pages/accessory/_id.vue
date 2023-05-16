@@ -264,21 +264,24 @@
               <v-text-field
                 v-model="accessoryDetail.differenceRate"
                 :rules="[formRules.onlyNumber]"
+                :background-color="accessoryDetail.differenceRate>=0?'green':'red'"
                 placeholder="0.00"
                 disabled
                 filled
                 validate-on-blur
                 class="rounded-l-lg rounded-r-0"
                 color="#7631FF"
+                dark
               />
               <v-select
                 v-model="accessoryDetail.differenceCurrency"
                 :items="currency_enums"
+                :background-color="accessoryDetail.differenceRate>=0?'green':'red'"
                 style="max-width: 100px"
                 disabled
                 filled
                 validate-on-blur
-                class="rounded-r-lg rounded-l-0"
+                class="rounded-r-lg rounded-l-0  "
                 append-icon="mdi-chevron-down"
                 color="#7631FF"
               />
