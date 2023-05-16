@@ -31,7 +31,8 @@
                 class="rounded-lg"
                 :return-object="true"
                 color="#7631FF"
-                dense disabled
+                dense
+                readonly
                 label="Order number"
                 placeholder="Enter order number"
                 append-icon="mdi-chevron-down"
