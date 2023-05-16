@@ -5,11 +5,11 @@
       <v-card-title>
         <div>
           Accessory
-          <v-chip color="#10BF41" dark class="ml-5 font-weight-bold">{{
-            title
-          }}</v-chip>
+          <v-chip color="#10BF41" dark class="ml-5 font-weight-bold">
+            {{ title }}
+          </v-chip>
         </div>
-        <v-spacer />
+        <v-spacer/>
         <div>
           <v-btn
             outlined
@@ -17,7 +17,7 @@
             color="#777C85"
             class="text-capitalize rounded-lg mr-4"
           >
-            <v-img src="/trash.svg" class="mr-1" />
+            <v-img src="/trash.svg" class="mr-1"/>
             Clear
           </v-btn>
           <v-btn
@@ -389,9 +389,11 @@ import AccessoryOrderPages from "@/components/PlanningAccessory/AccessoryOrder.v
 import AccessorySupplyPages from "@/components/PlanningAccessory/AccessorySupply.vue";
 import AccessorDocumentsPages from "@/components/PlanningAccessory/AccessorDocuments.vue";
 import { mapActions, mapGetters } from "vuex";
+import Breadcrumbs from "../../components/Breadcrumbs.vue";
 
 export default {
   components: {
+    Breadcrumbs,
     AccessorDocumentsPages,
     AccessorySupplyPages,
     AccessoryOrderPages,

@@ -32,7 +32,7 @@
                 :return-object="true"
                 color="#7631FF"
                 dense
-                readonly
+                disabled
                 label="Order number"
                 placeholder="Enter order number"
                 append-icon="mdi-chevron-down"
@@ -347,9 +347,11 @@
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+import Breadcrumbs from "../../components/Breadcrumbs.vue";
 
 export default {
   name: 'FabricPlanningDynamicPage',
+  components: {Breadcrumbs},
   data() {
     return {
       date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),

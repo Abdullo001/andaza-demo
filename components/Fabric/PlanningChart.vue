@@ -26,7 +26,10 @@
          <v-btn icon class="mr-3">
            <v-img src="/edit-green.svg" max-width="22"/>
          </v-btn>
-        <v-btn icon>
+        <v-btn
+          icon
+          @click="getSelectedId(item)"
+        >
           <v-img src="/delete.svg" max-width="27"/>
         </v-btn>
 
@@ -171,16 +174,20 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <DeleteDialog :delete-function="removeItem" :delete-dialog="delete_dialog" :close-dialog="closeDialog"/>
   </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+import DeleteDialog from "../DeleteDialog.vue";
 
 export default {
     name: 'PrintingChartComponent',
+  components: {DeleteDialog},
   data() {
     return {
+      delete_dialog: false,
       chartHeaders: [
         {text: 'Part', align: 'start', sortable: false, value: 'bodyPartName'},
         {text: 'Fabric specification', value: 'fabricSpecification'},
@@ -208,7 +215,8 @@ export default {
         width: "",
         widthType: ""
       },
-      withTypeEnum: ['TUP2', 'A/E']
+      withTypeEnum: ['TUP2', 'A/E'],
+      selected_id: ''
     }
   },
   created() {
@@ -233,9 +241,21 @@ export default {
       getModelPart: 'modelParts/getModelPart',
       createPlanningChart: 'fabric/createPlanningChart',
       getMeasurementUnit: 'measurement/getMeasurementUnit',
+      deleteFabricPlanningChart: 'fabric/deleteFabricPlanningChart',
 
     }),
-
+    removeItem() {
+      const fabricId = this.$route.params.id;
+      this.deleteFabricPlanningChart({itemId: this.selected_id, fabricId});
+      this.delete_dialog = false;
+    },
+    getSelectedId(item) {
+      this.selected_id = item.id;
+      this.delete_dialog = true;
+    },
+    closeDialog() {
+      this.delete_dialog = !this.delete_dialog;
+    },
     async createChart() {
       const valid = this.$refs.new_validate.validate();
       if(valid) {

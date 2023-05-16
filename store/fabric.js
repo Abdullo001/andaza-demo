@@ -87,4 +87,11 @@ export const actions = {
         commit('setOnePlanningChart', res.data)
       }).catch(({response}) => console.log(response))
   },
+  async deleteFabricPlanningChart({dispatch}, {itemId, fabricId}) {
+    await this.$axios.$delete(`/api/v1/fabric-planning-chart/delete?id=${itemId}`)
+      .then(res => {
+        dispatch('getFabricPlanningChartList', fabricId)
+        this.$toast.success(res.message);
+      }).catch(({response}) => console.log(response));
+  }
 };
