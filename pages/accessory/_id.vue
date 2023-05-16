@@ -403,9 +403,9 @@ export default {
         modelId: null,
         orderId: null,
         exRatePrimaryCurrency: "",
-        exRatePrimaryRate: "",
+        exRatePrimaryRate: null,
         exRateSecondaryCurrency: "",
-        exRateSecondaryRate: "",
+        exRateSecondaryRate: null,
 
         orderNumber: "",
         modelNumber: "",
@@ -422,6 +422,7 @@ export default {
         creatorOfOrder: "",
         createdTimeOfOrder: "",
       },
+      handleDiffirence: null,
 
       title: "Add",
       search: "",
@@ -484,8 +485,19 @@ export default {
       }
     },
 
+    "accessoryDetail.exRateSecondaryRate"(val) {
+      if (typeof(this.accessoryDetail.exRateSecondaryRate)!==undefined) {
+        this.accessoryDetail.differenceRate =
+          val - this.accessoryDetail.exRatePreFinancedDay;
+      }
+
+      this.accessoryDetail.differenceRate=this.accessoryDetail.differenceRate?this.accessoryDetail.differenceRate:0
+
+    },
+
     accessoryData(item) {
       this.accessoryDetail = JSON.parse(JSON.stringify(item));
+      console.log(item);
     },
 
     OneData(val) {
