@@ -624,7 +624,6 @@ export default {
       enterOverproduction: "Введите перепроизводство",
     },
   },
-
   catalogsPartnerType: {
     child: {
       idPartnerType: "Идентификатор типа партнера",
@@ -657,7 +656,6 @@ export default {
       deleteBtn: "Удалить",
     },
   },
-  
   catalogsModelGroup: {
     child: {
       idPartnerType: "Идентификатор группу моделa",
@@ -675,7 +673,7 @@ export default {
       updatedAt: "Обновлено в",
       actions: "Действия",
     },
-  
+
     dialog: {
       addModelGroup: "добавить группу моделей",
       modelGroup: "Группы моделей",
@@ -691,7 +689,6 @@ export default {
       deleteBtn: "Удалить",
     },
   },
-  
   samplePurposes: {
     child: {
       idSearch: "Идентификатор назначение образца",
@@ -701,7 +698,7 @@ export default {
       reset: "Перезагрузить",
       search: "Поиск",
     },
-  
+
     table: {
       id: "Ид",
       name: "Имя",
@@ -710,7 +707,7 @@ export default {
       updatedAt: "Обновлено в",
       actions: "Действия",
     },
-  
+
     dialog: {
       addMainName: "Создать назначение образца",
       name: "Имя",
@@ -724,9 +721,11 @@ export default {
       cancelBtn: "Отмена",
       createBtn: "Создавать",
       deleteBtn: "Удалить",
-  
+
       menuName: "назначение образца ",
-  
+
     },
   },
+  deleteTitle: 'Удалить пункт',
+  deleteContent: 'Вы уверены, что хотите удалить этот элемент ?',
 }

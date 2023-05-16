@@ -728,4 +728,6 @@ export default {
       deleteBtn: "O'chirish",
     },
   },
+  deleteTitle: 'Qatorni o`chirish',
+  deleteContent: 'Haqiqatan ham bu elementni oʻchirib tashlamoqchimisiz?',
 };

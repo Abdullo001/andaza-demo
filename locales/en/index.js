@@ -624,7 +624,6 @@ export default {
       enterOverproduction: "Enter Overproduction",
     },
   },
-
   catalogsPartnerType: {
     child: {
       idPartnerType: "Id partner type",
@@ -657,7 +656,6 @@ export default {
       deleteBtn: "Delete",
     },
   },
-  
   catalogsModelGroup: {
     child: {
       idPartnerType: "Id model group",
@@ -675,7 +673,7 @@ export default {
       updatedAt: "Updated At",
       actions: "Actions",
     },
-  
+
     dialog: {
       addModelGroup: "add model group",
       modelGroup: "Model group",
@@ -691,7 +689,6 @@ export default {
       deleteBtn: "Delete",
     },
   },
-  
   samplePurposes: {
     child: {
       idSearch: "Id sample purpose",
@@ -701,7 +698,7 @@ export default {
       reset: "Reset",
       search: "Search",
     },
-  
+
     table: {
       id: "Id",
       name: "Name",
@@ -710,7 +707,7 @@ export default {
       updatedAt: "Updated At",
       actions: "Actions",
     },
-  
+
     dialog: {
       menuName: "sample purpose",
       addMainName: "Create Sample Purpose",
@@ -727,4 +724,6 @@ export default {
       deleteBtn: "Delete",
     },
   },
+  deleteTitle: 'Delete Item',
+  deleteContent: 'Are you sure you want to delete this item ?',
 }
