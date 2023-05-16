@@ -260,7 +260,10 @@ export default {
       const valid = this.$refs.new_validate.validate();
       if(valid) {
         this.fabric_planning.fabricPlanningId = this.fabricPlanningId;
-        await this.createPlanningChart(this.fabric_planning);
+        await this.createPlanningChart({
+          data: this.fabric_planning,
+          id: this.$route.params.id
+        });
         this.new_dialog = false;
         this.$refs.new_validate.reset();
       }

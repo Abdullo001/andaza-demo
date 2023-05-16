@@ -67,10 +67,11 @@ export const actions = {
         dispatch('getPlanningChartList', res.data.id)
       }).catch(({response}) => this.$toast.error(response.data.message))
   },
-  async createPlanningChart({commit}, data) {
+  async createPlanningChart({dispatch}, {data, id}) {
     await this.$axios.$post('/api/v1/fabric-planning-chart/create', data)
       .then(res => {
         console.log(res);
+        dispatch('getPlanningChartList', id);
       }).catch(({response}) => {
         this.$toast.error(response.data.message);
       })
@@ -90,8 +91,8 @@ export const actions = {
   async deleteFabricPlanningChart({dispatch}, {itemId, fabricId}) {
     await this.$axios.$delete(`/api/v1/fabric-planning-chart/delete?id=${itemId}`)
       .then(res => {
-        dispatch('getFabricPlanningChartList', fabricId)
         this.$toast.success(res.message);
+        dispatch('getPlanningChartList', fabricId)
       }).catch(({response}) => console.log(response));
   }
 };
