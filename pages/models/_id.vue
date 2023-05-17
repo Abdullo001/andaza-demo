@@ -305,10 +305,20 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import Breadcrumbs from "../../components/Breadcrumbs.vue";
+import Printing from "@/components/Printing.vue";
+import Documents from "@/components/Documents.vue";
+import Samples from "@/components/Samples.vue";
+import ModelPhoto from "@/components/ModelPhoto.vue";
 
 export default {
   name: 'addOrEditModelsPage',
-  components: {Breadcrumbs},
+  components: {
+    Breadcrumbs,
+    Printing,
+    Documents,
+    Samples,
+    ModelPhoto
+  },
   data() {
     return {
       items: [

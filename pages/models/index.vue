@@ -35,16 +35,6 @@
                 append-icon="mdi-chevron-down"
               />
             </v-col>
-<!--            <v-col cols="12" lg="2" md="2">-->
-<!--              <el-date-picker-->
-<!--                v-model="filters.createdAt"-->
-<!--                type="datetime"-->
-<!--                placeholder="Created at"-->
-<!--                :picker-options="pickerShortcuts"-->
-<!--                value-format="dd.MM.yyyy HH:mm:ss"-->
-<!--              >-->
-<!--              </el-date-picker>-->
-<!--            </v-col>-->
             <v-spacer/>
             <v-col cols="12" lg="3">
               <div class="d-flex justify-end">
