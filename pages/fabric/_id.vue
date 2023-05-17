@@ -348,10 +348,20 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import Breadcrumbs from "../../components/Breadcrumbs.vue";
+import FabricPlanningChart from "../../components/Fabric/PlanningChart.vue"
+import FabricOrdered from "../../components/Fabric/Ordered.vue"
+import FabricSupplyFabric from "../../components/Fabric/Ordered.vue"
+import FabricOrder from "../../components/Fabric/Order.vue"
 
 export default {
   name: 'FabricPlanningDynamicPage',
-  components: {Breadcrumbs},
+  components: {
+    Breadcrumbs,
+    FabricPlanningChart,
+    FabricOrdered,
+    FabricSupplyFabric,
+    FabricOrder
+  },
   data() {
     return {
       date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),

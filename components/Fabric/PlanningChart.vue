@@ -13,7 +13,7 @@
               class="rounded-lg white--text text-capitalize"
               color="#7631FF"
               width="150" height="36"
-              @click="new_dialog = true"
+              @click="openDialog"
               :disabled="!(modelId !== '')"
             >
               <v-icon class="mr-2">mdi-plus</v-icon>
@@ -23,9 +23,13 @@
         </v-toolbar>
       </template>
       <template #item.actions="{item}">
-         <v-btn icon class="mr-3">
-           <v-img src="/edit-green.svg" max-width="22"/>
-         </v-btn>
+        <v-btn
+          icon
+          class="mr-3"
+          @click="getRow(item)"
+        >
+          <v-img src="/edit-green.svg" max-width="22"/>
+        </v-btn>
         <v-btn
           icon
           @click="getSelectedId(item)"
@@ -43,7 +47,7 @@
       <v-card>
         <v-card-title class="d-flex">
           <div class="title">
-            Add row
+            {{ dialog_title }} row
           </div>
           <v-spacer/>
           <v-btn icon color="#7631FF" @click="new_dialog = false">
@@ -169,7 +173,7 @@
             color="#7631FF" dark
             @click="createChart"
           >
-            Add
+            {{ dialog_btn }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -183,7 +187,7 @@ import {mapActions, mapGetters} from "vuex";
 import DeleteDialog from "../DeleteDialog.vue";
 
 export default {
-    name: 'PrintingChartComponent',
+  name: 'PrintingChartComponent',
   components: {DeleteDialog},
   data() {
     return {
@@ -216,7 +220,9 @@ export default {
         widthType: ""
       },
       withTypeEnum: ['TUP2', 'A/E'],
-      selected_id: ''
+      selected_id: '',
+      dialog_title: '',
+      dialog_btn: ''
     }
   },
   created() {
@@ -235,6 +241,22 @@ export default {
     modelId(val) {
       this.getModelPart(val);
     },
+    new_dialog(val) {
+      if (!val) {
+        this.fabric_planning = {
+          density: "",
+          description: "",
+          fabricPlanningId: null,
+          modelPartId: null,
+          quantity: "",
+          quantityUnitId: null,
+          var1: "",
+          var2: "",
+          width: "",
+          widthType: ""
+        };
+      }
+    },
   },
   methods: {
     ...mapActions({
@@ -242,8 +264,31 @@ export default {
       createPlanningChart: 'fabric/createPlanningChart',
       getMeasurementUnit: 'measurement/getMeasurementUnit',
       deleteFabricPlanningChart: 'fabric/deleteFabricPlanningChart',
-
+      updatePlanningChart: 'fabric/updatePlanningChart'
     }),
+    getRow(val) {
+      this.dialog_btn = 'Update'
+      this.fabric_planning = {
+        id: val.id,
+        density: val.density,
+        description: val.description,
+        fabricPlanningId: val.fabricPlanningId,
+        modelPartId: val.modelPartId,
+        quantity: val.quantity,
+        quantityUnitId: val.quantityUnitId,
+        var1: val.var1,
+        var2: val.var2,
+        width: val.width,
+        widthType: val.widthType
+      }
+      this.new_dialog = true;
+      this.dialog_title = 'Edit';
+    },
+    openDialog() {
+      this.dialog_title = 'Add';
+      this.dialog_btn = 'Add'
+      this.new_dialog = true;
+    },
     removeItem() {
       const fabricId = this.$route.params.id;
       this.deleteFabricPlanningChart({itemId: this.selected_id, fabricId});
@@ -258,7 +303,7 @@ export default {
     },
     async createChart() {
       const valid = this.$refs.new_validate.validate();
-      if(valid) {
+      if (valid && this.dialog_title === 'Add') {
         this.fabric_planning.fabricPlanningId = this.fabricPlanningId;
         await this.createPlanningChart({
           data: this.fabric_planning,
@@ -266,10 +311,18 @@ export default {
         });
         this.new_dialog = false;
         this.$refs.new_validate.reset();
+      } else if (valid && this.dialog_title === 'Edit') {
+        await this.updatePlanningChart({
+          id: this.$route.params.id,
+          data: this.fabric_planning
+        });
+        this.new_dialog = false;
+        this.$refs.new_validate.reset();
       }
     },
   },
-  mounted() {}
+  mounted() {
+  }
 }
 </script>
 
