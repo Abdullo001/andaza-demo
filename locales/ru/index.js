@@ -29,7 +29,7 @@ export default {
     cooperationType: "Тип сотрудничества",
     expenseGroup: "Группа расходов",
     measurementUnit: "Измерительное устройство",
-    packageShape: "Форма упаковки",
+    packageShape: "Тип упаковки",
     fabricCatalogs: "Каталоги тканей",
     productCatalogs: "Каталоги продукции",
     catalogGroups: "Каталог Группы",
@@ -729,4 +729,260 @@ export default {
   
     },
   },
+
+  bodyParts: {
+    child: {
+      idSearch: "Идентификатор части тела",
+      name: "Имя ",
+      created: "Созданный",
+      updated: "Обновлено",
+      reset: "Перезагрузить",
+      search: "Поиск",
+    },
+  
+    table: {
+      id: "Ид",
+      name: "Имя",
+      description: "Описание",
+      createdAt: "Создан в",
+      updatedAt: "Обновлено в",
+      actions: "Действия",
+    },
+  
+    dialog: {
+      
+      menuName: "части тела ",
+      addMainName: "Создать части тела",
+      name: "Имя",
+      enterMainName: "Введите части тела",
+      descriptionPlacholder: "Введите описание части тела",
+      editDialog: "отредактировать части тела",
+      deleteDialog: "Удалить части тела",
+      deleteText: "Вы уверены, что хотите удалить эту часть тела?",
+      editBtn: "Сохранять",
+      description: "Описание",
+      cancelBtn: "Отмена",
+      createBtn: "Создавать",
+      deleteBtn: "Удалить",
+  
+    },
+  },
+
+  cooperationType: {
+    child: {
+      idSearch: "Идентификатор типа сотрудничества",
+      name: "Имя ",
+      created: "Созданный",
+      updated: "Обновлено",
+      reset: "Перезагрузить",
+      search: "Поиск",
+    },
+  
+    table: {
+      id: "Ид",
+      name: "Имя",
+      description: "Описание",
+      createdAt: "Создан в",
+      updatedAt: "Обновлено в",
+      actions: "Действия",
+    },
+  
+    dialog: {
+      
+      menuName: "тип сотрудничества ",
+      addMainName: "Создать тип сотрудничества",
+      name: "Имя",
+      enterMainName: "Введите тип сотрудничества",
+      descriptionPlacholder: "Введите описание тип сотрудничества",
+      editDialog: "отредактировать тип сотрудничества",
+      deleteDialog: "Удалить тип сотрудничества",
+      deleteText: "Вы уверены, что хотите удалить эту тип сотрудничества?",
+      editBtn: "Сохранять",
+      description: "Описание",
+      cancelBtn: "Отмена",
+      createBtn: "Создавать",
+      deleteBtn: "Удалить",
+  
+    },
+  },
+
+  expenseGroup: {
+    child: {
+      idSearch: "Идентификатор группа расходов",
+      name: "Имя ",
+      created: "Созданный",
+      updated: "Обновлено",
+      reset: "Перезагрузить",
+      search: "Поиск",
+    },
+  
+    table: {
+      id: "Ид",
+      name: "Имя",
+      description: "Описание",
+      createdAt: "Создан в",
+      updatedAt: "Обновлено в",
+      actions: "Действия",
+    },
+  
+    dialog: {
+
+      menuName: "группа расходов ",
+      addMainName: "Создать группа расходов",
+      name: "Имя",
+      enterMainName: "Введите группа расходов",
+      descriptionPlacholder: "Введите описание группа расходов",
+      editDialog: "отредактировать группа расходов",
+      deleteDialog: "Удалить группа расходов",
+      deleteText: "Вы уверены, что хотите удалить эту группа расходов?",
+      editBtn: "Сохранять",
+      description: "Описание",
+      cancelBtn: "Отмена",
+      createBtn: "Создавать",
+      deleteBtn: "Удалить",
+    },
+  },
+
+  measurementUnit: {
+    child: {
+      idSearch: "Идентификатор единица измерения",
+      name: "Имя ",
+      created: "Созданный",
+      updated: "Обновлено",
+      reset: "Перезагрузить",
+      search: "Поиск",
+    },
+  
+    table: {
+      id: "Ид",
+      name: "Имя",
+      description: "Описание",
+      createdAt: "Создан в",
+      updatedAt: "Обновлено в",
+      actions: "Действия",
+    },
+
+    dialog: {
+
+      menuName: "единица измерения ",
+      addMainName: "Создать единица измерения",
+      name: "Имя",
+      enterMainName: "Введите единица измерения",
+      descriptionPlacholder: "Введите описание единица измерения",
+      editDialog: "отредактировать единица измерения",
+      deleteDialog: "Удалить единица измерения",
+      deleteText: "Вы уверены, что хотите удалить эту единица измерения?",
+      editBtn: "Сохранять",
+      description: "Описание",
+      cancelBtn: "Отмена",
+      createBtn: "Создавать",
+      deleteBtn: "Удалить",
+    },
+  },
+
+  packageType: {
+    child: {
+      idSearch: "Идентификатор тип упаковки",
+      name: "Имя ",
+      created: "Созданный",
+      updated: "Обновлено",
+      reset: "Перезагрузить",
+      search: "Поиск",
+    },
+  
+    table: {
+      id: "Ид",
+      name: "Имя",
+      description: "Описание",
+      createdAt: "Создан в",
+      updatedAt: "Обновлено в",
+      actions: "Действия",
+    },
+  
+    
+
+    dialog: {
+
+      menuName: "тип упаковки ",
+      addMainName: "Создать тип упаковки",
+      name: "Имя",
+      enterMainName: "Введите тип упаковки",
+      descriptionPlacholder: "Введите описание тип упаковки",
+      editDialog: "отредактировать тип упаковки",
+      deleteDialog: "Удалить тип упаковки",
+      deleteText: "Вы уверены, что хотите удалить эту тип упаковки?",
+      measurementUnit:"Идентификатор единицы измерения",
+      measurementUnitText:"Выберите идентификатор единицы измерения",
+      editBtn: "Сохранять",
+      description: "Описание",
+      cancelBtn: "Отмена",
+      createBtn: "Создавать",
+      deleteBtn: "Удалить",
+    },
+  },
+
+  catalogGroups:{
+    child: {
+      idSearch: "Идентификационная группа каталога",
+      name: "Имя ",
+      created: "Созданный",
+      updated: "Обновлено",
+      reset: "Перезагрузить",
+      search: "Поиск",
+      menuName: "catalog groups",
+      addMainName: " Catalog group",
+    },
+  
+    table: {
+      id: "Id",
+      name: "Group name",
+      code:"Group code",
+      createdAt: "Created At",
+      updatedAt: "Updated At",
+      actions: "Actions",
+    },
+
+    addPage:{
+      home:"home",
+      menuName: "catalog groups",
+      details:"details",
+      secondaryMenu:"Fabric catalogs",
+      delete:"delete",
+      edit:"edit",
+      groupCode:"Catalogs group code",
+      enterGroupCode:"Enter catalogs group code",
+      groupName:"Catalogs group name",
+      enterGroupName:"Enter catalogs group name",
+      creator:"Creator",
+      enterCreator:"Enter creator",
+      created:"Created date",
+      enterCreated:"Enter created date",
+      save:"save",
+      canvasType:"Canvas Type",
+      yarnType:"Yarn type",
+      yarnNumber:"Yarn number",
+      composition:"Composition",
+
+    },
+
+    tabs:{
+      canvasType:"Canvas Type",
+      yarnType:"Yarn type",
+      yarnNumber:"Yarn number",
+      composition:"Composition",
+
+      table:{
+        id:"Id",
+        name:"Name",
+        groupCode:"Catalog group code",
+        groupName:"Catalog group name",
+        description:"Description",
+        created:"Created at",
+        updated:"Updated at",
+        actions:"Actions",
+      },
+    },
+  
+  },
+
 }

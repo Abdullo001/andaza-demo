@@ -29,7 +29,7 @@ export default {
     cooperationType: "Cooperation type",
     expenseGroup: "Expense Group",
     measurementUnit: "Measurement Unit",
-    packageShape: "Package shape",
+    packageShape: "Package type",
     fabricCatalogs: "Fabric catalogs",
     productCatalogs: "Product catalogs",
     catalogGroups: "Catalog Groups",
@@ -727,4 +727,251 @@ export default {
       deleteBtn: "Delete",
     },
   },
+
+  bodyParts: {
+    child: {
+      idSearch: "Id body parts",
+      name: "Name ",
+      created: "Created",
+      updated: "Updated",
+      reset: "Reset",
+      search: "Search",
+    },
+  
+    table: {
+      id: "Id",
+      name: "Name",
+      description: "Description",
+      createdAt: "Created At",
+      updatedAt: "Updated At",
+      actions: "Actions",
+    },
+  
+    dialog: {
+      menuName: "Body parts",
+      addMainName: "Create Body Part",
+      name: "Name",
+      enterMainName: "Enter name body part",
+      description: "Description",
+      descriptionPlacholder: "Enter body part description",
+      cancelBtn: "Cancel",
+      createBtn: "Create",
+      editDialog: "Edit Body Part",
+      editBtn: "Save",
+      deleteDialog: "Delete body part",
+      deleteText: "Are you sure you want to Delete this body part?",
+      deleteBtn: "Delete",
+    },
+  },
+
+  cooperationType: {
+    child: {
+      idSearch: "Id cooperation type",
+      name: "Name ",
+      created: "Created",
+      updated: "Updated",
+      reset: "Reset",
+      search: "Search",
+    },
+  
+    table: {
+      id: "Id",
+      name: "Name",
+      description: "Description",
+      createdAt: "Created At",
+      updatedAt: "Updated At",
+      actions: "Actions",
+    },
+  
+    dialog: {
+      menuName: "cooperation type",
+      addMainName: "Create Cooperation Type",
+      name: "Name",
+      enterMainName: "Enter name cooperation type",
+      description: "Description",
+      descriptionPlacholder: "Enter cooperation type description",
+      cancelBtn: "Cancel",
+      createBtn: "Create",
+      editDialog: "Edit cooperation type",
+      editBtn: "Save",
+      deleteDialog: "Delete cooperation type",
+      deleteText: "Are you sure you want to Delete this cooperation type?",
+      deleteBtn: "Delete",
+    },
+  },
+
+  expenseGroup: {
+    child: {
+      idSearch: "Id Expense group",
+      name: "Name ",
+      created: "Created",
+      updated: "Updated",
+      reset: "Reset",
+      search: "Search",
+    },
+  
+    table: {
+      id: "Id",
+      name: "Name",
+      description: "Description",
+      createdAt: "Created At",
+      updatedAt: "Updated At",
+      actions: "Actions",
+    },
+  
+    dialog: {
+      menuName: "Expense group",
+      addMainName: "Create Expense group",
+      name: "Name",
+      enterMainName: "Enter name Expense group",
+      description: "Description",
+      descriptionPlacholder: "Enter Expense group description",
+      cancelBtn: "Cancel",
+      createBtn: "Create",
+      editDialog: "Edit Expense group",
+      editBtn: "Save",
+      deleteDialog: "Delete expense group",
+      deleteText: "Are you sure you want to Delete this expense group?",
+      deleteBtn: "Delete",
+    },
+  },
+
+  measurementUnit: {
+    child: {
+      idSearch: "Id measurement unit",
+      name: "Name ",
+      created: "Created",
+      updated: "Updated",
+      reset: "Reset",
+      search: "Search",
+    },
+  
+    table: {
+      id: "Id",
+      name: "Name",
+      description: "Description",
+      createdAt: "Created At",
+      updatedAt: "Updated At",
+      actions: "Actions",
+    },
+  
+    dialog: {
+      menuName: "measurement unit",
+      addMainName: "Create measurement unit",
+      name: "Name",
+      enterMainName: "Enter name measurement unit",
+      description: "Description",
+      descriptionPlacholder: "Enter measurement unit description",
+      cancelBtn: "Cancel",
+      createBtn: "Create",
+      editDialog: "Edit measurement unit",
+      editBtn: "Save",
+      deleteDialog: "Delete measurement unit",
+      deleteText: "Are you sure you want to Delete this measurement unit?",
+      deleteBtn: "Delete",
+    },
+  },
+
+  packageType: {
+    child: {
+      idSearch: "Id package type",
+      name: "Name ",
+      created: "Created",
+      updated: "Updated",
+      reset: "Reset",
+      search: "Search",
+    },
+  
+    table: {
+      id: "Id",
+      name: "Name",
+      description: "Description",
+      createdAt: "Created At",
+      updatedAt: "Updated At",
+      actions: "Actions",
+    },
+  
+    dialog: {
+      menuName: "package type",
+      addMainName: "Create package type",
+      name: "Name",
+      enterMainName: "Enter name package type",
+      description: "Description",
+      descriptionPlacholder: "Enter package type description",
+      measurementUnit:"Measurement unit ID",
+      measurementUnitText:"Select Measurement unit ID",
+      cancelBtn: "Cancel",
+      createBtn: "Create",
+      editDialog: "Edit package type",
+      editBtn: "Save",
+      deleteDialog: "Delete package type",
+      deleteText: "Are you sure you want to Delete this package type?",
+      deleteBtn: "Delete",
+    },
+  },
+
+  catalogGroups:{
+    child: {
+      idSearch: "Id catalog group",
+      name: "Name ",
+      created: "Created",
+      updated: "Updated",
+      reset: "Reset",
+      search: "Search",
+      menuName: "catalog groups",
+      addMainName: " Catalog group",
+    },
+  
+    table: {
+      id: "Id",
+      name: "Group name",
+      code:"Group code",
+      createdAt: "Created At",
+      updatedAt: "Updated At",
+      actions: "Actions",
+    },
+
+    addPage:{
+      home:"home",
+      menuName: "catalog groups",
+      details:"details",
+      secondaryMenu:"Fabric catalogs",
+      delete:"delete",
+      edit:"edit",
+      groupCode:"Catalogs group code",
+      enterGroupCode:"Enter catalogs group code",
+      groupName:"Catalogs group name",
+      enterGroupName:"Enter catalogs group name",
+      creator:"Creator",
+      enterCreator:"Enter creator",
+      created:"Created date",
+      enterCreated:"Enter created date",
+      save:"save",
+      canvasType:"Canvas Type",
+      yarnType:"Yarn type",
+      yarnNumber:"Yarn number",
+      composition:"Composition",
+
+    },
+
+    tabs:{
+      canvasType:"Canvas Type",
+      yarnType:"Yarn type",
+      yarnNumber:"Yarn number",
+      composition:"Composition",
+
+      table:{
+        id:"Id",
+        name:"Name",
+        groupCode:"Catalog group code",
+        groupName:"Catalog group name",
+        description:"Description",
+        created:"Created at",
+        updated:"Updated at",
+        actions:"Actions",
+      },
+    },
+  
+  },
+
 }

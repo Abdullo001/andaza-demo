@@ -10,7 +10,7 @@
           <v-col cols="12" lg="2" md="2">
             <v-text-field
               v-model="filters.id"
-              label="Id Cooperation type"
+              :label="$t('cooperationType.child.idSearch')"
               outlined
               class="rounded-lg"
               hide-details
@@ -21,7 +21,7 @@
           <v-col cols="12" lg="2" md="2">
             <v-text-field
               v-model="filters.name"
-              label="Name"
+              :label="$t('cooperationType.child.name')"
               outlined
               class="rounded-lg"
               hide-details
@@ -36,7 +36,7 @@
               v-model="filters.createdAt"
               type="datetime"
               style="width: 100%;"
-              placeholder="Created"
+              :placeholder="$t('cooperationType.child.created')"
               :picker-options="pickerShortcuts"
               format="dd.MM.yyyy HH:mm:ss"
             >
@@ -49,7 +49,8 @@
               style="width: 100%"
               v-model="filters.updatedAt"
               type="datetime"
-              placeholder="Updated"
+              :placeholder="$t('cooperationType.child.updated')"
+
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
             >
@@ -64,7 +65,7 @@
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
-                Reset
+              {{ $t("cooperationType.child.reset") }}
               </v-btn>
               <v-btn
                 width="140" color="#397CFD" dark
@@ -72,7 +73,8 @@
                 class="text-capitalize rounded-lg"
                 @click="filterData"
               >
-                Search
+              {{ $t("cooperationType.child.search") }}
+
               </v-btn>
             </div>
           </v-col>
@@ -96,10 +98,11 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium text-capitalize">Cooperation type</div>
+            <div class="font-weight-medium text-capitalize">{{ $t("cooperationType.dialog.menuName") }}</div>
             <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="new_dialog = true">
               <v-icon>mdi-plus</v-icon>
-              Cooperation Type
+              {{ $t("cooperationType.dialog.addMainName") }}
+
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -122,7 +125,7 @@
     <v-dialog v-model="new_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Create body part</div>
+          <div class="text-capitalize font-weight-bold">{{ $t("cooperationType.dialog.enterMainName") }}</div>
           <v-btn icon color="#7631FF" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -132,16 +135,16 @@
             <v-text-field
               v-model="create_cooperation.name"
               filled
-              label="Name"
-              placeholder="Enter name cooperation type"
+              :label="$t('cooperationType.dialog.name')"
+              :placeholder="$t('cooperationType.dialog.enterMainName')"
               dense
               color="#7631FF"
             />
             <v-textarea
               v-model="create_cooperation.description"
               filled
-              label="Description"
-              placeholder="Enter cooperation type description"
+              :label="$t('cooperationType.dialog.description')"
+              :placeholder="$t('cooperationType.dialog.descriptionPlacholder')"
               dense
               color="#7631FF"
             />
@@ -154,7 +157,7 @@
             width="163"
             @click="new_dialog = false"
           >
-            cancel
+          {{ $t("cooperationType.dialog.cancelBtn") }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -162,7 +165,8 @@
             width="163"
             @click="save"
           >
-            create
+          {{ $t("cooperationType.dialog.createBtn") }}
+
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -170,7 +174,7 @@
     <v-dialog v-model="edit_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Edit Cooperation type</div>
+          <div class="text-capitalize font-weight-bold">{{ $t("cooperationType.dialog.editDialog") }}</div>
           <v-btn icon color="#7631FF" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -180,16 +184,16 @@
             <v-text-field
               v-model="edit_cooperation.name"
               filled
-              label="Name"
-              placeholder="Enter cooperation type"
+              :label="$t('cooperationType.dialog.name')"
+              :placeholder="$t('cooperationType.dialog.enterMainName')"
               dense
               color="#7631FF"
             />
             <v-textarea
               v-model="edit_cooperation.description"
               filled
-              label="Description"
-              placeholder="Enter cooperation type description"
+              :label="$t('cooperationType.dialog.description')"
+              :placeholder="$t('cooperationType.dialog.descriptionPlacholder')"
               dense
               color="#7631FF"
             />
@@ -202,7 +206,8 @@
             width="163"
             @click="edit_dialog = false"
           >
-            cancel
+          {{ $t("cooperationType.dialog.cancelBtn") }}
+
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -210,7 +215,8 @@
             width="163"
             @click="update"
           >
-            create
+          {{ $t("cooperationType.dialog.editBtn") }}
+
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -220,9 +226,11 @@
         <div class="d-flex justify-center mb-2">
           <v-img src="/error-icon.svg" max-width="40"/>
         </div>
-        <v-card-title class="d-flex justify-center">Delete Cooperation type</v-card-title>
+        <v-card-title class="d-flex justify-center">{{
+          $t("cooperationType.dialog.deleteDialog")
+        }}</v-card-title>
         <v-card-text>
-          Are you sure you want to Delete this cooperation type?
+          {{ $t("cooperationType.dialog.deleteText") }}
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -232,7 +240,7 @@
             width="140"
             @click.stop="delete_dialog = false"
           >
-            cancel
+          {{ $t("cooperationType.dialog.cancelBtn") }}
           </v-btn>
           <v-spacer/>
           <v-btn
@@ -243,7 +251,8 @@
             dark
             @click="deleteCooperation"
           >
-            delete
+          {{ $t("cooperationType.dialog.deleteBtn") }}
+
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -265,12 +274,32 @@ export default {
       itemPrePage: 10,
       current_page: 0,
       headers: [
-        {text: "Id", value: "id", sortable: false},
-        {text: "Name", value: "name",},
-        {text: "Description", value: "description",},
-        {text: "Created At", value: "createdAt",},
-        {text: "Updated At", value: "updatedAt",},
-        {text: "Actions", value: "actions", align: "center", sortable: false},
+        {
+          text: this.$t("samplePurposes.table.id"),
+          value: "id",
+          align: "start",
+          sortable: false,
+          width: "100",
+        },
+        { text: this.$t("samplePurposes.table.name"), value: "name" },
+        {
+          text: this.$t("samplePurposes.table.description"),
+          value: "description",
+        },
+        {
+          text: this.$t("samplePurposes.table.createdAt"),
+          value: "createdAt",
+        },
+        {
+          text: this.$t("samplePurposes.table.updatedAt"),
+          value: "updatedAt",
+        },
+        {
+          text: this.$t("samplePurposes.table.actions"),
+          value: "actions",
+          align: "center",
+          sortable: false,
+        },
       ],
       create_cooperation: {
         name: "",
@@ -373,7 +402,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.commit('setPageTitle', 'Catalogs');
+    this.$store.commit("setPageTitle", this.$t("sidebar.catalogs"));
   }
 }
 </script>

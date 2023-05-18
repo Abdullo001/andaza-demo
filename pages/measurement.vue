@@ -10,7 +10,8 @@
           <v-col cols="12" lg="2" md="2">
             <v-text-field
               v-model="filters.id"
-              label="Id Measurement unit"
+              :label="$t('measurementUnit.child.idSearch')"
+
               outlined
               class="rounded-lg"
               hide-details
@@ -21,7 +22,8 @@
           <v-col cols="12" lg="2" md="2">
             <v-text-field
               v-model="filters.name"
-              label="Name"
+              :label="$t('measurementUnit.child.name')"
+
               outlined
               class="rounded-lg"
               hide-details
@@ -36,7 +38,7 @@
               style="width: 100%;"
               v-model="filters.createdAt"
               type="datetime"
-              placeholder="Created"
+              :placeholder="$t('measurementUnit.child.created')"
               :picker-options="pickerShortcuts"
               format="dd.MM.yyyy HH:mm:ss"
             >
@@ -49,7 +51,8 @@
               style="width: 100%;"
               v-model="filters.updatedAt"
               type="datetime"
-              placeholder="Updated"
+              :placeholder="$t('measurementUnit.child.updated')"
+
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
             >
@@ -64,7 +67,8 @@
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
-                Reset
+              {{ $t("measurementUnit.child.reset") }}
+
               </v-btn>
               <v-btn
                 width="140" color="#397CFD" dark
@@ -72,7 +76,8 @@
                 class="text-capitalize rounded-lg"
                 @click="filterData"
               >
-                Search
+              {{ $t("measurementUnit.child.search") }}
+
               </v-btn>
             </div>
           </v-col>
@@ -96,10 +101,12 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium text-capitalize">Measurement unit</div>
+            <div class="font-weight-medium text-capitalize">              {{ $t("measurementUnit.dialog.menuName") }}
+            </div>
             <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="new_dialog = true">
               <v-icon>mdi-plus</v-icon>
-              Measurement unit
+              {{ $t("measurementUnit.dialog.addMainName") }}
+
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -119,7 +126,10 @@
     <v-dialog v-model="new_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Create Measurement unit</div>
+          <div class="text-capitalize font-weight-bold">
+            {{ $t("measurementUnit.dialog.enterMainName") }}
+
+          </div>
           <v-btn icon color="#7631FF" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -129,16 +139,17 @@
             <v-text-field
               v-model="create_measurement.name"
               filled
-              label="Name"
-              placeholder="Enter name measurement unit"
+              :label="$t('measurementUnit.dialog.name')"
+              :placeholder="$t('measurementUnit.dialog.enterMainName')"
               dense
               color="#7631FF"
             />
             <v-textarea
               v-model="create_measurement.description"
               filled
-              label="Description"
-              placeholder="Enter measurement unit description"
+              :label="$t('measurementUnit.dialog.description')"
+              :placeholder="$t('measurementUnit.dialog.descriptionPlacholder')"
+
               dense
               color="#7631FF"
             />
@@ -151,7 +162,7 @@
             width="163"
             @click="new_dialog = false"
           >
-            cancel
+          {{ $t("measurementUnit.dialog.cancelBtn") }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -159,7 +170,8 @@
             width="163"
             @click="save"
           >
-            create
+          {{ $t("measurementUnit.dialog.createBtn") }}
+
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -167,7 +179,7 @@
     <v-dialog v-model="edit_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Edit Measurement unit</div>
+          <div class="text-capitalize font-weight-bold">{{ $t("measurementUnit.dialog.editDialog") }}</div>
           <v-btn icon color="#7631FF" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -177,16 +189,16 @@
             <v-text-field
               v-model="edit_measurement.name"
               filled
-              label="Name"
-              placeholder="Enter name measurement unit"
+              :label="$t('measurementUnit.dialog.name')"
+              :placeholder="$t('measurementUnit.dialog.enterMainName')"
               dense
               color="#7631FF"
             />
             <v-textarea
               v-model="edit_measurement.description"
               filled
-              label="Description"
-              placeholder="Enter measurement unit description"
+              :label="$t('measurementUnit.dialog.description')"
+              :placeholder="$t('measurementUnit.dialog.descriptionPlacholder')"
               dense
               color="#7631FF"
             />
@@ -199,7 +211,7 @@
             width="163"
             @click="edit_dialog = false"
           >
-            cancel
+          {{ $t("measurementUnit.dialog.cancelBtn") }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -207,7 +219,7 @@
             width="163"
             @click="update"
           >
-            create
+          {{ $t("measurementUnit.dialog.editBtn") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -217,9 +229,9 @@
         <div class="d-flex justify-center mb-2">
           <v-img src="/error-icon.svg" max-width="40"/>
         </div>
-        <v-card-title class="d-flex justify-center">Delete Measurement unit</v-card-title>
+        <v-card-title class="d-flex justify-center"> {{$t("measurementUnit.dialog.deleteDialog")}}</v-card-title>
         <v-card-text>
-          Are you sure you want to Delete this measurement unit?
+          {{ $t("measurementUnit.dialog.deleteText") }}
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -229,7 +241,7 @@
             width="140"
             @click.stop="delete_dialog = false"
           >
-            cancel
+          {{ $t("measurementUnit.dialog.cancelBtn") }}
           </v-btn>
           <v-spacer/>
           <v-btn
@@ -240,7 +252,7 @@
             dark
             @click="deleteSample"
           >
-            delete
+          {{ $t("measurementUnit.dialog.deleteBtn") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -262,12 +274,32 @@ export default {
       current_page: 0,
       options: {},
       headers: [
-        {text: "Id", value: "id", sortable: false},
-        {text: "Name", value: "name",},
-        {text: "Description", value: "description",},
-        {text: "Created At", value: "createdAt",},
-        {text: "Updated At", value: "updatedAt",},
-        {text: "Actions", value: "actions", align: "center", sortable: false},
+        {
+          text: this.$t("samplePurposes.table.id"),
+          value: "id",
+          align: "start",
+          sortable: false,
+          width: "100",
+        },
+        { text: this.$t("samplePurposes.table.name"), value: "name" },
+        {
+          text: this.$t("samplePurposes.table.description"),
+          value: "description",
+        },
+        {
+          text: this.$t("samplePurposes.table.createdAt"),
+          value: "createdAt",
+        },
+        {
+          text: this.$t("samplePurposes.table.updatedAt"),
+          value: "updatedAt",
+        },
+        {
+          text: this.$t("samplePurposes.table.actions"),
+          value: "actions",
+          align: "center",
+          sortable: false,
+        },
       ],
       create_measurement: {
         name: "",
@@ -370,7 +402,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.commit('setPageTitle', 'Catalogs');
+    this.$store.commit("setPageTitle", this.$t("sidebar.catalogs"));
   }
 }
 </script>
