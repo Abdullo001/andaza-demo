@@ -305,7 +305,7 @@
             width="163"
             @click="updatePermission"
           >
-            {{ $t('permissionControl.dialog.create') }}
+            {{ $t('update') }}
           </v-btn>
         </v-card-actions>
       </v-card>

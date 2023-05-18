@@ -3,7 +3,9 @@
     <Breadcrumbs :maps="map_links"/>
     <v-card elevation="0">
       <v-card-title>
-        <div>{{ modelStatus }} {{ $t('listsModels.child.models') }}</div>
+        <div>{{ $t('listsModels.child.models') }}
+          <v-chip color="#10BF41" dark class="font-weight-bold ml-5">{{ modelStatus }}</v-chip>
+        </div>
         <v-spacer/>
         <div>
           <v-btn
@@ -139,12 +141,6 @@
               class="mb-4"
               color="#7631FF"
             />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" lg="4">
-            <div class="mb-2 black--text text-body-1">{{ $t('listsModels.child.permission') }}</div>
-            <v-chip color="#10BF41" dark class="font-weight-bold">Edit</v-chip>
           </v-col>
         </v-row>
         <v-row>
@@ -457,6 +453,7 @@ export default {
   line-height: 20px;
   color: #7631FF;
 }
+
 .el-date-editor--datetime {
   width: 100%;
   border: 5px solid red;

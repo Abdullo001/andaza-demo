@@ -4,6 +4,7 @@ export default {
   noDataText: "No data available",
   from: "From",
   to: "To",
+  update: "Update",
   sidebar: {
     dashboard: "Dashboard",
     analytics: "Analytics",
