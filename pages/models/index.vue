@@ -99,9 +99,18 @@
         />
       </template>
       <template #item.actions="{item}">
-        <v-btn icon @click="viewDetails(item)">
-          <v-icon>mdi-chevron-right</v-icon>
-        </v-btn>
+        <v-tooltip top color="#7631FF">
+          <template v-slot:activator="{on, attrs}">
+            <v-btn
+              icon color="#7631FF"
+              v-on="on" v-bind="attrs"
+              @click="viewDetails(item)"
+            >
+              <v-icon>mdi-chevron-right</v-icon>
+            </v-btn>
+          </template>
+          <span>Details</span>
+        </v-tooltip>
       </template>
       <template #item.licenceRequired="{ item }">
         <v-chip :color="statusColor.licenseColor(item.licenceRequired)" dark>

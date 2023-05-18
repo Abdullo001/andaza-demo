@@ -130,7 +130,7 @@
         <v-card-text class="mt-4">
           <v-form ref="new_form" v-model="validate" lazy-validation>
             <v-row>
-              <v-col cols="12">
+              <v-col cols="12" md="6">
                 <v-text-field
                   v-model="create_colors.name"
                   filled
@@ -140,7 +140,7 @@
                   :rules="[formRules.required]"
                 />
               </v-col>
-              <v-col cols="12">
+              <v-col cols="12" md="6">
                 <v-menu
                   v-model="menu"
                   :close-on-content-click="false"
@@ -173,7 +173,38 @@
                   </v-card>
                 </v-menu>
               </v-col>
-              <v-col cols="12">
+              <v-col cols="12" md="6">
+                <v-text-field
+                  v-model="create_colors.name"
+                  filled
+                  label="Color code"
+                  placeholder="Enter Color code"
+                  color="#7631FF"
+                  :rules="[formRules.required]"
+                />
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-select
+                  v-model="create_colors.name"
+                  filled
+                  append-icon="mdi-chevron-down"
+                  label="Panton type"
+                  placeholder="Enter Panton type"
+                  color="#7631FF"
+                  :rules="[formRules.required]"
+                />
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-text-field
+                  v-model="create_colors.name"
+                  filled
+                  label="Panton code"
+                  placeholder="Enter Panton code"
+                  color="#7631FF"
+                  :rules="[formRules.required]"
+                />
+              </v-col>
+              <v-col cols="12" md="6">
                 <v-textarea
                   v-model="create_colors.description"
                   rows="1"
