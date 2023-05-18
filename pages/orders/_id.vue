@@ -1,10 +1,13 @@
 <template>
   <div>
-    <Breadcrumbs :maps="map_links" />
+    <Breadcrumbs :maps="map_links"/>
     <v-card elevation="0">
       <v-card-title>
-        <div>{{ orderStatus }} order</div>
-        <v-spacer />
+        <div>
+          Orders
+          <v-chip color="#10BF41" dark class="font-weight-bold ml-5">{{ orderStatus }}</v-chip>
+        </div>
+        <v-spacer/>
         <div>
           <v-btn
             outlined
@@ -12,7 +15,7 @@
             color="#777C85"
             class="text-capitalize rounded-lg mr-4"
           >
-            <v-img src="/trash.svg" class="mr-1" />
+            <v-img src="/trash.svg" class="mr-1"/>
             Clear
           </v-btn>
           <v-btn
@@ -29,7 +32,7 @@
           </v-btn>
         </div>
       </v-card-title>
-      <v-divider />
+      <v-divider/>
       <v-card-text class="mt-4">
         <v-row>
           <v-col>
@@ -64,13 +67,25 @@
               >
                 <template #append>
                   <v-icon class="d-inline-block" color="#7631FF"
-                    >mdi-magnify</v-icon
+                  >mdi-magnify
+                  </v-icon
                   >
                 </template>
               </v-combobox>
             </div>
-            <div class="mb-2 black--text text-body-1">Permission</div>
-            <v-chip color="#10BF41" dark class="font-weight-bold">Edit</v-chip>
+            <div class="mb-2 text-body-1">Order priority</div>
+            <v-select
+              :background-color="statusColor.priorityColor(order.priority)"
+              :items="priority_enums"
+              append-icon="mdi-chevron-down"
+              v-model="order.priority"
+              hide-details
+              dense
+              filled
+              validate-on-blur
+              class="rounded-lg"
+              dark
+            />
           </v-col>
           <v-col>
             <div class="mb-2 text-body-1">Client name</div>
@@ -94,7 +109,8 @@
             >
               <template #append>
                 <v-icon class="d-inline-block" color="#7631FF"
-                  >mdi-magnify</v-icon
+                >mdi-magnify
+                </v-icon
                 >
               </template>
             </v-combobox>
@@ -121,19 +137,6 @@
                 color="#7631FF"
               />
             </div>
-            <div class="mb-2 text-body-1">Order priority</div>
-            <v-select
-              :background-color="statusColor.priorityColor(order.priority)"
-              :items="priority_enums"
-              append-icon="mdi-chevron-down"
-              v-model="order.priority"
-              hide-details
-              dense
-              filled
-              validate-on-blur
-              class="rounded-lg"
-              dark
-            />
           </v-col>
           <v-col>
             <div class="mb-2 text-body-1">Model number</div>
@@ -158,7 +161,8 @@
             >
               <template #append>
                 <v-icon class="d-inline-block" color="#7631FF"
-                  >mdi-magnify</v-icon
+                >mdi-magnify
+                </v-icon
                 >
               </template>
             </v-combobox>
@@ -268,7 +272,7 @@
               readonly
             >
               <template #append>
-                <v-img src="/date-icon.svg" />
+                <v-img src="/date-icon.svg"/>
               </template>
             </v-text-field>
 
@@ -286,14 +290,14 @@
               readonly
             >
               <template #append>
-                <v-img src="/date-icon.svg" />
+                <v-img src="/date-icon.svg"/>
               </template>
             </v-text-field>
           </v-col>
         </v-row>
       </v-card-text>
       <v-card-actions class="pb-6 pr-4">
-        <v-spacer />
+        <v-spacer/>
         <v-btn
           v-if="orderStatus === 'Add'"
           color="#7631FF"
@@ -321,7 +325,7 @@
 
     <v-card class="mt-6 mb-8" flat>
       <v-tabs v-model="tab">
-        <v-tabs-slider color="#7631FF" />
+        <v-tabs-slider color="#7631FF"/>
         <v-tab
           class="text-capitalize"
           v-for="item in items"
@@ -334,35 +338,35 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <ColorSizeDistirbution />
+                <ColorSizeDistirbution/>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <DetailInfo />
+                <DetailInfo/>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <Subcontracts />
+                <Subcontracts/>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <ShippingInfo />
+                <ShippingInfo/>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <OrderDocuments />
+                <OrderDocuments/>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -374,7 +378,7 @@
 
 <script>
 import Breadcrumbs from "../../components/Breadcrumbs.vue";
-import { mapActions, mapGetters, mapMutations } from "vuex";
+import {mapActions, mapGetters, mapMutations} from "vuex";
 
 export default {
   components: {
@@ -422,7 +426,7 @@ export default {
         id: "",
         orderNumber: "",
         clientId: null,
-        client:"",
+        client: "",
         modelNumber: "",
         modelName: "",
         priceWithDiscount: null,
@@ -436,7 +440,7 @@ export default {
         description: "",
         creator: "",
         headOfDepartmentId: null,
-        headOfDepartment:"",
+        headOfDepartment: "",
 
         modifiedPerson: "",
         createdTime: "",
@@ -467,7 +471,7 @@ export default {
   },
   watch: {
     orderDetail(item) {
-      
+
       const order = this.order;
       order.id = item.id;
       order.modelId = item.modelId;
@@ -486,10 +490,10 @@ export default {
       order.priceWithDiscountCurrency = item.priceWithDiscountCurrency;
       order.modelId = item.modelId;
       order.priority = item.priority;
-      order.headOfDepartment=item.headOfProductionDepartment
-      order.client=item.client
+      order.headOfDepartment = item.headOfProductionDepartment
+      order.client = item.client
       const modelId = item.modelId;
-      this.setModelId({ modelId });
+      this.setModelId({modelId});
     },
     usersList(list) {
       list.map((item) => {
@@ -501,9 +505,9 @@ export default {
     },
 
     infoToOrder(item) {
-      this.selectedModelInfo = { ...item };
-      this.order.priceWithDiscount=item.priceWithDiscount
-      this.order.priceWithDiscountCurrency=item.priceWithDiscountCurrency
+      this.selectedModelInfo = {...item};
+      this.order.priceWithDiscount = item.priceWithDiscount
+      this.order.priceWithDiscountCurrency = item.priceWithDiscountCurrency
 
 
     },
@@ -531,17 +535,16 @@ export default {
 
       this.order.modelName = item.name;
       console.log(item);
-      this.getGivePrice({ id: item.id });
+      this.getGivePrice({id: item.id});
 
-      
-      
+
     },
   },
   mounted() {
     const id = this.$route.params.id;
     const modelId = this.$route.query.modelId;
     if (id !== "add-order") {
-      this.getOneOrder({ id, modelId });
+      this.getOneOrder({id, modelId});
       this.orderStatus = "Edit";
     }
   },
@@ -560,9 +563,11 @@ export default {
   width: 100% !important;
   background: #f8f4fe;
   border-radius: 10px 10px 0 0 !important;
+
   &::placeholder {
     color: #cccccc;
   }
+
   > input.el-input__inner {
     border-radius: 10px 10px 0 0 !important;
 
@@ -571,6 +576,7 @@ export default {
     border-bottom: 1px solid #777777 !important;
     width: 100% !important;
     height: 40px !important;
+
     &::placeholder {
       color: #9a979d !important;
     }

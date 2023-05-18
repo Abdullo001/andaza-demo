@@ -3,7 +3,15 @@
     <Breadcrumbs :maps="map_links"/>
     <v-card elevation="0" class="mt-2 rounded-lg">
       <v-card-title>
-        <div>{{ title }} {{ $t('prefinances.child.prefinance') }}</div>
+        <div class="text-capitalize">
+           {{ $t('prefinances.child.prefinance') }}
+          <v-chip
+            color="#10BF41"
+            class="text-capitalize ml-5 font-weight-bold"
+            dark>
+            {{ title }}
+          </v-chip>
+        </div>
         <v-spacer/>
         <div>
           <v-btn outlined class="text-capitalize rounded-lg border-grey">
@@ -110,15 +118,6 @@
               :label="$t('prefinances.child.tertiaryCurrency')"
               append-icon="mdi-chevron-down"
             />
-          </v-col>
-          <v-col cols="12" lg="3" md="3">
-            <div class="text-body-1 font-weight-medium">{{ $t('prefinances.child.permission') }}</div>
-            <v-chip
-              color="#10BF41"
-              class="text-capitalize px-4 mt-3 font-weight-bold"
-              dark>
-              {{ $t('prefinances.child.edit') }}
-            </v-chip>
           </v-col>
           <v-col cols="12" lg="3" md="3">
             <v-text-field
@@ -991,7 +990,8 @@ export default {
     async createNewPreFinance() {
       await this.createPreFinance(this.addPreFinances);
     },
-    deleteRow(item, index) {}
+    deleteRow(item, index) {
+    }
   },
   mounted() {
     this.getExpenseGroup();
