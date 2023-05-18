@@ -68,6 +68,7 @@
       :footer-props="{
           itemsPerPageOptions: [10, 20, 50, 100],
       }"
+      @click:row="(item) => viewDetails(item)"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -86,6 +87,7 @@
       </template>
       <template #item.status="{ item }">
         <v-select
+          @click.stop
           @change="changeStatus(item)"
           :background-color="statusColor.color(item.status)"
           :items="status_enums"
