@@ -4,6 +4,7 @@ export default {
   noDataText: "Maʼlumotlar mavjud emas",
   from: "Dan",
   to: "Gacha",
+  update: "Yangilash",
   sidebar: {
     dashboard: "Boshqaruv paneli",
     analytics: "Analitika",

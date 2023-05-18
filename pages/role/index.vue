@@ -273,7 +273,7 @@
             width="163"
             @click="putRoleData"
           >
-            {{ $t('permissionRole.dialog.create') }}
+            {{ $t('update') }}
           </v-btn>
         </v-card-actions>
       </v-card>

@@ -4,6 +4,7 @@ export default {
   noDataText: "Данные недоступны",
   from: "От",
   to: "С",
+  update: "Обновлять",
   sidebar: {
     dashboard: "Панель приборов",
     analytics: "Аналитика",
