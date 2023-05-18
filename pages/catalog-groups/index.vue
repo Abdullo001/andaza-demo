@@ -91,6 +91,7 @@
       class="mt-4 rounded-lg"
       @update:items-per-page="size"
       @update:page="page"
+      @click:row="(item) => $router.push(`/catalog-groups/${item.id}`)"
     >
       <template #top>
         <v-toolbar elevation="0" class="rounded-lg">

@@ -74,6 +74,7 @@
       }"
       :options.sync="options"
       :server-items-length="totalElements"
+      @click:row="(item) => $router.push(`/fabric/${item.id}`)"
     >
       <template #top>
         <v-toolbar elevation="0">

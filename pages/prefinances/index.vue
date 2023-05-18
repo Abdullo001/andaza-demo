@@ -76,6 +76,7 @@
           itemsPerPageOptions: [10, 20, 50, 100],
       }"
       :options.sync="options"
+      @click:row="(item) => $router.push(localePath(`/prefinances/${item.id}`))"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -97,6 +98,7 @@
       <template #item.status="{item}">
         <div>
           <v-select
+            @click.stop
             @change="changeStatus(item)"
             :items="status_enum"
             v-model="item.status"
@@ -151,8 +153,8 @@ export default {
         {text: this.$t('prefinances.table.partner'), value: 'partner'},
         {text: this.$t('prefinances.table.price'), value: 'primaryRate'},
         {text: this.$t('prefinances.table.currency'), value: 'primaryCurrency'},
-        {text: this.$t('prefinances.table.status'), value: 'status', align: 'center', width: 200},
-        {text: this.$t('prefinances.table.actions'), value: 'actions'},
+        {text: this.$t('prefinances.table.status'), value: 'status', width: 200},
+        {text: this.$t('prefinances.table.actions'), value: 'actions', align: 'center'},
       ],
       preFinanceList: [],
       itemPerPage: 10,
