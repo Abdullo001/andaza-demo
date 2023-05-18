@@ -165,21 +165,21 @@
                   color="#7631FF"
                 />
               </v-col>
-              <v-col cols="12" lg="6">
-                <v-select
-                  v-model="create_accessory.accessoryTypeId"
-                  :items="accessory_type_id"
-                  :rules="[ formRules.required ]"
-                  filled
-                  dense
-                  item-text="name"
-                  item-value="id"
-                  label="Accessory Type"
-                  placeholder="Select Accessory type"
-                  append-icon="mdi-chevron-down"
-                  color="#7631FF"
-                />
-              </v-col>
+<!--              <v-col cols="12" lg="6">-->
+<!--                <v-select-->
+<!--                  v-model="create_accessory.accessoryTypeId"-->
+<!--                  :items="accessory_type_id"-->
+<!--                  :rules="[ formRules.required ]"-->
+<!--                  filled-->
+<!--                  dense-->
+<!--                  item-text="name"-->
+<!--                  item-value="id"-->
+<!--                  label="Accessory Type"-->
+<!--                  placeholder="Select Accessory type"-->
+<!--                  append-icon="mdi-chevron-down"-->
+<!--                  color="#7631FF"-->
+<!--                />-->
+<!--              </v-col>-->
               <v-col cols="12">
                 <v-textarea
                   v-model="create_accessory.description"
@@ -262,25 +262,27 @@
                   color="#7631FF"
                 />
               </v-col>
-              <v-col cols="12" lg="6">
-                <v-select
-                  v-model="edit_accessory.accessoryTypeId"
-                  :items="accessory_type_id"
-                  :rules="[ formRules.required ]"
-                  filled
-                  item-text="name"
-                  item-value="id"
-                  label="Accessory Type"
-                  placeholder="Select Accessory type"
-                  dense
-                  append-icon="mdi-chevron-down"
-                  color="#7631FF"
-                />
-              </v-col>
+<!--              <v-col cols="12" lg="6">-->
+<!--                <v-select-->
+<!--                  v-model="edit_accessory.accessoryTypeId"-->
+<!--                  :items="accessory_type_id"-->
+<!--                  :rules="[ formRules.required ]"-->
+<!--                  filled-->
+<!--                  item-text="name"-->
+<!--                  item-value="id"-->
+<!--                  label="Accessory Type"-->
+<!--                  placeholder="Select Accessory type"-->
+<!--                  dense-->
+<!--                  append-icon="mdi-chevron-down"-->
+<!--                  color="#7631FF"-->
+<!--                />-->
+<!--              </v-col>-->
               <v-col cols="12">
                 <v-textarea
                   v-model="edit_accessory.description"
                   filled
+                  rows="1"
+                  auto-grow
                   label="Description"
                   placeholder="Enter Description"
                   dense
@@ -426,8 +428,7 @@ export default {
         await this.createAccessoryList(item);
         this.$refs.new_form.reset();
         this.new_dialog = false;
-      }
-      ;
+      };
     },
     async update() {
       const edit_validate = this.$refs.edit_form.validate();
@@ -436,8 +437,7 @@ export default {
         const item = {accessoryTypeId, id, description, measurementUnitId, name, specification};
         await this.updateAccessoryList(item);
         this.edit_dialog = false;
-      }
-      ;
+      };
     },
     async deleteItem() {
       await this.deleteAccessoryList(this.delete_accessory_id);
