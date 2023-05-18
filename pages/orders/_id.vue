@@ -375,9 +375,19 @@
 <script>
 import Breadcrumbs from "../../components/Breadcrumbs.vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
+import ColorSizeDistirbution from "../../components/ColorSizeDistirbution.vue";
+import DetailInfo from "../../components/DetailInfo.vue";
+import Subcontracts from "../../components/Subcontracts.vue";
+import ShippingInfo from "../../components/ShippingInfo.vue";
+import OrderDocuments from "../../components/OrderDocuments.vue";
 
 export default {
   components: {
+    OrderDocuments,
+    ShippingInfo,
+    Subcontracts,
+    DetailInfo,
+    ColorSizeDistirbution,
     Breadcrumbs,
   },
   data() {
@@ -467,7 +477,7 @@ export default {
   },
   watch: {
     orderDetail(item) {
-      
+
       const order = this.order;
       order.id = item.id;
       order.modelId = item.modelId;
@@ -533,8 +543,8 @@ export default {
       console.log(item);
       this.getGivePrice({ id: item.id });
 
-      
-      
+
+
     },
   },
   mounted() {

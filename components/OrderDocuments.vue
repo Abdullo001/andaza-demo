@@ -12,7 +12,7 @@
           <v-toolbar-title class="w-full d-flex">
             <div class="title">Documents</div>
             <v-spacer/>
-            
+
           </v-toolbar-title>
         </v-toolbar>
       </template>
@@ -211,6 +211,7 @@
 import {mapActions, mapGetters} from "vuex";
 
 export default {
+  name: "OrderDocuments",
   data() {
     return {
       edit_document: {

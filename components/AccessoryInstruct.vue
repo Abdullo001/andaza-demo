@@ -50,6 +50,7 @@
 import {mapActions, mapGetters} from "vuex";
 
 export default {
+  name: "AccessoryInstructComponent",
   data() {
     return {
       description: ''

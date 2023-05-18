@@ -214,6 +214,7 @@
 import {mapActions, mapGetters} from "vuex";
 
 export default {
+  name: "PrintingComponent",
   data() {
     return {
       delete_dialog: false,

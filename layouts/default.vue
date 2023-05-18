@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire" dark>
-    <Sidebar/>
+    <SidebarComponent/>
     <v-main>
       <v-container fluid>
         <Nuxt />
@@ -10,8 +10,11 @@
 </template>
 
 <script>
+import SidebarComponent from "../components/Sidebar.vue";
+
 export default {
   name: 'DefaultLayout',
+  components: {SidebarComponent},
   data () {
     return {}
   },

@@ -50,6 +50,7 @@
 import {mapActions, mapGetters} from "vuex";
 
 export default {
+  name: "PackagingInstructComponent",
   data() {
     return {
       description: ''

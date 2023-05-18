@@ -219,6 +219,7 @@
 import {mapActions, mapGetters} from "vuex";
 
 export default {
+  name: "DocumentsComponent",
   data() {
     return {
       edit_document: {
