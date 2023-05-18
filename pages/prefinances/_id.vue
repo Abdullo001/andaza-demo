@@ -235,7 +235,7 @@
           style="min-width: 130px;"
           @click="createNewPreFinance"
         >
-          {{ $t('prefinances.child.save') }}
+          {{ btn }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -818,6 +818,10 @@ export default {
     title() {
       const id = this.$route.params.id;
       return id === 'create' ? 'Add' : 'Edit';
+    },
+    btn () {
+      const id = this.$route.params.id;
+      return id === 'create' ? this.$t('prefinances.child.save') : this.$t('update');
     }
   },
   watch: {
