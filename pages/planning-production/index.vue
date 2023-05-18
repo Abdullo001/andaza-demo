@@ -87,6 +87,7 @@
       :no-data-text="$t('noDataText')"
       @update:items-per-page="getItemSize"
       @update:page="page"
+      @click:row="(item) => getCurrentRow(item)"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -121,6 +122,7 @@
       </template>
       <template #item.status="{item}">
         <v-select
+          @click.stop
           @change="changeStatus(item)"
           :background-color="prodColor(item.statusId)"
           :items="status_enums"

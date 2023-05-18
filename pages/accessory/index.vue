@@ -85,6 +85,7 @@
     :footer-props="{
       itemsPerPageOptions: [10, 20, 50, 100],
     }"
+    @click:row="(item) => $router.push(`/accessory/${item.id}`)"
   >
       <template #top>
         <v-toolbar elevation="0">

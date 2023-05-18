@@ -90,6 +90,7 @@
       @update:page="page"
       @update:items-per-page="size"
       :server-items-length="totalElements"
+      @click:row="(item) => viewDetails(item)"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -111,6 +112,7 @@
       </template>
       <template #item.status="{ item }">
         <v-select
+          @click.stop
           @change="changeStatus(item)"
           :background-color="statusColor.orderColor(item.status)"
           :items="status_enums"
@@ -241,6 +243,17 @@ export default {
     async viewDetails(item) {
       await this.$router.push(`/orders/${item.id}?modelId=${item.modelId}`);
       await this.$store.commit("orders/setModelId", item.modelId)
+    },
+    getCopyKey(item) {
+      navigator.clipboard.writeText(item)
+      this.$toasted.success(`Copied ${item}`, {
+        action: {
+          text: '',
+          onClick: (e, toastObject) => {
+            toastObject.goAway(0);
+          }
+        }
+      })
     },
   },
   async mounted() {
