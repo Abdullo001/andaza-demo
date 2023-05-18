@@ -4,6 +4,7 @@ export default {
   noDataText: "Maʼlumotlar mavjud emas",
   from: "Dan",
   to: "Gacha",
+  update: "Yangilash",
   sidebar: {
     dashboard: "Boshqaruv paneli",
     analytics: "Analitika",
@@ -728,6 +729,8 @@ export default {
       deleteBtn: "O'chirish",
     },
   },
+ deleteTitle: 'Qatorni o`chirish',
+  deleteContent: 'Haqiqatan ham bu elementni oʻchirib tashlamoqchimisiz?',
 
   bodyParts: {
     child: {
@@ -928,5 +931,6 @@ export default {
       deleteBtn: "O'chirish",
     },
   },
+
 
 };

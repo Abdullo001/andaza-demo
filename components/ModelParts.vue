@@ -175,7 +175,7 @@
             width="140" height="40"
             @click="updateParts"
           >
-            save
+            {{ $t('update') }}
           </v-btn>
           <v-spacer/>
         </v-card-actions>

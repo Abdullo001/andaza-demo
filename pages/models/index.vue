@@ -35,16 +35,6 @@
                 append-icon="mdi-chevron-down"
               />
             </v-col>
-<!--            <v-col cols="12" lg="2" md="2">-->
-<!--              <el-date-picker-->
-<!--                v-model="filters.createdAt"-->
-<!--                type="datetime"-->
-<!--                placeholder="Created at"-->
-<!--                :picker-options="pickerShortcuts"-->
-<!--                value-format="dd.MM.yyyy HH:mm:ss"-->
-<!--              >-->
-<!--              </el-date-picker>-->
-<!--            </v-col>-->
             <v-spacer/>
             <v-col cols="12" lg="3">
               <div class="d-flex justify-end">
@@ -78,6 +68,7 @@
       :footer-props="{
           itemsPerPageOptions: [10, 20, 50, 100],
       }"
+      @click:row="(item) => viewDetails(item)"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -96,6 +87,7 @@
       </template>
       <template #item.status="{ item }">
         <v-select
+          @click.stop
           @change="changeStatus(item)"
           :background-color="statusColor.color(item.status)"
           :items="status_enums"
@@ -107,9 +99,18 @@
         />
       </template>
       <template #item.actions="{item}">
-        <v-btn icon @click="viewDetails(item)">
-          <v-icon>mdi-chevron-right</v-icon>
-        </v-btn>
+        <v-tooltip top color="#7631FF">
+          <template v-slot:activator="{on, attrs}">
+            <v-btn
+              icon color="#7631FF"
+              v-on="on" v-bind="attrs"
+              @click="viewDetails(item)"
+            >
+              <v-icon>mdi-chevron-right</v-icon>
+            </v-btn>
+          </template>
+          <span>Details</span>
+        </v-tooltip>
       </template>
       <template #item.licenceRequired="{ item }">
         <v-chip :color="statusColor.licenseColor(item.licenceRequired)" dark>

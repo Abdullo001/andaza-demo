@@ -4,7 +4,7 @@
     <v-card elevation="0" class="mt-2 rounded-lg">
       <v-card-title>
         <div>{{ $t('planningProduction.dialog.planningProduction') }}</div>
-        <v-chip color="green" dark class="ml-4">{{ $t('planningProduction.dialog.edit') }}</v-chip>
+        <v-chip color="green" dark class="ml-5 text-capitalize font-weight-bold">{{ title }}</v-chip>
         <v-spacer/>
         <div>
           <v-btn outlined class="text-capitalize rounded-lg">
@@ -258,6 +258,7 @@ export default {
   name: 'ProductionOfPlanningPage',
   data() {
     return {
+      title: "Add",
       currentImage: '',
       image_dialog: false,
       planning: {
@@ -355,6 +356,7 @@ export default {
   mounted() {
     const param = this.$route.params.id;
     if(param !== 'create') {
+      this.title = "Edit"
       this.getModelInfo(param);
       this.getProcessingList({
         id: this.productionId,

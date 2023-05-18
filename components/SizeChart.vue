@@ -29,13 +29,13 @@
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
-                  outlined
-                  class="rounded-lg text-none"
-                  color="#777C85"
+                  class="rounded-lg text-none white--text"
+                  color="#7631FF"
                   height="36"
                   v-bind="attrs"
                   v-on="on"
                   :disabled="!!allSizeChart.length"
+
                 >
                   Size template
                 </v-btn>
@@ -58,7 +58,6 @@
                 </v-list-item-group>
               </v-list>
             </v-menu>
-
             <v-spacer/>
             <v-btn
               class="rounded-lg text-capitalize"
@@ -128,38 +127,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="delete_dialog" max-width="500">
-      <v-card class="pa-4 text-center">
-        <div class="d-flex justify-center mb-2">
-          <v-img src="/error-icon.svg" max-width="40"/>
-        </div>
-        <v-card-title class="d-flex justify-center">Delete size chart row</v-card-title>
-        <v-card-text>
-          Are you sure you want to Delete size chart row?
-        </v-card-text>
-        <v-card-actions class="px-16">
-          <v-btn
-            outlined
-            class="rounded-lg text-capitalize font-weight-bold"
-            color="#777C85"
-            width="140"
-            @click.stop="delete_dialog = false"
-          >
-            cancel
-          </v-btn>
-          <v-spacer/>
-          <v-btn
-            class="rounded-lg text-capitalize font-weight-bold"
-            color="#FF4E4F"
-            width="140"
-            elevation="0"
-            dark @click="deleteChart"
-          >
-            delete
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
     <v-dialog v-model="edit_dialog" max-width="1000">
       <v-card>
         <v-card-title class="d-flex align-center justify-space-between w-full">
@@ -207,6 +174,38 @@
             save
           </v-btn>
           <v-spacer/>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="delete_dialog" max-width="500">
+      <v-card class="pa-4 text-center">
+        <div class="d-flex justify-center mb-2">
+          <v-img src="/error-icon.svg" max-width="40"/>
+        </div>
+        <v-card-title class="d-flex justify-center">Delete size chart row</v-card-title>
+        <v-card-text>
+          Are you sure you want to Delete size chart row?
+        </v-card-text>
+        <v-card-actions class="px-16">
+          <v-btn
+            outlined
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#777C85"
+            width="140"
+            @click.stop="delete_dialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-spacer/>
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#FF4E4F"
+            width="140"
+            elevation="0"
+            dark @click="deleteChart"
+          >
+            delete
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

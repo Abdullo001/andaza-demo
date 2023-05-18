@@ -106,6 +106,7 @@
       @update:items-per-page="getItemSize"
       @update:page="page"
       :server-items-length="totalElements"
+      @click:row="(item) => getUserInfo(item)"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -144,6 +145,7 @@
       <template #item.status="{item}">
         <div>
           <v-select
+            @click.stop
             @change="changeStatus(item)"
             :background-color="statusColor.color(item.status)"
             :items="status_enums"

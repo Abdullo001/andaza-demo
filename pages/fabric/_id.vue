@@ -3,7 +3,13 @@
     <Breadcrumbs :maps="map_links"/>
     <v-card elevation="0" class="mt-2 rounded-lg">
       <v-card-title>
-        <div>{{ title }} Fabric</div>
+        <div>
+          Fabric <v-chip
+          color="#10BF41"
+          class="text-capitalize ml-5 font-weight-bold"
+          dark>
+          {{ title }}
+        </v-chip></div>
         <v-spacer/>
         <div>
           <v-btn outlined class="text-capitalize rounded-lg">
@@ -31,7 +37,8 @@
                 class="rounded-lg"
                 :return-object="true"
                 color="#7631FF"
-                dense disabled
+                dense
+                disabled
                 label="Order number"
                 placeholder="Enter order number"
                 append-icon="mdi-chevron-down"
@@ -142,15 +149,6 @@
               </v-text-field>
             </v-col>
             <v-row class="px-3">
-              <v-col cols="12" lg="3" md="3">
-                <div class="text-body-1 font-weight-medium">Permission</div>
-                <v-chip
-                  color="#10BF41"
-                  class="text-capitalize px-4 mt-3 font-weight-bold"
-                  dark>
-                  edit
-                </v-chip>
-              </v-col>
               <v-col cols="12" lg="3" md="3">
                 <el-date-picker
                   v-model="addFabric.deadlineForFabric"
@@ -346,9 +344,21 @@
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+import Breadcrumbs from "../../components/Breadcrumbs.vue";
+import FabricPlanningChart from "../../components/Fabric/PlanningChart.vue"
+import FabricOrdered from "../../components/Fabric/Ordered.vue"
+import FabricSupplyFabric from "../../components/Fabric/Ordered.vue"
+import FabricOrder from "../../components/Fabric/Order.vue"
 
 export default {
   name: 'FabricPlanningDynamicPage',
+  components: {
+    Breadcrumbs,
+    FabricPlanningChart,
+    FabricOrdered,
+    FabricSupplyFabric,
+    FabricOrder
+  },
   data() {
     return {
       date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),

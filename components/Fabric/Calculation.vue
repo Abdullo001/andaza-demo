@@ -15,6 +15,9 @@
           hide-details
           :background-color="!item.status?'#F8F4FE':'transparent'"
           class="pa-0 ma-0"
+          :rules="[formRules.onlyNumber]"
+          type="number"
+          hide-spin-buttons
         />
       </template>
       <template #item.second="{item}">
@@ -26,6 +29,9 @@
           :background-color="item.editable?'#F8F4FE':'transparent'"
           class="pa-0 ma-0"
           :disabled="!item.editable"
+          :rules="[formRules.onlyNumber]"
+          type="number"
+          hide-spin-buttons
         />
       </template>
       <template #item.third="{item}">
@@ -38,6 +44,9 @@
           class="pa-0 ma-0"
           :disabled="!item.editable"
           :readonly="true"
+          :rules="[formRules.onlyNumber]"
+          type="number"
+          hide-spin-buttons
         />
       </template>
       <template #footer>
@@ -150,7 +159,7 @@ export default {
         val[0].third = (+val[0].first + +val[0].second).toFixed(2);
         val[1].third = (+val[1].first + +val[1].second).toFixed(2);
         if(!!val[4].first) {
-          val[5].first = ((val[0].third * val[1].third * val[2].first) / (val[3].first * val[4].first)).toFixed(2);
+          val[5].first = (val[0].third * val[1].third * val[2].first / val[3].first * (1 + val[4].first / 100)).toFixed(3);
         }
       }, deep: true
     }

@@ -100,6 +100,7 @@
       :options.sync="options"
       @update:items-per-page="getItemSize"
       :server-items-length="roleTotalElements"
+      @click:row="(item) => $router.push(localePath(`/role/${item.id}`))"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -119,7 +120,7 @@
           <v-img src="/edit-active.svg" max-width="22"/>
         </v-btn>
         <v-tooltip top color="primary">
-          <template v-slot:activator="{on, attrs}">
+          <template #activator="{on, attrs}">
             <v-btn
               icon color="primary"
               v-on="on" v-bind="attrs"
@@ -134,6 +135,7 @@
       <template #item.status="{item}">
         <div>
           <v-select
+            @click.stop
             @change="statusChange(item)"
             :items="statusEnums"
             hide-details
@@ -271,7 +273,7 @@
             width="163"
             @click="putRoleData"
           >
-            {{ $t('permissionRole.dialog.create') }}
+            {{ $t('update') }}
           </v-btn>
         </v-card-actions>
       </v-card>

@@ -5,17 +5,7 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              v-model="filters.id"
-              :label="$t('bodyParts.child.idSearch')"
-              outlined
-              class="rounded-lg"
-              hide-details
-              dense
-              @keydown.enter="filterData"
-            />
-          </v-col>
-          <v-col cols="12" lg="2" md="2">
-            <v-text-field
+
               v-model="filters.partName"
               :label="$t('bodyParts.child.name')"
               outlined
@@ -312,7 +302,6 @@ export default {
       },
       delete_bodyParts: {},
       filters: {
-        id: "",
         partName: "",
         updatedAt: "",
         createdAt: "",
