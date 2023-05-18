@@ -129,6 +129,9 @@
           <v-btn icon color="green" @click.stop="editItem(item)">
             <v-img src="/edit-active.svg" max-width="22"/>
           </v-btn>
+          <v-btn icon color="red" @click.stop="getDeleteItem(item)">
+            <v-img src="/delete.svg" max-width="27"/>
+          </v-btn>
         </div>
       </template>
     </v-data-table>
@@ -500,6 +503,39 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="delete_dialog" max-width="500">
+      <v-card class="pa-4 text-center">
+        <div class="d-flex justify-center mb-2">
+          <v-img src="/error-icon.svg" max-width="40"/>
+        </div>
+        <v-card-title class="d-flex justify-center">Delete Partners</v-card-title>
+        <v-card-text>
+          Are you sure you want to Delete this partners?
+        </v-card-text>
+        <v-card-actions class="px-16">
+          <v-btn
+            outlined
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#777C85"
+            width="140"
+            @click.stop="delete_dialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-spacer/>
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#FF4E4F"
+            width="140"
+            elevation="0"
+            dark
+            @click="deletePartners"
+          >
+            delete
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -510,6 +546,8 @@ export default {
   name: "PackageShapePage",
   data() {
     return {
+      delete_partners_id: "",
+      delete_dialog: false,
       edit_validate: true,
       validate: true,
       edit_dialog: false,
@@ -681,6 +719,14 @@ export default {
         this.edit_dialog = false;
         this.edit_image_list = [];
       }
+    },
+    async deletePartners(){
+      console.log(this.delete_partners_id);
+      this.delete_dialog = false;
+    },
+    async getDeleteItem(item) {
+      this.delete_partners_id = item.id;
+      this.delete_dialog = true;
     },
     async editItem(item) {
       await this.getPartnerOneList(item.id);

@@ -40,12 +40,6 @@ export const actions = {
     const body = {
       filters: [
         {
-          key: 'id',
-          operator: 'EQUAL',
-          propertyType: 'LONG',
-          value: data.id
-        },
-        {
           key: 'partName',
           operator: 'LIKE',
           propertyType: 'STRING',

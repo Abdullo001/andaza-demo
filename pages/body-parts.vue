@@ -9,17 +9,6 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              v-model="filters.id"
-              label="Id body parts"
-              outlined
-              class="rounded-lg"
-              hide-details
-              dense
-              @keydown.enter="filterData"
-            />
-          </v-col>
-          <v-col cols="12" lg="2" md="2">
-            <v-text-field
               v-model="filters.partName"
               label="Name"
               outlined
@@ -279,7 +268,6 @@ export default {
       },
       delete_bodyParts: {},
       filters: {
-        id: "",
         partName: "",
         updatedAt: "",
         createdAt: "",
