@@ -217,7 +217,7 @@
             width="163"
             @click="saveLocalization"
           >
-            {{ $t('localization.dialog.save') }}
+            {{ $t('update') }}
           </v-btn>
         </v-card-actions>
       </v-card>
