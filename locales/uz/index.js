@@ -725,12 +725,13 @@ export default {
       editDialog: " Namuna maqsadi tahrirlash",
       editBtn: "Saqlash",
       deleteDialog: "Namuna maqsadini o'chirish",
-      deleteText: "Haqiqatan ham bu namuna maqsadini oʻchirib tashlamoqchimisiz?",
+      deleteText:
+        "Haqiqatan ham bu namuna maqsadini oʻchirib tashlamoqchimisiz?",
       deleteBtn: "O'chirish",
     },
   },
- deleteTitle: 'Qatorni o`chirish',
-  deleteContent: 'Haqiqatan ham bu elementni oʻchirib tashlamoqchimisiz?',
+  deleteTitle: "Qatorni o`chirish",
+  deleteContent: "Haqiqatan ham bu elementni oʻchirib tashlamoqchimisiz?",
 
   bodyParts: {
     child: {
@@ -741,7 +742,7 @@ export default {
       reset: "Qayta tiklash",
       search: "Qidirish",
     },
-  
+
     table: {
       id: "Id",
       name: "Ism",
@@ -777,7 +778,7 @@ export default {
       reset: "Qayta tiklash",
       search: "Qidirish",
     },
-  
+
     table: {
       id: "Id",
       name: "Ism",
@@ -786,7 +787,6 @@ export default {
       updatedAt: "Yangilangan",
       actions: "Amallar",
     },
-  
 
     dialog: {
       menuName: "Hamkorlik turi",
@@ -800,7 +800,8 @@ export default {
       editDialog: "Hamkorlik turini tahrirlash",
       editBtn: "Saqlash",
       deleteDialog: "Hamkorlik turini o'chirish",
-      deleteText: "Haqiqatan ham bu hamkorlik turini oʻchirib tashlamoqchimisiz?",
+      deleteText:
+        "Haqiqatan ham bu hamkorlik turini oʻchirib tashlamoqchimisiz?",
       deleteBtn: "O'chirish",
     },
   },
@@ -814,7 +815,7 @@ export default {
       reset: "Qayta tiklash",
       search: "Qidirish",
     },
-  
+
     table: {
       id: "Id",
       name: "Ism",
@@ -836,7 +837,8 @@ export default {
       editDialog: "Xarajatlar guruhini tahrirlash",
       editBtn: "Saqlash",
       deleteDialog: "Xarajatlar guruhini o'chirish",
-      deleteText: "Haqiqatan ham bu xarajatlar guruhini oʻchirib tashlamoqchimisiz?",
+      deleteText:
+        "Haqiqatan ham bu xarajatlar guruhini oʻchirib tashlamoqchimisiz?",
       deleteBtn: "O'chirish",
     },
   },
@@ -850,7 +852,7 @@ export default {
       reset: "Qayta tiklash",
       search: "Qidirish",
     },
-  
+
     table: {
       id: "Id",
       name: "Ism",
@@ -859,10 +861,8 @@ export default {
       updatedAt: "Yangilangan",
       actions: "Amallar",
     },
-  
-    dialog: {
-      
 
+    dialog: {
       menuName: "O'lchov birligi",
       addMainName: "O'lchov birligi yaratish",
       name: "Nomi",
@@ -874,7 +874,8 @@ export default {
       editDialog: "O'lchov birligini tahrirlash",
       editBtn: "Saqlash",
       deleteDialog: "O'lchov birligini o'chirish",
-      deleteText: "Haqiqatan ham bu o'lchov birligini oʻchirib tashlamoqchimisiz?",
+      deleteText:
+        "Haqiqatan ham bu o'lchov birligini oʻchirib tashlamoqchimisiz?",
       deleteBtn: "O'chirish",
     },
   },
@@ -888,7 +889,7 @@ export default {
       reset: "Qayta tiklash",
       search: "Qidirish",
     },
-  
+
     table: {
       id: "Id",
       name: "Ism",
@@ -897,23 +898,8 @@ export default {
       updatedAt: "Yangilangan",
       actions: "Amallar",
     },
-  
-    dialog: {
-      menuName: "package type",
-      addMainName: "Create package type",
-      name: "Name",
-      enterMainName: "Enter name package type",
-      description: "Description",
-      descriptionPlacholder: "Enter package type description",
-      cancelBtn: "Cancel",
-      createBtn: "Create",
-      editDialog: "Edit package type",
-      editBtn: "Save",
-      deleteDialog: "Delete package type",
-      deleteText: "Are you sure you want to Delete this package type?",
-      deleteBtn: "Delete",
 
-      
+    dialog: {
       menuName: "Qadoq turi",
       addMainName: "Qadoq turi yaratish",
       name: "Nomi",
@@ -924,13 +910,201 @@ export default {
       createBtn: "Yaratish",
       editDialog: "Qadoq turini tahrirlash",
       editBtn: "Saqlash",
-      measurementUnit:"O'lchov birligi identifikatori",
-      measurementUnitText:"O'lchov birligi identifikatorini tanlang",
+      measurementUnit: "O'lchov birligi identifikatori",
+      measurementUnitText: "O'lchov birligi identifikatorini tanlang",
       deleteDialog: "Qadoq turini o'chirish",
       deleteText: "Haqiqatan ham bu qadoq turini oʻchirib tashlamoqchimisiz?",
       deleteBtn: "O'chirish",
     },
   },
 
+  catalogGroups: {
+    child: {
+      idSearch: " Katalog guruh identifikatori",
+      name: "Nomi ",
+      created: "Yaratilgan",
+      updated: "Yangilangan",
+      reset: "Qayta tiklash",
+      search: "Qidirish",
+      menuName: "Katalog guruh",
+      addMainName: " Katalog guruh",
+    },
 
+    table: {
+      id: "Id",
+      name: "Guruh nomi",
+      code: "Guruh kodi",
+      createdAt: "Yaratilgan",
+      updatedAt: "Yangilangan",
+      actions: "Amallar",
+    },
+
+    addPage: {
+      home: "Asosiy",
+      menuName: "Katalog guruhlari",
+      details: "tafsilotlar",
+      secondaryMenu: "Mato kataloglari",
+      delete: "O'chirish",
+      edit: "Tahrirlash",
+      groupCode: "Kataloglar guruhi kodi",
+      enterGroupCode: " Kataloglar guruhi kodini kiriting",
+      groupName: "Kataloglar guruhi nomi",
+      enterGroupName: "Kataloglar guruhi nomi kiritng",
+      creator: "Yaratuvchi",
+      enterCreator: "Yaratuvchini kiriting",
+      created: "Yaratilgan vaqt",
+      enterCreated: "Yaratilgan vaqtni kiriting",
+      updated: "Yangilangan vaqt",
+      save: "Saqlash",
+      canvasType: "Polotno turi",
+      yarnType: " Ip turi ",
+      yarnNumber: " Iplar soni",
+      composition: "Tarkibi",
+    },
+
+    tabs: {
+      canvasType: "Polotno turi",
+      yarnType: " Ip turi ",
+      yarnNumber: " Iplar soni",
+      composition: "Tarkibi",
+
+      table: {
+        id: "Id",
+        name: "Nomi",
+        code: "Katalog guruhi kodi",
+        groupName: "Katalog guruhi nomi",
+        description: "Tavsifi",
+        createdAt: "Yaratilgan",
+        updatedAt: "Yangilangan",
+        actions: "Amallar",
+      },
+    },
+
+    canvasType: {
+      dialogs: {
+        createCanvas: "Polotno turini yaratish",
+        selectCanvas: "Polotno turini tanlash",
+        specification: "Polotno turi spetsifikatsiyasi ",
+        enterSpecification: "Polotno turi spetsifikatsiyasini kiriting",
+        description: "Tavsif",
+        enterDescription: "Tavsifni kiriting",
+        cancelBtn: "Bekor qilish",
+        createBtn: "Yaratish",
+        editCanvas: "Polotno turini tahrirlash",
+        saveBtn: "Saqlash",
+        deleteDialog: "Polotno turini o'chirish",
+        deleteText:
+          "Haqiqatan ham bu polotno turini oʻchirib tashlamoqchimisiz?",
+        deleteBtn: "O'chirish",
+      },
+    },
+
+    yarnNumber: {
+      dialogs: {
+        create: "Iplar sonini yaratish",
+        select: "Iplar sonini tanlash",
+
+        deleteDialog: "Iplar sonini o'chirish",
+        deleteText: "Haqiqatan ham bu iplar sonini oʻchirib tashlamoqchimisiz?",
+        edit: "Iplar sonini tahrirlash",
+        description: "Tavsif",
+        enterDescription: "Tavsifni kiriting",
+        cancelBtn: "Bekor qilish",
+        createBtn: "Yaratish",
+        saveBtn: "Saqlash",
+        deleteBtn: "O'chirish",
+      },
+    },
+
+    yarnType: {
+      dialogs: {
+        create: "Ip turini yaratish",
+        select: "Ip turini tanlash",
+        specification: "Ip turi spetsifikatsiyasi ",
+        enterSpecification: "Ip turi spetsifikatsiyasini kiriting",
+        deleteDialog: "Ip turini o'chirish",
+        deleteText: "Haqiqatan ham bu ip turini oʻchirib tashlamoqchimisiz?",
+        edit: "Ip turini tahrirlash",
+        description: "Tavsif",
+        enterDescription: "Tavsifni kiriting",
+        cancelBtn: "Bekor qilish",
+        createBtn: "Yaratish",
+        saveBtn: "Saqlash",
+        deleteBtn: "O'chirish",
+      },
+    },
+
+    composition: {
+      dialogs: {
+        create: "Tarkibni yaratish",
+        select: "Tarkibni tanlash",
+
+        deleteDialog: "Tarkibni o'chirish",
+        deleteText: "Haqiqatan ham bu Tarkibni oʻchirib tashlamoqchimisiz?",
+        edit: "Tarkibni tahrirlash",
+        description: "Tavsif",
+        enterDescription: "Tavsifni kiriting",
+        cancelBtn: "Bekor qilish",
+        createBtn: "Yaratish",
+        saveBtn: "Saqlash",
+        deleteBtn: "O'chirish",
+      },
+    },
+  },
+
+  partners:{
+    child:{
+      pNumber:"Telefon raqam",
+      pName:"Hamkor nomi",
+      pEmail:"Hamkor elektron pochtasi",
+      status:"Status",
+      reset:"Qayta tiklash",
+      search:"Qidirish"
+    },
+
+    table:{
+      mainMenu:"Hamkorlar",
+      id:"Id",
+      name:"Nomi",
+      address:"Manzil",
+      email:"Eelktron pochta",
+      partnerType:"Hamkor turi",
+      pNumber:"Telefon raqam",
+      status:"status",
+      createdAt:"Yaratilgan ",
+      updatedAt:"Yangilangan",
+      actions:"Amallar",
+
+    },
+
+    dialog:{
+      addPartner:"Hamkor qo'shish",
+      pName:"Hamkor nomi",
+      pNameText:"Hamkor nomini kiriting",
+      pType:"Hamkor turi",
+      pTypeText:"Hamkor turini tanlang",
+      pNumber:"Telefon raqami",
+      email:"Elektron pochta",
+      emailText:"E-pochta manzilini kiriting",
+      addres:"Manzil",
+      addresText:"Manzilni kiriting",
+      created:"Yaratilgan",
+      status:"Status",
+      uploadContract:"Shartnomani yuklash",
+      uploadFiles:"Fayllarni yuklash...",
+      contractNumber:"Shartnoma raqami",
+      contractNumberText:"Shartnoma raqamini kiriting",
+      download:"Yuklash",
+      create:"Yaratilgan",
+      cancel:"Bekor qilish",
+
+      editPartner:"Hamkorni tahrirlash",
+      save:"Saqlash",
+
+      deleteDialog:"Hamkorni o'chirish",
+      deleteText:"Ushbu hamkorni o'chirib tashlamoqchimisiz?",
+      delete:"O'chirish",
+
+    }
+  }
 };

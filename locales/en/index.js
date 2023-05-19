@@ -106,7 +106,7 @@ export default {
       lang: "Lang",
       status: "Status",
       actions: "Actions",
-    }
+    },
   },
   localization: {
     dialog: {
@@ -254,7 +254,7 @@ export default {
       blockedDate: "Blocked date",
       unblockedDate: "Unblocked date",
       status: "Status",
-    }
+    },
   },
   fraudUsers: {
     child: {
@@ -287,7 +287,7 @@ export default {
       blockedDate: "Blocked date",
       unblockedDate: "Unblocked date",
       status: "Status",
-    }
+    },
   },
   permissionControl: {
     dialog: {
@@ -346,7 +346,7 @@ export default {
       created: "Created",
       updated: "Updated",
       actions: "Actions",
-    }
+    },
   },
   billingCompany: {
     addBilling: {
@@ -409,7 +409,7 @@ export default {
       created: "Created",
       updated: "Updated",
       status: "Status",
-    }
+    },
   },
   listsModels: {
     child: {
@@ -493,7 +493,7 @@ export default {
       unitPrice: "Unit price",
       comment: "Comment",
       cancel: "cancel",
-      workingOperations:  "Working operations",
+      workingOperations: "Working operations",
       color: "Color",
       totalPrice: "Total price",
       createdDate: "Created date",
@@ -725,8 +725,8 @@ export default {
       deleteBtn: "Delete",
     },
   },
-deleteTitle: 'Delete Item',
-  deleteContent: 'Are you sure you want to delete this item ?',
+  deleteTitle: "Delete Item",
+  deleteContent: "Are you sure you want to delete this item ?",
 
   bodyParts: {
     child: {
@@ -737,7 +737,7 @@ deleteTitle: 'Delete Item',
       reset: "Reset",
       search: "Search",
     },
-  
+
     table: {
       id: "Id",
       name: "Name",
@@ -746,7 +746,7 @@ deleteTitle: 'Delete Item',
       updatedAt: "Updated At",
       actions: "Actions",
     },
-  
+
     dialog: {
       menuName: "Body parts",
       addMainName: "Create Body Part",
@@ -773,7 +773,7 @@ deleteTitle: 'Delete Item',
       reset: "Reset",
       search: "Search",
     },
-  
+
     table: {
       id: "Id",
       name: "Name",
@@ -782,7 +782,7 @@ deleteTitle: 'Delete Item',
       updatedAt: "Updated At",
       actions: "Actions",
     },
-  
+
     dialog: {
       menuName: "cooperation type",
       addMainName: "Create Cooperation Type",
@@ -809,7 +809,7 @@ deleteTitle: 'Delete Item',
       reset: "Reset",
       search: "Search",
     },
-  
+
     table: {
       id: "Id",
       name: "Name",
@@ -818,7 +818,7 @@ deleteTitle: 'Delete Item',
       updatedAt: "Updated At",
       actions: "Actions",
     },
-  
+
     dialog: {
       menuName: "Expense group",
       addMainName: "Create Expense group",
@@ -845,7 +845,7 @@ deleteTitle: 'Delete Item',
       reset: "Reset",
       search: "Search",
     },
-  
+
     table: {
       id: "Id",
       name: "Name",
@@ -854,7 +854,7 @@ deleteTitle: 'Delete Item',
       updatedAt: "Updated At",
       actions: "Actions",
     },
-  
+
     dialog: {
       menuName: "measurement unit",
       addMainName: "Create measurement unit",
@@ -881,7 +881,7 @@ deleteTitle: 'Delete Item',
       reset: "Reset",
       search: "Search",
     },
-  
+
     table: {
       id: "Id",
       name: "Name",
@@ -890,7 +890,7 @@ deleteTitle: 'Delete Item',
       updatedAt: "Updated At",
       actions: "Actions",
     },
-  
+
     dialog: {
       menuName: "package type",
       addMainName: "Create package type",
@@ -898,8 +898,8 @@ deleteTitle: 'Delete Item',
       enterMainName: "Enter name package type",
       description: "Description",
       descriptionPlacholder: "Enter package type description",
-      measurementUnit:"Measurement unit ID",
-      measurementUnitText:"Select Measurement unit ID",
+      measurementUnit: "Measurement unit ID",
+      measurementUnitText: "Select Measurement unit ID",
       cancelBtn: "Cancel",
       createBtn: "Create",
       editDialog: "Edit package type",
@@ -910,7 +910,7 @@ deleteTitle: 'Delete Item',
     },
   },
 
-  catalogGroups:{
+  catalogGroups: {
     child: {
       idSearch: "Id catalog group",
       name: "Name ",
@@ -921,58 +921,225 @@ deleteTitle: 'Delete Item',
       menuName: "catalog groups",
       addMainName: " Catalog group",
     },
-  
+
     table: {
       id: "Id",
       name: "Group name",
-      code:"Group code",
+      code: "Group code",
       createdAt: "Created At",
       updatedAt: "Updated At",
       actions: "Actions",
     },
 
-    addPage:{
-      home:"home",
+    addPage: {
+      home: "home",
       menuName: "catalog groups",
-      details:"details",
-      secondaryMenu:"Fabric catalogs",
-      delete:"delete",
-      edit:"edit",
-      groupCode:"Catalogs group code",
-      enterGroupCode:"Enter catalogs group code",
-      groupName:"Catalogs group name",
-      enterGroupName:"Enter catalogs group name",
-      creator:"Creator",
-      enterCreator:"Enter creator",
-      created:"Created date",
-      enterCreated:"Enter created date",
-      save:"save",
-      canvasType:"Canvas Type",
-      yarnType:"Yarn type",
-      yarnNumber:"Yarn number",
-      composition:"Composition",
+      details: "details",
+      secondaryMenu: "Fabric catalogs",
+      delete: "delete",
+      edit: "edit",
+      groupCode: "Catalogs group code",
+      enterGroupCode: "Enter catalogs group code",
+      groupName: "Catalogs group name",
+      enterGroupName: "Enter catalogs group name",
+      creator: "Creator",
+      enterCreator: "Enter creator",
+      created: "Created date",
+      enterCreated: "Enter created date",
+      updated: "Updated date",
 
+      save: "save",
+      canvasType: "Canvas Type",
+      yarnType: "Yarn type",
+      yarnNumber: "Yarn number",
+      composition: "Composition",
     },
 
-    tabs:{
-      canvasType:"Canvas Type",
-      yarnType:"Yarn type",
-      yarnNumber:"Yarn number",
-      composition:"Composition",
+    tabs: {
+      canvasType: "Canvas Type",
+      yarnType: "Yarn type",
+      yarnNumber: "Yarn number",
+      composition: "Composition",
 
-      table:{
-        id:"Id",
+      table: {
+        id: "Id",
         name:"Name",
-        groupCode:"Catalog group code",
-        groupName:"Catalog group name",
-        description:"Description",
-        created:"Created at",
-        updated:"Updated at",
-        actions:"Actions",
+        code: "Catalog group code",
+        groupName: "Catalog group name",
+        description: "Description",
+        created: "Created at",
+        updated: "Updated at",
+        actions: "Actions",
       },
     },
-  
+
+    canvasType: {
+      dialogs: {
+        createCanvas: "Create Canvas Type",
+        selectCanvas: "Select canvas type",
+        specification: "Canvas type specification",
+        enterSpecification: "Enter Canvas type specification",
+        description: "Description",
+        enterDescription: "Enter description",
+        cancelBtn: "Cancel",
+        createBtn: "Create",
+        editCanvas: "Edit Canvas type",
+        saveBtn: "save",
+        deleteDialog: "Delete Canvas type",
+        deleteText: "Are you sure you want to Delete this Canvas type?",
+        deleteBtn: "Delete",
+      },
+    },
+    yarnType: {
+      dialogs: {
+        create: "Create Yarn Type",
+        select: "Select yarn type",
+        specification: "Yarn type specification",
+        enterSpecification: "Enter yarn type specification",
+        description: "Description",
+        enterDescription: "Enter description",
+        cancelBtn: "Cancel",
+        createBtn: "Create",
+        edit: "Edit Yarn type",
+        saveBtn: "save",
+        deleteDialog: "Delete yarn type",
+        deleteText: "Are you sure you want to Delete this yarn type?",
+        deleteBtn: "Delete",
+      },
+    },
+    yarnNumber: {
+      dialogs: {
+        create: "Create Yarn Number",
+        select: "Select yarn number",
+       
+        description: "Description",
+        enterDescription: "Enter description",
+        cancelBtn: "Cancel",
+        createBtn: "Create",
+        edit: "Edit Yarn number",
+        saveBtn: "save",
+        deleteDialog: "Delete yarn number",
+        deleteText: "Are you sure you want to Delete this yarn number?",
+        deleteBtn: "Delete",
+      },
+    },
+    composition: {
+      dialogs: {
+        create: "Create composition",
+        select: "Select composition",
+       
+        description: "Description",
+        enterDescription: "Enter description",
+        cancelBtn: "Cancel",
+        createBtn: "Create",
+        edit: "Edit composition",
+        saveBtn: "save",
+        deleteDialog: "Delete composition",
+        deleteText: "Are you sure you want to Delete this composition?",
+        deleteBtn: "Delete",
+      },
+    },
   },
 
+  partners:{
+    child:{
+      pNumber:"Phone number",
+      pNumberEnter:"Enter phone number",
+      pNameEnter:"Enter partner name",
+      pName:"Partner name",
+      pEmail:"Partner email",
+      pEmailEnter:"Enter partner email",
 
-}
+      status:"Status",
+      reset:"Reset",
+      search:"Search"
+    },
+
+    table:{
+      mainMenu:"Partners",
+      id:"Id",
+      name:"Name",
+      address:"Addres",
+      email:"Email",
+      partnerType:"Partner type",
+      pNumber:"Phone number",
+      status:"status",
+      createdAt:"Created at",
+      updatedAt:"Updated at",
+      actions:"Actions",
+
+    },
+
+    dialog:{
+      addPartner:"Add partner",
+      pName:"Partner name",
+      pNameText:"Enter partner name",
+      pType:"Partner type",
+      pTypeText:"Select partner type",
+      pNumber:"Phone number",
+      email:"Email",
+      emailText:"Enter email",
+      addres:"Addres",
+      addresText:"Enter addres",
+      contractNumber:"Contract number",
+      contractNumberText:"Enter contract number",
+      download:"Download",
+      created:"Created",
+      status:"Status",
+
+      uploadContract:"Upload contract",
+      uploadFiles:"Upload Files...",
+
+      create:"Created",
+      cancel:"Cancel",
+
+      editPartner:"Edit Partner",
+      save:"Save",
+
+      deleteDialog:"Delete Partners",
+      deleteText:"Are you sure you want to Delete this partners?",
+      delete:"Delete",
+
+    }
+  },
+
+  sizeTemplate:{
+    child:{
+      idSize:"Id size",
+      sizeName:"Size name",
+      created:"Created",
+      Updated:"Updated",
+      reset:"reset",
+      search:"search",
+    },
+
+    table:{
+      mainMenu:"size template",
+      addSizeTemplate:"Add Size Template",
+      id:"id",
+      sizes:"Sizes",
+      isTem:"is Template",
+      isRoman:"is Roman",
+      createdAt:"Created At",
+      updatedAt:"Updated at",
+      actions:"Actions",
+    },
+
+    dialog:{
+      addSizeTemp:"Add Size Template",
+      roman:"Roman",
+      template:"Template",
+      size:"size",
+      selectSize:"Select size",
+      addSize:"Add size",
+      enterAddsize:"Enter add size",
+      cancel:"Cancal",
+      add:"Add",
+      sava:"Save",
+      deleteDialog:"Delete Size",
+      deleteText:"Are you sure you want to Delete this size?",
+      delete:"Delete"
+
+    }
+  }
+};
