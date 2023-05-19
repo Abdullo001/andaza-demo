@@ -6,11 +6,15 @@ export default {
   to: "С",
   update: "Обновлять",
   sidebar: {
+    settings: 'Настройки',
+    report: 'Отчет',
+    warehouse: 'Склад',
+    shipping: 'Перевозки',
     dashboard: "Панель приборов",
     analytics: "Аналитика",
     userManagement: "Управление пользователями",
     localization: "Локализация",
-    prefinances: "Предварительные финансы",
+    calculations: "Расчеты",
     fraudManagement: "Борьба с мошенничеством",
     devices: "Устройства",
     users: "Пользователи",
@@ -202,7 +206,7 @@ export default {
       },
     },
     dialog: {
-      refinanceNumber: "Номер рефинансирования",
+      refinanceNumber: "Номер Расчета",
       modelN: "Модель №",
       partner: "Партнер",
       reset: "Перезагрузить",
@@ -730,6 +734,7 @@ export default {
     },
   },
 
+
   deleteTitle: "Удалить пункт",
   deleteContent: "Вы уверены, что хотите удалить этот элемент ?",
 
@@ -753,6 +758,7 @@ export default {
     },
 
     dialog: {
+
       menuName: "части тела ",
       addMainName: "Создать части тела",
       name: "Имя",
@@ -789,6 +795,7 @@ export default {
     },
 
     dialog: {
+
       menuName: "тип сотрудничества ",
       addMainName: "Создать тип сотрудничества",
       name: "Имя",
@@ -802,6 +809,7 @@ export default {
       cancelBtn: "Отмена",
       createBtn: "Создавать",
       deleteBtn: "Удалить",
+
     },
   },
 
@@ -823,6 +831,7 @@ export default {
       updatedAt: "Обновлено в",
       actions: "Действия",
     },
+
 
     dialog: {
       menuName: "группа расходов ",
@@ -1048,6 +1057,7 @@ export default {
         deleteBtn: "Удалить",
       },
     },
+
   },
 
   partners:{

@@ -26,6 +26,17 @@ export const mutations = {
   },
 };
 export const actions = {
+  async deletePartnerList({dispatch}, id) {
+    await this.$axios.$delete(`/api/v1/partner/delete?id=${id}`)
+      .then(res => {
+        dispatch("getPartnerList", {page: 0, size: 10});
+        this.$toast.success(res.message);
+      })
+      .catch(({response}) => {
+        console.log(response)
+        this.$toast.error(response.message);
+      })
+  },
   async getPartnerType({commit}, {page, size}){
     const body = {
       filters: [],

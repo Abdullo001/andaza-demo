@@ -386,6 +386,7 @@ import ShippingInfo from "../../components/ShippingInfo.vue";
 import OrderDocuments from "../../components/OrderDocuments.vue";
 
 export default {
+  name: 'OrdersChildPage',
   components: {
     OrderDocuments,
     ShippingInfo,

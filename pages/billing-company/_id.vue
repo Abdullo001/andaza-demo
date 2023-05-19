@@ -132,8 +132,11 @@
 </template>
 
 <script>
+import Breadcrumbs from "../../components/Breadcrumbs.vue";
+
 export default {
   name: "BillingCompanyDetailsPage",
+  components: {Breadcrumbs},
   data() {
     return {
       map_links: [

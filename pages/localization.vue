@@ -11,24 +11,26 @@
             <v-text-field
               :label="$t('localization.dialog.key')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               v-model.trim="filter.key"
               hide-details
               dense
               clearable
               @keyup.enter="filterLocalize"
+              color="#7631FF"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" class="py-0">
             <v-text-field
               :label="$t('localization.dialog.message')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               v-model.trim="filter.message"
               hide-details
               dense
               clearable
               @keyup.enter="filterLocalize"
+              color="#7631FF"
             />
           </v-col>
           <v-spacer/>
@@ -40,7 +42,7 @@
                 class="text-capitalize mr-4 rounded-lg"
                 @click="resetFilters"
               >
-                {{  $t('localization.dialog.reset') }}
+                {{ $t('localization.dialog.reset') }}
               </v-btn>
               <v-btn
                 width="140" color="#397CFD" dark
@@ -48,7 +50,7 @@
                 class="text-capitalize rounded-lg"
                 @click="filterLocalize"
               >
-                {{  $t('localization.dialog.search') }}
+                {{ $t('localization.dialog.search') }}
               </v-btn>
             </div>
           </v-col>
@@ -106,39 +108,48 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form lazy-validation v-model="new_valid" ref="new_form">
+            <div class="label">{{ $t('localization.dialog.key') }}</div>
             <v-text-field
-              filled
-              :label="$t('localization.dialog.key')"
-              :placeholder="$t('localization.dialog.key')"
+              outlined
+              color="#7631FF"
+              class="rounded-lg base"
+              height="44"
+              :placeholder="$t('localization.dialog.placeholderKey')"
               v-model="new_localization.key"
               :rules="[formRules.required]"
               dense
             />
+            <div class="label">UZ</div>
             <v-textarea
-              rows="1"
+              rows="2"
               auto-grow
-              filled
-              label="UZ"
+              outlined
+              color="#7631FF"
+              class="rounded-lg base"
               :placeholder="$t('localization.dialog.messageContent')"
               v-model="new_localization.messageUz"
               :rules="[formRules.required]"
               dense
             />
+            <div class="label">RU</div>
             <v-textarea
-              rows="1"
+              rows="2"
               auto-grow
-              filled
-              label="RU"
+              outlined
+              color="#7631FF"
+              class="rounded-lg base"
               :placeholder="$t('localization.dialog.messageContent')"
               v-model="new_localization.messageRu"
               :rules="[formRules.required]"
               dense
             />
+            <div class="label">EN</div>
             <v-textarea
-              rows="1"
+              rows="2"
               auto-grow
-              filled
-              label="EN"
+              outlined
+              color="#7631FF"
+              class="rounded-lg base"
               :placeholder="$t('localization.dialog.messageContent')"
               v-model="new_localization.messageEn"
               :rules="[formRules.required]"
@@ -153,7 +164,7 @@
             width="163"
             @click="new_dialog = false"
           >
-            {{  $t('localization.dialog.cancel') }}
+            {{ $t('localization.dialog.cancel') }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -161,7 +172,7 @@
             width="163"
             @click="newLocalization"
           >
-            {{  $t('localization.dialog.add') }}
+            {{ $t('localization.dialog.add') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -169,32 +180,40 @@
     <v-dialog v-model="edit_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">{{  $t('localization.dialog.editLocalization') }}</div>
+          <div class="text-capitalize font-weight-bold">{{ $t('localization.dialog.editLocalization') }}</div>
           <v-btn icon color="#7631FF" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form lazy-validation v-model="edit_valid" ref="edit_form">
+            <div class="label">{{$t('localization.dialog.key')}}</div>
             <v-text-field
-              filled
-              :label="$t('localization.dialog.key')"
+              height="44px"
+              outlined
+              color="#7631FF"
+              class="rounded-lg base"
               :placeholder="$t('localization.dialog.key')"
               v-model="edit_localization.key"
               :rules="[formRules.required]"
               dense
             />
+            <div class="label">{{ $t('localization.dialog.language') }}</div>
             <v-text-field
-              filled
-              :label="$t('localization.dialog.language')"
+              height="44px"
+              outlined
+              color="#7631FF"
+              class="rounded-lg base"
               :placeholder="$t('localization.dialog.messageContent')"
               v-model="edit_localization.lang"
               :rules="[formRules.required]"
               dense
             />
+            <div class="label">{{ $t('localization.dialog.message') }}</div>
             <v-textarea
-              filled
-              :label="$t('localization.dialog.message')"
+              outlined
+              color="#7631FF"
+              class="rounded-lg base"
               :placeholder="$t('localization.dialog.messageContent')"
               v-model="edit_localization.message"
               :rules="[formRules.required]"
