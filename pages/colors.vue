@@ -175,7 +175,7 @@
               </v-col>
               <v-col cols="12" md="6">
                 <v-text-field
-                  v-model="create_colors.name"
+                  v-model="create_colors.colorCode"
                   filled
                   label="Color code"
                   placeholder="Enter Color code"
@@ -184,19 +184,8 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <v-select
-                  v-model="create_colors.name"
-                  filled
-                  append-icon="mdi-chevron-down"
-                  label="Panton type"
-                  placeholder="Enter Panton type"
-                  color="#7631FF"
-                  :rules="[formRules.required]"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
                 <v-text-field
-                  v-model="create_colors.name"
+                  v-model="create_colors.pantoneCode"
                   filled
                   label="Panton code"
                   placeholder="Enter Panton code"
@@ -205,15 +194,19 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <v-textarea
-                  v-model="create_colors.description"
-                  rows="1"
-                  auto-grow
-                  filled
-                  label="Description"
-                  placeholder="Enter Description"
-                  color="#7631FF"
-                />
+                <div class="text-body-1">Panton Type</div>
+                <v-radio-group
+                  row
+                  v-model="create_colors.pantoneType"
+                >
+                  <v-radio
+                    color="#7631FF"
+                    v-for="item in radio_item"
+                    :key="item"
+                    :label="item"
+                    :value="item"
+                  ></v-radio>
+                </v-radio-group>
               </v-col>
             </v-row>
           </v-form>
@@ -249,7 +242,7 @@
         <v-card-text class="mt-4">
           <v-form ref="edit_form" v-model="edit_validate" lazy-validation>
             <v-row>
-              <v-col cols="12">
+              <v-col cols="12" md="6">
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="edit_colors.name"
@@ -259,7 +252,7 @@
                   color="#7631FF"
                 />
               </v-col>
-              <v-col cols="12">
+              <v-col cols="12" md="6">
                 <v-menu
                   v-model="edit_menu"
                   :close-on-content-click="false"
@@ -291,14 +284,40 @@
                   </v-card>
                 </v-menu>
               </v-col>
-              <v-col cols="12">
+              <v-col cols="12" md="6">
                 <v-text-field
-                  v-model="edit_colors.description"
+                  v-model="edit_colors.colorCode"
                   filled
-                  label="Description"
-                  placeholder="Enter Description"
+                  label="Color code"
+                  placeholder="Enter Color code"
                   color="#7631FF"
+                  :rules="[formRules.required]"
                 />
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-text-field
+                  v-model="edit_colors.pantoneCode"
+                  filled
+                  label="Panton code"
+                  placeholder="Enter Panton code"
+                  color="#7631FF"
+                  :rules="[formRules.required]"
+                />
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="text-body-1">Panton Type</div>
+                <v-radio-group
+                  row
+                  v-model="edit_colors.pantoneType"
+                >
+                  <v-radio
+                    color="#7631FF"
+                    v-for="item in radio_item"
+                    :key="item"
+                    :label="item"
+                    :value="item"
+                  ></v-radio>
+                </v-radio-group>
               </v-col>
             </v-row>
           </v-form>
@@ -366,6 +385,7 @@ export default {
   name: "CatalogsColorPages",
   data() {
     return {
+      radio_item: ["TPX", "TCX", "TPG"],
       edit_validate: true,
       validate: true,
       itemPrePage: 0,
@@ -377,9 +397,12 @@ export default {
         name: ""
       },
       create_colors: {
-        description: "",
+        description: null,
         colorCodeHex: "",
         name: "",
+        colorCode: "",
+        pantoneCode: "",
+        pantoneType: "TPX",
       },
       delete_colors_id: "",
       filter_colors: {
@@ -442,9 +465,9 @@ export default {
     },
     async update() {
       const edit_validate = this.$refs.edit_form.validate();
-      if (edit_validate){
-        const {id, colorCodeHex, description, name} = this.edit_colors;
-        const item = {id, colorCodeHex, description, name};
+      if (edit_validate) {
+        const {id, colorCodeHex, name, colorCode, pantoneCode, pantoneType} = this.edit_colors;
+        const item = {id, colorCodeHex, description: null, name, colorCode, pantoneCode, pantoneType};
         await this.updateColorsList(item);
         this.edit_dialog = false;
       }
@@ -455,7 +478,7 @@ export default {
     },
     editItem(item) {
       this.edit_colors = {...item};
-      this.edit_dialog = true
+      this.edit_dialog = true;
     },
     getDeleteItem(item) {
       this.delete_colors_id = item.id;

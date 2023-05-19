@@ -620,6 +620,7 @@ export default {
       createPartnerList: "partners/createPartnerList",
       updatePartnerList: "partners/updatePartnerList",
       filterPartnerList: "partners/filterPartnerList",
+      deletePartnerList: "partners/deletePartnerList",
     }),
     downloadPDF(e) {
       const link = document.createElement('a');
@@ -661,9 +662,6 @@ export default {
     async page(val) {
       this.current_page = val - 1;
       await this.getPartnerList({page: this.current_page, size: this.itemPrePage});
-    },
-    async deletePackage() {
-      this.delete_dialog = false;
     },
     async save() {
       const validate = this.$refs.new_form.validate();
@@ -721,7 +719,7 @@ export default {
       }
     },
     async deletePartners(){
-      console.log(this.delete_partners_id);
+      await this.deletePartnerList(this.delete_partners_id);
       this.delete_dialog = false;
     },
     async getDeleteItem(item) {
