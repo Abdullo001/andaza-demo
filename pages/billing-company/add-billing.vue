@@ -175,10 +175,11 @@ import PreviewInvoice from "../../components/PreviewInvoice.vue";
 import PrintInvoice from "../../components/PrintInvoice.vue";
 import GenerateLicence from "../../components/GenerateLicence.vue";
 import BillingInfo from "../../components/BillingInfo.vue";
+import Breadcrumbs from "../../components/Breadcrumbs.vue";
 
 export default {
   name: 'CreateBillingPage',
-  components: {BillingInfo, GenerateLicence, PrintInvoice, PreviewInvoice},
+  components: {Breadcrumbs, BillingInfo, GenerateLicence, PrintInvoice, PreviewInvoice},
   data() {
     return {
       map_links: [
