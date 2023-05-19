@@ -6,6 +6,10 @@ export default {
   to: "С",
   update: "Обновлять",
   sidebar: {
+    settings: 'Настройки',
+    report: 'Отчет',
+    warehouse: 'Склад',
+    shipping: 'Перевозки',
     dashboard: "Панель приборов",
     analytics: "Аналитика",
     userManagement: "Управление пользователями",
@@ -200,7 +204,7 @@ export default {
       },
     },
     dialog: {
-      refinanceNumber: "Номер рефинансирования",
+      refinanceNumber: "Номер Расчета",
       modelN: "Модель №",
       partner: "Партнер",
       reset: "Перезагрузить",

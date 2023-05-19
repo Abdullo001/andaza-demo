@@ -81,7 +81,7 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium">{{ $t('prefinances.dialog.prefinance') }}</div>
+            <div class="font-weight-medium">{{ $t('sidebar.calculations') }}</div>
             <v-btn
               color="#7631FF"
               class="rounded-lg text-capitalize"
@@ -89,7 +89,7 @@
               @click="$router.push(localePath(`/prefinances/create`))"
             >
               <v-icon>mdi-plus</v-icon>
-              {{ $t('prefinances.dialog.prefinance') }}
+              {{ $t('sidebar.calculations') }}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -238,7 +238,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.commit('setPageTitle', this.$t('prefinances.dialog.prefinances'))
+    this.$store.commit('setPageTitle', this.$t('sidebar.calculations'))
   }
 }
 </script>
