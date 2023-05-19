@@ -6,7 +6,7 @@
           <v-col cols="12" lg="2" md="2">
             <v-text-field
               v-model.trim="filter_model.id"
-              :label="$t('catalogsModelGroup.child.idPartnerType')"
+              :label="$t('catalogsPartnerType.child.idPartnerType')"
               outlined
               class="rounded-lg"
               hide-details
@@ -39,7 +39,7 @@
             <el-date-picker
               v-model.trim="filter_model.updatedAt"
               type="datetime"
-              :placeholder="$t('catalogsModelGroup.child.updated')"
+              :placeholder="$t('catalogsPartnerType.child.updated')"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
             >
@@ -264,7 +264,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   data() {
@@ -317,10 +317,10 @@ export default {
         createdAt: "",
         updatedAt: "",
         name: "",
-        id: ""
+        id: "",
       },
       options: {},
-    }
+    };
   },
   watch: {
     async "options.sortBy"(elem) {
@@ -328,15 +328,22 @@ export default {
         if (this.options.sortDesc[0] !== undefined) {
           const items = {
             sortDesc: this.options.sortDesc[0],
-            sortBy: elem[0]
-          }
-          await this.sortModelData({page: this.current_page, size: this.itemPrePage, data: items})
+            sortBy: elem[0],
+          };
+          await this.sortModelData({
+            page: this.current_page,
+            size: this.itemPrePage,
+            data: items,
+          });
         }
       }
-    }
+    },
   },
   async created() {
+
+
     await this.$store.dispatch("model/getAllModelData", {page: this.current_page, size: this.itemPrePage})
+
   },
   computed: {
     ...mapGetters({
@@ -360,60 +367,67 @@ export default {
       this.delete_dialog = false;
     },
     async update() {
-      const items = {...this.edit_model};
+      const items = { ...this.edit_model };
       await this.updateModelData(items);
       this.edit_dialog = false;
     },
     async save() {
-      const data = {...this.create_model}
+      const data = { ...this.create_model };
       await this.createModelData(data);
-      this.new_dialog = false,
-        this.create_model = {
+      (this.new_dialog = false),
+        (this.create_model = {
           name: "",
           description: "",
-        }
+        });
     },
     async page(value) {
       this.current_page = value - 1;
-      await this.getAllModelData({page: this.current_page, size: this.itemPrePage});
+      await this.getAllModelData({
+        page: this.current_page,
+        size: this.itemPrePage,
+      });
     },
     async size(value) {
       this.itemPrePage = value;
-      await this.getAllModelData({page: this.current_page, size: this.itemPrePage});
+      await this.getAllModelData({
+        page: this.current_page,
+        size: this.itemPrePage,
+      });
     },
     getDeleteItem(item) {
-      this.delete_model = {...item};
+      this.delete_model = { ...item };
       this.delete_dialog = true;
     },
     editItem(item) {
       delete item.createdAt;
       delete item.updatedAt;
-      this.edit_model = {...item};
+      this.edit_model = { ...item };
       this.edit_dialog = true;
     },
     async resetFilters() {
-      await this.getAllModelData({page: 0, size: 10})
+      await this.getAllModelData({ page: 0, size: 10 });
       this.filter_model = {
         description: "",
         createdAt: "",
         updatedAt: "",
         name: "",
-        id: ""
-      }
+        id: "",
+      };
     },
     async filterData() {
-      await this.filterModelData(this.filter_model)
-    },
-  },
+      await this.filterModelData(this.filter_model);
+
   mounted() {
     this.$store.commit("setPageTitle", this.$t("sidebar.catalogs"));
   }
 }
+
 </script>
 
 <style lang="scss">
 .el-input__inner::placeholder,
-.el-input__icon, .el-icon-time {
+.el-input__icon,
+.el-icon-time {
   color: #919191 !important;
 }
 </style>

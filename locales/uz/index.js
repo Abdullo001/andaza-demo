@@ -106,8 +106,8 @@ export default {
       updateAt: "Yangilash:",
       lang: "Lang",
       status: "Status",
-      actions: "Harakatlar",
-    },
+      actions: "Amallar",
+    }
   },
   localization: {
     dialog: {
@@ -133,7 +133,7 @@ export default {
       key: "Kalit",
       message: "Xabar",
       updatedAt: "Yangilangan",
-      actions: "Harakatlar",
+      actions: "Amallar",
     },
   },
   prefinances: {
@@ -198,7 +198,7 @@ export default {
         documentName: "Hujjat nomi",
         owner: "Egasi",
         date: "Sana",
-        actions: "Harakatlar",
+        actions: "Amallar",
       },
     },
     dialog: {
@@ -218,7 +218,7 @@ export default {
       price: "Narxi",
       currency: "Valyuta",
       status: "Holat",
-      actions: "Harakatlar",
+      actions: "Amallar",
     },
   },
   fraudDevices: {
@@ -319,7 +319,7 @@ export default {
       status: "Holat",
       updated: "Yangilangan",
       created: "Yaratilgan",
-      actions: "Harakatlar",
+      actions: "Amallar",
     },
   },
   permissionRole: {
@@ -347,8 +347,8 @@ export default {
       status: "Holat",
       created: "Yaratilgan",
       updated: "Yangilangan",
-      actions: "Harakatlar",
-    },
+      actions: "Amallar",
+    }
   },
   billingCompany: {
     addBilling: {
@@ -472,9 +472,10 @@ export default {
       order: "Buyurtma o/k",
       deadline: "Topshirishni tugatish muddati",
       status: "Holat",
-      actions: "Harakatlar",
+      actions: "Amallar",
     },
   },
+
   planningProduction: {
     planning: {
       planningProduction: "Ishlab chiqarishni rejalashtirish",
@@ -1108,3 +1109,4 @@ export default {
     }
   }
 };
+

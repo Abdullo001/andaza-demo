@@ -473,6 +473,7 @@ export default {
       actions: "Actions",
     },
   },
+
   planningProduction: {
     planning: {
       planningProduction: "Planning of production",
@@ -625,7 +626,13 @@ export default {
       enterOverproduction: "Enter Overproduction",
     },
   },
+<<<<<<< HEAD
   catalogsPartnerType: {
+=======
+
+
+ catalogsPartnerType: {
+>>>>>>> fb4c9c369afebb6dc2def10a7d4466f9b499ff0d
     child: {
       idPartnerType: "Id partner type",
       namePartnerType: "Name partner type",
@@ -657,6 +664,10 @@ export default {
       deleteBtn: "Delete",
     },
   },
+<<<<<<< HEAD
+=======
+
+>>>>>>> fb4c9c369afebb6dc2def10a7d4466f9b499ff0d
   catalogsModelGroup: {
     child: {
       idPartnerType: "Id model group",
@@ -690,6 +701,10 @@ export default {
       deleteBtn: "Delete",
     },
   },
+<<<<<<< HEAD
+=======
+
+>>>>>>> fb4c9c369afebb6dc2def10a7d4466f9b499ff0d
   samplePurposes: {
     child: {
       idSearch: "Id sample purpose",
@@ -725,6 +740,7 @@ export default {
       deleteBtn: "Delete",
     },
   },
+<<<<<<< HEAD
   deleteTitle: "Delete Item",
   deleteContent: "Are you sure you want to delete this item ?",
 
@@ -1142,4 +1158,6 @@ export default {
 
     }
   }
+=======
+>>>>>>> fb4c9c369afebb6dc2def10a7d4466f9b499ff0d
 };

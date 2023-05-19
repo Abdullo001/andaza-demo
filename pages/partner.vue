@@ -264,7 +264,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   data() {
@@ -311,7 +311,7 @@ export default {
       },
       edit_partner: {
         name: "",
-        description: ""
+        description: "",
       },
       options: {},
       filter_partner: {
@@ -319,37 +319,44 @@ export default {
         createdAt: "",
         updatedAt: "",
         name: "",
-        id: ""
+        id: "",
       },
       delete_partner: {},
-    }
+    };
   },
   watch: {
     async "options.sortBy"(elem) {
-      if  (elem[0] !== undefined){
+      if (elem[0] !== undefined) {
         if (this.options.sortDesc[0] !== undefined) {
           const items = {
             sortDesc: this.options.sortDesc[0],
-            sortBy: elem[0]
-          }
-          await this.sortPartnerType({page: this.current_page, size: this.itemPrePage, data: items})
+            sortBy: elem[0],
+          };
+          await this.sortPartnerType({
+            page: this.current_page,
+            size: this.itemPrePage,
+            data: items,
+          });
         }
       }
-    }
+    },
   },
   async created() {
-    await this.$store.dispatch("partnerType/getPartnerType", {page: this.current_page, size: this.itemPrePage});
+    await this.$store.dispatch("partnerType/getPartnerType", {
+      page: this.current_page,
+      size: this.itemPrePage,
+    });
   },
   computed: {
     ...mapGetters({
       loading: "partnerType/loading",
       partnerType: "partnerType/partnerType",
       partnerTotalElements: "partnerType/partnerTotalElements",
-    })
+    }),
   },
   methods: {
     ...mapActions({
-      getPartnerType: 'partnerType/getPartnerType',
+      getPartnerType: "partnerType/getPartnerType",
       createPartnerType: "partnerType/createPartnerType",
       deletePartnerType: "partnerType/deletePartnerType",
       updatePartnerType: "partnerType/updatePartnerType",
@@ -357,50 +364,68 @@ export default {
       sortPartnerType: "partnerType/sortPartnerType",
     }),
     async page(value) {
-      this.current_page = value
-      await this.getPartnerType({page: 0, size: this.current_page})
+      this.current_page = value;
+      await this.getPartnerType({ page: 0, size: this.current_page });
     },
     async size(value) {
-      this.itemPrePage = value
-      await this.getPartnerType({page: this.current_page, size: this.itemPrePage})
+      this.itemPrePage = value;
+      await this.getPartnerType({
+        page: this.current_page,
+        size: this.itemPrePage,
+      });
     },
     async save() {
-      await this.createPartnerType({page: this.current_page, size: this.itemPrePage, data: this.create_partner});
+      await this.createPartnerType({
+        page: this.current_page,
+        size: this.itemPrePage,
+        data: this.create_partner,
+      });
       this.create_partner = {
         name: "",
-        description: ""
+        description: "",
       };
       this.new_dialog = false;
     },
     getDeleteItem(item) {
-      this.delete_partner = {...item};
-      this.delete_dialog = true
+      this.delete_partner = { ...item };
+      this.delete_dialog = true;
     },
     async deletePartner() {
-      const id = this.delete_partner.id
-      await this.deletePartnerType({id: id, page: this.current_page, size: this.itemPrePage});
+      const id = this.delete_partner.id;
+      await this.deletePartnerType({
+        id: id,
+        page: this.current_page,
+        size: this.itemPrePage,
+      });
       this.delete_dialog = false;
     },
     async editPartnerType() {
-      await this.updatePartnerType({page: this.current_page, size: this.itemPrePage, data: this.edit_partner});
-      this.edit_dialog = false
+      await this.updatePartnerType({
+        page: this.current_page,
+        size: this.itemPrePage,
+        data: this.edit_partner,
+      });
+      this.edit_dialog = false;
     },
     editItem(item) {
-      this.edit_partner = {...item}
-      this.edit_dialog = true
+      this.edit_partner = { ...item };
+      this.edit_dialog = true;
     },
     async resetFilters() {
-      await this.$store.dispatch("partnerType/getPartnerType", {page: 0, size: 10});
+      await this.$store.dispatch("partnerType/getPartnerType", {
+        page: 0,
+        size: 10,
+      });
       this.filter_partner = {
         description: "",
         createdAt: "",
         updatedAt: "",
         name: "",
-        id: ""
-      }
+        id: "",
+      };
     },
     async filterData() {
-      await this.filterPartnerType(this.filter_partner)
+      await this.filterPartnerType(this.filter_partner);
     },
   },
   mounted() {
@@ -411,7 +436,8 @@ export default {
 
 <style lang="scss">
 .el-input__inner::placeholder,
-.el-input__icon, .el-icon-time {
+.el-input__icon,
+.el-icon-time {
   color: #919191 !important;
 }
 </style>

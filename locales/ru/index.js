@@ -475,6 +475,7 @@ export default {
       actions: "Действия",
     },
   },
+
   planningProduction: {
     planning: {
       planningProduction: "Планирование производства",
@@ -1105,3 +1106,4 @@ export default {
     }
   }
 };
+
