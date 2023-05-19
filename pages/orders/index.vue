@@ -243,7 +243,7 @@ export default {
       //   query: {modelId: item.modelId},
       // });
       this.$router.push(this.localePath(`/orders/${item.id}?modelId=${item.modelId}`))
-      this.$store.commit["orders/setModelId",item.modelId]
+      this.$store.commit["orders/setModelId",item.modelId]},
 
 
     async changeStatus(item) {

@@ -340,10 +340,10 @@ export default {
     },
   },
   async created() {
-
-
-    await this.$store.dispatch("model/getAllModelData", {page: this.current_page, size: this.itemPrePage})
-
+    await this.$store.dispatch("model/getAllModelData", {
+      page: this.current_page,
+      size: this.itemPrePage,
+    });
   },
   computed: {
     ...mapGetters({
@@ -416,12 +416,13 @@ export default {
     },
     async filterData() {
       await this.filterModelData(this.filter_model);
+    },
+  },
 
   mounted() {
     this.$store.commit("setPageTitle", this.$t("sidebar.catalogs"));
-  }
-}
-
+  },
+};
 </script>
 
 <style lang="scss">
