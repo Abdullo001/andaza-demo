@@ -19,49 +19,49 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text class="pt-0">
-                <GeneralComments/>
+                <GeneralCommentsComponent/>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text class="pt-0">
-                <SewingInstruction/>
+                <SewingInstructionComponent/>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text class="pt-0">
-                <SampleInstruction/>
+                <SampleInstructionComponent/>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text class="pt-0">
-                <FabricInstruction/>
+                <FabricInstructionComponent/>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text class="pt-0">
-                <PackagingInstruct/>
+                <PackagingInstructComponent/>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text class="pt-0">
-                <AccessoryInstruct/>
+                <AccessoryInstructComponent/>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text class="pt-0">
-                <PaintingInstruct/>
+                <PaintingInstructComponent/>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -73,9 +73,25 @@
 
 <script>
 import {mapActions} from "vuex";
+import GeneralCommentsComponent from "./GeneralComments.vue";
+import SampleInstructionComponent from "./SampleInstruction.vue";
+import FabricInstructionComponent from "./FabricInstruction.vue";
+import PackagingInstructComponent from "./PackagingInstruct.vue";
+import SewingInstructionComponent from "./SewingInstruction.vue";
+import AccessoryInstructComponent from "./AccessoryInstruct.vue";
+import PaintingInstructComponent from "./PaintingInstruct.vue";
 
 export default {
-  name: 'Instruction',
+  name: 'InstructionComponent',
+  components: {
+    PaintingInstructComponent,
+    AccessoryInstructComponent,
+    SewingInstructionComponent,
+    PackagingInstructComponent,
+    FabricInstructionComponent,
+    SampleInstructionComponent,
+    GeneralCommentsComponent
+  },
   data() {
     return {
       items: ['General instruct', 'Sewing instruct', 'Sample instruct', 'Fabric instruct', 'Packaging instruct', 'Accessory instruct', 'Print instruct'],

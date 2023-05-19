@@ -247,15 +247,17 @@
         <v-img :src="currentImage" height="500" contain/>
       </v-card>
     </v-dialog>
-    <ProductionPlanning class="mt-4"/>
+    <ProductionPlanningComponent class="mt-4"/>
   </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+import ProductionPlanningComponent from "../../components/Production/Planning.vue";
 
 export default {
   name: 'ProductionOfPlanningPage',
+  components: {ProductionPlanningComponent},
   data() {
     return {
       title: "Add",

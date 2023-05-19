@@ -246,49 +246,49 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text class="pt-0">
-                <ModelParts/>
+                <ModelPartsComponent/>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text class="pt-0">
-                <SizeChart/>
+                <SizeChartComponent/>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text class="pt-0">
-                <Printing/>
+                <PrintingComponent/>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text class="pt-0">
-                <Documents/>
+                <DocumentsComponent/>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text class="pt-0">
-                <Samples/>
+                <SamplesComponent/>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text class="pt-0">
-                <ModelPhoto/>
+                <ModelPhotoComponent/>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text class="pt-0">
-                <Instruction/>
+                <InstructionComponent/>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -301,19 +301,25 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import Breadcrumbs from "../../components/Breadcrumbs.vue";
-import Printing from "@/components/Printing.vue";
-import Documents from "@/components/Documents.vue";
-import Samples from "@/components/Samples.vue";
-import ModelPhoto from "@/components/ModelPhoto.vue";
+import ModelPartsComponent from "../../components/ModelParts.vue";
+import SizeChartComponent from "../../components/SizeChart.vue";
+import PrintingComponent from "../../components/Printing.vue";
+import DocumentsComponent from "../../components/Documents.vue";
+import SamplesComponent from "../../components/Samples.vue";
+import ModelPhotoComponent from "../../components/ModelPhoto.vue";
+import InstructionComponent from "../../components/Instruction.vue";
 
 export default {
   name: 'addOrEditModelsPage',
   components: {
+    InstructionComponent,
+    ModelPhotoComponent,
+    SamplesComponent,
+    DocumentsComponent,
+    PrintingComponent,
+    SizeChartComponent,
+    ModelPartsComponent,
     Breadcrumbs,
-    Printing,
-    Documents,
-    Samples,
-    ModelPhoto
   },
   data() {
     return {

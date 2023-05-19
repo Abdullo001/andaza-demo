@@ -50,6 +50,7 @@
 import {mapActions, mapGetters} from "vuex";
 
 export default {
+  name: "SampleInstructionComponent",
   data() {
     return {
       description: ''

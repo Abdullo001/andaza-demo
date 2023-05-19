@@ -237,7 +237,7 @@
 import {mapActions, mapGetters} from "vuex";
 
 export default {
-  name: 'ProductionOfPlanningComponent',
+  name: 'ProductionPlanningComponent',
   data() {
     return {
       validate: true,

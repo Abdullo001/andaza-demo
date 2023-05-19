@@ -175,6 +175,7 @@
 import {mapActions, mapGetters} from "vuex";
 
 export default {
+  name: "ModelPhotoComponent",
   data() {
     return {
       selected_img: null,

@@ -259,6 +259,7 @@
 import {mapActions, mapGetters} from "vuex";
 
 export default {
+  name: "SamplesComponent",
   data() {
     return {
       edit_dialog: false,
