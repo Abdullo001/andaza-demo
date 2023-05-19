@@ -3,7 +3,7 @@
     <Breadcrumbs :maps="map_links"/>
     <v-card elevation="0" class="rounded-lg">
       <v-card-title>
-        <div>Fabric catalogs</div>
+        <div>{{$t('catalogGroups.addPage.menuName')}}</div>
         <v-spacer/>
         <div>
           <v-btn
@@ -13,7 +13,7 @@
             class="text-capitalize rounded-lg mr-4"
           >
             <v-img src="/trash.svg" class="mr-1"/>
-            Delete
+            {{$t('catalogGroups.addPage.delete')}}
           </v-btn>
           <v-btn
             outlined
@@ -21,7 +21,8 @@
             class="text-capitalize rounded-lg"
             color="#777C85"
           >
-            Edit
+          {{$t('catalogGroups.addPage.edit')}}
+
           </v-btn>
         </div>
       </v-card-title>
@@ -29,43 +30,45 @@
       <v-card-text class="mt-4">
         <v-row>
           <v-col cols="12" lg="3" md="6">
-            <div class="mb-2 text-body-1">Catalogs group code</div>
+            <div class="mb-2 text-body-1">
+            {{$t('catalogGroups.addPage.groupCode')}}
+
+            </div>
             <v-text-field
               v-model="catalogs_list.groupCode"
-              label="Enter Catalogs group code"
+              :label="$t('catalogGroups.addPage.enterGroupCode')"
               filled
               class="mb-4"
               color="#7631FF"
             />
           </v-col>
           <v-col cols="12" lg="3" md="6">
-            <div class="mb-2 text-body-1">Catalogs group name</div>
+            <div class="mb-2 text-body-1">{{$t('catalogGroups.addPage.groupName')}}</div>
             <v-text-field
               v-model="catalogs_list.groupName"
-              label="Enter Catalogs group name"
+              :label="$t('catalogGroups.addPage.enterGroupName')"
+
               filled
               class="mb-4"
               color="#7631FF"
             />
           </v-col>
           <v-col cols="12" lg="3" md="6">
-            <div class="mb-2 text-body-1">Creator</div>
+            <div class="mb-2 text-body-1">{{$t('catalogGroups.addPage.created')}}</div>
             <v-text-field
               v-model="catalogs_list.createdAt"
               filled
               disabled
-              label="Enter Creator"
               class="mb-4"
               color="#7631FF"
             />
           </v-col>
           <v-col cols="12" lg="3" md="6">
-            <div class="mb-2 text-body-1">Created date</div>
+            <div class="mb-2 text-body-1">{{$t('catalogGroups.addPage.updated')}}</div>
             <v-text-field
               v-model="catalogs_list.updatedAt"
               filled
               disabled
-              label="Enter Created date"
               class="mb-4"
               color="#7631FF"
             >
@@ -86,7 +89,7 @@
           dark
           @click="save"
         >
-          save
+        {{$t('catalogGroups.addPage.save')}}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -143,7 +146,7 @@ export default {
     return {
       tab_boolean: false,
       tab: null,
-      items: ['Canvas type', 'Yarn type', 'Yarn number', 'Composition'],
+      items: [this.$t('catalogGroups.addPage.canvasType'), this.$t('catalogGroups.addPage.yarnType'), this.$t('catalogGroups.addPage.yarnNumber'), this.$t('catalogGroups.addPage.composition')],
       componentsData: ["CanvasTypePage", "YarnTypePage", "YarnNumberPage", "CompositionPage"],
       catalogs_list: {
         groupCode: "",
@@ -159,7 +162,7 @@ export default {
           icon: true
         },
         {
-          text: "Catalog Groups",
+          text: this.$t('catalogGroups.addPage.menuName'),
           disabled: false,
           to: this.localePath('/catalog-groups'),
           icon: true

@@ -82,7 +82,8 @@ export default {
       details: "Подробности",
       copy: "Копировать",
       deleteDialog: "Удалить информацию о пользователе",
-      deleteText: "Вы уверены, что хотите удалить эту информацию о пользователе?",
+      deleteText:
+        "Вы уверены, что хотите удалить эту информацию о пользователе?",
       cancel: "Отмена",
       delete: "Удалить",
       save: "Сохранять",
@@ -110,7 +111,7 @@ export default {
       lang: "Ланг",
       status: "Положение дел",
       actions: "Действия",
-    }
+    },
   },
   localization: {
     dialog: {
@@ -127,7 +128,8 @@ export default {
       language: "Язык",
       save: "Сохранять",
       deleteDilaog: "Удалить локализацию",
-      deletetext: "Вы уверены, что хотите удалить эту информацию о пользователе?",
+      deletetext:
+        "Вы уверены, что хотите удалить эту информацию о пользователе?",
       delete: "Удалить",
     },
     table: {
@@ -258,7 +260,7 @@ export default {
       blockedDate: "Дата блокировки",
       unblockedDate: "Дата разблокировки",
       status: "Положение дел",
-    }
+    },
   },
   fraudUsers: {
     child: {
@@ -291,7 +293,7 @@ export default {
       blockedDate: "Дата блокировки",
       unblockedDate: "Дата разблокировки",
       status: "Положение дел",
-    }
+    },
   },
   permissionControl: {
     dialog: {
@@ -350,7 +352,7 @@ export default {
       created: "Созданный",
       updated: "Обновлено",
       actions: "Действия",
-    }
+    },
   },
   billingCompany: {
     addBilling: {
@@ -413,7 +415,7 @@ export default {
       created: "Созданный",
       updated: "Обновлено",
       status: "Положение дел",
-    }
+    },
   },
   listsModels: {
     child: {
@@ -477,6 +479,7 @@ export default {
       actions: "Действия",
     },
   },
+
   planningProduction: {
     planning: {
       planningProduction: "Планирование производства",
@@ -497,7 +500,7 @@ export default {
       unitPrice: "Цена за единицу товара",
       comment: "Комментарий",
       cancel: "отмена",
-      workingOperations:  "Рабочие операции",
+      workingOperations: "Рабочие операции",
       color: "Цвет",
       totalPrice: "Итоговая цена",
       createdDate: "Дата создания",
@@ -728,13 +731,12 @@ export default {
       deleteBtn: "Удалить",
 
       menuName: "назначение образца ",
-
     },
   },
 
-    deleteTitle: 'Удалить пункт',
-  deleteContent: 'Вы уверены, что хотите удалить этот элемент ?',
 
+  deleteTitle: "Удалить пункт",
+  deleteContent: "Вы уверены, что хотите удалить этот элемент ?",
 
   bodyParts: {
     child: {
@@ -770,7 +772,6 @@ export default {
       cancelBtn: "Отмена",
       createBtn: "Создавать",
       deleteBtn: "Удалить",
-
     },
   },
 
@@ -831,8 +832,8 @@ export default {
       actions: "Действия",
     },
 
-    dialog: {
 
+    dialog: {
       menuName: "группа расходов ",
       addMainName: "Создать группа расходов",
       name: "Имя",
@@ -869,7 +870,6 @@ export default {
     },
 
     dialog: {
-
       menuName: "единица измерения ",
       addMainName: "Создать единица измерения",
       name: "Имя",
@@ -905,10 +905,7 @@ export default {
       actions: "Действия",
     },
 
-
-
     dialog: {
-
       menuName: "тип упаковки ",
       addMainName: "Создать тип упаковки",
       name: "Имя",
@@ -917,8 +914,8 @@ export default {
       editDialog: "отредактировать тип упаковки",
       deleteDialog: "Удалить тип упаковки",
       deleteText: "Вы уверены, что хотите удалить эту тип упаковки?",
-      measurementUnit:"Идентификатор единицы измерения",
-      measurementUnitText:"Выберите идентификатор единицы измерения",
+      measurementUnit: "Идентификатор единицы измерения",
+      measurementUnitText: "Выберите идентификатор единицы измерения",
       editBtn: "Сохранять",
       description: "Описание",
       cancelBtn: "Отмена",
@@ -927,69 +924,196 @@ export default {
     },
   },
 
-  catalogGroups:{
+  catalogGroups: {
     child: {
-      idSearch: "Идентификационная группа каталога",
+      idSearch: "Идентификатор группа каталога",
       name: "Имя ",
       created: "Созданный",
       updated: "Обновлено",
       reset: "Перезагрузить",
       search: "Поиск",
-      menuName: "catalog groups",
-      addMainName: " Catalog group",
+      menuName: "группы каталога",
+      addMainName: " Группа каталогов",
     },
 
     table: {
       id: "Id",
-      name: "Group name",
-      code:"Group code",
-      createdAt: "Created At",
-      updatedAt: "Updated At",
-      actions: "Actions",
+      name: "Название группы",
+      code: "Код группы",
+      id: "Ид",
+      createdAt: "Создан в",
+      updatedAt: "Обновлено в",
+      actions: "Действия",
     },
 
-    addPage:{
-      home:"home",
-      menuName: "catalog groups",
-      details:"details",
-      secondaryMenu:"Fabric catalogs",
-      delete:"delete",
-      edit:"edit",
-      groupCode:"Catalogs group code",
-      enterGroupCode:"Enter catalogs group code",
-      groupName:"Catalogs group name",
-      enterGroupName:"Enter catalogs group name",
-      creator:"Creator",
-      enterCreator:"Enter creator",
-      created:"Created date",
-      enterCreated:"Enter created date",
-      save:"save",
-      canvasType:"Canvas Type",
-      yarnType:"Yarn type",
-      yarnNumber:"Yarn number",
-      composition:"Composition",
+    addPage: {
+      home: "Основной",
+      menuName: "Группа каталогов",
+      details: "подробности",
+      secondaryMenu: "Каталоги тканей",
+      delete: "Удалить",
+      edit: "Редактировать",
+      groupCode: "Код группы каталога",
+      enterGroupCode: "Введите код группы каталога",
+      groupName: "Название группы каталогов",
+      enterGroupName: "Введите название группы каталогов",
+      creator: "Создатель",
+      enterCreator: "Введите автора",
+      created: "Дата создания",
+      enterCreated: "Введите дату создания",
+      updated: "Дата обновления",
 
+      save: "сохранять",
+      canvasType: " Тип полотна",
+      yarnType: "Тип пряжи",
+      yarnNumber: "Количество пряжи",
+      composition: "Состав",
     },
 
-    tabs:{
-      canvasType:"Canvas Type",
-      yarnType:"Yarn type",
-      yarnNumber:"Yarn number",
-      composition:"Composition",
+    tabs: {
+      canvasType: " Тип полотна",
+      yarnType: "Тип пряжи",
+      yarnNumber: "Количество пряжи",
+      composition: "Состав",
 
-      table:{
-        id:"Id",
-        name:"Name",
-        groupCode:"Catalog group code",
-        groupName:"Catalog group name",
-        description:"Description",
-        created:"Created at",
-        updated:"Updated at",
-        actions:"Actions",
+      table: {
+        code: "Код группы каталога",
+        groupName: "Название группы каталогов",
+        id: "Ид",
+        name: "Имя",
+        description: "Описание",
+        createdAt: "Создан в",
+        updatedAt: "Обновлено в",
+        actions: "Действия",
+      },
+    },
+
+    canvasType: {
+      dialogs: {
+        createCanvas: "Создать тип полотна",
+        selectCanvas: "Выберите тип полотна",
+        specification: "Спецификация типа полотна",
+        enterSpecification: "Введите спецификацию типа полотна",
+        description: "Описание",
+        enterDescription: "Введите описание",
+        cancelBtn: "Отмена",
+        createBtn: "Создавать",
+        editCanvas: "Изменить тип полотна",
+        saveBtn: "сохранять",
+        deleteDialog: "Удалить тип полотна",
+        deleteText: "Вы уверены, что хотите удалить этот тип полотна?",
+        deleteBtn: "Удалить",
+      },
+    },
+    yarnType: {
+      dialogs: {
+        create: "Создать тип пряжи",
+        select: "Выберите тип пряжи",
+        specification: "Спецификация типа пряжи",
+        enterSpecification: "Введите спецификацию типа пряжи",
+        edit: "Изменить тип пряжи",
+
+        deleteDialog: "Удалить тип пряжи",
+        deleteText: "Вы уверены, что хотите удалить этот тип пряжи?",
+        description: "Описание",
+        enterDescription: "Введите описание",
+        cancelBtn: "Отмена",
+        createBtn: "Создавать",
+        saveBtn: "сохранять",
+        deleteBtn: "Удалить",
+      },
+    },
+    yarnNumber: {
+      dialogs: {
+        create: "Создать Количество пряжи",
+        select: "Выберите количество пряжи",
+
+        edit: "Изменить количество пряжи",
+
+        deleteDialog: "Удалить количество пряжи",
+        deleteText: "Вы уверены, что хотите удалить этот количество пряжи?",
+        description: "Описание",
+        enterDescription: "Введите описание",
+        cancelBtn: "Отмена",
+        createBtn: "Создавать",
+        saveBtn: "сохранять",
+        deleteBtn: "Удалить",
+      },
+    },
+    composition: {
+      dialogs: {
+        create: "Создать Состав",
+        select: "Выберите Состав",
+
+        edit: "Изменить Состав",
+
+        deleteDialog: "Удалить Состав",
+        deleteText: "Вы уверены, что хотите удалить этот Состав?",
+        description: "Описание",
+        enterDescription: "Введите описание",
+        cancelBtn: "Отмена",
+        createBtn: "Создавать",
+        saveBtn: "сохранять",
+        deleteBtn: "Удалить",
       },
     },
 
   },
 
+  partners:{
+    child:{
+      pNumber:"Номер телефона",
+      pName:" Имя партнера",
+      pEmail:"Электронная почта партнера",
+      status:"Статус",
+      reset:"Сброс",
+      search:"Поиск"
+    },
 
-}
+    table:{
+      mainMenu:"Партнеры",
+      id:"Id",
+      name:"Имя",
+      address:"Адрес",
+      email:"Электронная почта",
+      partnerType:"Тип партнера",
+      pNumber:"Номер телефона",
+      status:"статус",
+      createdAt:"Создано в",
+      updatedAt:"Обновлено в",
+      actions:"Действия",
+
+    },
+
+    dialog:{
+      addPartner:"Добавить партнера",
+      pName:"Имя партнера",
+      pNameText:"Введите имя партнера",
+      pType:"Тип партнера",
+      pTypeText:"Выберите тип партнера",
+      pNumber:"Номер телефона",
+      email:"Электронная почта",
+      emailText:"Введите адрес электронной почты",
+      addres:"Адрес",
+      addresText:"Введите адрес",
+      created:"Создано",
+      status:"Статус",
+      uploadContract:"Загрузить контракт",
+      uploadFiles:"Загрузить файлы...",
+      contractNumber:"Номер контракта",
+      contractNumberText:"Введите Номер контракта",
+      download:"Скачать",
+      create:"Создано",
+      cancel:"Отмена",
+
+      editPartner:"Редактировать партнера",
+      save:"Сохранить",
+
+      deleteDialog:"Удалить партнеров",
+      deleteText:"Вы уверены, что хотите удалить этого партнера?",
+      delete:"Удалить",
+
+    }
+  }
+};
+
