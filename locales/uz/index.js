@@ -1094,7 +1094,7 @@ export default {
       emailText:"E-pochta manzilini kiriting",
       addres:"Manzil",
       addresText:"Manzilni kiriting",
-      created:"Yaratilgan",
+      created:"Shartnoma sanasi",
       status:"Status",
       uploadContract:"Shartnomani yuklash",
       uploadFiles:"Fayllarni yuklash...",

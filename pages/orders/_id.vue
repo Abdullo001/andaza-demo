@@ -14,6 +14,7 @@
             elevation="0"
             color="#777C85"
             class="text-capitalize rounded-lg mr-4"
+            @click="clear"
           >
             <v-img src="/trash.svg" class="mr-1"/>
             Clear
@@ -34,26 +35,70 @@
       </v-card-title>
       <v-divider/>
       <v-card-text class="mt-4">
-        <v-row>
-          <v-col>
-            <div class="mb-2 text-body-1">Order number</div>
-            <v-text-field
-              filled
-              v-model="order.orderNumber"
-              placeholder="Enter order number"
-              validate-on-blur
-              dense
-              class="rounded-lg"
-              color="#7631FF"
-            />
-            <div class="mb-2 text-body-1">Head of production depatment</div>
-
-            <div class="search-field">
+        <v-form lazy-validation v-model="new_validate" ref="order_detail">
+          <v-row>
+            <v-col>
+              <div class="mb-2 text-body-1">Order number</div>
+              <v-text-field
+                filled
+                v-model="order.orderNumber"
+                placeholder="Enter order number"
+                validate-on-blur
+                dense
+                class="rounded-lg"
+                color="#7631FF"
+              />
+              <div class="mb-2 text-body-1">Head of production depatment</div>
+  
+              <div class="search-field">
+                <v-combobox
+                  v-model="order.headOfDepartment"
+                  :items="users"
+                  :search-input.sync="HODSearch"
+                  style="margin-bottom:22px"
+                  item-text="name"
+                  item-value="id"
+                  filled
+                  hide-details
+                  class="rounded-lg d-flex align-center justify-center"
+                  :return-object="true"
+                  color="#7631FF"
+                  dense
+                  placeholder="Enter responsible person"
+                  prepend-icon=""
+                >
+                  <template #append>
+                    <v-icon class="d-inline-block" color="#7631FF"
+                    >mdi-magnify
+                    </v-icon
+                    >
+                  </template>
+                </v-combobox>
+              </div>
+              <div class="mb-2 text-body-1">Order priority</div>
+              <v-select
+                :background-color="statusColor.priorityColor(order.priority)"
+                :items="priority_enums"
+                append-icon="mdi-chevron-down"
+                v-model="order.priority"
+                hide-details
+                dense
+                filled
+                validate-on-blur
+                placeholder="Select order priority"
+                class="rounded-lg"
+                dark
+              />
+            </v-col>
+            <v-col>
+              <div class="mb-2 text-body-1">Client name</div>
+  
               <v-combobox
-                v-model="order.headOfDepartment"
-                :items="users"
-                :search-input.sync="HODSearch"
+                v-model="order.client"
+                :items="clientList"
+                :search-input.sync="clientIdSearch"
                 style="margin-bottom:22px"
+  
                 item-text="name"
                 item-value="id"
                 filled
@@ -72,229 +117,188 @@
                   >
                 </template>
               </v-combobox>
-            </div>
-            <div class="mb-2 text-body-1">Order priority</div>
-            <v-select
-              :background-color="statusColor.priorityColor(order.priority)"
-              :items="priority_enums"
-              append-icon="mdi-chevron-down"
-              v-model="order.priority"
-              hide-details
-              dense
-              filled
-              validate-on-blur
-              class="rounded-lg"
-              dark
-            />
-          </v-col>
-          <v-col>
-            <div class="mb-2 text-body-1">Client name</div>
-
-            <v-combobox
-              v-model="order.client"
-              :items="clientList"
-              :search-input.sync="clientIdSearch"
-              style="margin-bottom:22px"
-
-              item-text="name"
-              item-value="id"
-              filled
-              hide-details
-              class="rounded-lg d-flex align-center justify-center"
-              :return-object="true"
-              color="#7631FF"
-              dense
-              placeholder="Enter responsible person"
-              prepend-icon=""
-            >
-              <template #append>
-                <v-icon class="d-inline-block" color="#7631FF"
-                >mdi-magnify
-                </v-icon
-                >
-              </template>
-            </v-combobox>
-            <div class="mb-2 text-body-1">Price with discount</div>
-            <div class="d-flex align-center">
-              <v-text-field
-                v-model="order.priceWithDiscount"
-                placeholder="0.00"
+              <div class="mb-2 text-body-1">Price with discount</div>
+              <div class="d-flex align-center">
+                <v-text-field
+                  v-model="order.priceWithDiscount"
+                  placeholder="0.00"
+                  filled
+                  validate-on-blur
+                  dense
+                  class="rounded-l-lg rounded-r-0"
+                  color="#7631FF"
+                />
+                <v-select
+                  :items="currency_enums"
+                  v-model="order.priceWithDiscountCurrency"
+                  style="max-width: 100px"
+                  dense
+                  filled
+                  validate-on-blur
+                  class="rounded-r-lg rounded-l-0"
+                  append-icon="mdi-chevron-down"
+                  color="#7631FF"
+                />
+              </div>
+            </v-col>
+            <v-col>
+              <div class="mb-2 text-body-1">Model number</div>
+  
+              <v-combobox
+                v-model="order.modelNumber"
+                @change="(e) => setModelName(e)"
+                :items="modelList"
+                :search-input.sync="modelIdSearch"
+                style="margin-bottom:22px"
+  
+                item-text="modelNumber"
+                item-value="id"
                 filled
-                validate-on-blur
-                dense
-                class="rounded-l-lg rounded-r-0"
+                hide-details
+                class="rounded-lg d-flex align-center justify-center"
+                :return-object="true"
                 color="#7631FF"
-              />
-              <v-select
-                :items="currency_enums"
-                v-model="order.priceWithDiscountCurrency"
-                style="max-width: 100px"
                 dense
-                filled
-                validate-on-blur
-                class="rounded-r-lg rounded-l-0"
-                append-icon="mdi-chevron-down"
-                color="#7631FF"
-              />
-            </div>
-          </v-col>
-          <v-col>
-            <div class="mb-2 text-body-1">Model number</div>
-
-            <v-combobox
-              v-model="order.modelNumber"
-              @change="(e) => setModelName(e)"
-              :items="modelList"
-              :search-input.sync="modelIdSearch"
-              style="margin-bottom:22px"
-
-              item-text="modelNumber"
-              item-value="id"
-              filled
-              hide-details
-              class="rounded-lg d-flex align-center justify-center"
-              :return-object="true"
-              color="#7631FF"
-              dense
-              placeholder="Enter responsible person"
-              prepend-icon=""
-            >
-              <template #append>
-                <v-icon class="d-inline-block" color="#7631FF"
-                >mdi-magnify
-                </v-icon
-                >
-              </template>
-            </v-combobox>
-            <div class="mb-2 text-body-1">Total</div>
-            <div class="d-flex align-center">
-              <v-text-field
-                v-model="order.totalPrice.amount"
-                :rules="[formRules.onlyNumber]"
-                placeholder="0.00"
-                filled
-                validate-on-blur
-                dense
-                class="rounded-l-lg rounded-r-0"
-                color="#7631FF"
-              />
-              <v-select
-                :items="currency_enums"
-                v-model="order.totalPrice.currency"
-                style="max-width: 100px"
-                dense
-                filled
-                validate-on-blur
-                class="rounded-r-lg rounded-l-0"
-                append-icon="mdi-chevron-down"
-                color="#7631FF"
-              />
-            </div>
-          </v-col>
-          <v-col>
-            <div class="mb-2 text-body-1">Model name</div>
-            <v-text-field
-              v-model="order.modelName"
-              placeholder="Enter"
-              filled
-              validate-on-blur
-              dense
-              class="rounded-lg"
-              color="#7631FF"
-              readonly
-            />
-            <div class="mb-2 text-body-1">Deadline</div>
-            <div style="height: 40px !important">
-              <el-date-picker
-                v-model="order.deadline"
-                type="datetime"
-                placeholder="dd.MM.yyyy HH:mm:ss"
-                :picker-options="pickerShortcuts"
-                value-format="dd.MM.yyyy HH:mm:ss"
-                class="custom-picker-2"
+                placeholder="Enter responsible person"
+                prepend-icon=""
               >
-              </el-date-picker>
-            </div>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" lg="6">
-            <div class="mb-2 text-body-1">Description</div>
-            <v-textarea
-              v-model="order.description"
-              placeholder="Enter description"
-              filled
-              validate-on-blur
-              dense
-              class="rounded-lg"
-              color="#7631FF"
-            />
-          </v-col>
-          <v-col cols="12" lg="3">
-            <div class="mb-2 text-body-1">Creator</div>
-            <v-text-field
-              v-model="order.creator"
-              placeholder="Enter creator"
-              filled
-              validate-on-blur
-              dense
-              class="rounded-lg"
-              color="#7631FF"
-              background-color="#F8F4FE"
-              readonly
-            />
-            <div class="mb-2 text-body-1">Modified person</div>
-            <v-text-field
-              v-model="order.modifiedPerson"
-              placeholder="Enter Modified person"
-              filled
-              validate-on-blur
-              dense
-              class="rounded-lg"
-              color="#7631FF"
-              background-color="#F8F4FE"
-              readonly
-            />
-          </v-col>
-
-          <v-col cols="12" lg="3">
-            <div class="mb-2 text-body-1">Created time</div>
-            <v-text-field
-              v-model="order.createdTime"
-              placeholder="Created at"
-              filled
-              validate-on-blur
-              dense
-              disabled
-              class="rounded-lg"
-              color="#7631FF"
-              background-color="#F8F4FE"
-              readonly
-            >
-              <template #append>
-                <v-img src="/date-icon.svg"/>
-              </template>
-            </v-text-field>
-
-            <div class="mb-2 text-body-1">Updated time</div>
-            <v-text-field
-              v-model="order.updatedTime"
-              placeholder="Update at"
-              filled
-              validate-on-blur
-              dense
-              disabled
-              class="rounded-lg"
-              color="#7631FF"
-              background-color="#F8F4FE"
-              readonly
-            >
-              <template #append>
-                <v-img src="/date-icon.svg"/>
-              </template>
-            </v-text-field>
-          </v-col>
-        </v-row>
+                <template #append>
+                  <v-icon class="d-inline-block" color="#7631FF"
+                  >mdi-magnify
+                  </v-icon
+                  >
+                </template>
+              </v-combobox>
+              <div class="mb-2 text-body-1">Total</div>
+              <div class="d-flex align-center">
+                <v-text-field
+                  v-model="order.totalPrice.amount"
+                  :rules="[formRules.onlyNumber]"
+                  placeholder="0.00"
+                  filled
+                  validate-on-blur
+                  dense
+                  class="rounded-l-lg rounded-r-0"
+                  color="#7631FF"
+                />
+                <v-select
+                  :items="currency_enums"
+                  v-model="order.totalPrice.currency"
+                  style="max-width: 100px"
+                  dense
+                  filled
+                  validate-on-blur
+                  class="rounded-r-lg rounded-l-0"
+                  append-icon="mdi-chevron-down"
+                  color="#7631FF"
+                />
+              </div>
+            </v-col>
+            <v-col>
+              <div class="mb-2 text-body-1">Model name</div>
+              <v-text-field
+                v-model="order.modelName"
+                placeholder="Enter"
+                filled
+                validate-on-blur
+                dense
+                class="rounded-lg"
+                color="#7631FF"
+                readonly
+              />
+              <div class="mb-2 text-body-1">Deadline</div>
+              <div style="height: 40px !important">
+                <el-date-picker
+                  v-model="order.deadline"
+                  type="datetime"
+                  placeholder="dd.MM.yyyy HH:mm:ss"
+                  :picker-options="pickerShortcuts"
+                  value-format="dd.MM.yyyy HH:mm:ss"
+                  class="custom-picker-2"
+                >
+                </el-date-picker>
+              </div>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" lg="6">
+              <div class="mb-2 text-body-1">Description</div>
+              <v-textarea
+                v-model="order.description"
+                placeholder="Enter description"
+                filled
+                validate-on-blur
+                dense
+                class="rounded-lg"
+                color="#7631FF"
+              />
+            </v-col>
+            <v-col cols="12" lg="3">
+              <div class="mb-2 text-body-1">Creator</div>
+              <v-text-field
+                v-model="order.creator"
+                placeholder="Enter creator"
+                filled
+                validate-on-blur
+                dense
+                class="rounded-lg"
+                color="#7631FF"
+                background-color="#F8F4FE"
+                readonly
+              />
+              <div class="mb-2 text-body-1">Modified person</div>
+              <v-text-field
+                v-model="order.modifiedPerson"
+                placeholder="Enter Modified person"
+                filled
+                validate-on-blur
+                dense
+                class="rounded-lg"
+                color="#7631FF"
+                background-color="#F8F4FE"
+                readonly
+              />
+            </v-col>
+  
+            <v-col cols="12" lg="3">
+              <div class="mb-2 text-body-1">Created time</div>
+              <v-text-field
+                v-model="order.createdTime"
+                placeholder="Created at"
+                filled
+                validate-on-blur
+                dense
+                disabled
+                class="rounded-lg"
+                color="#7631FF"
+                background-color="#F8F4FE"
+                readonly
+              >
+                <template #append>
+                  <v-img src="/date-icon.svg"/>
+                </template>
+              </v-text-field>
+  
+              <div class="mb-2 text-body-1">Updated time</div>
+              <v-text-field
+                v-model="order.updatedTime"
+                placeholder="Update at"
+                filled
+                validate-on-blur
+                dense
+                disabled
+                class="rounded-lg"
+                color="#7631FF"
+                background-color="#F8F4FE"
+                readonly
+              >
+                <template #append>
+                  <v-img src="/date-icon.svg"/>
+                </template>
+              </v-text-field>
+            </v-col>
+          </v-row>
+        </v-form>
       </v-card-text>
       <v-card-actions class="pb-6 pr-4">
         <v-spacer/>
@@ -318,7 +322,7 @@
           dark
           @click="updateOrderFunc"
         >
-          Save
+          Update
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -404,6 +408,7 @@ export default {
       orderStatus: "Add",
       HODSearch: "",
       clientIdSearch: "",
+      new_validate:true,
       modelIdSearch: "",
       priority_enums: ["LOW", "MEDIUM", "HIGH"],
       items: [
@@ -550,6 +555,12 @@ export default {
 
 
     },
+
+    clear(){
+      this.$refs.order_detail.reset();
+      this.order.deadline="";
+    },
+
   },
   mounted() {
     const id = this.$route.params.id;

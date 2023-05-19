@@ -19,7 +19,7 @@ export const getters = {
   totalElements: (state) => state.ordersList.totalElements,
   oneOrder: (state) => state.oneOrder,
   newOrderId: (state) => state.newOrderId,
-  modelGroups: (state) => state.modelGroups.map(elem => elem.name),
+  modelGroups: (state) => state.modelGroups.map((elem) => elem.name),
   usersList: (state) => state.usersList.content,
   clientList: (state) => state.clientList.data,
   modelList: (state) => state.modelList.data,
@@ -29,8 +29,8 @@ export const getters = {
 };
 
 export const mutations = {
-  setLoading(state, loadings){
-    state.loading = loadings
+  setLoading(state, loadings) {
+    state.loading = loadings;
   },
   setOrders(state, order) {
     state.ordersList = order;
@@ -62,13 +62,12 @@ export const mutations = {
   setOrderCondation(state, item) {
     state.orderCondation = item;
   },
-  setInfoToOrder(state,item){
-    state.infoToOrder=item;
-  }
+  setInfoToOrder(state, item) {
+    state.infoToOrder = item;
+  },
 };
 
 export const actions = {
-
   async getOneOrder({ commit }, { id, modelId }) {
     await this.$axios
       .$get(`/api/v1/orders/get-one?orderId=${id}&modelId=${modelId}`)
@@ -104,6 +103,10 @@ export const actions = {
       .then((res) => {
         commit("setNewOrderId", res.data.data.id);
         commit("setNewModelId", res.data.data.modelId);
+        dispatch("getOneOrder", {
+          id: res.data.data.id,
+          modelId: res.data.data.modelId,
+        });
         dispatch(
           "sizeDistirbution/getSizeDistirbution",
           { modelId: res.data.data.modelId },
@@ -204,14 +207,14 @@ export const actions = {
     await this.$axios
       .get(`/api/v1/models/info-to-order?id=${id}`)
       .then((res) => {
-        commit("setInfoToOrder",res.data.data)
+        commit("setInfoToOrder", res.data.data);
         console.log(res);
       })
       .catch((res) => {
         console.log(res);
       });
   },
-  async filterOrderList({ commit }, {page, size, data}) {
+  async filterOrderList({ commit }, { page, size, data }) {
     const body = {
       filters: [
         {
@@ -221,19 +224,21 @@ export const actions = {
           value: data.orderNumber,
         },
         {
-          key: 'createdAt',
-          operator: 'BETWEEN',
-          propertyType: 'DATE',
+          key: "createdAt",
+          operator: "BETWEEN",
+          propertyType: "DATE",
           value: data.createdAt,
-          valueTo: data.updatedAt
+          valueTo: data.updatedAt,
         },
       ],
       sorts: [],
       page,
       size,
     };
-    body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
-    const modelGroup = data.modelGroup !== null ? data.modelGroup : ""
+    body.filters = body.filters.filter(
+      (item) => item.value !== "" && item.value !== null
+    );
+    const modelGroup = data.modelGroup !== null ? data.modelGroup : "";
     await this.$axios
       .$put(`/api/v1/orders/list?modelGroup=${modelGroup}`, body)
       .then((res) => {

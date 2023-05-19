@@ -1094,7 +1094,7 @@ export default {
       contractNumber: "Contract number",
       contractNumberText: "Enter contract number",
       download: "Download",
-      created: "Created",
+      created: "Contract date ",
       status: "Status",
 
       uploadContract: "Upload contract",
