@@ -10,7 +10,7 @@
                 :label="$t('fraudDevices.dialog.deviceId')"
                 outlined validate-on-blur
                 dense hide-details
-                class="rounded-lg"
+                class="rounded-lg filter"
               />
             </v-col>
             <v-col cols="12" lg="2" md="2">
@@ -20,7 +20,7 @@
                 :items="status_enums"
                 outlined dense hide-details
                 validate-on-blur
-                class="rounded-lg"
+                class="rounded-lg filter"
                 append-icon="mdi-chevron-down"
               />
             </v-col>
@@ -29,6 +29,7 @@
                 v-model="filter.from"
                 type="datetime"
                 style="width: 100%"
+                class="filter_picker"
                 placeholder="From"
                 :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy HH:mm:ss"
@@ -39,6 +40,7 @@
               <el-date-picker
                 v-model="filter.to"
                 type="datetime"
+                class="filter_picker"
                 style="width: 100%"
                 placeholder="To"
                 :picker-options="pickerShortcuts"
@@ -114,32 +116,49 @@
           <v-form ref="new_form">
             <v-row>
               <v-col cols="12" md="6">
+                <div class=label>Device ID</div>
                 <v-text-field
-                  filled
-                  label="Device ID"
+                  outlined
+                  dense
+                  height="44"
+                  class="rounded-lg base"
+                  hide-details
                   placeholder="Enter Device ID"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Device №</div>
                 <v-text-field
-                  filled
-                  label="Device №"
+                  outlined
+                  dense
+                  height="44"
+                  class="rounded-lg base"
+                  hide-details
                   placeholder="Enter Device №"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Blocked by</div>
                 <v-text-field
-                  filled
-                  label="Blocked by"
+                  outlined
+                  dense
+                  height="44"
+                  class="rounded-lg base"
+                  hide-details
                   placeholder="Enter Blocked by"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Status</div>
                 <v-select
-                  filled
+                  outlined
+                  dense
+                  height="44"
+                  class="rounded-lg base"
+                  hide-details
                   label="Status"
                   placeholder="Select Status"
                   color="#7631FF"
@@ -147,10 +166,32 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Blocked date time</div>
                 <v-text-field
-                  filled
+                  outlined
+                  dense
+                  height="44"
+                  class="rounded-lg base"
+                  hide-details
                   disabled
-                  label="Blocked date time"
+                  color="#7631FF"
+                  placeholder="Enter blocked date time"
+                >
+                  <template #append>
+                    <v-img src="/date-icon.svg"/>
+                  </template>
+                </v-text-field>
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="label">Unblocked date time</div>
+                <v-text-field
+                  outlined
+                  dense
+                  height="44"
+                  class="rounded-lg base"
+                  hide-details
+                  disabled
+                  placeholder="Enter unblocked date time"
                   color="#7631FF"
                 >
                   <template #append>
@@ -159,30 +200,26 @@
                 </v-text-field>
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Reason</div>
                 <v-text-field
-                  filled
-                  disabled
-                  label="Unblocked date time"
-                  color="#7631FF"
-                >
-                  <template #append>
-                    <v-img src="/date-icon.svg"/>
-                  </template>
-                </v-text-field>
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  filled
-                  label="Reason"
+                  outlined
+                  dense
+                  height="44"
+                  class="rounded-lg base"
+                  hide-details
                   placeholder="Enter Blocked by"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Device type</div>
                 <v-select
-                  filled
+                  outlined
+                  dense
+                  height="44"
+                  class="rounded-lg base"
+                  hide-details
                   append-icon="mdi-chevron-down"
-                  label="Device type"
                   placeholder="Select Device type"
                   color="#7631FF"
                 />

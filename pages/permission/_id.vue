@@ -25,11 +25,14 @@
         <v-form lazy-validation v-model="validate" ref="form">
           <v-row>
             <v-col cols="12" md="4">
+              <div class="mb-2 text-body-1">Permission ID</div>
               <v-text-field
                 :disabled="disabled"
-                label="Permission ID"
                 v-model="create_permission.id"
-                filled
+                outlined
+                height="44"
+                hide-details
+                class="rounded-lg base"
                 dense
                 color="#7631FF"
                 placeholder="Enter permission name"
@@ -38,11 +41,14 @@
               />
             </v-col>
             <v-col cols="12" md="4">
+              <div class="mb-2 text-body-1">Permission name</div>
               <v-text-field
                 :disabled="disabled"
                 v-model="create_permission.name"
-                label="Permission name"
-                filled
+                outlined
+                height="44"
+                hide-details
+                class="rounded-lg base"
                 dense
                 color="#7631FF"
                 placeholder="Enter permission name"
@@ -51,11 +57,14 @@
               />
             </v-col>
             <v-col cols="12" md="4">
+              <div class="mb-2 text-body-1">Description</div>
               <v-textarea
                 :disabled="disabled"
-                label="Description"
                 v-model="create_permission.description"
-                filled
+                outlined
+                height="44"
+                hide-details
+                class="rounded-lg base"
                 dense
                 rows="1"
                 auto-grow
@@ -66,11 +75,14 @@
               />
             </v-col>
             <v-col cols="12" md="4">
+              <div class="mb-2 text-body-1">Permission path</div>
               <v-text-field
                 :disabled="disabled"
-                label="Permission path"
                 v-model="create_permission.path"
-                filled
+                outlined
+                height="44"
+                hide-details
+                class="rounded-lg base"
                 dense
                 color="#7631FF"
                 placeholder="Enter permission path"
@@ -79,27 +91,28 @@
               />
             </v-col>
             <v-col cols="12" md="4">
+              <div class="mb-2 text-body-1">Status</div>
               <v-select
                 :disabled="disabled"
-                label="Status"
                 v-model="create_permission.status"
-                class="rounded-lg"
-                hide-details
                 dense
                 :items="statusEnums"
-                filled
+                outlined
+                height="44"
+                hide-details
+                class="rounded-lg base"
                 append-icon="mdi-chevron-down"
                 color="#7631FF"
                 validate-on-blur
               >
               </v-select>
             </v-col>
-            <v-col
-              cols="12" md="4" style="max-width: 240px;"
-            >
+            <v-col cols="12" md="4">
+              <div class="mb-2 text-body-1">Created</div>
               <el-date-picker
                 :disabled="disabled"
                 type="datetime"
+                style="width: 100%; height: 44px"
                 v-model="create_permission.createdAt"
                 placeholder="From"
                 value-format="dd.MM.yyyy HH:mm:ss"
@@ -107,12 +120,12 @@
               >
               </el-date-picker>
             </v-col>
-            <v-col
-              cols="12" md="4"
-            >
+            <v-col cols="12" md="4">
+              <div class="mb-2 text-body-1">Update</div>
               <el-date-picker
                 :disabled="disabled"
                 type="datetime"
+                style="width: 100%; height: 44px"
                 placeholder="To"
                 v-model="create_permission.updatedAt"
                 value-format="dd.MM.yyyy HH:mm:ss"
@@ -162,8 +175,10 @@
 
 <script>
 import {mapGetters} from "vuex";
+import Breadcrumbs from "../../components/Breadcrumbs.vue";
 
 export default {
+  components: {Breadcrumbs},
   data() {
     return {
       delete_dialog: false,

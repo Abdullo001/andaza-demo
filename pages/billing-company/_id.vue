@@ -28,73 +28,109 @@
       </v-card-title>
       <v-divider/>
       <v-card-text class="mt-4">
-        <v-row>
-          <v-col>
-            <div class="mb-2 text-body-1">Company ID</div>
+        <v-row class="pb-4">
+          <v-col cols="12" lg="4" md="4">
+            <div class="label">Company ID</div>
             <v-text-field
-              filled
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base"
               v-model="details.id"
               dense
               :disabled="fields_status"
               style="max-width: 400px"
             />
-            <div class="mb-2 text-body-1">E-mail</div>
-            <v-text-field
-              filled
-              v-model="details.email"
-              dense
-              :disabled="fields_status"
-              style="max-width: 400px"
-            />
-            <div class="mb-2 text-body-1">Status</div>
-            <v-chip color="green" dark small>{{details.status}}</v-chip>
           </v-col>
-          <v-col>
-            <div class="mb-2 text-body-1">Company name</div>
+          <v-col cols="12" lg="4" md="4">
+            <div class="label">Company name</div>
             <v-text-field
-              filled
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base"
               v-model="details.companyName"
               dense
               :disabled="fields_status"
               style="max-width: 400px"
             />
-            <div class="mb-2 text-body-1">Phone number</div>
+          </v-col>
+          <v-col cols="12" lg="4" md="4">
+            <div class="label">Owner</div>
             <v-text-field
-              filled
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base"
+              v-model="details.owner"
+              dense
+              :disabled="fields_status"
+              style="max-width: 400px"
+            />
+          </v-col>
+          <v-col cols="12" lg="4" md="4">
+            <div class="label">E-mail</div>
+            <v-text-field
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base"
+              v-model="details.email"
+              dense
+              :disabled="fields_status"
+              style="max-width: 400px"
+            />
+          </v-col>
+          <v-col cols="12" lg="4" md="4">
+            <div class="label">Phone number</div>
+            <v-text-field
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base"
               v-model="details.phoneNumber"
               dense
               :disabled="fields_status"
               style="max-width: 400px"
             />
-            <div class="mb-2 text-body-1">Created</div>
+          </v-col>
+          <v-col cols="12" lg="4" md="4">
+            <div class="label">INN</div>
             <v-text-field
-              filled
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base"
+              v-model="details.inn"
+              dense
+              :disabled="fields_status"
+              style="max-width: 400px"
+            />
+          </v-col>
+          <v-col cols="12" lg="4" md="4">
+            <div class="label">Status</div>
+            <v-chip color="green" dark small>{{details.status}}</v-chip>
+          </v-col>
+          <v-col cols="12" lg="4" md="4">
+            <div class="label">Created</div>
+            <v-text-field
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base"
               v-model="details.created"
               dense
               :disabled="fields_status"
               style="max-width: 400px"
             />
           </v-col>
-          <v-col>
-            <div class="mb-2 text-body-1">Owner</div>
+          <v-col cols="12" lg="4" md="4">
+            <div class="label">Updated</div>
             <v-text-field
-              filled
-              v-model="details.owner"
-              dense
-              :disabled="fields_status"
-              style="max-width: 400px"
-            />
-            <div class="mb-2 text-body-1">INN</div>
-            <v-text-field
-              filled
-              v-model="details.inn"
-              dense
-              :disabled="fields_status"
-              style="max-width: 400px"
-            />
-            <div class="mb-2 text-body-1">Updated</div>
-            <v-text-field
-              filled
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base"
               v-model="details.updated"
               dense
               :disabled="fields_status"
@@ -132,8 +168,11 @@
 </template>
 
 <script>
+import Breadcrumbs from "../../components/Breadcrumbs.vue";
+
 export default {
   name: "BillingCompanyDetailsPage",
+  components: {Breadcrumbs},
   data() {
     return {
       map_links: [

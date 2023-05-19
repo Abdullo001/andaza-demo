@@ -101,12 +101,29 @@ html, body .v-application {
   background: #F8F4FE;
   border: 0;
 }
-
+.base_picker > .el-input__inner {
+  color: rgba(0, 0, 0, 0.38);
+  background: #F8F4FE;
+  border-radius: 6px !important;
+  border: 0;
+  &::placeholder {
+    color: rgba(0, 0, 0, 0.38) !important;
+  }
+}
 .filter.theme--light.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state) > .v-input__control > .v-input__slot fieldset {
   color: #A5A7AD;
   background: #FFFFFF;
   border: 1px solid #D2D3D6;
   border-radius: 6px;
+}
+.filter_picker > .el-input__inner {
+  border: 1px solid #D2D3D6;
+  color: #A5A7AD;
+  background: #FFFFFF;
+  border-radius: 6px !important;
+  &::placeholder {
+    color: #A5A7AD !important;
+  }
 }
 
 .label {

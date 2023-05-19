@@ -10,17 +10,19 @@
       </v-card-title>
       <v-divider />
       <v-card-text>
-        <v-row>
+        <v-row class="pb-4">
           <v-col>
-            <div class="mb-2 text-body-1">Licence key</div>
+            <div class="label">Licence key</div>
             <div class="d-flex">
               <v-text-field
                 v-model="licenceKey"
-                label="Generate key"
-                single-line
-                outlined validate-on-blur
+                placeholder="Generate key"
+                outlined
+                validate-on-blur
                 dense
-                class="rounded-lg mr-2"
+                hide-details
+                height="44"
+                class="rounded-lg mr-2 base"
                 color="#7631FF"
                 background-color="#F8F4FE"
               />
@@ -37,53 +39,60 @@
           </v-col>
         </v-row>
         <v-divider/>
-        <v-row>
-          <v-col>
-            <div class="mb-2 text-body-1">Company name</div>
+        <v-row class="mt-4 pb-4">
+          <v-col cols="12" lg="3" md="3">
+            <div class="label">Company name</div>
             <v-text-field
               v-model="billingInfo.companyName"
               label="ex. John’s company"
-              single-line
               outlined validate-on-blur
+              hide-details
+              height="44"
+              class="rounded-lg base"
               dense
-              class="rounded-lg"
               color="#7631FF"
               background-color="#F8F4FE"
             />
-            <div class="mb-2 text-body-1">Contract expire date</div>
+          </v-col>
+          <v-col cols="12" lg="3" md="3">
+            <div class="label">Contract expire date</div>
             <el-date-picker
               v-model="billingInfo.contractExpireDate"
               type="datetime"
               placeholder="dd.MM.yyyy HH:mm:ss"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
-              style="min-width: 100%;"
-              class="picker-color"
+              style="min-width: 100%; height: 44px"
+              class="base_picker"
             >
             </el-date-picker>
           </v-col>
-          <v-col>
-            <div class="mb-2 text-body-1">Quotes / Number of users</div>
+          <v-col cols="12" lg="3" md="3">
+            <div class="label">Quotes / Number of users</div>
             <v-text-field
               v-model="billingInfo.quotes"
               label="0"
               :rules="[formRules.onlyNumber]"
-              single-line
               outlined validate-on-blur
+              hide-details
+              height="44"
+              class="rounded-lg base"
               dense
-              class="rounded-lg"
               color="#7631FF"
               background-color="#F8F4FE"
             />
-            <div class="mb-2 text-body-1">Price per quote</div>
+          </v-col>
+          <v-col cols="12" lg="3" md="3">
+            <div class="label">Price per quote</div>
             <div class="d-flex align-center">
               <v-text-field
                 v-model="billingInfo.priceQuote.amount"
                 label="0.00"
-                single-line
                 outlined validate-on-blur
+                hide-details
+                height="44"
                 dense
-                class="rounded-l-lg rounded-r-0"
+                class="rounded-lg base rounded-l-lg rounded-r-0"
                 color="#7631FF"
                 background-color="#F8F4FE"
               />
@@ -91,59 +100,69 @@
                 :items="currency_enums"
                 v-model="billingInfo.priceQuote.currency"
                 style="max-width: 100px;"
-                single-line dense
+                dense
                 outlined validate-on-blur
-                class="rounded-r-lg rounded-l-0"
+                class="rounded-r-lg rounded-l-0 rounded-lg base"
+                hide-details
+                height="44"
                 append-icon="mdi-chevron-down"
                 color="#7631FF"
                 background-color="#F8F4FE"
               />
             </div>
           </v-col>
-          <v-col>
-            <div class="mb-2 text-body-1">Contract date</div>
+          <v-col cols="12" lg="3" md="3">
+            <div class="label">Contract date</div>
             <el-date-picker
               v-model="billingInfo.contractDate"
               type="datetime"
               placeholder="dd.MM.yyyy HH:mm:ss"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
-              style="min-width: 100%;"
-              class="picker-color"
+              style="min-width: 100%; height: 44px"
+              class="base_picker"
             >
             </el-date-picker>
-            <div class="mb-2 text-body-1 mt-6">Measurement unit</div>
+          </v-col>
+          <v-col cols="12" lg="3" md="3">
+            <div class="label">Measurement unit</div>
             <v-select
               :items="unit_enums"
               v-model="billingInfo.measurementUnit"
-              single-line dense
+              dense
               outlined validate-on-blur
-              class="rounded-lg"
+              hide-details
+              height="44"
+              class="rounded-lg base"
               append-icon="mdi-chevron-down"
               color="#7631FF"
               background-color="#F8F4FE"
             />
           </v-col>
-          <v-col>
-            <div class="mb-2 text-body-1">Contract number</div>
+          <v-col cols="12" lg="3" md="3">
+            <div class="label">Contract number</div>
             <v-text-field
               v-model="billingInfo.contractNumber"
               label="0"
-              single-line
               outlined validate-on-blur
+              hide-details
+              height="44"
+              class="rounded-lg base"
               dense
-              class="rounded-lg"
               color="#7631FF"
               background-color="#F8F4FE"
             />
-            <div class="mb-2 text-body-1">Discount percent</div>
+          </v-col>
+          <v-col cols="12" lg="3" md="3">
+            <div class="label">Discount percent</div>
             <v-text-field
               v-model="billingInfo.discountPercent"
               label="0"
-              single-line
               outlined validate-on-blur
+              hide-details
+              height="44"
+              class="rounded-lg base"
               dense
-              class="rounded-lg"
               color="#7631FF"
               background-color="#F8F4FE"
             >
@@ -154,17 +173,18 @@
           </v-col>
         </v-row>
         <v-divider/>
-        <v-row class="mt-4">
+        <v-row class="mt-4 pb-4">
           <v-col>
-            <div class="mb-2 text-body-1">Mentorship price</div>
+            <div class="label">Mentorship price</div>
             <div class="d-flex align-center">
               <v-text-field
                 v-model="billingInfo.priceQuote.amount"
                 label="0.00"
-                single-line
                 outlined validate-on-blur
+                hide-details
+                height="44"
                 dense
-                class="rounded-l-lg rounded-r-0"
+                class="rounded-l-lg rounded-r-0 rounded-lg base"
                 color="#7631FF"
                 background-color="#F8F4FE"
               />
@@ -172,9 +192,11 @@
                 :items="currency_enums"
                 v-model="billingInfo.priceQuote.currency"
                 style="max-width: 100px;"
-                single-line dense
+                dense
                 outlined validate-on-blur
-                class="rounded-r-lg rounded-l-0"
+                hide-details
+                height="44"
+                class="rounded-r-lg rounded-l-0 rounded-lg base"
                 append-icon="mdi-chevron-down"
                 color="#7631FF"
                 background-color="#F8F4FE"
@@ -182,15 +204,16 @@
             </div>
           </v-col>
           <v-col>
-            <div class="mb-2 text-body-1">Support price</div>
+            <div class="label">Support price</div>
             <div class="d-flex align-center">
               <v-text-field
                 v-model="billingInfo.priceQuote.amount"
                 label="0.00"
-                single-line
                 outlined validate-on-blur
+                hide-details
+                height="44"
                 dense
-                class="rounded-l-lg rounded-r-0"
+                class="rounded-l-lg rounded-r-0 rounded-lg base"
                 color="#7631FF"
                 background-color="#F8F4FE"
               />
@@ -198,9 +221,11 @@
                 :items="currency_enums"
                 v-model="billingInfo.priceQuote.currency"
                 style="max-width: 100px;"
-                single-line dense
+                dense
                 outlined validate-on-blur
-                class="rounded-r-lg rounded-l-0"
+                hide-details
+                height="44"
+                class="rounded-r-lg rounded-l-0 rounded-lg base"
                 append-icon="mdi-chevron-down"
                 color="#7631FF"
                 background-color="#F8F4FE"
@@ -213,20 +238,20 @@
         <v-divider/>
         <v-row class="mt-4">
           <v-col>
-            <div class="mb-2 text-body-1">Description</div>
+            <div class="label">Description</div>
             <v-textarea
               v-model="billingInfo.companyName"
-              label="Enter description"
-              single-line
+              placeholder="Enter description"
               outlined validate-on-blur
+              hide-details
+              class="rounded-lg base"
               dense
-              class="rounded-lg"
               color="#7631FF"
               background-color="#F8F4FE"
             />
           </v-col>
           <v-col>
-            <div class="mb-2 text-body-1">Upload contract document </div>
+            <div class="label">Upload contract document </div>
             <v-file-input
               v-model="files"
               placeholder="Upload your documents"
@@ -234,8 +259,10 @@
               multiple
               outlined
               prepend-inner-icon="mdi-paperclip"
+              hide-details
+              height="44"
+              class="rounded-lg base"
               prepend-icon=""
-              class="rounded-lg"
               color="#7631FF"
               background-color="#F8F4FE"
             >

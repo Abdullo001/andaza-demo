@@ -32,30 +32,39 @@
         <v-form lazy-validation ref="device_info" v-model="valid">
           <v-row>
             <v-col>
-              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudDevices.child.deviceId') }}</div>
+              <div class="label mt-4">{{ $t('fraudDevices.child.deviceId') }}</div>
               <v-text-field
                 v-model="device.deviceId"
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
                 dense
                 clearable
                 style="max-width: 400px"
                 :disabled="fields_status"
               />
-              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudDevices.child.status') }}</div>
+              <div class="label mt-4">{{ $t('fraudDevices.child.status') }}</div>
               <v-select
                 v-model="device.status"
                 :items="status_enums"
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
                 dense
                 clearable
                 style="max-width: 400px"
                 :disabled="fields_status"
                 append-icon="mdi-chevron-down"
               />
-              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudDevices.child.reason') }}</div>
+              <div class="label mt-4">{{ $t('fraudDevices.child.reason') }}</div>
               <v-text-field
                 v-model="device.reason"
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
                 dense
                 clearable
                 style="max-width: 400px"
@@ -63,28 +72,41 @@
               />
             </v-col>
             <v-col>
-              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudDevices.child.deviceN') }}</div>
+              <div class="label mt-4">{{ $t('fraudDevices.child.deviceN') }}</div>
               <v-text-field
                 v-model="device.deviceNumber"
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
                 dense
                 clearable
                 style="max-width: 400px"
                 :disabled="fields_status"
               />
-              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudDevices.child.blockedTime') }}</div>
+              <div class="label mt-4">{{ $t('fraudDevices.child.blockedTime') }}</div>
               <v-text-field
                 v-model="device.blockedDate"
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
                 dense
                 clearable
                 style="max-width: 400px"
                 :disabled="fields_status"
-              />
-              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudDevices.child.deviceType') }}</div>
+              >
+                <template #append>
+                  <v-img src="/date-icon.svg"/>
+                </template>
+              </v-text-field>
+              <div class="label mt-4">{{ $t('fraudDevices.child.deviceType') }}</div>
               <v-text-field
                 v-model="device.deviceType"
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
                 dense
                 clearable
                 style="max-width: 400px"
@@ -92,24 +114,34 @@
               />
             </v-col>
             <v-col>
-              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudDevices.child.blockedBy') }}</div>
+              <div class="label mt-4">{{ $t('fraudDevices.child.blockedBy') }}</div>
               <v-text-field
                 v-model="device.blockedBy"
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
                 dense
                 clearable
                 style="max-width: 400px"
                 :disabled="fields_status"
               />
-              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudDevices.child.unblockedTime') }}</div>
+              <div class="label mt-4">{{ $t('fraudDevices.child.unblockedTime') }}</div>
               <v-text-field
                 v-model="device.unblockedDate"
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"ed
                 dense
                 clearable
                 style="max-width: 400px"
                 :disabled="fields_status"
-              />
+              >
+                <template #append>
+                  <v-img src="/date-icon.svg"/>
+                </template>
+              </v-text-field>
             </v-col>
           </v-row>
         </v-form>

@@ -28,30 +28,34 @@
       <v-card-text class="pb-0">
         <v-row>
           <v-col cols="12" lg="3" md="3">
+            <div class="label">{{$t('prefinances.child.prefinanceNumber')}}</div>
             <v-text-field
-              filled
-              class="rounded-lg"
+              outlined
+              class="rounded-lg base"
               color="#7631FF"
               dense
-              :label="$t('prefinances.child.prefinanceNumber')"
+              height="44"
+              hide-details
               :placeholder="$t('prefinances.child.enterPrefinanceNumber')"
               v-model="addPreFinances.preFinanceNumber"
               disabled
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
+            <div class="label">{{ $t('prefinances.child.modelNumber') }}</div>
             <v-combobox
               v-model="addPreFinances.modelNumber"
               :items="modelData"
               :search-input.sync="modelSearch"
               item-text="modelNumber"
               item-value="modelNumber"
-              filled
-              class="rounded-lg"
+              outlined
+              height="44"
+              class="rounded-lg base"
+              hide-details
               :return-object="true"
               color="#7631FF"
               dense
-              :label="$t('prefinances.child.modelNumber')"
               :placeholder="$t('prefinances.child.enterModelNumber')"
               append-icon="mdi-chevron-down"
             >
@@ -61,104 +65,125 @@
             </v-combobox>
           </v-col>
           <v-col cols="12" lg="3" md="3">
+            <div class="label">{{$t('prefinances.child.modelName')}}</div>
             <v-text-field
-              filled
-              class="rounded-lg"
+              outlined
+              class="rounded-lg base"
+              hide-details
               color="#7631FF"
               dense
-              :label="$t('prefinances.child.modelName')"
+              height="44"
               :placeholder="$t('prefinances.child.enterModelName')"
               v-model="addPreFinances.modelNames" disabled
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
+            <div class="label">{{$t('prefinances.child.partner')}}</div>
             <v-text-field
               v-model="addPreFinances.partner"
-              filled
-              class="rounded-lg"
+              outlined
+              class="rounded-lg base"
+              hide-details
+              height="44"
               color="#7631FF"
               dense disabled
-              :label="$t('prefinances.child.partner')"
               :placeholder="$t('prefinances.child.partnerNamePhone')"
               append-icon=""
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
+            <div class="label">{{$t('prefinances.child.primaryCurrency')}}</div>
             <v-select
               v-model="addPreFinances.primaryCurrency"
               :items="currency_enums"
-              filled
-              class="rounded-lg"
+              placeholder="Select primary Currency"
+              outlined
+              height="44"
+              class="rounded-lg base"
+              hide-details
               color="#7631FF"
               dense
-              :label="$t('prefinances.child.primaryCurrency')"
               append-icon="mdi-chevron-down"
-
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
+            <div class="label">{{$t('prefinances.child.secondaryCurrency')}}</div>
             <v-select
               v-model="addPreFinances.secondaryCurrency"
               :items="currency_enums"
-              filled dense
-              class="rounded-lg"
+              placeholder="Select secondary currency"
+              outlined
+              height="44"
+              class="rounded-lg base"
+              hide-details
+              dense
               color="#7631FF"
-              :label="$t('prefinances.child.secondaryCurrency')"
               append-icon="mdi-chevron-down"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
+            <div class="label">{{$t('prefinances.child.tertiaryCurrency')}}</div>
             <v-select
               v-model="addPreFinances.tertiaryCurrency"
               :items="currency_enums"
-              filled
-              class="rounded-lg"
+              placeholder="Select tertiary currency"
+              outlined
+              height="44"
+              class="rounded-lg base"
+              hide-details
               color="#7631FF"
               dense
-              :label="$t('prefinances.child.tertiaryCurrency')"
               append-icon="mdi-chevron-down"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
+            <div class="label">{{$t('prefinances.child.primaryRare')}}</div>
             <v-text-field
               v-model="addPreFinances.primaryRate"
-              filled
-              class="rounded-lg"
+              outlined
+              height="44"
+              class="rounded-lg base"
+              hide-details
               color="#7631FF"
               dense
-              :label="$t('prefinances.child.primaryRare')"
               placeholder="0"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
+            <div class="label">{{$t('prefinances.child.secondaryRate')}}</div>
             <v-text-field
               v-model="addPreFinances.secondaryRate"
-              filled
-              class="rounded-lg"
+              outlined
+              height="44"
+              class="rounded-lg base"
+              hide-details
               color="#7631FF"
               dense
-              :label="$t('prefinances.child.secondaryRate')"
               placeholder="0"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
+            <div class="label">{{$t('prefinances.child.tertiaryRate')}}</div>
             <v-text-field
               v-model="addPreFinances.tertiaryRate"
-              filled
-              class="rounded-lg"
+              outlined
+              height="44"
+              class="rounded-lg base"
+              hide-details
               color="#7631FF"
               dense
-              :label="$t('prefinances.child.tertiaryRate')"
               placeholder="0"
             />
           </v-col>
 
           <v-row class="ma-0">
             <v-col cols="12" lg="6" md="6">
+              <div class="label">{{$t('prefinances.child.description')}}</div>
               <v-textarea
                 v-model="addPreFinances.description"
-                filled
-                class="rounded-lg"
+                outlined
+                class="rounded-lg base"
+                hide-details
                 color="#7631FF"
                 dense
                 :label="$t('prefinances.child.description')"
@@ -168,25 +193,29 @@
             </v-col>
             <v-col cols="12" lg="6" md="6" class="d-flex flex-wrap">
               <v-col cols="12" lg="6" class="pl-0 pt-0">
+                <div class="label">{{$t('prefinances.child.owner')}}</div>
                 <v-text-field
                   v-model="addPreFinances.owner"
-                  filled
-                  class="rounded-lg"
+                  outlined
+                  height="44"
+                  class="rounded-lg base"
+                  hide-details
                   color="#7631FF"
                   dense
-                  :label="$t('prefinances.child.owner')"
                   :placeholder="$t('prefinances.child.enterOwner')"
                   disabled
                 />
               </v-col>
               <v-col cols="12" lg="6" class="pt-0 pr-0">
+                <div class="label">{{$t('prefinances.child.createdTime')}}</div>
                 <v-text-field
                   v-model="addPreFinances.createdAt"
-                  filled
-                  class="rounded-lg"
+                  outlined
+                  height="44"
+                  class="rounded-lg base"
+                  hide-details
                   color="#7631FF"
                   dense
-                  :label="$t('prefinances.child.createdTime')"
                   placeholder="dd.MM.yyyy HH:mm:ss"
                   disabled
                 >
@@ -196,25 +225,29 @@
                 </v-text-field>
               </v-col>
               <v-col cols="12" lg="6" class="pl-0 pt-0">
+                <div class="label">{{$t('prefinances.child.modifiedPerson')}}</div>
                 <v-text-field
                   v-model="addPreFinances.modifiedPerson"
-                  filled
-                  class="rounded-lg"
+                  outlined
+                  height="44"
+                  class="rounded-lg base"
+                  hide-details
                   color="#7631FF"
                   dense
-                  :label="$t('prefinances.child.modifiedPerson')"
                   :placeholder="$t('prefinances.child.enterModifiedPerson')"
                   disabled
                 />
               </v-col>
               <v-col cols="12" lg="6" class="pt-0 pr-0">
+                <div class="label">{{$t('prefinances.child.updatedTime')}}</div>
                 <v-text-field
                   v-model="addPreFinances.updatedAt"
-                  filled
-                  class="rounded-lg"
+                  outlined
+                  height="44"
+                  class="rounded-lg base"
+                  hide-details
                   color="#7631FF"
                   dense
-                  :label="$t('prefinances.child.updatedTime')"
                   placeholder="dd.MM.yyyy HH:mm:ss"
                   disabled
                 >
@@ -464,11 +497,16 @@
           <v-form v-model="details_form" ref="details_form">
             <v-row>
               <v-col cols="12" lg="4">
+                <div class="label">{{$t('prefinances.child.expenseGroup')}}</div>
                 <v-combobox
-                  :label="$t('prefinances.child.expenseGroup')"
-                  filled dense
+                  placeholder="Select expense group"
+                  dense
                   append-icon="mdi-chevron-down"
                   :items="expenseGroup"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   item-text="name"
                   item-value="id"
                   v-model="details.expenseGroup"
@@ -478,10 +516,15 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
+                <div class="label">{{$t('prefinances.child.expense')}}</div>
                 <v-select
-                  :label="$t('prefinances.child.expense')"
+                  placeholder="Select expense"
                   append-icon="mdi-chevron-down"
-                  filled dense
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  dense
                   :items="expenseList"
                   v-model="details.expense"
                   validate-on-blur
@@ -493,9 +536,14 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
+                <div class="label">{{ $t('prefinances.child.quantity') }}</div>
                 <v-text-field
-                  :label="$t('prefinances.child.quantity')"
-                  filled dense
+                  placeholder="Enter quantity"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  dense
                   v-model="details.quantity"
                   validate-on-blur
                   :rules="[formRules.required]"
@@ -503,10 +551,15 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
+                <div class="label">{{$t('prefinances.child.measurementunit')}}</div>
                 <v-select
-                  :label="$t('prefinances.child.measurementunit')"
+                  placeholder="Select measurement unit"
                   append-icon="mdi-chevron-down"
-                  filled dense
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  dense
                   :items="measurementUnitList"
                   v-model="details.measurementUnit"
                   validate-on-blur
@@ -517,9 +570,14 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
+                <div class="label">{{$t('prefinances.child.pricePerUnit')}}</div>
                 <v-text-field
-                  :label="$t('prefinances.child.pricePerUnit')"
-                  filled dense
+                  placeholder="Enter price per unit"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  dense
                   v-model="details.pricePerUnit"
                   validate-on-blur
                   :rules="[formRules.required]"
