@@ -165,21 +165,6 @@
                   color="#7631FF"
                 />
               </v-col>
-<!--              <v-col cols="12" lg="6">-->
-<!--                <v-select-->
-<!--                  v-model="create_accessory.accessoryTypeId"-->
-<!--                  :items="accessory_type_id"-->
-<!--                  :rules="[ formRules.required ]"-->
-<!--                  filled-->
-<!--                  dense-->
-<!--                  item-text="name"-->
-<!--                  item-value="id"-->
-<!--                  label="Accessory Type"-->
-<!--                  placeholder="Select Accessory type"-->
-<!--                  append-icon="mdi-chevron-down"-->
-<!--                  color="#7631FF"-->
-<!--                />-->
-<!--              </v-col>-->
               <v-col cols="12">
                 <v-textarea
                   v-model="create_accessory.description"
@@ -262,21 +247,6 @@
                   color="#7631FF"
                 />
               </v-col>
-<!--              <v-col cols="12" lg="6">-->
-<!--                <v-select-->
-<!--                  v-model="edit_accessory.accessoryTypeId"-->
-<!--                  :items="accessory_type_id"-->
-<!--                  :rules="[ formRules.required ]"-->
-<!--                  filled-->
-<!--                  item-text="name"-->
-<!--                  item-value="id"-->
-<!--                  label="Accessory Type"-->
-<!--                  placeholder="Select Accessory type"-->
-<!--                  dense-->
-<!--                  append-icon="mdi-chevron-down"-->
-<!--                  color="#7631FF"-->
-<!--                />-->
-<!--              </v-col>-->
               <v-col cols="12">
                 <v-textarea
                   v-model="edit_accessory.description"
@@ -364,7 +334,6 @@ export default {
         measurementUnitId: "",
         name: "",
         specification: "",
-        accessoryTypeId: "",
         description: "",
       },
       edit_accessory: {},
@@ -433,8 +402,8 @@ export default {
     async update() {
       const edit_validate = this.$refs.edit_form.validate();
       if (edit_validate) {
-        const {accessoryTypeId, id, description, measurementUnitId, name, specification} = this.edit_accessory;
-        const item = {accessoryTypeId, id, description, measurementUnitId, name, specification};
+        const { id, description, measurementUnitId, name, specification} = this.edit_accessory;
+        const item = { id, description, measurementUnitId, name, specification};
         await this.updateAccessoryList(item);
         this.edit_dialog = false;
       };
