@@ -10,7 +10,8 @@
           <v-col cols="12" lg="2" md="2">
             <v-text-field
               v-model="filters.id"
-              label="Id packege shape"
+              :label="$t('packageType.child.idSearch')"
+
               outlined
               class="rounded-lg"
               hide-details
@@ -21,7 +22,8 @@
           <v-col cols="12" lg="2" md="2">
             <v-text-field
               v-model="filters.name"
-              label="Name"
+              :label="$t('packageType.child.name')"
+
               outlined
               class="rounded-lg"
               hide-details
@@ -36,7 +38,8 @@
               style="width: 100%"
               v-model="filters.createdAt"
               type="datetime"
-              placeholder="Created"
+              :placeholder="$t('packageType.child.created')"
+
               :picker-options="pickerShortcuts"
               format="dd.MM.yyyy HH:mm:ss"
             >
@@ -49,7 +52,8 @@
               style="width: 100%;"
               v-model="filters.updatedAt"
               type="datetime"
-              placeholder="Updated"
+              :placeholder="$t('packageType.child.updated')"
+
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
             >
@@ -64,7 +68,7 @@
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
-                Reset
+              {{ $t("packageType.child.reset") }}
               </v-btn>
               <v-btn
                 width="140" color="#397CFD" dark
@@ -72,7 +76,8 @@
                 class="text-capitalize rounded-lg"
                 @click="filterData"
               >
-                Search
+              {{ $t("packageType.child.search") }}
+
               </v-btn>
             </div>
           </v-col>
@@ -96,10 +101,14 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium text-capitalize">Package shape</div>
+            <div class="font-weight-medium text-capitalize">
+              {{ $t("packageType.dialog.menuName") }}
+
+            </div>
             <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="new_dialog = true">
               <v-icon>mdi-plus</v-icon>
-              Package shape
+              {{ $t("packageType.dialog.addMainName") }}
+
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -119,7 +128,10 @@
     <v-dialog v-model="new_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Create Package shape</div>
+          <div class="text-capitalize font-weight-bold">
+            {{ $t("packageType.dialog.enterMainName") }}
+
+          </div>
           <v-btn icon color="#7631FF" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -129,15 +141,15 @@
             <v-text-field
               v-model="create_package.name"
               filled
-              label="Name"
-              placeholder="Enter name package shape"
+              :label="$t('packageType.dialog.name')"
+              :placeholder="$t('packageType.dialog.enterMainName')"
               color="#7631FF"
             />
             <v-textarea
               v-model="create_package.description"
               filled
-              label="Description"
-              placeholder="Enter package shape description"
+              :label="$t('packageType.dialog.description')"
+              :placeholder="$t('packageType.dialog.descriptionPlacholder')"
               color="#7631FF"
             />
             <v-select
@@ -147,8 +159,8 @@
               item-text="name"
               item-value="id"
               append-icon="mdi-chevron-down"
-              label="Measurement unit ID"
-              placeholder="Select Measurement unit ID"
+              :label="$t('packageType.dialog.measurementUnit')"
+              :placeholder="$t('packageType.dialog.measurementUnitText')"
               color="#7631FF"
             />
           </v-form>
@@ -160,7 +172,8 @@
             width="163"
             @click="new_dialog = false"
           >
-            cancel
+          {{ $t("packageType.dialog.cancelBtn") }}
+
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -168,7 +181,8 @@
             width="163"
             @click="save"
           >
-            create
+          {{ $t("packageType.dialog.createBtn") }}
+
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -176,7 +190,10 @@
     <v-dialog v-model="edit_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Edit Package shape</div>
+          <div class="text-capitalize font-weight-bold">
+            {{ $t("packageType.dialog.editDialog") }}
+
+          </div>
           <v-btn icon color="#7631FF" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -186,15 +203,15 @@
             <v-text-field
               v-model="edit_package.name"
               filled
-              label="Name"
-              placeholder="Enter name package shape"
+              :label="$t('packageType.dialog.name')"
+              :placeholder="$t('packageType.dialog.enterMainName')"
               color="#7631FF"
             />
             <v-textarea
               v-model="edit_package.description"
               filled
-              label="Description"
-              placeholder="Enter package shape description"
+              :label="$t('packageType.dialog.description')"
+              :placeholder="$t('packageType.dialog.descriptionPlacholder')"
               color="#7631FF"
             />
             <v-select
@@ -205,8 +222,8 @@
               append-icon="mdi-chevron-down"
               item-text="name"
               item-value="id"
-              label="Measurement unit ID"
-              placeholder="Select Measurement unit ID"
+              :label="$t('packageType.dialog.measurementUnit')"
+              :placeholder="$t('packageType.dialog.measurementUnitText')"
               color="#7631FF"
             />
           </v-form>
@@ -218,7 +235,8 @@
             width="163"
             @click="edit_dialog = false"
           >
-            cancel
+          {{ $t("packageType.dialog.cancelBtn") }}
+
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -226,7 +244,8 @@
             width="163"
             @click="update"
           >
-            create
+          {{ $t("packageType.dialog.editBtn") }}
+
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -236,9 +255,12 @@
         <div class="d-flex justify-center mb-2">
           <v-img src="/error-icon.svg" max-width="40"/>
         </div>
-        <v-card-title class="d-flex justify-center">Delete Package shape</v-card-title>
+        <v-card-title class="d-flex justify-center">
+          {{$t("packageType.dialog.deleteDialog")}}
+        
+        </v-card-title>
         <v-card-text>
-          Are you sure you want to Delete this package shape?
+          {{ $t("packageType.dialog.deleteText") }}
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -248,7 +270,8 @@
             width="140"
             @click.stop="delete_dialog = false"
           >
-            cancel
+          {{ $t("packageType.dialog.cancelBtn") }}
+
           </v-btn>
           <v-spacer/>
           <v-btn
@@ -259,7 +282,8 @@
             dark
             @click="deletePackage"
           >
-            delete
+          {{ $t("packageType.dialog.deleteBtn") }}
+
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -281,13 +305,32 @@ export default {
       current_page: 0,
       options: {},
       headers: [
-        {text: "Id", value: "id", sortable: false},
-        {text: "Name", value: "name",},
-        {text: "Description", value: "description",},
-        {text: "Created At", value: "createdAt",},
-        {text: "Updated At", value: "updatedAt",},
-        {text: "Measurement", value: "measurementUnit",},
-        {text: "Actions", value: "actions", align: "center", sortable: false},
+        {
+          text: this.$t("samplePurposes.table.id"),
+          value: "id",
+          align: "start",
+          sortable: false,
+          width: "100",
+        },
+        { text: this.$t("samplePurposes.table.name"), value: "name" },
+        {
+          text: this.$t("samplePurposes.table.description"),
+          value: "description",
+        },
+        {
+          text: this.$t("samplePurposes.table.createdAt"),
+          value: "createdAt",
+        },
+        {
+          text: this.$t("samplePurposes.table.updatedAt"),
+          value: "updatedAt",
+        },
+        {
+          text: this.$t("samplePurposes.table.actions"),
+          value: "actions",
+          align: "center",
+          sortable: false,
+        },
       ],
       create_package: {
         name: "",
@@ -411,7 +454,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.commit('setPageTitle', 'Catalogs');
+    this.$store.commit("setPageTitle", this.$t("sidebar.catalogs"));
   }
 }
 </script>

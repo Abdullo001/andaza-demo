@@ -30,7 +30,7 @@ export default {
     cooperationType: "Hamkorlik turi",
     expenseGroup: "Xarajatlar guruhi",
     measurementUnit: "O'lchov birligi",
-    packageShape: "Paket shakli",
+    packageShape: "Qadoq turi",
     fabricCatalogs: "Mato kataloglari",
     productCatalogs: "Mahsulot kataloglari",
     catalogGroups: "Katalog guruhlari",
@@ -729,6 +729,208 @@ export default {
       deleteBtn: "O'chirish",
     },
   },
-  deleteTitle: 'Qatorni o`chirish',
+ deleteTitle: 'Qatorni o`chirish',
   deleteContent: 'Haqiqatan ham bu elementni oʻchirib tashlamoqchimisiz?',
+
+  bodyParts: {
+    child: {
+      idSearch: " Tana qismlari identifikatori",
+      name: "Nomi ",
+      created: "Yaratilgan",
+      updated: "Yangilangan",
+      reset: "Qayta tiklash",
+      search: "Qidirish",
+    },
+  
+    table: {
+      id: "Id",
+      name: "Ism",
+      description: "Tavsif",
+      createdAt: "Yaratilgan",
+      updatedAt: "Yangilangan",
+      actions: "Amallar",
+    },
+
+    dialog: {
+      menuName: "Tana qismlari",
+      addMainName: "Tana qismini yaratish",
+      name: "Nomi",
+      enterMainName: " Tana qismi nomini kiriting",
+      description: "Tavsif",
+      descriptionPlacholder: "Tana qismi tavsifini kiriting",
+      cancelBtn: "Bekor qilish",
+      createBtn: "Yaratish",
+      editDialog: "Tana qismi tahrirlash",
+      editBtn: "Saqlash",
+      deleteDialog: "Tana qismi o'chirish",
+      deleteText: "Haqiqatan ham bu tana qismi oʻchirib tashlamoqchimisiz?",
+      deleteBtn: "O'chirish",
+    },
+  },
+
+  cooperationType: {
+    child: {
+      idSearch: " Hamkorlik turi identifikatori",
+      name: "Nomi ",
+      created: "Yaratilgan",
+      updated: "Yangilangan",
+      reset: "Qayta tiklash",
+      search: "Qidirish",
+    },
+  
+    table: {
+      id: "Id",
+      name: "Ism",
+      description: "Tavsif",
+      createdAt: "Yaratilgan",
+      updatedAt: "Yangilangan",
+      actions: "Amallar",
+    },
+  
+
+    dialog: {
+      menuName: "Hamkorlik turi",
+      addMainName: "Hamkorlik turini yaratish",
+      name: "Nomi",
+      enterMainName: " Hamkorlik turi nomini kiriting",
+      description: "Tavsif",
+      descriptionPlacholder: "Hamkorlik turi tavsifini kiriting",
+      cancelBtn: "Bekor qilish",
+      createBtn: "Yaratish",
+      editDialog: "Hamkorlik turini tahrirlash",
+      editBtn: "Saqlash",
+      deleteDialog: "Hamkorlik turini o'chirish",
+      deleteText: "Haqiqatan ham bu hamkorlik turini oʻchirib tashlamoqchimisiz?",
+      deleteBtn: "O'chirish",
+    },
+  },
+
+  expenseGroup: {
+    child: {
+      idSearch: " Xarajatlar guruhi identifikatori",
+      name: "Nomi ",
+      created: "Yaratilgan",
+      updated: "Yangilangan",
+      reset: "Qayta tiklash",
+      search: "Qidirish",
+    },
+  
+    table: {
+      id: "Id",
+      name: "Ism",
+      description: "Tavsif",
+      createdAt: "Yaratilgan",
+      updatedAt: "Yangilangan",
+      actions: "Amallar",
+    },
+
+    dialog: {
+      menuName: "Xarajatlar guruhi",
+      addMainName: "Xarajatlar guruhini yaratish",
+      name: "Nomi",
+      enterMainName: "Xarajatlar guruhi nomini kiriting",
+      description: "Tavsif",
+      descriptionPlacholder: "Xarajatlar guruhi tavsifini kiriting",
+      cancelBtn: "Bekor qilish",
+      createBtn: "Yaratish",
+      editDialog: "Xarajatlar guruhini tahrirlash",
+      editBtn: "Saqlash",
+      deleteDialog: "Xarajatlar guruhini o'chirish",
+      deleteText: "Haqiqatan ham bu xarajatlar guruhini oʻchirib tashlamoqchimisiz?",
+      deleteBtn: "O'chirish",
+    },
+  },
+
+  measurementUnit: {
+    child: {
+      idSearch: " O'lchov birligi identifikatori",
+      name: "Nomi ",
+      created: "Yaratilgan",
+      updated: "Yangilangan",
+      reset: "Qayta tiklash",
+      search: "Qidirish",
+    },
+  
+    table: {
+      id: "Id",
+      name: "Ism",
+      description: "Tavsif",
+      createdAt: "Yaratilgan",
+      updatedAt: "Yangilangan",
+      actions: "Amallar",
+    },
+  
+    dialog: {
+      
+
+      menuName: "O'lchov birligi",
+      addMainName: "O'lchov birligi yaratish",
+      name: "Nomi",
+      enterMainName: "O'lchov birligi nomini kiriting",
+      description: "Tavsif",
+      descriptionPlacholder: "O'lchov birligini tavsifini kiriting",
+      cancelBtn: "Bekor qilish",
+      createBtn: "Yaratish",
+      editDialog: "O'lchov birligini tahrirlash",
+      editBtn: "Saqlash",
+      deleteDialog: "O'lchov birligini o'chirish",
+      deleteText: "Haqiqatan ham bu o'lchov birligini oʻchirib tashlamoqchimisiz?",
+      deleteBtn: "O'chirish",
+    },
+  },
+
+  packageType: {
+    child: {
+      idSearch: " Qadoq turi identifikatori",
+      name: "Nomi ",
+      created: "Yaratilgan",
+      updated: "Yangilangan",
+      reset: "Qayta tiklash",
+      search: "Qidirish",
+    },
+  
+    table: {
+      id: "Id",
+      name: "Ism",
+      description: "Tavsif",
+      createdAt: "Yaratilgan",
+      updatedAt: "Yangilangan",
+      actions: "Amallar",
+    },
+  
+    dialog: {
+      menuName: "package type",
+      addMainName: "Create package type",
+      name: "Name",
+      enterMainName: "Enter name package type",
+      description: "Description",
+      descriptionPlacholder: "Enter package type description",
+      cancelBtn: "Cancel",
+      createBtn: "Create",
+      editDialog: "Edit package type",
+      editBtn: "Save",
+      deleteDialog: "Delete package type",
+      deleteText: "Are you sure you want to Delete this package type?",
+      deleteBtn: "Delete",
+
+      
+      menuName: "Qadoq turi",
+      addMainName: "Qadoq turi yaratish",
+      name: "Nomi",
+      enterMainName: "Qadoq turi nomini kiriting",
+      description: "Tavsif",
+      descriptionPlacholder: "Qadoq turi tavsifini kiriting",
+      cancelBtn: "Bekor qilish",
+      createBtn: "Yaratish",
+      editDialog: "Qadoq turini tahrirlash",
+      editBtn: "Saqlash",
+      measurementUnit:"O'lchov birligi identifikatori",
+      measurementUnitText:"O'lchov birligi identifikatorini tanlang",
+      deleteDialog: "Qadoq turini o'chirish",
+      deleteText: "Haqiqatan ham bu qadoq turini oʻchirib tashlamoqchimisiz?",
+      deleteBtn: "O'chirish",
+    },
+  },
+
+
 };

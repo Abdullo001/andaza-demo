@@ -409,7 +409,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.commit("setPageTitle", "Catalogs");
+    this.$store.commit("setPageTitle", this.$t("sidebar.catalogs"));
   },
 };
 </script>
