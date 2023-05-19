@@ -25,7 +25,11 @@
               @keydown.enter="filterData"
             />
           </v-col>
-          <v-col cols="12" lg="2" md="2" style="max-width: 240px">
+
+          <v-col
+            cols="12" lg="2" md="2"
+          >
+
             <el-date-picker
               v-model="filters.createdAt"
               type="datetime"
@@ -107,10 +111,12 @@
       <template #item.actions="{ item }">
         <div class="d-flex justify-center">
           <v-btn icon color="green" @click.stop="editItem(item)">
-            <v-img src="edit-active.svg" max-width="22" />
+
+            <v-img src="/edit-active.svg" max-width="22"/>
           </v-btn>
           <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-            <v-img src="delete.svg" max-width="27" />
+            <v-img src="/delete.svg" max-width="27"/>
+
           </v-btn>
         </div>
       </template>
@@ -120,6 +126,7 @@
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
             {{ $t("samplePurposes.dialog.enterMainName") }}
+
           </div>
           <v-btn icon color="#7631FF" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -139,7 +146,9 @@
               v-model="create_sample.description"
               filled
               :label="$t('samplePurposes.dialog.description')"
+
               :placeholder="$t('samplePurposes.dialog.descriptionPlacholder')"
+              
               dense
               color="#7631FF"
             />
@@ -153,7 +162,7 @@
             width="163"
             @click="new_dialog = false"
           >
-            {{ $t("samplePurposes.dialog.cancelBtn") }}
+            {{ $t('samplePurposes.dialog.cancelBtn') }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -162,7 +171,8 @@
             width="163"
             @click="save"
           >
-            {{ $t("samplePurposes.dialog.createBtn") }}
+          {{ $t('samplePurposes.dialog.createBn') }}
+            
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -171,7 +181,8 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
-            {{ $t("samplePurposes.dialog.editDialog") }}
+            {{ $t('samplePurposes.dialog.editDialog') }}
+
           </div>
           <v-btn icon color="#7631FF" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -205,7 +216,7 @@
             width="163"
             @click="edit_dialog = false"
           >
-            {{ $t("samplePurposes.dialog.cancelBtn") }}
+            {{ $t('samplePurposes.dialog.cancelBtn') }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"

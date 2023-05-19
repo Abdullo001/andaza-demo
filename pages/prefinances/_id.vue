@@ -4,7 +4,7 @@
     <v-card elevation="0" class="mt-2 rounded-lg">
       <v-card-title>
         <div class="text-capitalize">
-           {{ $t('prefinances.child.prefinance') }}
+           {{ $t('sidebar.calculations') }}
           <v-chip
             color="#10BF41"
             class="text-capitalize ml-5 font-weight-bold"

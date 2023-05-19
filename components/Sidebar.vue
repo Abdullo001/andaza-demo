@@ -13,7 +13,7 @@
         <div class="navbar-text">Automatization of Textile Production</div>
       </nuxt-link>
 
-      <v-list class="rounded-lg mx-4">
+      <v-list class="rounded-lg mx-4" flat>
         <div v-for="(nav, idx) in items" :key="idx">
           <v-list-item
             v-if="!nav.has_child"
@@ -26,7 +26,7 @@
           >
             <template #default="{ active }">
               <v-list-item-action style="max-width: 56px;">
-                <v-img :src="active ? `/sidebar/active-${nav.icon}` : `/sidebar/${nav.icon}`"/>
+                <v-img :src="!active ? `/sidebar/${nav.icon[0]}` : `/sidebar/${nav.icon[1]}`"/>
               </v-list-item-action>
               <v-list-item-content>
                 <v-list-item-title class="active-link">{{ nav.title }}</v-list-item-title>
@@ -34,28 +34,35 @@
             </template>
           </v-list-item>
 
-          <v-list-group v-else>
+          <v-list-group v-else class="parent-link" v-model="isOpen[idx]">
             <template #prependIcon>
-              <v-img class="mt-n1" :src="`/sidebar/${nav.icon}`"/>
+              <v-img class="mt-n1" :src="`/sidebar/${!isOpen[idx] ? nav.icon[0] : nav.icon[1]}`"/>
             </template>
 
             <template #activator>
-              <v-list-item-title>{{ nav.title }}</v-list-item-title>
+              <v-list-item-title >{{ nav.title }}</v-list-item-title>
             </template>
 
             <v-list-item
               v-for="(child, idx) in nav.child"
               :key="idx"
-              link class="my-2 "
+              link
+              class="my-2 child-link transparent"
               route
               :to="child.to"
+              active-class="transparent"
             >
-              <v-list-item-icon/>
-              <v-list-item-title v-text="child.title"/>
+              <template #default="{ active }">
+                <v-list-item-icon></v-list-item-icon>
+                <div class="dots" v-if="active"></div>
+                <div class="no-dots" v-else></div>
+                <v-list-item-title v-text="child.title"/>
+              </template>
             </v-list-item>
           </v-list-group>
         </div>
       </v-list>
+
     </v-navigation-drawer>
 
     <v-app-bar
@@ -135,6 +142,7 @@ export default {
   name: 'SidebarComponent',
   data() {
     return {
+      isOpen: [],
       clipped: false,
       drawer: true,
       fixed: false,
@@ -145,72 +153,74 @@ export default {
   },
   computed: {
     items: {
-      get(){
+      get() {
         return [
           {
-            icon: 'house.svg',
-            title: this.$t('sidebar.dashboard'),
-            has_child: true,
-            to: this.localePath('/'),
-            child: [
-              {
-                title: this.$t('sidebar.analytics'),
-                to: this.localePath('/analytics'),
-              },
-            ]
-          },
-          {
-            icon: 'user.svg',
-            title: this.$t('sidebar.userManagement'),
-            to: this.localePath('/user-management'),
+            icon: ['models.svg', "models-active.svg"],
+            title: this.$t('sidebar.models'),
+            to: this.localePath('/models'),
             has_child: false,
           },
           {
-            icon: 'localization.svg',
-            title: this.$t('sidebar.localization'),
-            to: this.localePath('/localization'),
-            has_child: false,
-          },
-          {
-            icon: 'prefinances.svg',
-            title: this.$t('sidebar.prefinances'),
+            icon: ['calculation.svg', "calculation-active.svg"],
+            title: this.$t('sidebar.calculations'),
             to: this.localePath('/prefinances'),
             has_child: false,
           },
           {
-            icon: 'lock.svg',
-            title: this.$t('sidebar.fraudManagement'),
-            to: this.localePath('/fraud-devices'),
+            icon: ['orders.svg', "orders-active.svg"],
+            title: this.$t('sidebar.orders'),
+            to: this.localePath('/orders'),
+            has_child: false,
+          },
+          {
+            icon: ['planning.svg', "planning-active.svg"],
+            title: this.$t('sidebar.planning'),
+            to: this.localePath('/planning'),
             has_child: true,
             child: [
               {
-                title: this.$t('sidebar.devices'),
-                to: this.localePath('/fraud-devices'),
+                title: this.$t('sidebar.fabric'),
+                to: this.localePath('/fabric'),
               },
               {
-                title: this.$t('sidebar.users'),
-                to: this.localePath('/fraud-users'),
+                title: this.$t('sidebar.accessory'),
+                to: this.localePath('/accessory'),
               },
             ]
           },
           {
-            icon: 'access.svg',
-            title: this.$t('sidebar.accessControl'),
-            to: this.localePath('/permission'),
+            icon: ['warehouse.svg', "warehouse-active.svg"],
+            title: this.$t('sidebar.warehouse'),
+            to: this.localePath('/warehouse'),
+            has_child: false,
+          },
+          {
+            icon: ['production.svg', 'production-active.svg'],
+            title: this.$t('sidebar.production'),
+            to: this.localePath('/production'),
             has_child: true,
             child: [
               {
-                title: this.$t('sidebar.permission'),
-                to: this.localePath('/permission'),
-              },
-              {
-                title: this.$t('sidebar.role'),
-                to: this.localePath('/role'),
+                title: this.$t('sidebar.planningOfProduction'),
+                to: this.localePath('/planning-production'),
               },
             ]
           },
           {
-            icon: 'billing.svg',
+            icon: ['shipping.svg', "shipping-active.svg"],
+            title: this.$t('sidebar.shipping'),
+            to: this.localePath('/shipping'),
+            has_child: false,
+          },
+          {
+            icon: ['report.svg', "report-active.svg"],
+            title: this.$t('sidebar.report'),
+            to: this.localePath('/report'),
+            has_child: false,
+          },
+          {
+            icon: ['billing.svg', "billing-active.svg"],
             title: this.$t('sidebar.billing'),
             to: this.localePath('/billing'),
             has_child: true,
@@ -226,23 +236,7 @@ export default {
             ]
           },
           {
-            icon: 'file.svg',
-            title: this.$t('sidebar.lists'),
-            to: this.localePath('/models'),
-            has_child: true,
-            child: [
-              {
-                title: this.$t('sidebar.models'),
-                to: this.localePath('/models'),
-              },
-              {
-                title: this.$t('sidebar.orders'),
-                to: this.localePath('/orders'),
-              },
-            ]
-          },
-          {
-            icon: 'catalog.svg',
+            icon: ['catalogs.svg', 'catalogs-active.svg'],
             title: this.$t('sidebar.catalogs'),
             to: this.localePath('/partner'),
             has_child: true,
@@ -310,37 +304,45 @@ export default {
             ]
           },
           {
-            icon: 'planning.svg',
-            title: this.$t('sidebar.planning'),
-            to: this.localePath('/planning'),
+            icon: ['settings.svg', "settings-active.svg"],
+            title: this.$t('sidebar.settings'),
+            to: this.localePath('/billing'),
             has_child: true,
             child: [
               {
-                title: this.$t('sidebar.fabric'),
-                to: this.localePath('/fabric'),
+                icon: 'user.svg',
+                title: this.$t('sidebar.userManagement'),
+                to: this.localePath('/user-management'),
+                has_child: false,
               },
               {
-                title: this.$t('sidebar.accessory'),
-                to: this.localePath('/accessory'),
+                icon: 'localization.svg',
+                title: this.$t('sidebar.localization'),
+                to: this.localePath('/localization'),
+                has_child: false,
               },
-            ]
-          },
-          {
-            icon: 'prod2.svg',
-            title: this.$t('sidebar.production'),
-            to: this.localePath('/production'),
-            has_child: true,
-            child: [
               {
-                title: this.$t('sidebar.planningOfProduction'),
-                to: this.localePath('/planning-production'),
+                title: this.$t('sidebar.permission'),
+                to: this.localePath('/permission'),
+              },
+              {
+                title: this.$t('sidebar.role'),
+                to: this.localePath('/role'),
+              },
+              {
+                title: this.$t('sidebar.devices'),
+                to: this.localePath('/fraud-devices'),
+              },
+              {
+                title: this.$t('sidebar.users'),
+                to: this.localePath('/fraud-users'),
               },
             ]
           },
         ]
       }
     },
-    availableLocales () {
+    availableLocales() {
       return this.$i18n.locales.filter(i => i.code !== this.$i18n.locale)
     },
     ...mapGetters({
@@ -348,10 +350,10 @@ export default {
     })
   },
   methods: {
-    clickShowLang(){
+    clickShowLang() {
       this.active = !this.active;
     },
-    onClickOutsideStandard(){
+    onClickOutsideStandard() {
       this.active = false;
     },
     getSearch() {
@@ -365,4 +367,4 @@ export default {
 }
 </script>
 
-<style lang="scss" src="assets/abstracts/_sidebar.scss" />
+<style lang="scss" src="assets/abstracts/_sidebar.scss"/>
