@@ -6,11 +6,15 @@ export default {
   to: "Gacha",
   update: "Yangilash",
   sidebar: {
+    settings: 'Sozlamalar',
+    report: 'Hisobot',
+    warehouse: 'Ombor',
+    shipping: 'Yetkazib berish',
     dashboard: "Boshqaruv paneli",
     analytics: "Analitika",
     userManagement: "Foydalanuvchi boshqaruvi",
     localization: "Mahalliylashtirish",
-    prefinances: "Oldindan moliyalashtirish",
+    calculations: "Hisob-kitob",
     fraudManagement: "Firibgarlikni boshqarish",
     devices: "Qurilmalar",
     users: "Foydalanuvchilar",
@@ -202,7 +206,7 @@ export default {
       },
     },
     dialog: {
-      refinanceNumber: "Qayta moliyalash raqami",
+      refinanceNumber: "Hisoblash raqami",
       modelN: "Model №",
       partner: "Hamkor",
       reset: "Qayta o'rnatish",
@@ -788,6 +792,7 @@ export default {
       updatedAt: "Yangilangan",
       actions: "Amallar",
     },
+
 
     dialog: {
       menuName: "Hamkorlik turi",

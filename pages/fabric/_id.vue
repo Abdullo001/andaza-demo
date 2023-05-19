@@ -349,6 +349,9 @@ import FabricPlanningChart from "../../components/Fabric/PlanningChart.vue"
 import FabricOrdered from "../../components/Fabric/Ordered.vue"
 import FabricSupplyFabric from "../../components/Fabric/Ordered.vue"
 import FabricOrder from "../../components/Fabric/Order.vue"
+import FabricCalculation from "../../components/Fabric/Calculation.vue"
+import FabricPlannedOrder from "../../components/Fabric/PlannedOrder.vue"
+import Documents from "../../components/Documents.vue"
 
 export default {
   name: 'FabricPlanningDynamicPage',
@@ -357,7 +360,10 @@ export default {
     FabricPlanningChart,
     FabricOrdered,
     FabricSupplyFabric,
-    FabricOrder
+    FabricOrder,
+    FabricCalculation,
+    FabricPlannedOrder,
+    Documents
   },
   data() {
     return {

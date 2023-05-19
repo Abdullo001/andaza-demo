@@ -176,6 +176,7 @@
 import {mapActions, mapGetters} from "vuex";
 
 export default {
+  name: 'OrdersPage',
   data() {
     return {
       itemPrePage: 10,

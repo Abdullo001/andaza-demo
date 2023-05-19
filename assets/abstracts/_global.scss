@@ -94,3 +94,28 @@ html, body .v-application {
 .picker-color > .el-input__prefix {
   color: #000;
 }
+
+
+.base.theme--light.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state) > .v-input__control > .v-input__slot fieldset {
+  color: rgba(0, 0, 0, 0.38);
+  background: #F8F4FE;
+  border: 0;
+}
+
+.filter.theme--light.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state) > .v-input__control > .v-input__slot fieldset {
+  color: #A5A7AD;
+  background: #FFFFFF;
+  border: 1px solid #D2D3D6;
+  border-radius: 6px;
+}
+
+.label {
+  font-family: sans-serif, 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: #1D2433;
+  margin-bottom: 6px;
+}
+

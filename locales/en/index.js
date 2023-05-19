@@ -6,11 +6,15 @@ export default {
   to: "To",
   update: "Update",
   sidebar: {
+    settings: 'Settings',
+    report: 'Report',
+    warehouse: 'Warehouse',
+    shipping: 'Shipping',
     dashboard: "Dashboard",
     analytics: "Analytics",
     userManagement: "User management",
     localization: "Localization",
-    prefinances: "Prefinances",
+    calculations: "Calculations",
     fraudManagement: "Fraud management",
     devices: "Devices",
     users: "Users",
@@ -111,6 +115,7 @@ export default {
   localization: {
     dialog: {
       key: "Key",
+      placeholderKey: "Enter key",
       message: "Message",
       reset: "Reset",
       search: "Search",
@@ -200,7 +205,7 @@ export default {
       },
     },
     dialog: {
-      refinanceNumber: "Refinance number",
+      refinanceNumber: "Calculation number",
       modelN: "Model №",
       partner: "Partner",
       reset: "Reset",
@@ -1044,6 +1049,7 @@ export default {
         deleteBtn: "Delete",
       },
     },
+
   },
 
   partners: {
