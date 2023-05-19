@@ -10,7 +10,7 @@ export default {
     analytics: "Analitika",
     userManagement: "Foydalanuvchi boshqaruvi",
     localization: "Mahalliylashtirish",
-    prefinances: "Oldindan moliyalashtirish",
+    calculations: "Hisob-kitob",
     fraudManagement: "Firibgarlikni boshqarish",
     devices: "Qurilmalar",
     users: "Foydalanuvchilar",
@@ -741,7 +741,7 @@ export default {
       reset: "Qayta tiklash",
       search: "Qidirish",
     },
-  
+
     table: {
       id: "Id",
       name: "Ism",
@@ -777,7 +777,7 @@ export default {
       reset: "Qayta tiklash",
       search: "Qidirish",
     },
-  
+
     table: {
       id: "Id",
       name: "Ism",
@@ -786,7 +786,7 @@ export default {
       updatedAt: "Yangilangan",
       actions: "Amallar",
     },
-  
+
 
     dialog: {
       menuName: "Hamkorlik turi",
@@ -814,7 +814,7 @@ export default {
       reset: "Qayta tiklash",
       search: "Qidirish",
     },
-  
+
     table: {
       id: "Id",
       name: "Ism",
@@ -850,7 +850,7 @@ export default {
       reset: "Qayta tiklash",
       search: "Qidirish",
     },
-  
+
     table: {
       id: "Id",
       name: "Ism",
@@ -859,10 +859,8 @@ export default {
       updatedAt: "Yangilangan",
       actions: "Amallar",
     },
-  
-    dialog: {
-      
 
+    dialog: {
       menuName: "O'lchov birligi",
       addMainName: "O'lchov birligi yaratish",
       name: "Nomi",
@@ -888,7 +886,7 @@ export default {
       reset: "Qayta tiklash",
       search: "Qidirish",
     },
-  
+
     table: {
       id: "Id",
       name: "Ism",
@@ -897,23 +895,8 @@ export default {
       updatedAt: "Yangilangan",
       actions: "Amallar",
     },
-  
-    dialog: {
-      menuName: "package type",
-      addMainName: "Create package type",
-      name: "Name",
-      enterMainName: "Enter name package type",
-      description: "Description",
-      descriptionPlacholder: "Enter package type description",
-      cancelBtn: "Cancel",
-      createBtn: "Create",
-      editDialog: "Edit package type",
-      editBtn: "Save",
-      deleteDialog: "Delete package type",
-      deleteText: "Are you sure you want to Delete this package type?",
-      deleteBtn: "Delete",
 
-      
+    dialog: {
       menuName: "Qadoq turi",
       addMainName: "Qadoq turi yaratish",
       name: "Nomi",

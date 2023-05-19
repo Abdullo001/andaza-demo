@@ -10,7 +10,7 @@ export default {
     analytics: "Analytics",
     userManagement: "User management",
     localization: "Localization",
-    prefinances: "Prefinances",
+    calculations: "Calculations",
     fraudManagement: "Fraud management",
     devices: "Devices",
     users: "Users",
@@ -111,6 +111,7 @@ export default {
   localization: {
     dialog: {
       key: "Key",
+      placeholderKey: "Enter key",
       message: "Message",
       reset: "Reset",
       search: "Search",
@@ -737,7 +738,7 @@ deleteTitle: 'Delete Item',
       reset: "Reset",
       search: "Search",
     },
-  
+
     table: {
       id: "Id",
       name: "Name",
@@ -746,7 +747,7 @@ deleteTitle: 'Delete Item',
       updatedAt: "Updated At",
       actions: "Actions",
     },
-  
+
     dialog: {
       menuName: "Body parts",
       addMainName: "Create Body Part",
@@ -773,7 +774,7 @@ deleteTitle: 'Delete Item',
       reset: "Reset",
       search: "Search",
     },
-  
+
     table: {
       id: "Id",
       name: "Name",
@@ -782,7 +783,7 @@ deleteTitle: 'Delete Item',
       updatedAt: "Updated At",
       actions: "Actions",
     },
-  
+
     dialog: {
       menuName: "cooperation type",
       addMainName: "Create Cooperation Type",
@@ -809,7 +810,7 @@ deleteTitle: 'Delete Item',
       reset: "Reset",
       search: "Search",
     },
-  
+
     table: {
       id: "Id",
       name: "Name",
@@ -818,7 +819,7 @@ deleteTitle: 'Delete Item',
       updatedAt: "Updated At",
       actions: "Actions",
     },
-  
+
     dialog: {
       menuName: "Expense group",
       addMainName: "Create Expense group",
@@ -845,7 +846,7 @@ deleteTitle: 'Delete Item',
       reset: "Reset",
       search: "Search",
     },
-  
+
     table: {
       id: "Id",
       name: "Name",
@@ -854,7 +855,7 @@ deleteTitle: 'Delete Item',
       updatedAt: "Updated At",
       actions: "Actions",
     },
-  
+
     dialog: {
       menuName: "measurement unit",
       addMainName: "Create measurement unit",
@@ -881,7 +882,7 @@ deleteTitle: 'Delete Item',
       reset: "Reset",
       search: "Search",
     },
-  
+
     table: {
       id: "Id",
       name: "Name",
@@ -890,7 +891,7 @@ deleteTitle: 'Delete Item',
       updatedAt: "Updated At",
       actions: "Actions",
     },
-  
+
     dialog: {
       menuName: "package type",
       addMainName: "Create package type",
@@ -921,7 +922,7 @@ deleteTitle: 'Delete Item',
       menuName: "catalog groups",
       addMainName: " Catalog group",
     },
-  
+
     table: {
       id: "Id",
       name: "Group name",
@@ -971,7 +972,7 @@ deleteTitle: 'Delete Item',
         actions:"Actions",
       },
     },
-  
+
   },
 
 

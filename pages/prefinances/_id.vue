@@ -554,10 +554,11 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import DefaultLayout from "@/layouts/default.vue";
+import Breadcrumbs from "../../components/Breadcrumbs.vue";
 
 export default {
   name: 'CreatePreFinancePage',
-  components: {DefaultLayout},
+  components: {Breadcrumbs, DefaultLayout},
   data() {
     return {
       hide_calc: true,

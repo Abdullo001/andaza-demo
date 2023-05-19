@@ -10,7 +10,7 @@ export default {
     analytics: "Аналитика",
     userManagement: "Управление пользователями",
     localization: "Локализация",
-    prefinances: "Предварительные финансы",
+    calculations: "Расчеты",
     fraudManagement: "Борьба с мошенничеством",
     devices: "Устройства",
     users: "Пользователи",
@@ -727,7 +727,7 @@ export default {
 
     },
   },
-  
+
     deleteTitle: 'Удалить пункт',
   deleteContent: 'Вы уверены, что хотите удалить этот элемент ?',
 
@@ -741,7 +741,7 @@ export default {
       reset: "Перезагрузить",
       search: "Поиск",
     },
-  
+
     table: {
       id: "Ид",
       name: "Имя",
@@ -750,9 +750,9 @@ export default {
       updatedAt: "Обновлено в",
       actions: "Действия",
     },
-  
+
     dialog: {
-      
+
       menuName: "части тела ",
       addMainName: "Создать части тела",
       name: "Имя",
@@ -766,7 +766,7 @@ export default {
       cancelBtn: "Отмена",
       createBtn: "Создавать",
       deleteBtn: "Удалить",
-  
+
     },
   },
 
@@ -779,7 +779,7 @@ export default {
       reset: "Перезагрузить",
       search: "Поиск",
     },
-  
+
     table: {
       id: "Ид",
       name: "Имя",
@@ -788,9 +788,9 @@ export default {
       updatedAt: "Обновлено в",
       actions: "Действия",
     },
-  
+
     dialog: {
-      
+
       menuName: "тип сотрудничества ",
       addMainName: "Создать тип сотрудничества",
       name: "Имя",
@@ -804,7 +804,7 @@ export default {
       cancelBtn: "Отмена",
       createBtn: "Создавать",
       deleteBtn: "Удалить",
-  
+
     },
   },
 
@@ -817,7 +817,7 @@ export default {
       reset: "Перезагрузить",
       search: "Поиск",
     },
-  
+
     table: {
       id: "Ид",
       name: "Имя",
@@ -826,7 +826,7 @@ export default {
       updatedAt: "Обновлено в",
       actions: "Действия",
     },
-  
+
     dialog: {
 
       menuName: "группа расходов ",
@@ -854,7 +854,7 @@ export default {
       reset: "Перезагрузить",
       search: "Поиск",
     },
-  
+
     table: {
       id: "Ид",
       name: "Имя",
@@ -891,7 +891,7 @@ export default {
       reset: "Перезагрузить",
       search: "Поиск",
     },
-  
+
     table: {
       id: "Ид",
       name: "Имя",
@@ -900,8 +900,8 @@ export default {
       updatedAt: "Обновлено в",
       actions: "Действия",
     },
-  
-    
+
+
 
     dialog: {
 
@@ -934,7 +934,7 @@ export default {
       menuName: "catalog groups",
       addMainName: " Catalog group",
     },
-  
+
     table: {
       id: "Id",
       name: "Group name",
@@ -984,7 +984,7 @@ export default {
         actions:"Actions",
       },
     },
-  
+
   },
 
 
