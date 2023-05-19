@@ -626,13 +626,8 @@ export default {
       enterOverproduction: "Enter Overproduction",
     },
   },
-<<<<<<< HEAD
+
   catalogsPartnerType: {
-=======
-
-
- catalogsPartnerType: {
->>>>>>> fb4c9c369afebb6dc2def10a7d4466f9b499ff0d
     child: {
       idPartnerType: "Id partner type",
       namePartnerType: "Name partner type",
@@ -664,10 +659,7 @@ export default {
       deleteBtn: "Delete",
     },
   },
-<<<<<<< HEAD
-=======
 
->>>>>>> fb4c9c369afebb6dc2def10a7d4466f9b499ff0d
   catalogsModelGroup: {
     child: {
       idPartnerType: "Id model group",
@@ -701,10 +693,7 @@ export default {
       deleteBtn: "Delete",
     },
   },
-<<<<<<< HEAD
-=======
 
->>>>>>> fb4c9c369afebb6dc2def10a7d4466f9b499ff0d
   samplePurposes: {
     child: {
       idSearch: "Id sample purpose",
@@ -740,7 +729,7 @@ export default {
       deleteBtn: "Delete",
     },
   },
-<<<<<<< HEAD
+
   deleteTitle: "Delete Item",
   deleteContent: "Are you sure you want to delete this item ?",
 
@@ -979,7 +968,7 @@ export default {
 
       table: {
         id: "Id",
-        name:"Name",
+        name: "Name",
         code: "Catalog group code",
         groupName: "Catalog group name",
         description: "Description",
@@ -1027,7 +1016,7 @@ export default {
       dialogs: {
         create: "Create Yarn Number",
         select: "Select yarn number",
-       
+
         description: "Description",
         enterDescription: "Enter description",
         cancelBtn: "Cancel",
@@ -1043,7 +1032,7 @@ export default {
       dialogs: {
         create: "Create composition",
         select: "Select composition",
-       
+
         description: "Description",
         enterDescription: "Enter description",
         cancelBtn: "Cancel",
@@ -1057,107 +1046,102 @@ export default {
     },
   },
 
-  partners:{
-    child:{
-      pNumber:"Phone number",
-      pNumberEnter:"Enter phone number",
-      pNameEnter:"Enter partner name",
-      pName:"Partner name",
-      pEmail:"Partner email",
-      pEmailEnter:"Enter partner email",
+  partners: {
+    child: {
+      pNumber: "Phone number",
+      pNumberEnter: "Enter phone number",
+      pNameEnter: "Enter partner name",
+      pName: "Partner name",
+      pEmail: "Partner email",
+      pEmailEnter: "Enter partner email",
 
-      status:"Status",
-      reset:"Reset",
-      search:"Search"
+      status: "Status",
+      reset: "Reset",
+      search: "Search",
     },
 
-    table:{
-      mainMenu:"Partners",
-      id:"Id",
-      name:"Name",
-      address:"Addres",
-      email:"Email",
-      partnerType:"Partner type",
-      pNumber:"Phone number",
-      status:"status",
-      createdAt:"Created at",
-      updatedAt:"Updated at",
-      actions:"Actions",
-
+    table: {
+      mainMenu: "Partners",
+      id: "Id",
+      name: "Name",
+      address: "Addres",
+      email: "Email",
+      partnerType: "Partner type",
+      pNumber: "Phone number",
+      status: "status",
+      createdAt: "Created at",
+      updatedAt: "Updated at",
+      actions: "Actions",
     },
 
-    dialog:{
-      addPartner:"Add partner",
-      pName:"Partner name",
-      pNameText:"Enter partner name",
-      pType:"Partner type",
-      pTypeText:"Select partner type",
-      pNumber:"Phone number",
-      email:"Email",
-      emailText:"Enter email",
-      addres:"Addres",
-      addresText:"Enter addres",
-      contractNumber:"Contract number",
-      contractNumberText:"Enter contract number",
-      download:"Download",
-      created:"Created",
-      status:"Status",
+    dialog: {
+      addPartner: "Add partner",
+      pName: "Partner name",
+      pNameText: "Enter partner name",
+      pType: "Partner type",
+      pTypeText: "Select partner type",
+      pNumber: "Phone number",
+      email: "Email",
+      emailText: "Enter email",
+      addres: "Addres",
+      addresText: "Enter addres",
+      contractNumber: "Contract number",
+      contractNumberText: "Enter contract number",
+      download: "Download",
+      created: "Created",
+      status: "Status",
 
-      uploadContract:"Upload contract",
-      uploadFiles:"Upload Files...",
+      uploadContract: "Upload contract",
+      uploadFiles: "Upload Files...",
 
-      create:"Created",
-      cancel:"Cancel",
+      create: "Created",
+      cancel: "Cancel",
 
-      editPartner:"Edit Partner",
-      save:"Save",
+      editPartner: "Edit Partner",
+      save: "Save",
 
-      deleteDialog:"Delete Partners",
-      deleteText:"Are you sure you want to Delete this partners?",
-      delete:"Delete",
-
-    }
+      deleteDialog: "Delete Partners",
+      deleteText: "Are you sure you want to Delete this partners?",
+      delete: "Delete",
+    },
   },
 
-  sizeTemplate:{
-    child:{
-      idSize:"Id size",
-      sizeName:"Size name",
-      created:"Created",
-      Updated:"Updated",
-      reset:"reset",
-      search:"search",
+  sizeTemplate: {
+    child: {
+      idSize: "Id size",
+      sizeName: "Size name",
+      created: "Created",
+      Updated: "Updated",
+      reset: "reset",
+      search: "search",
     },
 
-    table:{
-      mainMenu:"size template",
-      addSizeTemplate:"Add Size Template",
-      id:"id",
-      sizes:"Sizes",
-      isTem:"is Template",
-      isRoman:"is Roman",
-      createdAt:"Created At",
-      updatedAt:"Updated at",
-      actions:"Actions",
+    table: {
+      mainMenu: "size template",
+      addSizeTemplate: "Add Size Template",
+      id: "id",
+      sizes: "Sizes",
+      isTem: "is Template",
+      isRoman: "is Roman",
+      createdAt: "Created At",
+      updatedAt: "Updated at",
+      actions: "Actions",
     },
 
-    dialog:{
-      addSizeTemp:"Add Size Template",
-      roman:"Roman",
-      template:"Template",
-      size:"size",
-      selectSize:"Select size",
-      addSize:"Add size",
-      enterAddsize:"Enter add size",
-      cancel:"Cancal",
-      add:"Add",
-      sava:"Save",
-      deleteDialog:"Delete Size",
-      deleteText:"Are you sure you want to Delete this size?",
-      delete:"Delete"
-
-    }
-  }
-=======
->>>>>>> fb4c9c369afebb6dc2def10a7d4466f9b499ff0d
+    dialog: {
+      addSizeTemp: "Add Size Template",
+      roman: "Roman",
+      template: "Template",
+      size: "size",
+      selectSize: "Select size",
+      addSize: "Add size",
+      enterAddsize: "Enter add size",
+      cancel: "Cancal",
+      add: "Add",
+      sava: "Save",
+      deleteDialog: "Delete Size",
+      deleteText: "Are you sure you want to Delete this size?",
+      delete: "Delete",
+    },
+  },
 };
