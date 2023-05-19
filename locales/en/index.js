@@ -6,6 +6,10 @@ export default {
   to: "To",
   update: "Update",
   sidebar: {
+    settings: 'Settings',
+    report: 'Report',
+    warehouse: 'Warehouse',
+    shipping: 'Shipping',
     dashboard: "Dashboard",
     analytics: "Analytics",
     userManagement: "User management",
@@ -201,7 +205,7 @@ export default {
       },
     },
     dialog: {
-      refinanceNumber: "Refinance number",
+      refinanceNumber: "Calculation number",
       modelN: "Model №",
       partner: "Partner",
       reset: "Reset",

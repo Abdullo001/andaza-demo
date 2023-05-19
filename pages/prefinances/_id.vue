@@ -4,7 +4,7 @@
     <v-card elevation="0" class="mt-2 rounded-lg">
       <v-card-title>
         <div class="text-capitalize">
-           {{ $t('prefinances.child.prefinance') }}
+           {{ $t('sidebar.calculations') }}
           <v-chip
             color="#10BF41"
             class="text-capitalize ml-5 font-weight-bold"
@@ -33,7 +33,7 @@
               class="rounded-lg"
               color="#7631FF"
               dense
-              :label="$t('prefinances.child.prefinanceNumber')"
+              :label="$t('prefinances.dialog.refinanceNumber')"
               :placeholder="$t('prefinances.child.enterPrefinanceNumber')"
               v-model="addPreFinances.preFinanceNumber"
               disabled

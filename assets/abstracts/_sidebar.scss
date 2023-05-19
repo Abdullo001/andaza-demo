@@ -42,9 +42,7 @@
   //border: 1px solid #7631FF;
   //background-color: #fff;
 }
-.transparent {
-  background-color: transparent !important;
-}
+
 .v-list-item__icon.v-list-group__header__prepend-icon > .v-list-item__title {
   color: #7631ff !important;
 }
@@ -119,10 +117,8 @@ a {
   border-radius: 50%;
   margin-right: 8px;
 }
-a > .child-link.v-list-item--active {
-  background: #FFFFFF!important;
-  color: #FFFFFF !important;
-  &.v-list-item__title {
-    color: #7631ff !important;
-  }
+a.child-link.v-list-item--active {
+  background: #FFFFFF !important;
+  color: #7631ff !important;
 }
+
