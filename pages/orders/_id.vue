@@ -331,7 +331,7 @@
       <v-tabs v-model="tab">
         <v-tabs-slider color="#7631FF"/>
         <v-tab
-          class="text-capitalize"
+          class="text-capitalize primary-color"
           v-for="item in items"
           :key="item"
           active-class="active-tab"
@@ -573,7 +573,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .active-tab {
   font-style: normal;
   font-weight: 500;
@@ -604,4 +604,5 @@ export default {
     }
   }
 }
+
 </style>

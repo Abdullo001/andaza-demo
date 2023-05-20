@@ -1054,6 +1054,7 @@ export default {
       await this.createPreFinance(this.addPreFinances);
     },
     deleteRow(item, index) {
+      console.log(item,index);
     }
   },
   mounted() {
