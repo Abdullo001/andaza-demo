@@ -23,7 +23,7 @@ export const actions = {
     await this.$axios
       .get(`/api/v1/orders/detail-info?orderId=${orderId}&modelId=${modelId}`)
       .then((res) => {
-        console.log(res);
+        
         commit("setDetailInfo", res.data);
       })
       .catch(({ response }) => {
