@@ -21,7 +21,7 @@
                 :search-input.sync="modelSearch"
                 item-text="modelNumber"
                 item-value="modelNumber"
-                v-on:keyup.enter="(evt) => searchSubcontracts(evt)"
+                @keyup.enter="(evt) => searchSubcontracts(evt)"
                 filled
                 hide-details
                 class="rounded-lg d-flex align-center justify-center"
@@ -29,18 +29,13 @@
                 color="#7631FF"
                 dense
                 placeholder="Enter responsible person"
-                prepend-icon=""
               >
                 <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF"
-                    >mdi-magnify</v-icon
-                  >
+                  <v-icon class="d-inline-block" color="#7631FF">mdi-magnify</v-icon>
                 </template>
               </v-combobox>
             </div>
-
             <v-spacer />
-
             <v-btn
               class="rounded-lg text-capitalize"
               color="#7631FF"
@@ -300,7 +295,7 @@
                 dark
                 width="163"
                 @click="updateSubcontractsView"
-                >save
+                >{{ $t('update') }}
               </v-btn>
             </v-card-actions>
           </v-form>

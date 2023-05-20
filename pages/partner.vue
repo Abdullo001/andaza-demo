@@ -220,7 +220,7 @@
             width="163"
             @click="editPartnerType"
           >
-            {{ $t("catalogsPartnerType.dialog.editBtn") }}
+            {{ $t("update") }}
           </v-btn>
         </v-card-actions>
       </v-card>

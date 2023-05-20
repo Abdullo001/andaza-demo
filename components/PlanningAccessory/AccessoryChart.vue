@@ -40,7 +40,7 @@
         </div>
       </template>
     </v-data-table>
-    
+
     <v-dialog v-model="new_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
@@ -317,7 +317,7 @@
             width="163"
             @click="update"
           >
-            save
+            {{ $t('update') }}
           </v-btn>
         </v-card-actions>
       </v-card>

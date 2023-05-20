@@ -241,7 +241,7 @@
             color="#7631FF" dark
             width="163"
           >
-            create
+            {{ $t('update') }}
           </v-btn>
         </v-card-actions>
       </v-card>

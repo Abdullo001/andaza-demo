@@ -225,7 +225,7 @@
           height="44"
           dark
           @click="updateModels"
-        >{{ $t('listsModels.child.save') }}
+        >{{ $t('update') }}
         </v-btn>
       </v-card-actions>
     </v-card>

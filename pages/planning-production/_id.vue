@@ -232,7 +232,7 @@
           class="font-weight-bold rounded-lg"
           dark @click="savePlanning"
         >
-          {{ $t('planningProduction.dialog.save') }}
+          {{ $route.params.id === 'create' ? $t('save') : $t('update') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -254,10 +254,11 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import ProductionPlanningComponent from "../../components/Production/Planning.vue";
+import Breadcrumbs from "@/components/Breadcrumbs.vue";
 
 export default {
   name: 'ProductionOfPlanningPage',
-  components: {ProductionPlanningComponent},
+  components: {Breadcrumbs, ProductionPlanningComponent},
   data() {
     return {
       title: "Add",
