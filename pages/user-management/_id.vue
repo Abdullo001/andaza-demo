@@ -30,7 +30,7 @@
       <v-card-text>
         <v-row>
           <v-col>
-            <div class="mb-2 text-body-1">{{ $t('userManagement.child.photo') }}</div>
+            <div class="label">{{ $t('userManagement.child.photo') }}</div>
             <div class="overlay" @click="handleFileImport">
               <v-img :src="one_user.photo" class="rounded-lg mb-4" width="120"/>
               <v-icon
@@ -46,20 +46,24 @@
                 accept="image/*"
               />
             </div>
-            <div class="mb-1 text-body-1">{{ $t('userManagement.child.username') }}</div>
+            <div class="label">{{ $t('userManagement.child.username') }}</div>
             <v-text-field
               v-model="one_user.username"
-              filled
+              outlined
+              class="base rounded-lg"
               dense
+              height="44"
               clearable
               style="max-width: 400px"
               :disabled="fields_status"
             />
-            <div class="mb-2 text-body-1">{{ $t('userManagement.child.lang') }}</div>
+            <div class="label">{{ $t('userManagement.child.lang') }}</div>
             <v-select
               :items="lang_list"
               v-model="one_user.lang" append-icon="mdi-chevron-down"
-              filled
+              outlined
+              height="44"
+              class="base rounded-lg"
               dense
               clearable
               :disabled="fields_status"
@@ -76,61 +80,75 @@
             </v-select>
           </v-col>
           <v-col>
-            <div class="mb-2 text-body-1">ID</div>
+            <div class="label">ID</div>
             <v-text-field
-              filled
+              outlined
+              class="base rounded-lg"
               v-model="one_user.id"
               dense
+              height="44"
               disabled
               style="max-width: 400px"
             />
-            <div class="mb-1 text-body-1">{{ $t('userManagement.child.lastName') }}</div>
+            <div class="label">{{ $t('userManagement.child.lastName') }}</div>
             <v-text-field
-              filled
+              outlined
+              class="base rounded-lg"
               v-model="one_user.lastName"
               dense
+              height="44"
               :disabled="fields_status"
               style="max-width: 400px"
             />
-            <div class="mb-2 text-body-1">{{ $t('userManagement.child.eMail') }}</div>
+            <div class="label">{{ $t('userManagement.child.eMail') }}</div>
             <v-text-field
-              filled
+              outlined
+              class="base rounded-lg"
               v-model="one_user.email"
               dense
+              height="44"
               :disabled="fields_status"
               style="max-width: 400px"
             />
-            <div class="mb-2 text-body-1">{{ $t('userManagement.child.registeredDate') }}</div>
+            <div class="label">{{ $t('userManagement.child.registeredDate') }}</div>
             <v-text-field
-              filled
+              outlined
+              class="base rounded-lg"
               v-model="one_user.registeredDate"
               dense
+              height="44"
               disabled
               style="max-width: 400px"
             />
           </v-col>
           <v-col>
-            <div class="mb-2 text-body-1">{{ $t('userManagement.child.firstName') }}</div>
+            <div class="label">{{ $t('userManagement.child.firstName') }}</div>
             <v-text-field
-              filled
+              outlined
+              class="base rounded-lg"
               v-model="one_user.firstName"
               dense
+              height="44"
               :disabled="fields_status"
               style="max-width: 400px"
             />
-            <div class="mb-1 text-body-1">{{ $t('userManagement.child.phoneNumber') }}</div>
+            <div class="label">{{ $t('userManagement.child.phoneNumber') }}</div>
             <v-text-field
-              filled
+              outlined
+              class="base rounded-lg"
               v-model="one_user.phoneNumber"
               dense
+              height="44"
               :disabled="fields_status"
               style="max-width: 400px"
             />
-            <div class="mb-2 text-body-1">{{ $t('userManagement.child.status') }}</div>
+            <div class="label">{{ $t('userManagement.child.status') }}</div>
             <v-select
-              filled
+              outlined
+              class="base rounded-lg"
               v-model="one_user.status"
               dense
+              height="44"
               :items="status_list"
               append-icon="mdi-chevron-down"
               disabled
@@ -156,8 +174,10 @@
 
 <script>
 import {mapGetters, mapActions} from "vuex";
+import Breadcrumbs from "../../components/Breadcrumbs.vue";
 
 export default {
+  components: {Breadcrumbs},
   data() {
     return {
       map_links: [

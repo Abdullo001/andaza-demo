@@ -12,7 +12,7 @@
               :label="$t('permissionControl.dialog.permissionName')"
               outlined
               v-model="filter_search.key"
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               @keyup.enter="filterPermission"
@@ -23,7 +23,7 @@
               :label="$t('permissionControl.dialog.permissionPath')"
               outlined
               v-model="filter_search.property_type"
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               append-icon="mdi-chevron-down"
@@ -37,7 +37,7 @@
               outlined
               :items="statusEnums"
               v-model="filter_search.status"
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               append-icon="mdi-chevron-down"
@@ -51,6 +51,7 @@
               type="datetime"
               v-model="filter_search.value"
               :placeholder="$t('from')"
+              class="filter_picker"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
             >
@@ -61,6 +62,7 @@
           >
             <el-date-picker
               type="datetime"
+              class="filter_picker"
               :placeholder="$t('to')"
               v-model="filter_search.value_to"
               :picker-options="pickerShortcuts"
@@ -157,9 +159,12 @@
           <v-form>
             <v-row class="mt-4">
               <v-col cols="12">
+                <div class="label">{{$t('permissionControl.dialog.permissionName')}}</div>
                 <v-text-field
-                  :label="$t('permissionControl.dialog.permissionName')"
-                  filled
+                  outlined
+                  height="44"
+                  hide-details
+                  class="rounded-lg base"
                   dense
                   v-model="new_permissionData.name"
                   color="#7631FF"
@@ -169,9 +174,11 @@
                 />
               </v-col>
               <v-col cols="12">
+                <div class="label">{{$t('permissionControl.dialog.description')}}</div>
                 <v-textarea
-                  :label="$t('permissionControl.dialog.description')"
-                  filled
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
                   dense
                   v-model="new_permissionData.description"
                   color="#7631FF"
@@ -181,9 +188,12 @@
                 />
               </v-col>
               <v-col cols="12">
+                <div class="label">{{$t('permissionControl.dialog.permissionPath')}}</div>
                 <v-text-field
-                  :label="$t('permissionControl.dialog.permissionPath')"
-                  filled
+                  outlined
+                  height="44"
+                  hide-details
+                  class="rounded-lg base"
                   dense
                   v-model="new_permissionData.path"
                   color="#7631FF"
@@ -228,9 +238,12 @@
           <v-form>
             <v-row class="mt-4">
               <v-col cols="12" md="6">
+                <div class="label">ID</div>
                 <v-text-field
-                  label="ID"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   dense
                   disabled
                   v-model="edit_permission.id"
@@ -240,9 +253,12 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">{{ $t('permissionControl.dialog.status') }}</div>
                 <v-select
-                  :label="$t('permissionControl.dialog.status')"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   dense
                   :items="statusEnums"
                   v-model="edit_permission.status"
@@ -253,9 +269,12 @@
                 />
               </v-col>
               <v-col cols="12">
+                <div class="label">{{ $t('permissionControl.dialog.permissionName') }}</div>
                 <v-text-field
-                  :label="$t('permissionControl.dialog.permissionName')"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   dense
                   v-model="edit_permission.name"
                   color="#7631FF"
@@ -264,11 +283,12 @@
                 />
               </v-col>
               <v-col cols="12">
+                <div class="label">{{ $t('permissionControl.dialog.description') }}</div>
                 <v-textarea
-                  :label="$t('permissionControl.dialog.description')"
-                  filled
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
                   dense
-                  rows="1"
                   v-model="edit_permission.description"
                   color="#7631FF"
                   :placeholder="$t('permissionControl.dialog.enterPermissionDescription')"
@@ -276,9 +296,12 @@
                 />
               </v-col>
               <v-col cols="12">
+                <div class="label">{{ $t('permissionControl.dialog.permissionPath') }}</div>
                 <v-text-field
-                  :label="$t('permissionControl.dialog.permissionPath')"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   dense
                   v-model="edit_permission.path"
                   color="#7631FF"

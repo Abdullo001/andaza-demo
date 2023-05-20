@@ -10,7 +10,7 @@
                 :label="$t('fraudUsers.dialog.accountId')"
                 outlined validate-on-blur
                 dense hide-details
-                class="rounded-lg"
+                class="rounded-lg filter"
               />
             </v-col>
             <v-col cols="12" lg="2" md="2">
@@ -20,7 +20,7 @@
                 :items="status_enums"
                 outlined dense hide-details
                 validate-on-blur
-                class="rounded-lg"
+                class="rounded-lg filter"
                 append-icon="mdi-chevron-down"
               />
             </v-col>
@@ -29,6 +29,7 @@
                 style="width: 100%;"
                 v-model="filter.from"
                 type="datetime"
+                class="filter_picker"
                 placeholder="From"
                 :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy HH:mm:ss"
@@ -39,6 +40,7 @@
               <el-date-picker
                 style="width: 100%;"
                 v-model="filter.to"
+                class="filter_picker"
                 type="datetime"
                 placeholder="To"
                 :picker-options="pickerShortcuts"
@@ -114,35 +116,52 @@
           <v-form ref="new_form">
             <v-row>
               <v-col cols="12" md="6">
+                <div class="label">Account ID</div>
                 <v-text-field
-                  filled
-                  label="Account ID"
+                  outlined
+                  hide-details
+                  height="44"
+                  dense
+                  class="rounded-lg base"
                   placeholder="Enter Account ID"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Blocked by</div>
                 <v-text-field
-                  filled
-                  label="Blocked by"
+                  outlined
+                  hide-details
+                  height="44"
+                  dense
+                  class="rounded-lg base"
                   placeholder="Enter Blocked by"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Status</div>
                 <v-select
-                  filled
-                  label="Status"
+                  outlined
+                  hide-details
+                  height="44"
+                  dense
+                  class="rounded-lg base"
                   placeholder="Select Status"
                   color="#7631FF"
                   append-icon="mdi-chevron-down"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Blocked date time</div>
                 <v-text-field
-                  filled
+                  placeholder="Enter blocked date time"
+                  outlined
+                  hide-details
+                  height="44"
+                  dense
+                  class="rounded-lg base"
                   disabled
-                  label="Blocked date time"
                   color="#7631FF"
                 >
                   <template #append>
@@ -151,10 +170,15 @@
                 </v-text-field>
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Unblocked date time</div>
                 <v-text-field
-                  filled
+                  placeholder="Enter unblocked date time"
+                  outlined
+                  hide-details
+                  height="44"
+                  dense
+                  class="rounded-lg base"
                   disabled
-                  label="Unblocked date time"
                   color="#7631FF"
                 >
                   <template #append>
