@@ -220,7 +220,7 @@
             width="163"
             @click="update"
           >
-            {{ $t("catalogsModelGroup.dialog.editBtn") }}
+            {{ $t("update") }}
           </v-btn>
         </v-card-actions>
       </v-card>

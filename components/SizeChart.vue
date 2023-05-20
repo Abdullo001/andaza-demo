@@ -73,7 +73,7 @@
         </v-toolbar>
       </template>
       <template #item.shrinkagePercent="{item}">
-        <div>{{item.shrinkagePercent}} %</div>
+        <div>{{ item.shrinkagePercent }} %</div>
       </template>
     </v-data-table>
     <v-divider/>
@@ -171,7 +171,7 @@
             width="140" height="40"
             @click="editChart"
           >
-            save
+            {{ $t('update') }}
           </v-btn>
           <v-spacer/>
         </v-card-actions>
