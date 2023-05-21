@@ -11,7 +11,7 @@
             <v-text-field
               :label="$t('planningProduction.dialog.planningId')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               v-model.trim="filters.id"
               hide-details
               dense
@@ -22,7 +22,7 @@
             <v-text-field
               :label="$t('planningProduction.dialog.name')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               v-model.trim="filters.name"
               hide-details
               dense
@@ -33,6 +33,7 @@
             <el-date-picker
               v-model="filters.createdAt"
               type="datetime"
+              class="filter_picker"
               :placeholder="$t('planningProduction.dialog.created')"
               :picker-options="pickerShortcuts"
               format="dd.MM.yyyy HH:mm:ss"
@@ -44,6 +45,7 @@
             <el-date-picker
               v-model="filters.updatedAt"
               type="datetime"
+              class="filter_picker"
               :placeholder="$t('planningProduction.dialog.update')"
               :picker-options="pickerShortcuts"
               format="dd.MM.yyyy HH:mm:ss"

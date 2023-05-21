@@ -30,46 +30,55 @@
       <v-card-text class="mt-4">
         <v-row>
           <v-col cols="12" lg="3" md="6">
-            <div class="mb-2 text-body-1">
-            {{$t('catalogGroups.addPage.groupCode')}}
-
-            </div>
+            <div class="label">{{$t('catalogGroups.addPage.groupCode')}}</div>
             <v-text-field
               v-model="catalogs_list.groupCode"
               :label="$t('catalogGroups.addPage.enterGroupCode')"
-              filled
-              class="mb-4"
+              outlined
+              hide-details
+              height="44"
+              dense
+              class="rounded-lg base"
               color="#7631FF"
             />
           </v-col>
           <v-col cols="12" lg="3" md="6">
-            <div class="mb-2 text-body-1">{{$t('catalogGroups.addPage.groupName')}}</div>
+            <div class="label">{{$t('catalogGroups.addPage.groupName')}}</div>
             <v-text-field
               v-model="catalogs_list.groupName"
               :label="$t('catalogGroups.addPage.enterGroupName')"
-
-              filled
-              class="mb-4"
+              outlined
+              hide-details
+              dense
+              height="44"
+              class="rounded-lg base"
               color="#7631FF"
             />
           </v-col>
           <v-col cols="12" lg="3" md="6">
-            <div class="mb-2 text-body-1">{{$t('catalogGroups.addPage.created')}}</div>
+            <div class="label">{{$t('catalogGroups.addPage.created')}}</div>
             <v-text-field
               v-model="catalogs_list.createdAt"
-              filled
+              outlined
+              hide-details
+              height="44"
               disabled
-              class="mb-4"
+              dense
+              placeholder="Enter created"
+              class="rounded-lg base"
               color="#7631FF"
             />
           </v-col>
           <v-col cols="12" lg="3" md="6">
-            <div class="mb-2 text-body-1">{{$t('catalogGroups.addPage.updated')}}</div>
+            <div class="label">{{$t('catalogGroups.addPage.updated')}}</div>
             <v-text-field
               v-model="catalogs_list.updatedAt"
-              filled
+              outlined
+              hide-details
+              height="44"
               disabled
-              class="mb-4"
+              placeholder="Enter update"
+              class="rounded-lg base"
               color="#7631FF"
             >
               <template #append>

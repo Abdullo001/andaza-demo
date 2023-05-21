@@ -13,7 +13,7 @@
               :label="$t('partners.child.pNumber')"
               :placeholder="$t('partners.child.pNumberEnter')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -25,7 +25,7 @@
               :label="$t('partners.child.pName')"
               :placeholder="$t('partners.child.pNameEnter')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -39,7 +39,7 @@
               dense
               :label="$t('partners.child.pEmail')"
               :placeholder="$t('partners.child.pEmailEnter')"
-              class="rounded-lg"
+              class="rounded-lg filter"
             />
           </v-col>
           <v-col cols="12" lg="2" md="2">
@@ -51,7 +51,7 @@
               hide-details
               dense
               :label="$t('partners.child.status')"
-              class="rounded-lg"
+              class="rounded-lg filter"
             />
           </v-col>
           <v-spacer />
@@ -156,106 +156,123 @@
           <v-form ref="new_form" lazy-validation v-model="validate">
             <v-row>
               <v-col cols="12" md="6">
+                <div class="label">{{$t('partners.dialog.pName')}}</div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="create_partner.name"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   dense
-                  :label="$t('partners.dialog.pName')"
                   :placeholder="$t('partners.dialog.pNameText')"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">{{$t('partners.dialog.pType')}}</div>
                 <v-select
                   :rules="[formRules.required]"
                   v-model="create_partner.typeId"
                   :items="partner_type"
                   item-text="name"
                   item-value="id"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   append-icon="mdi-chevron-down"
                   dense
-                  :label="$t('partners.dialog.pType')"
                   :placeholder="$t('partners.dialog.pTypeText')"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">{{$t('partners.dialog.pNumber')}}</div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="create_partner.phoneNumber"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   v-mask="'(##) ### ## ##'"
                   placeholder="(--) --- -- --"
                   prefix="+998"
                   dense
                   v-model.trim="create_partner.phoneNumber"
-                  :label="$t('partners.dialog.pNumber')"
-
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">{{$t('partners.dialog.email')}}</div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="create_partner.email"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   dense
-                  :label="$t('partners.dialog.email')"
                   :placeholder="$t('partners.dialog.emailText')"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">{{$t('partners.dialog.addres')}}</div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="create_partner.address"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   dense
-                  :label="$t('partners.dialog.addres')"
                   :placeholder="$t('partners.dialog.addresText')"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">{{$t('partners.dialog.contractNumber')}}</div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="create_partner.contractNumber"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   dense
-                  :label="$t('partners.dialog.contractNumber')"
                   :placeholder="$t('partners.dialog.contractNumberText')"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">{{$t('partners.dialog.created')}}</div>
                 <el-date-picker
                   :rules="[formRules.required]"
                   v-model="create_partner.contractDate"
                   style="width: 100%"
                   type="datetime"
                   :placeholder="$t('partners.dialog.created')"
-
                   :picker-options="pickerShortcuts"
                   value-format="dd.MM.yyyy HH:mm:ss"
-                  class="custom-picker2"
+                  class="base_picker"
                 >
                 </el-date-picker>
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">{{$t('partners.dialog.status')}}</div>
                 <v-select
                   :rules="[formRules.required]"
                   v-model="create_partner.status"
                   :items="statusEnums"
                   append-icon="mdi-chevron-down"
-                  filled
+                  outlined
                   hide-details
+                  height="44"
+                  class="rounded-lg base"
                   color="#7631FF"
                   dense
-                  :label="$t('partners.dialog.status')"
-
-                  class="rounded-lg"
                 />
               </v-col>
               <v-col cols="12">
@@ -316,7 +333,7 @@
             @click="new_dialog = false"
           >
           {{ $t('partners.dialog.cancel') }}
-            
+
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -346,98 +363,116 @@
           <v-form ref="edit_form" lazy-validation v-model="edit_validate">
             <v-row>
               <v-col cols="12" md="6">
+                <div class="label">{{$t('partners.dialog.pName')}}</div>
                 <v-text-field
                   v-model="edit_partner.name"
                   :rules="[formRules.required]"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   dense
-                  :label="$t('partners.dialog.pName')"
                   :placeholder="$t('partners.dialog.pNameText')"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">{{$t('partners.dialog.pType')}}</div>
                 <v-select
                   v-model="edit_partner.partnerTypeId"
                   :items="partner_type"
                   item-text="name"
                   item-value="id"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   append-icon="mdi-chevron-down"
                   dense
-                  :label="$t('partners.dialog.pType')"
                   :placeholder="$t('partners.dialog.pTypeText')"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">{{$t('partners.dialog.pNumber')}}</div>
                 <v-text-field
                   v-model="edit_partner.phoneNumber"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   v-mask="'(##) ### ## ##'"
                   placeholder="(--) --- -- --"
                   prefix="+998"
                   dense
-                  :label="$t('partners.dialog.pNumber')"
-
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">{{$t('partners.dialog.email')}}</div>
                 <v-text-field
                   v-model="edit_partner.email"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   dense
                   :rules="[formRules.email]"
-                  :label="$t('partners.dialog.email')"
                   :placeholder="$t('partners.dialog.emailText')"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">{{$t('partners.dialog.addres')}}</div>
                 <v-text-field
                   v-model="edit_partner.address"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   dense
-                  :label="$t('partners.dialog.addres')"
                   :placeholder="$t('partners.dialog.addresText')"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">{{$t('partners.dialog.contractNumber')}}</div>
                 <v-text-field
                   v-model="edit_partner.contractNumber"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   dense
-                  :label="$t('partners.dialog.contractNumber')"
                   :placeholder="$t('partners.dialog.contractNumberText')"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">{{$t('partners.dialog.created')}}</div>
                 <el-date-picker
                   v-model="edit_partner.contractDate"
-                  style="width: 100%; height: 100%"
+                  style="width: 100%;"
                   type="datetime"
                   :placeholder="$t('partners.dialog.created')"
-
                   :picker-options="pickerShortcuts"
-                  class="custom-picker2"
+                  class="base_picker"
                   value-format="dd.MM.yyyy HH:mm:ss"
                 >
                 </el-date-picker>
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">{{$t('partners.dialog.status')}}</div>
                 <v-select
                   v-model="edit_partner.status"
                   :items="statusEnums"
                   append-icon="mdi-chevron-down"
-                  filled
+                  outlined
                   hide-details
+                  height="44"
+                  class="rounded-lg base"
                   color="#7631FF"
                   dense
-                  :label="$t('partners.dialog.status')"
-                  class="rounded-lg"
                 />
               </v-col>
               <v-col cols="12">
@@ -538,7 +573,7 @@
         <v-card-title class="d-flex justify-center"
           >
           {{ $t('partners.dialog.deleteDialog') }}
-          
+
           </v-card-title
         >
         <v-card-text>
@@ -599,7 +634,7 @@ export default {
         { text: this.$t('partners.table.status'), value: "status", sortable: false, width: 120 },
         { text: this.$t('partners.table.createdAt'), value: "createdAt", sortable: false },
         { text: this.$t('partners.table.updatedAt'), value: "updatedAt", sortable: false },
-        { text: this.$t('partners.table.actions'), value: "actions", align: "center", sortable: false },
+        { text: this.$t('partners.table.actions'), value: "actions", align: "center", sortable: false, width: 108 },
       ],
       items_list: [],
       image_list: [],

@@ -11,9 +11,8 @@
             <v-text-field
               v-model="filters.id"
               :label="$t('measurementUnit.child.idSearch')"
-
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -23,9 +22,8 @@
             <v-text-field
               v-model="filters.name"
               :label="$t('measurementUnit.child.name')"
-
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -38,6 +36,7 @@
               style="width: 100%;"
               v-model="filters.createdAt"
               type="datetime"
+              class="filter_picker"
               :placeholder="$t('measurementUnit.child.created')"
               :picker-options="pickerShortcuts"
               format="dd.MM.yyyy HH:mm:ss"
@@ -52,7 +51,7 @@
               v-model="filters.updatedAt"
               type="datetime"
               :placeholder="$t('measurementUnit.child.updated')"
-
+              class="filter_picker"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
             >
@@ -136,23 +135,33 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form ref="new_form">
-            <v-text-field
-              v-model="create_measurement.name"
-              filled
-              :label="$t('measurementUnit.dialog.name')"
-              :placeholder="$t('measurementUnit.dialog.enterMainName')"
-              dense
-              color="#7631FF"
-            />
-            <v-textarea
-              v-model="create_measurement.description"
-              filled
-              :label="$t('measurementUnit.dialog.description')"
-              :placeholder="$t('measurementUnit.dialog.descriptionPlacholder')"
-
-              dense
-              color="#7631FF"
-            />
+            <v-row>
+              <v-col cols="12">
+                <div class="label">{{$t('measurementUnit.dialog.name')}}</div>
+                <v-text-field
+                  v-model="create_measurement.name"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
+                  height="44"
+                  :placeholder="$t('measurementUnit.dialog.enterMainName')"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12">
+                <div class="label">{{$t('measurementUnit.dialog.description')}}</div>
+                <v-textarea
+                  v-model="create_measurement.description"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
+                  :placeholder="$t('measurementUnit.dialog.descriptionPlacholder')"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+            </v-row>
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
@@ -186,22 +195,33 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form ref="new_form">
-            <v-text-field
-              v-model="edit_measurement.name"
-              filled
-              :label="$t('measurementUnit.dialog.name')"
-              :placeholder="$t('measurementUnit.dialog.enterMainName')"
-              dense
-              color="#7631FF"
-            />
-            <v-textarea
-              v-model="edit_measurement.description"
-              filled
-              :label="$t('measurementUnit.dialog.description')"
-              :placeholder="$t('measurementUnit.dialog.descriptionPlacholder')"
-              dense
-              color="#7631FF"
-            />
+            <v-row>
+              <v-col cols="12">
+                <div class="label">{{$t('measurementUnit.dialog.name')}}</div>
+                <v-text-field
+                  v-model="edit_measurement.name"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
+                  height="44"
+                  :placeholder="$t('measurementUnit.dialog.enterMainName')"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12">
+                <div class="label">{{$t('measurementUnit.dialog.description')}}</div>
+                <v-textarea
+                  v-model="edit_measurement.description"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
+                  :placeholder="$t('measurementUnit.dialog.descriptionPlacholder')"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+            </v-row>
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">

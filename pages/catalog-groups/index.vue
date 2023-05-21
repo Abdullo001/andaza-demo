@@ -8,7 +8,7 @@
               v-model="filters.id"
               :label="$t('catalogGroups.child.idSearch')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -19,7 +19,7 @@
               v-model="filters.name"
               :label="$t('catalogGroups.child.name')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -30,6 +30,7 @@
               style="width: 100%"
               v-model="filters.createdAt"
               type="datetime"
+              class="filter_picker"
               :placeholder="$t('catalogGroups.child.created')"
               :picker-options="pickerShortcuts"
               format="dd.MM.yyyy HH:mm:ss"
@@ -41,6 +42,7 @@
               style="width: 100%"
               v-model="filters.updatedAt"
               type="datetime"
+              class="filter_picker"
               :placeholder="$t('catalogGroups.child.updated')"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
@@ -139,7 +141,7 @@ export default {
     return {
       itemPrePage: 10,
       current_page: 0,
-     
+
       headers: [
         {
           text: this.$t("catalogGroups.table.id"),

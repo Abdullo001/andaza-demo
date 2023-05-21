@@ -12,7 +12,7 @@
               v-model="filters.id"
               :label="$t('cooperationType.child.idSearch')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -23,7 +23,7 @@
               v-model="filters.name"
               :label="$t('cooperationType.child.name')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -36,6 +36,7 @@
               v-model="filters.createdAt"
               type="datetime"
               style="width: 100%;"
+              class="filter_picker"
               :placeholder="$t('cooperationType.child.created')"
               :picker-options="pickerShortcuts"
               format="dd.MM.yyyy HH:mm:ss"
@@ -47,6 +48,7 @@
           >
             <el-date-picker
               style="width: 100%"
+              class="filter_picker"
               v-model="filters.updatedAt"
               type="datetime"
               :placeholder="$t('cooperationType.child.updated')"
@@ -132,22 +134,33 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form ref="new_form">
-            <v-text-field
-              v-model="create_cooperation.name"
-              filled
-              :label="$t('cooperationType.dialog.name')"
-              :placeholder="$t('cooperationType.dialog.enterMainName')"
-              dense
-              color="#7631FF"
-            />
-            <v-textarea
-              v-model="create_cooperation.description"
-              filled
-              :label="$t('cooperationType.dialog.description')"
-              :placeholder="$t('cooperationType.dialog.descriptionPlacholder')"
-              dense
-              color="#7631FF"
-            />
+            <v-row>
+              <v-col cols="12">
+                <div class="label">{{$t('cooperationType.dialog.name')}}</div>
+                <v-text-field
+                  v-model="create_cooperation.name"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
+                  height="44"
+                  :placeholder="$t('cooperationType.dialog.enterMainName')"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12">
+                <div class="label">{{ $t('cooperationType.dialog.description') }}</div>
+                <v-textarea
+                  v-model="create_cooperation.description"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
+                  :placeholder="$t('cooperationType.dialog.descriptionPlacholder')"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+            </v-row>
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">

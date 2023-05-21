@@ -8,7 +8,7 @@
               v-model="filters.id"
               :label="$t('expenseGroup.child.idSearch')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -19,7 +19,7 @@
               v-model="filters.name"
               :label="$t('expenseGroup.child.name')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -30,6 +30,7 @@
               style="width: 100%"
               v-model="filters.createdAt"
               type="datetime"
+              class="filter_picker"
               :placeholder="$t('expenseGroup.child.created')"
               :picker-options="pickerShortcuts"
               format="dd.MM.yyyy HH:mm:ss"
@@ -41,6 +42,7 @@
               style="width: 100%"
               v-model="filters.updatedAt"
               type="datetime"
+              class="filter_picker"
               :placeholder="$t('expenseGroup.child.updated')"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
@@ -131,22 +133,33 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form ref="new_form">
-            <v-text-field
-              v-model="create_expense.name"
-              filled
-              :label="$t('expenseGroup.dialog.name')"
-              :placeholder="$t('expenseGroup.dialog.enterMainName')"
-              dense
-              color="#7631FF"
-            />
-            <v-textarea
-              v-model="create_expense.description"
-              filled
-              :label="$t('expenseGroup.dialog.description')"
-              :placeholder="$t('expenseGroup.dialog.descriptionPlacholder')"
-              dense
-              color="#7631FF"
-            />
+            <v-row>
+              <v-col cols="12">
+                <div class="label">{{$t('expenseGroup.dialog.name')}}</div>
+                <v-text-field
+                  v-model="create_expense.name"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
+                  height="44"
+                  :placeholder="$t('expenseGroup.dialog.enterMainName')"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12">
+                <div class="label">{{$t('expenseGroup.dialog.description')}}</div>
+                <v-textarea
+                  v-model="create_expense.description"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
+                  :placeholder="$t('expenseGroup.dialog.descriptionPlacholder')"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+            </v-row>
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
@@ -183,22 +196,32 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form ref="new_form">
-            <v-text-field
-              v-model="edit_expense.name"
-              filled
-              :label="$t('expenseGroup.dialog.name')"
-              :placeholder="$t('expenseGroup.dialog.enterMainName')"
-              dense
-              color="#7631FF"
-            />
-            <v-textarea
-              v-model="edit_expense.description"
-              filled
-              :label="$t('expenseGroup.dialog.description')"
-              :placeholder="$t('expenseGroup.dialog.descriptionPlacholder')"
-              dense
-              color="#7631FF"
-            />
+            <v-row>
+              <v-col>
+                <div class="label">{{$t('expenseGroup.dialog.enterMainName')}}</div>
+                <v-text-field
+                  v-model="edit_expense.name"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
+                  :placeholder="$t('expenseGroup.dialog.enterMainName')"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12">
+                <div class="label">{{$t('expenseGroup.dialog.description')}}</div>
+                <v-textarea
+                  v-model="edit_expense.description"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
+                  :placeholder="$t('expenseGroup.dialog.descriptionPlacholder')"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+            </v-row>
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
@@ -419,7 +442,7 @@ export default {
   },
   mounted() {
     this.$store.commit("setPageTitle", this.$t("sidebar.catalogs"));
-    
+
   },
 };
 </script>
