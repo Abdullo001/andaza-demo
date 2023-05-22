@@ -171,7 +171,7 @@
             width="163"
             @click="update"
           >
-            {{ $t("catalogGroups.canvasType.dialogs.saveBtn") }}
+            {{ $t("update") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -239,7 +239,6 @@ export default {
         specification: "",
       },
       delete_canvas_id: "",
-      
 
       headers: [
         {

@@ -7,7 +7,7 @@
       :loading="loading"
       :server-items-length="totalElements"
       :footer-props="{
-        itemsPerPageOptions: [10, 20, 50, 100]
+        itemsPerPageOptions: [10, 20, 50, 100],
       }"
       class="mt-4 rounded-lg"
       @update:page="page"
@@ -18,27 +18,30 @@
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium text-capitalize">
               {{ $t("catalogGroups.tabs.yarnNumber") }}
-
             </div>
-            <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="new_dialog = true">
+            <v-btn
+              color="#7631FF"
+              class="rounded-lg text-capitalize"
+              dark
+              @click="new_dialog = true"
+            >
               <v-icon>mdi-plus</v-icon>
               {{ $t("catalogGroups.tabs.yarnNumber") }}
-              
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
-        <v-divider/>
+        <v-divider />
       </template>
       <template #item.checkbox="{ item }">
-        <v-checkbox/>
+        <v-checkbox />
       </template>
-      <template #item.actions="{item}">
+      <template #item.actions="{ item }">
         <div>
           <v-btn icon color="green" @click.stop="editItem(item)">
-            <v-img src="/edit-active.svg" max-width="22"/>
+            <v-img src="/edit-active.svg" max-width="22" />
           </v-btn>
           <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-            <v-img src="/delete.svg" max-width="27"/>
+            <v-img src="/delete.svg" max-width="27" />
           </v-btn>
         </div>
       </template>
@@ -48,7 +51,6 @@
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
             {{ $t("catalogGroups.yarnNumber.dialogs.create") }}
-
           </div>
           <v-btn icon color="#7631FF" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -58,7 +60,7 @@
           <v-form ref="new_form" lazy-validation v-model="validate">
             <v-text-field
               v-model="create_yarn_number.name"
-              :rules="[ formRules.required ]"
+              :rules="[formRules.required]"
               filled
               :label="$t('catalogGroups.tabs.yarnNumber')"
               :placeholder="$t('catalogGroups.yarnNumber.dialogs.select')"
@@ -80,21 +82,21 @@
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined
+            color="#7631FF"
             width="163"
             @click="new_dialog = false"
           >
-          {{ $t("catalogGroups.yarnNumber.dialogs.cancelBtn") }}
-
+            {{ $t("catalogGroups.yarnNumber.dialogs.cancelBtn") }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#7631FF"
+            dark
             width="163"
             @click="save"
           >
-          {{ $t("catalogGroups.yarnNumber.dialogs.createBtn") }}
-
+            {{ $t("catalogGroups.yarnNumber.dialogs.createBtn") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -104,7 +106,6 @@
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
             {{ $t("catalogGroups.yarnNumber.dialogs.edit") }}
-
           </div>
           <v-btn icon color="#7631FF" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -114,7 +115,7 @@
           <v-form ref="edit_form" lazy-validation v-model="edit_validate">
             <v-text-field
               v-model="edit_yarn_number.name"
-              :rules="[ formRules.required ]"
+              :rules="[formRules.required]"
               filled
               :label="$t('catalogGroups.tabs.yarnNumber')"
               :placeholder="$t('catalogGroups.yarnNumber.dialogs.select')"
@@ -136,21 +137,21 @@
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined
+            color="#7631FF"
             width="163"
             @click="edit_dialog = false"
           >
-          {{ $t("catalogGroups.yarnNumber.dialogs.cancelBtn") }}
-
+            {{ $t("catalogGroups.yarnNumber.dialogs.cancelBtn") }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#7631FF"
+            dark
             width="163"
             @click="update"
           >
-          {{ $t("catalogGroups.yarnNumber.dialogs.saveBtn") }}
-
+            {{ $t("update") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -158,15 +159,13 @@
     <v-dialog v-model="delete_dialog" max-width="500">
       <v-card class="pa-4 text-center">
         <div class="d-flex justify-center mb-2">
-          <v-img src="/error-icon.svg" max-width="40"/>
+          <v-img src="/error-icon.svg" max-width="40" />
         </div>
         <v-card-title class="d-flex justify-center">
           {{ $t("catalogGroups.yarnNumber.dialogs.deleteDialog") }}
-
         </v-card-title>
         <v-card-text>
           {{ $t("catalogGroups.yarnNumber.dialogs.deleteText") }}
-
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -176,10 +175,9 @@
             width="140"
             @click.stop="delete_dialog = false"
           >
-          {{ $t("catalogGroups.yarnNumber.dialogs.cancelBtn") }}
-
+            {{ $t("catalogGroups.yarnNumber.dialogs.cancelBtn") }}
           </v-btn>
-          <v-spacer/>
+          <v-spacer />
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             color="#FF4E4F"
@@ -188,8 +186,7 @@
             dark
             @click="deleteYarn"
           >
-          {{ $t("catalogGroups.yarnNumber.dialogs.deleteBtn") }}
-
+            {{ $t("catalogGroups.yarnNumber.dialogs.deleteBtn") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -198,7 +195,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "YarnNumberPage",
@@ -214,12 +211,12 @@ export default {
       create_yarn_number: {
         catalogGroupId: "",
         name: "",
-        description: ""
+        description: "",
       },
       edit_yarn_number: {
         catalogGroupId: "",
         name: "",
-        description: ""
+        description: "",
       },
       delete_yarn_id: "",
       headers: [
@@ -264,7 +261,7 @@ export default {
           sortable: false,
         },
       ],
-    }
+    };
   },
   computed: {
     ...mapGetters({
@@ -272,7 +269,7 @@ export default {
       yarn_number_list: "yarnNumber/yarn_number_list",
       totalElements: "yarnNumber/totalElements",
       catalogGroupId: "catalogGroups/catalogGroupId",
-    })
+    }),
   },
   methods: {
     ...mapActions({
@@ -281,13 +278,21 @@ export default {
       updateYarnNumber: "yarnNumber/updateYarnNumber",
       deleteYarnNumber: "yarnNumber/deleteYarnNumber",
     }),
-    async size(val){
+    async size(val) {
       this.itemPrePage = val;
-      await this.getYarnNumberList({page: 0, size: this.itemPrePage, id: this.create_yarn_number.catalogGroupId});
+      await this.getYarnNumberList({
+        page: 0,
+        size: this.itemPrePage,
+        id: this.create_yarn_number.catalogGroupId,
+      });
     },
-    async page(val){
+    async page(val) {
       this.current_page = val - 1;
-      await this.getYarnNumberList({page: this.current_page, size: this.itemPrePage, id: this.create_yarn_number.catalogGroupId});
+      await this.getYarnNumberList({
+        page: this.current_page,
+        size: this.itemPrePage,
+        id: this.create_yarn_number.catalogGroupId,
+      });
     },
     async save() {
       const validate = this.$refs.new_form.validate();
@@ -299,34 +304,35 @@ export default {
     },
     async update() {
       const edit_validate = this.$refs.edit_form.validate();
-      const {catalogGroupId, id, description, name} = this.edit_yarn_number;
+      const { catalogGroupId, id, description, name } = this.edit_yarn_number;
       if (edit_validate) {
-        const item = {catalogGroupId, id, description, name}
+        const item = { catalogGroupId, id, description, name };
         await this.updateYarnNumber(item);
         this.edit_dialog = false;
       }
     },
     async deleteYarn() {
-      await this.deleteYarnNumber({id: this.delete_yarn_id, groupId: this.create_yarn_number.catalogGroupId});
+      await this.deleteYarnNumber({
+        id: this.delete_yarn_id,
+        groupId: this.create_yarn_number.catalogGroupId,
+      });
       this.delete_dialog = false;
     },
     editItem(item) {
-      this.edit_yarn_number = {...item};
+      this.edit_yarn_number = { ...item };
       this.edit_dialog = true;
     },
     getDeleteItem(item) {
       this.delete_yarn_id = item.id;
-      this.delete_dialog = true
+      this.delete_dialog = true;
     },
   },
   async mounted() {
     const catalogGroupId = this.catalogGroupId;
     this.create_yarn_number.catalogGroupId = catalogGroupId;
-    await this.getYarnNumberList({page: 0, size: 10, id: catalogGroupId});
+    await this.getYarnNumberList({ page: 0, size: 10, id: catalogGroupId });
   },
-}
+};
 </script>
 
-<style lang="sass" scoped>
-
-</style>
+<style lang="sass" scoped></style>

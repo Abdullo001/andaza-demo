@@ -232,8 +232,7 @@
             width="163"
             @click="edit_dialog = false"
           >
-          {{ $t("expenseGroup.dialog.cancelBtn") }}
-
+            {{ $t("expenseGroup.dialog.cancelBtn") }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -242,8 +241,7 @@
             width="163"
             @click="update"
           >
-          {{ $t("expenseGroup.dialog.editBtn") }}
-
+            {{ $t("update") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -253,9 +251,9 @@
         <div class="d-flex justify-center mb-2">
           <v-img src="/error-icon.svg" max-width="40" />
         </div>
-        <v-card-title class="d-flex justify-center"
-          >{{$t("expenseGroup.dialog.deleteDialog")}}</v-card-title
-        >
+        <v-card-title class="d-flex justify-center">{{
+          $t("expenseGroup.dialog.deleteDialog")
+        }}</v-card-title>
         <v-card-text>
           {{ $t("expenseGroup.dialog.deleteText") }}
         </v-card-text>
