@@ -4,7 +4,7 @@
     <v-card elevation="0" class="mt-2 rounded-lg">
       <v-card-title>
         <div class="text-capitalize">
-           {{ $t('sidebar.calculations') }}
+          {{ $t('sidebar.calculations') }}
           <v-chip
             color="#10BF41"
             class="text-capitalize ml-5 font-weight-bold"
@@ -28,7 +28,7 @@
       <v-card-text class="pb-0">
         <v-row>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">{{$t('prefinances.child.prefinanceNumber')}}</div>
+            <div class="label">{{ $t('prefinances.child.prefinanceNumber') }}</div>
             <v-text-field
               outlined
               class="rounded-lg base"
@@ -65,7 +65,7 @@
             </v-combobox>
           </v-col>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">{{$t('prefinances.child.modelName')}}</div>
+            <div class="label">{{ $t('prefinances.child.modelName') }}</div>
             <v-text-field
               outlined
               class="rounded-lg base"
@@ -74,11 +74,12 @@
               dense
               height="44"
               :placeholder="$t('prefinances.child.enterModelName')"
-              v-model="addPreFinances.modelNames" disabled
+              v-model="addPreFinances.modelName"
+              disabled
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">{{$t('prefinances.child.partner')}}</div>
+            <div class="label">{{ $t('prefinances.child.partner') }}</div>
             <v-text-field
               v-model="addPreFinances.partner"
               outlined
@@ -92,7 +93,7 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">{{$t('prefinances.child.primaryCurrency')}}</div>
+            <div class="label">{{ $t('prefinances.child.primaryCurrency') }}</div>
             <v-select
               v-model="addPreFinances.primaryCurrency"
               :items="currency_enums"
@@ -107,7 +108,7 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">{{$t('prefinances.child.secondaryCurrency')}}</div>
+            <div class="label">{{ $t('prefinances.child.secondaryCurrency') }}</div>
             <v-select
               v-model="addPreFinances.secondaryCurrency"
               :items="currency_enums"
@@ -122,7 +123,7 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">{{$t('prefinances.child.tertiaryCurrency')}}</div>
+            <div class="label">{{ $t('prefinances.child.tertiaryCurrency') }}</div>
             <v-select
               v-model="addPreFinances.tertiaryCurrency"
               :items="currency_enums"
@@ -137,7 +138,7 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">{{$t('prefinances.child.primaryRare')}}</div>
+            <div class="label">{{ $t('prefinances.child.primaryRare') }}</div>
             <v-text-field
               v-model="addPreFinances.primaryRate"
               outlined
@@ -150,7 +151,7 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">{{$t('prefinances.child.secondaryRate')}}</div>
+            <div class="label">{{ $t('prefinances.child.secondaryRate') }}</div>
             <v-text-field
               v-model="addPreFinances.secondaryRate"
               outlined
@@ -163,7 +164,7 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">{{$t('prefinances.child.tertiaryRate')}}</div>
+            <div class="label">{{ $t('prefinances.child.tertiaryRate') }}</div>
             <v-text-field
               v-model="addPreFinances.tertiaryRate"
               outlined
@@ -178,7 +179,7 @@
 
           <v-row class="ma-0">
             <v-col cols="12" lg="6" md="6">
-              <div class="label">{{$t('prefinances.child.description')}}</div>
+              <div class="label">{{ $t('prefinances.child.description') }}</div>
               <v-textarea
                 v-model="addPreFinances.description"
                 outlined
@@ -186,14 +187,13 @@
                 hide-details
                 color="#7631FF"
                 dense
-                :label="$t('prefinances.child.description')"
                 rows="4"
                 :placeholder="$t('prefinances.child.enterDescription')"
               />
             </v-col>
             <v-col cols="12" lg="6" md="6" class="d-flex flex-wrap">
               <v-col cols="12" lg="6" class="pl-0 pt-0">
-                <div class="label">{{$t('prefinances.child.owner')}}</div>
+                <div class="label">{{ $t('prefinances.child.owner') }}</div>
                 <v-text-field
                   v-model="addPreFinances.owner"
                   outlined
@@ -207,7 +207,7 @@
                 />
               </v-col>
               <v-col cols="12" lg="6" class="pt-0 pr-0">
-                <div class="label">{{$t('prefinances.child.createdTime')}}</div>
+                <div class="label">{{ $t('prefinances.child.createdTime') }}</div>
                 <v-text-field
                   v-model="addPreFinances.createdAt"
                   outlined
@@ -225,7 +225,7 @@
                 </v-text-field>
               </v-col>
               <v-col cols="12" lg="6" class="pl-0 pt-0">
-                <div class="label">{{$t('prefinances.child.modifiedPerson')}}</div>
+                <div class="label">{{ $t('prefinances.child.modifiedPerson') }}</div>
                 <v-text-field
                   v-model="addPreFinances.modifiedPerson"
                   outlined
@@ -239,7 +239,7 @@
                 />
               </v-col>
               <v-col cols="12" lg="6" class="pt-0 pr-0">
-                <div class="label">{{$t('prefinances.child.updatedTime')}}</div>
+                <div class="label">{{ $t('prefinances.child.updatedTime') }}</div>
                 <v-text-field
                   v-model="addPreFinances.updatedAt"
                   outlined
@@ -497,7 +497,7 @@
           <v-form v-model="details_form" ref="details_form">
             <v-row>
               <v-col cols="12" lg="4">
-                <div class="label">{{$t('prefinances.child.expenseGroup')}}</div>
+                <div class="label">{{ $t('prefinances.child.expenseGroup') }}</div>
                 <v-combobox
                   placeholder="Select expense group"
                   dense
@@ -516,7 +516,7 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="label">{{$t('prefinances.child.expense')}}</div>
+                <div class="label">{{ $t('prefinances.child.expense') }}</div>
                 <v-select
                   placeholder="Select expense"
                   append-icon="mdi-chevron-down"
@@ -551,7 +551,7 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="label">{{$t('prefinances.child.measurementunit')}}</div>
+                <div class="label">{{ $t('prefinances.child.measurementunit') }}</div>
                 <v-select
                   placeholder="Select measurement unit"
                   append-icon="mdi-chevron-down"
@@ -570,7 +570,7 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="label">{{$t('prefinances.child.pricePerUnit')}}</div>
+                <div class="label">{{ $t('prefinances.child.pricePerUnit') }}</div>
                 <v-text-field
                   placeholder="Enter price per unit"
                   outlined
@@ -872,22 +872,18 @@ export default {
       modelImages: 'modelPhoto/modelImages',
       documentsList: 'documents/documentsList',
       onePreFinance: 'preFinance/onePreFinance',
-      selectedModelNumber: 'preFinance/modelNumber'
+      selectedModelNumber: 'preFinance/selectedModelNumber'
     }),
     title() {
       const id = this.$route.params.id;
       return id === 'create' ? 'Add' : 'Edit';
     },
-    btn () {
+    btn() {
       const id = this.$route.params.id;
       return id === 'create' ? this.$t('prefinances.child.save') : this.$t('update');
     }
   },
   watch: {
-    selectedModelNumber(val) {
-      console.log(val);
-      // this.addPreFinances.modelNumber = val;
-    },
     onePreFinance(val) {
       if (Object.keys(val).length) {
         const data = JSON.parse(JSON.stringify(val));
@@ -918,9 +914,46 @@ export default {
         await this.getImages(id);
         await this.getDocuments({modelId: id});
       }
+
+      if (this.$route.params.id === 'creating') {
+        const data = {...val[0]};
+        this.addPreFinances = {
+          id: data.id,
+          modelName: data.name,
+          preFinanceNumber: data.id,
+          modelNumber: data.modelNumber,
+          partnerId: data.partnerId,
+          partner: data.partner,
+          primaryCurrency: '',
+          tertiaryCurrency: '',
+          secondaryCurrency: '',
+          description: data.description,
+          owner: '',
+          createdAt: data.createdAt,
+          modifiedPerson: '',
+          updatedAt: data.updatedAt,
+        }
+      } else if (this.$route.params.id === 'create') {
+        this.addPreFinances = {
+          id: '',
+          modelName: '',
+          preFinanceNumber: '',
+          modelNumber: '',
+          partnerId: '',
+          partner: '',
+          primaryCurrency: '',
+          tertiaryCurrency: '',
+          secondaryCurrency: '',
+          description: '',
+          owner: '',
+          createdAt: '',
+          modifiedPerson: '',
+          updatedAt: '',
+        }
+      }
     },
     "addPreFinances.modelNumber"(elem) {
-      if (!(typeof elem === null || typeof elem === 'object')) {
+      if (!(elem === 'null' || typeof elem === 'object')) {
         this.getModelName(elem)
       }
       const {modelNumber, name, partner, id} = this.addPreFinances.modelNumber;
@@ -1054,14 +1087,14 @@ export default {
       await this.createPreFinance(this.addPreFinances);
     },
     deleteRow(item, index) {
-      console.log(item,index);
+      console.log(item, index);
     }
   },
   mounted() {
     this.getExpenseGroup();
     this.getMeasurementUnit();
     const param = this.$route.params.id;
-    if (param !== 'create') {
+    if (param !== 'create' && param !== "creating") {
       this.getOnePreFinance(param);
       this.getAllDetails(param);
     } else {
@@ -1073,9 +1106,11 @@ export default {
         this.calculation[0].tertiaryCurrency = 0;
       }, 1000)
     }
-
+    if (!!this.selectedModelNumber) {
+      this.getModelName(this.selectedModelNumber);
+    }
   }
 }
 </script>
 
-<style lang="scss" src="assets/abstracts/_prefinances.scss" scoped/>
+<style lang="scss" src="../../assets/abstracts/_prefinances.scss" scoped/>

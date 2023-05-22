@@ -359,8 +359,10 @@
 
 <script>
 import {mapGetters} from "vuex";
+import Breadcrumbs from "../../components/Breadcrumbs.vue";
 
 export default {
+  components: {Breadcrumbs},
   data() {
     return {
       validate: true,
