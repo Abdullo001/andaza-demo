@@ -94,10 +94,15 @@
                 cols="12"
                 lg="4"
               >
+                <div class="label">{{el.text}}</div>
                 <v-text-field
-                  :label="el.text"
-                  filled dense
+                  outlined
+                  hide-details
+                  height="44"
+                  dense
+                  class="rounded-lg base"
                   validate-on-blur
+                  :placeholder="`Enter  ${el.text}`"
                   v-model="new_chart[el.value]"
                   color="#7631FF"
                 />
@@ -144,10 +149,15 @@
                 cols="12"
                 lg="4"
               >
+                <div class="label">{{el.text}}</div>
                 <v-text-field
                   :label="el.text"
-                  filled dense
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  outlined dense
                   validate-on-blur
+                  :placeholder="`Enter ${el.text}`"
                   v-model="edit_chart[el.value]"
                   color="#7631FF"
                 />

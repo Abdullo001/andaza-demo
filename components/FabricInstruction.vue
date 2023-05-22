@@ -5,10 +5,12 @@
         <v-textarea
           placeholder="Enter description"
           v-model="description"
+          outlined
+          hide-details
           background-color="#F8F4FE"
           color="#7631FF"
           rows="8"
-          class="rounded-lg"
+          class="rounded-lg base"
         />
       </v-col>
       <v-col>

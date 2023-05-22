@@ -51,11 +51,13 @@
           <v-form lazy-validation ref="ref_valid" v-model="new_valid">
             <v-row>
               <v-col cols="12" lg="6">
-                <div class="text-body-1 font-weight-medium text-capitalize mb-2">Purpose</div>
+                <div class="label text-capitalize">Purpose</div>
                 <v-select
                   outlined
                   placeholder="Select purpose"
-                  class="rounded-lg"
+                  class="rounded-lg base"
+                  hide-details
+                  height="44"
                   dense validate-on-blur
                   :items="purposesEnums"
                   item-text="name"
@@ -66,24 +68,26 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="text-body-1 font-weight-medium text-capitalize mb-2"> simple send date</div>
+                <div class="label text-capitalize"> simple send date</div>
                 <el-date-picker
                   v-model="new_samples.sentDate"
                   type="datetime"
                   placeholder="Send date"
                   :picker-options="pickerShortcuts"
                   value-format="dd.MM.yyyy HH:mm:ss"
-                  class="printing-date"
-                  style="width: 100%; color: #7631FF;"
+                  class="base_picker"
+                  style="width: 100%; color: #7631FF; height: 44px !important;"
                 >
                 </el-date-picker>
               </v-col>
               <v-col cols="12" lg="6" class="pt-0">
-                <div class="text-body-1 font-weight-medium text-capitalize mb-2">Finished by</div>
+                <div class="label text-capitalize">Finished by</div>
                 <v-select
                   outlined
                   placeholder="Select partner"
-                  class="rounded-lg"
+                  class="rounded-lg base"
+                  hide-details
+                  height="44"
                   dense validate-on-blur
                   :items="partner_enums"
                   item-text="name"
@@ -94,11 +98,13 @@
                 />
               </v-col>
               <v-col cols="12" lg="6" class="pt-0">
-                <div class="text-body-1 font-weight-medium text-capitalize mb-2">Result</div>
+                <div class="label text-capitalize">Result</div>
                 <v-select
                   outlined
                   placeholder="Select result"
-                  class="rounded-lg"
+                  class="rounded-lg base"
+                  hide-details
+                  height="44"
                   dense validate-on-blur
                   :items="result_enum"
                   append-icon="mdi-chevron-down"
@@ -141,11 +147,13 @@
           <v-form lazy-validation ref="ref_valid" v-model="new_valid">
             <v-row>
               <v-col cols="12" lg="6">
-                <div class="text-body-1 font-weight-medium text-capitalize mb-2">Purpose</div>
+                <div class="label text-capitalize">Purpose</div>
                 <v-select
                   outlined
                   placeholder="Select purpose"
-                  class="rounded-lg"
+                  class="rounded-lg base"
+                  hide-details
+                  height="44"
                   dense validate-on-blur
                   :items="purposesEnums"
                   item-text="name"
@@ -156,24 +164,26 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="text-body-1 font-weight-medium text-capitalize mb-2"> simple send date</div>
+                <div class="label text-capitalize"> simple send date</div>
                 <el-date-picker
                   v-model="edit_samples.sentDate"
                   type="datetime"
                   placeholder="Send date"
                   :picker-options="pickerShortcuts"
                   value-format="dd.MM.yyyy HH:mm:ss"
-                  class="printing-date"
-                  style="width: 100%; color: #7631FF;"
+                  class="base_picker"
+                  style="width: 100%; color: #7631FF; height: 44px"
                 >
                 </el-date-picker>
               </v-col>
               <v-col cols="12" lg="6" class="pt-0">
-                <div class="text-body-1 font-weight-medium text-capitalize mb-2">Finished by</div>
+                <div class="label text-capitalize">Finished by</div>
                 <v-select
                   outlined
                   placeholder="Select partner"
-                  class="rounded-lg"
+                  class="rounded-lg base"
+                  hide-details
+                  height="44"
                   dense validate-on-blur
                   :items="partner_enums"
                   item-text="name"
@@ -184,11 +194,13 @@
                 />
               </v-col>
               <v-col cols="12" lg="6" class="pt-0">
-                <div class="text-body-1 font-weight-medium text-capitalize mb-2">Result</div>
+                <div class="label text-capitalize">Result</div>
                 <v-select
                   outlined
                   placeholder="Select result"
-                  class="rounded-lg"
+                  class="rounded-lg base"
+                  hide-details
+                  height="44"
                   dense validate-on-blur
                   :items="result_enum"
                   append-icon="mdi-chevron-down"

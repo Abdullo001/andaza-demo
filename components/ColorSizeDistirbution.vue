@@ -56,15 +56,17 @@
                 v-for="(item, idx) in orderSizeDetail.modelBodyParts"
                 :key="idx"
               >
-                <div class="mb-2 text-body-1">{{ item.bodyPart }}</div>
+                <div class="label">{{ item.bodyPart }}</div>
                 <v-text-field
                   v-model="item.value"
                   :placeholder="item.bodyPart"
                   single-line
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
                   validate-on-blur
                   dense
-                  class="rounded-lg"
+                  class="rounded-lg base"
                   color="#7631FF"
                   background-color="#F8F4FE"
                 />
@@ -77,15 +79,17 @@
                 v-for="(item, idx) in orderSizeDetail.sizeDistributions"
                 :key="idx"
               >
-                <div class="mb-2 text-body-1">{{ item.size }}</div>
+                <div class="label">{{ item.size }}</div>
                 <v-text-field
                   v-model="item.quantity"
                   :placeholder="item.size"
                   single-line
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
                   validate-on-blur
                   dense
-                  class="rounded-lg"
+                  class="rounded-lg base"
                   color="#7631FF"
                   background-color="#F8F4FE"
                 />

@@ -48,76 +48,95 @@
         <v-card-text class="mt-4">
           <v-row>
             <v-col cols="12" lg="6">
+              <div class="label">Part name</div>
               <v-select
                 v-model="newModelParts.bodyPartId"
                 :items="partNames"
                 item-text="partName"
                 item-value="id"
-                label="Part name"
                 placeholder="Enter part name"
-                filled dense
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
+                dense
                 color="#7631FF"
                 append-icon="mdi-chevron-down"
               />
             </v-col>
             <v-col cols="12" lg="6">
+              <div class="label">Yarn numbers</div>
               <v-select
                 v-model="newModelParts.yarnNumberId"
                 :items="yarnNumbersList"
                 item-text="name"
                 item-value="id"
-                label="Yarn numbers"
                 placeholder="Enter yarn numbers"
-                filled dense
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"  dense
                 color="#7631FF"
                 append-icon="mdi-chevron-down"
               />
             </v-col>
             <v-col cols="12" lg="6">
+              <div class="label">Canvas type</div>
               <v-select
                 v-model="newModelParts.canvasTypeId"
                 :items="canvasTypeList"
                 item-text="name"
                 item-value="id"
-                label="Canvas type"
                 placeholder="Enter canvas type"
-                filled dense
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"  dense
                 color="#7631FF"
                 append-icon="mdi-chevron-down"
               />
             </v-col>
             <v-col cols="12" lg="6">
+              <div class="label">Yarn type</div>
               <v-select
                 v-model="newModelParts.yarnTypeId"
                 :items="yarnTypeList"
                 item-text="name"
                 item-value="id"
-                label="Yarn type"
                 placeholder="Enter yarn type"
-                filled dense
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"  dense
                 color="#7631FF"
                 append-icon="mdi-chevron-down"
               />
             </v-col>
             <v-col cols="12" lg="6">
+              <div class="label">Composition</div>
               <v-select
                 v-model="newModelParts.compositionId"
                 :items="compositionList"
                 item-text="name"
                 item-value="id"
-                label="Composition"
                 placeholder="Enter composition"
-                filled dense
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"  dense
                 color="#7631FF"
                 append-icon="mdi-chevron-down"
               />
             </v-col>
             <v-col cols="12" lg="6">
+              <div class="label">Density</div>
               <v-text-field
                 v-model="newModelParts.density"
-                label="Density"
                 placeholder="0.00"
-                filled dense
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"  dense
                 color="#7631FF"
                 suffix="gr/m2"
               />
@@ -139,11 +158,14 @@
               />
             </v-col>
             <v-col cols="12" lg="12">
+              <div class="label">Description</div>
               <v-text-field
-                label="Description"
                 placeholder="Enter description"
                 v-model="newModelParts.description"
-                filled dense
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"  dense
                 color="#7631FF"
               />
             </v-col>

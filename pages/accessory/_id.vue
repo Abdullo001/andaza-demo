@@ -38,71 +38,92 @@
       <v-card-text class="mt-4">
         <v-row>
           <v-col>
-            <div class="mb-2 text-body-1">Order number</div>
+            <div class="label">Order number</div>
             <v-text-field
               v-model="accessoryDetail.orderNumber"
               placeholder="Search by order number"
               validate-on-blur
-              filled
+              outlined
+              hide-details
+              height="44"
+              dense
+              class="rounded-lg base mb-4"
               :return-object="true"
               disabled
-              class="rounded-lg"
               color="#7631FF"
             >
             </v-text-field>
-            <div class="mb-2 text-body-1">Client name</div>
+            <div class="label">Client name</div>
             <v-text-field
               v-model="accessoryDetail.clientName"
               validate-on-blur
-              filled
+              outlined
+              hide-details
+              height="44"
+              dense
+              placeholder="Enter client name"
+              class="rounded-lg base mb-4"
               disabled
-              class="rounded-lg"
               color="#7631FF"
             >
             </v-text-field>
-            <div class="mb-2 text-body-1">Ex.rate in planning created day</div>
+            <div class="label">Ex.rate in planning created day</div>
             <div class="d-flex align-center">
               <v-text-field
                 v-model="accessoryDetail.exRatePrimaryRate"
                 :rules="[formRules.onlyNumber]"
                 placeholder="0.00"
                 validate-on-blur
-                filled
-                class="rounded-l-lg rounded-r-0"
+                outlined
+                hide-details
+                height="44"
+                dense
+                class="rounded-l-lg rounded-r-0 rounded-lg base mb-4"
                 color="#7631FF"
               />
               <v-select
                 v-model="accessoryDetail.exRatePrimaryCurrency"
                 :items="currency_enums"
                 style="max-width: 100px"
-                filled
+                outlined
+                hide-details
+                height="44"
+                dense
                 validate-on-blur
-                class="rounded-r-lg rounded-l-0"
+                class="rounded-r-lg rounded-l-0 rounded-lg base mb-4"
                 append-icon="mdi-chevron-down"
                 color="#7631FF"
               />
             </div>
-            <div class="mb-2 text-body-1">Creator of planning</div>
+            <div class="label">Creator of planning</div>
             <v-text-field
               v-model="accessoryDetail.creatorOfPlanning"
               validate-on-blur
-              filled
+              outlined
+              hide-details
+              placeholder="Enter Creator of planning"
+              height="44"
+              dense
+              class="rounded-lg base mb-4"
               disabled
-              class="rounded-lg"
               color="#7631FF"
             />
-            <div class="mb-2 text-body-1">Creator of order</div>
+            <div class="label">Creator of order</div>
             <v-text-field
               v-model="accessoryDetail.creatorOfOrder"
               validate-on-blur
-              filled
+              outlined
+              placeholder="Enter Creator of order"
+              hide-details
+              height="44"
+              dense
+              class="rounded-lg base mb-4"
               disabled
-              class="rounded-lg"
               color="#7631FF"
             />
           </v-col>
           <v-col>
-            <div class="mb-2 text-body-1">Model number</div>
+            <div class="label">Model number</div>
             <v-combobox
               :items="modelData"
               v-model="accessoryDetail.modelNumber"
@@ -110,9 +131,12 @@
               validate-on-blur
               item-text="modelNumber"
               item-value="id"
-              filled
+              outlined
+              hide-details
+              height="44"
+              dense
+              class="rounded-lg base mb-4"
               :search-input.sync="search"
-              class="rounded-lg"
               color="#7631FF"
               append-icon=""
             >
@@ -120,57 +144,75 @@
                 <v-icon color="#7631FF">mdi-magnify</v-icon>
               </template>
             </v-combobox>
-            <div class="mb-2 text-body-1">Order status</div>
+            <div class="label">Order status</div>
             <v-text-field
               v-model="accessoryDetail.orderStatus"
               validate-on-blur
-              filled
+              placeholder="Enter Order status"
+              outlined
+              hide-details
+              height="44"
+              dense
+              class="rounded-lg base mb-4"
               disabled
-              class="rounded-lg"
               color="#7631FF"
             />
-            <div class="mb-2 text-body-1">Ex.rate in planning created day</div>
+            <div class="label">Ex.rate in planning created day</div>
             <div class="d-flex align-center">
               <v-text-field
                 v-model="accessoryDetail.exRateSecondaryRate"
                 :rules="[formRules.onlyNumber]"
                 placeholder="0.00"
                 validate-on-blur
-                filled
-                class="rounded-l-lg rounded-r-0"
+                outlined
+                hide-details
+                height="44"
+                dense
+                class="rounded-l-lg rounded-r-0 rounded-lg base mb-4"
                 color="#7631FF"
               />
               <v-select
                 v-model="accessoryDetail.exRateSecondaryCurrency"
                 :items="['UZS']"
                 style="max-width: 100px"
-                filled
+                outlined
+                hide-details
+                height="44"
+                dense
                 validate-on-blur
-                class="rounded-r-lg rounded-l-0"
+                class="rounded-r-lg rounded-l-0 rounded-lg base mb-4"
                 append-icon="mdi-chevron-down"
                 color="#7631FF"
               />
             </div>
-            <div class="mb-2 text-body-1">Created time</div>
+            <div class="label">Created time</div>
             <v-text-field
               v-model="accessoryDetail.createdTimeOfModel"
               validate-on-blur
-              filled
+              placeholder="Enter Created time"
+              outlined
+              hide-details
+              height="44"
+              dense
+              class="rounded-lg base mb-4"
               disabled
-              class="rounded-lg"
               color="#7631FF"
             >
               <template #append>
                 <v-img src="/date-icon.svg" />
               </template>
             </v-text-field>
-            <div class="mb-2 text-body-1">Created time</div>
+            <div class="label">Created time</div>
             <v-text-field
               v-model="accessoryDetail.createdTimeOfOrder"
               validate-on-blur
-              filled
+              placeholder="Enter Created time"
+              outlined
+              hide-details
+              height="44"
+              dense
+              class="rounded-lg base mb-4"
               disabled
-              class="rounded-lg"
               color="#7631FF"
             >
               <template #append>
@@ -179,39 +221,50 @@
             </v-text-field>
           </v-col>
           <v-col>
-            <div class="mb-2 text-body-1">Model name</div>
+            <div class="label">Model name</div>
             <v-text-field
               v-model="accessoryDetail.modelName"
               validate-on-blur
-              filled
+              placeholder="Enter Model name"
+              outlined
+              hide-details
+              height="44"
+              dense
+              class="rounded-lg base mb-4"
               disabled
-              class="rounded-lg"
               color="#7631FF"
             />
 
-            <div class="mb-2 text-body-1">Deadline of order</div>
+            <div class="label">Deadline of order</div>
             <v-text-field
               v-model="accessoryDetail.orderDeadline"
               validate-on-blur
-              filled
+              placeholder="Enter Deadline of order"
+              outlined
+              hide-details
+              height="44"
+              dense
+              class="rounded-lg base mb-4"
               disabled
-              class="rounded-lg"
               color="#7631FF"
             >
               <template #append>
                 <v-img src="/date-icon.svg" />
               </template>
             </v-text-field>
-            <div class="mb-2 text-body-1">Exchange rate in prefinanced day</div>
+            <div class="label">Exchange rate in prefinanced day</div>
             <div class="d-flex align-center">
               <v-text-field
                 v-model="accessoryDetail.exRatePreFinancedDay"
                 :rules="[formRules.onlyNumber]"
                 placeholder="0.00"
                 disabled
-                filled
+                outlined
+                hide-details
+                height="44"
+                dense
                 validate-on-blur
-                class="rounded-l-lg rounded-r-0"
+                class="rounded-l-lg rounded-r-0 rounded-lg base mb-4"
                 color="#7631FF"
               />
               <v-select
@@ -219,47 +272,62 @@
                 :items="currency_enums"
                 style="max-width: 100px"
                 disabled
-                filled
+                outlined
+                hide-details
+                height="44"
+                dense
                 validate-on-blur
-                class="rounded-r-lg rounded-l-0"
+                class="rounded-r-lg rounded-l-0 rounded-lg base mb-4"
                 append-icon="mdi-chevron-down"
                 color="#7631FF"
               />
             </div>
-            <div class="mb-2 text-body-1">Creator of model</div>
+            <div class="label">Creator of model</div>
             <v-text-field
               v-model="accessoryDetail.creatorOfModel"
               validate-on-blur
-              filled
+              placeholder="Enter Creator of model"
+              outlined
+              hide-details
+              height="44"
+              dense
+              class="rounded-lg base mb-4"
               disabled
-              class="rounded-lg"
               color="#7631FF"
             />
           </v-col>
           <v-col>
-            <div class="mb-2 text-body-1">Head of production department</div>
+            <div class="label">Head of production department</div>
             <v-text-field
               v-model="accessoryDetail.headOfProductionDepartment"
               validate-on-blur
-              filled
+              placeholder="Enter Head of production department"
+              outlined
+              hide-details
+              height="44"
+              dense
+              class="rounded-lg base mb-4"
               disabled
-              class="rounded-lg"
               color="#7631FF"
             />
-            <div class="mb-2 text-body-1">Actual shipping date</div>
+            <div class="label">Actual shipping date</div>
             <v-text-field
               v-model="accessoryDetail.shippingDate"
               validate-on-blur
-              filled
+              placeholder="Enter Actual shipping date"
+              outlined
+              hide-details
+              height="44"
+              dense
+              class="rounded-lg base mb-4"
               disabled
-              class="rounded-lg"
               color="#7631FF"
             >
               <template #append>
                 <v-img src="/date-icon.svg" />
               </template>
             </v-text-field>
-            <div class="mb-2 text-body-1">Exchange rate difference</div>
+            <div class="label">Exchange rate difference</div>
             <div class="d-flex align-center">
               <v-text-field
                 v-model="accessoryDetail.differenceRate"
@@ -267,9 +335,12 @@
                 :background-color="accessoryDetail.differenceRate>=0?'green':'red'"
                 placeholder="0.00"
                 disabled
-                filled
+                outlined
+                hide-details
+                height="44"
+                dense
                 validate-on-blur
-                class="rounded-l-lg rounded-r-0"
+                class="rounded-l-lg rounded-r-0 rounded-lg base mb-4"
                 color="#7631FF"
                 dark
               />
@@ -279,20 +350,27 @@
                 :background-color="accessoryDetail.differenceRate>=0?'green':'red'"
                 style="max-width: 100px"
                 disabled
-                filled
+                outlined
+                hide-details
+                height="44"
+                dense
                 validate-on-blur
-                class="rounded-r-lg rounded-l-0  "
+                class="rounded-r-lg rounded-l-0 rounded-lg base mb-4"
                 append-icon="mdi-chevron-down"
                 color="#7631FF"
               />
             </div>
-            <div class="mb-2 text-body-1">Created time</div>
+            <div class="label">Created time</div>
             <v-text-field
               v-model="accessoryDetail.createdTimeOfModel"
               validate-on-blur
-              filled
+              placeholder="Enter Created time"
+              outlined
+              hide-details
+              height="44"
+              dense
+              class="rounded-lg base mb-4"
               disabled
-              class="rounded-lg"
               color="#7631FF"
             >
               <template #append>
@@ -301,7 +379,7 @@
             </v-text-field>
           </v-col>
         </v-row>
-        <div class="mb-2 text-body-1">Photos of models</div>
+        <div class="label">Photos of models</div>
         <v-row>
           <v-col
             cols="12"
@@ -370,7 +448,7 @@
           <AccessorySupplyPages />
         </v-tab-item>
         <v-tab-item>
-          <AccessorDocumentsPages />
+          <AccessoryDocumentsPages />
         </v-tab-item>
       </v-tabs-items>
     </v-card>
@@ -389,20 +467,20 @@
 </template>
 
 <script>
-import AccessoryChartPages from "@/components/PlanningAccessory/AccessoryChart.vue";
-import AccessoryOrderPages from "@/components/PlanningAccessory/AccessoryOrder.vue";
-import AccessorySupplyPages from "@/components/PlanningAccessory/AccessorySupply.vue";
-import AccessorDocumentsPages from "@/components/PlanningAccessory/AccessorDocuments.vue";
 import { mapActions, mapGetters } from "vuex";
 import Breadcrumbs from "../../components/Breadcrumbs.vue";
+import AccessoryChartPages from "../../components/PlanningAccessory/AccessoryChart.vue";
+import AccessoryOrderPages from "../../components/PlanningAccessory/AccessoryOrder.vue";
+import AccessorySupplyPages from "../../components/PlanningAccessory/AccessorySupply.vue";
+import AccessoryDocumentsPages from "../../components/PlanningAccessory/AccessorDocuments.vue";
 
 export default {
   components: {
-    Breadcrumbs,
-    AccessorDocumentsPages,
+    AccessoryDocumentsPages,
     AccessorySupplyPages,
     AccessoryOrderPages,
     AccessoryChartPages,
+    Breadcrumbs,
   },
   data() {
     return {
