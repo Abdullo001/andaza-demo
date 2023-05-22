@@ -15,7 +15,7 @@
             class="text-capitalize rounded-lg mr-4 font-weight-bold"
             @click="redirectPrefinance"
           >
-            {{ $t('listsModels.child.prefinance') }}
+            {{ $t('sidebar.calculations') }}
           </v-btn>
           <v-btn
             outlined
