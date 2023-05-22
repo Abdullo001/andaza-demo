@@ -12,7 +12,7 @@
               v-model="filter_size.id"
               label="ID size"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -23,7 +23,7 @@
               v-model="filter_size.name"
               label="Size name"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -36,6 +36,7 @@
               v-model="filter_size.createdAt"
               style="width: 100%;"
               type="datetime"
+              class="filter_picker"
               placeholder="Created"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
@@ -48,6 +49,7 @@
             <el-date-picker
               v-model="filter_size.updatedAt"
               style="width: 100%;"
+              class="filter_picker"
               type="datetime"
               placeholder="Updated"
               :picker-options="pickerShortcuts"
@@ -139,6 +141,7 @@
                 />
               </v-col>
               <v-col cols="12">
+                <div class="label">Size</div>
                 <v-autocomplete
                   :rules="[ formRules.required ]"
                   chips
@@ -147,25 +150,29 @@
                   :items="enum_size"
                   deletable-chips
                   append-icon="mdi-chevron-down"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   dense
-                  label="Size"
                   placeholder="Select size"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Add Size</div>
                 <v-text-field
                   v-model="add_size.size"
-                  label="Add Size"
                   color="#7631FF"
                   placeholder="Enter Add size"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
                   dense
-                  class="mr-3"
+                  class="base rounded-lg mr-3"
                 />
               </v-col>
-              <v-col cols="12" md="6">
+              <v-col cols="12" md="6" class="d-flex align-end">
                 <v-btn @click="addSize" color="#7631FF" class="rounded-lg text-capitalize" dark>
                   <v-icon>mdi-plus</v-icon>
                   Add Size
@@ -220,6 +227,7 @@
                 />
               </v-col>
               <v-col cols="12">
+                <div class="label">Size</div>
                 <v-autocomplete
                   :rules="[ formRules.required ]"
                   chips
@@ -229,24 +237,28 @@
                   :items="edit_enum_size"
                   deletable-chips
                   append-icon="mdi-chevron-down"
-                  filled
-                  label="Size"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   placeholder="Select size"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Add Size</div>
                 <v-text-field
                   v-model="edit_add_size.size"
-                  label="Add Size"
                   color="#7631FF"
                   placeholder="Enter Add size"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base mr-3"
                   dense
-                  class="mr-3"
                 />
               </v-col>
-              <v-col cols="12" md="6">
+              <v-col cols="12" md="6" class="d-flex align-end">
                 <v-btn @click="editAddSize" color="#7631FF" class="rounded-lg text-capitalize" dark>
                   <v-icon>mdi-plus</v-icon>
                   Add Size
