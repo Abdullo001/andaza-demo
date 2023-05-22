@@ -371,7 +371,7 @@
             width="163"
             @click="update"
           >
-            add
+          {{$t("update")}}
           </v-btn>
         </v-card-actions>
       </v-card>

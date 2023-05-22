@@ -15,7 +15,7 @@
             class="text-capitalize rounded-lg mr-4 font-weight-bold"
             @click="redirectPrefinance"
           >
-            {{ $t('listsModels.child.prefinance') }}
+            {{ $t('sidebar.calculations') }}
           </v-btn>
           <v-btn
             outlined
@@ -448,7 +448,7 @@ export default {
     }),
     redirectPrefinance() {
       this.$store.commit('preFinance/setModelNumber', this.model.number);
-      this.$router.push(this.localePath('/prefinances/create'));
+      this.$router.push(this.localePath('/prefinances/creating'));
     },
     async createNewModel() {
       await this.createModel(this.model);

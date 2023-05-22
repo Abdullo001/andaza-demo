@@ -1,10 +1,6 @@
 <template>
   <div>
-    <v-card
-      color="#fff"
-      elevation="0"
-      class="rounded-t-lg"
-    >
+    <v-card color="#fff" elevation="0" class="rounded-t-lg">
       <v-form>
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
@@ -29,53 +25,56 @@
               @keydown.enter="filterData"
             />
           </v-col>
-          <v-col
-            cols="12" lg="2" md="2"
-          >
+          <v-col cols="12" lg="2" md="2">
             <el-date-picker
               style="width: 100%"
               v-model="filters.createdAt"
               type="datetime"
               :placeholder="$t('packageType.child.created')"
+
               class="filter_picker"
+
               :picker-options="pickerShortcuts"
               format="dd.MM.yyyy HH:mm:ss"
             >
             </el-date-picker>
           </v-col>
-          <v-col
-            cols="12" lg="2" md="2"
-          >
+          <v-col cols="12" lg="2" md="2">
             <el-date-picker
-              style="width: 100%;"
+              style="width: 100%"
               v-model="filters.updatedAt"
               type="datetime"
               :placeholder="$t('packageType.child.updated')"
+
               class="filter_picker"
+
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
             >
             </el-date-picker>
           </v-col>
-          <v-spacer/>
+          <v-spacer />
           <v-col cols="12" lg="2" md="2">
             <div class="d-flex justify-end">
               <v-btn
-                width="140" outlined
-                color="#397CFD" elevation="0"
+                width="140"
+                outlined
+                color="#397CFD"
+                elevation="0"
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
-              {{ $t("packageType.child.reset") }}
+                {{ $t("packageType.child.reset") }}
               </v-btn>
               <v-btn
-                width="140" color="#397CFD" dark
+                width="140"
+                color="#397CFD"
+                dark
                 elevation="0"
                 class="text-capitalize rounded-lg"
                 @click="filterData"
               >
-              {{ $t("packageType.child.search") }}
-
+                {{ $t("packageType.child.search") }}
               </v-btn>
             </div>
           </v-col>
@@ -90,7 +89,7 @@
       :options.sync="options"
       :items-per-page="10"
       :footer-props="{
-        itemsPerPageOptions: [10, 20, 50, 100]
+        itemsPerPageOptions: [10, 20, 50, 100],
       }"
       class="mt-4 rounded-lg"
       @update:page="page"
@@ -101,24 +100,27 @@
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium text-capitalize">
               {{ $t("packageType.dialog.menuName") }}
-
             </div>
-            <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="new_dialog = true">
+            <v-btn
+              color="#7631FF"
+              class="rounded-lg text-capitalize"
+              dark
+              @click="new_dialog = true"
+            >
               <v-icon>mdi-plus</v-icon>
               {{ $t("packageType.dialog.addMainName") }}
-
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
-        <v-divider/>
+        <v-divider />
       </template>
-      <template #item.actions="{item}">
+      <template #item.actions="{ item }">
         <div>
           <v-btn icon color="green" @click.stop="editItem(item)">
-            <v-img src="/edit-active.svg" max-width="22"/>
+            <v-img src="/edit-active.svg" max-width="22" />
           </v-btn>
           <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-            <v-img src="/delete.svg" max-width="27"/>
+            <v-img src="/delete.svg" max-width="27" />
           </v-btn>
         </div>
       </template>
@@ -128,7 +130,6 @@
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
             {{ $t("packageType.dialog.enterMainName") }}
-
           </div>
           <v-btn icon color="#7631FF" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -182,21 +183,21 @@
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined
+            color="#7631FF"
             width="163"
             @click="new_dialog = false"
           >
-          {{ $t("packageType.dialog.cancelBtn") }}
-
+            {{ $t("packageType.dialog.cancelBtn") }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#7631FF"
+            dark
             width="163"
             @click="save"
           >
-          {{ $t("packageType.dialog.createBtn") }}
-
+            {{ $t("packageType.dialog.createBtn") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -206,7 +207,6 @@
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
             {{ $t("packageType.dialog.editDialog") }}
-
           </div>
           <v-btn icon color="#7631FF" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -262,21 +262,21 @@
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined
+            color="#7631FF"
             width="163"
             @click="edit_dialog = false"
           >
-          {{ $t("packageType.dialog.cancelBtn") }}
-
+            {{ $t("packageType.dialog.cancelBtn") }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#7631FF"
+            dark
             width="163"
             @click="update"
           >
-          {{ $t("packageType.dialog.editBtn") }}
-
+            {{ $t("update") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -284,9 +284,10 @@
     <v-dialog v-model="delete_dialog" max-width="500">
       <v-card class="pa-4 text-center">
         <div class="d-flex justify-center mb-2">
-          <v-img src="/error-icon.svg" max-width="40"/>
+          <v-img src="/error-icon.svg" max-width="40" />
         </div>
         <v-card-title class="d-flex justify-center">
+
           {{$t("packageType.dialog.deleteDialog")}}
 
         </v-card-title>
@@ -301,10 +302,9 @@
             width="140"
             @click.stop="delete_dialog = false"
           >
-          {{ $t("packageType.dialog.cancelBtn") }}
-
+            {{ $t("packageType.dialog.cancelBtn") }}
           </v-btn>
-          <v-spacer/>
+          <v-spacer />
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             color="#FF4E4F"
@@ -313,8 +313,7 @@
             dark
             @click="deletePackage"
           >
-          {{ $t("packageType.dialog.deleteBtn") }}
-
+            {{ $t("packageType.dialog.deleteBtn") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -323,7 +322,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "PackageShapePage",
@@ -383,7 +382,7 @@ export default {
         updatedAt: "",
         createdAt: "",
       },
-    }
+    };
   },
   watch: {
     async "options.sortBy"(elem) {
@@ -391,15 +390,22 @@ export default {
         if (this.options.sortDesc[0] !== undefined) {
           const items = {
             sortDesc: this.options.sortDesc[0],
-            sortBy: elem[0]
-          }
-          await this.sortPackageShape({page: this.current_page, size: this.itemPrePage, data: items})
+            sortBy: elem[0],
+          };
+          await this.sortPackageShape({
+            page: this.current_page,
+            size: this.itemPrePage,
+            data: items,
+          });
         }
       }
-    }
+    },
   },
   async created() {
-    await this.$store.dispatch("packageshape/getPackageShape", {page: 0, size: 10});
+    await this.$store.dispatch("packageshape/getPackageShape", {
+      page: 0,
+      size: 10,
+    });
     await this.$store.dispatch("packageshape/getMeasurementUnit");
   },
   computed: {
@@ -408,7 +414,7 @@ export default {
       packageShape: "packageshape/packageShape",
       totalElements: "packageshape/totalElements",
       measurement: "packageshape/measurement",
-    })
+    }),
   },
   methods: {
     ...mapActions({
@@ -421,11 +427,17 @@ export default {
     }),
     async size(val) {
       this.itemPrePage = val;
-      await this.$store.dispatch("packageshape/getPackageShape", {page: 0, size: this.itemPrePage});
+      await this.$store.dispatch("packageshape/getPackageShape", {
+        page: 0,
+        size: this.itemPrePage,
+      });
     },
     async page(val) {
       this.current_page = val - 1;
-      await this.$store.dispatch("packageshape/getPackageShape", {page: this.current_page, size: this.itemPrePage});
+      await this.$store.dispatch("packageshape/getPackageShape", {
+        page: this.current_page,
+        size: this.itemPrePage,
+      });
     },
     async deletePackage() {
       const id = this.delete_package.id;
@@ -433,7 +445,7 @@ export default {
       this.delete_dialog = false;
     },
     async save() {
-      const items = {...this.create_package};
+      const items = { ...this.create_package };
       await this.createPackageShape(items);
       this.create_package = {
         name: "",
@@ -448,12 +460,12 @@ export default {
         id: this.edit_package.id,
         description: this.edit_package.description,
         measurementId: this.edit_package.measurement.id,
-      }
+      };
       await this.updatePackageShape(items);
       this.edit_dialog = false;
     },
     async getDeleteItem(item) {
-      this.delete_package = {...item};
+      this.delete_package = { ...item };
       this.delete_dialog = true;
     },
     editItem(item) {
@@ -466,8 +478,8 @@ export default {
         measurement: {
           id: item.measurementUnitId,
           name: item.measurementUnit,
-        }
-      }
+        },
+      };
       this.edit_dialog = true;
     },
     async resetFilters() {
@@ -477,22 +489,23 @@ export default {
         updatedAt: "",
         createdAt: "",
       };
-      await this.getPackageShape({page: 0, size: 10});
+      await this.getPackageShape({ page: 0, size: 10 });
     },
     async filterData() {
-      const items = {...this.filters};
+      const items = { ...this.filters };
       await this.filterPackageShape(items);
     },
   },
   mounted() {
     this.$store.commit("setPageTitle", this.$t("sidebar.catalogs"));
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss">
 .el-input__inner::placeholder,
-.el-input__icon, .el-icon-time {
+.el-input__icon,
+.el-icon-time {
   color: #919191 !important;
 }
 </style>

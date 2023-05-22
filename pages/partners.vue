@@ -273,11 +273,12 @@
                   class="rounded-lg base"
                   color="#7631FF"
                   dense
+
                 />
               </v-col>
               <v-col cols="12">
                 <div class="text-body-1 font-weight-medium mb-3">
-                  {{ $t('partners.dialog.uploadContract') }}
+                  {{ $t("partners.dialog.uploadContract") }}
                 </div>
                 <v-card style="border: #a5a7ad dashed 1px" elevation="0">
                   <v-card-title>
@@ -294,8 +295,7 @@
                       :disabled="image_list.length !== 0"
                       class="font-weight-bold mr-3 text-capitalize"
                     >
-                    {{ $t('partners.dialog.uploadFiles') }}
-
+                      {{ $t("partners.dialog.uploadFiles") }}
                     </v-btn>
                   </v-card-title>
                   <v-card-text>
@@ -332,7 +332,9 @@
             width="163"
             @click="new_dialog = false"
           >
+
           {{ $t('partners.dialog.cancel') }}
+
 
           </v-btn>
           <v-btn
@@ -342,8 +344,7 @@
             width="163"
             @click="save"
           >
-          {{ $t('partners.dialog.created') }}
-
+            {{ $t("partners.dialog.create") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -352,8 +353,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
-          {{ $t('partners.dialog.editPartner') }}
-
+            {{ $t("partners.dialog.editPartner") }}
           </div>
           <v-btn icon color="#7631FF" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -405,6 +405,7 @@
                   placeholder="(--) --- -- --"
                   prefix="+998"
                   dense
+
                   color="#7631FF"
                 />
               </v-col>
@@ -477,7 +478,7 @@
               </v-col>
               <v-col cols="12">
                 <div class="text-body-1 font-weight-medium mb-3 d-flex">
-                  {{ $t('partners.dialog.uploadContract') }}
+                  {{ $t("partners.dialog.uploadContract") }}
 
                   <v-tooltip top color="green">
                     <template #activator="{ on, attrs }">
@@ -491,8 +492,7 @@
                       </div>
                     </template>
                     <span>
-                    {{ $t('partners.dialog.download') }}
-
+                      {{ $t("partners.dialog.download") }}
                     </span>
                   </v-tooltip>
                 </div>
@@ -510,8 +510,7 @@
                       style="background-color: #f1ebfe; color: #7631ff"
                       class="font-weight-bold mr-3 text-capitalize"
                     >
-                    {{ $t('partners.dialog.uploadFiles') }}
-
+                      {{ $t("partners.dialog.uploadFiles") }}
                     </v-btn>
                   </v-card-title>
                   <v-card-text>
@@ -549,8 +548,7 @@
             width="163"
             @click="edit_dialog = false"
           >
-          {{ $t('partners.dialog.cancel') }}
-
+            {{ $t("partners.dialog.cancel") }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -559,8 +557,7 @@
             width="163"
             @click="update"
           >
-          {{ $t('partners.dialog.created') }}
-
+            {{ $t("update") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -570,15 +567,16 @@
         <div class="d-flex justify-center mb-2">
           <v-img src="/error-icon.svg" max-width="40" />
         </div>
+
         <v-card-title class="d-flex justify-center"
           >
           {{ $t('partners.dialog.deleteDialog') }}
 
           </v-card-title
         >
-        <v-card-text>
-          {{ $t('partners.dialog.deleteText') }}
 
+        <v-card-text>
+          {{ $t("partners.dialog.deleteText") }}
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -588,8 +586,7 @@
             width="140"
             @click.stop="delete_dialog = false"
           >
-          {{ $t('partners.dialog.cancel') }}
-
+            {{ $t("partners.dialog.cancel") }}
           </v-btn>
           <v-spacer />
           <v-btn
@@ -600,8 +597,7 @@
             dark
             @click="deletePartners"
           >
-          {{ $t('partners.dialog.delete') }}
-
+            {{ $t("partners.dialog.delete") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -625,6 +621,7 @@ export default {
       itemPrePage: 10,
       current_page: 0,
       headers: [
+
         { text: this.$t('partners.table.id'), value: "id", sortable: false },
         { text: this.$t('partners.table.name'), value: "name", sortable: false },
         { text: this.$t('partners.table.address'), value: "address", sortable: false },
@@ -635,6 +632,7 @@ export default {
         { text: this.$t('partners.table.createdAt'), value: "createdAt", sortable: false },
         { text: this.$t('partners.table.updatedAt'), value: "updatedAt", sortable: false },
         { text: this.$t('partners.table.actions'), value: "actions", align: "center", sortable: false, width: 108 },
+
       ],
       items_list: [],
       image_list: [],
@@ -809,7 +807,7 @@ export default {
       }
     },
 
-    async deletePartners(){
+    async deletePartners() {
       await this.deletePartnerList(this.delete_partners_id);
 
       this.delete_dialog = false;

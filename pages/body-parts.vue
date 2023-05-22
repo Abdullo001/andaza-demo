@@ -220,7 +220,7 @@
             width="163"
             @click="update"
           >
-            {{ $t("bodyParts.dialog.editBtn") }}
+            {{ $t("update") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -231,7 +231,7 @@
           <v-img src="/error-icon.svg" max-width="40" />
         </div>
         <v-card-title class="d-flex justify-center">
-          {{$t("bodyParts.dialog.deleteDialog")}}
+          {{ $t("bodyParts.dialog.deleteDialog") }}
         </v-card-title>
         <v-card-text>
           {{ $t("bodyParts.dialog.deleteText") }}
