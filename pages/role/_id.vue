@@ -31,10 +31,13 @@
         <v-form lazy-validation v-model="validate" ref="form">
           <v-row>
             <v-col cols="12" md="4">
+              <div class="label">Role ID</div>
               <v-text-field
                 :disabled="disabled"
-                label="Role ID"
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
                 dense
                 v-model="get_one_role.id"
                 color="#7631FF"
@@ -43,10 +46,13 @@
               />
             </v-col>
             <v-col cols="12" md="4">
+              <div class="label">Role name</div>
               <v-text-field
                 :disabled="disabled"
-                label="Role name"
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
                 dense
                 v-model="get_one_role.name"
                 color="#7631FF"
@@ -55,10 +61,13 @@
               />
             </v-col>
             <v-col cols="12" md="4">
+              <div class="label">Description</div>
               <v-textarea
                 :disabled="disabled"
-                label="Description"
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
                 rows="1"
                 dense
                 v-model="get_one_role.description"
@@ -69,28 +78,30 @@
               />
             </v-col>
             <v-col cols="12" md="4">
+              <div class="label">Status</div>
               <v-select
                 :disabled="disabled"
-                label="Status"
-                class="rounded-lg"
                 :items="statusEnums"
-                hide-details
                 dense
                 append-icon="mdi-chevron-down"
                 v-model="get_one_role.status"
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
                 color="#7631FF"
                 validate-on-blur
               >
               </v-select>
             </v-col>
-            <v-col
-              cols="12" md="4"
-            >
+            <v-col cols="12" md="4">
+              <div class="label">Role name</div>
               <v-text-field
                 :disabled="disabled"
-                label="Role name"
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
                 dense
                 disabled
                 v-model="get_one_role.createdAt"
@@ -99,13 +110,14 @@
                 validate-on-blur
               />
             </v-col>
-            <v-col
-              cols="12" md="4"
-            >
+            <v-col cols="12" md="4">
+              <div class="label">Role name</div>
               <v-text-field
                 :disabled="disabled"
-                label="Role name"
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
                 dense
                 disabled
                 v-model="get_one_role.updatedAt"
@@ -173,9 +185,13 @@
           <v-form lazy-validation v-model="edit_form" ref="new_form">
             <v-row class="mt-4">
               <v-col cols="12" md="6">
+                <div class="label">Role ID</div>
                 <v-text-field
-                  label="Role ID"
-                  filled
+                  placeholder="Enter role ID"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   dense
                   color="#7631FF"
                   :rules="[formRules.required]"
@@ -184,20 +200,28 @@
                 </v-text-field>
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Status</div>
                 <v-select
-                  label="Status"
-                  filled
+                  placeholder="Select Status"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   dense
                   color="#7631FF"
                   :rules="[formRules.required]"
                   validate-on-blur
+                  append-icon="mdi-chevron-down"
                 >
                 </v-select>
               </v-col>
               <v-col cols="12">
+                <div class="label">Permission name</div>
                 <v-text-field
-                  label="Permission name"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   dense
                   color="#7631FF"
                   placeholder="Enter permission name"
@@ -206,9 +230,12 @@
                 />
               </v-col>
               <v-col cols="12">
+                <div class="label">Description</div>
                 <v-textarea
-                  label="Description"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   dense
                   color="#7631FF"
                   placeholder="Person who sews materials"
@@ -217,9 +244,12 @@
                 />
               </v-col>
               <v-col cols="12">
+                <div class="label">Permission</div>
                 <v-text-field
-                  label="Permission"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   dense
                   color="#7631FF"
                   placeholder="Enter permission path"
@@ -287,11 +317,16 @@
           </v-btn>
         </v-card-title>
         <v-card-text>
+          <div class="label">Permission</div>
           <v-select
-            label="Permission"
-            filled
+            label="Select permission"
+            outlined
+            hide-details
+            height="44"
+            class="rounded-lg base"
             dense
             chips
+            append-icon="mdi-chevron-down"
             deletable-chips
             multiple
             :items="permissionSelect"
@@ -324,8 +359,10 @@
 
 <script>
 import {mapGetters} from "vuex";
+import Breadcrumbs from "../../components/Breadcrumbs.vue";
 
 export default {
+  components: {Breadcrumbs},
   data() {
     return {
       validate: true,

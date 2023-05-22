@@ -11,7 +11,7 @@
             <v-text-field
               :label="$t('permissionRole.dialog.roleId')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               v-model="filters.id"
               hide-details
               dense
@@ -21,7 +21,7 @@
             <v-text-field
               :label="$t('permissionRole.dialog.roleName')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               v-model="filters.key"
               hide-details
               dense
@@ -32,7 +32,7 @@
               :label="$t('permissionRole.dialog.status')"
               outlined
               :items="statusEnums"
-              class="rounded-lg"
+              class="rounded-lg filter"
               v-model="filters.status"
               hide-details
               append-icon="mdi-chevron-down"
@@ -45,6 +45,7 @@
             <el-date-picker
               type="datetime"
               v-model="filters.value"
+              class="filter_picker"
               :placeholder="$t('from')"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
@@ -57,6 +58,7 @@
             <el-date-picker
               type="datetime"
               v-model="filters.value_to"
+              class="filter_picker"
               :placeholder="$t('to')"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
@@ -162,9 +164,12 @@
           <v-form ref="new_form">
             <v-row class="mt-4">
               <v-col cols="12">
+                <div class="label">{{$t('permissionRole.dialog.roleName')}}</div>
                 <v-text-field
-                  :label="$t('permissionRole.dialog.roleName')"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   dense
                   v-model="new_role.name"
                   color="#7631FF"
@@ -173,12 +178,13 @@
                 />
               </v-col>
               <v-col cols="12">
+                <div class="label">{{$t('permissionRole.dialog.description')}}</div>
                 <v-textarea
-                  :label="$t('permissionRole.dialog.description')"
-                  filled
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
                   v-model="new_role.description"
                   dense
-                  rows="1"
                   color="#7631FF"
                   placeholder="Enter role description"
                   validate-on-blur
@@ -220,9 +226,12 @@
           <v-form ref="new_form">
             <v-row class="mt-4">
               <v-col cols="12">
+                <div class="label">{{$t('permissionRole.dialog.status')}}</div>
                 <v-select
-                  :label="$t('permissionRole.dialog.status')"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   dense
                   append-icon="mdi-chevron-down"
                   v-model="edit_role.status"
@@ -233,9 +242,12 @@
                 />
               </v-col>
               <v-col cols="12">
+                <div class="label">{{$t('permissionRole.dialog.roleName')}}</div>
                 <v-text-field
-                  :label="$t('permissionRole.dialog.roleName')"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   dense
                   v-model="edit_role.name"
                   color="#7631FF"
@@ -244,9 +256,11 @@
                 />
               </v-col>
               <v-col cols="12">
+                <div class="label">{{$t('permissionRole.dialog.description')}}</div>
                 <v-textarea
-                  :label="$t('permissionRole.dialog.description')"
-                  filled
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
                   dense
                   v-model="edit_role.description"
                   color="#7631FF"

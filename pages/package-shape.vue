@@ -8,7 +8,7 @@
               v-model="filters.id"
               :label="$t('packageType.child.idSearch')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -19,7 +19,7 @@
               v-model="filters.name"
               :label="$t('packageType.child.name')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -31,6 +31,9 @@
               v-model="filters.createdAt"
               type="datetime"
               :placeholder="$t('packageType.child.created')"
+
+              class="filter_picker"
+
               :picker-options="pickerShortcuts"
               format="dd.MM.yyyy HH:mm:ss"
             >
@@ -42,6 +45,9 @@
               v-model="filters.updatedAt"
               type="datetime"
               :placeholder="$t('packageType.child.updated')"
+
+              class="filter_picker"
+
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
             >
@@ -131,31 +137,47 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form ref="new_form">
-            <v-text-field
-              v-model="create_package.name"
-              filled
-              :label="$t('packageType.dialog.name')"
-              :placeholder="$t('packageType.dialog.enterMainName')"
-              color="#7631FF"
-            />
-            <v-textarea
-              v-model="create_package.description"
-              filled
-              :label="$t('packageType.dialog.description')"
-              :placeholder="$t('packageType.dialog.descriptionPlacholder')"
-              color="#7631FF"
-            />
-            <v-select
-              v-model="create_package.measurementId"
-              :items="measurement"
-              filled
-              item-text="name"
-              item-value="id"
-              append-icon="mdi-chevron-down"
-              :label="$t('packageType.dialog.measurementUnit')"
-              :placeholder="$t('packageType.dialog.measurementUnitText')"
-              color="#7631FF"
-            />
+            <v-row>
+              <v-col cols="12">
+                <div class="label">{{$t('packageType.dialog.name')}}</div>
+                <v-text-field
+                  v-model="create_package.name"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
+                  height="44"
+                  :placeholder="$t('packageType.dialog.enterMainName')"
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12">
+                <div class="label">{{$t('packageType.dialog.description')}}</div>
+                <v-textarea
+                  v-model="create_package.description"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
+                  :placeholder="$t('packageType.dialog.descriptionPlacholder')"
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12">
+                <div class="label">{{$t('packageType.dialog.measurementUnit')}}</div>
+                <v-select
+                  v-model="create_package.measurementId"
+                  :items="measurement"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  item-text="name"
+                  item-value="id"
+                  append-icon="mdi-chevron-down"
+                  :placeholder="$t('packageType.dialog.measurementUnitText')"
+                  color="#7631FF"
+                />
+              </v-col>
+            </v-row>
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
@@ -192,32 +214,49 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form ref="new_form">
-            <v-text-field
-              v-model="edit_package.name"
-              filled
-              :label="$t('packageType.dialog.name')"
-              :placeholder="$t('packageType.dialog.enterMainName')"
-              color="#7631FF"
-            />
-            <v-textarea
-              v-model="edit_package.description"
-              filled
-              :label="$t('packageType.dialog.description')"
-              :placeholder="$t('packageType.dialog.descriptionPlacholder')"
-              color="#7631FF"
-            />
-            <v-select
-              v-model="edit_package.measurement"
-              :items="measurement"
-              filled
-              disabled
-              append-icon="mdi-chevron-down"
-              item-text="name"
-              item-value="id"
-              :label="$t('packageType.dialog.measurementUnit')"
-              :placeholder="$t('packageType.dialog.measurementUnitText')"
-              color="#7631FF"
-            />
+            <v-row>
+              <v-col cols="12">
+                <div class="label">{{$t('packageType.dialog.name')}}</div>
+                <v-text-field
+                  v-model="edit_package.name"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
+                  height="44"
+                  :placeholder="$t('packageType.dialog.enterMainName')"
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12">
+                <div class="label">{{$t('packageType.dialog.description')}}</div>
+                <v-textarea
+                  v-model="edit_package.description"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
+                  height="44"
+                  :label="$t('packageType.dialog.description')"
+                  :placeholder="$t('packageType.dialog.descriptionPlacholder')"
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12">
+                <div class="label">{{$t('packageType.dialog.measurementUnit')}}</div>
+                <v-select
+                  v-model="edit_package.measurement"
+                  :items="measurement"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
+                  disabled
+                  append-icon="mdi-chevron-down"
+                  item-text="name"
+                  item-value="id"
+                  :placeholder="$t('packageType.dialog.measurementUnitText')"
+                  color="#7631FF"
+                />
+              </v-col>
+            </v-row>
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
@@ -248,7 +287,9 @@
           <v-img src="/error-icon.svg" max-width="40" />
         </div>
         <v-card-title class="d-flex justify-center">
-          {{ $t("packageType.dialog.deleteDialog") }}
+
+          {{$t("packageType.dialog.deleteDialog")}}
+
         </v-card-title>
         <v-card-text>
           {{ $t("packageType.dialog.deleteText") }}

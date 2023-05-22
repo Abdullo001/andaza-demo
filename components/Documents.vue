@@ -206,7 +206,7 @@
             width="140" height="40"
             @click="docUpdate"
           >
-            save
+            {{ $t('update') }}
           </v-btn>
           <v-spacer/>
         </v-card-actions>

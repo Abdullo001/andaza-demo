@@ -11,7 +11,7 @@
             <v-text-field
               :label="$t('prefinances.dialog.refinanceNumber')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               v-model.trim="filters.financeNumber"
               hide-details
               dense
@@ -22,7 +22,7 @@
             <v-text-field
               :label="$t('prefinances.dialog.modelN')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               v-model.trim="filters.modelId"
               hide-details
               dense
@@ -33,7 +33,7 @@
             <v-text-field
               :label="$t('prefinances.dialog.partner')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               v-model.trim="filters.partnerId"
               hide-details
               dense

@@ -32,19 +32,25 @@
         <v-form lazy-validation ref="device_info" v-model="valid">
           <v-row>
             <v-col>
-              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudUsers.child.accountId') }}</div>
+              <div class="label mt-4">{{ $t('fraudUsers.child.accountId') }}</div>
               <v-text-field
                 v-model="account.accountId"
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="base rounded-lg"
                 dense
                 clearable
                 style="max-width: 400px"
                 :disabled="fields_status"
               />
-              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudUsers.child.blockedBy') }}</div>
+              <div class="label mt-4">{{ $t('fraudUsers.child.blockedBy') }}</div>
               <v-text-field
                 v-model="account.blockedBy"
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="base rounded-lg"
                 dense
                 clearable
                 style="max-width: 400px"
@@ -53,19 +59,25 @@
 
             </v-col>
             <v-col>
-              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudUsers.child.blockedTime') }}</div>
+              <div class="label mt-4">{{ $t('fraudUsers.child.blockedTime') }}</div>
               <v-text-field
                 v-model="account.blockedDate"
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="base rounded-lg"
                 dense
                 clearable
                 style="max-width: 400px"
                 :disabled="fields_status"
               />
-              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudUsers.child.unblockedTime') }}</div>
+              <div class="label mt-4">{{ $t('fraudUsers.child.unblockedTime') }}</div>
               <v-text-field
                 v-model="account.unblockedDate"
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="base rounded-lg"
                 dense
                 clearable
                 style="max-width: 400px"
@@ -73,11 +85,14 @@
               />
             </v-col>
             <v-col>
-              <div class="mb-1 text-body-1 mt-4">{{ $t('fraudUsers.child.status') }}</div>
+              <div class="label mt-4">{{ $t('fraudUsers.child.status') }}</div>
               <v-select
                 v-model="account.status"
                 :items="status_enums"
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="base rounded-lg"
                 dense
                 clearable
                 style="max-width: 400px"

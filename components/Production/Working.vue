@@ -75,10 +75,14 @@
                 v-for="(item, idx) in partList?.sizeDistributions"
                 :key="idx"
               >
-                <div class="text-body-1 mb-3 font-weight-bold">{{ item?.size }}</div>
+                <div class="label">{{ item?.size }}</div>
                 <v-text-field
                   v-model="create_working_operation.sizeDistributions[idx].quantity"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  dense
+                  class="rounded-lg base"
                   :rules="[ formRules.required ]"
                   validate-on-blur
                   placeholder="0"
@@ -86,10 +90,14 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('workingProcess.working.total') }}</div>
+                <div class="label">{{ $t('workingProcess.working.total') }}</div>
                 <v-text-field
                   v-model="create_working_operation.total"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  dense
+                  class="rounded-lg base"
                   :rules="[ formRules.required ]"
                   validate-on-blur
                   placeholder="0"
@@ -97,10 +105,14 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('workingProcess.working.return') }}</div>
+                <div class="label">{{ $t('workingProcess.working.return') }}</div>
                 <v-text-field
                   v-model="create_working_operation.returnedQuantity"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  dense
+                  class="rounded-lg base"
                   :rules="[ formRules.required ]"
                   validate-on-blur
                   placeholder="0"
@@ -108,10 +120,14 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('workingProcess.working.loss') }}</div>
+                <div class="label">{{ $t('workingProcess.working.loss') }}</div>
                 <v-text-field
                   v-model="create_working_operation.lostQuantity"
-                  filled
+                  outlined
+                  hide-details
+                  dense
+                  height="44"
+                  class="rounded-lg base"
                   :rules="[ formRules.required ]"
                   validate-on-blur
                   placeholder="0"
@@ -119,22 +135,29 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('workingProcess.working.lossReason') }}</div>
+                <div class="label">{{ $t('workingProcess.working.lossReason') }}</div>
                 <v-textarea
                   v-model="create_working_operation.lostReason"
                   rows="1"
-                  filled
+                  outlined
+                  hide-details
+                  dense
+                  class="rounded-lg base"
                   auto-grow
                   color="#7631FF"
                   :placeholder="$t('workingProcess.working.selectWorkingProcess')"
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('workingProcess.working.weight') }}</div>
+                <div class="label">{{ $t('workingProcess.working.weight') }}</div>
                 <div class="d-flex align-center">
                   <v-text-field
                     v-model="create_working_operation.weight"
-                    filled
+                    outlined
+                    hide-details
+                    dense
+                    height="44"
+                    class="rounded-lg base"
                     :rules="[ formRules.required ]"
                     validate-on-blur
                     placeholder="0"
@@ -144,7 +167,11 @@
                     v-model="create_working_operation.weightUnit"
                     :items="weight_enum"
                     style="width: 30px;"
-                    filled
+                    outlined
+                    dense
+                    hide-details
+                    height="44"
+                    class="rounded-lg base"
                     :rules="[ formRules.required ]"
                     validate-on-blur
                     append-icon="mdi-chevron-down"
@@ -153,11 +180,15 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('workingProcess.working.status') }}</div>
+                <div class="label">{{ $t('workingProcess.working.status') }}</div>
                 <v-select
                   v-model="create_working_operation.status"
                   :items="status_enums"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  dense
+                  class="rounded-lg base"
                   :rules="[ formRules.required ]"
                   append-icon="mdi-chevron-down"
                   validate-on-blur
@@ -166,10 +197,14 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('workingProcess.working.vat') }}, %</div>
+                <div class="label">{{ $t('workingProcess.working.vat') }}, %</div>
                 <v-text-field
                   v-model="create_working_operation.vatTaxPercent"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  dense
+                  class="rounded-lg base"
                   validate-on-blur
                   :rules="create_working_operation.isVatTaxEnabled !== 'YES' ? [] : [formRules.required]"
                   :disabled="form_disabled"
@@ -178,11 +213,15 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('workingProcess.working.vat') }}</div>
+                <div class="label">{{ $t('workingProcess.working.vat') }}</div>
                 <v-select
                   v-model="create_working_operation.isVatTaxEnabled"
                   :items="vat"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  dense
+                  class="rounded-lg base"
                   :rules="[ formRules.required ]"
                   validate-on-blur
                   append-icon="mdi-chevron-down"
@@ -191,10 +230,14 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('workingProcess.working.comment') }}</div>
+                <div class="label">{{ $t('workingProcess.working.comment') }}</div>
                 <v-text-field
                   v-model="create_working_operation.description"
-                  filled
+                  outlined
+                  dense
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   placeholder="0"
                   color="#7631FF"
                 />
@@ -242,10 +285,13 @@
                 v-for="(item, idx) in partList?.sizeDistributions"
                 :key="idx"
               >
-                <div class="text-body-1 mb-3 font-weight-bold">{{ item?.size }}</div>
+                <div class="label">{{ item?.size }}</div>
                 <v-text-field
                   v-model="update_working.sizeDistributions[idx].quantity"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   :rules="[ formRules.required ]"
                   validate-on-blur
                   placeholder="0"
@@ -253,10 +299,13 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('workingProcess.working.total') }}</div>
+                <div class="label">{{ $t('workingProcess.working.total') }}</div>
                 <v-text-field
                   v-model="update_working.totalQuantity"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   :rules="[ formRules.required ]"
                   validate-on-blur
                   placeholder="0"
@@ -264,10 +313,13 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('workingProcess.working.return') }}</div>
+                <div class="label">{{ $t('workingProcess.working.return') }}</div>
                 <v-text-field
                   v-model="update_working.returnQuantity"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   :rules="[ formRules.required ]"
                   validate-on-blur
                   placeholder="0"
@@ -275,10 +327,13 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('workingProcess.working.loss') }}</div>
+                <div class="label">{{ $t('workingProcess.working.loss') }}</div>
                 <v-text-field
                   v-model="update_working.lostQuantity"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   :rules="[ formRules.required ]"
                   validate-on-blur
                   placeholder="0"
@@ -286,22 +341,28 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('workingProcess.working.lossReason') }}</div>
+                <div class="label">{{ $t('workingProcess.working.lossReason') }}</div>
                 <v-textarea
                   v-model="update_working.lostReason"
                   rows="1"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   auto-grow
                   color="#7631FF"
                   :placeholder="$t('workingProcess.working.selectLossReason')"
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('workingProcess.working.weight') }}</div>
+                <div class="label">{{ $t('workingProcess.working.weight') }}</div>
                 <div class="d-flex align-center">
                   <v-text-field
                     v-model="update_working.weight"
-                    filled
+                    outlined
+                    hide-details
+                    height="44"
+                    class="rounded-lg base"
                     validate-on-blur
                     :rules="[ formRules.required ]"
                     placeholder="0"
@@ -311,7 +372,10 @@
                     v-model="update_working.weightUnit"
                     :items="weight_enum"
                     style="width: 30px;"
-                    filled
+                    outlined
+                    hide-details
+                    height="44"
+                    class="rounded-lg base"
                     hide-selected
                     :rules="[ formRules.required ]"
                     validate-on-blur
@@ -321,11 +385,14 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('workingProcess.working.status') }}</div>
+                <div class="label">{{ $t('workingProcess.working.status') }}</div>
                 <v-select
                   v-model="update_working.status"
                   :items="status_enums"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   :rules="[ formRules.required ]"
                   validate-on-blur
                   append-icon="mdi-chevron-down"
@@ -334,10 +401,13 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('workingProcess.working.vat') }}, %</div>
+                <div class="label">{{ $t('workingProcess.working.vat') }}, %</div>
                 <v-text-field
                   v-model="update_working.vatTaxPercent"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   :disabled="update_working.isVatTexEnabled!=='YES'"
                   :placeholder="$t('workingProcess.working.selectVat')"
                   :rules="update_working.isVatTexEnabled !== 'YES' ? [] : [formRules.required]"
@@ -345,11 +415,14 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('workingProcess.working.vat') }}</div>
+                <div class="label">{{ $t('workingProcess.working.vat') }}</div>
                 <v-select
                   v-model="update_working.isVatTexEnabled"
                   :items="vat"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   validate-on-blur
                   append-icon="mdi-chevron-down"
                   :placeholder="$t('workingProcess.working.selectVat')"
@@ -357,10 +430,13 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('workingProcess.working.comment') }}</div>
+                <div class="label">{{ $t('workingProcess.working.comment') }}</div>
                 <v-text-field
                   v-model="update_working.description"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   :placeholder="$t('workingProcess.working.selectComment')"
                   color="#7631FF"
                 />

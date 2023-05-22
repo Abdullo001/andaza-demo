@@ -8,7 +8,7 @@
               v-model="filters.partName"
               :label="$t('bodyParts.child.name')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -18,6 +18,7 @@
             <el-date-picker
               v-model="filters.createdAt"
               type="datetime"
+              class="filter_picker"
               style="width: 100%"
               :placeholder="$t('bodyParts.child.created')"
               :picker-options="pickerShortcuts"
@@ -28,6 +29,7 @@
           <v-col cols="12" lg="2" md="2">
             <el-date-picker
               style="width: 100%"
+              class="filter_picker"
               v-model="filters.updatedAt"
               type="datetime"
               :placeholder="$t('bodyParts.child.updated')"
@@ -120,22 +122,33 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form ref="new_form">
-            <v-text-field
-              v-model="create_bodyParts.partName"
-              filled
-              :label="$t('bodyParts.dialog.name')"
-              :placeholder="$t('bodyParts.dialog.enterMainName')"
-              dense
-              color="#7631FF"
-            />
-            <v-textarea
-              v-model="create_bodyParts.description"
-              filled
-              :label="$t('bodyParts.dialog.description')"
-              :placeholder="$t('bodyParts.dialog.descriptionPlacholder')"
-              dense
-              color="#7631FF"
-            />
+            <v-row>
+              <v-col cols="12">
+                <div class="label">{{$t('bodyParts.dialog.name')}}</div>
+                <v-text-field
+                  v-model="create_bodyParts.partName"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
+                  height="44"
+                  :placeholder="$t('bodyParts.dialog.enterMainName')"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12">
+                <div class="label">{{$t('bodyParts.dialog.description')}}</div>
+                <v-textarea
+                  v-model="create_bodyParts.description"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
+                  :placeholder="$t('bodyParts.dialog.descriptionPlacholder')"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+            </v-row>
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">

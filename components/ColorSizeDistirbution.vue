@@ -42,7 +42,7 @@
     <v-dialog v-model="edit_dialog" max-width="572">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
-          <div>Add color/Size</div>
+          <div>Edit color/Size</div>
           <v-btn @click="edit_dialog = !edit_dialog" icon>
             <v-icon color="#7631FF">mdi-close</v-icon>
           </v-btn>
@@ -108,7 +108,7 @@
                 v-if="this.$route.params.id !== `add-order`"
                 width="163"
                 @click="update"
-                >save
+                >update
               </v-btn>
               <v-btn
                 class="text-capitalize rounded-lg font-weight-bold"

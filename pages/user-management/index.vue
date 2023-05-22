@@ -11,7 +11,7 @@
             <v-text-field
               :label="$t('userManagement.dialog.userId')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               v-model="search.user_id"
               hide-details
               dense
@@ -23,7 +23,7 @@
             <v-text-field
               :label="$t('userManagement.dialog.firstName')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               v-model="search.first_name"
               hide-details
               dense
@@ -35,7 +35,7 @@
             <v-text-field
               :label="$t('userManagement.dialog.lastName')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               v-model="search.last_name"
               hide-details
               dense
@@ -49,6 +49,7 @@
             <el-date-picker
               v-model="search.start_time"
               type="datetime"
+              class="filter_picker"
               :placeholder="$t('from')"
               :picker-options="pickerShortcuts"
               format="dd.MM.yyyy HH:mm:ss"
@@ -61,6 +62,7 @@
             <el-date-picker
               v-model="search.end_time"
               type="datetime"
+              class="filter_picker"
               :placeholder="$t('to')"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
@@ -243,7 +245,7 @@
         <v-card-text>
           <v-form lazy-validation ref="new_user" v-model="new_valid">
             <v-row>
-              <v-col cols="12" lg="6">
+              <v-col cols="12" md="6">
                 <div class="d-flex align-center">
                   <v-img :src="avatar ? avatar : '/upload-default.svg'" max-width="120" v-ripple class="rounded-lg"/>
                   <v-btn color="#F1EBFE" elevation="0" class="rounded-lg ml-6 text-capitalize"
@@ -260,26 +262,30 @@
                   />
                 </div>
               </v-col>
-              <v-col cols="12" lg="6" align-self="end">
+            </v-row>
+            <v-row class="mt-4">
+              <v-col cols="12" lg="6">
+                <div class="label">{{ $t('userManagement.dialog.userName') }}</div>
                 <v-text-field
-                  :label="$t('userManagement.dialog.userName')"
-                  filled
                   dense
+                  outlined
+                  class="base rounded-lg"
                   color="#7631FF"
+                  hide-details
                   :placeholder="$t('userManagement.dialog.enterUsername')"
                   v-model="user_data.username"
                   :rules="[formRules.required]"
                   validate-on-blur
                 />
               </v-col>
-            </v-row>
-            <v-row class="mt-4">
               <v-col cols="12" lg="6">
+                <div class="label">{{$t('userManagement.dialog.firstName')}}</div>
                 <v-text-field
-                  :label="$t('userManagement.dialog.firstName')"
-                  filled
+                  outlined
                   dense
                   color="#7631FF"
+                  hide-details
+                  class="base rounded-lg"
                   :placeholder="$t('userManagement.dialog.enterFirstName')"
                   v-model="user_data.firstname"
                   :rules="[formRules.required]"
@@ -287,11 +293,14 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
+                <div class="label">{{ $t('userManagement.dialog.lastName') }}</div>
                 <v-text-field
-                  :label="$t('userManagement.dialog.lastName')"
-                  filled
+                  outlined
                   dense
+                  clearable
+                  class="base rounded-lg"
                   color="#7631FF"
+                  hide-details
                   :placeholder="$t('userManagement.dialog.enterLastName')"
                   v-model="user_data.lastname"
                   :rules="[formRules.required]"
@@ -299,10 +308,12 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
+                <div class="label">{{$t('userManagement.dialog.phoneNumber')}}</div>
                 <v-text-field
-                  :label="$t('userManagement.dialog.phoneNumber')"
-                  filled
+                  outlined
+                  class="base rounded-lg"
                   dense
+                  hide-details
                   color="#7631FF"
                   v-mask="'(##) ### ## ##'"
                   prefix="+998"
@@ -313,26 +324,28 @@
               </v-col>
 
               <v-col cols="12" lg="6">
+                <div class="label">{{$t('userManagement.dialog.eMail')}}</div>
                 <v-text-field
-                  :label="$t('userManagement.dialog.eMail')"
-                  filled
                   dense
+                  hide-details
+                  outlined
+                  class="base rounded-lg"
                   color="#7631FF"
                   :placeholder="$t('userManagement.dialog.entereMail')"
-                  class="mb-3"
                   v-model="user_data.email"
                   validate-on-blur
                 />
               </v-col>
               <v-col cols="12" lg="6">
+                <div class="label">{{$t('userManagement.dialog.gender')}}</div>
                 <v-select
                   :items="gender_enums"
-                  :label="$t('userManagement.dialog.gender')"
-                  filled
+                  outlined
+                  class="base rounded-lg"
                   dense
+                  hide-details
                   color="#7631FF"
                   :placeholder="$t('userManagement.dialog.selectGender')"
-                  class="mb-3"
                   v-model="user_data.gender"
                   :rules="[formRules.required]"
                   validate-on-blur
@@ -340,10 +353,15 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
+                <div class="label">Language</div>
                 <v-select
-                  :items="lang_list" label="Language"
-                  v-model="user_data.lang" append-icon="mdi-chevron-down"
-                  filled
+                  :items="lang_list"
+                  v-model="user_data.lang"
+                  append-icon="mdi-chevron-down"
+                  placeholder="Select language"
+                  outlined
+                  hide-details
+                  class="base rounded-lg"
                   dense
                 >
                   <template #selection="{item, index}">
@@ -402,6 +420,7 @@
                 :label="$t('userManagement.dialog.firstName')"
                 filled
                 dense
+                height="44"
                 color="#7631FF"
                 :placeholder="$t('userManagement.dialog.enterFirstName')"
                 v-model="user_update_data.firstName"
@@ -415,6 +434,7 @@
                 :label="$t('userManagement.dialog.lastName')"
                 filled
                 dense
+                height="44"
                 color="#7631FF"
                 :placeholder="$t('userManagement.dialog.enterLastName')"
                 v-model="user_update_data.lastName"
@@ -428,6 +448,7 @@
                 :label="$t('userManagement.dialog.phoneNumber')"
                 filled
                 dense
+                height="44"
                 color="#7631FF"
                 v-mask="'+### (##) ### ## ##'"
                 placeholder="(--) --- -- --"
@@ -442,6 +463,7 @@
                 :label="$t('userManagement.dialog.userName')"
                 filled
                 dense
+                height="44"
                 color="#7631FF"
                 :placeholder="$t('userManagement.dialog.enterUsername')"
                 v-model="user_update_data.username"
@@ -455,6 +477,7 @@
                 :label="$t('userManagement.dialog.eMail')"
                 filled
                 dense
+                height="44"
                 color="#7631FF"
                 :placeholder="$t('userManagement.dialog.entereMail')"
                 class="mb-3"
@@ -725,11 +748,6 @@ export default {
 </script>
 
 <style lang="scss">
-.el-input__inner {
-  &::placeholder {
-    color: #000 !important;
-  }
-}
 .v-text-field--rounded > .v-input__control > .v-input__slot {
   padding: 0 14px;
   font-size: 14px;

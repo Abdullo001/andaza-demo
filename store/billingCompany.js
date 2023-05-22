@@ -1,6 +1,6 @@
 export const state = () => ({
   company: [],
-  loading: true,
+  loading: false,
 })
 
 export const getters ={
@@ -17,20 +17,20 @@ export const mutations ={
 };
 export const actions ={
   getBillingCompanies({commit}, {page= 0, size = 10}) {
-    const body = {
-      filters: [],
-      sorts: [],
-      page,
-      size,
-    };
-    this.$axios.$put(`/api/v1/`, body)
-      .then(res => {
-        commit('setLoading', false)
-        console.log(res);
-      })
-      .catch(({response}) => {
-        commit('setLoading', false)
-        console.log(response)
-      })
+    // const body = {
+    //   filters: [],
+    //   sorts: [],
+    //   page,
+    //   size,
+    // };
+    // this.$axios.$put(`/api/v1/`, body)
+    //   .then(res => {
+    //     commit('setLoading', false)
+    //     console.log(res);
+    //   })
+    //   .catch(({response}) => {
+    //     commit('setLoading', false)
+    //     console.log(response)
+    //   })
   }
 };

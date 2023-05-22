@@ -57,107 +57,139 @@
           <v-form v-model="validate" ref="processing">
             <v-row justify="center">
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('planningProduction.planning.workingProcess') }}</div>
+                <div class="label">{{ $t('planningProduction.planning.workingProcess') }}</div>
                 <v-select
                   :items="processList"
                   item-text="name"
                   item-value="id"
-                  filled color="#7631FF"
+                  outlined
+                  hide-details
+                  height="44"
+                  dense
+                  class="rounded-lg base"
+                  color="#7631FF"
                   append-icon="mdi-chevron-down"
                   :placeholder="$t('planningProduction.planning.selectWorkingProcess')"
                   v-model="new_process.processId"
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('planningProduction.planning.workshop') }}</div>
+                <div class="label">{{ $t('planningProduction.planning.workshop') }}</div>
                 <v-select
                   :items="workshopList"
                   item-text="name"
                   item-value="id"
-                  filled color="#7631FF"
+                  outlined
+                  hide-details
+                  height="44"
+                  dense
+                  class="rounded-lg base"  color="#7631FF"
                   append-icon="mdi-chevron-down"
                   :placeholder="$t('planningProduction.planning.selectWorkshop')"
                   v-model="new_process.workshopId"
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('planningProduction.planning.contractDate') }}</div>
+                <div class="label">{{ $t('planningProduction.planning.contractDate') }}</div>
                 <el-date-picker
                   v-model="new_process.contractDate"
                   type="datetime"
+                  style="width: 100%"
                   placeholder="DD.MM.YYYY"
                   :picker-options="pickerShortcuts"
                   value-format="dd.MM.yyyy HH:mm:ss"
-                  class="custom-picker"
+                  class="base_picker"
                 >
                 </el-date-picker>
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('planningProduction.planning.startedDate') }}</div>
+                <div class="label">{{ $t('planningProduction.planning.startedDate') }}</div>
                 <el-date-picker
                   v-model="new_process.startedDate"
                   type="datetime"
+                  style="width: 100%"
                   placeholder="DD.MM.YYYY"
                   :picker-options="pickerShortcuts"
                   value-format="dd.MM.yyyy HH:mm:ss"
-                  class="custom-picker"
+                  class="base_picker"
                 >
                 </el-date-picker>
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('planningProduction.planning.finishedDate') }}</div>
+                <div class="label">{{ $t('planningProduction.planning.finishedDate') }}</div>
                 <el-date-picker
                   v-model="new_process.finishedDate"
                   type="datetime"
+                  style="width: 100%"
                   placeholder="DD.MM.YYYY"
                   :picker-options="pickerShortcuts"
                   value-format="dd.MM.yyyy HH:mm:ss"
-                  class="custom-picker"
+                  class="base_picker"
                 >
                 </el-date-picker>
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('planningProduction.planning.fabricColor') }}</div>
+                <div class="label">{{ $t('planningProduction.planning.fabricColor') }}</div>
                 <v-select
                   :items="colorsList"
                   item-value="id"
                   item-text="name"
-                  filled color="#7631FF"
+                  outlined
+                  dense
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"  color="#7631FF"
                   append-icon="mdi-chevron-down"
                   :placeholder="$t('planningProduction.planning.selectFabricColor')"
                   v-model="new_process.colorId"
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('planningProduction.planning.quantity') }}</div>
+                <div class="label">{{ $t('planningProduction.planning.quantity') }}</div>
                 <v-text-field
-                  filled color="#7631FF"
+                  outlined
+                  hide-details
+                  height="44"
+                  dense
+                  class="rounded-lg base"  color="#7631FF"
                   placeholder="0"
                   v-model="new_process.quantity"
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('planningProduction.planning.currency') }}</div>
+                <div class="label">{{ $t('planningProduction.planning.currency') }}</div>
                 <v-select
                   :items="currencyEnums"
-                  filled color="#7631FF"
+                  outlined
+                  hide-details
+                  height="44"
+                  dense
+                  class="rounded-lg base"  color="#7631FF"
                   append-icon="mdi-chevron-down"
                   :placeholder="$t('planningProduction.planning.selectCurrency')"
                   v-model="new_process.unitPriceCurrency"
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('planningProduction.planning.unitPrice') }}</div>
+                <div class="label">{{ $t('planningProduction.planning.unitPrice') }}</div>
                 <v-text-field
-                  filled color="#7631FF"
+                  outlined
+                  hide-details
+                  dense
+                  height="44"
+                  class="rounded-lg base"  color="#7631FF"
                   placeholder="0"
                   v-model="new_process.unitPrice"
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="text-body-1 mb-3 font-weight-bold">{{ $t('planningProduction.planning.comment') }}</div>
+                <div class="label">{{ $t('planningProduction.planning.comment') }}</div>
                 <v-text-field
-                  filled color="#7631FF"
+                  outlined
+                  hide-details
+                  dense
+                  height="44"
+                  class="rounded-lg base"  color="#7631FF"
                   :placeholder="$t('planningProduction.planning.comment')"
                   v-model="new_process.description"
                 />

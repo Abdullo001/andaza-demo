@@ -7,7 +7,7 @@
             <v-text-field
               :label="$t('catalogsPartnerType.child.idPartnerType')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               v-model.trim="filter_partner.id"
               hide-details
               dense
@@ -18,7 +18,7 @@
             <v-text-field
               :label="$t('catalogsPartnerType.child.namePartnerType')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               v-model.trim="filter_partner.name"
               hide-details
               dense
@@ -29,6 +29,7 @@
             <el-date-picker
               v-model="filter_partner.createdAt"
               type="datetime"
+              class="filter_picker"
               :placeholder="$t('catalogsPartnerType.child.created')"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
@@ -39,6 +40,7 @@
             <el-date-picker
               v-model="filter_partner.updatedAt"
               type="datetime"
+              class="filter_picker"
               :placeholder="$t('catalogsPartnerType.child.updated')"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
@@ -129,24 +131,33 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form ref="new_form">
-            <v-text-field
-              filled
-              v-model="create_partner.name"
-              :label="$t('catalogsPartnerType.dialog.partnerType')"
-              :placeholder="$t('catalogsPartnerType.dialog.enterPartnerType')"
-              dense
-              color="#7631FF"
-            />
-            <v-textarea
-              filled
-              v-model="create_partner.description"
-              :label="$t('catalogsPartnerType.dialog.description')"
-              :placeholder="
-                $t('catalogsPartnerType.dialog.descriptionPlacholder')
-              "
-              dense
-              color="#7631FF"
-            />
+            <v-row>
+              <v-col cols="12">
+                <div class="label">{{$t('catalogsPartnerType.dialog.partnerType')}}</div>
+                <v-text-field
+                  outlined
+                  hide-details
+                  height="44"
+                  class="base rounded-lg"
+                  v-model="create_partner.name"
+                  :placeholder="$t('catalogsPartnerType.dialog.enterPartnerType')"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12">
+                <div class="label">{{$t('catalogsPartnerType.dialog.description')}}</div>
+                <v-textarea
+                  outlined
+                  hide-details
+                  class="base rounded-lg"
+                  v-model="create_partner.description"
+                  :placeholder="$t('catalogsPartnerType.dialog.descriptionPlacholder')"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+            </v-row>
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
@@ -183,24 +194,33 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form ref="new_form">
-            <v-text-field
-              filled
-              v-model="edit_partner.name"
-              :label="$t('catalogsPartnerType.dialog.partnerType')"
-              :placeholder="$t('catalogsPartnerType.dialog.enterPartnerType')"
-              dense
-              color="#7631FF"
-            />
-            <v-textarea
-              filled
-              v-model="edit_partner.description"
-              :label="$t('catalogsPartnerType.dialog.description')"
-              :placeholder="
-                $t('catalogsPartnerType.dialog.descriptionPlacholder')
-              "
-              dense
-              color="#7631FF"
-            />
+            <v-row>
+              <v-col cols="12">
+                <div class="label">{{$t('catalogsPartnerType.dialog.partnerType')}}</div>
+                <v-text-field
+                  outlined
+                  hide-details
+                  height="44"
+                  class="base rounded-lg"
+                  v-model="edit_partner.name"
+                  :placeholder="$t('catalogsPartnerType.dialog.enterPartnerType')"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12">
+                <div class="label">{{$t('catalogsPartnerType.dialog.description')}}</div>
+                <v-textarea
+                  outlined
+                  hide-details
+                  class="base rounded-lg"
+                  v-model="edit_partner.description"
+                  :placeholder="$t('catalogsPartnerType.dialog.descriptionPlacholder')"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+            </v-row>
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
@@ -220,7 +240,7 @@
             width="163"
             @click="editPartnerType"
           >
-            {{ $t("catalogsPartnerType.dialog.editBtn") }}
+            {{ $t("update") }}
           </v-btn>
         </v-card-actions>
       </v-card>

@@ -485,7 +485,7 @@ export default {
     planning: {
       planningProduction: "Planning of production",
       addProcessing: "add processing",
-      process: "process",
+      process: "Process",
       workingProcess: "Working process",
       selectWorkingProcess: "Select working process",
       workshop: "Workshop",

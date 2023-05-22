@@ -21,15 +21,18 @@
       <v-card-text class="pb-0">
         <v-row>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3"> {{ $t('planningProduction.dialog.orderNumber') }}</div>
+            <div class="label"> {{ $t('planningProduction.dialog.orderNumber') }}</div>
             <v-combobox
               v-model="planning.orderNumber"
               :items="orderList"
               :search-input.sync="orderSearch"
               item-text="orderNumber"
               item-value="orderId"
-              filled disable-lookup
-              class="rounded-lg"
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base"
+              disable-lookup
               :return-object="true"
               color="#7631FF"
               dense disabled
@@ -40,15 +43,17 @@
             </v-combobox>
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.modelNumber') }}</div>
+            <div class="label">{{ $t('planningProduction.dialog.modelNumber') }}</div>
             <v-combobox
               v-model="planning.modelNumber"
               :items="modelData"
               :search-input.sync="modelSearch"
               item-text="modelNumber"
               item-value="id"
-              filled
-              class="rounded-lg"
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base"
               :return-object="true"
               color="#7631FF"
               dense
@@ -62,71 +67,85 @@
             </v-combobox>
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.modelName') }}</div>
+            <div class="label">{{ $t('planningProduction.dialog.modelName') }}</div>
             <v-text-field
-              filled dense
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base" dense
               v-model="planning.modelName"
-              class="rounded-lg"
               :label="$t('planningProduction.dialog.enterModelName')"
               disabled
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.clientName') }}</div>
+            <div class="label">{{ $t('planningProduction.dialog.clientName') }}</div>
             <v-text-field
-              filled dense
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base" dense
               v-model="planning.clientName"
-              class="rounded-lg"
               :label="$t('planningProduction.dialog.enterClientName')"
               disabled
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.responsiblePerson') }}</div>
+            <div class="label">{{ $t('planningProduction.dialog.responsiblePerson') }}</div>
             <v-text-field
-              filled dense
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base" dense
               v-model="planning.responsiblePerson"
-              class="rounded-lg"
               :label="$t('planningProduction.dialog.enterResponsiblePerson')"
               disabled
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.planningCreator') }}</div>
+            <div class="label">{{ $t('planningProduction.dialog.planningCreator') }}</div>
             <v-text-field
-              filled dense
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base" dense
               v-model="planning.planningCreator"
-              class="rounded-lg"
               :label="$t('planningProduction.dialog.enterPlanningCreator')"
               disabled
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.headProduction') }}</div>
+            <div class="label">{{ $t('planningProduction.dialog.headProduction') }}</div>
             <v-text-field
-              filled dense
+              outlined
+              hide-details
+              height="44" dense
               v-model="planning.headOfProduction"
-              class="rounded-lg"
+              class="rounded-lg base"
               :label="$t('planningProduction.dialog.enterHeadProduction')"
               disabled
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.orderStatus') }}</div>
+            <div class="label">{{ $t('planningProduction.dialog.orderStatus') }}</div>
             <v-text-field
-              filled dense
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base" dense
               v-model="planning.orderStatus"
-              class="rounded-lg"
               :label="$t('planningProduction.dialog.enterOrderStatus')"
               disabled
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.orderOpeningDate') }}</div>
+            <div class="label">{{ $t('planningProduction.dialog.orderOpeningDate') }}</div>
             <v-text-field
-              filled dense
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base" dense
               v-model="planning.orderOpeningDate"
-              class="rounded-lg"
               :label="$t('planningProduction.dialog.enterOrderStatus')"
               disabled
             >
@@ -136,11 +155,13 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.orderClosingDate') }}</div>
+            <div class="label">{{ $t('planningProduction.dialog.orderClosingDate') }}</div>
             <v-text-field
-              filled dense
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base" dense
               v-model="planning.orderClosingDate"
-              class="rounded-lg"
               :label="$t('planningProduction.dialog.orderClosingDate')"
               disabled
             >
@@ -150,11 +171,13 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.deadline') }}</div>
+            <div class="label">{{ $t('planningProduction.dialog.deadline') }}</div>
             <v-text-field
-              filled dense
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base" dense
               v-model="planning.deadline"
-              class="rounded-lg"
               :label="$t('planningProduction.dialog.enterDeadline')"
               disabled
             >
@@ -164,11 +187,13 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.shippingDate') }}</div>
+            <div class="label">{{ $t('planningProduction.dialog.shippingDate') }}</div>
             <v-text-field
-              filled dense
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base" dense
               v-model="planning.shippingDate"
-              class="rounded-lg"
               :label="$t('planningProduction.dialog.enterShippingDate')"
               disabled
             >
@@ -178,31 +203,37 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.overproduction') }}, %</div>
+            <div class="label">{{ $t('planningProduction.dialog.overproduction') }}, %</div>
             <v-text-field
-              filled dense
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base" dense
               v-model="planning.overProductionPercent"
-              class="rounded-lg"
               :label="$t('planningProduction.dialog.enterOverproduction')"
               color="#7631FF"
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.orderQuantity') }}</div>
+            <div class="label">{{ $t('planningProduction.dialog.orderQuantity') }}</div>
             <v-text-field
-              filled dense
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base" dense
               v-model="planning.orderQuantity"
-              class="rounded-lg"
               :label="$t('planningProduction.dialog.orderQuantity')"
               disabled
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">{{ $t('planningProduction.dialog.productionQuantity') }}</div>
+            <div class="label">{{ $t('planningProduction.dialog.productionQuantity') }}</div>
             <v-text-field
-              filled dense
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base" dense
               v-model="planning.productionQuantity"
-              class="rounded-lg"
               :label="$t('planningProduction.dialog.enterProductionQuantity')"
               disabled
             />
@@ -232,7 +263,7 @@
           class="font-weight-bold rounded-lg"
           dark @click="savePlanning"
         >
-          {{ $t('planningProduction.dialog.save') }}
+          {{ $route.params.id === 'create' ? $t('save') : $t('update') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -254,10 +285,11 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import ProductionPlanningComponent from "../../components/Production/Planning.vue";
+import Breadcrumbs from "../../components/Breadcrumbs.vue";
 
 export default {
   name: 'ProductionOfPlanningPage',
-  components: {ProductionPlanningComponent},
+  components: {Breadcrumbs, ProductionPlanningComponent},
   data() {
     return {
       title: "Add",

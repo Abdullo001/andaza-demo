@@ -21,56 +21,68 @@
       <v-card-text class="pb-0">
         <v-row>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.workingProcess') }}</div>
+            <div class="label">{{ $t('workingProcess.dialog.workingProcess') }}</div>
             <v-text-field
-              filled
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base"
               v-model="working_operations.workingProcess"
-              class="rounded-lg"
               disabled
-              :label="$t('workingProcess.dialog.enterWorkingProcessing')"
+              dense
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.processType') }}</div>
+            <div class="label">{{ $t('workingProcess.dialog.processType') }}</div>
             <v-text-field
               v-model="working_operations.processType"
-              filled
-              class="rounded-lg"
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base"
               color="#7631FF"
               disabled
-              :label="$t('workingProcess.dialog.enterProcessType')"
+              dense
             >
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.invoiceNumber') }}</div>
+            <div class="label">{{ $t('workingProcess.dialog.invoiceNumber') }}</div>
             <v-text-field
               v-model="working_operations.invoiceNumber"
-              filled
-              class="rounded-lg"
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base"
               color="#7631FF"
-              :label="$t('workingProcess.dialog.searchModelNumber')"
+              dense
+              :placeholder="$t('workingProcess.dialog.searchModelNumber')"
             >
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.workShop') }}</div>
+            <div class="label">{{ $t('workingProcess.dialog.workShop') }}</div>
             <v-text-field
-              filled
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base"
               v-model="working_operations.workshop"
-              class="rounded-lg"
               disabled
-              :label="$t('workingProcess.dialog.enterWorkshop')"
+              dense
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.contractDate') }}</div>
+            <div class="label">{{ $t('workingProcess.dialog.contractDate') }}</div>
             <v-text-field
               v-model="working_operations.contractDate"
-              filled
-              class="rounded-lg"
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base"
               disabled
-              :label="$t('workingProcess.dialog.enterContractDate')"
+              dense
+              :placeholder="$t('workingProcess.dialog.enterContractDate')"
             >
               <template #append>
                 <v-img src="/clock-disabled.svg" width="24"/>
@@ -78,13 +90,16 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.shippingDate') }}</div>
+            <div class="label">{{ $t('workingProcess.dialog.shippingDate') }}</div>
             <v-text-field
               v-model="working_operations.shippingDate"
-              filled
-              class="rounded-lg"
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base"
               disabled
-              :label="$t('workingProcess.dialog.enterShippingDate')"
+              dense
+              :placeholder="$t('workingProcess.dialog.enterShippingDate')"
             >
               <template #append>
                 <v-img src="/clock-disabled.svg" width="24"/>
@@ -92,13 +107,15 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.orderNumber') }}</div>
+            <div class="label">{{ $t('workingProcess.dialog.orderNumber') }}</div>
             <v-text-field
               v-model="working_operations.orderNumber"
-              filled
-              class="rounded-lg"
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base"
               disabled
-              :label="$t('workingProcess.dialog.enterOrderNumber')"
+              dense
             >
               <template #append>
                 <v-img src="/clock-disabled.svg" width="24"/>
@@ -106,37 +123,43 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.modelNumber') }}</div>
+            <div class="label">{{ $t('workingProcess.dialog.modelNumber') }}</div>
             <v-text-field
               v-model="working_operations.modelNumber"
-              filled
-              class="rounded-lg"
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base"
               disabled
-              :label="$t('workingProcess.dialog.enterModelNumber')"
+              dense
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.modelName') }}</div>
+            <div class="label">{{ $t('workingProcess.dialog.modelName') }}</div>
             <v-text-field
               v-model="working_operations.modelName"
-              filled
-              class="rounded-lg"
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base"
               disabled
-              :label="$t('workingProcess.dialog.enterModelName')"
+              dense
             />
           </v-col>
           <v-col cols="12" lg="3">
-            <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.overProduction') }}, %</div>
+            <div class="label">{{ $t('workingProcess.dialog.overProduction') }}, %</div>
             <v-text-field
-              filled
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base"
               v-model="working_operations.overProductionPercent"
-              class="rounded-lg"
               disabled
-              :label="$t('workingProcess.dialog.enterOverproduction')"
+              dense
             />
           </v-col>
         </v-row>
-        <div class="text-body-1 mb-3">{{ $t('workingProcess.dialog.photosModels') }}</div>
+        <div class="label mt-4">{{ $t('workingProcess.dialog.photosModels') }}</div>
         <v-row>
           <v-col cols="12" lg="6" md="6" class="d-flex flex-wrap px-0">
             <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4">
@@ -186,10 +209,11 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import WorkingOperation from "../../components/Production/Working.vue";
+import Breadcrumbs from "../../components/Breadcrumbs.vue";
 
 export default {
   name: 'WorkingOperationId',
-  components: {WorkingOperation},
+  components: {Breadcrumbs, WorkingOperation},
   data() {
     return {
       currentImage: '',

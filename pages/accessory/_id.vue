@@ -237,7 +237,7 @@
             />
           </v-col>
           <v-col>
-            <div class="mb-2 text-body-1">Head of production depatment</div>
+            <div class="mb-2 text-body-1">Head of production department</div>
             <v-text-field
               v-model="accessoryDetail.headOfProductionDepartment"
               validate-on-blur
@@ -340,6 +340,8 @@
           class="rounded-lg text-capitalize"
           color="#7631FF"
           @click="saveBtn"
+          width="130"
+          height="44"
         >
           save
         </v-btn>

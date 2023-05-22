@@ -8,7 +8,7 @@
               v-model="filter_accessory.id"
               label="ID Accessory"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -19,7 +19,7 @@
               v-model="filter_accessory.name"
               label="Accessory name"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -31,6 +31,7 @@
               v-model="filter_accessory.createdAt"
               type="datetime"
               placeholder="Created"
+              class="filter_picker"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
             >
@@ -42,6 +43,7 @@
               v-model="filter_accessory.updatedAt"
               type="datetime"
               placeholder="Updated"
+              class="filter_picker"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
             >
@@ -131,49 +133,63 @@
           <v-form ref="new_form" lazy-validation v-model="validate">
             <v-row>
               <v-col cols="12" lg="6">
+                <div class="label">Name accessory</div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="create_accessory.name"
                   dense
-                  filled
-                  label="Name accessory"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   placeholder="Enter Name accessory"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" lg="6">
+                <div class="label">Specification</div>
                 <v-text-field
                   v-model="create_accessory.specification"
                   filled
                   dense
-                  label="Specification"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   placeholder="Select Specification"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" lg="6">
+                <div class="label">Measurement unit</div>
                 <v-select
                   v-model="create_accessory.measurementUnitId"
                   :items="measurement"
-                  :rules="[formRules.required]"
-                  filled
+
+                  :rules="[ formRules.required ]"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+
                   dense
                   item-text="name"
                   item-value="id"
-                  label="Measurement unit"
                   placeholder="Select Measurement unit"
                   append-icon="mdi-chevron-down"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12">
+                <div class="label">Description</div>
                 <v-textarea
                   v-model="create_accessory.description"
-                  filled
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
                   rows="1"
                   dense
                   auto-grow
-                  label="Description"
                   placeholder="Enter Description"
                   color="#7631FF"
                 />
@@ -215,35 +231,48 @@
           <v-form ref="edit_form" lazy-validation v-model="edit_validate">
             <v-row>
               <v-col cols="12" lg="6">
+                <div class="label">Name accessory</div>
                 <v-text-field
                   v-model="edit_accessory.name"
-                  :rules="[formRules.required]"
-                  filled
-                  label="Name accessory"
+
+                  :rules="[ formRules.required ]"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+
                   placeholder="Enter Name accessory"
                   dense
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" lg="6">
+                <div class="label">Specification</div>
                 <v-text-field
                   v-model="edit_accessory.specification"
-                  filled
-                  label="Specification"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   placeholder="Select Specification"
                   dense
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" lg="6">
+                <div class="label">Measurement unit</div>
                 <v-select
                   v-model="edit_accessory.measurementUnitId"
-                  :rules="[formRules.required]"
-                  filled
+
+                  :rules="[ formRules.required ]"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+
                   :items="measurement"
                   item-text="name"
                   item-value="id"
-                  label="Measurement unit"
                   placeholder="Select Measurement unit"
                   dense
                   append-icon="mdi-chevron-down"
@@ -251,12 +280,15 @@
                 />
               </v-col>
               <v-col cols="12">
+                <div class="label">Description</div>
                 <v-textarea
                   v-model="edit_accessory.description"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   rows="1"
                   auto-grow
-                  label="Description"
                   placeholder="Enter Description"
                   dense
                   color="#7631FF"

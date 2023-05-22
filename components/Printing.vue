@@ -159,7 +159,7 @@
             width="140" height="40"
             @click="upgradePrints"
           >
-            save
+            {{ $t('update') }}
           </v-btn>
           <v-btn
             v-else

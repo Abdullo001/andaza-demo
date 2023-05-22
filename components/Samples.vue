@@ -132,7 +132,7 @@
     <v-dialog max-width="900" v-model="edit_dialog">
       <v-card>
         <v-card-title class="d-flex w-full justify-space-between">
-          <div class="text-capitalize title">add samples</div>
+          <div class="text-capitalize title">Edit samples</div>
           <v-btn icon color="#7631FF" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -214,7 +214,7 @@
             width="140" height="40"
             @click="saveSamplesChanges"
           >
-            save
+            {{ $t('update') }}
           </v-btn>
         </v-card-actions>
       </v-card>

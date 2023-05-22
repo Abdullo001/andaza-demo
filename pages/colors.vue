@@ -12,7 +12,7 @@
               v-model="filter_colors.code"
               label="Color code"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -23,7 +23,7 @@
               v-model="filter_colors.name"
               label="Color name"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -36,6 +36,7 @@
               style="width: 100%"
               v-model="filter_colors.createdAt"
               type="datetime"
+              class="filter_picker"
               placeholder="Created"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
@@ -49,6 +50,7 @@
               style="width: 100%;"
               v-model="filter_colors.updatedAt"
               type="datetime"
+              class="filter_picker"
               placeholder="Updated"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
@@ -131,63 +133,81 @@
           <v-form ref="new_form" v-model="validate" lazy-validation>
             <v-row>
               <v-col cols="12" md="6">
+                <div class="label">Color name</div>
                 <v-text-field
                   v-model="create_colors.name"
-                  filled
-                  label="Color name"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   placeholder="Enter Color name"
                   color="#7631FF"
                   :rules="[formRules.required]"
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <v-menu
-                  v-model="menu"
-                  :close-on-content-click="false"
-                >
-                  <template #activator="{ on, attrs }">
-                    <v-text-field
-                      filled
-                      :rules="[formRules.required]"
-                      label="Code and apperance"
-                      placeholder="Enter Code and apperance"
-                      color="#7631FF"
-                      v-model="create_colors.colorCodeHex"
-                      v-on="on"
-                      v-bind="attrs"
-                    />
-                  </template>
-                  <v-card>
-                    <v-card-text>
-                      <v-color-picker
-                        mode.sync="hex"
-                        canvas-height="100"
+                <div class="label">Code and apperance</div>
+                <div>
+                  <v-menu
+                    v-model="menu"
+                    :close-on-content-click="false"
+                  >
+                    <template #activator="{ on, attrs }">
+                      <v-text-field
+                        outlined
+                        hide-details
+                        height="44"
+                        class="rounded-lg base"
+                        :rules="[formRules.required]"
+                        placeholder="Enter Code and apperance"
+                        color="#7631FF"
                         v-model="create_colors.colorCodeHex"
-                      >
-                      </v-color-picker>
-                    </v-card-text>
-                    <v-card-actions>
-                      <v-spacer/>
-                      <v-btn class="text-capitalize primary darken-1" small @click="menu = false">save</v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-menu>
+                        v-on="on"
+                        v-bind="attrs"
+                      />
+                    </template>
+                    <v-card>
+                      <v-card-text>
+                        <v-color-picker
+                          outlined
+                          hide-details
+                          height="44"
+                          class="rounded-lg base"
+                          mode.sync="hex"
+                          canvas-height="100"
+                          v-model="create_colors.colorCodeHex"
+                        >
+                        </v-color-picker>
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-spacer/>
+                        <v-btn class="text-capitalize primary darken-1" small @click="menu = false">save</v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-menu>
+                </div>
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Color code</div>
                 <v-text-field
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   v-model="create_colors.colorCode"
-                  filled
-                  label="Color code"
                   placeholder="Enter Color code"
                   color="#7631FF"
                   :rules="[formRules.required]"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Panton code</div>
                 <v-text-field
                   v-model="create_colors.pantoneCode"
-                  filled
-                  label="Panton code"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   placeholder="Enter Panton code"
                   color="#7631FF"
                   :rules="[formRules.required]"
@@ -243,62 +263,76 @@
           <v-form ref="edit_form" v-model="edit_validate" lazy-validation>
             <v-row>
               <v-col cols="12" md="6">
+                <div class="label">Color name</div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="edit_colors.name"
-                  filled
-                  label="Color name"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   placeholder="Enter Color name"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <v-menu
-                  v-model="edit_menu"
-                  :close-on-content-click="false"
-                >
-                  <template #activator="{ on, attrs }">
-                    <v-text-field
-                      :rules="[formRules.required]"
-                      v-model="edit_colors.colorCodeHex"
-                      filled
-                      label="Code and apperance"
-                      placeholder="Enter Code and apperance"
-                      color="#7631FF"
-                      v-on="on"
-                      v-bind="attrs"
-                    />
-                  </template>
-                  <v-card>
-                    <v-card-text>
-                      <v-color-picker
+                <div class="label">Code and apperance</div>
+                <div>
+                  <v-menu
+                    v-model="edit_menu"
+                    :close-on-content-click="false"
+                  >
+                    <template #activator="{ on, attrs }">
+                      <v-text-field
+                        :rules="[formRules.required]"
                         v-model="edit_colors.colorCodeHex"
-                        canvas-height="100"
-                      >
-                      </v-color-picker>
-                    </v-card-text>
-                    <v-card-actions>
-                      <v-spacer/>
-                      <v-btn class="text-capitalize primary darken-1" small @click="edit_menu = false">save</v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-menu>
+                        outlined
+                        hide-details
+                        height="44"
+                        class="rounded-lg base"
+                        placeholder="Enter Code and apperance"
+                        color="#7631FF"
+                        v-on="on"
+                        v-bind="attrs"
+                      />
+                    </template>
+                    <v-card>
+                      <v-card-text>
+                        <v-color-picker
+                          v-model="edit_colors.colorCodeHex"
+                          canvas-height="100"
+                        >
+                        </v-color-picker>
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-spacer/>
+                        <v-btn class="text-capitalize primary darken-1" small @click="edit_menu = false">save</v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-menu>
+                </div>
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Color code</div>
                 <v-text-field
                   v-model="edit_colors.colorCode"
-                  filled
-                  label="Color code"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   placeholder="Enter Color code"
                   color="#7631FF"
                   :rules="[formRules.required]"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Panton code</div>
                 <v-text-field
                   v-model="edit_colors.pantoneCode"
-                  filled
-                  label="Panton code"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   placeholder="Enter Panton code"
                   color="#7631FF"
                   :rules="[formRules.required]"

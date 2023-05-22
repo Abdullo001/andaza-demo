@@ -8,7 +8,7 @@
               v-model.trim="filter_model.id"
               :label="$t('catalogsPartnerType.child.idPartnerType')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -19,7 +19,7 @@
               v-model.trim="filter_model.name"
               :label="$t('catalogsModelGroup.child.namePartnerType')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -29,6 +29,7 @@
             <el-date-picker
               v-model.trim="filter_model.createdAt"
               type="datetime"
+              class="filter_picker"
               :placeholder="$t('catalogsModelGroup.child.created')"
               :picker-options="pickerShortcuts"
               format="dd.MM.yyyy HH:mm:ss"
@@ -39,6 +40,7 @@
             <el-date-picker
               v-model.trim="filter_model.updatedAt"
               type="datetime"
+              class="filter_picker"
               :placeholder="$t('catalogsPartnerType.child.updated')"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
@@ -129,24 +131,33 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form ref="new_form">
-            <v-text-field
-              v-model="create_model.name"
-              filled
-              :label="$t('catalogsModelGroup.dialog.modelGroup')"
-              :placeholder="$t('catalogsModelGroup.dialog.enterModelGroup')"
-              dense
-              color="#7631FF"
-            />
-            <v-textarea
-              v-model="create_model.description"
-              filled
-              :label="$t('catalogsModelGroup.dialog.description')"
-              :placeholder="
-                $t('catalogsModelGroup.dialog.descriptionPlacholder')
-              "
-              dense
-              color="#7631FF"
-            />
+            <v-row>
+              <v-col cols="12">
+                <div class="label">{{$t('catalogsModelGroup.dialog.modelGroup')}}</div>
+                <v-text-field
+                  v-model="create_model.name"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="base rounded-lg"
+                  :placeholder="$t('catalogsModelGroup.dialog.enterModelGroup')"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12">
+                <div class="label">{{$t('catalogsModelGroup.dialog.description')}}</div>
+                <v-textarea
+                  v-model="create_model.description"
+                  outlined
+                  hide-details
+                  class="base rounded-lg"
+                  :placeholder="$t('catalogsModelGroup.dialog.descriptionPlacholder')"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+            </v-row>
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
@@ -183,24 +194,33 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form ref="new_form">
-            <v-text-field
-              v-model="edit_model.name"
-              filled
-              :label="$t('catalogsModelGroup.dialog.modelGroup')"
-              :placeholder="$t('catalogsModelGroup.dialog.enterModelGroup')"
-              dense
-              color="#7631FF"
-            />
-            <v-textarea
-              v-model="edit_model.description"
-              filled
-              :label="$t('catalogsModelGroup.dialog.description')"
-              :placeholder="
-                $t('catalogsModelGroup.dialog.descriptionPlacholder')
-              "
-              dense
-              color="#7631FF"
-            />
+            <v-row>
+              <v-col cols="12">
+                <div class="label">{{$t('catalogsModelGroup.dialog.modelGroup')}}</div>
+                <v-text-field
+                  v-model="edit_model.name"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :placeholder="$t('catalogsModelGroup.dialog.enterModelGroup')"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12">
+                <div class="label">{{$t('catalogsModelGroup.dialog.description')}}</div>
+                <v-textarea
+                  v-model="edit_model.description"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
+                  :placeholder="$t('catalogsModelGroup.dialog.descriptionPlacholder')"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+            </v-row>
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
@@ -220,7 +240,7 @@
             width="163"
             @click="update"
           >
-            {{ $t("catalogsModelGroup.dialog.editBtn") }}
+            {{ $t("update") }}
           </v-btn>
         </v-card-actions>
       </v-card>

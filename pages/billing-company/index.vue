@@ -10,7 +10,7 @@
                 :label="$t('billingCompany.dialog.companyName')"
                 outlined validate-on-blur
                 dense hide-details
-                class="rounded-lg"
+                class="rounded-lg filter"
               />
             </v-col>
             <v-col cols="12" lg="2" md="2">
@@ -19,7 +19,7 @@
                 label="INN"
                 outlined validate-on-blur
                 dense hide-details
-                class="rounded-lg"
+                class="rounded-lg filter"
               />
             </v-col>
             <v-col cols="12" lg="2" md="2">
@@ -29,7 +29,7 @@
                 :items="status_enums"
                 outlined dense hide-details
                 validate-on-blur
-                class="rounded-lg"
+                class="rounded-lg filter"
                 append-icon="mdi-chevron-down"
               />
             </v-col>
@@ -37,6 +37,7 @@
               <el-date-picker
                 v-model="filter.createdAt"
                 type="datetime"
+                class="filter_picker"
                 :placeholder="$t('billingCompany.dialog.createdAt')"
                 :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy HH:mm:ss"
@@ -133,10 +134,14 @@
           <v-form lazy-validation ref="new_form" v-model="valid">
             <v-row>
               <v-col cols="12" lg="6">
+                <div class="label">{{ $t('billingCompany.dialog.companyName') }}</div>
                 <v-text-field
-                  :label="$t('billingCompany.dialog.companyName')"
                   :placeholder="$t('billingCompany.dialog.enterCompanyName')"
-                  filled dense
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  dense
                   validate-on-blur
                   v-model="newCompany.companyName"
                   :rules="[formRules.required]"
@@ -144,10 +149,14 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
+                <div class="label">{{$t('billingCompany.dialog.ownerFullname')}}</div>
                 <v-text-field
-                  :label="$t('billingCompany.dialog.ownerFullname')"
                   :placeholder="$t('billingCompany.dialog.enterOwnerName')"
-                  filled dense
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  dense
                   validate-on-blur
                   v-model="newCompany.ownerFullName"
                   :rules="[formRules.required]"
@@ -155,10 +164,14 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
+                <div class="label">{{$t('billingCompany.dialog.eMail')}}</div>
                 <v-text-field
-                  :label="$t('billingCompany.dialog.eMail')"
                   :placeholder="$t('billingCompany.dialog.entereMail')"
-                  filled dense
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  dense
                   validate-on-blur
                   v-model="newCompany.email"
                   :rules="[formRules.required, formRules.email]"
@@ -166,10 +179,14 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
+                <div class="label">{{$t('billingCompany.dialog.phoneNumber')}}</div>
                 <v-text-field
-                  :label="$t('billingCompany.dialog.phoneNumber')"
                   placeholder="(--) --- -- --"
-                  filled dense
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  dense
                   validate-on-blur
                   v-model="newCompany.phoneNUmber"
                   :rules="[formRules.required]"
@@ -179,10 +196,14 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
+                <div class="label">INN</div>
                 <v-text-field
-                  label="INN"
                   placeholder="Enter INN"
-                  filled dense
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  dense
                   validate-on-blur
                   v-model="newCompany.inn"
                   :rules="[formRules.required]"

@@ -8,7 +8,7 @@
               v-model.trim="filters.id"
               :label="$t('samplePurposes.child.idSearch')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -19,20 +19,18 @@
               v-model.trim="filters.name"
               :label="$t('samplePurposes.child.name')"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               hide-details
               dense
               @keydown.enter="filterData"
             />
           </v-col>
-
-          <v-col
-            cols="12" lg="2" md="2"
-          >
-
+          <v-col cols="12" lg="2" md="2">
             <el-date-picker
               v-model="filters.createdAt"
               type="datetime"
+              class="filter_picker"
+              style="width: 100%;"
               :placeholder="$t('samplePurposes.child.created')"
               :picker-options="pickerShortcuts"
               format="dd.MM.yyyy HH:mm:ss"
@@ -43,8 +41,10 @@
             <el-date-picker
               v-model="filters.updatedAt"
               type="datetime"
+              class="filter_picker"
               :placeholder="$t('samplePurposes.child.updated')"
               :picker-options="pickerShortcuts"
+              style="width: 100%"
               value-format="dd.MM.yyyy HH:mm:ss"
             >
             </el-date-picker>
@@ -126,7 +126,6 @@
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
             {{ $t("samplePurposes.dialog.enterMainName") }}
-
           </div>
           <v-btn icon color="#7631FF" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -134,24 +133,33 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form ref="new_form">
-            <v-text-field
-              v-model="create_sample.name"
-              filled
-              :label="$t('samplePurposes.dialog.name')"
-              :placeholder="$t('samplePurposes.dialog.enterMainName')"
-              dense
-              color="#7631FF"
-            />
-            <v-textarea
-              v-model="create_sample.description"
-              filled
-              :label="$t('samplePurposes.dialog.description')"
-
-              :placeholder="$t('samplePurposes.dialog.descriptionPlacholder')"
-              
-              dense
-              color="#7631FF"
-            />
+            <v-row>
+              <v-col cols="12">
+                <div class="label">{{$t('samplePurposes.dialog.name')}}</div>
+                <v-text-field
+                  v-model="create_sample.name"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :placeholder="$t('samplePurposes.dialog.enterMainName')"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12">
+                <div class="label">{{$t('samplePurposes.dialog.description')}}</div>
+                <v-textarea
+                  v-model="create_sample.description"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
+                  :placeholder="$t('samplePurposes.dialog.descriptionPlacholder')"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+            </v-row>
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
@@ -171,8 +179,8 @@
             width="163"
             @click="save"
           >
-          {{ $t('samplePurposes.dialog.createBn') }}
-            
+          {{ $t('samplePurposes.dialog.createBtn') }}
+
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -190,22 +198,33 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form ref="new_form">
-            <v-text-field
-              v-model="edit_sample.name"
-              filled
-              :label="$t('samplePurposes.dialog.name')"
-              :placeholder="$t('samplePurposes.dialog.enterMainName')"
-              dense
-              color="#7631FF"
-            />
-            <v-textarea
-              v-model="edit_sample.description"
-              filled
-              :label="$t('samplePurposes.dialog.description')"
-              :placeholder="$t('samplePurposes.dialog.descriptionPlacholder')"
-              dense
-              color="#7631FF"
-            />
+            <v-row>
+              <v-col cols="12">
+                <div class="label">{{$t('samplePurposes.dialog.name')}}</div>
+                <v-text-field
+                  v-model="edit_sample.name"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
+                  height="44"
+                  :placeholder="$t('samplePurposes.dialog.enterMainName')"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12">
+                <div class="label">{{$t('samplePurposes.dialog.description')}}</div>
+                <v-textarea
+                  v-model="edit_sample.description"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
+                  :placeholder="$t('samplePurposes.dialog.descriptionPlacholder')"
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+            </v-row>
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">

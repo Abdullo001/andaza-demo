@@ -8,26 +8,28 @@ export const state = () => ({
   detailsList: [{ totalPrice: 0 }],
   loading: true,
   onePreFinance: {},
-  modelNumber: "",
-});
+
+  selectedModelNumber: ''
+})
 export const getters = {
-  preFinancesContent: (state) => state.preFinances.content,
-  modelNames: (state) => state.modelName.map((el) => el.modelNumber),
-  modelData: (state) => state.modelName,
-  preFinanceId: (state) => state.preFinanceId,
-  expenseGroup: (state) => state.expenseGroup.content,
-  expenseList: (state) => state.expenseList,
-  measurementUnit: (state) => state.measurementUnit,
-  detailsList: (state) => state.detailsList,
-  totalPrice: (state) => state.detailsList[0].totalPrice,
-  loading: (state) => state.loading,
-  totalElements: (state) => state.preFinances.totalElements,
-  onePreFinance: (state) => state.onePreFinance,
-  modelNumber: (state) => state.modelNumber,
-};
+  preFinancesContent: state => state.preFinances.content,
+  modelNames: state => state.modelName.map(el => el.modelNumber),
+  modelData: state => state.modelName,
+  preFinanceId: state => state.preFinanceId,
+  expenseGroup: state => state.expenseGroup.content,
+  expenseList: state => state.expenseList,
+  measurementUnit: state => state.measurementUnit,
+  detailsList: state => state.detailsList,
+  totalPrice: state => state.detailsList[0].totalPrice,
+  loading: state => state.loading,
+  totalElements: state => state.preFinances.totalElements,
+  onePreFinance: state => state.onePreFinance,
+  selectedModelNumber: state => state.selectedModelNumber
+}
+
 export const mutations = {
   setModelNumber(state, number) {
-    state.modelNumber = number;
+    state.selectedModelNumber = number;
   },
   setRefinances(state, item) {
     state.preFinances = item;
