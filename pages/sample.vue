@@ -179,7 +179,7 @@
             width="163"
             @click="save"
           >
-          {{ $t('samplePurposes.dialog.createBn') }}
+          {{ $t('samplePurposes.dialog.createBtn') }}
 
           </v-btn>
         </v-card-actions>

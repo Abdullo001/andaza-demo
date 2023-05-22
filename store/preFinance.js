@@ -8,7 +8,7 @@ export const state = () => ({
   detailsList: [{totalPrice: 0}],
   loading: true,
   onePreFinance: {},
-  modelNumber: ''
+  selectedModelNumber: ''
 })
 export const getters = {
   preFinancesContent: state => state.preFinances.content,
@@ -23,11 +23,11 @@ export const getters = {
   loading: state => state.loading,
   totalElements: state => state.preFinances.totalElements,
   onePreFinance: state => state.onePreFinance,
-  modelNumber: state => state.modelNumber
+  selectedModelNumber: state => state.selectedModelNumber
 }
 export const mutations = {
   setModelNumber(state, number) {
-    state.modelNumber = number;
+    state.selectedModelNumber = number;
   },
   setRefinances(state, item) {
     state.preFinances = item;

@@ -11,20 +11,21 @@
 }
 
 
-
 html, body .v-application {
   background: #F4F5FA !important;
 }
 
 .language {
-  background-color:  rgba(255, 240, 240, 0.36);
+  background-color: rgba(255, 240, 240, 0.36);
   padding: 8px;
   position: relative;
   border-radius: 5px;
+
   &__selected {
     font-weight: 500;
     cursor: pointer;
     display: flex;
+
     img {
       width: 25px;
       border-radius: 5px;
@@ -46,11 +47,13 @@ html, body .v-application {
   padding: 8px 16px;
   margin-left: -16px;
   border-radius: 5px;
+
   &.active {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
   }
+
   span {
     cursor: pointer;
     display: flex;
@@ -64,6 +67,7 @@ html, body .v-application {
     }
   }
 }
+
 .country-flag {
   width: 40px;
   height: 40px;
@@ -79,48 +83,57 @@ html, body .v-application {
 .border-indigo {
   border: 2px solid #7631FF !important;
 }
+
 .border-grey {
   border: 2px solid #777C85 !important;
 }
+
 .border-primary {
   border: 2px solid #397CFD !important;
 }
+
 .picker-color > .el-input__inner {
   background: #f8f4fe;
+
   &::placeholder {
     color: #000 !important;
   }
 }
+
 .picker-color > .el-input__prefix {
   color: #000;
 }
-
 
 .base.theme--light.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state) > .v-input__control > .v-input__slot fieldset {
   color: rgba(0, 0, 0, 0.38);
   background: #F8F4FE;
   border: 0;
 }
+
 .base_picker > .el-input__inner {
   color: rgba(0, 0, 0, 0.38);
   background: #F8F4FE;
   border-radius: 6px !important;
   border: 0;
+
   &::placeholder {
     color: rgba(0, 0, 0, 0.38) !important;
   }
 }
+
 .filter.theme--light.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state) > .v-input__control > .v-input__slot fieldset {
   color: #A5A7AD;
   background: #FFFFFF;
   border: 1px solid #D2D3D6;
   border-radius: 6px;
 }
+
 .filter_picker > .el-input__inner {
   border: 1px solid #D2D3D6;
   color: #A5A7AD;
   background: #FFFFFF;
   border-radius: 6px !important;
+
   &::placeholder {
     color: #A5A7AD !important;
   }
@@ -136,3 +149,6 @@ html, body .v-application {
   margin-bottom: 6px;
 }
 
+.theme--light.v-input--is-disabled input, .theme--light.v-input--is-disabled textarea {
+  color: rgba(0, 0, 0, 0.6);
+}

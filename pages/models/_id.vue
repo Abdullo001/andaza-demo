@@ -421,7 +421,7 @@ export default {
     }),
     redirectPrefinance() {
       this.$store.commit('preFinance/setModelNumber', this.model.number);
-      this.$router.push(this.localePath('/prefinances/create'));
+      this.$router.push(this.localePath('/prefinances/creating'));
     },
     async createNewModel() {
       await this.createModel(this.model);
