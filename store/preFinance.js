@@ -161,6 +161,10 @@ export const actions = {
       discountPercent: data[7].editable,
       givenPriceCurrency: currency,
       preFinanceId: id,
+      priceWithDiscountUSD: data.priceWithDiscountUSD,
+      priceWithDiscountRUB: data.priceWithDiscountRUB,
+      priceWithDiscountUZS: data.priceWithDiscountUZS,
+
     };
 
     await this.$axios
@@ -214,7 +218,6 @@ export const actions = {
       .then((res) => {
         if (!!res.data.length) {
           commit("setDetailsList", res.data);
-          console.log(res);
         }
       })
       .catch(({ response }) => console.log(response));
