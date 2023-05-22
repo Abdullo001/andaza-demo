@@ -274,14 +274,6 @@ export default {
                 to: this.localePath("/package-shape")
               },
               {
-                title: this.$t('sidebar.catalogGroups'),
-                to: this.localePath("/catalog-groups")
-              },
-              // {
-              //   title: this.$t('sidebar.productCatalogs'),
-              //   to: this.localePath("/product-catalogs")
-              // },
-              {
                 title: this.$t('sidebar.partners'),
                 to: this.localePath("/partners")
               },
@@ -293,10 +285,6 @@ export default {
                 title: this.$t('sidebar.colors'),
                 to: this.localePath('/colors'),
               },
-              // {
-              //   title: this.$t('sidebar.accessoryType'),
-              //   to: this.localePath('/accessory-type'),
-              // },
               {
                 title: this.$t('sidebar.accessory'),
                 to: this.localePath('/catalog-accessory'),
@@ -367,4 +355,4 @@ export default {
 }
 </script>
 
-<style lang="scss" src="assets/abstracts/_sidebar.scss"/>
+<style lang="scss" src="../assets/abstracts/_sidebar.scss"/>
