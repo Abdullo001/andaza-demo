@@ -177,6 +177,8 @@ export default {
       calculations: "Calculations",
       create: "create",
       newDetails: "New details",
+      editDetails:"Edit details",
+      updateBtn:"Update",
       expenseGroup: "Expense group",
       expense: "Expense",
       quantity: "Quantity",
