@@ -143,7 +143,7 @@ export default {
     child: {
       prefinance: "prefinance",
       clear: "clear",
-      edit: "edit",
+      edit: "Edit",
       prefinanceNumber: "Prefinance number",
       enterPrefinanceNumber: "Enter prefinance number",
       modelNumber: "Model number",

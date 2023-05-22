@@ -225,6 +225,9 @@ export default {
     return {
       headers: [
         {text: 'Part name', align: 'start', sortable: false, value: 'bodyPart'},
+        {text: 'Yarn number', sortable: false, value: 'yarnNumber'},
+        {text: 'Canvas type', sortable: false, value: 'canvasType'},
+        {text: 'Yarn type', sortable: false, value: 'yarnType'},
         {text: 'Composition', sortable: false, value: 'composition'},
         {text: 'Comment', sortable: false, value: 'description'},
         {text: 'Creator', sortable: false, value: 'createdBy'},
