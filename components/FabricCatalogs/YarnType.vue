@@ -172,7 +172,7 @@
             width="163"
             @click="update"
           >
-            {{ $t("catalogGroups.yarnType.dialogs.saveBtn") }}
+            {{ $t("update") }}
           </v-btn>
         </v-card-actions>
       </v-card>

@@ -149,7 +149,7 @@
             width="163"
             @click="update"
           >
-          {{ $t("catalogGroups.composition.dialogs.saveBtn") }}
+          {{$t("update")}}
 
           </v-btn>
         </v-card-actions>

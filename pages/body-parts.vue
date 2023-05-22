@@ -5,7 +5,6 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-
               v-model="filters.partName"
               :label="$t('bodyParts.child.name')"
               outlined
@@ -208,7 +207,7 @@
             width="163"
             @click="update"
           >
-            {{ $t("bodyParts.dialog.editBtn") }}
+            {{ $t("update") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -219,7 +218,7 @@
           <v-img src="/error-icon.svg" max-width="40" />
         </div>
         <v-card-title class="d-flex justify-center">
-          {{$t("bodyParts.dialog.deleteDialog")}}
+          {{ $t("bodyParts.dialog.deleteDialog") }}
         </v-card-title>
         <v-card-text>
           {{ $t("bodyParts.dialog.deleteText") }}
