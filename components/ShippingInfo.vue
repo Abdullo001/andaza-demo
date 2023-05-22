@@ -2,7 +2,7 @@
   <div>
     <v-row>
       <v-col>
-        <div class="mb-2 text-body-1 font-weight-medium">
+        <div class="label">
           Actual shipping date
         </div>
         <el-date-picker
@@ -11,21 +11,23 @@
           placeholder="dd.MM.yyyy HH:mm:ss"
           :picker-options="pickerShortcuts"
           value-format="dd.MM.yyyy HH:mm:ss"
-          style="min-width: 100%"
-          class="el-date-picker mb-8"
+          style="min-width: 100%; height: 44px !important;"
+          class="base_picker mb-4"
         >
         </el-date-picker>
 
-        <div class="mb-2 text-body-1">Surplus products quantity</div>
+        <div class="label">Surplus products quantity</div>
         <div class="d-flex align-center">
           <v-text-field
             v-model="shippingInfo.surplusProductsQuantity"
             :rules="[formRules.onlyNumber]"
             placeholder="0"
-            filled
+            outlined
+            hide-details
+            height="44"
             validate-on-blur
             dense
-            class="rounded-l-lg rounded-r-0"
+            class="rounded-l-lg rounded-r-0 rounded-lg base"
             color="#7631FF"
           />
           <v-select
@@ -35,9 +37,11 @@
             item-text="name"
             style="max-width: 100px"
             dense
-            filled
+            outlined
+            hide-details
+            height="44"
             validate-on-blur
-            class="rounded-r-lg rounded-l-0"
+            class="rounded-r-lg rounded-l-0 rounded-lg base"
             append-icon="mdi-chevron-down"
             color="#7631FF"
           />
@@ -45,7 +49,7 @@
       </v-col>
 
       <v-col>
-        <div class="mb-2 text-body-1 font-weight-medium">
+        <div class="label">
           Order closing date
         </div>
         <el-date-picker
@@ -54,21 +58,23 @@
           placeholder="dd.MM.yyyy HH:mm:ss"
           :picker-options="pickerShortcuts"
           value-format="dd.MM.yyyy HH:mm:ss"
-          style="min-width: 100%"
-          class="el-date-picker mb-8"
+          style="min-width: 100%; height: 44px !important;"
+          class="base_picker mb-4"
         >
         </el-date-picker>
 
-        <div class="mb-2 text-body-1">Sold price of surplus products</div>
+        <div class="label">Sold price of surplus products</div>
         <div class="d-flex align-center">
           <v-text-field
             v-model="shippingInfo.soldPriceOfSurplusProducts"
             :rules="[formRules.onlyNumber]"
             placeholder="0"
-            filled
+            outlined
+            hide-details
+            height="44"
             validate-on-blur
             dense
-            class="rounded-l-lg rounded-r-0"
+            class="rounded-l-lg rounded-r-0 rounded-lg base"
             color="#7631FF"
           />
           <v-select
@@ -76,25 +82,29 @@
             v-model="shippingInfo.soldPriceOfSurplusProductsCurrency"
             style="max-width: 100px"
             dense
-            filled
+            outlined
+            hide-details
+            height="44"
             validate-on-blur
-            class="rounded-r-lg rounded-l-0"
+            class="rounded-r-lg rounded-l-0 rounded-lg base"
             append-icon="mdi-chevron-down"
             color="#7631FF"
           />
         </div>
       </v-col>
       <v-col>
-        <div class="mb-2 text-body-1">Actual shipping order quantity</div>
-        <div class="d-flex align-center mb-1-5">
+        <div class="label">Actual shipping order quantity</div>
+        <div class="d-flex align-center">
           <v-text-field
             v-model="shippingInfo.actualShippingOrderQuantity"
             :rules="[formRules.onlyNumber]"
             placeholder="0.00"
-            filled
+            outlined
+            hide-details
+            height="44"
             validate-on-blur
             dense
-            class="rounded-l-lg rounded-r-0"
+            class="rounded-l-lg rounded-r-0 rounded-lg base mb-4"
             color="#7631FF"
           />
           <v-select
@@ -104,24 +114,28 @@
             item-text="name"
             style="max-width: 100px"
             dense
-            filled
+            outlined
+            hide-details
+            height="44"
             validate-on-blur
-            class="rounded-r-lg rounded-l-0"
+            class="rounded-r-lg rounded-l-0 rounded-lg base mb-4"
             append-icon="mdi-chevron-down"
             color="#7631FF"
           />
         </div>
 
-        <div class="mb-2 text-body-1">Total</div>
+        <div class="label">Total</div>
         <div class="d-flex align-center">
           <v-text-field
             v-model="shippingInfo.total"
             :rules="[formRules.onlyNumber]"
             placeholder="0.00"
-            filled
+            outlined
+            hide-details
+            height="44"
             validate-on-blur
             dense
-            class="rounded-l-lg rounded-r-0"
+            class="rounded-l-lg rounded-r-0 rounded-lg base"
             color="#7631FF"
             readonly
           />
@@ -130,9 +144,11 @@
             v-model="shippingInfo.soldPriceOfSurplusProductsCurrency"
             style="max-width: 100px"
             dense
-            filled
+            outlined
+            hide-details
+            height="44"
             validate-on-blur
-            class="rounded-r-lg rounded-l-0"
+            class="rounded-r-lg rounded-l-0 rounded-lg base"
             append-icon="mdi-chevron-down"
             color="#7631FF"
             readonly
@@ -141,15 +157,17 @@
       </v-col>
 
       <v-col>
-        <div class="mb-2 text-body-1">Packaging size</div>
+        <div class="label">Packaging size</div>
         <div class="d-flex align-center">
           <v-text-field
             v-model="shippingInfo.packagingSize"
             placeholder="0.00"
-            filled
+            outlined
+            hide-details
+            height="44"
             validate-on-blur
             dense
-            class="rounded-l-lg rounded-r-0"
+            class="rounded-l-lg rounded-r-0 rounded-lg base"
             color="#7631FF"
           />
           <v-select
@@ -159,9 +177,11 @@
             item-text="name"
             style="max-width: 100px"
             dense
-            filled
+            outlined
+            hide-details
+            height="44"
+            class="rounded-r-lg rounded-l-0 rounded-lg base"
             validate-on-blur
-            class="rounded-r-lg rounded-l-0"
             append-icon="mdi-chevron-down"
             color="#7631FF"
           />

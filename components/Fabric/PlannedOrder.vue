@@ -9,17 +9,19 @@
     >
      <template #top>
        <v-form v-model="new_valid" ref="valid" lazy-validation>
-         <v-row class="mt-4">
+         <v-row class="my-4">
            <v-col cols="12" lg="3">
-             <div class="font-weight-bold text-body-1 mb-2">Partner name</div>
+             <div class="label">Partner name</div>
              <v-combobox
                v-model="details.partnerName"
                :items="partnerLists"
                :search-input.sync="partnerName"
                item-text="name"
                item-value="id"
-               filled
-               class="rounded-lg"
+               outlined
+               hide-details
+               height="44"
+               class="rounded-lg base"
                :return-object="true"
                color="#7631FF"
                dense
@@ -34,15 +36,17 @@
              </v-combobox>
            </v-col>
            <v-col cols="12" lg="3">
-             <div class="font-weight-bold text-body-1 mb-2">Warehouse code</div>
+             <div class="label">Warehouse code</div>
              <v-combobox
                v-model="details.warehouseCode"
                :items="warehouseList"
                :search-input.sync="warehouseCode"
                item-text="code"
                item-value="id"
-               filled
-               class="rounded-lg"
+               outlined
+               hide-details
+               height="44"
+               class="rounded-lg base"
                :return-object="true"
                color="#7631FF"
                dense
@@ -57,15 +61,17 @@
              </v-combobox>
            </v-col>
            <v-col cols="12" lg="3">
-             <div class="font-weight-bold text-body-1 mb-2">Warehouse name</div>
+             <div class="label">Warehouse name</div>
              <v-combobox
                v-model="details.warehouseName"
                :items="warehouseList"
                :search-input.sync="warehouseName"
                item-text="name"
                item-value="id"
-               filled
-               class="rounded-lg"
+               outlined
+               hide-details
+               height="44"
+               class="rounded-lg base"
                :return-object="true"
                color="#7631FF"
                dense
@@ -80,14 +86,14 @@
              </v-combobox>
            </v-col>
            <v-col cols="12" lg="3">
-             <div class="font-weight-bold text-body-1 mb-2">Delivery time</div>
+             <div class="label">Delivery time</div>
              <el-date-picker
                v-model="details.deliveryTime"
                type="datetime"
                placeholder="Deadline for fabric"
                :picker-options="pickerShortcuts"
                value-format="dd.MM.yyyy HH:mm:ss"
-               class="custom-picker2"
+               class="base_picker"
                :rules="[formRules.required]"
                validate-on-blur
              >

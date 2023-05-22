@@ -58,12 +58,17 @@
           <v-form lazy-validation ref="new_validate">
             <v-row>
               <v-col lg="6">
+                <div class="label">Part name</div>
                 <v-select
                   :items="modelPartsList"
                   item-text="bodyPart"
                   item-value="id"
-                  label="Part name"
-                  filled dense
+                  outlined
+                  hide-details
+                  height="44"
+                  placeholder="Select part name"
+                  class="rounded-lg base"
+                  dense
                   validate-on-blur
                   append-icon="mdi-chevron-down"
                   color="#7631FF"
@@ -72,9 +77,13 @@
                 />
               </v-col>
               <v-col lg="6">
+                <div class="label">Quantity</div>
                 <v-text-field
-                  label="Quantity"
-                  filled dense
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base" dense
+                  placeholder="Enter quantity"
                   validate-on-blur
                   color="#7631FF"
                   v-model="fabric_planning.quantity"
@@ -82,42 +91,58 @@
                 />
               </v-col>
               <v-col lg="6">
+                <div class="label">VAR.1</div>
                 <v-text-field
-                  label="VAR.1"
-                  filled dense
+                  outlined
+                  hide-details
+                  height="44"
+                  placeholder="Enter VAR.1"
+                  class="rounded-lg base" dense
                   validate-on-blur
                   color="#7631FF"
                   v-model="fabric_planning.var1"
                 />
               </v-col>
               <v-col lg="6">
+                <div class="label">VAR.2</div>
                 <v-text-field
-                  label="VAR.2"
-                  filled dense
+                  outlined
+                  hide-details
+                  height="44"
+                  placeholder="Enter VAR.2"
+                  class="rounded-lg base" dense
                   validate-on-blur
                   color="#7631FF"
                   v-model="fabric_planning.var2"
                 />
               </v-col>
               <v-col lg="6">
+                <div class="label">Width type</div>
                 <v-select
                   :items="withTypeEnum"
-                  label="Width type"
-                  filled dense
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base" dense
                   validate-on-blur
+                  placeholder="Select width type"
                   append-icon="mdi-chevron-down"
                   color="#7631FF"
                   v-model="fabric_planning.widthType"
                 />
               </v-col>
               <v-col lg="6">
+                <div class="label">Measurement unit</div>
                 <v-select
                   :items="measurementUnit"
                   item-text="name"
                   item-value="id"
-                  label="Measurement unit"
-                  filled dense
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base" dense
                   validate-on-blur
+                  placeholder="Select measurement unit"
                   append-icon="mdi-chevron-down"
                   color="#7631FF"
                   v-model="fabric_planning.quantityUnitId"
@@ -125,30 +150,42 @@
                 />
               </v-col>
               <v-col lg="6">
+                <div class="label">Width(cm)</div>
                 <v-text-field
-                  label="Width(cm)"
-                  filled dense
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base" dense
                   validate-on-blur
+                  placeholder="Enter width(cm)"
                   color="#7631FF"
                   v-model="fabric_planning.width"
                   :rules="[formRules.required]"
                 />
               </v-col>
               <v-col lg="6">
+                <div class="label">Comment</div>
                 <v-text-field
-                  label="Comment"
-                  filled dense
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base" dense
                   validate-on-blur
+                  placeholder="Enter comment"
                   color="#7631FF"
                   v-model="fabric_planning.description"
                 />
               </v-col>
               <v-col lg="6">
+                <div class="label">Density kg/m2</div>
                 <v-text-field
-                  label="Density kg/m2"
-                  filled dense
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base" dense
                   validate-on-blur
                   color="#7631FF"
+                  placeholder="Enter density kg/m2"
                   v-model="fabric_planning.density"
                   :rules="[formRules.required]"
                 />

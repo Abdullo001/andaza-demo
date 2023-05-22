@@ -1117,6 +1117,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+
       modelNames: "preFinance/modelNames",
       modelData: "preFinance/modelData",
       preFinanceId: "preFinance/preFinanceId",
@@ -1129,6 +1130,7 @@ export default {
       documentsList: "documents/documentsList",
       onePreFinance: "preFinance/onePreFinance",
       selectedModelNumber: "preFinance/selectedModelNumber",
+
     }),
     title() {
       const id = this.$route.params.id;
@@ -1215,11 +1217,12 @@ export default {
       }
     },
     "addPreFinances.modelNumber"(elem) {
+
       if (!(elem === "null" || typeof elem === "object")) {
         this.getModelName(elem);
+
       }
-      const { modelNumber, name, partner, id } =
-        this.addPreFinances.modelNumber;
+      const { modelNumber, name, partner, id } = this.addPreFinances.modelNumber;
       if (
         (Object.keys(this.addPreFinances.modelNumber).length > 3 &&
           modelNumber) ||
@@ -1436,6 +1439,9 @@ export default {
       const calcVal = this.calculation.filter(
         (el) => el.status === false || el.usd_disabled === false
       );
+      calcVal.priceWithDiscountUSD = this.calculation[10].firstCurrency;
+      calcVal.priceWithDiscountUZS = this.calculation[10].secondCurrency;
+      calcVal.priceWithDiscountRUB = this.calculation[10].tertiaryCurrency;
       this.saveCalculations({
         data: calcVal,
         id: this.preFinanceId,

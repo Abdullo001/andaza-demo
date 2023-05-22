@@ -7,8 +7,10 @@
           v-model="description"
           background-color="#F8F4FE"
           color="#7631FF"
+          outlined
+          hide-details
           rows="8"
-          class="rounded-lg"
+          class="rounded-lg base"
         />
       </v-col>
       <v-col>

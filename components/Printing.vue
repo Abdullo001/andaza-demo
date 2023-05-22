@@ -31,7 +31,6 @@
         <v-btn icon @click="currentPrint(item)">
           <v-img src="/delete.svg" max-width="24"/>
         </v-btn>
-
       </template>
     </v-data-table>
     <v-divider/>
@@ -48,7 +47,7 @@
           <v-form lazy-validation v-model="printingValid" ref="new_printing">
             <v-row>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 font-weight-medium text-capitalize mb-2"> print type</div>
+                <div class="label text-capitalize mb-2"> print type</div>
                 <v-select
                   outlined
                   :items="printTypeEnums"
@@ -59,11 +58,13 @@
                   v-model="newPrints.printTypeId"
                   dense append-icon="mdi-chevron-down"
                   color="#7631FF"
-                  class="rounded-lg"
+                  class="rounded-lg base"
+                  height="44"
+                  hide-details
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 font-weight-medium text-capitalize mb-2"> color quantity</div>
+                <div class="label text-capitalize mb-2"> color quantity</div>
                 <v-text-field
                   outlined
                   single-line
@@ -71,11 +72,13 @@
                   v-model="newPrints.colorQuantity"
                   color="#7631FF"
                   dense
-                  class="rounded-lg"
+                  class="rounded-lg base"
+                  height="44"
+                  hide-details
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 font-weight-medium text-capitalize mb-2"> partner name</div>
+                <div class="label text-capitalize mb-2"> partner name</div>
                 <v-select
                   outlined
                   :items="partnerEnums"
@@ -86,11 +89,13 @@
                   v-model="newPrints.partnerId"
                   dense append-icon="mdi-chevron-down"
                   color="#7631FF"
-                  class="rounded-lg"
+                  class="rounded-lg base"
+                  height="44"
+                  hide-details
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 font-weight-medium text-capitalize mb-2"> currency</div>
+                <div class="label text-capitalize mb-2"> currency</div>
                 <v-select
                   outlined
                   :items="currency"
@@ -99,12 +104,13 @@
                   v-model="newPrints.currency"
                   dense append-icon="mdi-chevron-down"
                   color="#7631FF"
-                  class="rounded-lg"
-
+                  class="rounded-lg base"
+                  height="44"
+                  hide-details
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 font-weight-medium text-capitalize mb-2"> price</div>
+                <div class="label text-capitalize mb-2"> price</div>
                 <v-text-field
                   outlined
                   single-line
@@ -112,24 +118,26 @@
                   v-model="newPrints.price"
                   color="#7631FF"
                   dense
-                  class="rounded-lg"
+                  class="rounded-lg base"
+                  height="44"
+                  hide-details
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="text-body-1 font-weight-medium text-capitalize mb-2"> simple send date</div>
+                <div class="label text-capitalize mb-2"> simple send date</div>
                 <el-date-picker
                   v-model="newPrints.sentDate"
                   type="datetime"
                   placeholder="Send date"
                   :picker-options="pickerShortcuts"
                   value-format="dd.MM.yyyy HH:mm:ss"
-                  class="printing-date"
-                  style="width: 100%; color: #7631FF;"
+                  class="base_picker"
+                  style="width: 100%; color: #7631FF; height: 44px"
                 >
                 </el-date-picker>
               </v-col>
               <v-col cols="12" lg="12">
-                <div class="text-body-1 font-weight-medium text-capitalize mb-2">description</div>
+                <div class="label text-capitalize mb-2">description</div>
                 <v-textarea
                   v-model="newPrints.description"
                   placeholder="Enter description"
@@ -137,7 +145,8 @@
                   single-line
                   color="#7631FF"
                   dense
-                  class="rounded-lg"
+                  class="rounded-lg base"
+                  hide-details
                 />
               </v-col>
             </v-row>

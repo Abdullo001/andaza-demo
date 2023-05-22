@@ -200,18 +200,23 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form ref="new_form">
+            <div class="label">{{$t('cooperationType.dialog.name')}}</div>
             <v-text-field
               v-model="edit_cooperation.name"
-              filled
-              :label="$t('cooperationType.dialog.name')"
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base mb-4"
               :placeholder="$t('cooperationType.dialog.enterMainName')"
               dense
               color="#7631FF"
             />
+            <div class="label">{{$t('cooperationType.dialog.description')}}</div>
             <v-textarea
               v-model="edit_cooperation.description"
-              filled
-              :label="$t('cooperationType.dialog.description')"
+              outlined
+              hide-details
+              class="rounded-lg base"
               :placeholder="$t('cooperationType.dialog.descriptionPlacholder')"
               dense
               color="#7631FF"

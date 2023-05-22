@@ -10,7 +10,7 @@
                 :label="$t('listsModels.dialog.modelN')"
                 outlined validate-on-blur
                 dense hide-details
-                class="rounded-lg"
+                class="rounded-lg filter"
                 @keydown.enter="filterModel"
               />
             </v-col>
@@ -20,7 +20,7 @@
                 :label="$t('listsModels.dialog.partner')"
                 outlined validate-on-blur
                 dense hide-details
-                class="rounded-lg"
+                class="rounded-lg filter"
                 @keydown.enter="filterModel"
               />
             </v-col>
@@ -31,7 +31,7 @@
                 :items="status_enums"
                 outlined dense hide-details
                 validate-on-blur
-                class="rounded-lg"
+                class="rounded-lg filter"
                 append-icon="mdi-chevron-down"
               />
             </v-col>

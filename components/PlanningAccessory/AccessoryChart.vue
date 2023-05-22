@@ -53,13 +53,16 @@
           <v-form ref="new_form" lazy-validation v-model="validate">
             <v-row>
               <v-col cols="12" md="6">
+                <div class="label">Name</div>
                 <v-select
                   v-model="create_accessory_chart.accessoryId"
                   :items="nameData"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   item-text="name"
                   item-value="id"
-                  label="Name"
                   placeholder="Select Name"
                   dense
                   append-icon="mdi-chevron-down"
@@ -68,13 +71,16 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Specification</div>
                 <v-select
                   v-model="create_accessory_chart.specification"
                   :items="nameData"
                   item-text="specification"
                   item-value="id"
-                  filled
-                  label="Specification"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   placeholder="Select Specification"
                   dense
                   append-icon="mdi-chevron-down"
@@ -83,10 +89,13 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">VAR.1</div>
                 <v-text-field
                   v-model="create_accessory_chart.var1"
-                  filled
-                  label="VAR.1"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   placeholder="Enter VAR.1"
                   dense
                   color="#7631FF"
@@ -94,10 +103,13 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">VAR.2</div>
                 <v-text-field
                   v-model="create_accessory_chart.var2"
-                  filled
-                  label="VAR.2"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   placeholder="Enter VAR.2"
                   dense
                   color="#7631FF"
@@ -105,11 +117,14 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="d-flex align-center mt-8">
+                <div class="label">Price per unit</div>
+                <div class="d-flex align-center">
                   <v-text-field
                     v-model="create_accessory_chart.accessoryPricePerUnit"
-                    filled
-                    label="Price per unit"
+                    outlined
+                    hide-details
+                    height="44"
+                    class="rounded-lg base rounded-l-lg rounded-r-0"
                     placeholder="0.0"
                     dense
                     color="#7631FF"
@@ -117,20 +132,27 @@
                   />
                   <v-select
                     :items="currency_enums"
-                    v-model="create_accessory_chart.accessoryPricePerCurrency"
-                    filled
                     style="max-width: 100px"
+                    outlined
+                    hide-details
+                    height="44"
+                    dense
+                    v-model="create_accessory_chart.accessoryPricePerCurrency"
+                    class="rounded-lg base rounded-r-lg rounded-l-0"
                     append-icon="mdi-chevron-down"
                     color="#7631FF"
                     :rules="[formRules.required]"
                   />
                 </div>
               </v-col>
-              <v-col cols="12" md="6" class="mt-8">
+              <v-col cols="12" md="6">
+                <div class="label">Quantity</div>
                 <v-text-field
                   v-model="create_accessory_chart.quantity"
-                  filled
-                  label="Quantity"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   placeholder="Enter Quantity"
                   dense
                   color="#7631FF"
@@ -138,12 +160,15 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Measurement unit</div>
                 <v-select
                   :items="measurementUnit"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   item-text="name"
                   item-value="id"
-                  label="Measurement unit"
                   placeholder="Select Measurement unit"
                   dense
                   append-icon="mdi-chevron-down"
@@ -152,10 +177,13 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Wastage</div>
                 <v-text-field
                   v-model="create_accessory_chart.wastage"
-                  filled
-                  label="Wastage"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   placeholder="Enter Wastage"
                   dense
                   color="#7631FF"
@@ -163,10 +191,12 @@
                 />
               </v-col>
               <v-col cols="12">
+                <div class="label">Description</div>
                 <v-textarea
                   v-model="create_accessory_chart.description"
-                  filled
-                  label="Description"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
                   placeholder="Enter Canvas type"
                   dense
                   color="#7631FF"
@@ -210,11 +240,14 @@
           <v-form ref="edit_form">
             <v-row>
               <v-col cols="12" md="6">
+                <div class="label">Name</div>
                 <v-text-field
                   v-model="edit_accessory_chart.name"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   disabled
-                  label="Name"
                   placeholder="Select Name"
                   dense
                   append-icon="mdi-chevron-down"
@@ -222,11 +255,14 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Specification</div>
                 <v-text-field
                   v-model="edit_accessory_chart.specification"
                   disabled
-                  filled
-                  label="Specification"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   placeholder="Select Specification"
                   dense
                   append-icon="mdi-chevron-down"
@@ -234,41 +270,53 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">VAR.1</div>
                 <v-text-field
                   v-model="edit_accessory_chart.var1"
-                  filled
-                  label="VAR.1"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   placeholder="Enter VAR.1"
                   dense
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">VAR.2</div>
                 <v-text-field
                   v-model="edit_accessory_chart.var2"
-                  filled
-                  label="VAR.2"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   placeholder="Enter VAR.2"
                   dense
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Quantity</div>
                 <v-text-field
                   v-model="edit_accessory_chart.quantity"
-                  filled
-                  label="Quantity"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   placeholder="Enter Quantity"
                   dense
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Measurement unit</div>
                 <v-text-field
                   v-model="edit_accessory_chart.quantityUnitId"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   disabled
-                  label="Measurement unit"
                   placeholder="Select Measurement unit"
                   dense
                   append-icon="mdi-chevron-down"
@@ -276,22 +324,25 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Wastage</div>
                 <v-text-field
                   v-model="edit_accessory_chart.wastage"
-                  filled
-                  label="Wastage"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   placeholder="Enter Wastage"
                   dense
                   color="#7631FF"
                 />
               </v-col>
-              <v-col cols="12" md="6">
+              <v-col cols="12">
+                <div class="label">Description</div>
                 <v-textarea
                   v-model="edit_accessory_chart.description"
-                  filled
-                  rows="1"
-                  auto-grow
-                  label="Description"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
                   placeholder="Enter Canvas type"
                   dense
                   color="#7631FF"
