@@ -9,7 +9,7 @@
     >
      <template #top>
        <v-form v-model="new_valid" ref="valid" lazy-validation>
-         <v-row class="mt-4">
+         <v-row class="my-4">
            <v-col cols="12" lg="3">
              <div class="label">Partner name</div>
              <v-combobox
