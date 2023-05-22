@@ -12,7 +12,7 @@
                 validate-on-blur
                 dense
                 hide-details
-                class="rounded-lg"
+                class="rounded-lg filter"
               />
             </v-col>
             <v-col cols="12" lg="2" md="2">
@@ -23,7 +23,7 @@
                 dense
                 outlined
                 validate-on-blur
-                class="rounded-lg"
+                class="rounded-lg filter"
                 append-icon="mdi-chevron-down"
               />
             </v-col>
@@ -31,7 +31,7 @@
               <el-date-picker
                 v-model="filters.createdAt"
                 type="datetime"
-                class="rounded-lg d-block el-date-picker"
+                class="rounded-lg d-block filter_picker"
                 placeholder="Created at"
                 :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy HH:mm:ss"
@@ -42,7 +42,7 @@
               <el-date-picker
                 v-model="filters.updatedAt"
                 type="datetime"
-                class="rounded-lg d-block el-date-picker"
+                class="rounded-lg d-block filter_picker"
                 placeholder="Updated at"
                 :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy HH:mm:ss"

@@ -38,18 +38,19 @@
         <v-form lazy-validation v-model="new_validate" ref="order_detail">
           <v-row>
             <v-col>
-              <div class="mb-2 text-body-1">Order number</div>
+              <div class="label">Order number</div>
               <v-text-field
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base mb-4"
                 v-model="order.orderNumber"
                 placeholder="Enter order number"
                 validate-on-blur
                 dense
-                class="rounded-lg"
                 color="#7631FF"
               />
-              <div class="mb-2 text-body-1">Head of production depatment</div>
-  
+              <div class="label">Head of production depatment</div>
               <div class="search-field">
                 <v-combobox
                   v-model="order.headOfDepartment"
@@ -58,9 +59,10 @@
                   style="margin-bottom:22px"
                   item-text="name"
                   item-value="id"
-                  filled
+                  outlined
                   hide-details
-                  class="rounded-lg d-flex align-center justify-center"
+                  height="44"
+                  class="rounded-lg base d-flex align-center justify-center"
                   :return-object="true"
                   color="#7631FF"
                   dense
@@ -75,35 +77,34 @@
                   </template>
                 </v-combobox>
               </div>
-              <div class="mb-2 text-body-1">Order priority</div>
+              <div class="label">Order priority</div>
               <v-select
                 :background-color="statusColor.priorityColor(order.priority)"
                 :items="priority_enums"
                 append-icon="mdi-chevron-down"
                 v-model="order.priority"
-                hide-details
                 dense
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
                 validate-on-blur
                 placeholder="Select order priority"
-                class="rounded-lg"
                 dark
               />
             </v-col>
             <v-col>
-              <div class="mb-2 text-body-1">Client name</div>
-  
+              <div class="label">Client name</div>
               <v-combobox
                 v-model="order.client"
                 :items="clientList"
                 :search-input.sync="clientIdSearch"
-                style="margin-bottom:22px"
-  
                 item-text="name"
                 item-value="id"
-                filled
+                outlined
                 hide-details
-                class="rounded-lg d-flex align-center justify-center"
+                height="44"
+                class="rounded-lg base d-flex align-center justify-center mb-4"
                 :return-object="true"
                 color="#7631FF"
                 dense
@@ -117,15 +118,17 @@
                   >
                 </template>
               </v-combobox>
-              <div class="mb-2 text-body-1">Price with discount</div>
+              <div class="label">Price with discount</div>
               <div class="d-flex align-center">
                 <v-text-field
                   v-model="order.priceWithDiscount"
                   placeholder="0.00"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base rounded-l-lg rounded-r-0"
                   validate-on-blur
                   dense
-                  class="rounded-l-lg rounded-r-0"
                   color="#7631FF"
                 />
                 <v-select
@@ -133,29 +136,29 @@
                   v-model="order.priceWithDiscountCurrency"
                   style="max-width: 100px"
                   dense
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base rounded-r-lg rounded-l-0"
                   validate-on-blur
-                  class="rounded-r-lg rounded-l-0"
                   append-icon="mdi-chevron-down"
                   color="#7631FF"
                 />
               </div>
             </v-col>
             <v-col>
-              <div class="mb-2 text-body-1">Model number</div>
-  
+              <div class="label">Model number</div>
               <v-combobox
                 v-model="order.modelNumber"
                 @change="(e) => setModelName(e)"
                 :items="modelList"
                 :search-input.sync="modelIdSearch"
-                style="margin-bottom:22px"
-  
                 item-text="modelNumber"
                 item-value="id"
-                filled
+                outlined
                 hide-details
-                class="rounded-lg d-flex align-center justify-center"
+                height="44"
+                class="rounded-lg base d-flex align-center justify-center mb-4"
                 :return-object="true"
                 color="#7631FF"
                 dense
@@ -169,16 +172,18 @@
                   >
                 </template>
               </v-combobox>
-              <div class="mb-2 text-body-1">Total</div>
+              <div class="label">Total</div>
               <div class="d-flex align-center">
                 <v-text-field
                   v-model="order.totalPrice.amount"
                   :rules="[formRules.onlyNumber]"
                   placeholder="0.00"
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base rounded-l-lg rounded-r-0"
                   validate-on-blur
                   dense
-                  class="rounded-l-lg rounded-r-0"
                   color="#7631FF"
                 />
                 <v-select
@@ -186,35 +191,40 @@
                   v-model="order.totalPrice.currency"
                   style="max-width: 100px"
                   dense
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base rounded-r-lg rounded-l-0"
                   validate-on-blur
-                  class="rounded-r-lg rounded-l-0"
                   append-icon="mdi-chevron-down"
                   color="#7631FF"
                 />
               </div>
             </v-col>
             <v-col>
-              <div class="mb-2 text-body-1">Model name</div>
+              <div class="label">Model name</div>
               <v-text-field
                 v-model="order.modelName"
                 placeholder="Enter"
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base mb-4"
                 validate-on-blur
                 dense
-                class="rounded-lg"
                 color="#7631FF"
                 readonly
               />
-              <div class="mb-2 text-body-1">Deadline</div>
+              <div class="label">Deadline</div>
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="order.deadline"
                   type="datetime"
+                  style="width: 100%; height: 100%"
                   placeholder="dd.MM.yyyy HH:mm:ss"
                   :picker-options="pickerShortcuts"
                   value-format="dd.MM.yyyy HH:mm:ss"
-                  class="custom-picker-2"
+                  class="base_picker"
                 >
                 </el-date-picker>
               </div>
@@ -222,54 +232,61 @@
           </v-row>
           <v-row>
             <v-col cols="12" lg="6">
-              <div class="mb-2 text-body-1">Description</div>
+              <div class="label">Description</div>
               <v-textarea
                 v-model="order.description"
                 placeholder="Enter description"
-                filled
+                outlined
+                hide-details
+                class="rounded-lg base"
                 validate-on-blur
                 dense
-                class="rounded-lg"
                 color="#7631FF"
               />
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="mb-2 text-body-1">Creator</div>
+              <div class="label">Creator</div>
               <v-text-field
                 v-model="order.creator"
                 placeholder="Enter creator"
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base mb-4"
                 validate-on-blur
                 dense
-                class="rounded-lg"
                 color="#7631FF"
                 background-color="#F8F4FE"
                 readonly
               />
-              <div class="mb-2 text-body-1">Modified person</div>
+              <div class="label">Modified person</div>
               <v-text-field
                 v-model="order.modifiedPerson"
                 placeholder="Enter Modified person"
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
                 validate-on-blur
                 dense
-                class="rounded-lg"
                 color="#7631FF"
                 background-color="#F8F4FE"
                 readonly
               />
             </v-col>
-  
+
             <v-col cols="12" lg="3">
-              <div class="mb-2 text-body-1">Created time</div>
+              <div class="label">Created time</div>
               <v-text-field
                 v-model="order.createdTime"
                 placeholder="Created at"
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base mb-4"
                 validate-on-blur
                 dense
                 disabled
-                class="rounded-lg"
                 color="#7631FF"
                 background-color="#F8F4FE"
                 readonly
@@ -278,16 +295,18 @@
                   <v-img src="/date-icon.svg"/>
                 </template>
               </v-text-field>
-  
-              <div class="mb-2 text-body-1">Updated time</div>
+
+              <div class="label">Updated time</div>
               <v-text-field
                 v-model="order.updatedTime"
                 placeholder="Update at"
-                filled
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
                 validate-on-blur
                 dense
                 disabled
-                class="rounded-lg"
                 color="#7631FF"
                 background-color="#F8F4FE"
                 readonly

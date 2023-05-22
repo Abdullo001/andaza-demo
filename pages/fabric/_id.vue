@@ -27,19 +27,21 @@
         <v-form lazy-validation ref="new_validate">
           <v-row>
             <v-col cols="12" lg="3" md="3">
+              <div class="label">Order number</div>
               <v-combobox
                 v-model="addFabric.orderNumber"
                 :items="orderData"
                 :search-input.sync="orderSearch"
                 item-text="orderNumber"
                 item-value="orderId"
-                filled
-                class="rounded-lg"
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
                 :return-object="true"
                 color="#7631FF"
                 dense
                 disabled
-                label="Order number"
                 placeholder="Enter order number"
                 append-icon="mdi-chevron-down"
               >
@@ -49,18 +51,20 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3" md="3">
+              <div class="label">Model number</div>
               <v-combobox
                 v-model="addFabric.modelNumber"
                 :items="modelData"
                 :search-input.sync="modelSearch"
                 item-text="modelNumber"
                 item-value="modelId"
-                filled
-                class="rounded-lg"
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
                 :return-object="true"
                 color="#7631FF"
                 dense
-                label="Model number"
                 placeholder="Enter model number"
                 append-icon="mdi-chevron-down"
               >
@@ -70,61 +74,71 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3" md="3">
+              <div class="label">Model name</div>
               <v-text-field
-                filled
-                class="rounded-lg"
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
                 color="#7631FF"
                 dense
-                label="Model name"
                 placeholder="Model name"
                 v-model="addFabric.modelName"
                 disabled
               />
             </v-col>
             <v-col cols="12" lg="3" md="3">
+              <div class="label">Head of production department</div>
               <v-text-field
                 v-model="addFabric.headOfProduction"
-                filled
-                class="rounded-lg"
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
                 color="#7631FF"
                 dense disabled
-                label="Head of production department"
                 placeholder="Enter head of production department..."
                 append-icon=""
               />
             </v-col>
             <v-col cols="12" lg="3" md="3">
+              <div class="label">Client name</div>
               <v-text-field
                 v-model="addFabric.clientName"
-                filled
-                class="rounded-lg"
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
                 color="#7631FF"
                 dense disabled
-                label="Client name"
                 placeholder="Enter client name..."
                 append-icon=""
               />
             </v-col>
             <v-col cols="12" lg="3" md="3">
+              <div class="label">Order priority</div>
               <v-text-field
                 v-model="addFabric.orderPriority"
-                filled
-                class="rounded-lg"
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
                 color="#7631FF"
                 dense
-                label="Order priority"
                 placeholder="0"
                 disabled
               />
             </v-col>
             <v-col cols="12" lg="3" md="3">
+              <div class="label">Deadline of order</div>
               <v-text-field
                 v-model="addFabric.deadlineOfOrder"
-                filled
-                class="rounded-lg"
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
                 color="#7631FF"
                 dense
-                label="Deadline of order"
                 placeholder="Enter deadline of order"
                 disabled
               >
@@ -134,13 +148,16 @@
               </v-text-field>
             </v-col>
             <v-col cols="12" lg="3" md="3">
+              <div class="label">Actual shipping date</div>
               <v-text-field
                 v-model="addFabric.actualShippingDate"
-                filled
-                class="rounded-lg"
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
                 color="#7631FF"
                 dense
-                label="Actual shipping date"
+                placeholder="Enter Actual shipping date"
                 disabled
               >
                 <template #append>
@@ -150,36 +167,43 @@
             </v-col>
             <v-row class="px-3">
               <v-col cols="12" lg="3" md="3">
+                <div class="label">Deadline for fabric</div>
                 <el-date-picker
                   v-model="addFabric.deadlineForFabric"
                   type="datetime"
+                  style="width: 100%; height: 44px !important;"
                   placeholder="Deadline for fabric"
                   :picker-options="pickerShortcuts"
                   value-format="dd.MM.yyyy HH:mm:ss"
-                  class="custom-picker"
+                  class="base_picker"
                 >
                 </el-date-picker>
               </v-col>
               <v-col cols="12" lg="3" md="3">
+                <div class="label">Creator of planning</div>
                 <v-text-field
                   v-model="addFabric.creatorOfPlanning"
-                  filled
-                  class="rounded-lg"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   color="#7631FF"
                   dense
-                  label="Creator of planning"
                   placeholder="Enter deadline for fabric"
                   disabled
                 />
               </v-col>
               <v-col cols="12" lg="3" md="3">
+                <div class="label">Created time</div>
                 <v-text-field
                   v-model="addFabric.createdAt"
-                  filled
-                  class="rounded-lg"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   color="#7631FF"
                   dense
-                  label="Created time"
+                  placeholder="Enter created time"
                   disabled
                 >
                   <template #append>
@@ -205,24 +229,28 @@
               </v-col>
               <v-col cols="12" lg="6" md="6" class="d-flex flex-wrap mt-4">
                 <v-col cols="12" lg="6" class="pl-0 pt-0">
+                  <div class="label">Creator of Model</div>
                   <v-text-field
                     v-model="addFabric.creatorOfModel"
-                    filled
-                    class="rounded-lg"
+                    outlined
+                    hide-details
+                    height="44"
+                    class="rounded-lg base"
                     color="#7631FF"
                     dense
-                    label="Creator of Model"
                     disabled
                   />
                 </v-col>
                 <v-col cols="12" lg="6" class="pt-0 pr-0">
+                  <div class="label">Created time</div>
                   <v-text-field
                     v-model="addFabric.createdTimeOfModel"
-                    filled
-                    class="rounded-lg"
+                    outlined
+                    hide-details
+                    height="44"
+                    class="rounded-lg base"
                     color="#7631FF"
                     dense
-                    label="Created time"
                     placeholder="dd.MM.yyyy HH:mm:ss"
                     disabled
                   >
@@ -232,25 +260,29 @@
                   </v-text-field>
                 </v-col>
                 <v-col cols="12" lg="6" class="pl-0 pt-0">
+                  <div class="label">Creator of order</div>
                   <v-text-field
                     v-model="addFabric.creatorOfOrder"
-                    filled
-                    class="rounded-lg"
+                    outlined
+                    hide-details
+                    height="44"
+                    class="rounded-lg base"
                     color="#7631FF"
                     dense
-                    label="Creator of order"
                     placeholder="Enter Modified person"
                     disabled
                   />
                 </v-col>
                 <v-col cols="12" lg="6" class="pt-0 pr-0">
+                  <div class="label">Created time</div>
                   <v-text-field
                     v-model="addFabric.createdTimeOfOrder"
-                    filled
-                    class="rounded-lg"
+                    outlined
+                    hide-details
+                    height="44"
+                    class="rounded-lg base"
                     color="#7631FF"
                     dense
-                    label="Created time"
                     placeholder="dd.MM.yyyy HH:mm:ss"
                     disabled
                   >

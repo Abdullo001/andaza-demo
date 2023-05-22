@@ -2,26 +2,30 @@
   <div>
     <v-row>
       <v-col>
-        <div class="mb-2 text-body-1 font-weight-medium">Order number</div>
+        <div class="label">Order number</div>
         <v-text-field
           v-model="orderDetail.orderNumber"
           placeholder="Enter order number"
           validate-on-blur
-          filled
+          outlined
+          hide-details
+          height="44"
+          class="rounded-lg mb-4 base"
           dense
-          class="rounded-lg mb-6"
           color="#7631FF"
           background-color="#F8F4FE"
           disabled
         />
-        <div class="mb-2 text-body-1 font-weight-medium">Season</div>
+        <div class="label">Season</div>
         <v-text-field
           placeholder="select season"
           v-model="orderDetail.season"
           dense
-          filled
+          outlined
+          hide-details
+          height="44"
+          class="rounded-lg mb-4 base"
           validate-on-blur
-          class="rounded-lg"
           color="#7631FF"
           background-color="#F8F4FE"
           disabled
@@ -29,27 +33,31 @@
       </v-col>
 
       <v-col>
-        <div class="mb-2 text-body-1 font-weight-medium">Prefinance number</div>
+        <div class="label">Prefinance number</div>
         <v-text-field
           v-model="orderDetail.prefinanceNumber"
           placeholder="Enter prefinance number"
-          filled
+          outlined
+          hide-details
+          height="44"
+          class="rounded-lg mb-4 base"
           validate-on-blur
           dense
-          class="rounded-lg mb-6"
           color="#7631FF"
           background-color="#F8F4FE"
           disabled
         />
-        <div class="mb-2 text-body-1 font-weight-medium">Deadline</div>
+        <div class="label">Deadline</div>
         <v-text-field
           v-model="orderDetail.deadline"
           placeholder="Deadline"
-          filled
+          outlined
+          hide-details
+          height="44"
+          class="rounded-lg mb-4 base"
           validate-on-blur
           dense
           disabled
-          class="rounded-lg mb-6"
           color="#7631FF"
           background-color="#F8F4FE"
         >
@@ -60,30 +68,34 @@
       </v-col>
 
       <v-col>
-        <div class="mb-2 text-body-1 font-weight-medium">
+        <div class="label">
           Specification number
         </div>
         <v-text-field
           v-model="orderDetail.specificationNumber"
           placeholder=" specification number"
-          filled
+          outlined
+          hide-details
+          height="44"
+          class="rounded-lg mb-4 base"
           validate-on-blur
           dense
-          class="rounded-lg mb-6"
           color="#7631FF"
           background-color="#F8F4FE"
           disabled
         />
-        <div class="mb-2 text-body-1 font-weight-medium">
+        <div class="label">
           Responsipble person
         </div>
         <v-text-field
           v-model="orderDetail.responsipblePerson"
           placeholder="Enter responsipble person"
-          filled
+          outlined
+          hide-details
+          height="44"
+          class="rounded-lg mb-4 base"
           validate-on-blur
           dense
-          class="rounded-lg mb-6"
           color="#7631FF"
           background-color="#F8F4FE"
           disabled
@@ -91,14 +103,16 @@
       </v-col>
 
       <v-col>
-        <div class="mb-2 text-body-1 font-weight-medium">Model group</div>
+        <div class="label">Model group</div>
         <v-text-field
           placeholder="select Order group"
           v-model="orderDetail.orderGroup"
           dense
-          filled
+          outlined
+          hide-details
+          height="44"
+          class="rounded-lg mb-4 base"
           validate-on-blur
-          class="rounded-lg"
           color="#7631FF"
           background-color="#F8F4FE"
           disabled

@@ -11,7 +11,7 @@
             <v-text-field
               label="ID fabric"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               v-model.trim="filters.id_fabric"
               hide-details
               dense
@@ -22,7 +22,7 @@
             <v-text-field
               label="Model №"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               v-model.trim="filters.modelId"
               hide-details
               dense
@@ -33,7 +33,7 @@
             <v-text-field
               label="Order №"
               outlined
-              class="rounded-lg"
+              class="rounded-lg filter"
               v-model.trim="filters.orderId"
               hide-details
               dense

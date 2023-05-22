@@ -22,9 +22,10 @@
                 item-text="modelNumber"
                 item-value="modelNumber"
                 @keyup.enter="(evt) => searchSubcontracts(evt)"
-                filled
+                outlined
+                height="44"
                 hide-details
-                class="rounded-lg d-flex align-center justify-center"
+                class="rounded-lg d-flex align-center justify-center base"
                 :return-object="true"
                 color="#7631FF"
                 dense
@@ -76,7 +77,7 @@
           <v-form lazy-validation v-model="new_validate" ref="new_form">
             <v-row class="mb-4">
               <v-col cols="6">
-                <div class="mb-2 text-body-1">Cooperation type</div>
+                <div class="label">Cooperation type</div>
                 <v-select
                   v-model="newSubcontractDetail.cooperationTypeId"
                   placeholder="select cooperation Type"
@@ -86,29 +87,33 @@
                   append-icon="mdi-chevron-down"
                   rounded
                   single-line
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base mb-4"
                   validate-on-blur
                   dense
-                  class="rounded-lg"
                   color="#7631FF"
                   background-color="#F8F4FE"
                 />
-                <div class="mb-2 text-body-1">Quantity</div>
+                <div class="label">Quantity</div>
                 <v-text-field
                   v-model="newSubcontractDetail.quantity"
                   placeholder="Enter quantity"
                   single-line
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   validate-on-blur
                   dense
-                  class="rounded-lg"
                   color="#7631FF"
                   background-color="#F8F4FE"
                 />
               </v-col>
 
               <v-col cols="6">
-                <div class="mb-2 text-body-1">Partner name</div>
+                <div class="label">Partner name</div>
                 <v-select
                   v-model="newSubcontractDetail.partnerId"
                   placeholder="select Partner"
@@ -118,14 +123,16 @@
                   append-icon="mdi-chevron-down"
                   rounded
                   single-line
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base mb-4"
                   validate-on-blur
                   dense
-                  class="rounded-lg"
                   color="#7631FF"
                   background-color="#F8F4FE"
                 />
-                <div class="mb-2 text-body-1">Measurement unit</div>
+                <div class="label">Measurement unit</div>
                 <v-select
                   v-model="newSubcontractDetail.measurementUnitId"
                   placeholder="select unit"
@@ -135,25 +142,28 @@
                   append-icon="mdi-chevron-down"
                   rounded
                   single-line
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   validate-on-blur
                   dense
-                  class="rounded-lg"
                   color="#7631FF"
                   background-color="#F8F4FE"
                 />
               </v-col>
 
               <v-col cols="12">
-                <div class="mb-2 text-body-1">Description</div>
+                <div class="label">Description</div>
                 <v-textarea
                   v-model="newSubcontractDetail.description"
                   placeholder="Enter description"
                   single-line
-                  filled
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
                   validate-on-blur
                   dense
-                  class="rounded-lg"
                   color="#7631FF"
                   background-color="#F8F4FE"
                 />
@@ -196,7 +206,7 @@
           <v-form lazy-validation v-model="new_validate" ref="edit_form">
             <v-row class="mb-4">
               <v-col cols="6">
-                <div class="mb-2 text-body-1">Cooperation type</div>
+                <div class="label">Cooperation type</div>
                 <v-select
                   v-model="subcontractsDetail.cooperationTypeId"
                   placeholder="select cooperation Type"
@@ -206,29 +216,33 @@
                   append-icon="mdi-chevron-down"
                   rounded
                   single-line
-                  filled
+                  height="44"
+                  outlined
+                  hide-details
                   validate-on-blur
                   dense
-                  class="rounded-lg"
+                  class="rounded-lg base mb-4"
                   color="#7631FF"
                   background-color="#F8F4FE"
                 />
-                <div class="mb-2 text-body-1">Quantity</div>
+                <div class="label">Quantity</div>
                 <v-text-field
                   v-model="subcontractsDetail.quantity"
                   placeholder="Enter quantity"
                   single-line
-                  filled
+                  height="44"
+                  outlined
+                  hide-details
                   validate-on-blur
                   dense
-                  class="rounded-lg"
+                  class="rounded-lg base"
                   color="#7631FF"
                   background-color="#F8F4FE"
                 />
               </v-col>
 
               <v-col cols="6">
-                <div class="mb-2 text-body-1">Partner name</div>
+                <div class="label">Partner name</div>
                 <v-select
                   v-model="subcontractsDetail.partnerId"
                   placeholder="select Partner"
@@ -238,14 +252,16 @@
                   append-icon="mdi-chevron-down"
                   rounded
                   single-line
-                  filled
+                  outlined
+                  hide-details
+                  height="44"
                   validate-on-blur
                   dense
-                  class="rounded-lg"
+                  class="rounded-lg base mb-4"
                   color="#7631FF"
                   background-color="#F8F4FE"
                 />
-                <div class="mb-2 text-body-1">Measurement unit</div>
+                <div class="label">Measurement unit</div>
                 <v-select
                   v-model="subcontractsDetail.measurementUnitId"
                   placeholder="select unit"
@@ -255,25 +271,28 @@
                   append-icon="mdi-chevron-down"
                   rounded
                   single-line
-                  filled
+                  height="44"
+                  outlined
+                  hide-details
                   validate-on-blur
                   dense
-                  class="rounded-lg"
+                  class="rounded-lg base"
                   color="#7631FF"
                   background-color="#F8F4FE"
                 />
               </v-col>
 
               <v-col cols="12">
-                <div class="mb-2 text-body-1">Description</div>
+                <div class="label">Description</div>
                 <v-textarea
                   v-model="subcontractsDetail.description"
                   placeholder="Enter description"
                   single-line
-                  filled
+                  outlined
+                  hide-details
                   validate-on-blur
                   dense
-                  class="rounded-lg"
+                  class="rounded-lg base"
                   color="#7631FF"
                   background-color="#F8F4FE"
                 />

@@ -73,20 +73,30 @@
           <v-form ref="new_validate" lazy-validation>
             <v-row>
               <v-col cols="12" lg="12">
+                <div class="label">Upload document</div>
                 <v-file-input
-                  label="Upload document"
-                  filled show-size
+                  outlined
+                  hide-details
+                  placeholder="Enter upload document"
+                  height="44"
+                  class="rounded-lg base mb-4"
+                  show-size
                   prepend-icon=""
+                  dense
                   prepend-inner-icon="mdi-file-document-outline"
                   color="#7631FF"
                   v-model="newDocument.file"
                   validate-on-blur
                   :rules="[formRules.required]"
                 />
+                <div class="label">Title</div>
                 <v-text-field
-                  label="Title"
                   placeholder="Enter document name"
-                  filled color="#7631FF"
+                  outlined
+                  hide-details
+                  dense
+                  height="44"
+                  class="rounded-lg base" color="#7631FF"
                   v-model="newDocument.title"
                   validate-on-blur
                   :rules="[formRules.required]"
@@ -161,19 +171,29 @@
           <v-form ref="edit_validate" lazy-validation v-model="valid_edit">
             <v-row>
               <v-col cols="12" lg="12">
+                <div class="label">Upload document</div>
                 <v-file-input
-                  label="Upload document"
-                  filled show-size
+                  outlined
+                  hide-details
+                  height="44"
+                  dense
+                  placeholder="Enter upload document"
+                  class="rounded-lg base mb-4" show-size
                   prepend-icon=""
                   prepend-inner-icon="mdi-file-document-outline"
                   color="#7631FF"
                   v-model="edit_document.file"
                   validate-on-blur
                 />
+                <div class="label">Title</div>
                 <v-text-field
-                  label="Title"
                   placeholder="Enter document name"
-                  filled color="#7631FF"
+                  outlined
+                  hide-details
+                  height="44"
+                  dense
+                  class="rounded-lg base"
+                  color="#7631FF"
                   v-model="edit_document.title"
                   validate-on-blur
                   :rules="[formRules.required]"
