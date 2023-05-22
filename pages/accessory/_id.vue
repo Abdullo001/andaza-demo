@@ -332,7 +332,7 @@
               <v-text-field
                 v-model="accessoryDetail.differenceRate"
                 :rules="[formRules.onlyNumber]"
-                :background-color="accessoryDetail.differenceRate>=0?'green':'red'"
+                :background-color="accessoryDetail.differenceRate >= 0 ? 'green' : 'red'"
                 placeholder="0.00"
                 disabled
                 outlined
@@ -347,7 +347,7 @@
               <v-select
                 v-model="accessoryDetail.differenceCurrency"
                 :items="currency_enums"
-                :background-color="accessoryDetail.differenceRate>=0?'green':'red'"
+                :background-color="accessoryDetail.differenceRate >= 0 ? 'green' : 'red'"
                 style="max-width: 100px"
                 disabled
                 outlined
@@ -355,9 +355,10 @@
                 height="44"
                 dense
                 validate-on-blur
-                class="rounded-r-lg rounded-l-0 rounded-lg base mb-4"
-                append-icon="mdi-chevron-down"
+                class="rounded-r-lg rounded-l-0 base rounded-lg mb-4"
                 color="#7631FF"
+                append-icon="mdi-chevron-down"
+                dark
               />
             </div>
             <div class="label">Created time</div>
@@ -491,7 +492,6 @@ export default {
         exRatePrimaryRate: null,
         exRateSecondaryCurrency: "",
         exRateSecondaryRate: null,
-
         orderNumber: "",
         modelNumber: "",
         modelName: "",
