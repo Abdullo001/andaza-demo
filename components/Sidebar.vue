@@ -289,6 +289,10 @@ export default {
                 title: this.$t('sidebar.accessory'),
                 to: this.localePath('/catalog-accessory'),
               },
+              {
+                title: "Canvas Type",
+                to: this.localePath('/canvas-type'),
+              },
             ]
           },
           {

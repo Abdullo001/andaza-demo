@@ -1086,6 +1086,7 @@ export default {
     },
 
     dialog:{
+      enterBrand: "Введите название бренда",
       brandName: "Имя бренда",
       addPartner:"Добавить партнера",
       pName:"Имя партнера",

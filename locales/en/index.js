@@ -1083,6 +1083,7 @@ export default {
     },
 
     dialog: {
+      enterBrand: "Enter brand name",
       addPartner: "Add partner",
       pName: "Partner name",
       pNameText: "Enter partner name",

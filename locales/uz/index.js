@@ -1085,6 +1085,7 @@ export default {
     },
 
     dialog:{
+      enterBrand: "Brend nomini kiriting",
       brandName: "Brendning nomi",
       addPartner:"Hamkor qo'shish",
       pName:"Hamkor nomi",
