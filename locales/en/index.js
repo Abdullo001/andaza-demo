@@ -40,6 +40,7 @@ export default {
     catalogGroups: "Catalog Groups",
     partners: "Partners",
     sizeTemplate: "Size Template",
+    canvasType: "Canvas Type",
     colors: "Colors",
     accessoryType: "Accessory Type",
     accessory: "Accessory",
