@@ -23,6 +23,7 @@
             class="my-2"
             ref="active_class"
             multi-line
+            active-class="active"
           >
             <template #default="{ active }">
               <v-list-item-action style="max-width: 56px;">
@@ -50,7 +51,7 @@
               class="my-2 child-link transparent"
               route
               :to="child.to"
-              active-class="transparent"
+              active-class="active"
             >
               <template #default="{ active }">
                 <v-list-item-icon></v-list-item-icon>
