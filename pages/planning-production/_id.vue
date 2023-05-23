@@ -38,7 +38,6 @@
               dense disabled
               :placeholder="$t('planningProduction.dialog.searchOrderNumber')"
               append-icon=""
-              :label="$t('planningProduction.dialog.searchOrderNumber')"
             >
             </v-combobox>
           </v-col>
@@ -59,7 +58,6 @@
               dense
               :placeholder="$t('planningProduction.dialog.searchModelNumber')"
               append-icon="mdi-chevron-down"
-              :label="$t('planningProduction.dialog.searchModelNumber')"
             >
               <template #append>
                 <v-icon color="#7631FF">mdi-magnify</v-icon>
@@ -74,7 +72,7 @@
               height="44"
               class="rounded-lg base" dense
               v-model="planning.modelName"
-              :label="$t('planningProduction.dialog.enterModelName')"
+              :placeholder="$t('planningProduction.dialog.enterModelName')"
               disabled
             />
           </v-col>
@@ -86,7 +84,7 @@
               height="44"
               class="rounded-lg base" dense
               v-model="planning.clientName"
-              :label="$t('planningProduction.dialog.enterClientName')"
+              :placeholder="$t('planningProduction.dialog.enterClientName')"
               disabled
             />
           </v-col>
@@ -98,7 +96,7 @@
               height="44"
               class="rounded-lg base" dense
               v-model="planning.responsiblePerson"
-              :label="$t('planningProduction.dialog.enterResponsiblePerson')"
+              :placeholder="$t('planningProduction.dialog.enterResponsiblePerson')"
               disabled
             />
           </v-col>
@@ -110,7 +108,7 @@
               height="44"
               class="rounded-lg base" dense
               v-model="planning.planningCreator"
-              :label="$t('planningProduction.dialog.enterPlanningCreator')"
+              :placeholder="$t('planningProduction.dialog.enterPlanningCreator')"
               disabled
             />
           </v-col>
@@ -122,7 +120,7 @@
               height="44" dense
               v-model="planning.headOfProduction"
               class="rounded-lg base"
-              :label="$t('planningProduction.dialog.enterHeadProduction')"
+              :placeholder="$t('planningProduction.dialog.enterHeadProduction')"
               disabled
             />
           </v-col>
@@ -134,7 +132,7 @@
               height="44"
               class="rounded-lg base" dense
               v-model="planning.orderStatus"
-              :label="$t('planningProduction.dialog.enterOrderStatus')"
+              :placeholder="$t('planningProduction.dialog.enterOrderStatus')"
               disabled
             />
           </v-col>
@@ -146,7 +144,7 @@
               height="44"
               class="rounded-lg base" dense
               v-model="planning.orderOpeningDate"
-              :label="$t('planningProduction.dialog.enterOrderStatus')"
+              :placeholder="$t('planningProduction.dialog.enterOrderStatus')"
               disabled
             >
               <template #append>
@@ -162,7 +160,7 @@
               height="44"
               class="rounded-lg base" dense
               v-model="planning.orderClosingDate"
-              :label="$t('planningProduction.dialog.orderClosingDate')"
+              :placeholder="$t('planningProduction.dialog.orderClosingDate')"
               disabled
             >
               <template #append>
@@ -178,7 +176,7 @@
               height="44"
               class="rounded-lg base" dense
               v-model="planning.deadline"
-              :label="$t('planningProduction.dialog.enterDeadline')"
+              :placeholder="$t('planningProduction.dialog.enterDeadline')"
               disabled
             >
               <template #append>
@@ -194,7 +192,7 @@
               height="44"
               class="rounded-lg base" dense
               v-model="planning.shippingDate"
-              :label="$t('planningProduction.dialog.enterShippingDate')"
+              :placeholder="$t('planningProduction.dialog.enterShippingDate')"
               disabled
             >
               <template #append>
@@ -210,7 +208,7 @@
               height="44"
               class="rounded-lg base" dense
               v-model="planning.overProductionPercent"
-              :label="$t('planningProduction.dialog.enterOverproduction')"
+              :placeholder="$t('planningProduction.dialog.enterOverproduction')"
               color="#7631FF"
             />
           </v-col>
@@ -222,7 +220,7 @@
               height="44"
               class="rounded-lg base" dense
               v-model="planning.orderQuantity"
-              :label="$t('planningProduction.dialog.orderQuantity')"
+              :placeholder="$t('planningProduction.dialog.orderQuantity')"
               disabled
             />
           </v-col>
@@ -234,7 +232,7 @@
               height="44"
               class="rounded-lg base" dense
               v-model="planning.productionQuantity"
-              :label="$t('planningProduction.dialog.enterProductionQuantity')"
+              :placeholder="$t('planningProduction.dialog.enterProductionQuantity')"
               disabled
             />
           </v-col>
