@@ -387,7 +387,7 @@
                   height="44"
                   class="rounded-lg base"
                   dense
-                  :placeholder="$t('partners.dialog.pNameText')"
+                  :placeholder="$t('partners.dialog.enterBrand')"
                   color="#7631FF"
                 />
               </v-col>

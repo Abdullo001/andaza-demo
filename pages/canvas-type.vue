@@ -1,5 +1,82 @@
 <template>
   <div>
+    <v-card color="#fff" elevation="0" class="rounded-lg">
+      <v-card-text>
+        <v-form lazy-validation ref="filters">
+          <v-row>
+            <v-col cols="12" lg="2" md="2">
+              <v-text-field
+                v-model="filters.id"
+                placeholder="ID canvas type"
+                outlined
+                validate-on-blur
+                dense
+                hide-details
+                class="rounded-lg filter"
+              />
+            </v-col>
+            <v-col cols="12" lg="2" md="2">
+              <v-text-field
+                v-model="filters.name"
+                placeholder="Name"
+                outlined
+                validate-on-blur
+                dense
+                hide-details
+                class="rounded-lg filter"
+              />
+            </v-col>
+            <v-col cols="12" lg="2" md="2" style="max-width: 240px">
+              <el-date-picker
+                v-model="filters.createdAt"
+                type="datetime"
+                class="rounded-lg d-block filter_picker"
+                placeholder="Created"
+                :picker-options="pickerShortcuts"
+                value-format="dd.MM.yyyy HH:mm:ss"
+              >
+              </el-date-picker>
+            </v-col>
+            <v-col cols="12" lg="2" md="2">
+              <el-date-picker
+                v-model="filters.updatedAt"
+                type="datetime"
+                class="rounded-lg d-block filter_picker"
+                placeholder="Updated"
+                :picker-options="pickerShortcuts"
+                value-format="dd.MM.yyyy HH:mm:ss"
+              >
+              </el-date-picker>
+            </v-col>
+            <v-spacer/>
+            <v-col cols="12" lg="3">
+              <div class="d-flex justify-end">
+                <v-btn
+                  width="140"
+                  outlined
+                  color="#397CFD"
+                  elevation="0"
+                  @click="resetBtn"
+                  class="text-capitalize mr-4 border-primary rounded-lg font-weight-bold"
+                >
+                  Reset
+                </v-btn>
+                <v-btn
+                  width="140"
+                  color="#397CFD"
+                  dark
+                  elevation="0"
+                  @click="filterBtn"
+                  class="text-capitalize rounded-lg font-weight-bold"
+                >
+                  Search
+                </v-btn>
+              </div>
+            </v-col>
+          </v-row>
+        </v-form>
+      </v-card-text>
+    </v-card>
     <v-data-table
       :headers="headers"
       :items-per-page="itemPrePage"
@@ -30,18 +107,18 @@
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
-        <v-divider />
+        <v-divider/>
       </template>
       <template #item.checkbox="{ item }">
-        <v-checkbox />
+        <v-checkbox/>
       </template>
       <template #item.actions="{ item }">
         <div>
           <v-btn icon color="green" @click.stop="editItem(item)">
-            <v-img src="/edit-active.svg" max-width="22" />
+            <v-img src="/edit-active.svg" max-width="22"/>
           </v-btn>
           <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-            <v-img src="/delete.svg" max-width="27" />
+            <v-img src="/delete.svg" max-width="27"/>
           </v-btn>
         </div>
       </template>
@@ -58,33 +135,37 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form ref="new_form" lazy-validation v-model="validate">
+            <div class="label">{{$t('catalogGroups.tabs.canvasType')}}</div>
             <v-text-field
               :rules="[formRules.required]"
               v-model="create_canvas_type.name"
-              filled
-              :label="$t('catalogGroups.tabs.canvasType')"
+              outlined
+              hide-details
+              height="44"
+              dense
+              class="rounded-lg base mb-4"
               :placeholder="$t('catalogGroups.canvasType.dialogs.selectCanvas')"
               color="#7631FF"
             />
+            <div class="label">{{$t('catalogGroups.canvasType.dialogs.specification')}}</div>
             <v-text-field
               :rules="[formRules.required]"
               v-model="create_canvas_type.specification"
-              filled
-              :label="$t('catalogGroups.canvasType.dialogs.specification')"
-              :placeholder="
-                $t('catalogGroups.canvasType.dialogs.enterSpecification')
-              "
+              outlined
+              hide-details
+              dense
+              height="44"
+              class="rounded-lg base mb-4"
+              :placeholder="$t('catalogGroups.canvasType.dialogs.enterSpecification')"
               color="#7631FF"
             />
+            <div class="label">{{$t('catalogGroups.canvasType.dialogs.description')}}</div>
             <v-textarea
-              rows="1"
-              auto-grow
               v-model="create_canvas_type.description"
-              filled
-              :label="$t('catalogGroups.canvasType.dialogs.description')"
-              :placeholder="
-                $t('catalogGroups.canvasType.dialogs.enterDescription')
-              "
+              outlined
+              hide-details
+              class="rounded-lg base"
+              :placeholder="$t('catalogGroups.canvasType.dialogs.enterDescription')"
               color="#7631FF"
             />
           </v-form>
@@ -123,30 +204,39 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form ref="new_form">
+            <div class="label">{{$t('catalogGroups.tabs.canvasType')}}</div>
             <v-text-field
               v-model="edit_canvas_type.name"
-              filled
+              outlined
+              hide-details
+              height="44"
+              dense
+              class="rounded-lg base mb-4"
               :rules="[formRules.required]"
-              :label="$t('catalogGroups.tabs.canvasType')"
               :placeholder="$t('catalogGroups.canvasType.dialogs.selectCanvas')"
               color="#7631FF"
             />
+            <div class="label">{{$t('catalogGroups.canvasType.dialogs.specification')}}</div>
             <v-text-field
               v-model="edit_canvas_type.specification"
-              filled
+              outlined
+              hide-details
+              height="44"
+              dense
+              class="rounded-lg base mb-4"
               :rules="[formRules.required]"
-              :label="$t('catalogGroups.canvasType.dialogs.specification')"
               :placeholder="
                 $t('catalogGroups.canvasType.dialogs.enterSpecification')
               "
               color="#7631FF"
             />
+            <div class="label">{{$t('catalogGroups.canvasType.dialogs.description')}}</div>
             <v-textarea
-              rows="1"
-              auto-grow
               v-model="edit_canvas_type.description"
-              filled
-              :label="$t('catalogGroups.canvasType.dialogs.description')"
+              outlined
+              hide-details
+              dense
+              class="rounded-lg base"
               :placeholder="
                 $t('catalogGroups.canvasType.dialogs.enterDescription')
               "
@@ -179,7 +269,7 @@
     <v-dialog v-model="delete_dialog" max-width="500">
       <v-card class="pa-4 text-center">
         <div class="d-flex justify-center mb-2">
-          <v-img src="/error-icon.svg" max-width="40" />
+          <v-img src="/error-icon.svg" max-width="40"/>
         </div>
         <v-card-title class="d-flex justify-center">
           {{ $t("catalogGroups.canvasType.dialogs.deleteDialog") }}
@@ -197,7 +287,7 @@
           >
             {{ $t("catalogGroups.canvasType.dialogs.cancelBtn") }}
           </v-btn>
-          <v-spacer />
+          <v-spacer/>
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             color="#FF4E4F"
@@ -215,12 +305,18 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "CanvasTypePage",
   data() {
     return {
+      filters: {
+        id: "",
+        name: "",
+        createdAt: "",
+        updatedAt: "",
+      },
       itemPrePage: 10,
       current_page: 0,
       validate: true,
@@ -228,7 +324,6 @@ export default {
       new_dialog: false,
       delete_dialog: false,
       create_canvas_type: {
-        catalogGroupId: "",
         description: "",
         name: "",
         specification: "",
@@ -239,13 +334,11 @@ export default {
         specification: "",
       },
       delete_canvas_id: "",
-
       headers: [
         {
           text: this.$t("catalogGroups.tabs.table.id"),
           value: "id",
           align: "start",
-
           width: "100",
           sortable: false,
         },
@@ -255,16 +348,15 @@ export default {
           value: "name",
         },
         {
-          text: this.$t("catalogGroups.tabs.table.code"),
-          value: "catalogGroupCode",
+          text: "Specification",
+          value: "specification",
           sortable: false,
         },
         {
-          text: this.$t("catalogGroups.tabs.table.groupName"),
-          value: "catalogGroupName",
+          text: "Description",
+          value: "description",
           sortable: false,
         },
-
         {
           text: this.$t("catalogGroups.tabs.table.createdAt"),
           value: "createdAt",
@@ -284,6 +376,9 @@ export default {
       ],
     };
   },
+  async created() {
+    await this.getCanvasTypeList({page: 0, size: 10});
+  },
   computed: {
     ...mapGetters({
       loading: "canvasType/loading",
@@ -298,6 +393,7 @@ export default {
       createCanvasType: "canvasType/createCanvasType",
       updateCanvasType: "canvasType/updateCanvasType",
       deleteCanvasType: "canvasType/deleteCanvasType",
+      filterCanvasTypeList: "canvasType/filterCanvasTypeList",
     }),
     async size(val) {
       this.itemPrePage = val;
@@ -318,39 +414,43 @@ export default {
     async save() {
       const validate = this.$refs.new_form.validate();
       if (validate) {
-        const item = { ...this.create_canvas_type };
+        const item = {...this.create_canvas_type};
         await this.createCanvasType(item);
         this.new_dialog = false;
         this.$refs.new_form.reset();
       }
     },
     async update() {
-      const { catalogGroupId, name, id, description, specification } =
+      const { name, id, description, specification} =
         this.edit_canvas_type;
-      const item = { catalogGroupId, description, id, name, specification };
+      const item = { description, id, name, specification };
       await this.updateCanvasType(item);
       this.edit_dialog = false;
     },
     async deleteCanvas() {
-      await this.deleteCanvasType({
-        id: this.delete_canvas_id,
-        groupId: this.create_canvas_type.catalogGroupId,
-      });
+      await this.deleteCanvasType(this.delete_canvas_id);
       this.delete_dialog = false;
     },
     editItem(item) {
-      this.edit_canvas_type = { ...item };
+      this.edit_canvas_type = {...item};
       this.edit_dialog = true;
     },
     getDeleteItem(item) {
       this.delete_canvas_id = item.id;
       this.delete_dialog = true;
     },
-  },
-  async mounted() {
-    const catalog_one_id = this.catalogGroupId;
-    this.create_canvas_type.catalogGroupId = catalog_one_id;
-    await this.getCanvasTypeList({ page: 0, size: 10, id: catalog_one_id });
+    async resetBtn() {
+      this.filters = {
+        id: "",
+        name: "",
+        createdAt: "",
+        updatedAt: "",
+      };
+      await this.getCanvasTypeList({page: 0, size: 10});
+    },
+    async filterBtn() {
+      await this.filterCanvasTypeList(this.filters);
+    },
   },
 };
 </script>

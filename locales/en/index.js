@@ -40,6 +40,7 @@ export default {
     catalogGroups: "Catalog Groups",
     partners: "Partners",
     sizeTemplate: "Size Template",
+    canvasType: "Canvas Type",
     colors: "Colors",
     accessoryType: "Accessory Type",
     accessory: "Accessory",
@@ -1083,6 +1084,7 @@ export default {
     },
 
     dialog: {
+      enterBrand: "Enter brand name",
       addPartner: "Add partner",
       pName: "Partner name",
       pNameText: "Enter partner name",

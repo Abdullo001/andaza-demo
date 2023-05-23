@@ -40,6 +40,7 @@ export default {
     catalogGroups: "Katalog guruhlari",
     partners: "Hamkorlar",
     sizeTemplate: "Shabloni o'lchami",
+    canvasType: "Kanvas turi",
     colors: "Ranglar",
     accessoryType: "Aksessuar turi",
     accessory: "Aksessuar",
@@ -1085,6 +1086,7 @@ export default {
     },
 
     dialog:{
+      enterBrand: "Brend nomini kiriting",
       brandName: "Brendning nomi",
       addPartner:"Hamkor qo'shish",
       pName:"Hamkor nomi",

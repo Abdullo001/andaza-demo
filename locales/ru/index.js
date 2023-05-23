@@ -40,6 +40,7 @@ export default {
     catalogGroups: "Каталог Группы",
     partners: "Партнеры",
     sizeTemplate: "Шаблон размера",
+    canvasType: "Тип холста",
     colors: "Цвета",
     accessoryType: "Тип аксессуара",
     accessory: "Аксессуар",
@@ -1086,6 +1087,7 @@ export default {
     },
 
     dialog:{
+      enterBrand: "Введите название бренда",
       brandName: "Имя бренда",
       addPartner:"Добавить партнера",
       pName:"Имя партнера",
