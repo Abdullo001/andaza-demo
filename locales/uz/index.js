@@ -1069,6 +1069,7 @@ export default {
     },
 
     table:{
+      brandName: "Brend nomi",
       mainMenu:"Hamkorlar",
       id:"Id",
       name:"Nomi",
@@ -1084,6 +1085,7 @@ export default {
     },
 
     dialog:{
+      brandName: "Brendning nomi",
       addPartner:"Hamkor qo'shish",
       pName:"Hamkor nomi",
       pNameText:"Hamkor nomini kiriting",

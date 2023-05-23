@@ -70,7 +70,7 @@ export const actions = {
       })
       .catch(({response}) => {
         console.log(response)
-        this.$toast.error(response.message);
+        this.$toast.error(response.data.message);
       })
   },
   async getPartnerOneList({commit}, id){
@@ -90,7 +90,7 @@ export const actions = {
       })
       .catch(({response}) => {
         console.log(response)
-        this.$toast.error(response.message);
+        this.$toast.error(response.data.message);
       })
   },
   async getPartnerList({commit}, {page, size}) {

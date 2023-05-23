@@ -937,7 +937,6 @@ export default {
     },
 
     table: {
-      id: "Id",
       name: "Название группы",
       code: "Код группы",
       id: "Ид",
@@ -1071,6 +1070,7 @@ export default {
     },
 
     table:{
+      brandName: "Имя бренда",
       mainMenu:"Партнеры",
       id:"Id",
       name:"Имя",
@@ -1086,6 +1086,7 @@ export default {
     },
 
     dialog:{
+      brandName: "Имя бренда",
       addPartner:"Добавить партнера",
       pName:"Имя партнера",
       pNameText:"Введите имя партнера",
