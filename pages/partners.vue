@@ -156,7 +156,21 @@
           <v-form ref="new_form" lazy-validation v-model="validate">
             <v-row>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.pName')}}</div>
+                <div class="label">{{$t('partners.dialog.brandName')}} <span style="color: red;">*</span></div>
+                <v-text-field
+                  v-model="create_partner.brandName"
+                  :rules="[formRules.required]"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  dense
+                  :placeholder="$t('partners.dialog.pNameText')"
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="label">{{$t('partners.dialog.pName')}} <span style="color: red;">*</span></div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="create_partner.name"
@@ -188,7 +202,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.pNumber')}}</div>
+                <div class="label">{{$t('partners.dialog.pNumber')}} <span style="color: red;">*</span></div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="create_partner.phoneNumber"
@@ -205,7 +219,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.email')}}</div>
+                <div class="label">{{$t('partners.dialog.email')}} <span style="color: red;">*</span></div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="create_partner.email"
@@ -219,7 +233,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.addres')}}</div>
+                <div class="label">{{$t('partners.dialog.addres')}} <span style="color: red;">*</span></div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="create_partner.address"
@@ -233,7 +247,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.contractNumber')}}</div>
+                <div class="label">{{$t('partners.dialog.contractNumber')}} <span style="color: red;">*</span></div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="create_partner.contractNumber"
@@ -247,7 +261,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.created')}}</div>
+                <div class="label">{{$t('partners.dialog.created')}} <span style="color: red;">*</span></div>
                 <el-date-picker
                   :rules="[formRules.required]"
                   v-model="create_partner.contractDate"
@@ -267,6 +281,7 @@
                   v-model="create_partner.status"
                   :items="statusEnums"
                   append-icon="mdi-chevron-down"
+                  placeholder="Select status"
                   outlined
                   hide-details
                   height="44"
@@ -363,7 +378,21 @@
           <v-form ref="edit_form" lazy-validation v-model="edit_validate">
             <v-row>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.pName')}}</div>
+                <div class="label">{{$t('partners.dialog.brandName')}} <span style="color: red;">*</span></div>
+                <v-text-field
+                  v-model="edit_partner.brandName"
+                  :rules="[formRules.required]"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  dense
+                  :placeholder="$t('partners.dialog.pNameText')"
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="label">{{$t('partners.dialog.pName')}} <span style="color: red;">*</span></div>
                 <v-text-field
                   v-model="edit_partner.name"
                   :rules="[formRules.required]"
@@ -394,10 +423,11 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.pNumber')}}</div>
+                <div class="label">{{$t('partners.dialog.pNumber')}} <span style="color: red;">*</span></div>
                 <v-text-field
                   v-model="edit_partner.phoneNumber"
                   outlined
+                  :rules="[formRules.required]"
                   hide-details
                   height="44"
                   class="rounded-lg base"
@@ -410,7 +440,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.email')}}</div>
+                <div class="label">{{$t('partners.dialog.email')}} <span style="color: red;">*</span></div>
                 <v-text-field
                   v-model="edit_partner.email"
                   outlined
@@ -418,16 +448,17 @@
                   height="44"
                   class="rounded-lg base"
                   dense
-                  :rules="[formRules.email]"
+                  :rules="[formRules.required, formRules.email]"
                   :placeholder="$t('partners.dialog.emailText')"
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.addres')}}</div>
+                <div class="label">{{$t('partners.dialog.addres')}} <span style="color: red;">*</span></div>
                 <v-text-field
                   v-model="edit_partner.address"
                   outlined
+                  :rules="[formRules.required]"
                   hide-details
                   height="44"
                   class="rounded-lg base"
@@ -437,10 +468,11 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.contractNumber')}}</div>
+                <div class="label">{{$t('partners.dialog.contractNumber')}} <span style="color: red;">*</span></div>
                 <v-text-field
                   v-model="edit_partner.contractNumber"
                   outlined
+                  :rules="[formRules.required]"
                   hide-details
                   height="44"
                   class="rounded-lg base"
@@ -450,7 +482,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.created')}}</div>
+                <div class="label">{{$t('partners.dialog.created')}} <span style="color: red;">*</span></div>
                 <el-date-picker
                   v-model="edit_partner.contractDate"
                   style="width: 100%;"
@@ -621,9 +653,9 @@ export default {
       itemPrePage: 10,
       current_page: 0,
       headers: [
-
         { text: this.$t('partners.table.id'), value: "id", sortable: false },
         { text: this.$t('partners.table.name'), value: "name", sortable: false },
+        { text: this.$t('partners.table.brandName'), value: "brandName", sortable: false },
         { text: this.$t('partners.table.address'), value: "address", sortable: false },
         { text: this.$t('partners.table.email'), value: "email", sortable: false },
         { text: this.$t('partners.table.partnerType'), value: "partnerType", sortable: false },
@@ -632,7 +664,6 @@ export default {
         { text: this.$t('partners.table.createdAt'), value: "createdAt", sortable: false },
         { text: this.$t('partners.table.updatedAt'), value: "updatedAt", sortable: false },
         { text: this.$t('partners.table.actions'), value: "actions", align: "center", sortable: false, width: 108 },
-
       ],
       items_list: [],
       image_list: [],
@@ -645,6 +676,7 @@ export default {
         status: "",
         typeId: "",
         phoneNumber: "",
+        brandName: "",
       },
       edit_partner: {},
       edit_image_list: [],
@@ -752,17 +784,21 @@ export default {
           status,
           typeId,
           phoneNumber,
+          brandName
         } = this.create_partner;
         const formData = new FormData();
         formData.append("address", address);
         formData.append("contractDate", contractDate);
-        formData.append("contractFile", this.image_list[0]);
+        if (this.image_list[0] !== undefined){
+          formData.append("contractFile", this.image_list[0]);
+        }
         formData.append("email", email);
         formData.append("name", name);
         formData.append("contractNumber", contractNumber);
         formData.append("status", status);
         formData.append("typeId", typeId);
         formData.append("phoneNumber", phoneNumber);
+        formData.append("brandName", brandName);
         await this.createPartnerList(formData);
         this.image_list = [];
         this.create_partner.contractDate = "";
@@ -787,15 +823,17 @@ export default {
           phoneNumber,
           status,
           partnerTypeId,
+          brandName
         } = this.edit_partner;
         const formData = new FormData();
         formData.append("address", address);
         formData.append("contractDate", contractDate);
         formData.append("contractNumber", contractNumber);
+        formData.append("brandName", brandName);
         formData.append("email", email);
         formData.append("id", id);
         formData.append("name", name);
-        if (this.edit_image_list.length !== 0) {
+        if (this.edit_image_list[0] !== undefined) {
           formData.append("contractFile", this.edit_image_list[0]);
         }
         formData.append("phoneNumber", phoneNumber);

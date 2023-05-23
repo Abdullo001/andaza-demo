@@ -1062,7 +1062,6 @@ export default {
       pName: "Partner name",
       pEmail: "Partner email",
       pEmailEnter: "Enter partner email",
-
       status: "Status",
       reset: "Reset",
       search: "Search",
@@ -1080,6 +1079,7 @@ export default {
       createdAt: "Created at",
       updatedAt: "Updated at",
       actions: "Actions",
+      brandName: "Brand name",
     },
 
     dialog: {
@@ -1098,7 +1098,7 @@ export default {
       download: "Download",
       created: "Contract date ",
       status: "Status",
-
+      brandName: "Brand name",
       uploadContract: "Upload contract",
       uploadFiles: "Upload Files...",
 
