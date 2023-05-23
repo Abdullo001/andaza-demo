@@ -9,7 +9,7 @@
             {{ title }}
           </v-chip>
         </div>
-        <v-spacer/>
+        <v-spacer />
         <div>
           <v-btn
             outlined
@@ -17,7 +17,7 @@
             color="#777C85"
             class="text-capitalize rounded-lg mr-4"
           >
-            <v-img src="/trash.svg" class="mr-1"/>
+            <v-img src="/trash.svg" class="mr-1" />
             Clear
           </v-btn>
           <v-btn
@@ -332,7 +332,9 @@
               <v-text-field
                 v-model="accessoryDetail.differenceRate"
                 :rules="[formRules.onlyNumber]"
-                :background-color="accessoryDetail.differenceRate >= 0 ? 'green' : 'red'"
+                :background-color="
+                  accessoryDetail.differenceRate >= 0 ? 'green' : 'red'
+                "
                 placeholder="0.00"
                 disabled
                 outlined
@@ -347,7 +349,9 @@
               <v-select
                 v-model="accessoryDetail.differenceCurrency"
                 :items="currency_enums"
-                :background-color="accessoryDetail.differenceRate >= 0 ? 'green' : 'red'"
+                :background-color="
+                  accessoryDetail.differenceRate >= 0 ? 'green' : 'red'
+                "
                 style="max-width: 100px"
                 disabled
                 outlined
@@ -383,31 +387,23 @@
         <div class="label">Photos of models</div>
         <v-row>
           <v-col
+            v-for="(image, idx) in modelImages.length === 0 ? 3 : modelImages"
+            :key="idx"
             cols="12"
-            lg="6"
-            md="6"
-            class="d-flex flex-wrap px-0"
-            style="height: 200px"
+            lg="3"
+            md="3"
           >
-            <v-col
-              v-for="(image, idx) in modelImages.length === 0 ? 3 : modelImages"
-              :key="idx"
-              cols="12"
-              lg="4"
-              md="4"
-            >
-              <div class="image-box">
-                <v-img
-                  :src="modelImages[idx]?.filePath"
-                  v-if="!!modelImages[idx]?.filePath"
-                  max-height="150"
-                  contain
-                  class="pointer"
-                  @click="showImage(modelImages[idx]?.filePath)"
-                />
-                <v-img src="/default-image.svg" max-width="50" v-else />
-              </div>
-            </v-col>
+            <div class="image-box">
+              <v-img
+                :src="modelImages[idx]?.filePath"
+                v-if="!!modelImages[idx]?.filePath"
+                max-height="150"
+                contain
+                class="pointer"
+                @click="showImage(modelImages[idx]?.filePath)"
+              />
+              <v-img src="/default-image.svg" max-width="50" v-else />
+            </div>
           </v-col>
         </v-row>
       </v-card-text>
@@ -571,13 +567,14 @@ export default {
     },
 
     "accessoryDetail.exRateSecondaryRate"(val) {
-      if (typeof(this.accessoryDetail.exRateSecondaryRate)!==undefined) {
+      if (typeof this.accessoryDetail.exRateSecondaryRate !== undefined) {
         this.accessoryDetail.differenceRate =
           val - this.accessoryDetail.exRatePreFinancedDay;
       }
 
-      this.accessoryDetail.differenceRate=this.accessoryDetail.differenceRate?this.accessoryDetail.differenceRate:0
-
+      this.accessoryDetail.differenceRate = this.accessoryDetail.differenceRate
+        ? this.accessoryDetail.differenceRate
+        : 0;
     },
 
     accessoryData(item) {
