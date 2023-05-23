@@ -771,7 +771,7 @@ export default {
     async save() {
       const validate = this.$refs.new_form.validate();
       if (validate) {
-        this.create_partner.phoneNumber = `+998${this.create_partner.phoneNumber
+        const phone = `+998${this.create_partner.phoneNumber
           .replace("(", "")
           .replace(")", "")
           .replaceAll(" ", "")}`;
@@ -783,7 +783,6 @@ export default {
           contractNumber,
           status,
           typeId,
-          phoneNumber,
           brandName
         } = this.create_partner;
         const formData = new FormData();
@@ -797,7 +796,7 @@ export default {
         formData.append("contractNumber", contractNumber);
         formData.append("status", status);
         formData.append("typeId", typeId);
-        formData.append("phoneNumber", phoneNumber);
+        formData.append("phoneNumber", phone);
         formData.append("brandName", brandName);
         await this.createPartnerList(formData);
         this.image_list = [];
@@ -809,7 +808,7 @@ export default {
     async update() {
       const edit_validate = this.$refs.edit_form.validate();
       if (edit_validate) {
-        this.edit_partner.phoneNumber = `+998${this.edit_partner.phoneNumber
+        const phone = `+998${this.edit_partner.phoneNumber
           .replace("(", "")
           .replace(")", "")
           .replaceAll(" ", "")}`;
@@ -820,7 +819,6 @@ export default {
           email,
           id,
           name,
-          phoneNumber,
           status,
           partnerTypeId,
           brandName
@@ -836,7 +834,7 @@ export default {
         if (this.edit_image_list[0] !== undefined) {
           formData.append("contractFile", this.edit_image_list[0]);
         }
-        formData.append("phoneNumber", phoneNumber);
+        formData.append("phoneNumber", phone);
         formData.append("status", status);
         formData.append("typeId", partnerTypeId);
         await this.updatePartnerList(formData);
