@@ -244,21 +244,11 @@ export const actions = {
   },
 
   async updateDetails({ dispatch, state }, data) {
-    // const body = {
-    //   expenseId: data.expenseId,
-    //   id: data.id,
-    //   measurementId: data.measurementId,
-    //   preFinanceId: state.preFinanceId,
-    //   pricePerUnit: data.pricePerUnit,
-    //   quantity: data.quantity,
-    // };
-    console.log(data);
     await this.$axios
       .put(`/api/v1/possible-expense/update`, data)
       .then((res) => {
         dispatch("getAllDetails", state.preFinanceId);
-        this.$toast.success(res.message, { theme: "toasted-primary" });
-        console.log(res)
+        this.$toast.success(res.data.message, { theme: "toasted-primary" });
 
       })
       .catch((response) => {
@@ -272,7 +262,6 @@ export const actions = {
       .then((res) => {
         dispatch("getAllDetails", state.preFinanceId);
         this.$toast.success(res.data.message, { theme: "toasted-primary" });
-        console.log(res)
 
 
       })

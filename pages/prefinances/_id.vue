@@ -4,8 +4,7 @@
     <v-card elevation="0" class="mt-2 rounded-lg">
       <v-card-title>
         <div class="text-capitalize">
-
-          {{ $t('sidebar.calculations') }}
+          {{ $t("sidebar.calculations") }}
 
           <v-chip
             color="#10BF41"
@@ -31,7 +30,9 @@
       <v-card-text class="pb-0">
         <v-row>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">{{ $t('prefinances.child.prefinanceNumber') }}</div>
+            <div class="label">
+              {{ $t("prefinances.child.prefinanceNumber") }}
+            </div>
             <v-text-field
               outlined
               class="rounded-lg base"
@@ -45,7 +46,7 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">{{ $t('prefinances.child.modelNumber') }}</div>
+            <div class="label">{{ $t("prefinances.child.modelNumber") }}</div>
             <v-combobox
               v-model="addPreFinances.modelNumber"
               :items="modelData"
@@ -68,7 +69,7 @@
             </v-combobox>
           </v-col>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">{{ $t('prefinances.child.modelName') }}</div>
+            <div class="label">{{ $t("prefinances.child.modelName") }}</div>
             <v-text-field
               outlined
               class="rounded-lg base"
@@ -77,14 +78,12 @@
               dense
               height="44"
               :placeholder="$t('prefinances.child.enterModelName')"
-
               v-model="addPreFinances.modelName"
-
               disabled
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">{{ $t('prefinances.child.partner') }}</div>
+            <div class="label">{{ $t("prefinances.child.partner") }}</div>
             <v-text-field
               v-model="addPreFinances.partner"
               outlined
@@ -92,15 +91,16 @@
               hide-details
               height="44"
               color="#7631FF"
-
-              dense disabled
-
+              dense
+              disabled
               :placeholder="$t('prefinances.child.partnerNamePhone')"
               append-icon=""
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">{{ $t('prefinances.child.primaryCurrency') }}</div>
+            <div class="label">
+              {{ $t("prefinances.child.primaryCurrency") }}
+            </div>
             <v-select
               v-model="addPreFinances.primaryCurrency"
               :items="currency_enums"
@@ -115,24 +115,26 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">{{ $t('prefinances.child.secondaryCurrency') }}</div>
+            <div class="label">
+              {{ $t("prefinances.child.secondaryCurrency") }}
+            </div>
             <v-select
               v-model="addPreFinances.secondaryCurrency"
               :items="currency_enums"
-
               placeholder="Select secondary currency"
               outlined
               height="44"
               class="rounded-lg base"
               hide-details
               dense
-
               color="#7631FF"
               append-icon="mdi-chevron-down"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">{{ $t('prefinances.child.tertiaryCurrency') }}</div>
+            <div class="label">
+              {{ $t("prefinances.child.tertiaryCurrency") }}
+            </div>
             <v-select
               v-model="addPreFinances.tertiaryCurrency"
               :items="currency_enums"
@@ -147,7 +149,7 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">{{ $t('prefinances.child.primaryRare') }}</div>
+            <div class="label">{{ $t("prefinances.child.primaryRare") }}</div>
             <v-text-field
               v-model="addPreFinances.primaryRate"
               outlined
@@ -160,7 +162,7 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">{{ $t('prefinances.child.secondaryRate') }}</div>
+            <div class="label">{{ $t("prefinances.child.secondaryRate") }}</div>
             <v-text-field
               v-model="addPreFinances.secondaryRate"
               outlined
@@ -173,7 +175,7 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">{{ $t('prefinances.child.tertiaryRate') }}</div>
+            <div class="label">{{ $t("prefinances.child.tertiaryRate") }}</div>
             <v-text-field
               v-model="addPreFinances.tertiaryRate"
               outlined
@@ -188,7 +190,7 @@
 
           <v-row class="ma-0">
             <v-col cols="12" lg="6" md="6">
-              <div class="label">{{ $t('prefinances.child.description') }}</div>
+              <div class="label">{{ $t("prefinances.child.description") }}</div>
               <v-textarea
                 v-model="addPreFinances.description"
                 outlined
@@ -202,7 +204,7 @@
             </v-col>
             <v-col cols="12" lg="6" md="6" class="d-flex flex-wrap">
               <v-col cols="12" lg="6" class="pl-0 pt-0">
-                <div class="label">{{ $t('prefinances.child.owner') }}</div>
+                <div class="label">{{ $t("prefinances.child.owner") }}</div>
                 <v-text-field
                   v-model="addPreFinances.owner"
                   outlined
@@ -216,7 +218,9 @@
                 />
               </v-col>
               <v-col cols="12" lg="6" class="pt-0 pr-0">
-                <div class="label">{{ $t('prefinances.child.createdTime') }}</div>
+                <div class="label">
+                  {{ $t("prefinances.child.createdTime") }}
+                </div>
                 <v-text-field
                   v-model="addPreFinances.createdAt"
                   outlined
@@ -234,7 +238,9 @@
                 </v-text-field>
               </v-col>
               <v-col cols="12" lg="6" class="pl-0 pt-0">
-                <div class="label">{{ $t('prefinances.child.modifiedPerson') }}</div>
+                <div class="label">
+                  {{ $t("prefinances.child.modifiedPerson") }}
+                </div>
                 <v-text-field
                   v-model="addPreFinances.modifiedPerson"
                   outlined
@@ -248,7 +254,9 @@
                 />
               </v-col>
               <v-col cols="12" lg="6" class="pt-0 pr-0">
-                <div class="label">{{ $t('prefinances.child.updatedTime') }}</div>
+                <div class="label">
+                  {{ $t("prefinances.child.updatedTime") }}
+                </div>
                 <v-text-field
                   v-model="addPreFinances.updatedAt"
                   outlined
@@ -326,6 +334,8 @@
                 <div>
                   <v-tooltip
                     top
+                    color="green"
+
                     class="pointer"
                     v-if="Object.keys(item).length > 2"
                   >
@@ -335,14 +345,14 @@
                         v-bind="attrs"
                         v-on="on"
                         color="green"
-                        width="24"
-                        height="24"
                         @click="editRow(item, index)"
+                        
                       >
-                        <v-img src="/edit-green.svg" width="24" />
+                        <v-img src="/edit-active.svg" max-width="22" />
                       </v-btn>
+                      
                     </template>
-                    <span>{{ $t("prefinances.child.delete") }}</span>
+                    <span class="text-capitalize">{{ $t("prefinances.child.edit") }}</span>
                   </v-tooltip>
 
                   <v-tooltip
@@ -356,11 +366,10 @@
                         v-bind="attrs"
                         v-on="on"
                         color="red"
-                        width="24"
-                        height="24"
+                       
                         @click="deleteRow(item, index)"
                       >
-                        <v-img src="/delete.svg" max-width="24" />
+                        <v-img src="/delete.svg" max-width="27" />
                       </v-btn>
                     </template>
                     <span>{{ $t("prefinances.child.delete") }}</span>
@@ -554,11 +563,11 @@
           <v-form v-model="details_form" ref="details_form">
             <v-row>
               <v-col cols="12" lg="4">
-                <div class="label">{{ $t('prefinances.child.expenseGroup') }}</div>
+                <div class="label">
+                  {{ $t("prefinances.child.expenseGroup") }}
+                </div>
                 <v-combobox
-
                   placeholder="Select expense group"
-
                   dense
                   append-icon="mdi-chevron-down"
                   :items="expenseGroup"
@@ -575,16 +584,14 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="label">{{ $t('prefinances.child.expense') }}</div>
+                <div class="label">{{ $t("prefinances.child.expense") }}</div>
                 <v-select
                   placeholder="Select expense"
                   append-icon="mdi-chevron-down"
-
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-
                   dense
                   :items="expenseList"
                   v-model="details.expense"
@@ -597,15 +604,13 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="label">{{ $t('prefinances.child.quantity') }}</div>
+                <div class="label">{{ $t("prefinances.child.quantity") }}</div>
                 <v-text-field
-
                   placeholder="Enter quantity"
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-
                   dense
                   v-model="details.quantity"
                   validate-on-blur
@@ -614,16 +619,16 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="label">{{ $t('prefinances.child.measurementunit') }}</div>
+                <div class="label">
+                  {{ $t("prefinances.child.measurementunit") }}
+                </div>
                 <v-select
                   placeholder="Select measurement unit"
                   append-icon="mdi-chevron-down"
-
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-
                   dense
                   :items="measurementUnitList"
                   v-model="details.measurementUnit"
@@ -635,15 +640,15 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="label">{{ $t('prefinances.child.pricePerUnit') }}</div>
+                <div class="label">
+                  {{ $t("prefinances.child.pricePerUnit") }}
+                </div>
                 <v-text-field
-
                   placeholder="Enter price per unit"
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-
                   dense
                   v-model="details.pricePerUnit"
                   validate-on-blur
@@ -680,7 +685,7 @@
           <div class="text-capitalize">
             {{ $t("prefinances.child.editDetails") }}
           </div>
-          <v-btn icon color="#7631FF" @click="update_details = false">
+          <v-btn icon color="#7631FF" @click="cancelFunc">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -763,7 +768,7 @@
             color="amber"
             text
             class="text-capitalize font-weight-bold"
-            @click="update_details = false"
+            @click="cancelFunc"
             >{{ $t("prefinances.child.cancel") }}
           </v-btn>
           <v-btn
@@ -836,9 +841,7 @@ export default {
         measurementUnit: "",
         pricePerUnit: "",
       },
-      selectDetail: {
-        measurementUnitId:"",
-      },
+      selectDetail: {},
       deletedDetailId: null,
       calculationVal: {
         discountPercent: "",
@@ -1114,18 +1117,20 @@ export default {
   },
   computed: {
     ...mapGetters({
-      modelNames: 'preFinance/modelNames',
-      modelData: 'preFinance/modelData',
-      preFinanceId: 'preFinance/preFinanceId',
-      expenseGroup: 'preFinance/expenseGroup',
-      expenseList: 'preFinance/expenseList',
-      measurementUnitList: 'preFinance/measurementUnit',
-      detailsList: 'preFinance/detailsList',
-      totalPrice: 'preFinance/totalPrice',
-      modelImages: 'modelPhoto/modelImages',
-      documentsList: 'documents/documentsList',
-      onePreFinance: 'preFinance/onePreFinance',
-      selectedModelNumber: 'preFinance/selectedModelNumber'
+
+      modelNames: "preFinance/modelNames",
+      modelData: "preFinance/modelData",
+      preFinanceId: "preFinance/preFinanceId",
+      expenseGroup: "preFinance/expenseGroup",
+      expenseList: "preFinance/expenseList",
+      measurementUnitList: "preFinance/measurementUnit",
+      detailsList: "preFinance/detailsList",
+      totalPrice: "preFinance/totalPrice",
+      modelImages: "modelPhoto/modelImages",
+      documentsList: "documents/documentsList",
+      onePreFinance: "preFinance/onePreFinance",
+      selectedModelNumber: "preFinance/selectedModelNumber",
+
     }),
     title() {
       const id = this.$route.params.id;
@@ -1174,8 +1179,8 @@ export default {
         await this.getDocuments({ modelId: id });
       }
 
-      if (this.$route.params.id === 'creating') {
-        const data = {...val[0]};
+      if (this.$route.params.id === "creating") {
+        const data = { ...val[0] };
         this.addPreFinances = {
           id: data.id,
           modelName: data.name,
@@ -1183,37 +1188,39 @@ export default {
           modelNumber: data.modelNumber,
           partnerId: data.partnerId,
           partner: data.partner,
-          primaryCurrency: '',
-          tertiaryCurrency: '',
-          secondaryCurrency: '',
+          primaryCurrency: "",
+          tertiaryCurrency: "",
+          secondaryCurrency: "",
           description: data.description,
-          owner: '',
+          owner: "",
           createdAt: data.createdAt,
-          modifiedPerson: '',
+          modifiedPerson: "",
           updatedAt: data.updatedAt,
-        }
-      } else if (this.$route.params.id === 'create') {
+        };
+      } else if (this.$route.params.id === "create") {
         this.addPreFinances = {
-          id: '',
-          modelName: '',
-          preFinanceNumber: '',
-          modelNumber: '',
-          partnerId: '',
-          partner: '',
-          primaryCurrency: '',
-          tertiaryCurrency: '',
-          secondaryCurrency: '',
-          description: '',
-          owner: '',
-          createdAt: '',
-          modifiedPerson: '',
-          updatedAt: '',
-        }
+          id: "",
+          modelName: "",
+          preFinanceNumber: "",
+          modelNumber: "",
+          partnerId: "",
+          partner: "",
+          primaryCurrency: "",
+          tertiaryCurrency: "",
+          secondaryCurrency: "",
+          description: "",
+          owner: "",
+          createdAt: "",
+          modifiedPerson: "",
+          updatedAt: "",
+        };
       }
     },
     "addPreFinances.modelNumber"(elem) {
-      if (!(elem === 'null' || typeof elem === 'object')) {
-        this.getModelName(elem)
+
+      if (!(elem === "null" || typeof elem === "object")) {
+        this.getModelName(elem);
+
       }
       const { modelNumber, name, partner, id } = this.addPreFinances.modelNumber;
       if (
@@ -1233,11 +1240,22 @@ export default {
         Object.keys(val).length > 1
           ? (this.expense_status = false)
           : (this.expense_status = true);
-        console.log(val);
+
         await this.getExpenseList(val.id);
       },
       deep: true,
     },
+    "selectDetail.expenseGroup": {
+      async handler(val) {
+        Object.keys(val).length > 1
+          ? (this.expense_status = false)
+          : (this.expense_status = true);
+
+        await this.getExpenseList(val.id);
+      },
+      deep: true,
+    },
+
     totalPrice(val) {
       let data = this.calculation[0];
       data.firstCurrency = +val.toFixed(2);
@@ -1468,30 +1486,33 @@ export default {
         name: item.expenseGroup,
       };
       this.selectDetail = { ...item };
-      this.getOneDetails()
-      console.log(this.selectDetail);
     },
 
     updateDetailsFunc() {
       const data = {
         expenseId: this.selectDetail.expenseId,
         id: this.selectDetail.id,
-        measurementId: this.selectDetail.measurementId,
+        measurementId: this.selectDetail.measurementUnitId,
         preFinanceId: this.preFinanceId,
         pricePerUnit: this.selectDetail.pricePerUnit,
         quantity: this.selectDetail.quantity,
       };
+      this.update_details = false;
       this.updateDetails(data);
+      delete this.details.expenseGroup;
     },
 
+    cancelFunc() {
+      this.update_details = false;
+      delete this.details.expenseGroup;
+    },
   },
   mounted() {
     this.getExpenseGroup();
     this.getMeasurementUnit();
     const param = this.$route.params.id;
 
-    if (param !== 'create' && param !== "creating") {
-
+    if (param !== "create" && param !== "creating") {
       this.getOnePreFinance(param);
       this.getAllDetails(param);
     } else {
@@ -1507,9 +1528,8 @@ export default {
     if (!!this.selectedModelNumber) {
       this.getModelName(this.selectedModelNumber);
     }
-  }
-}
+  },
+};
 </script>
 
-<style lang="scss" src="../../assets/abstracts/_prefinances.scss" scoped/>
-
+<style lang="scss" src="../../assets/abstracts/_prefinances.scss" scoped />
