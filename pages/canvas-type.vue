@@ -452,6 +452,9 @@ export default {
       await this.filterCanvasTypeList(this.filters);
     },
   },
+  mounted() {
+    this.$store.commit("setPageTitle", "Catalogs");
+  },
 };
 </script>
 

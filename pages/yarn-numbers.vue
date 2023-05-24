@@ -1,5 +1,82 @@
 <template>
   <div>
+    <v-card color="#fff" elevation="0" class="rounded-lg">
+      <v-card-text>
+        <v-form lazy-validation ref="filters">
+          <v-row>
+            <v-col cols="12" lg="2" md="2">
+              <v-text-field
+                v-model="filters.id"
+                placeholder="ID yarn number"
+                outlined
+                validate-on-blur
+                dense
+                hide-details
+                class="rounded-lg filter"
+              />
+            </v-col>
+            <v-col cols="12" lg="2" md="2">
+              <v-text-field
+                v-model="filters.name"
+                placeholder="Name"
+                outlined
+                validate-on-blur
+                dense
+                hide-details
+                class="rounded-lg filter"
+              />
+            </v-col>
+            <v-col cols="12" lg="2" md="2" style="max-width: 240px">
+              <el-date-picker
+                v-model="filters.createdAt"
+                type="datetime"
+                class="rounded-lg d-block filter_picker"
+                placeholder="Created"
+                :picker-options="pickerShortcuts"
+                value-format="dd.MM.yyyy HH:mm:ss"
+              >
+              </el-date-picker>
+            </v-col>
+            <v-col cols="12" lg="2" md="2">
+              <el-date-picker
+                v-model="filters.updatedAt"
+                type="datetime"
+                class="rounded-lg d-block filter_picker"
+                placeholder="Updated"
+                :picker-options="pickerShortcuts"
+                value-format="dd.MM.yyyy HH:mm:ss"
+              >
+              </el-date-picker>
+            </v-col>
+            <v-spacer/>
+            <v-col cols="12" lg="3">
+              <div class="d-flex justify-end">
+                <v-btn
+                  width="140"
+                  outlined
+                  color="#397CFD"
+                  elevation="0"
+                  @click="resetBtn"
+                  class="text-capitalize mr-4 border-primary rounded-lg font-weight-bold"
+                >
+                  Reset
+                </v-btn>
+                <v-btn
+                  width="140"
+                  color="#397CFD"
+                  dark
+                  elevation="0"
+                  @click="filterBtn"
+                  class="text-capitalize rounded-lg font-weight-bold"
+                >
+                  Search
+                </v-btn>
+              </div>
+            </v-col>
+          </v-row>
+        </v-form>
+      </v-card-text>
+    </v-card>
     <v-data-table
       :headers="headers"
       :items-per-page="itemPrePage"
@@ -58,25 +135,32 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form ref="new_form" lazy-validation v-model="validate">
+            <div class="label">{{ $t('catalogGroups.tabs.yarnNumber') }}</div>
             <v-text-field
               v-model="create_yarn_number.name"
               :rules="[formRules.required]"
-              filled
-              :label="$t('catalogGroups.tabs.yarnNumber')"
+              outlined
+              hide-details
+              height="44"
+              dense
+              class="rounded-lg base mb-4"
               :placeholder="$t('catalogGroups.yarnNumber.dialogs.select')"
               color="#7631FF"
             />
-            <v-textarea
-              rows="1"
-              auto-grow
-              v-model="create_yarn_number.description"
-              filled
-              :label="$t('catalogGroups.yarnNumber.dialogs.description')"
-              :placeholder="
-                $t('catalogGroups.yarnNumber.dialogs.enterDescription')
-              "
-              color="#7631FF"
-            />
+            <div class="label">Yarn type</div>
+            <v-radio-group
+              row
+              v-model="create_yarn_number.yarnType"
+              class="mb-4"
+            >
+              <v-radio
+                color="#7631FF"
+                v-for="item in radio_item"
+                :key="item"
+                :label="item"
+                :value="item"
+              ></v-radio>
+            </v-radio-group>
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
@@ -113,25 +197,32 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form ref="edit_form" lazy-validation v-model="edit_validate">
+            <div class="layout">{{$t('catalogGroups.tabs.yarnNumber')}}</div>
             <v-text-field
               v-model="edit_yarn_number.name"
               :rules="[formRules.required]"
-              filled
-              :label="$t('catalogGroups.tabs.yarnNumber')"
+              outlined
+              dense
+              hide-details
+              height="44"
+              class="rounded-lg base mb-4"
               :placeholder="$t('catalogGroups.yarnNumber.dialogs.select')"
               color="#7631FF"
             />
-            <v-textarea
-              v-model="edit_yarn_number.description"
-              rows="1"
-              auto-grow
-              filled
-              :label="$t('catalogGroups.yarnNumber.dialogs.description')"
-              :placeholder="
-                $t('catalogGroups.yarnNumber.dialogs.enterDescription')
-              "
-              color="#7631FF"
-            />
+            <div class="label">Yarn type</div>
+            <v-radio-group
+              row
+              v-model="create_yarn_number.yarnType"
+              class="mb-4"
+            >
+              <v-radio
+                color="#7631FF"
+                v-for="item in radio_item"
+                :key="item"
+                :label="item"
+                :value="item"
+              ></v-radio>
+            </v-radio-group>
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
@@ -201,6 +292,13 @@ export default {
   name: "YarnNumberPage",
   data() {
     return {
+      radio_item:["Comb", "CD", "EO"],
+      filters: {
+        id: "",
+        name: "",
+        createdAt: "",
+        updatedAt: "",
+      },
       itemPrePage: 10,
       current_page: 0,
       edit_validate: true,
@@ -209,12 +307,10 @@ export default {
       new_dialog: false,
       delete_dialog: false,
       create_yarn_number: {
-        catalogGroupId: "",
         name: "",
-        description: "",
+        yarnType: "Comb",
       },
       edit_yarn_number: {
-        catalogGroupId: "",
         name: "",
         description: "",
       },
@@ -224,7 +320,6 @@ export default {
           text: this.$t("catalogGroups.tabs.table.id"),
           value: "id",
           align: "start",
-
           width: "100",
           sortable: false,
         },
@@ -234,16 +329,15 @@ export default {
           value: "name",
         },
         {
-          text: this.$t("catalogGroups.tabs.table.code"),
-          value: "catalogGroupCode",
+          text: "Yarns",
+          value: "yarns",
           sortable: false,
         },
         {
-          text: this.$t("catalogGroups.tabs.table.groupName"),
-          value: "catalogGroupName",
+          text: "Yarn Type",
+          value: "yarnType",
           sortable: false,
         },
-
         {
           text: this.$t("catalogGroups.tabs.table.createdAt"),
           value: "createdAt",
@@ -263,6 +357,9 @@ export default {
       ],
     };
   },
+  async created(){
+    await this.getYarnNumberList({page: 0, size: 10});
+  },
   computed: {
     ...mapGetters({
       loading: "yarnNumber/loading",
@@ -277,6 +374,7 @@ export default {
       createYarnNumber: "yarnNumber/createYarnNumber",
       updateYarnNumber: "yarnNumber/updateYarnNumber",
       deleteYarnNumber: "yarnNumber/deleteYarnNumber",
+      filterYarnNumberList: "yarnNumber/filterYarnNumberList",
     }),
     async size(val) {
       this.itemPrePage = val;
@@ -304,9 +402,9 @@ export default {
     },
     async update() {
       const edit_validate = this.$refs.edit_form.validate();
-      const { catalogGroupId, id, description, name } = this.edit_yarn_number;
+      const { id, name, yarnType } = this.edit_yarn_number;
       if (edit_validate) {
-        const item = { catalogGroupId, id, description, name };
+        const item = { id, name, yarnType};
         await this.updateYarnNumber(item);
         this.edit_dialog = false;
       }
@@ -326,11 +424,21 @@ export default {
       this.delete_yarn_id = item.id;
       this.delete_dialog = true;
     },
+    async resetBtn(){
+      this.filters = {
+        id: "",
+        name: "",
+        createdAt: "",
+        updatedAt: "",
+      };
+      await this.getYarnNumberList({page: 0, size: 10});
+    },
+    async filterBtn(){
+      await this.filterYarnNumberList(this.filters);
+    },
   },
-  async mounted() {
-    const catalogGroupId = this.catalogGroupId;
-    this.create_yarn_number.catalogGroupId = catalogGroupId;
-    await this.getYarnNumberList({ page: 0, size: 10, id: catalogGroupId });
+  mounted() {
+    this.$store.commit("setPageTitle", "Catalogs");
   },
 };
 </script>

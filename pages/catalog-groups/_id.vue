@@ -126,9 +126,6 @@
             <div v-if="component === 'YarnTypePage'">
               <YarnTypePage/>
             </div>
-            <div v-if="component === 'YarnNumberPage'">
-              <YarnNumberPage/>
-            </div>
             <div v-if="component === 'CompositionPage'">
               <CompositionPage/>
             </div>
@@ -142,11 +139,10 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import YarnTypePage from "../../components/FabricCatalogs/YarnType.vue";
-import YarnNumberPage from "../../components/FabricCatalogs/YarnNumberPage.vue";
 import CompositionPage from "../../components/FabricCatalogs/Composition.vue";
 
 export default {
-  components: {CompositionPage, YarnNumberPage, YarnTypePage},
+  components: {CompositionPage, YarnTypePage},
   data() {
     return {
       tab_boolean: false,
