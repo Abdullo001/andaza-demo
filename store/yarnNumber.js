@@ -19,7 +19,7 @@ export const actions = {
   async deleteYarnNumber({dispatch}, {id, groupId}) {
     await this.$axios.$delete(`/api/v1/yarn-numbers/delete?id=${id}`)
       .then(res => {
-        dispatch("getYarnNumberList", {page: 0, size: 10, id: groupId});
+        dispatch("getYarnNumberList", {page: 0, size: 10});
         this.$toast.success(res.message);
       })
       .catch(({response}) => {
@@ -29,7 +29,7 @@ export const actions = {
   async updateYarnNumber({dispatch}, data) {
     await this.$axios.$put(`/api/v1/yarn-numbers/update`, data)
       .then(res => {
-        dispatch("getYarnNumberList", {page: 0, size: 10, id: data.catalogGroupId});
+        dispatch("getYarnNumberList", {page: 0, size: 10});
         this.$toast.success(res.message);
       })
       .catch(({response}) => {
@@ -39,21 +39,62 @@ export const actions = {
   async createYarnNumber({dispatch}, data) {
     await this.$axios.$post(`/api/v1/yarn-numbers/create`, data)
       .then(res => {
-        dispatch("getYarnNumberList", {page: 0, size: 10, id: data.catalogGroupId});
+        dispatch("getYarnNumberList", {page: 0, size: 10});
         this.$toast.success(res.message);
       })
       .catch(({response}) => {
         console.log(response)
       })
   },
-  async getYarnNumberList({commit}, {page, size, id}) {
+  async getYarnNumberList({commit}, {page, size}) {
     const body = {
       filters: [],
       sorts: [],
       page,
       size,
     }
-    await this.$axios.$put(`/api/v1/yarn-numbers/list-catalog-group?groupId=${id}`, body)
+    await this.$axios.$put('/api/v1/yarn-numbers/list', body)
+      .then(res => {
+        commit("setYarnNumber", res.data);
+        commit("setLoading", false);
+      })
+      .catch(({response}) => {
+        console.log(response)
+        commit("setLoading", false);
+      })
+  },
+  async filterYarnNumberList({commit}, data) {
+    const {id, name, createdAt, updatedAt} = data;
+    const body = {
+      filters: [
+        {
+          key: "id",
+          operator: "EQUAL",
+          propertyType: "LONG",
+          value: id,
+        },
+        {
+          key: "name",
+          operator: "LIKE",
+          propertyType: "STRING",
+          value: name,
+        },
+        {
+          key: "createdAt",
+          operator: "BETWEEN",
+          propertyType: "DATE",
+          value: createdAt,
+          valueTo: updatedAt,
+        },
+      ],
+      sorts: [],
+      page: 0,
+      size: 10,
+    }
+    body.filters = body.filters.filter(
+      (item) => item.value !== "" && item.value !== null
+    );
+    await this.$axios.$put('/api/v1/yarn-numbers/list', body)
       .then(res => {
         commit("setYarnNumber", res.data);
         commit("setLoading", false);

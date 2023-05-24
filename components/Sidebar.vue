@@ -294,6 +294,10 @@ export default {
                 title: this.$t('sidebar.canvasType'),
                 to: this.localePath('/canvas-type'),
               },
+              {
+                title: "Yarn numbers",
+                to: this.localePath('/yarn-numbers'),
+              },
             ]
           },
           {
