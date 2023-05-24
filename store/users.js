@@ -101,7 +101,7 @@ export const actions = {
     formData.append('lastName', user.lastname)
     formData.append('gender', user.gender)
     formData.append('lang', user.lang)
-    formData.append('phoneNumber', user.phone)
+    formData.append('phoneNumber', user.userPhone)
     formData.append('username', user.username)
     formData.append('photo', user.photo)
 

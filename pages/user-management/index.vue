@@ -309,17 +309,10 @@
               </v-col>
               <v-col cols="12" lg="6">
                 <div class="label">{{$t('userManagement.dialog.phoneNumber')}}</div>
-                <v-text-field
-                  outlined
-                  class="base rounded-lg"
-                  dense
-                  hide-details
-                  color="#7631FF"
-                  v-mask="'(##) ### ## ##'"
-                  prefix="+998"
-                  placeholder="(--) --- -- --"
-                  v-model.trim="user_data.phone"
-                  validate-on-blur
+                <vue-phone-number-input
+                  v-model="user_data.phone"
+                  @update="phoneNumber"
+                  :color="'#7631FF'"
                 />
               </v-col>
 
@@ -524,9 +517,12 @@
 
 <script>
 import {mapActions, mapGetters} from "vuex";
-
+import 'vue-phone-number-input/dist/vue-phone-number-input.css';
 export default {
   name: 'UserManagementPage',
+  components: {
+    VuePhoneNumberInput: () => import('vue-phone-number-input'),
+  },
   data() {
     return {
       modal: null,
@@ -587,7 +583,8 @@ export default {
       options: {},
       itemPerPage: 10,
       current_page: 0,
-      users: []
+      users: [],
+      userPhoneNumber: ''
     }
   },
   computed: {
@@ -617,6 +614,9 @@ export default {
       updateUserStatus: 'users/updateUserStatus',
       sortUser: 'users/sortUsers',
     }),
+    phoneNumber(e) {
+      this.userPhoneNumber = e.formattedNumber;
+    },
     resetUserDialog() {
       this.$refs.new_user.reset()
       this.$store.commit('users/setCreatedUser', {})
@@ -680,7 +680,9 @@ export default {
       if (valid) {
         const user = {...this.user_data};
         user.lang = user.lang.title;
+        user.userPhone =  this.userPhoneNumber;
         await this.createUser(user);
+        this.user_data.phone = '';
       }
     },
     getUserInfo(data) {

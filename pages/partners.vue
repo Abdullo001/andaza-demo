@@ -54,7 +54,7 @@
               class="rounded-lg filter"
             />
           </v-col>
-          <v-spacer />
+          <v-spacer/>
           <v-col cols="12" lg="2" md="2">
             <div class="d-flex justify-end">
               <v-btn
@@ -112,7 +112,7 @@
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
-        <v-divider />
+        <v-divider/>
       </template>
       <template #item.status="{ item }">
         <div>
@@ -134,15 +134,15 @@
       <template #item.actions="{ item }">
         <div>
           <v-btn icon color="green" @click.stop="editItem(item)">
-            <v-img src="/edit-active.svg" max-width="22" />
+            <v-img src="/edit-active.svg" max-width="22"/>
           </v-btn>
           <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-            <v-img src="/delete.svg" max-width="27" />
+            <v-img src="/delete.svg" max-width="27"/>
           </v-btn>
         </div>
       </template>
     </v-data-table>
-    <v-dialog v-model="new_dialog" width="580">
+    <v-dialog v-model="new_dialog" width="700">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
@@ -156,7 +156,7 @@
           <v-form ref="new_form" lazy-validation v-model="validate">
             <v-row>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.brandName')}} <span style="color: red;">*</span></div>
+                <div class="label">{{ $t('partners.dialog.brandName') }} <span style="color: red;">*</span></div>
                 <v-text-field
                   v-model="create_partner.brandName"
                   :rules="[formRules.required]"
@@ -170,7 +170,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.pName')}} <span style="color: red;">*</span></div>
+                <div class="label">{{ $t('partners.dialog.pName') }} <span style="color: red;">*</span></div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="create_partner.name"
@@ -184,7 +184,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.pType')}}</div>
+                <div class="label">{{ $t('partners.dialog.pType') }}</div>
                 <v-select
                   :rules="[formRules.required]"
                   v-model="create_partner.typeId"
@@ -202,24 +202,16 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.pNumber')}} <span style="color: red;">*</span></div>
-                <v-text-field
-                  :rules="[formRules.required]"
+                <div class="label">{{ $t('partners.dialog.pNumber') }} <span style="color: red;">*</span></div>
+                <vue-phone-number-input
                   v-model="create_partner.phoneNumber"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  v-mask="'(##) ### ## ##'"
-                  placeholder="(--) --- -- --"
-                  prefix="+998"
-                  dense
-                  v-model.trim="create_partner.phoneNumber"
-                  color="#7631FF"
+                  :required="true"
+                  :color="'#7631FF'"
+                  @update="newPhoneNumber"
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.email')}} <span style="color: red;">*</span></div>
+                <div class="label">{{ $t('partners.dialog.email') }} <span style="color: red;">*</span></div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="create_partner.email"
@@ -233,7 +225,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.addres')}} <span style="color: red;">*</span></div>
+                <div class="label">{{ $t('partners.dialog.addres') }} <span style="color: red;">*</span></div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="create_partner.address"
@@ -247,7 +239,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.contractNumber')}} <span style="color: red;">*</span></div>
+                <div class="label">{{ $t('partners.dialog.contractNumber') }} <span style="color: red;">*</span></div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="create_partner.contractNumber"
@@ -261,7 +253,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.created')}} <span style="color: red;">*</span></div>
+                <div class="label">{{ $t('partners.dialog.created') }} <span style="color: red;">*</span></div>
                 <el-date-picker
                   :rules="[formRules.required]"
                   v-model="create_partner.contractDate"
@@ -275,7 +267,7 @@
                 </el-date-picker>
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.status')}}</div>
+                <div class="label">{{ $t('partners.dialog.status') }}</div>
                 <v-select
                   :rules="[formRules.required]"
                   v-model="create_partner.status"
@@ -288,7 +280,6 @@
                   class="rounded-lg base"
                   color="#7631FF"
                   dense
-
                 />
               </v-col>
               <v-col cols="12">
@@ -327,11 +318,11 @@
                         </p>
                         <p>
                           <v-btn icon @click="removeImage(item.size)">
-                            <v-icon> mdi-close </v-icon>
+                            <v-icon> mdi-close</v-icon>
                           </v-btn>
                         </p>
                       </div>
-                      <v-divider />
+                      <v-divider/>
                     </div>
                   </v-card-text>
                 </v-card>
@@ -348,7 +339,7 @@
             @click="new_dialog = false"
           >
 
-          {{ $t('partners.dialog.cancel') }}
+            {{ $t('partners.dialog.cancel') }}
 
 
           </v-btn>
@@ -364,7 +355,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="edit_dialog" width="580">
+    <v-dialog v-model="edit_dialog" width="700">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
@@ -378,7 +369,7 @@
           <v-form ref="edit_form" lazy-validation v-model="edit_validate">
             <v-row>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.brandName')}} <span style="color: red;">*</span></div>
+                <div class="label">{{ $t('partners.dialog.brandName') }} <span style="color: red;">*</span></div>
                 <v-text-field
                   v-model="edit_partner.brandName"
                   :rules="[formRules.required]"
@@ -392,7 +383,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.pName')}} <span style="color: red;">*</span></div>
+                <div class="label">{{ $t('partners.dialog.pName') }} <span style="color: red;">*</span></div>
                 <v-text-field
                   v-model="edit_partner.name"
                   :rules="[formRules.required]"
@@ -406,7 +397,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.pType')}}</div>
+                <div class="label">{{ $t('partners.dialog.pType') }}</div>
                 <v-select
                   v-model="edit_partner.partnerTypeId"
                   :items="partner_type"
@@ -423,24 +414,15 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.pNumber')}} <span style="color: red;">*</span></div>
-                <v-text-field
+                <div class="label">{{ $t('partners.dialog.pNumber') }} <span style="color: red;">*</span></div>
+                <vue-phone-number-input
                   v-model="edit_partner.phoneNumber"
-                  outlined
-                  :rules="[formRules.required]"
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  v-mask="'(##) ### ## ##'"
-                  placeholder="(--) --- -- --"
-                  prefix="+998"
-                  dense
-
-                  color="#7631FF"
+                  :color="'#7631FF'"
+                  @update="editPhoneNumber"
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.email')}} <span style="color: red;">*</span></div>
+                <div class="label">{{ $t('partners.dialog.email') }} <span style="color: red;">*</span></div>
                 <v-text-field
                   v-model="edit_partner.email"
                   outlined
@@ -454,7 +436,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.addres')}} <span style="color: red;">*</span></div>
+                <div class="label">{{ $t('partners.dialog.addres') }} <span style="color: red;">*</span></div>
                 <v-text-field
                   v-model="edit_partner.address"
                   outlined
@@ -468,7 +450,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.contractNumber')}} <span style="color: red;">*</span></div>
+                <div class="label">{{ $t('partners.dialog.contractNumber') }} <span style="color: red;">*</span></div>
                 <v-text-field
                   v-model="edit_partner.contractNumber"
                   outlined
@@ -482,7 +464,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.created')}} <span style="color: red;">*</span></div>
+                <div class="label">{{ $t('partners.dialog.created') }} <span style="color: red;">*</span></div>
                 <el-date-picker
                   v-model="edit_partner.contractDate"
                   style="width: 100%;"
@@ -495,7 +477,7 @@
                 </el-date-picker>
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{$t('partners.dialog.status')}}</div>
+                <div class="label">{{ $t('partners.dialog.status') }}</div>
                 <v-select
                   v-model="edit_partner.status"
                   :items="statusEnums"
@@ -520,7 +502,7 @@
                         v-bind="attrs"
                         v-on="on"
                       >
-                        <v-img src="/copy.svg" width="20" />
+                        <v-img src="/copy.svg" width="20"/>
                       </div>
                     </template>
                     <span>
@@ -559,16 +541,16 @@
                         </p>
                         <p>
                           <v-btn icon @click="removeImageEdit(item.size)">
-                            <v-icon> mdi-close </v-icon>
+                            <v-icon> mdi-close</v-icon>
                           </v-btn>
                         </p>
                       </div>
-                      <v-divider />
+                      <v-divider/>
                     </div>
                   </v-card-text>
                 </v-card>
               </v-col>
-              <v-col class="d-flex justify-start"> </v-col>
+              <v-col class="d-flex justify-start"></v-col>
             </v-row>
           </v-form>
         </v-card-text>
@@ -597,16 +579,11 @@
     <v-dialog v-model="delete_dialog" max-width="500">
       <v-card class="pa-4 text-center">
         <div class="d-flex justify-center mb-2">
-          <v-img src="/error-icon.svg" max-width="40" />
+          <v-img src="/error-icon.svg" max-width="40"/>
         </div>
-
-        <v-card-title class="d-flex justify-center"
-          >
+        <v-card-title class="d-flex justify-center">
           {{ $t('partners.dialog.deleteDialog') }}
-
-          </v-card-title
-        >
-
+        </v-card-title>
         <v-card-text>
           {{ $t("partners.dialog.deleteText") }}
         </v-card-text>
@@ -620,7 +597,7 @@
           >
             {{ $t("partners.dialog.cancel") }}
           </v-btn>
-          <v-spacer />
+          <v-spacer/>
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             color="#FF4E4F"
@@ -638,10 +615,14 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import {mapActions, mapGetters} from "vuex";
+import 'vue-phone-number-input/dist/vue-phone-number-input.css';
 
 export default {
   name: "PackageShapePage",
+  components: {
+    VuePhoneNumberInput: () => import('vue-phone-number-input')
+  },
   data() {
     return {
       delete_partners_id: "",
@@ -653,17 +634,17 @@ export default {
       itemPrePage: 10,
       current_page: 0,
       headers: [
-        { text: this.$t('partners.table.id'), value: "id", sortable: false },
-        { text: this.$t('partners.table.name'), value: "name", sortable: false },
-        { text: this.$t('partners.table.brandName'), value: "brandName", sortable: false },
-        { text: this.$t('partners.table.address'), value: "address", sortable: false },
-        { text: this.$t('partners.table.email'), value: "email", sortable: false },
-        { text: this.$t('partners.table.partnerType'), value: "partnerType", sortable: false },
-        { text: this.$t('partners.table.pNumber'), value: "phoneNumber", sortable: false },
-        { text: this.$t('partners.table.status'), value: "status", sortable: false, width: 120 },
-        { text: this.$t('partners.table.createdAt'), value: "createdAt", sortable: false },
-        { text: this.$t('partners.table.updatedAt'), value: "updatedAt", sortable: false },
-        { text: this.$t('partners.table.actions'), value: "actions", align: "center", sortable: false, width: 108 },
+        {text: this.$t('partners.table.id'), value: "id", sortable: false},
+        {text: this.$t('partners.table.name'), value: "name", sortable: false},
+        {text: this.$t('partners.table.brandName'), value: "brandName", sortable: false},
+        {text: this.$t('partners.table.address'), value: "address", sortable: false},
+        {text: this.$t('partners.table.email'), value: "email", sortable: false},
+        {text: this.$t('partners.table.partnerType'), value: "partnerType", sortable: false},
+        {text: this.$t('partners.table.pNumber'), value: "phoneNumber", sortable: false},
+        {text: this.$t('partners.table.status'), value: "status", sortable: false, width: 120},
+        {text: this.$t('partners.table.createdAt'), value: "createdAt", sortable: false},
+        {text: this.$t('partners.table.updatedAt'), value: "updatedAt", sortable: false},
+        {text: this.$t('partners.table.actions'), value: "actions", align: "center", sortable: false, width: 108},
       ],
       items_list: [],
       image_list: [],
@@ -686,6 +667,8 @@ export default {
         status: "",
         email: "",
       },
+      newPhone: '',
+      editPhone: ''
     };
   },
   watch: {
@@ -694,13 +677,13 @@ export default {
     },
     partner_one_list(val) {
       const item = JSON.parse(JSON.stringify(val));
-      this.edit_partner = { ...item };
+      this.edit_partner = {...item};
       this.edit_partner.phoneNumber = this.edit_partner.phoneNumber.slice(4);
     },
   },
   async created() {
-    await this.getPartnerList({ page: 0, size: 10 });
-    await this.getPartnerType({ page: 0, size: 50 });
+    await this.getPartnerList({page: 0, size: 10});
+    await this.getPartnerType({page: 0, size: 50});
   },
   computed: {
     ...mapGetters({
@@ -759,7 +742,7 @@ export default {
     },
     async size(val) {
       this.itemPrePage = val;
-      await this.getPartnerList({ page: 0, size: this.itemPrePage });
+      await this.getPartnerList({page: 0, size: this.itemPrePage});
     },
     async page(val) {
       this.current_page = val - 1;
@@ -768,13 +751,15 @@ export default {
         size: this.itemPrePage,
       });
     },
+    newPhoneNumber(e) {
+      this.newPhone = e.formattedNumber;
+    },
+    editPhoneNumber(e) {
+      this.editPhone = e.formattedNumber;
+    },
     async save() {
       const validate = this.$refs.new_form.validate();
-      if (validate) {
-        const phone = `+998${this.create_partner.phoneNumber
-          .replace("(", "")
-          .replace(")", "")
-          .replaceAll(" ", "")}`;
+      if (validate && this.newPhone !== '') {
         const {
           address,
           contractDate,
@@ -788,7 +773,7 @@ export default {
         const formData = new FormData();
         formData.append("address", address);
         formData.append("contractDate", contractDate);
-        if (this.image_list[0] !== undefined){
+        if (this.image_list[0] !== undefined) {
           formData.append("contractFile", this.image_list[0]);
         }
         formData.append("email", email);
@@ -796,22 +781,20 @@ export default {
         formData.append("contractNumber", contractNumber);
         formData.append("status", status);
         formData.append("typeId", typeId);
-        formData.append("phoneNumber", phone);
+        formData.append("phoneNumber", this.newPhone);
         formData.append("brandName", brandName);
         await this.createPartnerList(formData);
         this.image_list = [];
         this.create_partner.contractDate = "";
         this.$refs.new_form.reset();
+        this.newPhone = '';
+        this.create_partner.phoneNumber = '';
         this.new_dialog = false;
       }
     },
     async update() {
       const edit_validate = this.$refs.edit_form.validate();
-      if (edit_validate) {
-        const phone = `+998${this.edit_partner.phoneNumber
-          .replace("(", "")
-          .replace(")", "")
-          .replaceAll(" ", "")}`;
+      if (edit_validate && this.editPhone !== '') {
         const {
           address,
           contractDate,
@@ -834,7 +817,7 @@ export default {
         if (this.edit_image_list[0] !== undefined) {
           formData.append("contractFile", this.edit_image_list[0]);
         }
-        formData.append("phoneNumber", phone);
+        formData.append("phoneNumber", this.editPhone);
         formData.append("status", status);
         formData.append("typeId", partnerTypeId);
         await this.updatePartnerList(formData);
@@ -845,7 +828,6 @@ export default {
 
     async deletePartners() {
       await this.deletePartnerList(this.delete_partners_id);
-
       this.delete_dialog = false;
     },
     async getDeleteItem(item) {
@@ -858,10 +840,10 @@ export default {
     },
     async resetFilters() {
       this.$refs.filter_form.reset();
-      await this.getPartnerList({ page: 0, size: 10 });
+      await this.getPartnerList({page: 0, size: 10});
     },
     async filterData() {
-      const items = { ...this.filters };
+      const items = {...this.filters};
       await this.filterPartnerList(items);
     },
   },
@@ -877,14 +859,17 @@ export default {
 .el-icon-time {
   color: #919191 !important;
 }
+
 .custom-picker2 {
   width: 100% !important;
 
   background: #f8f4fe;
   border-radius: 10px 10px 0 0 !important;
+
   &::placeholder {
     color: #cccccc;
   }
+
   > input.el-input__inner {
     border-radius: 10px 10px 0 0 !important;
 
@@ -893,6 +878,7 @@ export default {
     border-bottom: 1px solid #777777 !important;
     width: 100% !important;
     height: 52px !important;
+
     &::placeholder {
       color: #9a979d !important;
     }

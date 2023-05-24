@@ -152,3 +152,18 @@ html, body .v-application {
 .theme--light.v-input--is-disabled input, .theme--light.v-input--is-disabled textarea {
   color: rgba(0, 0, 0, 0.6);
 }
+
+#MazPhoneNumberInput-224_phone_number,#MazPhoneNumberInput-254_phone_number,.input-tel__input {
+  background-color: #F8F4FE !important;
+  border-bottom-right-radius: 8px !important;
+  border-top-right-radius: 8px !important;
+  border: 0 !important;
+  min-height: 44px !important;
+}
+#MazPhoneNumberInput-224_country_selector,#MazPhoneNumberInput-254_country_selector,.country-selector__input {
+  border: 0 !important;
+  background-color: #F8F4FE !important;
+  border-bottom-left-radius: 8px !important;
+  border-top-left-radius: 8px !important;
+  min-height: 44px !important;
+}
