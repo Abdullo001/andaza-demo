@@ -4,28 +4,6 @@
     <v-card color="#fff" elevation="0">
       <v-card-title class="d-flex justify-space-between">
         <div>45687</div>
-        <div>
-          <v-btn
-            outlined
-            elevation="0"
-            color="#777C85"
-            class="text-capitalize rounded-lg mr-4"
-          >
-            <v-img src="/trash.svg" class="mr-1"/>
-            {{ $t('fraudDevices.child.delete') }}
-          </v-btn>
-          <v-btn
-            outlined
-            elevation="0"
-            color="#777C85"
-            class="text-capitalize rounded-lg"
-            @click="fields_status = !fields_status"
-            :color="!fields_status ? 'green' : null"
-          >
-            <v-img :src="fields_status ? '/edit.svg' : '/edit-active.svg'" class="mr-1"/>
-            {{ $t('fraudDevices.child.edit') }}
-          </v-btn>
-        </div>
       </v-card-title>
       <v-divider/>
       <v-card-text>

@@ -11,20 +11,6 @@
           sewer
         </div>
         <v-spacer/>
-        <v-btn outlined class="text-capitalize rounded-lg mx-3" @click="delete_dialog = !delete_dialog">
-          <v-img src="/trash.svg" max-width="16" class="mr-2"/>
-          delete
-        </v-btn>
-        <v-btn
-          outlined
-          class="text-capitalize rounded-lg"
-          @click="edit_user"
-          :color="!
-          disabled ? 'green' : null"
-        >
-          <v-img src="/edit.svg " max-width="16" class="mr-2"/>
-          edit
-        </v-btn>
       </v-card-title>
       <v-divider/>
       <v-card-text class="mt-4">

@@ -5,26 +5,6 @@
       <v-card-title>
         <div>{{$t('catalogGroups.addPage.menuName')}}</div>
         <v-spacer/>
-        <div>
-          <v-btn
-            outlined
-            elevation="0"
-            color="#777C85"
-            class="text-capitalize rounded-lg mr-4"
-          >
-            <v-img src="/trash.svg" class="mr-1"/>
-            {{$t('catalogGroups.addPage.delete')}}
-          </v-btn>
-          <v-btn
-            outlined
-            elevation="0"
-            class="text-capitalize rounded-lg"
-            color="#777C85"
-          >
-          {{$t('catalogGroups.addPage.edit')}}
-
-          </v-btn>
-        </div>
       </v-card-title>
       <v-divider/>
       <v-card-text class="mt-4">

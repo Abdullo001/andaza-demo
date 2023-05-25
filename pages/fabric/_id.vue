@@ -11,16 +11,6 @@
           {{ title }}
         </v-chip></div>
         <v-spacer/>
-        <div>
-          <v-btn outlined class="text-capitalize rounded-lg">
-            <v-img src="/clear.svg" max-width="16" class="mr-2"/>
-            clear
-          </v-btn>
-          <v-btn outlined class="text-capitalize rounded-lg ml-4">
-            <v-img src="/edit.svg" max-width="16" class="mr-2"/>
-            edit
-          </v-btn>
-        </div>
       </v-card-title>
       <v-divider/>
       <v-card-text class="pb-0">
