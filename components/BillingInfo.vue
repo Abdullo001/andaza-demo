@@ -3,10 +3,6 @@
     <v-card elevation="0">
       <v-card-title class="d-flex align-center justify-space-between w-full">
         <div>Billing info</div>
-        <v-btn outlined class="text-capitalize rounded-lg border-grey">
-          <v-img src="/clear.svg" max-width="16" class="mr-2"/>
-          clear
-        </v-btn>
       </v-card-title>
       <v-divider/>
       <v-card-text>

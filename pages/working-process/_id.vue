@@ -6,16 +6,6 @@
         <div>{{ $t('workingProcess.dialog.workingOperations') }}</div>
         <v-chip color="green" dark class="ml-4">{{ $t('workingProcess.dialog.edit') }}</v-chip>
         <v-spacer/>
-        <div>
-          <v-btn outlined class="text-capitalize rounded-lg">
-            <v-img src="/clear.svg" max-width="16" class="mr-2"/>
-            {{ $t('workingProcess.dialog.clear') }}
-          </v-btn>
-          <v-btn outlined class="text-capitalize rounded-lg ml-4">
-            <v-img src="/edit.svg" max-width="16" class="mr-2"/>
-            {{ $t('workingProcess.dialog.edit') }}
-          </v-btn>
-        </div>
       </v-card-title>
       <v-divider/>
       <v-card-text class="pb-0">
