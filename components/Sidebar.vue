@@ -188,6 +188,10 @@ export default {
                 title: this.$t('sidebar.accessory'),
                 to: this.localePath('/accessory'),
               },
+              {
+                title: "Samples",
+                to: this.localePath('/samples'),
+              },
             ]
           },
           {

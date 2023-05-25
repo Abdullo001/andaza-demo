@@ -20,14 +20,14 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="w-full d-flex">
-            <div class="text-capitalize title mr-6">size chart</div>
+            <div class="title mr-6">Measurement list</div>
             <v-menu
               :nudge-bottom="40"
               origin="center center"
               transition="slide-x-transition"
               :close-on-content-click="true"
             >
-              <template v-slot:activator="{ on, attrs }">
+              <template #activator="{ on, attrs }">
                 <v-btn
                   class="rounded-lg text-none white--text"
                   color="#7631FF"
@@ -35,7 +35,6 @@
                   v-bind="attrs"
                   v-on="on"
                   :disabled="!!allSizeChart.length"
-
                 >
                   Size template
                 </v-btn>
@@ -80,7 +79,7 @@
     <v-dialog v-model="new_dialog" max-width="1000">
       <v-card>
         <v-card-title class="d-flex align-center justify-space-between w-full">
-          <div class="title">New chart size</div>
+          <div class="title">New measurement item</div>
           <v-btn icon large color="#7631FF" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -135,7 +134,7 @@
     <v-dialog v-model="edit_dialog" max-width="1000">
       <v-card>
         <v-card-title class="d-flex align-center justify-space-between w-full">
-          <div class="title">Edit chart size</div>
+          <div class="title">Edit measurement items</div>
           <v-btn icon large color="#7631FF" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>

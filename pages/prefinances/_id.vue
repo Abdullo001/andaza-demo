@@ -15,16 +15,6 @@
           </v-chip>
         </div>
         <v-spacer />
-        <div>
-          <v-btn outlined class="text-capitalize rounded-lg border-grey">
-            <v-img src="/clear.svg" max-width="16" class="mr-2" />
-            {{ $t("prefinances.child.clear") }}
-          </v-btn>
-          <v-btn outlined class="text-capitalize rounded-lg ml-4">
-            <v-img src="/edit.svg" max-width="16" class="mr-2" />
-            {{ $t("prefinances.child.edit") }}
-          </v-btn>
-        </div>
       </v-card-title>
       <v-divider />
       <v-card-text class="pb-0">
@@ -346,11 +336,11 @@
                         v-on="on"
                         color="green"
                         @click="editRow(item, index)"
-                        
+
                       >
                         <v-img src="/edit-active.svg" max-width="22" />
                       </v-btn>
-                      
+
                     </template>
                     <span class="text-capitalize">{{ $t("prefinances.child.edit") }}</span>
                   </v-tooltip>
@@ -366,7 +356,7 @@
                         v-bind="attrs"
                         v-on="on"
                         color="red"
-                       
+
                         @click="deleteRow(item, index)"
                       >
                         <v-img src="/delete.svg" max-width="27" />

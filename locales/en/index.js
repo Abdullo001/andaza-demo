@@ -451,7 +451,7 @@ export default {
       home: "Home",
       addModels: "add models",
       modelParts: "Model parts",
-      sizeChart: "Size chart",
+      sizeChart: "Measurement list",
       printing: "Printing",
       documents: "Documents",
       samples: "Samples",

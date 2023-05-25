@@ -8,30 +8,6 @@
           <v-chip color="#10BF41" dark class="font-weight-bold ml-5">{{ orderStatus }}</v-chip>
         </div>
         <v-spacer/>
-        <div>
-          <v-btn
-            outlined
-            elevation="0"
-            color="#777C85"
-            class="text-capitalize rounded-lg mr-4"
-            @click="clear"
-          >
-            <v-img src="/trash.svg" class="mr-1"/>
-            Clear
-          </v-btn>
-          <v-btn
-            outlined
-            elevation="0"
-            class="text-capitalize rounded-lg"
-            color="#777C85"
-          >
-            <v-img
-              :src="fields_status ? '/edit.svg' : '/edit-active.svg'"
-              class="mr-1"
-            />
-            Edit
-          </v-btn>
-        </div>
       </v-card-title>
       <v-divider/>
       <v-card-text class="mt-4">
@@ -70,10 +46,9 @@
                   prepend-icon=""
                 >
                   <template #append>
-                    <v-icon class="d-inline-block" color="#7631FF"
-                    >mdi-magnify
-                    </v-icon
-                    >
+                    <v-icon class="d-inline-block" color="#7631FF">
+                      mdi-magnify
+                    </v-icon>
                   </template>
                 </v-combobox>
               </div>
@@ -112,10 +87,9 @@
                 prepend-icon=""
               >
                 <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF"
-                  >mdi-magnify
-                  </v-icon
-                  >
+                  <v-icon class="d-inline-block" color="#7631FF">
+                    mdi-magnify
+                  </v-icon>
                 </template>
               </v-combobox>
               <div class="label">Price with discount</div>
@@ -166,10 +140,9 @@
                 prepend-icon=""
               >
                 <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF"
-                  >mdi-magnify
-                  </v-icon
-                  >
+                  <v-icon class="d-inline-block" color="#7631FF">
+                    mdi-magnify
+                  </v-icon>
                 </template>
               </v-combobox>
               <div class="label">Total</div>
@@ -181,24 +154,12 @@
                   outlined
                   hide-details
                   height="44"
-                  class="rounded-lg base rounded-l-lg rounded-r-0"
+                  class="rounded-lg base"
                   validate-on-blur
                   dense
                   color="#7631FF"
                 />
-                <v-select
-                  :items="currency_enums"
-                  v-model="order.totalPrice.currency"
-                  style="max-width: 100px"
-                  dense
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base rounded-r-lg rounded-l-0"
-                  validate-on-blur
-                  append-icon="mdi-chevron-down"
-                  color="#7631FF"
-                />
+
               </div>
             </v-col>
             <v-col>
@@ -465,7 +426,7 @@ export default {
         modelNumber: "",
         modelName: "",
         priceWithDiscount: null,
-        priceWithDiscountCurrency: "",
+        priceWithDiscountCurrency: "USD",
 
         totalPrice: {
           amount: "",
@@ -506,7 +467,6 @@ export default {
   },
   watch: {
     orderDetail(item) {
-
       const order = this.order;
       order.id = item.id;
       order.modelId = item.modelId;
@@ -527,8 +487,7 @@ export default {
       order.priority = item.priority;
       order.headOfDepartment = item.headOfProductionDepartment
       order.client = item.client
-      const modelId = item.modelId;
-      this.setModelId({modelId});
+      this.$store.commit('orders/setModelId', item.modelId);
     },
     usersList(list) {
       list.map((item) => {
@@ -541,11 +500,19 @@ export default {
 
     infoToOrder(item) {
       this.selectedModelInfo = {...item};
-      this.order.priceWithDiscount = item.priceWithDiscount
-      this.order.priceWithDiscountCurrency = item.priceWithDiscountCurrency
-
-
+      this.order.priceWithDiscount = item.priceWithDiscountUSD;
+      this.order.priceWithDiscountCurrency = 'USD';
     },
+    "order.priceWithDiscountCurrency"(val) {
+      switch (val) {
+        case 'USD':
+          return this.order.priceWithDiscount = this.infoToOrder.priceWithDiscountUSD;
+        case 'RUB':
+          return this.order.priceWithDiscount = this.infoToOrder.priceWithDiscountRUB;
+        case 'UZS':
+          return this.order.priceWithDiscount = this.infoToOrder.priceWithDiscountUZS;
+      }
+    }
   },
   methods: {
     ...mapActions({
@@ -557,24 +524,19 @@ export default {
       updateOrder: "orders/updateOrder",
       getGivePrice: "orders/getGivePrice",
     }),
-    ...mapMutations({
-      setModelId: "orders/setModelId",
-    }),
     async updateOrderFunc() {
       await this.updateOrder(this.order);
     },
     async createdNewOrder() {
+      this.order.modelId = this.infoToOrder.id;
       await this.createdOrder(this.order);
     },
     setModelName(item) {
-
-      this.order.modelName = item.name;
-      console.log(item);
-      this.getGivePrice({id: item.id});
-
-
+      if(item !== 'null' || !!item) {
+        this.order.modelName = item.name;
+        this.getGivePrice({id: item.id});
+      }
     },
-
     clear(){
       this.$refs.order_detail.reset();
       this.order.deadline="";
