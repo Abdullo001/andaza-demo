@@ -337,10 +337,8 @@ export default {
         this.$t('listsModels.child.sizeChart'),
         this.$t('listsModels.child.printing'),
         this.$t('listsModels.child.documents'),
-        this.$t('listsModels.child.samples'),
         this.$t('listsModels.child.modelPhoto'),
         this.$t('listsModels.child.instruction'),
-        this.$t('listsModels.child.ordersThisModel')
       ],
       tab: null,
       modelStatus: 'Add',
