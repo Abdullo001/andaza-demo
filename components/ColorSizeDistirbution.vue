@@ -30,10 +30,10 @@
       <template #item.actions="{ item }">
         <div>
           <v-btn icon class="mr-2" @click="edit()">
-            <v-img src="/edit-green.svg" max-width="20" />
+            <v-img src="/edit-green.svg" max-width="20"/>
           </v-btn>
           <v-btn icon @click="delete_dialog = true">
-            <v-img src="/trash-red.svg" max-width="20" />
+            <v-img src="/trash-red.svg" max-width="20"/>
           </v-btn>
         </div>
       </template>
@@ -103,7 +103,7 @@
                 color="#7631FF"
                 width="163"
                 @click="edit_dialog = !edit_dialog"
-                >cancel
+              >cancel
               </v-btn>
               <v-btn
                 class="text-capitalize rounded-lg font-weight-bold"
@@ -112,7 +112,7 @@
                 v-if="this.$route.params.id !== `add-order`"
                 width="163"
                 @click="update"
-                >update
+              >update
               </v-btn>
               <v-btn
                 class="text-capitalize rounded-lg font-weight-bold"
@@ -121,7 +121,7 @@
                 v-else
                 width="163"
                 @click="updateNewOrder"
-                >save
+              >save
               </v-btn>
             </v-card-actions>
           </v-form>
@@ -132,10 +132,11 @@
     <v-dialog v-model="delete_dialog" max-width="500">
       <v-card class="pa-4 text-center">
         <div class="d-flex justify-center mb-2">
-          <v-img src="/error-icon.svg" max-width="40" />
+          <v-img src="/error-icon.svg" max-width="40"/>
         </div>
         <v-card-title class="d-flex justify-center"
-          >Delete Color/Size distirbution</v-card-title
+        >Delete Color/Size distirbution
+        </v-card-title
         >
         <v-card-text>
           Are you sure you want to Delete Color/Size distirbution?
@@ -150,7 +151,7 @@
           >
             cancel
           </v-btn>
-          <v-spacer />
+          <v-spacer/>
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             color="#FF4E4F"
@@ -167,7 +168,7 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapActions } from "vuex";
+import {mapGetters, mapActions} from "vuex";
 
 export default {
   name: "ColorSizeDistirbution",
@@ -177,8 +178,8 @@ export default {
       delete_dialog: false,
       new_validate: true,
       templeHeaders: [
-        { text: "Total", sortable: false, value: "total" },
-        { text: "Actions", sortable: false, align: "center", value: "actions" },
+        {text: "Total", sortable: false, value: "total"},
+        {text: "Actions", sortable: false, align: "center", value: "actions"},
       ],
       headerSizes: [],
       headerBodyPart: [],
@@ -186,9 +187,9 @@ export default {
       item: {},
       newModelId: null,
       newOrderId: null,
-
+      size_list_value: {},
       orderSizeList: [],
-
+      size_value_list: {},
       orderSizeDetail: {
         modelBodyParts: [],
         sizeDistributions: [],
@@ -210,6 +211,20 @@ export default {
   },
 
   watch: {
+    size_list_value(items) {
+      const value = {};
+      for (let item in items) {
+        const sizeObj = {
+          size: items[item],
+          quantity: 0,
+        };
+        value[item] = items[item];
+        this.orderSizeDetail.sizeDistributions.push(sizeObj);
+      }
+      this.item = {...this.item, ...value};
+      this.orderSizeList.shift();
+      this.orderSizeList.push(this.item);
+    },
     newOrderIdServer: {
       deep: true,
       handler(id) {
@@ -224,9 +239,10 @@ export default {
     },
 
     sizes(list) {
+      this.size_list_value = JSON.parse(JSON.stringify(list));
       this.headerSizes = [];
       list.forEach((item) => {
-        const res = { text: item, sortable: false, value: item };
+        const res = {text: item, sortable: false, value: item};
         this.headerSizes.push(res);
       });
       this.headers = [...this.headerSizes, ...this.templeHeaders];
@@ -235,7 +251,7 @@ export default {
     bodyParts(items) {
       this.headerBodyPart = [];
       for (let item in items) {
-        const res = { text: item, sortable: false, value: item };
+        const res = {text: item, sortable: false, value: item};
         this.headerBodyPart.push(res);
       }
       this.headers = [...this.headerBodyPart, ...this.headers];
@@ -254,30 +270,31 @@ export default {
         value[item] = items[item];
         this.orderSizeDetail.modelBodyParts.push(part);
       }
-      this.item = { ...value };
+      this.item = {...value};
     },
 
     sizeValues(items) {
-      this.orderSizeDetail.sizeDistributions = [];
-      const value = {};
-      for (let item in items) {
-        const sizeObj = {
-          size: item,
-          quantity: items[item],
-        };
-        value[item] = items[item];
-        this.orderSizeDetail.sizeDistributions.push(sizeObj);
+      if (Object.keys(items).length !== 0) {
+        this.orderSizeDetail.sizeDistributions = [];
+        const value = {};
+        for (let item in items) {
+          const sizeObj = {
+            size: item,
+            quantity: items[item],
+          };
+          value[item] = items[item];
+          this.orderSizeDetail.sizeDistributions.push(sizeObj);
+        }
+        this.item = {...this.item, ...value};
+        this.orderSizeList.shift();
+        this.orderSizeList.push(this.item);
       }
-      this.item = { ...this.item, ...value };
-      this.orderSizeList.shift();
-      this.orderSizeList.push(this.item);
     },
 
     totalItem(val) {
       this.item.total = val.total;
     },
   },
-
   methods: {
     ...mapActions({
       getSizeDistirbution: "sizeDistirbution/getSizeDistirbution",
@@ -286,7 +303,6 @@ export default {
         "sizeDistirbution/updateSizeDistirbutionValue",
       deleteSizeDistirbutionFunc: "sizeDistirbution/deleteSizeDistirbutionFunc",
     }),
-
     edit() {
       this.edit_dialog = !this.edit_dialog;
     },
@@ -310,7 +326,7 @@ export default {
     deleteSizeDistirbution() {
       const id = this.$route.params.id;
       if (id !== "add-order") {
-        this.deleteSizeDistirbutionFunc({ orderId: id, modelId: this.modelId });
+        this.deleteSizeDistirbutionFunc({orderId: id, modelId: this.modelId});
         this.delete_dialog = false;
       } else {
         this.deleteSizeDistirbutionFunc({
@@ -325,7 +341,7 @@ export default {
   async mounted() {
     const id = this.$route.params.id;
     if (id !== "add-order") {
-      await this.getSizeDistirbution({ modelId: this.modelId });
+      await this.getSizeDistirbution({modelId: this.modelId});
       await this.getSizeDistirbutionValue({
         modelId: this.modelId,
         orderId: id,
