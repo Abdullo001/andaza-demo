@@ -87,13 +87,14 @@ export const actions = {
       .catch(({ response }) => console.log(response));
   },
   async createdOrder({ commit, dispatch }, data) {
+    console.log(data);
     const order = {
-      clientId: data.clientId,
+      clientId: data.client.id,
       deadline: data.deadline,
       description: data.description,
       priceWithDiscount: data.priceWithDiscount,
       priceWithDiscountCurrency: data.priceWithDiscountCurrency,
-      headOfProductionDepartmentId: data.headOfDepartmentId,
+      headOfProductionDepartmentId: data.headOfDepartment.id,
       modelId: data.modelId,
       orderNumber: data.orderNumber,
       priority: data.priority,
@@ -103,10 +104,9 @@ export const actions = {
       .then((res) => {
         commit("setNewOrderId", res.data.data.id);
         commit("setNewModelId", res.data.data.modelId);
-        dispatch("getOneOrder", {
-          id: res.data.data.id,
-          modelId: res.data.data.modelId,
-        });
+        dispatch(
+          "getOneOrder",
+          { id: res.data.data.id, modelId: res.data.data.modelId });
         dispatch(
           "sizeDistirbution/getSizeDistirbution",
           { modelId: res.data.data.modelId },
@@ -117,7 +117,6 @@ export const actions = {
           { orderId: res.data.data.id, modelId: res.data.data.modelId },
           { root: true }
         );
-        // dispatch("detailInfo/getDetailInfo",{orderId:res.data.data.id,modelId:res.data.data.modelId},{root:true})
         dispatch(
           "shippingInfo/getShippingInfo",
           { id: res.data.data.id, modelId: res.data.data.modelId },
@@ -208,7 +207,6 @@ export const actions = {
       .get(`/api/v1/models/info-to-order?id=${id}`)
       .then((res) => {
         commit("setInfoToOrder", res.data.data);
-        console.log(res);
       })
       .catch((res) => {
         console.log(res);
