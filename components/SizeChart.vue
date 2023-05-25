@@ -150,7 +150,6 @@
               >
                 <div class="label">{{el.text}}</div>
                 <v-text-field
-                  :label="el.text"
                   hide-details
                   height="44"
                   class="rounded-lg base"
