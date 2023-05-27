@@ -72,17 +72,17 @@ export const actions = {
 
   async updateSizeDistirbutionValue({ dispatch }, data) {
     await this.$axios
-      .put(`/api/v1/orders/set-size-distributions`, data)
+      .$put(`/api/v1/orders/set-size-distributions`, data)
       .then((res) => {
         dispatch("getSizeDistirbutionValue", {
           modelId: data.modelId,
           orderId: data.orderId,
         });
-        this.$toast.success(res.data.message);
+        this.$toast.success(res.message);
       })
       .catch((res) => {
         console.log(res);
-        this.$toast.error(res.data.message);
+        this.$toast.error(res.message);
       });
   },
 

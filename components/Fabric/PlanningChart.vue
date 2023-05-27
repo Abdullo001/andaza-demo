@@ -176,6 +176,20 @@
                   v-model="fabric_planning.description"
                 />
               </v-col>
+              <v-col cols="12" lg="6" class="d-flex align-center">
+                <div class="body-1 font-weight-medium">Fleece</div>
+                <v-spacer/>
+                <v-switch
+                  inset color="#4F46E5"
+                />
+              </v-col>
+              <v-col cols="12" lg="6" class="d-flex align-center">
+                <div class="body-1 font-weight-medium">Peach effect</div>
+                <v-spacer/>
+                <v-switch
+                  inset color="#4F46E5"
+                />
+              </v-col>
               <v-col lg="6">
                 <div class="label">Density kg/m2</div>
                 <v-text-field

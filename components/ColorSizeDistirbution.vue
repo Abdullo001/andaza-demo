@@ -315,8 +315,11 @@ export default {
       this.edit_dialog = !this.edit_dialog;
     },
     async update() {
-      await this.updateSizeDistirbutionValue({
-        ...this.orderSizeDetail,
+      this.orderSizeDetail.modelBodyParts.map(elem => {
+        delete elem.bodyPart
+      })
+      const item = this.orderSizeDetail
+      await this.updateSizeDistirbutionValue( {...item,
         modelId: this.modelId,
         orderId: this.$route.params.id,
       });
