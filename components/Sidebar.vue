@@ -53,10 +53,11 @@
               active-class="transparent"
             >
               <template #default="{ active }">
-                <v-list-item-icon></v-list-item-icon>
-                <div class="dots" v-if="active"></div>
-                <div class="no-dots" v-else></div>
-                <v-list-item-title v-text="child.title"/>
+                <div class="ml-4 d-flex align-center">
+                  <div class="dots" v-if="active"></div>
+                  <div class="no-dots" v-else></div>
+                  <v-list-item-title v-text="child.title"/>
+                </div>
               </template>
             </v-list-item>
           </v-list-group>
@@ -265,10 +266,10 @@ export default {
                 title: this.$t('sidebar.expenseGroup'),
                 to: this.localePath("/expense-group")
               },
-              {
-                title: this.$t('sidebar.measurementUnit'),
-                to: this.localePath("/measurement")
-              },
+              // {
+              //   title: this.$t('sidebar.measurementUnit'),
+              //   to: this.localePath("/measurement")
+              // },
               {
                 title: this.$t('sidebar.packageShape'),
                 to: this.localePath("/package-shape")
