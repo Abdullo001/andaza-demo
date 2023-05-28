@@ -68,7 +68,7 @@
               dense
               height="44"
               :placeholder="$t('prefinances.child.enterModelName')"
-              v-model="addPreFinances.modelName"
+              v-model="addPreFinances.modelNames"
               disabled
             />
           </v-col>
@@ -138,6 +138,7 @@
               append-icon="mdi-chevron-down"
             />
           </v-col>
+          <v-col cols="12" lg="3" md="3"></v-col>
           <v-col cols="12" lg="3" md="3">
             <div class="label">{{ $t("prefinances.child.primaryRare") }}</div>
             <v-text-field
@@ -1124,13 +1125,13 @@ export default {
     }),
     title() {
       const id = this.$route.params.id;
-      return id === "create" ? "Add" : "Edit";
+      return id === "create" ? "Add" : id==="creating"?"Add":"Update";
     },
     btn() {
       const id = this.$route.params.id;
       return id === "create"
         ? this.$t("prefinances.child.save")
-        : this.$t("update");
+        : id === "creating"?this.$t("prefinances.child.save"):this.$t("update");
     },
   },
   watch: {
@@ -1173,8 +1174,8 @@ export default {
         const data = { ...val[0] };
         this.addPreFinances = {
           id: data.id,
-          modelName: data.name,
-          preFinanceNumber: data.id,
+          modelNames: data.name,
+          preFinanceNumber: "",
           modelNumber: data.modelNumber,
           partnerId: data.partnerId,
           partner: data.partner,
@@ -1187,40 +1188,20 @@ export default {
           modifiedPerson: "",
           updatedAt: data.updatedAt,
         };
-      } else if (this.$route.params.id === "create") {
-        this.addPreFinances = {
-          id: "",
-          modelName: "",
-          preFinanceNumber: "",
-          modelNumber: "",
-          partnerId: "",
-          partner: "",
-          primaryCurrency: "",
-          tertiaryCurrency: "",
-          secondaryCurrency: "",
-          description: "",
-          owner: "",
-          createdAt: "",
-          modifiedPerson: "",
-          updatedAt: "",
-        };
       }
     },
     "addPreFinances.modelNumber"(elem) {
 
       if (!(elem === "null" || typeof elem === "object")) {
+      
         this.getModelName(elem);
-
       }
-      const { modelNumber, name, partner, id } = this.addPreFinances.modelNumber;
+        const { modelNumber, name, partner, id } = this.addPreFinances.modelNumber;
       if (
-        (Object.keys(this.addPreFinances.modelNumber).length > 3 &&
-          modelNumber) ||
-        name ||
-        partner !== undefined
+        (Object.keys(this.addPreFinances.modelNumber).length > 3 && modelNumber) || name || partner !== undefined
       ) {
         this.addPreFinances.partner = partner;
-        this.addPreFinances.preFinanceNumber = id;
+        this.addPreFinances.id = id;
         this.addPreFinances.modelNames = name;
         this.addPreFinances.modelNumber = modelNumber;
       }
@@ -1476,6 +1457,7 @@ export default {
         name: item.expenseGroup,
       };
       this.selectDetail = { ...item };
+      
     },
 
     updateDetailsFunc() {

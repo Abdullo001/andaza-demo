@@ -122,6 +122,7 @@ export const actions = {
       .$put(`/api/v1/models/list?partner=`, body)
       .then((res) => {
         commit("setModelName", res.data.content);
+       
       })
       .catch(({ response }) => {
         console.log(response);
@@ -129,7 +130,7 @@ export const actions = {
   },
   async createPreFinance({ commit, dispatch }, data) {
     const body = {
-      modelId: data.preFinanceNumber,
+      modelId: data.id,
       primaryCurrency: data.primaryCurrency,
       secondaryCurrency: data.secondaryCurrency,
       tertiaryCurrency: data.tertiaryCurrency,
@@ -236,7 +237,7 @@ export const actions = {
     await this.$axios
       .get(`/api/v1/possible-expense/get?id=98`)
       .then((res) => {
-        console.log(res);
+        
       })
       .catch((res) => {
         console.log(res);
