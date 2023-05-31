@@ -556,7 +556,6 @@ export default {
 
     accessoryData(item) {
       this.accessoryDetail = JSON.parse(JSON.stringify(item));
-      console.log(item);
     },
 
     OneData(val) {
@@ -622,7 +621,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 100%;
-  min-height: 90%;
+  min-width: 158px;
+  min-height: 132px;
 }
 </style>
