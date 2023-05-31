@@ -86,7 +86,17 @@ export default (context, inject) => {
                 return 'amber'
               case 'HIGH':
                 return '#FF4E4F'
+            }
+          },
 
+          resultColor(color) {
+            switch (color) {
+              case 'OK':
+                return '#10BF41'
+              case 'NG':
+                return 'amber'
+              case 'REMAKE':
+                return '#FF4E4F'
             }
           },
         }
