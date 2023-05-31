@@ -6,7 +6,7 @@
           <v-col cols="12" lg="2" md="2">
             <v-text-field
               v-model.trim="filters.id"
-              :label="$t('composition.child.idSearch')"
+              :label="$t('printType.child.idSearch')"
               outlined
               class="rounded-lg filter"
               hide-details
@@ -17,7 +17,7 @@
           <v-col cols="12" lg="2" md="2">
             <v-text-field
               v-model.trim="filters.name"
-              :label="$t('composition.child.name')"
+              :label="$t('printType.child.name')"
               outlined
               class="rounded-lg filter"
               hide-details
@@ -28,7 +28,7 @@
           <v-col cols="12" lg="2" md="2">
             <v-text-field
               v-model.trim="filters.createdBy"
-              :label="$t('composition.child.createdBy')"
+              :label="$t('printType.child.createdBy')"
               outlined
               class="rounded-lg filter"
               hide-details
@@ -42,7 +42,7 @@
               type="datetime"
               class="filter_picker"
               style="width: 100%;"
-              :placeholder="$t('composition.child.created')"
+              :placeholder="$t('printType.child.created')"
               :picker-options="pickerShortcuts"
               format="dd.MM.yyyy HH:mm:ss"
             >
@@ -60,7 +60,7 @@
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
-                {{ $t("composition.child.reset") }}
+                {{ $t("printType.child.reset") }}
               </v-btn>
               <v-btn
                 width="140"
@@ -70,7 +70,7 @@
                 class="text-capitalize rounded-lg"
                 @click="filterData"
               >
-                {{ $t("composition.child.search") }}
+                {{ $t("printType.child.search") }}
               </v-btn>
             </div>
           </v-col>
@@ -79,7 +79,7 @@
     </v-card>
     <v-data-table
       :headers="headers"
-      :items="composition_list"
+      :items="printTypeList"
       :loading="loading"
       :options.sync="options"
       :items-per-page="itemPrePage"
@@ -93,7 +93,7 @@
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium text-capitalize">
-              {{ $t("composition.dialog.menuName") }}
+              {{ $t("printType.dialog.menuName") }}
             </div>
             <v-btn
               color="#7631FF"
@@ -102,7 +102,7 @@
               @click="new_dialog = true"
             >
               <v-icon>mdi-plus</v-icon>
-              {{ $t("composition.dialog.addMainName") }}
+              {{ $t("printType.dialog.addMainName") }}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -125,7 +125,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
-            {{ $t("composition.dialog.enterMainName") }}
+            {{ $t("printType.dialog.enterMainName") }}
           </div>
           <v-btn icon color="#7631FF" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -135,26 +135,26 @@
           <v-form ref="new_form">
             <v-row>
               <v-col cols="12">
-                <div class="label">{{$t('composition.dialog.name')}}</div>
+                <div class="label">{{$t('printType.dialog.name')}}</div>
                 <v-text-field
-                  v-model="create_composition.name"
+                  v-model="create_printType.name"
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  :placeholder="$t('composition.dialog.enterMainName')"
+                  :placeholder="$t('printType.dialog.enterMainName')"
                   dense
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12">
-                <div class="label">{{$t('composition.dialog.description')}}</div>
+                <div class="label">{{$t('printType.dialog.description')}}</div>
                 <v-textarea
-                  v-model="create_composition.description"
+                  v-model="create_printType.description"
                   outlined
                   hide-details
                   class="rounded-lg base"
-                  :placeholder="$t('composition.dialog.descriptionPlacholder')"
+                  :placeholder="$t('printType.dialog.descriptionPlacholder')"
                   dense
                   color="#7631FF"
                 />
@@ -170,7 +170,7 @@
             width="163"
             @click="new_dialog = false"
           >
-            {{ $t('composition.dialog.cancelBtn') }}
+            {{ $t('printType.dialog.cancelBtn') }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -179,7 +179,7 @@
             width="163"
             @click="save"
           >
-          {{ $t('composition.dialog.createBtn') }}
+          {{ $t('printType.dialog.createBtn') }}
 
           </v-btn>
         </v-card-actions>
@@ -189,7 +189,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
-            {{ $t('composition.dialog.editDialog') }}
+            {{ $t('printType.dialog.editDialog') }}
 
           </div>
           <v-btn icon color="#7631FF" @click="edit_dialog = false">
@@ -200,26 +200,26 @@
           <v-form ref="new_form">
             <v-row>
               <v-col cols="12">
-                <div class="label">{{$t('composition.dialog.name')}}</div>
+                <div class="label">{{$t('printType.dialog.name')}}</div>
                 <v-text-field
-                  v-model="edit_composition.name"
+                  v-model="edit_printType.name"
                   outlined
                   hide-details
                   class="rounded-lg base"
                   height="44"
-                  :placeholder="$t('composition.dialog.enterMainName')"
+                  :placeholder="$t('printType.dialog.enterMainName')"
                   dense
                   color="#7631FF"
                 />
               </v-col>
               <v-col cols="12">
-                <div class="label">{{$t('composition.dialog.description')}}</div>
+                <div class="label">{{$t('printType.dialog.description')}}</div>
                 <v-textarea
-                  v-model="edit_composition.description"
+                  v-model="edit_printType.description"
                   outlined
                   hide-details
                   class="rounded-lg base"
-                  :placeholder="$t('composition.dialog.descriptionPlacholder')"
+                  :placeholder="$t('printType.dialog.descriptionPlacholder')"
                   dense
                   color="#7631FF"
                 />
@@ -235,7 +235,7 @@
             width="163"
             @click="edit_dialog = false"
           >
-            {{ $t('composition.dialog.cancelBtn') }}
+            {{ $t('printType.dialog.cancelBtn') }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -255,10 +255,10 @@
           <v-img src="/error-icon.svg" max-width="40" />
         </div>
         <v-card-title class="d-flex justify-center">
-          {{ $t("composition.dialog.deleteDialog") }}
+          {{ $t("printType.dialog.deleteDialog") }}
         </v-card-title>
         <v-card-text>
-          {{ $t("composition.dialog.deleteText") }}
+          {{ $t("printType.dialog.deleteText") }}
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -268,7 +268,7 @@
             width="140"
             @click.stop="delete_dialog = false"
           >
-            {{ $t("composition.dialog.cancelBtn") }}
+            {{ $t("printType.dialog.cancelBtn") }}
           </v-btn>
           <v-spacer />
           <v-btn
@@ -279,7 +279,7 @@
             dark
             @click="deleteSample"
           >
-            {{ $t("composition.dialog.deleteBtn") }}
+            {{ $t("printType.dialog.deleteBtn") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -302,37 +302,37 @@ export default {
       options: {},
       headers: [
         {
-          text: this.$t("composition.table.id"),
+          text: this.$t("printType.table.id"),
           value: "id",
           align: "start",
           sortable: false,
           width: "100",
         },
-        { text: this.$t("composition.table.name"), value: "name" },
+        { text: this.$t("printType.table.name"), value: "name" },
         {
-          text: this.$t("composition.table.description"),
+          text: this.$t("printType.table.description"),
           value: "description",
         },
         {
-          text: this.$t("composition.table.created"),
+          text: this.$t("printType.table.created"),
           value: "createdAt",
         },
         {
-          text: this.$t("composition.table.createdBy"),
+          text: this.$t("printType.table.createdBy"),
           value: "createdBy",
         },
         {
-          text: this.$t("composition.table.actions"),
+          text: this.$t("printType.table.actions"),
           value: "actions",
           align: "center",
           sortable: false,
         },
       ],
-      create_composition: {
+      create_printType: {
         name: "",
         description: "",
       },
-      edit_composition: {
+      edit_printType: {
         name: "",
         description: "",
       },
@@ -349,54 +349,54 @@ export default {
    
   },
   async created() {
-    await this.$store.dispatch("composition/getCompositionList", { page: 0, size: 10 });
+    await this.$store.dispatch("printType/getPrintTypeList", { page: 0, size: 10 });
   },
   computed: {
     ...mapGetters({
-      loading: "composition/loading",
-      composition_list: "composition/composition_list",
-      totalElements: "composition/totalElements",
+      loading: "printType/loading",
+      printTypeList: "printType/printTypeList",
+      totalElements: "printType/totalElements",
     }),
   },
   methods: {
     ...mapActions({
-      getCompositionList: "composition/getCompositionList",
-      createComposition: "composition/createComposition",
-      updateComposition: "composition/updateComposition",
-      deleteComposition: "composition/deleteComposition",
-      filterCompositionData: "composition/filterCompositionData",
+      getPrintTypeList: "printType/getPrintTypeList",
+      createPrintType: "printType/createPrintType",
+      updatePrintType: "printType/updatePrintType",
+      deletePrintType: "printType/deletePrintType",
+      filterPrintTypeData: "printType/filterPrintTypeData",
     }),
     async size(val) {
       this.itemPrePage = val;
-      await this.$store.dispatch("composition/getCompositionList", {
+      await this.$store.dispatch("printType/getPrintTypeList", {
         page: 0,
         size: this.itemPrePage,
       });
     },
     async page(val) {
       this.current_page = val - 1;
-      await this.$store.dispatch("composition/getCompositionList", {
+      await this.$store.dispatch("printType/getPrintTypeList", {
         page: this.current_page,
         size: this.itemPrePage,
       });
     },
     async deleteSample() {
       const id = this.delete_sample.id;
-      await this.deleteComposition({id});
+      await this.deletePrintType({id});
       this.delete_dialog = false;
     },
     async save() {
-      const items = { ...this.create_composition };
-      await this.createComposition(items);
-      this.create_composition = {
+      const items = { ...this.create_printType };
+      await this.createPrintType(items);
+      this.create_printType = {
         name: "",
         description: "",
       };
       this.new_dialog = false;
     },
     async update() {
-      const items = { ...this.edit_composition };
-      await this.updateComposition(items);
+      const items = { ...this.edit_printType };
+      await this.updatePrintType(items);
       this.edit_dialog = false;
     },
     async getDeleteItem(item) {
@@ -404,7 +404,7 @@ export default {
       this.delete_dialog = true;
     },
     editItem(item) {
-      this.edit_composition = { ...item };
+      this.edit_printType = { ...item };
       this.edit_dialog = true;
     },
     async resetFilters() {
@@ -414,11 +414,11 @@ export default {
         createdBy: "",
         createdAt: "",
       };
-      await this.getCompositionList({ page: 0, size: 10 });
+      await this.getPrintTypeList({ page: 0, size: 10 });
     },
     async filterData() {
       const items = { ...this.filters };
-      await this.filterCompositionData(items);
+      await this.filterPrintTypeData(items);
     },
   },
   mounted() {

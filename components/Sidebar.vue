@@ -306,6 +306,10 @@ export default {
                 title: this.$t('sidebar.composition'),
                 to: this.localePath('/composition'),
               },
+              {
+                title: this.$t('sidebar.printType'),
+                to: this.localePath('/print-type'),
+              },
             ]
           },
           {
