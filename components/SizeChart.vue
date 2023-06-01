@@ -103,21 +103,15 @@
                   :placeholder="`Enter  ${el.text}`"
                   v-model="new_chart[el.value]"
                   color="#7631FF"
+                  :suffix="el.text === 'Shrinkage'?'%':null"
                 >
                   <template #prepend-inner>
                     <v-img
                       v-if="el.text === 'Tolerance'"
                       src="/plus-minus.svg"
                       width="12"
-                      class="mt-1"
+                      class="mt-1 custom-icon"
                     />
-                  </template>
-                  <template #append>
-                    <div
-                      v-if="el.text === 'Shrinkage'"
-                      class="base-color present">
-                      %
-                    </div>
                   </template>
                 </v-text-field>
               </v-col>
@@ -309,7 +303,7 @@ export default {
     new_chart: {
       handler(val) {
         console.log(val);
-      }
+      }, deep: true
     },
     headers(val) {
       let data = [...val];
@@ -358,7 +352,6 @@ export default {
       } else {
         data.modelId = id
       }
-      console.log(data);
       await this.createSizeChart(data);
       // this.new_dialog = false;
       // this.$refs.new_validate.reset();
@@ -401,6 +394,11 @@ export default {
     },
     newDialog() {
       this.new_dialog = true;
+
+      this.headFields.forEach(elem => {
+        this.new_chart[elem.value] = ''
+      });
+      console.log(this.new_chart);
     }
   },
   async mounted() {
@@ -438,4 +436,5 @@ export default {
 .v-list-item-group .v-list-item--active {
   color: #7631FF;
 }
+
 </style>
