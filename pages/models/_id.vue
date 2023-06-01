@@ -116,15 +116,17 @@
           </v-col>
           <v-col>
             <div class="label">{{$t('listsModels.child.composition')}}</div>
-            <v-combobox
+            <v-select
               :items="compositionList"
               item-text="name"
               item-value="id"
-              v-model="model.composition"
+              v-model="model.compositionId"
+              :return-object="false"
               outlined
               hide-details
               class="rounded-lg base mb-4"
-              height="44" dense
+              height="44"
+              dense
               style="max-width: 400px"
               :placeholder="$t('listsModels.child.entermodelComposition')"
               color="#7631FF"
@@ -366,7 +368,7 @@ export default {
         partnerId: '',
         name: '',
         group: '',
-        composition: '',
+        compositionId: '',
         season: '',
         licence: null,
         gender: '',
@@ -405,13 +407,13 @@ export default {
       model.number = val.modelNumber;
       model.name = val.name;
       model.group = val.modelGroupId;
-      model.composition = val.composition;
+      model.compositionId = val.compositionId;
       model.season = val.season;
       model.licence = val.licenceRequired;
       model.gender = val.gender;
       model.description = val.description;
       model.creator = val.createdBy;
-      model.modifiedPerson = '';
+      model.modifiedPerson = val.updatedBy;
       model.partnerId = val.partnerId
       model.createdTime = val.createdAt;
       model.updateTime = val.updatedAt;
