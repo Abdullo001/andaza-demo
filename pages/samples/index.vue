@@ -112,6 +112,21 @@
       </v-toolbar>
     </template>
 
+    <template #item.result="{ item }">
+      <v-select
+        @click.stop
+        @change="changeStatus(item)"
+        :background-color="statusColor.resultColor(item.result)"
+        :items="result_enums"
+        append-icon="mdi-chevron-down"
+        v-model="item.result"
+        hide-details
+        class="mt-n2"
+        rounded
+        dark
+      />
+    </template>
+
     <template #item.actions="{ item, index }">
       <div>
         <v-tooltip
@@ -639,6 +654,7 @@ export default {
       validate: true,
       edit_validate:true,
       deleteId:null,
+
       modelIdSearch: "",
       current_page: 0,
       itemsPerPage:10,
@@ -711,6 +727,9 @@ export default {
       getOneSample:"accessorySamples/getOneSample",
       deleteSample:"accessorySamples/deleteSample",
       updateSample:"accessorySamples/updateSample",
+      changeResult:"accessorySamples/changeResult",
+      filterSamples:"accessorySamples/filterSamples",
+      
 
     }),
 
@@ -732,10 +751,16 @@ export default {
     },
 
     filterOrder(){
-
+      this.filterSamples({...this.filters})
     },
     resetFilter(){
-
+      this.filters={
+        id:"",
+        purpose:"",
+        partner:"",
+        updatedAt:"",
+      }
+      this.filterSamples({...this.filters})
     },
 
     editRow(item, index){
@@ -763,6 +788,10 @@ export default {
       this.itemPrePage = value;
       await this.getSamplesList({page:0,size:this.itemPrePage})
 
+    },
+
+    changeStatus(item){
+      this.changeResult({id:item.id,result:item.result})
     },
 
 

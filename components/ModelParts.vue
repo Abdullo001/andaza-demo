@@ -69,7 +69,7 @@
               <v-select
                 v-model="newModelParts.yarnNumberId"
                 :items="yarnNumbersList"
-                item-text="name"
+                item-text="yarns"
                 item-value="id"
                 placeholder="Enter yarn numbers"
                 outlined
@@ -96,22 +96,7 @@
                 append-icon="mdi-chevron-down"
               />
             </v-col>
-            <v-col cols="12" lg="6">
-              <div class="label">Yarn type</div>
-              <v-select
-                v-model="newModelParts.yarnTypeId"
-                :items="yarnTypeList"
-                item-text="name"
-                item-value="id"
-                placeholder="Enter yarn type"
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg base"  dense
-                color="#7631FF"
-                append-icon="mdi-chevron-down"
-              />
-            </v-col>
+
             <v-col cols="12" lg="6">
               <div class="label">Composition</div>
               <v-select
@@ -136,7 +121,8 @@
                 outlined
                 hide-details
                 height="44"
-                class="rounded-lg base"  dense
+                class="rounded-lg base"
+                dense
                 color="#7631FF"
                 suffix="gr/m2"
               />
@@ -148,7 +134,8 @@
                 v-model="newModelParts.description"
                 outlined
                 hide-details
-                class="rounded-lg base"  dense
+                class="rounded-lg base"
+                dense
                 color="#7631FF"
               />
             </v-col>
@@ -232,7 +219,6 @@ export default {
         {text: 'Part name', align: 'start', sortable: false, value: 'bodyPart'},
         {text: 'Yarn number', sortable: false, value: 'yarnNumber'},
         {text: 'Canvas type', sortable: false, value: 'canvasType'},
-        {text: 'Yarn type', sortable: false, value: 'yarnType'},
         {text: 'Composition', sortable: false, value: 'composition'},
         {text: 'Comment', sortable: false, value: 'description'},
         {text: 'Creator', sortable: false, value: 'createdBy'},

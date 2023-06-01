@@ -1,61 +1,61 @@
 export const state = () => ({
   loading: true,
-  composition_list: [],
+  printTypeList: [],
 });
 export const getters = {
   loading: state => state.loading,
-  composition_list: state => state.composition_list.content,
-  totalElements: state => state.composition_list.totalElements,
+  printTypeList: state => state.printTypeList.content,
+  totalElements: state => state.printTypeList.totalElements,
 };
 export const mutations = {
   setLoading(state, loadings) {
     state.loading = loadings
   },
-  setComposition(state, item) {
-    state.composition_list = item
+  setPrintTypeList(state, item) {
+    state.printTypeList = item
   },
 };
 export const actions = {
-  async deleteComposition({dispatch}, {id}) {
-    await this.$axios.$delete(`/api/v1/composition/delete?id=${id}`)
+  async deletePrintType({dispatch}, {id}) {
+    await this.$axios.$delete(`/api/v1/print-type/delete?id=${id}`)
       .then(res => {
-        dispatch("getCompositionList", {page: 0, size: 10});
+        dispatch("getPrintTypeList", {page: 0, size: 10});
         this.$toast.success(res.message);
       })
       .catch(({response}) => {
         console.log(response)
       })
   },
-  async updateComposition({dispatch}, data) {
-    await this.$axios.$put(`/api/v1/composition/update`, data)
+  async updatePrintType({dispatch}, data) {
+    await this.$axios.$put(`/api/v1/print-type/update`, data)
       .then(res => {
-        dispatch("getCompositionList", {page: 0, size: 10});
+        dispatch("getPrintTypeList", {page: 0, size: 10});
         this.$toast.success(res.message);
       })
       .catch(({response}) => {
         console.log(response)
       })
   },
-  async createComposition({dispatch}, data) {
-    await this.$axios.$post(`/api/v1/composition/create`, data)
+  async createPrintType({dispatch}, data) {
+    await this.$axios.$post(`/api/v1/print-type/create`, data)
       .then(res => {
-        dispatch("getCompositionList", {page: 0, size: 10});
+        dispatch("getPrintTypeList", {page: 0, size: 10});
         this.$toast.success(res.message);
       })
       .catch(({response}) => {
         console.log(response)
       })
   },
-  async getCompositionList({commit}, {page, size, id}) {
+  async getPrintTypeList({commit}, {page, size}) {
     const body = {
       filters: [],
       sorts: [],
       page,
       size,
     }
-    await this.$axios.$put(`/api/v1/composition/list`, body)
+    await this.$axios.$put(`/api/v1/print-type/list`, body)
       .then(res => {
-        commit("setComposition", res.data);
+        commit("setPrintTypeList", res.data);
         commit("setLoading", false);
       })
       .catch(({response}) => {
@@ -64,7 +64,7 @@ export const actions = {
       })
   },
 
-  async filterCompositionData({commit}, data) {
+  async filterPrintTypeData({commit}, data) {
     const body = {
       filters: [
         {
@@ -98,9 +98,9 @@ export const actions = {
       size: 10,
     }
     body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
-    await this.$axios.$put('/api/v1/composition/list', body)
+    await this.$axios.$put('/api/v1/print-type/list', body)
       .then(res => {
-        commit('setComposition', res.data)
+        commit('setPrintTypeList', res.data)
       })
       .catch(({response}) => {
         console.log(response)

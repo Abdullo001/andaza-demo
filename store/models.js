@@ -3,7 +3,8 @@ export const state = () => ({
   oneModel: {},
   modelGroups: [],
   partner_enums: [],
-  newModelId: null
+  newModelId: null,
+  compositions: []
 })
 
 export const getters = {
@@ -12,7 +13,7 @@ export const getters = {
   modelGroups: state => state.modelGroups.content,
   partner_enums: state => state.partner_enums.content,
   newModelId: state => state.newModelId,
-
+  compositionList: state => state.compositions
 }
 
 export const mutations = {
@@ -30,6 +31,9 @@ export const mutations = {
   },
   setNewModelId(state, id) {
     state.newModelId = id
+  },
+  setCompositions(state, item) {
+    state.compositions = item;
   }
 }
 
@@ -128,7 +132,7 @@ export const actions = {
   },
   async updateModel({commit}, {data, id}) {
     const model = {
-      composition: data.composition,
+      composition: data.composition?.id,
       description: data.description,
       gender: data.gender,
       groupId: data.group,
@@ -144,7 +148,14 @@ export const actions = {
       .then(res => {
         this.$toast.success(res.message, {theme: 'toasted-primary'});
       }).catch(({response}) => {
-        this.$toast.error(response.statusText, {theme: 'toasted-primary'})
+      console.log(response);
+      this.$toast.error(response.data.message, {theme: 'toasted-primary'})
     })
   },
+  getCompositionList({commit}) {
+    this.$axios.$get('/api/v1/composition/thin-list')
+      .then(res => {
+        commit('setCompositions', res.data);
+      }).catch(({response}) => console.log(response))
+  }
 }

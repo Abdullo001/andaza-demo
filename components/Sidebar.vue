@@ -190,7 +190,7 @@ export default {
                 to: this.localePath('/accessory'),
               },
               {
-                title: "Samples",
+                title: this.$t('sidebar.samples'),
                 to: this.localePath('/samples'),
               },
             ]
@@ -302,6 +302,14 @@ export default {
               {
                 title: "Yarn numbers",
                 to: this.localePath('/yarn-numbers'),
+              },
+              {
+                title: this.$t('sidebar.composition'),
+                to: this.localePath('/composition'),
+              },
+              {
+                title: this.$t('sidebar.printType'),
+                to: this.localePath('/print-type'),
               },
             ]
           },
