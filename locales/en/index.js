@@ -210,7 +210,7 @@ export default {
     dialog: {
       refinanceNumber: "Calculation number",
       modelN: "Model №",
-      partner: "Partner",
+      partner: "Client",
       reset: "Reset",
       search: "Search",
       prefinance: "Prefinance",
@@ -427,8 +427,9 @@ export default {
       edit: "Edit",
       modelNumber: "Model number",
       enterModelNumber: "Enter model number",
-      partner: "Partner",
+      partner: "Client",
       selectSeason: "Select season",
+      selectClient: "Select client",
       modelName: "Model name",
       season: "Season",
       modelGroup: "Model group",
@@ -461,7 +462,7 @@ export default {
     },
     dialog: {
       modelN: "Model №",
-      partner: "Partner",
+      partner: "Client",
       status: "Status",
       reset: "Reset",
       search: "Search",
@@ -472,6 +473,7 @@ export default {
     table: {
       modelN: "Model №",
       modelName: "Model name",
+      clientName: 'Client name',
       composition: "Composition",
       modelGroup: "Model group",
       license: "License",

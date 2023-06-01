@@ -243,6 +243,7 @@ export const actions = {
         commit("setOrders", res.data);
       })
       .catch(({ response }) => {
+        commit("setLoading", false);
         console.log(response);
       });
   },
@@ -253,13 +254,13 @@ export const actions = {
       page,
       size,
     };
-    await this.$axios
-      .$put(`/api/v1/orders/list?modelGroup=${modelGroup}`, body)
+    await this.$axios.$put(`/api/v1/orders/list?modelGroup=${modelGroup}`, body)
       .then((res) => {
         commit("setOrders", res.data);
         commit("setLoading", false);
       })
       .catch(({ response }) => {
+        commit("setLoading", false);
         console.log(response);
       });
   },
@@ -270,12 +271,12 @@ export const actions = {
       page: 0,
       size: 50,
     };
-    await this.$axios
-      .$put(`/api/v1/model-groups/list`, body)
+    await this.$axios.$put(`/api/v1/model-groups/list`, body)
       .then((res) => {
         commit("setModelGroups", res.data.content);
       })
       .catch(({ response }) => {
+        commit("setLoading", false);
         console.log(response);
       });
   },

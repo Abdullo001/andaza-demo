@@ -48,7 +48,7 @@
               dense
               append-icon="mdi-chevron-down"
               style="max-width: 400px"
-              :placeholder="$t('listsModels.child.selectSeason')"
+              :placeholder="$t('listsModels.child.selectClient')"
               color="#7631FF"
             />
           </v-col>
@@ -116,7 +116,10 @@
           </v-col>
           <v-col>
             <div class="label">{{$t('listsModels.child.composition')}}</div>
-            <v-text-field
+            <v-combobox
+              :items="compositionList"
+              item-text="name"
+              item-value="id"
               v-model="model.composition"
               outlined
               hide-details
@@ -125,6 +128,7 @@
               style="max-width: 400px"
               :placeholder="$t('listsModels.child.entermodelComposition')"
               color="#7631FF"
+              append-icon="mdi-chevron-down"
             />
             <div class="label">{{$t('listsModels.child.gender')}}</div>
             <v-select
@@ -283,13 +287,6 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text class="pt-0">
-                <SamplesComponent/>
-              </v-card-text>
-            </v-card>
-          </v-tab-item>
-          <v-tab-item>
-            <v-card flat>
-              <v-card-text class="pt-0">
                 <ModelPhotoComponent/>
               </v-card-text>
             </v-card>
@@ -317,6 +314,7 @@ import DocumentsComponent from "../../components/Documents.vue";
 import SamplesComponent from "../../components/Samples.vue";
 import ModelPhotoComponent from "../../components/ModelPhoto.vue";
 import InstructionComponent from "../../components/Instruction.vue";
+import composition from "@/components/FabricCatalogs/Composition.vue";
 
 export default {
   name: 'addOrEditModelsPage',
@@ -391,12 +389,14 @@ export default {
   },
   created() {
     this.getPartnerList();
+    this.getCompositionList();
   },
   computed: {
     ...mapGetters({
       oneModel: 'models/oneModel',
       modelGroups: 'models/modelGroups',
-      partner_enums: 'models/partner_enums'
+      partner_enums: 'models/partner_enums',
+      compositionList: 'models/compositionList'
     }),
   },
   watch: {
@@ -423,7 +423,8 @@ export default {
       getModelGroup: 'models/getModelGroup',
       getPartnerList: 'models/getPartnerList',
       createModel: 'models/createModel',
-      updateModel: 'models/updateModel'
+      updateModel: 'models/updateModel',
+      getCompositionList: 'models/getCompositionList'
 
     }),
     redirectPrefinance() {
@@ -435,9 +436,11 @@ export default {
     },
     async updateModels() {
       const id = this.$route.params.id;
+      const data = {...this.model};
+
       await this.updateModel(
         {
-          data: this.model,
+          data,
           id: +id
         })
     }
