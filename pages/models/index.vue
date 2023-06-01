@@ -140,10 +140,10 @@ export default {
       headers: [
         {text: this.$t('listsModels.table.modelN'), align: 'start', sortable: false, value: 'modelNumber'},
         {text: this.$t('listsModels.table.modelName'), value: 'name'},
+        {text: this.$t('listsModels.table.clientName'), value: 'partner'},
         {text: this.$t('listsModels.table.composition'), value: 'composition'},
         {text: this.$t('listsModels.table.modelGroup'), value: 'modelGroup'},
         {text: this.$t('listsModels.table.license'), value: 'licenceRequired'},
-        {text: this.$t('listsModels.table.order'), value: 'order'},
         {text: this.$t('listsModels.table.deadline'), value: 'deadline'},
         {text: this.$t('listsModels.table.status'), value: 'status', width: 200},
         {text: this.$t('listsModels.table.actions'), value: 'actions'},

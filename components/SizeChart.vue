@@ -93,10 +93,9 @@
                 cols="12"
                 lg="4"
               >
-                <div class="label">{{el.text}}</div>
+                <div class="label">{{ el.text }}</div>
                 <v-text-field
                   outlined
-                  hide-details
                   height="44"
                   dense
                   class="rounded-lg base"
@@ -104,6 +103,42 @@
                   :placeholder="`Enter  ${el.text}`"
                   v-model="new_chart[el.value]"
                   color="#7631FF"
+                >
+                  <template #prepend-inner>
+                    <v-img
+                      v-if="el.text === 'Tolerance'"
+                      src="/plus-minus.svg"
+                      width="12"
+                      class="mt-1"
+                    />
+                  </template>
+                  <template #append>
+                    <div
+                      v-if="el.text === 'Shrinkage'"
+                      class="base-color present">
+                      %
+                    </div>
+                  </template>
+                </v-text-field>
+              </v-col>
+              <v-col
+                cols="12"
+                lg="4"
+              >
+                <div class="label">File</div>
+                <v-file-input
+                  label="Upload file"
+                  placeholder="Select file"
+                  dense
+                  outlined
+                  height="44"
+                  class="rounded-lg base"
+                  validate-on-blur
+                  color="#7631FF"
+                  hide-details
+                  show-size
+                  prepend-icon=""
+                  prepend-inner-icon="mdi-file-document-outline"
                 />
               </v-col>
             </v-row>
@@ -148,7 +183,7 @@
                 cols="12"
                 lg="4"
               >
-                <div class="label">{{el.text}}</div>
+                <div class="label">{{ el.text }}</div>
                 <v-text-field
                   hide-details
                   height="44"
@@ -227,15 +262,23 @@ export default {
   name: 'SizeChartComponent',
   data() {
     return {
-      new_chart: {},
+      new_chart: {
+        code: '',
+        sizeName: '',
+        gradation: '',
+        deviation: '',
+        shrinkagePercent: '',
+        description: '',
+        file: null
+      },
       currentTemplate: [],
       headers: [
         {text: '№', align: 'start', sortable: false, value: 'id'},
         {text: 'Code', sortable: false, value: 'code'},
         {text: 'Size name', sortable: false, value: 'sizeName'},
-        {text: 'Deviation', sortable: false, value: 'deviation'},
-        {text: 'Shrinkage', sortable: false, value: 'shrinkagePercent'},
         {text: 'Gradation', sortable: false, value: 'gradation'},
+        {text: 'Tolerance', sortable: false, value: 'deviation'},
+        {text: 'Shrinkage', sortable: false, value: 'shrinkagePercent'},
         {text: 'Comment', sortable: false, value: 'description'},
         {text: 'Creator', sortable: false, value: 'createdBy'},
         {text: 'Date', sortable: false, value: 'updatedAt'},
@@ -250,7 +293,8 @@ export default {
       delete_dialog: false,
       selectedChart: {},
       edit_dialog: false,
-      edit_chart: {}
+      edit_chart: {},
+      selected_sizes: []
     }
   },
 
@@ -262,6 +306,11 @@ export default {
     })
   },
   watch: {
+    new_chart: {
+      handler(val) {
+        console.log(val);
+      }
+    },
     headers(val) {
       let data = [...val];
       data.shift();
@@ -309,24 +358,25 @@ export default {
       } else {
         data.modelId = id
       }
+      console.log(data);
       await this.createSizeChart(data);
-      this.new_dialog = false;
-      this.$refs.new_validate.reset();
+      // this.new_dialog = false;
+      // this.$refs.new_validate.reset();
     },
     getTemplate(item) {
       const first = this.headers.slice(0, 3);
       const last = this.headers.slice(-7);
       this.headers = [...first, ...last];
-
       item = item.split(',');
       this.currentTemplate = item;
       item.forEach((el, idx) => {
-        idx = idx + 3
+        idx = idx + 4
         let head = {
           text: el.toUpperCase().trim(),
           sortable: false,
-          value: el.toUpperCase().trim()
+          value: el.toLowerCase().trim()
         }
+        this.selected_sizes.push(head);
         this.headers.splice(idx, 0, head)
       })
     },
@@ -371,6 +421,11 @@ export default {
 </script>
 
 <style lang="scss">
+.present {
+  font-size: 20px;
+  margin-top: 2px;
+}
+
 .v-list-item.primary--text {
   color: #7631FF !important;
 
