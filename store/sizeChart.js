@@ -56,6 +56,7 @@ export const actions = {
     delete newData.gradation;
     delete newData.shrinkagePercent;
     delete newData.modelId;
+    delete newData.file;
     const templateSizesValues = [];
     if (!!Object.keys(newData).length) {
       for (let key in newData) {
@@ -63,17 +64,30 @@ export const actions = {
         const item = {name: key.toUpperCase(), size: value}
         templateSizesValues.push(item);
       }
-      const body = {
-        code: data.code,
-        description: data.description,
-        deviation: data.deviation,
-        gradation: data.gradation,
-        modelId: data.modelId,
-        shrinkagePercent: data.shrinkagePercent,
-        sizeName: data.sizeName,
-        templateSizesValues: templateSizesValues
+
+      const formData = new FormData();
+      formData.append('code', data.code);
+      formData.append('description', data.description);
+      formData.append('deviation', data.deviation);
+      formData.append('gradation', data.gradation);
+      formData.append('modelId', data.modelId);
+      formData.append('shrinkagePercent', data.shrinkagePercent);
+      formData.append('sizeName', data.sizeName);
+      formData.append('file', data.file)
+      for (let i = 0; i < templateSizesValues.length; i++) {
+        const obj = templateSizesValues[i];
+        const keys = Object.keys(obj);
+        for (let j = 0; j < keys.length; j++) {
+          const key = keys[j];
+          formData.append(`templateSizesValues[${i}].${key}`, obj[key]);
+        }
       }
-      await this.$axios.$post('/api/v1/size-charts/create', body)
+      const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+      await this.$axios.$post('/api/v1/size-charts/create', formData, config)
         .then(res => {
           this.$toast.success(res.message)
           dispatch('getChartSizes', data.modelId)

@@ -112,8 +112,9 @@ export const actions = {
       .catch(({response}) => console.log(response))
   },
   async createModel({commit}, data) {
+    console.log(data);
     const model = {
-      composition: data.composition,
+      compositionId: data.compositionId,
       description: data.description,
       gender: data.gender,
       groupId: data.group,
@@ -132,7 +133,7 @@ export const actions = {
   },
   async updateModel({commit}, {data, id}) {
     const model = {
-      composition: data.composition?.id,
+      compositionId: data.compositionId,
       description: data.description,
       gender: data.gender,
       groupId: data.group,

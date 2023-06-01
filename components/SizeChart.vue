@@ -133,6 +133,7 @@
                   show-size
                   prepend-icon=""
                   prepend-inner-icon="mdi-file-document-outline"
+                  v-model="new_chart.file"
                 />
               </v-col>
             </v-row>
@@ -302,7 +303,7 @@ export default {
   watch: {
     new_chart: {
       handler(val) {
-        console.log(val);
+        // console.log(val);
       }, deep: true
     },
     headers(val) {
@@ -353,8 +354,8 @@ export default {
         data.modelId = id
       }
       await this.createSizeChart(data);
-      // this.new_dialog = false;
-      // this.$refs.new_validate.reset();
+      this.new_dialog = false;
+      this.$refs.new_validate.reset();
     },
     getTemplate(item) {
       const first = this.headers.slice(0, 3);
@@ -398,7 +399,6 @@ export default {
       this.headFields.forEach(elem => {
         this.new_chart[elem.value] = ''
       });
-      console.log(this.new_chart);
     }
   },
   async mounted() {

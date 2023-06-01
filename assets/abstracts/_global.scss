@@ -110,7 +110,7 @@ html, body .v-application {
   border: 0;
 }
 .v-text-field .v-input__prepend-inner, .v-text-field .v-input__append-inner {
-  z-index: 10;
+  z-index: 5;
 }
 .base_picker > .el-input__inner {
   color: rgba(0, 0, 0, 0.38);
