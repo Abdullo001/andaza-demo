@@ -17,7 +17,7 @@
             @click="openDialog"
           >
             <v-icon>mdi-plus</v-icon>
-            {{ $t('workingProcess.working.addProcessing') }}
+            {{ $t('workingProcess.working.workingOperation') }}
           </v-btn>
           <v-btn
             v-else
@@ -26,7 +26,7 @@
             width="200" height="40"
           >
             <v-icon>mdi-plus</v-icon>
-            {{ $t('workingProcess.working.addProcessing') }}
+            {{ $t('workingProcess.working.workingOperation') }}
           </v-btn>
         </v-card-title>
       </template>
@@ -56,7 +56,7 @@
         </v-btn>
       </template>
     </v-data-table>
-    <v-dialog v-model="dialog" max-width="1200">
+    <v-dialog v-model="dialog" max-width="572">
       <v-card flat>
         <v-card-title class="d-flex mb-4">
           <div class="title text-capitalize">{{ $t('workingProcess.working.addWorkingOperations') }}</div>
@@ -67,11 +67,11 @@
         </v-card-title>
         <v-card-text>
           <v-form lazy-validation v-model="validate" ref="form">
-            <v-row justify="center">
+            <v-row>
               <v-col
                 v-if="create_working_operation.sizeDistributions.length !== 0"
                 cols="12"
-                lg="4"
+                lg="3"
                 v-for="(item, idx) in partList?.sizeDistributions"
                 :key="idx"
               >
@@ -89,7 +89,9 @@
                   color="#7631FF"
                 />
               </v-col>
-              <v-col cols="12" lg="4">
+            </v-row>
+            <v-row>
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('workingProcess.working.total') }}</div>
                 <v-text-field
                   v-model="create_working_operation.total"
@@ -104,7 +106,7 @@
                   color="#7631FF"
                 />
               </v-col>
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('workingProcess.working.return') }}</div>
                 <v-text-field
                   v-model="create_working_operation.returnedQuantity"
@@ -119,7 +121,7 @@
                   color="#7631FF"
                 />
               </v-col>
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('workingProcess.working.loss') }}</div>
                 <v-text-field
                   v-model="create_working_operation.lostQuantity"
@@ -134,7 +136,7 @@
                   color="#7631FF"
                 />
               </v-col>
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('workingProcess.working.lossReason') }}</div>
                 <v-textarea
                   v-model="create_working_operation.lostReason"
@@ -148,7 +150,7 @@
                   :placeholder="$t('workingProcess.working.selectWorkingProcess')"
                 />
               </v-col>
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('workingProcess.working.weight') }}</div>
                 <div class="d-flex align-center">
                   <v-text-field
@@ -166,7 +168,7 @@
                   <v-select
                     v-model="create_working_operation.weightUnit"
                     :items="weight_enum"
-                    style="width: 30px;"
+                    style="width: 80px;"
                     outlined
                     dense
                     hide-details
@@ -179,7 +181,7 @@
                   />
                 </div>
               </v-col>
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('workingProcess.working.status') }}</div>
                 <v-select
                   v-model="create_working_operation.status"
@@ -196,7 +198,7 @@
                   :placeholder="$t('workingProcess.working.selectFabricColor')"
                 />
               </v-col>
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('workingProcess.working.vat') }}, %</div>
                 <v-text-field
                   v-model="create_working_operation.vatTaxPercent"
@@ -212,7 +214,7 @@
                   color="#7631FF"
                 />
               </v-col>
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('workingProcess.working.vat') }}</div>
                 <v-select
                   v-model="create_working_operation.isVatTaxEnabled"
@@ -229,7 +231,7 @@
                   color="#7631FF"
                 />
               </v-col>
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('workingProcess.working.comment') }}</div>
                 <v-text-field
                   v-model="create_working_operation.description"
@@ -266,7 +268,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="edit_dialog" max-width="1200">
+    <v-dialog v-model="edit_dialog" max-width="572">
       <v-card flat>
         <v-card-title class="d-flex mb-4">
           <div class="title text-capitalize">{{ $t('workingProcess.working.editWorkingOperations') }}</div>
@@ -277,11 +279,11 @@
         </v-card-title>
         <v-card-text>
           <v-form v-model="edit_validate" ref="edit_form" lazy-validation>
-            <v-row justify="center">
+            <v-row>
               <v-col
                 v-if="update_working.sizeDistributions.length !== 0"
                 cols="12"
-                lg="4"
+                lg="3"
                 v-for="(item, idx) in partList?.sizeDistributions"
                 :key="idx"
               >
@@ -298,7 +300,9 @@
                   color="#7631FF"
                 />
               </v-col>
-              <v-col cols="12" lg="4">
+            </v-row>
+            <v-row>
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('workingProcess.working.total') }}</div>
                 <v-text-field
                   v-model="update_working.totalQuantity"
@@ -312,7 +316,7 @@
                   color="#7631FF"
                 />
               </v-col>
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('workingProcess.working.return') }}</div>
                 <v-text-field
                   v-model="update_working.returnQuantity"
@@ -326,7 +330,7 @@
                   color="#7631FF"
                 />
               </v-col>
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('workingProcess.working.loss') }}</div>
                 <v-text-field
                   v-model="update_working.lostQuantity"
@@ -340,7 +344,7 @@
                   color="#7631FF"
                 />
               </v-col>
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('workingProcess.working.lossReason') }}</div>
                 <v-textarea
                   v-model="update_working.lostReason"
@@ -354,7 +358,7 @@
                   :placeholder="$t('workingProcess.working.selectLossReason')"
                 />
               </v-col>
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('workingProcess.working.weight') }}</div>
                 <div class="d-flex align-center">
                   <v-text-field
@@ -371,7 +375,7 @@
                   <v-select
                     v-model="update_working.weightUnit"
                     :items="weight_enum"
-                    style="width: 30px;"
+                    style="width: 80px;"
                     outlined
                     hide-details
                     height="44"
@@ -384,7 +388,7 @@
                   />
                 </div>
               </v-col>
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('workingProcess.working.status') }}</div>
                 <v-select
                   v-model="update_working.status"
@@ -400,7 +404,7 @@
                   :placeholder="$t('workingProcess.working.selectStatus')"
                 />
               </v-col>
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('workingProcess.working.vat') }}, %</div>
                 <v-text-field
                   v-model="update_working.vatTaxPercent"
@@ -414,7 +418,7 @@
                   color="#7631FF"
                 />
               </v-col>
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('workingProcess.working.vat') }}</div>
                 <v-select
                   v-model="update_working.isVatTexEnabled"
@@ -429,7 +433,7 @@
                   color="#7631FF"
                 />
               </v-col>
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('workingProcess.working.comment') }}</div>
                 <v-text-field
                   v-model="update_working.description"
@@ -529,7 +533,13 @@ export default {
         {text: this.$t('workingProcess.workingTable.unitPriceCurrency'), sortable: false, value: 'unitPriceCurrency'},
         {text: this.$t('workingProcess.workingTable.vatTaxPercent'), sortable: false, value: 'vatTaxPercent'},
         {text: this.$t('workingProcess.workingTable.weight'), sortable: false, value: 'weight'},
-        {text: this.$t('workingProcess.workingTable.actions'), sortable: false, value: 'actions', width: 116, align: "center"},
+        {
+          text: this.$t('workingProcess.workingTable.actions'),
+          sortable: false,
+          value: 'actions',
+          width: 116,
+          align: "center"
+        },
       ],
       items: [],
       working_arr: [],
@@ -658,17 +668,12 @@ export default {
     async getWorkingOperationPdf(id) {
       await this.$axios.get(`/api/v1/working-operations/generate-invoice-pdf?detailsId=${id}`)
         .then((res) => {
-          console.log(res)
-          res.data = atob(res.data);
-          console.log(res.data);
-          const baseURL = res.config.baseURL;
           const blob = new Blob([res.data], {type: "application/pdf"});
           const link = document.createElement("a");
-          const url = URL.createObjectURL(blob).replace('/', ' ').replace('/', '').replace('/', ' ').split(' ')[2];
-          link.href = `blob:${baseURL}/${url}`;
+          const url = URL.createObjectURL(blob);
+          link.href = url
           link.download = "document.pdf";
           link.click();
-          console.log(link)
           URL.revokeObjectURL(link.href);
         })
         .catch(({response}) => {
@@ -741,7 +746,12 @@ export default {
     editItem(item) {
       this.edit_dialog = true;
       this.update_working = {...item};
-      this.update_working.isVatTexEnabled = JSON.parse(JSON.stringify(item.isVatTexEnabled)) ? "YES" : "NO";
+      this.update_working.weightUnit = item.weightUnit === undefined ? "kg" : JSON.parse(JSON.stringify(item.weightUnit));
+      if (item.isVatTexEnabled !== undefined) {
+        this.update_working.isVatTexEnabled = JSON.parse(JSON.stringify(item.isVatTexEnabled)) ? "YES" : "NO";
+      } else {
+        this.update_working.isVatTexEnabled = "NO"
+      }
     },
     getDeleteItem(item) {
       this.delete_dialog = true;

@@ -39,7 +39,7 @@ export default {
     productCatalogs: "Product catalogs",
     catalogGroups: "Catalog Groups",
     partners: "Partners",
-    sizeTemplate: "Size Template",
+    sizeTemplate: "Size",
     canvasType: "Canvas Type",
     colors: "Colors",
     accessoryType: "Accessory Type",
@@ -305,7 +305,7 @@ export default {
       reset: "Reset",
       search: "Search",
       permission: "Permission",
-      newPermission: "New Permission",
+      newPermission: "Create Permission",
       enterPermissionName: "Enter permission name",
       description: "Description",
       enterPermissionDescription: "Enter permission description",
@@ -485,7 +485,6 @@ export default {
   planningProduction: {
     planning: {
       planningProduction: "Planning of production",
-      addProcessing: "add processing",
       process: "Process",
       workingProcess: "Working process",
       selectWorkingProcess: "Select working process",
@@ -689,7 +688,7 @@ export default {
     dialog: {
       addModelGroup: "add model group",
       modelGroup: "Model group",
-      enterModelGroup: "Enter Model Group",
+      enterModelGroup: "Model Group",
       description: "Description",
       descriptionPlacholder: "Enter partner type description",
       cancelBtn: "Cancel",

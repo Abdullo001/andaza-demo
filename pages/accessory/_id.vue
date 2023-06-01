@@ -363,24 +363,26 @@
         </v-row>
         <div class="label">Photos of models</div>
         <v-row>
-          <v-col
-            v-for="(image, idx) in modelImages.length === 0 ? 3 : modelImages"
-            :key="idx"
-            cols="12"
-            lg="3"
-            md="3"
-          >
-            <div class="image-box">
-              <v-img
-                :src="modelImages[idx]?.filePath"
-                v-if="!!modelImages[idx]?.filePath"
-                max-height="150"
-                contain
-                class="pointer"
-                @click="showImage(modelImages[idx]?.filePath)"
-              />
-              <v-img src="/default-image.svg" max-width="50" v-else />
-            </div>
+          <v-col cols="12" lg="6" md="6" class="d-flex flex-wrap px-0">
+            <v-col
+              v-for="(image, idx) in modelImages.length === 0 ? 3 : modelImages"
+              :key="idx"
+              cols="12"
+              lg="4"
+              md="4"
+            >
+              <div class="image-box" style="min-height: 132px">
+                <v-img
+                  :src="modelImages[idx]?.filePath"
+                  v-if="!!modelImages[idx]?.filePath"
+                  max-height="150"
+                  contain
+                  class="pointer"
+                  @click="showImage(modelImages[idx]?.filePath)"
+                />
+                <v-img src="/default-image.svg" max-width="50" v-else />
+              </div>
+            </v-col>
           </v-col>
         </v-row>
       </v-card-text>

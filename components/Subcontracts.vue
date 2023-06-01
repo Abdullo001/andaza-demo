@@ -46,7 +46,7 @@
               @click="newSubcontract"
             >
               <v-icon>mdi-plus</v-icon>
-              Row
+              Subcontract
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -66,8 +66,8 @@
 
     <v-dialog v-model="new_dialog" max-width="572">
       <v-card>
-        <v-card-title class="w-full d-flex justify-space-between">
-          <div>New subcontracts</div>
+        <v-card-title class="w-full text-h6 d-flex justify-space-between text-capitalize">
+          <div>Create Subcontracts</div>
           <v-btn @click="new_dialog = !new_dialog" icon>
             <v-icon color="#7631FF">mdi-close</v-icon>
           </v-btn>
@@ -195,7 +195,7 @@
 
     <v-dialog v-model="edit_dialog" max-width="572">
       <v-card>
-        <v-card-title class="w-full d-flex justify-space-between">
+        <v-card-title class="w-full d-flex text-capitalize text-h6 justify-space-between">
           <div>Edit Subcontract</div>
           <v-btn @click="edit_dialog = !edit_dialog" icon>
             <v-icon color="#7631FF">mdi-close</v-icon>

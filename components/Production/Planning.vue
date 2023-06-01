@@ -25,7 +25,7 @@
             @click="openDialog($t('planningProduction.dialog.add'))"
           >
             <v-icon>mdi-plus</v-icon>
-            {{ $t('planningProduction.planning.addProcessing') }}
+            {{ $t('planningProduction.planning.process') }}
           </v-btn>
         </v-card-title>
       </template>
@@ -44,7 +44,7 @@
         </v-btn>
       </template>
     </v-data-table>
-    <v-dialog v-model="dialog" max-width="1000">
+    <v-dialog v-model="dialog" max-width="572">
       <v-card flat>
         <v-card-title class="d-flex mb-4">
           <div class="title text-capitalize">{{ title }} {{ $t('planningProduction.planning.process') }}</div>
@@ -56,7 +56,7 @@
         <v-card-text>
           <v-form v-model="validate" ref="processing">
             <v-row justify="center">
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('planningProduction.planning.workingProcess') }}</div>
                 <v-select
                   :items="processList"
@@ -73,7 +73,7 @@
                   v-model="new_process.processId"
                 />
               </v-col>
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('planningProduction.planning.workshop') }}</div>
                 <v-select
                   :items="workshopList"
@@ -89,7 +89,7 @@
                   v-model="new_process.workshopId"
                 />
               </v-col>
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('planningProduction.planning.contractDate') }}</div>
                 <el-date-picker
                   v-model="new_process.contractDate"
@@ -102,7 +102,7 @@
                 >
                 </el-date-picker>
               </v-col>
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('planningProduction.planning.startedDate') }}</div>
                 <el-date-picker
                   v-model="new_process.startedDate"
@@ -115,7 +115,7 @@
                 >
                 </el-date-picker>
               </v-col>
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('planningProduction.planning.finishedDate') }}</div>
                 <el-date-picker
                   v-model="new_process.finishedDate"
@@ -128,7 +128,7 @@
                 >
                 </el-date-picker>
               </v-col>
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('planningProduction.planning.fabricColor') }}</div>
                 <v-select
                   :items="colorsList"
@@ -144,7 +144,7 @@
                   v-model="new_process.colorId"
                 />
               </v-col>
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('planningProduction.planning.quantity') }}</div>
                 <v-text-field
                   outlined
@@ -156,7 +156,7 @@
                   v-model="new_process.quantity"
                 />
               </v-col>
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('planningProduction.planning.currency') }}</div>
                 <v-select
                   :items="currencyEnums"
@@ -170,7 +170,7 @@
                   v-model="new_process.unitPriceCurrency"
                 />
               </v-col>
-              <v-col cols="12" lg="4">
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('planningProduction.planning.unitPrice') }}</div>
                 <v-text-field
                   outlined

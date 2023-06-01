@@ -37,7 +37,7 @@
                 class="rounded-lg filter"
               />
             </v-col>
-           
+
             <v-col cols="12" lg="2" md="2">
               <el-date-picker
                 v-model="filters.updatedAt"
@@ -175,7 +175,7 @@
             <v-row>
               <v-col cols="12" md="6">
                 <div class="label">Model № <span style="color: red;">*</span></div>
-                
+
                 <v-combobox
                 v-model="sample.modelNumber"
                 :items="modelList"
@@ -264,8 +264,8 @@
               >
               </el-date-picker>
               </v-col>
-             
-              
+
+
               <v-col cols="12" md="6">
                 <div class="label">Result <span style="color: red;">*</span></div>
 
@@ -299,7 +299,7 @@
                   color="#7631FF"
                 />
               </v-col>
-              
+
               <v-col cols="12">
                 <div class="text-body-1 font-weight-medium mb-3">
                   Upload files...
@@ -319,7 +319,7 @@
                       :disabled="image_list.length !== 0"
                       class="font-weight-bold mr-3 text-capitalize"
                     >
-                    Upload files... 
+                    Upload files...
                     </v-btn>
                   </v-card-title>
                   <v-card-text>
@@ -373,12 +373,12 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-   
+
     <v-dialog v-model="edit_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
-            Create Sample
+            Edit Sample
           </div>
           <v-btn icon color="#7631FF" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -389,7 +389,7 @@
             <v-row>
               <v-col cols="12" md="6">
                 <div class="label">Model № <span style="color: red;">*</span></div>
-                
+
                 <v-combobox
                 v-model="selectedSample.modelNumber"
                 :items="modelList"
@@ -478,8 +478,8 @@
               >
               </el-date-picker>
               </v-col>
-             
-              
+
+
               <v-col cols="12" md="6">
                 <div class="label">Result <span style="color: red;">*</span></div>
 
@@ -513,7 +513,7 @@
                   color="#7631FF"
                 />
               </v-col>
-              
+
               <v-col cols="12">
                 <div class="text-body-1 font-weight-medium mb-3">
                   Upload files...
@@ -533,7 +533,7 @@
                       :disabled="image_list.length !== 0"
                       class="font-weight-bold mr-3 text-capitalize"
                     >
-                    Upload files... 
+                    Upload files...
                     </v-btn>
                   </v-card-title>
                   <v-card-text>
@@ -597,7 +597,7 @@
           Delete sapmles row
         </v-card-title>
         <v-card-text>
-          Are you sure you want to Delete samples row? 
+          Are you sure you want to Delete samples row?
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -698,7 +698,7 @@ export default {
   },
 
   watch:{
-    
+
   },
 
   methods:{
@@ -790,10 +790,10 @@ export default {
         formData.append("receivedDate", recievedDate);
         formData.append("result", result);
         formData.append("reason", reason);
-       
+
         await this.createSample(formData);
         this.image_list = [];
-        
+
         this.$refs.new_form.reset();
         this.sample.sentDate = '';
         this.sample.recievedDate = '';
@@ -826,10 +826,10 @@ export default {
         formData.append("receivedDate", receivedDate);
         formData.append("result", result);
         formData.append("reason", reason);
-       
+
         await this.updateSample(formData);
         this.edit_image_list = [];
-        
+
         this.$refs.new_form.reset();
         this.selectedSample.sentDate = '';
         this.selectedSample.receivedDate = '';
@@ -838,7 +838,7 @@ export default {
 
     },
 
-    
+
     clickImportFileEdit() {
       this.$refs.uploader_edit.click();
     },
@@ -853,5 +853,5 @@ export default {
 }
 </script>
 <style lang="">
-  
+
 </style>

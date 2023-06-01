@@ -266,7 +266,32 @@
         <v-img :src="currentImage" height="500" contain/>
       </v-card>
     </v-dialog>
-    <ProductionPlanningComponent class="mt-4"/>
+    <v-card elevation="0" class="mt-3 rounded-lg">
+      <v-card-text>
+        <v-tabs
+          v-model="tab"
+          background-color="transparent"
+          color="#7631FF"
+        >
+          <v-tab
+            v-for="item in items"
+            :key="item"
+            class="text-none"
+          >
+            {{ item }}
+          </v-tab>
+        </v-tabs>
+        <v-divider/>
+        <v-tabs-items v-model="tab">
+          <v-tab-item>
+            <ProductionPlanningComponent/>
+          </v-tab-item>
+          <v-tab-item>
+            <Subcontracts/>
+          </v-tab-item>
+        </v-tabs-items>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 
@@ -274,12 +299,23 @@
 import {mapActions, mapGetters} from "vuex";
 import ProductionPlanningComponent from "../../components/Production/Planning.vue";
 import Breadcrumbs from "../../components/Breadcrumbs.vue";
+import FabricPlannedOrder from "../../components/Fabric/PlannedOrder.vue";
+import FabricSupplyFabric from "../../components/Fabric/Ordered.vue";
+import FabricOrdered from "../../components/Fabric/Ordered.vue";
+import Documents from "../../components/Documents.vue";
+import FabricPlanningChart from "../../components/Fabric/PlanningChart.vue";
+import Subcontracts from "../../components/Subcontracts.vue";
 
 export default {
   name: 'ProductionOfPlanningPage',
-  components: {Breadcrumbs, ProductionPlanningComponent},
+  components: {
+    Subcontracts,
+    Breadcrumbs,
+    ProductionPlanningComponent},
   data() {
     return {
+      tab: null,
+      items: ["Planning of production", "Subcontracts"],
       title: "Add",
       currentImage: '',
       image_dialog: false,

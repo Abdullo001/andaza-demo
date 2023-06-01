@@ -7,6 +7,12 @@
       class="elevation-0"
       hide-default-footer
     >
+      <template #top class="px-0">
+        <div class="text-h6">
+          Calculations
+        </div>
+        <v-divider class="my-4"></v-divider>
+      </template>
       <template #item.first="{item}">
         <v-text-field
           solo flat
@@ -170,5 +176,8 @@ export default {
 <style lang="scss">
 td.text-center {
   padding: 0 !important;
+}
+thead tr {
+  background-color: rgb(248, 244, 254)
 }
 </style>
