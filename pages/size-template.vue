@@ -93,7 +93,7 @@
       <template #top>
         <v-toolbar elevation="0" class="rounded-lg">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium text-capitalize">Size Template</div>
+            <div class="font-weight-medium text-capitalize">Size</div>
             <v-btn
               color="#7631FF"
               class="rounded-lg text-capitalize"
@@ -101,7 +101,7 @@
               @click="new_dialog = true"
             >
               <v-icon>mdi-plus</v-icon>
-              Add Size Template
+              Add Size
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -121,7 +121,7 @@
     <v-dialog v-model="new_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Add size Template</div>
+          <div class="text-capitalize font-weight-bold">Create Size</div>
           <v-btn icon color="#7631FF" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -213,7 +213,7 @@
     <v-dialog v-model="edit_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Edit Size Template</div>
+          <div class="text-capitalize font-weight-bold">Edit Size</div>
           <v-btn icon color="#7631FF" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>

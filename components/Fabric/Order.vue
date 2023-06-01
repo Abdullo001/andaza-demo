@@ -7,7 +7,12 @@
       class="elevation-0"
       hide-default-footer
     >
-
+      <template #top class="px-0">
+        <div class="text-h6">
+          Order
+        </div>
+        <v-divider class="my-4"></v-divider>
+      </template>
     </v-data-table>
   </div>
 </template>

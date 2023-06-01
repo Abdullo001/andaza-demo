@@ -235,10 +235,8 @@ export default {
     async filterOrder() {
       await this.filterOrderList({page: 0, size: 10, data: this.filters});
     },
-
     async changeStatus(item) {
       await this.changeStatusOrder({id: item.id, status: item.status});
-
     },
     addOrder() {
       this.$router.push(`/orders/add-order`);

@@ -105,7 +105,7 @@
               @click="new_dialog = true"
             >
               <v-icon>mdi-plus</v-icon>
-              {{ $t("cooperationType.dialog.addMainName") }}
+              {{ $t("cooperationType.dialog.menuName") }}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -129,7 +129,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
-            {{ $t("cooperationType.dialog.enterMainName") }}
+            {{ $t("cooperationType.dialog.addMainName") }}
           </div>
           <v-btn icon color="#7631FF" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>

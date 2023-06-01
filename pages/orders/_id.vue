@@ -336,20 +336,6 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <Subcontracts/>
-              </v-card-text>
-            </v-card>
-          </v-tab-item>
-          <v-tab-item>
-            <v-card flat>
-              <v-card-text>
-                <ShippingInfo/>
-              </v-card-text>
-            </v-card>
-          </v-tab-item>
-          <v-tab-item>
-            <v-card flat>
-              <v-card-text>
                 <OrderDocuments/>
               </v-card-text>
             </v-card>
@@ -365,16 +351,12 @@ import Breadcrumbs from "../../components/Breadcrumbs.vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import ColorSizeDistirbution from "../../components/ColorSizeDistirbution.vue";
 import DetailInfo from "../../components/DetailInfo.vue";
-import Subcontracts from "../../components/Subcontracts.vue";
-import ShippingInfo from "../../components/ShippingInfo.vue";
 import OrderDocuments from "../../components/OrderDocuments.vue";
 
 export default {
   name: 'OrdersChildPage',
   components: {
     OrderDocuments,
-    ShippingInfo,
-    Subcontracts,
     DetailInfo,
     ColorSizeDistirbution,
     Breadcrumbs,
@@ -394,8 +376,6 @@ export default {
       items: [
         "Color/Size distirbution",
         "Detail info",
-        "Subcontracts",
-        "Shipping info",
         "Documents",
       ],
       map_links: [

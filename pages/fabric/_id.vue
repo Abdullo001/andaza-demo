@@ -4,12 +4,14 @@
     <v-card elevation="0" class="mt-2 rounded-lg">
       <v-card-title>
         <div>
-          Fabric <v-chip
-          color="#10BF41"
-          class="text-capitalize ml-5 font-weight-bold"
-          dark>
-          {{ title }}
-        </v-chip></div>
+          Fabric
+          <v-chip
+            color="#10BF41"
+            class="text-capitalize ml-5 font-weight-bold"
+            dark>
+            {{ title }}
+          </v-chip>
+        </div>
         <v-spacer/>
       </v-card-title>
       <v-divider/>
@@ -155,57 +157,126 @@
                 </template>
               </v-text-field>
             </v-col>
-            <v-row class="px-3">
-              <v-col cols="12" lg="3" md="3">
-                <div class="label">Deadline for fabric</div>
-                <el-date-picker
-                  v-model="addFabric.deadlineForFabric"
-                  type="datetime"
-                  style="width: 100%; height: 44px !important;"
-                  placeholder="Deadline for fabric"
-                  :picker-options="pickerShortcuts"
-                  value-format="dd.MM.yyyy HH:mm:ss"
-                  class="base_picker"
-                >
-                </el-date-picker>
-              </v-col>
-              <v-col cols="12" lg="3" md="3">
-                <div class="label">Creator of planning</div>
-                <v-text-field
-                  v-model="addFabric.creatorOfPlanning"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  color="#7631FF"
-                  dense
-                  placeholder="Enter deadline for fabric"
-                  disabled
-                />
-              </v-col>
-              <v-col cols="12" lg="3" md="3">
-                <div class="label">Created time</div>
-                <v-text-field
-                  v-model="addFabric.createdAt"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  color="#7631FF"
-                  dense
-                  placeholder="Enter created time"
-                  disabled
-                >
-                  <template #append>
-                    <v-img src="/date-icon.svg"/>
-                  </template>
-                </v-text-field>
-              </v-col>
-            </v-row>
-            <v-row class="ma-0">
+          </v-row>
+          <v-row class="px-3">
+            <v-col cols="12" lg="3" md="3">
+              <div class="label">Deadline for fabric</div>
+              <el-date-picker
+                v-model="addFabric.deadlineForFabric"
+                type="datetime"
+                style="width: 100%; height: 44px !important;"
+                placeholder="Deadline for fabric"
+                :picker-options="pickerShortcuts"
+                value-format="dd.MM.yyyy HH:mm:ss"
+                class="base_picker"
+              >
+              </el-date-picker>
+            </v-col>
+            <v-col cols="12" lg="3" md="3">
+              <div class="label">Creator of planning</div>
+              <v-text-field
+                v-model="addFabric.creatorOfPlanning"
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
+                color="#7631FF"
+                dense
+                placeholder="Enter deadline for fabric"
+                disabled
+              />
+            </v-col>
+            <v-col cols="12" lg="3" md="3">
+              <div class="label">Created time</div>
+              <v-text-field
+                v-model="addFabric.createdAt"
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
+                color="#7631FF"
+                dense
+                placeholder="Enter created time"
+                disabled
+              >
+                <template #append>
+                  <v-img src="/date-icon.svg"/>
+                </template>
+              </v-text-field>
+            </v-col>
+            <v-col cols="12" lg="3" md="4">
+              <div class="label">Creator of Model</div>
+              <v-text-field
+                v-model="addFabric.creatorOfModel"
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
+                color="#7631FF"
+                dense
+                placeholder="Enter create of model"
+                disabled
+              />
+            </v-col>
+          </v-row>
+          <v-row class="px-3">
+            <v-col cols="12" lg="3" md="3">
+              <div class="label">Created time</div>
+              <v-text-field
+                v-model="addFabric.createdTimeOfModel"
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
+                color="#7631FF"
+                dense
+                placeholder="dd.MM.yyyy HH:mm:ss"
+                disabled
+              >
+                <template #append>
+                  <v-img src="/date-icon.svg"/>
+                </template>
+              </v-text-field>
+            </v-col>
+            <v-col cols="12" lg="3" md="3">
+              <div class="label">Creator of order</div>
+              <v-text-field
+                v-model="addFabric.creatorOfOrder"
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
+                color="#7631FF"
+                dense
+                placeholder="Enter Modified person"
+                disabled
+              />
+            </v-col>
+            <v-col cols="12" lg="3" md="3">
+              <div class="label">Created time</div>
+              <v-text-field
+                v-model="addFabric.createdTimeOfOrder"
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
+                color="#7631FF"
+                dense
+                placeholder="dd.MM.yyyy HH:mm:ss"
+                disabled
+              >
+                <template #append>
+                  <v-img src="/date-icon.svg"/>
+                </template>
+              </v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <div class="label px-3">Photos of models</div>
               <v-col cols="12" lg="6" md="6" class="d-flex flex-wrap px-0">
                 <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4">
-                  <div class="image-box">
+                  <div class="image-box" style="min-height: 132px">
                     <v-img
                       :src="modelImages[idx]?.filePath"
                       v-if="!!modelImages[idx]?.filePath"
@@ -217,72 +288,7 @@
                   </div>
                 </v-col>
               </v-col>
-              <v-col cols="12" lg="6" md="6" class="d-flex flex-wrap mt-4">
-                <v-col cols="12" lg="6" class="pl-0 pt-0">
-                  <div class="label">Creator of Model</div>
-                  <v-text-field
-                    v-model="addFabric.creatorOfModel"
-                    outlined
-                    hide-details
-                    height="44"
-                    class="rounded-lg base"
-                    color="#7631FF"
-                    dense
-                    disabled
-                  />
-                </v-col>
-                <v-col cols="12" lg="6" class="pt-0 pr-0">
-                  <div class="label">Created time</div>
-                  <v-text-field
-                    v-model="addFabric.createdTimeOfModel"
-                    outlined
-                    hide-details
-                    height="44"
-                    class="rounded-lg base"
-                    color="#7631FF"
-                    dense
-                    placeholder="dd.MM.yyyy HH:mm:ss"
-                    disabled
-                  >
-                    <template #append>
-                      <v-img src="/date-icon.svg"/>
-                    </template>
-                  </v-text-field>
-                </v-col>
-                <v-col cols="12" lg="6" class="pl-0 pt-0">
-                  <div class="label">Creator of order</div>
-                  <v-text-field
-                    v-model="addFabric.creatorOfOrder"
-                    outlined
-                    hide-details
-                    height="44"
-                    class="rounded-lg base"
-                    color="#7631FF"
-                    dense
-                    placeholder="Enter Modified person"
-                    disabled
-                  />
-                </v-col>
-                <v-col cols="12" lg="6" class="pt-0 pr-0">
-                  <div class="label">Created time</div>
-                  <v-text-field
-                    v-model="addFabric.createdTimeOfOrder"
-                    outlined
-                    hide-details
-                    height="44"
-                    class="rounded-lg base"
-                    color="#7631FF"
-                    dense
-                    placeholder="dd.MM.yyyy HH:mm:ss"
-                    disabled
-                  >
-                    <template #append>
-                      <v-img src="/date-icon.svg"/>
-                    </template>
-                  </v-text-field>
-                </v-col>
-              </v-col>
-            </v-row>
+            </v-col>
           </v-row>
         </v-form>
       </v-card-text>
@@ -472,24 +478,24 @@ export default {
       this.$store.commit('fabric/setModelId', val.modelId);
       this.getImages(val.modelId);
       const data = this.addFabric;
-        data.orderNumber = val.orderNumber;
-        data.modelNumber = val.modelNumber;
-        data.modelName = val.modelName;
-        data.headOfProduction = val.headOfProduction;
-        data.clientName = val.clientName;
-        data.orderPriority = val.orderPriority;
-        data.deadlineOfOrder = val.deadlineOfOrder;
-        data.actualShippingDate = val.actualShippingDate;
-        data.permission = 'Edit';
-        data.deadlineForFabric = val.deadlineOfFabricPlanning;
-        data.creatorOfPlanning = val.creatorOfPlanning;
-        data.createdTime = val.createdTime;
-        data.photosOfModels = val.photosOfModels;
-        data.createdAt = val.createdAt;
-        data.creatorOfModel = val.creatorOfModel;
-        data.createdTimeOfModel = val.createdTimeOfModel;
-        data.creatorOfOrder = val.creatorOfOrder;
-        data.createdTimeOfOrder = val.createdTimeOfOrder;
+      data.orderNumber = val.orderNumber;
+      data.modelNumber = val.modelNumber;
+      data.modelName = val.modelName;
+      data.headOfProduction = val.headOfProduction;
+      data.clientName = val.clientName;
+      data.orderPriority = val.orderPriority;
+      data.deadlineOfOrder = val.deadlineOfOrder;
+      data.actualShippingDate = val.actualShippingDate;
+      data.permission = 'Edit';
+      data.deadlineForFabric = val.deadlineOfFabricPlanning;
+      data.creatorOfPlanning = val.creatorOfPlanning;
+      data.createdTime = val.createdTime;
+      data.photosOfModels = val.photosOfModels;
+      data.createdAt = val.createdAt;
+      data.creatorOfModel = val.creatorOfModel;
+      data.createdTimeOfModel = val.createdTimeOfModel;
+      data.creatorOfOrder = val.creatorOfOrder;
+      data.createdTimeOfOrder = val.createdTimeOfOrder;
     }
   },
   computed: {
@@ -513,7 +519,7 @@ export default {
     }),
     async createPlanning() {
       const valid = this.$refs.new_validate.validate();
-      if(valid) {
+      if (valid) {
         const body = {
           deadline: this.addFabric.deadlineForFabric,
           modelId: this.addFabric.modelId,
@@ -555,14 +561,17 @@ export default {
   min-width: 100%;
   min-height: 90%;
 }
+
 .custom-picker {
   width: 100% !important;
   background: #F8F4FE;
   border-radius: 10px 10px 0 0 !important;
+
   &::placeholder {
     color: #cccccc;
   }
-  >input.el-input__inner {
+
+  > input.el-input__inner {
     border-radius: 10px 10px 0 0 !important;
 
     background: #F8F4FE !important;
@@ -570,6 +579,7 @@ export default {
     border-bottom: 1px solid #777777 !important;
     width: 100% !important;
     height: 52px !important;
+
     &::placeholder {
       color: #9A979D !important;
     }
