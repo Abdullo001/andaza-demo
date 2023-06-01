@@ -35,18 +35,7 @@ export const actions = {
   getSamplesList({ commit },{size,page}) {
     const body = {
       filters: [
-        // {
-        //   key: "name",
-        //   operator: "LIKE",
-        //   propertyType: "STRING",
-        //   value: name,
-        // },
-        // {
-        //   key: "code",
-        //   operator: "LIKE",
-        //   propertyType: "STRING",
-        //   value: code,
-        // },
+        
       ],
       sorts: [],
       page: page,
@@ -118,6 +107,60 @@ export const actions = {
       dispatch("getSamplesList",{size:10,page:0})
       this.$toast.success(res.data.message);
 
+    })
+    .catch((res)=>{
+      console.log(res);
+    })
+  },
+
+  async changeResult({dispatch},{id,result}){
+    await this.$axios.put(`/api/v1/samples/change-status?id=${id}&result=${result}`)
+    .then((res)=>{
+      this.$toast.success(res.data.message);
+    })
+    .catch((res)=>{
+      console.log(res);
+      this.$toast.error(res.data.message);
+    })
+  },
+
+  filterSamples({commit},data){
+    const body = {
+      filters: [
+        {
+          key: "id",
+          operator: "EQUAL",
+          propertyType: "LONG",
+          value: data.id,
+        },
+        {
+          key: "purpose",
+          operator: "LIKE",
+          propertyType: "STRING",
+          value: data.purpose,
+        },
+        {
+          key: "partner",
+          operator: "LIKE",
+          propertyType: "STRING",
+          value: data.partner,
+        },
+
+       
+      ],
+      sorts: [],
+      page: 0,
+      size: 10,
+    };
+    body.filters = body.filters.filter(
+      (el) => el.value !== "" && el.value !== null
+    );
+    this.$axios.put('/api/v1/samples/list',body)
+    .then((res)=>{
+      commit("setSamplesList",res.data.data.content)
+      commit("setTotalElement",res.data.data.totalElements)
+
+      
     })
     .catch((res)=>{
       console.log(res);
