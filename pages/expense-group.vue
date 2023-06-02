@@ -110,6 +110,13 @@
         </v-toolbar>
         <v-divider />
       </template>
+      <template #item.expensesNames="{ item }">
+        <div>
+         <span v-for="(expense,idx) in item.expensesNames" :key="idx">
+          {{ expense }},
+         </span>
+        </div>
+      </template>
       <template #item.actions="{ item }">
         <div>
           <v-btn icon color="green" @click.stop="editItem(item)">
@@ -147,6 +154,51 @@
                   color="#7631FF"
                 />
               </v-col>
+              <v-col cols="8" >
+                <div class="label">Add expense</div>
+                <v-text-field
+                  v-model="add_expenses.expense"
+                  color="#7631FF"
+                  placeholder="Enter expense"
+                  outlined
+                  hide-details
+                  height="44"
+                  dense
+                  class="base rounded-lg mr-3"
+                />
+              </v-col>
+              <v-col cols="4"  class="d-flex align-end">
+                <v-btn
+                  @click="addExpense"
+                  color="#7631FF"
+                  class="rounded-lg text-capitalize"
+                  dark
+                >
+                  <v-icon>mdi-plus</v-icon>
+                  Add Size
+                </v-btn>
+              </v-col>
+
+              <v-col cols="12">
+                <div class="label">Expense</div>
+                <v-autocomplete
+                  :rules="[formRules.required]"
+                  chips
+                  multiple
+                  v-model="create_expense.expensesNames"
+                  :items="enum_expense"
+                  deletable-chips
+                  append-icon="mdi-chevron-down"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  dense
+                  placeholder="Expenses"
+                  color="#7631FF"
+                />
+              </v-col>
+              
               <v-col cols="12">
                 <div class="label">{{$t('expenseGroup.dialog.description')}}</div>
                 <v-textarea
@@ -197,7 +249,7 @@
         <v-card-text class="mt-4">
           <v-form ref="new_form">
             <v-row>
-              <v-col>
+              <v-col cols="12">
                 <div class="label">{{$t('expenseGroup.dialog.enterMainName')}}</div>
                 <v-text-field
                   v-model="edit_expense.name"
@@ -209,6 +261,51 @@
                   color="#7631FF"
                 />
               </v-col>
+              <v-col cols="8" >
+                <div class="label">Add expense</div>
+                <v-text-field
+                  v-model="edit_expenses.expense"
+                  color="#7631FF"
+                  placeholder="Enter expense"
+                  outlined
+                  hide-details
+                  height="44"
+                  dense
+                  class="base rounded-lg mr-3"
+                />
+              </v-col>
+              <v-col cols="4"  class="d-flex align-end">
+                <v-btn
+                  @click="editAddExpense"
+                  color="#7631FF"
+                  class="rounded-lg text-capitalize"
+                  dark
+                >
+                  <v-icon>mdi-plus</v-icon>
+                  Add Expense
+                </v-btn>
+              </v-col>
+
+              <v-col cols="12">
+                <div class="label">Expense</div>
+                <v-autocomplete
+                  :rules="[formRules.required]"
+                  chips
+                  multiple
+                  v-model="edit_expense.expensesNames"
+                  :items="edit_enums_expense"
+                  deletable-chips
+                  append-icon="mdi-chevron-down"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  dense
+                  placeholder="Expenses"
+                  color="#7631FF"
+                />
+              </v-col>
+              
               <v-col cols="12">
                 <div class="label">{{$t('expenseGroup.dialog.description')}}</div>
                 <v-textarea
@@ -306,6 +403,7 @@ export default {
           width: "100",
         },
         { text: this.$t("samplePurposes.table.name"), value: "name" },
+        { text: "Expenses", value: "expensesNames" },
         {
           text: this.$t("samplePurposes.table.description"),
           value: "description",
@@ -327,10 +425,12 @@ export default {
       ],
       create_expense: {
         name: "",
+        expensesNames:[],
         description: "",
       },
       edit_expense: {
         name: "",
+        expenses:[],
         description: "",
       },
       delete_expense: {},
@@ -340,6 +440,17 @@ export default {
         updatedAt: "",
         createdAt: "",
       },
+
+      add_expenses: {
+        expense: "",
+      },
+
+      edit_expenses:{
+        expense:"",
+      },
+      
+      edit_enums_expense:[],
+      enum_expense:[],
     };
   },
   watch: {
@@ -358,6 +469,15 @@ export default {
         }
       }
     },
+
+    "create_expense.expensesNames"(value) {
+      this.enum_expense = value;
+    },
+    "edit_expense.expensesNames"(value) {
+      this.edit_enums_expense = value;
+    },
+
+    
   },
   async created() {
     await this.$store.dispatch("expenseGroup/getExpenseGroup", {
@@ -381,6 +501,22 @@ export default {
       filterExpenseGroup: "expenseGroup/filterExpenseGroup",
       sortExpenseGroup: "expenseGroup/sortExpenseGroup",
     }),
+    addExpense() {
+      if (this.add_expenses.expense !== "") {
+        const item = { ...this.add_expenses };
+        this.create_expense.expensesNames.push(item.expense);
+        this.add_expenses.expense = "";
+      }
+    },
+
+    editAddExpense() {
+      if (this.edit_expenses.expense !== "") {
+        const item = { ...this.edit_expenses };
+        this.edit_expense.expensesNames.push(item.expense);
+        this.edit_expenses.expense = "";
+      }
+    },
+
     async size(val) {
       this.itemPrePage = val;
       await this.$store.dispatch("expenseGroup/getExpenseGroup", {
@@ -405,6 +541,7 @@ export default {
       await this.createExpenseGroup(items);
       this.create_expense = {
         name: "",
+        expanses:[],
         description: "",
       };
       this.new_dialog = false;
