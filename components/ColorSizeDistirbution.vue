@@ -9,22 +9,35 @@
     >
       <template #top>
         <v-toolbar elevation="0">
-          <v-toolbar-title class="w-full d-flex">
-            <v-btn
+          <v-toolbar-title class=" d-flex w-full align-center justify-space-between">
+            <div>
+              <v-btn
               class="rounded-lg text-capitalize mr-2 colorSizeBtn"
               outlined
-            >
-              Supply
-            </v-btn>
-            <v-btn
+              >
+                Supply
+              </v-btn>
+              <v-btn
               class="rounded-lg text-capitalize colorSizeBtn"
               style="color: rgb(119, 124, 133); caret-color: rgb(119, 124, 133)"
               outlined
-            >
+              >
               Cutting info
-            </v-btn>
+              </v-btn>
+            </div>
+            <v-btn
+              color="#7631FF"
+              dark
+              class="text-capitalize rounded-lg"
+              @click="new_dialog=true"
+            >
+              <v-icon>mdi-plus</v-icon>
+              Add row
+          </v-btn>
           </v-toolbar-title>
         </v-toolbar>
+
+
       </template>
 
       <template #item.actions="{ item }">
@@ -174,11 +187,14 @@ export default {
   name: "ColorSizeDistirbution",
   data() {
     return {
+      new_dialog:false,
       edit_dialog: false,
       delete_dialog: false,
       new_validate: true,
       templeHeaders: [
         {text: "Total", sortable: false, value: "total"},
+        {text: "Over-production %", sortable: false, value: "totalWithOverproductionPercent"},
+        {text: "Total with overproduction", sortable: false, value: "overproductionPercent"},
         {text: "Actions", sortable: false, align: "center", value: "actions"},
       ],
       headerSizes: [],
@@ -207,6 +223,8 @@ export default {
       totalItem: "sizeDistirbution/total",
       newModelIdServer: "orders/newModelId",
       newOrderIdServer: "orders/newOrderId",
+      overproductionPercent:"sizeDistirbution/overproductionPercent",
+      totalWithOverproductionPercent:"sizeDistirbution/totalWithOverproductionPercent",
     }),
   },
 
@@ -293,6 +311,13 @@ export default {
 
     totalItem(val) {
       this.item.total = val.total;
+    },
+
+    totalWithOverproductionPercent(val){
+      this.item.totalWithOverproductionPercent=val.totalWithOverproductionPercent
+    },
+    overproductionPercent(val){
+      this.item.overproductionPercent=val.overproductionPercent
     },
   },
   methods: {
