@@ -144,7 +144,6 @@ export default {
         {text: this.$t('listsModels.table.composition'), value: 'composition'},
         {text: this.$t('listsModels.table.modelGroup'), value: 'modelGroup'},
         {text: this.$t('listsModels.table.license'), value: 'licenceRequired'},
-        {text: this.$t('listsModels.table.deadline'), value: 'deadline'},
         {text: this.$t('listsModels.table.status'), value: 'status', width: 200},
         {text: this.$t('listsModels.table.actions'), value: 'actions'},
       ],
