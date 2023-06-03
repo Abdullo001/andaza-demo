@@ -112,7 +112,6 @@ export const actions = {
       .catch(({response}) => console.log(response))
   },
   async createModel({commit}, data) {
-    console.log(data);
     const model = {
       compositionId: data.compositionId,
       description: data.description,
@@ -128,6 +127,7 @@ export const actions = {
     this.$axios.$post('/api/v1/models/create', model)
       .then(res => {
         commit('setNewModelId', res.data.id);
+        commit('setOneModel', res.data);
         this.$toast.success(res.message, {theme: 'toasted-primary'});
       }).catch(({response}) => console.log(response))
   },
