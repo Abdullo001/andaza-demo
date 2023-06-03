@@ -3,6 +3,7 @@
     <v-data-table
       :headers="headers"
       :items="subcontractsList"
+      :loading="loading"
       :items-per-page="50"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100],
@@ -17,13 +18,14 @@
             <div class="search-field">
               <v-combobox
                 v-model="modelNumber"
-                :items="modelData"
+                :items="model_data"
                 :search-input.sync="modelSearch"
                 item-text="modelNumber"
                 item-value="modelNumber"
-                @keyup.enter="(evt) => searchSubcontracts(evt)"
                 outlined
+                :disabled="btn_disabled"
                 height="44"
+                @keydown.enter="event => searchSubcontracts(event)"
                 hide-details
                 class="rounded-lg d-flex align-center justify-center base"
                 :return-object="true"
@@ -36,13 +38,14 @@
                 </template>
               </v-combobox>
             </div>
-            <v-spacer />
+            <v-spacer/>
             <v-btn
               class="rounded-lg text-capitalize"
               color="#7631FF"
               width="160"
               height="36"
               dark
+              :disabled="btn_disabled"
               @click="newSubcontract"
             >
               <v-icon>mdi-plus</v-icon>
@@ -55,10 +58,10 @@
       <template #item.actions="{ item }">
         <div>
           <v-btn icon class="mr-2" @click="editParts(item)">
-            <v-img src="/edit-green.svg" max-width="20" />
+            <v-img src="/edit-green.svg" max-width="20"/>
           </v-btn>
           <v-btn icon @click="deleteSubcontractOne(item)">
-            <v-img src="/trash-red.svg" max-width="20" />
+            <v-img src="/trash-red.svg" max-width="20"/>
           </v-btn>
         </div>
       </template>
@@ -177,7 +180,7 @@
                 color="#7631FF"
                 width="163"
                 @click="new_dialog = !new_dialog"
-                >cancel
+              >cancel
               </v-btn>
               <v-btn
                 class="text-capitalize rounded-lg font-weight-bold"
@@ -185,7 +188,7 @@
                 dark
                 width="163"
                 @click="setNewSubcontracts"
-                >save
+              >save
               </v-btn>
             </v-card-actions>
           </v-form>
@@ -306,7 +309,7 @@
                 color="#7631FF"
                 width="163"
                 @click="edit_dialog = !edit_dialog"
-                >cancel
+              >cancel
               </v-btn>
               <v-btn
                 class="text-capitalize rounded-lg font-weight-bold"
@@ -314,7 +317,7 @@
                 dark
                 width="163"
                 @click="updateSubcontractsView"
-                >{{ $t('update') }}
+              >{{ $t('update') }}
               </v-btn>
             </v-card-actions>
           </v-form>
@@ -325,10 +328,11 @@
     <v-dialog v-model="delete_dialog" max-width="500">
       <v-card class="pa-4 text-center">
         <div class="d-flex justify-center mb-2">
-          <v-img src="/error-icon.svg" max-width="40" />
+          <v-img src="/error-icon.svg" max-width="40"/>
         </div>
         <v-card-title class="d-flex justify-center"
-          >Delete subcontract row</v-card-title
+        >Delete subcontract row
+        </v-card-title
         >
         <v-card-text>
           Are you sure you want to Delete subcontract row?
@@ -343,7 +347,7 @@
           >
             cancel
           </v-btn>
-          <v-spacer />
+          <v-spacer/>
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             color="#FF4E4F"
@@ -360,12 +364,13 @@
   </div>
 </template>
 <script>
-import { mapActions, mapGetters } from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "Subcontracts",
   data() {
     return {
+      btn_disabled: true,
       edit_dialog: false,
       new_dialog: false,
       delete_dialog: false,
@@ -385,7 +390,7 @@ export default {
           value: "partnerName",
           width: "210",
         },
-        { text: "Quantity", sortable: false, value: "quantity" },
+        {text: "Quantity", sortable: false, value: "quantity"},
         {
           text: "Meansurement Unit",
           sortable: false,
@@ -398,15 +403,12 @@ export default {
           value: "description",
           width: "220",
         },
-        { text: "Date", sortable: false, value: "dispatchedDate" },
-        { text: "Action", sortable: false, align: "center", value: "actions" },
+        {text: "Date", sortable: false, value: "dispatchedDate"},
+        {text: "Action", sortable: false, align: "center", value: "actions"},
       ],
-
       subcontractsList: [],
-
       subcontractsDetail: {},
       selectedSubcontract: {},
-
       newSubcontractDetail: {
         cooperationTypeId: null,
         partnerId: null,
@@ -415,16 +417,16 @@ export default {
         comment: "",
         dispatchedDate: "",
       },
+      planning_model_id: "",
+      model_data: []
     };
   },
-
-  created() {
-    this.getCooperationTypes();
-    this.getPartnerList();
-    this.getMeasurementUnit();
-    this.getModelList();
+  async created() {
+    await this.getCooperationTypes();
+    await this.getPartnerList();
+    await this.getMeasurementUnit();
+    await this.getModelList();
   },
-
   computed: {
     ...mapGetters({
       cooperation_type: "subcontracts/cooperation_type",
@@ -432,27 +434,33 @@ export default {
       measurementUnitList: "subcontracts/measurementUnitList",
       setSubcontractsList: "subcontracts/subcontractsList",
       modelData: "subcontracts/modelList",
+      modelInfo: "production/planning/modelInfo",
+      loading: "subcontracts/loading",
     }),
   },
-
   watch: {
     overlay(val) {
       val &&
-        setTimeout(() => {
-          this.overlay = false;
-        }, 2000);
+      setTimeout(() => {
+        this.overlay = false;
+      }, 2000);
     },
-
     edit_dialog(val) {
       if (!val) this.$refs.edit_form.reset();
     },
-
     new_dialog(val) {
       if (!val) this.$refs.new_form.reset();
     },
-
     setSubcontractsList(subcontracts) {
       this.subcontractsList = JSON.parse(JSON.stringify(subcontracts));
+    },
+    modelInfo(val) {
+      this.planning_model_id = val.modelId
+      this.btn_disabled = false;
+    },
+    modelData(val) {
+      const item = JSON.parse(JSON.stringify(val));
+      this.model_data = item;
     },
   },
 
@@ -466,28 +474,24 @@ export default {
       getModelList: "subcontracts/getModelList",
       updateSubcontracts: "subcontracts/updateSubcontracts",
       deleteSubcontractServer: "subcontracts/deleteSubcontractServer",
+      getModelInfo: 'production/planning/getModelInfo',
     }),
-
     editParts(item) {
       this.edit_dialog = !this.edit_dialog;
-      this.subcontractsDetail = { ...item };
+      this.subcontractsDetail = {...item};
     },
-
     getTime() {
       const today = new Date();
       let day = "";
       let month = "";
       let date = "";
-
       today.getDate().toString().length == 1
         ? (day = `0${today.getDate()}`)
         : (day = `${today.getDate()}`);
       today.getMonth().toString().length == 1
         ? (month = `0${today.getMonth()}`)
         : (month = `${today.getMonth()}`);
-
       date = day + "." + month + "." + today.getFullYear();
-
       let time = "";
       let hour = "";
       let minut = "";
@@ -504,61 +508,42 @@ export default {
       time = hour + ":" + minut + ":" + second;
       return date + " " + time;
     },
-
-    updateSubcontractsView() {
-      const modelId =
-        this.$route.params.id !== "add-order"
-          ? this.$route.query.modelId
-          : this.$store.getters["orders/newModelId"];
-      this.edit_dialog = !this.edit_dialog;
-      this.updateSubcontracts({ ...this.subcontractsDetail,modelId });
+    async changeCombobox(item) {
+      const items = item.modelNumber === null ? '' : item.modelNumber
+      await this.getSubcontractsList({modelNumber: items, modelId: this.planning_model_id})
     },
-
+    async updateSubcontractsView() {
+      this.edit_dialog = !this.edit_dialog;
+      await this.updateSubcontracts({...this.subcontractsDetail, modelId: this.planning_model_id});
+    },
     newSubcontract() {
       this.new_dialog = !this.new_dialog;
     },
-
     async setNewSubcontracts() {
-      const modelId =
-        this.$route.params.id !== "add-order"
-          ? this.$route.query.modelId
-          : this.$store.getters["orders/newModelId"];
       this.newSubcontractDetail.dispatchedDate = this.getTime();
-      await this.createSubcontracts({...this.newSubcontractDetail,modelId});
+      await this.createSubcontracts({...this.newSubcontractDetail, modelId: this.planning_model_id});
       this.new_dialog = !this.new_dialog;
     },
-
-    searchSubcontracts(item) {
-      const modelId =
-        this.$route.params.id !== "add-order"
-          ? this.$route.query.modelId
-          : this.$store.getters["orders/newModelId"];
-      this.getSubcontractsList({ modelNumber: item.target._value,modelId });
+    async searchSubcontracts(item) {
+      await this.getSubcontractsList({modelNumber: item.target._value, modelId: this.planning_model_id});
     },
-
     deleteSubcontractOne(item) {
       this.selectedSubcontract = item;
       this.delete_dialog = true;
     },
-
-    deleteSubcontract() {
-      const modelId =
-        this.$route.params.id !== "add-order"
-          ? this.$route.query.modelId
-          : this.$store.getters["orders/newModelId"];
-      this.deleteSubcontractServer({
+    async deleteSubcontract() {
+      await this.deleteSubcontractServer({
         id: this.selectedSubcontract.id,
-        modelId: modelId,
+        modelId: this.planning_model_id,
       });
       this.delete_dialog = false;
     },
   },
-
-  mounted() {
+  async mounted() {
     const id = this.$route.params.id;
-    const modelId = this.$route.query.modelId;
-    if (id !== "add-order") {
-      this.getSubcontractsList({ modelNumber: "", modelId: modelId });
+    if (id !== "create") {
+      await this.getModelInfo(id);
+      await this.getSubcontractsList({modelNumber: "", modelId: this.planning_model_id});
     }
   },
 };

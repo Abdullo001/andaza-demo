@@ -49,7 +49,9 @@
 .v-application--is-ltr .v-list-item__action:first-child, .v-application--is-ltr .v-list-item__icon:first-child {
   margin-right: 14px;
 }
-
+.v-app-bar{
+  z-index: 6 !important;
+}
 .v-application--is-ltr .v-list-item__action:last-of-type:not(:only-child), .v-application--is-ltr .v-list-item__avatar:last-of-type:not(:only-child), .v-application--is-ltr .v-list-item__icon:last-of-type:not(:only-child) {
   margin-left: 5px;
   margin-top: 7px;

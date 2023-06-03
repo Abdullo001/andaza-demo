@@ -10,7 +10,7 @@
       <v-divider/>
       <v-card-text class="pb-0">
         <v-row>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t('workingProcess.dialog.workingProcess') }}</div>
             <v-text-field
               outlined
@@ -22,7 +22,7 @@
               dense
             />
           </v-col>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t('workingProcess.dialog.processType') }}</div>
             <v-text-field
               v-model="working_operations.processType"
@@ -36,7 +36,7 @@
             >
             </v-text-field>
           </v-col>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t('workingProcess.dialog.invoiceNumber') }}</div>
             <v-text-field
               v-model="working_operations.invoiceNumber"
@@ -50,7 +50,7 @@
             >
             </v-text-field>
           </v-col>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t('workingProcess.dialog.workShop') }}</div>
             <v-text-field
               outlined
@@ -62,7 +62,9 @@
               dense
             />
           </v-col>
-          <v-col cols="12" lg="3">
+        </v-row>
+        <v-row :class="showObject">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t('workingProcess.dialog.contractDate') }}</div>
             <v-text-field
               v-model="working_operations.contractDate"
@@ -79,7 +81,7 @@
               </template>
             </v-text-field>
           </v-col>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t('workingProcess.dialog.shippingDate') }}</div>
             <v-text-field
               v-model="working_operations.shippingDate"
@@ -96,7 +98,7 @@
               </template>
             </v-text-field>
           </v-col>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t('workingProcess.dialog.orderNumber') }}</div>
             <v-text-field
               v-model="working_operations.orderNumber"
@@ -112,7 +114,7 @@
               </template>
             </v-text-field>
           </v-col>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t('workingProcess.dialog.modelNumber') }}</div>
             <v-text-field
               v-model="working_operations.modelNumber"
@@ -124,7 +126,7 @@
               dense
             />
           </v-col>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t('workingProcess.dialog.modelName') }}</div>
             <v-text-field
               v-model="working_operations.modelName"
@@ -136,7 +138,7 @@
               dense
             />
           </v-col>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t('workingProcess.dialog.overProduction') }}, %</div>
             <v-text-field
               outlined
@@ -148,37 +150,46 @@
               dense
             />
           </v-col>
-        </v-row>
-        <div class="label mt-4">{{ $t('workingProcess.dialog.photosModels') }}</div>
-        <v-row>
-          <v-col cols="12" lg="6" md="6" class="d-flex flex-wrap px-0">
-            <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4">
-              <div class="image-box">
-                <v-img
-                  :src="modelImages[idx]?.filePath"
-                  v-if="!!modelImages[idx]?.filePath"
-                  max-height="150"
-                  contain class="pointer"
-                  @click="showImage(modelImages[idx]?.filePath)"
-                />
-                <v-img src="/default-image.svg" max-width="70" v-else/>
-              </div>
-            </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6"></v-col>
+          <v-col cols="12" lg="6" md="6">
+            <div class="label mt-4">{{ $t('workingProcess.dialog.photosModels') }}</div>
+            <div class="d-flex flex-wrap px-0">
+              <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4">
+                <div class="image-box">
+                  <v-img
+                    :src="modelImages[idx]?.filePath"
+                    v-if="!!modelImages[idx]?.filePath"
+                    max-height="150"
+                    contain class="pointer"
+                    @click="showImage(modelImages[idx]?.filePath)"
+                  />
+                  <v-img src="/default-image.svg" max-width="70" v-else/>
+                </div>
+              </v-col>
+            </div>
+          </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6"></v-col>
+          <v-col cols="12" lg="3" md="3" sm="6" class="d-flex justify-end align-end">
+            <v-btn
+              width="130"
+              height="40"
+              color="#7631FF"
+              class="font-weight-bold rounded-lg"
+              dark
+              @click="save"
+            >
+              {{ $t('workingProcess.dialog.save') }}
+            </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
-      <v-card-actions class="pb-6">
+      <v-card-actions class="py-6">
         <v-spacer/>
-        <v-btn
-          width="130"
-          height="40"
-          color="#7631FF"
-          class="font-weight-bold rounded-lg"
-          dark
-          @click="save"
-        >
-          {{ $t('workingProcess.dialog.save') }}
-        </v-btn>
+          <ShowBtnComponent
+            :click-btn="clickBtn"
+            :show_btn_value="show_btn"
+          />
+        <v-spacer/>
       </v-card-actions>
     </v-card>
     <v-dialog max-width="590" v-model="image_dialog">
@@ -200,12 +211,14 @@
 import {mapActions, mapGetters} from "vuex";
 import WorkingOperation from "../../components/Production/Working.vue";
 import Breadcrumbs from "../../components/Breadcrumbs.vue";
+import ShowBtnComponent from "../../components/ShowComponentBtn/ShowBtn.vue";
 
 export default {
   name: 'WorkingOperationId',
-  components: {Breadcrumbs, WorkingOperation},
+  components: {ShowBtnComponent, Breadcrumbs, WorkingOperation},
   data() {
     return {
+      show_btn: true,
       currentImage: '',
       image_dialog: false,
       working_operations: {
@@ -260,6 +273,11 @@ export default {
     await this.getWorkingInfo(this.$route.params.id);
   },
   computed: {
+    showObject() {
+      return {
+        show_active: this.show_btn
+      }
+    },
     ...mapGetters({
       mainsList: "workingOperations/mainsList",
       partList: "workingOperations/partList",
@@ -294,7 +312,10 @@ export default {
       getModelInfo: 'production/planning/getModelInfo',
       getImages: 'modelPhoto/getImages',
     }),
-    async save(){
+    clickBtn() {
+      this.show_btn = !this.show_btn
+    },
+    async save() {
       const item = {
         processPlanningId: 4,
         invoiceNumber: this.working_operations.invoiceNumber,
@@ -322,5 +343,10 @@ export default {
   align-items: center;
   min-width: 100%;
   min-height: 150px;
+}
+
+.show_active {
+  height: 0;
+  overflow: hidden;
 }
 </style>

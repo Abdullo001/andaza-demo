@@ -1,4 +1,5 @@
 export const state = () => ({
+  loading: true,
   cooperation_type: [],
   partnerList: [],
   measurementUnitList: [],
@@ -12,9 +13,13 @@ export const getters = {
   measurementUnitList: (state) => state.measurementUnitList.data,
   subcontractsList: (state) => state.subcontractsList.data,
   modelList: (state) => state.modelList.content,
+  loading: state => state.loading
 };
 
 export const mutations = {
+  setSubLoading(state, item){
+    state.loading = item
+  },
   setCooperationType(state, item) {
     state.cooperation_type = item;
   },
@@ -33,13 +38,13 @@ export const mutations = {
 };
 
 export const actions = {
-  async getSubcontractsList({ commit }, { modelNumber,modelId }) {
-    modelNumber = modelNumber === null ? "" : modelNumber;
-
-    this.$axios
+  async getSubcontractsList({ commit }, { modelNumber, modelId = "" }) {
+    modelNumber = modelNumber === null && modelNumber === undefined ? "" : modelNumber;
+    await this.$axios
       .get(`/api/v1/subcontracts/get-modelNumber?modelId=${modelId}&modelNumber=${modelNumber}`)
       .then((res) => {
         commit("setSubcontractsList", res.data);
+        commit("setSubLoading", false);
       })
       .catch((res) => {
         console.log(res);
@@ -47,7 +52,7 @@ export const actions = {
   },
 
   async getCooperationTypes({ commit }) {
-    this.$axios
+    await this.$axios
       .get(`/api/v1/cooperation-types/thin-list`)
       .then((res) => {
         commit("setCooperationType", res.data);
@@ -64,7 +69,7 @@ export const actions = {
       page: 0,
       size: 50,
     };
-    this.$axios
+    await this.$axios
       .put("/api/v1/partner/list", body)
       .then((res) => {
         commit("setPartnerList", res.data.data);
@@ -75,13 +80,6 @@ export const actions = {
   },
 
   async getMeasurementUnit({ commit }) {
-    const body = {
-      filters: [],
-      sorts: [],
-      page: 0,
-      size: 50,
-    };
-
     await this.$axios
       .get(`/api/v1/measurement-unit/thin-list`)
       .then((res) => {
@@ -93,10 +91,9 @@ export const actions = {
   },
 
   async createSubcontracts({ dispatch }, data) {
-    this.$axios
+    await this.$axios
       .post("/api/v1/subcontracts/create", data)
       .then((res) => {
-        console.log(res);
         dispatch("getSubcontractsList", { modelNumber: "",modelId:res.data.data.modelId });
         this.$toast.success(res.data.message);
       })
@@ -137,9 +134,8 @@ export const actions = {
     await this.$axios
       .put(`/api/v1/subcontracts/update`, body)
       .then((res) => {
-        console.log(res);
         dispatch("getSubcontractsList",{modelNumber:"",modelId:body.modelId})
-        this.$toast.success(res.message, { theme: "toasted-primary" });
+        this.$toast.success(res.data.message, { theme: "toasted-primary" });
       })
       .catch((res) => {
         console.log(res);
@@ -150,8 +146,8 @@ export const actions = {
   async deleteSubcontractServer({dispatch},{id,modelId}){
     await this.$axios.delete(`/api/v1/subcontracts/delete?id=${id}`)
     .then((res)=>{
-      console.log(res);
-      dispatch("getSubcontractsList",{modelNumber:"",modelId:modelId})
+      this.$toast.success(res.data.message);
+      dispatch("getSubcontractsList",{modelNumber:"",modelId:modelId});
     })
     .catch((res)=>{
       console.log(res);

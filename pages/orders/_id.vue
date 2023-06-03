@@ -13,7 +13,7 @@
       <v-card-text class="mt-4">
         <v-form lazy-validation v-model="new_validate" ref="order_detail">
           <v-row>
-            <v-col>
+            <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Order number</div>
               <v-text-field
                 outlined
@@ -26,72 +26,8 @@
                 dense
                 color="#7631FF"
               />
-              <div class="label">Head of production depatment</div>
-              <div class="search-field">
-                <v-combobox
-                  v-model="order.headOfDepartment"
-                  :items="users"
-                  :search-input.sync="HODSearch"
-                  style="margin-bottom:22px"
-                  item-text="name"
-                  item-value="id"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base d-flex align-center justify-center"
-                  :return-object="true"
-                  color="#7631FF"
-                  dense
-                  placeholder="Enter responsible person"
-                  prepend-icon=""
-                >
-                  <template #append>
-                    <v-icon class="d-inline-block" color="#7631FF">
-                      mdi-magnify
-                    </v-icon>
-                  </template>
-                </v-combobox>
-              </div>
-              <div class="label">Order priority</div>
-              <v-select
-                :background-color="statusColor.priorityColor(order.priority)"
-                :items="priority_enums"
-                append-icon="mdi-chevron-down"
-                v-model="order.priority"
-                dense
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg base"
-                validate-on-blur
-                placeholder="Select order priority"
-                dark
-              />
             </v-col>
-            <v-col>
-              <div class="label">Client name</div>
-              <v-combobox
-                v-model="order.client"
-                :items="clientList"
-                :search-input.sync="clientIdSearch"
-                item-text="name"
-                item-value="id"
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg base d-flex align-center justify-center mb-4"
-                :return-object="true"
-                color="#7631FF"
-                dense
-                placeholder="Enter responsible person"
-                prepend-icon=""
-              >
-                <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
-                    mdi-magnify
-                  </v-icon>
-                </template>
-              </v-combobox>
+            <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Price with discount</div>
               <div class="d-flex align-center">
                 <v-text-field
@@ -120,7 +56,32 @@
                 />
               </div>
             </v-col>
-            <v-col>
+            <v-col cols="12" lg="3" md="3" sm="6">
+              <div class="label">Client name</div>
+              <v-combobox
+                v-model="order.client"
+                :items="clientList"
+                :search-input.sync="clientIdSearch"
+                item-text="name"
+                item-value="id"
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base d-flex align-center justify-center mb-4"
+                :return-object="true"
+                color="#7631FF"
+                dense
+                placeholder="Enter responsible person"
+                prepend-icon=""
+              >
+                <template #append>
+                  <v-icon class="d-inline-block" color="#7631FF">
+                    mdi-magnify
+                  </v-icon>
+                </template>
+              </v-combobox>
+            </v-col>
+            <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Model number</div>
               <v-combobox
                 v-model="order.modelNumber"
@@ -145,6 +106,53 @@
                   </v-icon>
                 </template>
               </v-combobox>
+            </v-col>
+          </v-row>
+          <v-row :class="showObject">
+            <v-col cols="12" lg="3" md="3" sm="6">
+              <div class="label">Model name</div>
+              <v-text-field
+                v-model="order.modelName"
+                placeholder="Enter"
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base mb-4"
+                validate-on-blur
+                dense
+                color="#7631FF"
+                readonly
+              />
+            </v-col>
+            <v-col cols="12" lg="3" md="3" sm="6">
+              <div class="label">Head of production depatment</div>
+              <div class="search-field">
+                <v-combobox
+                  v-model="order.headOfDepartment"
+                  :items="users"
+                  :search-input.sync="HODSearch"
+                  style="margin-bottom:22px"
+                  item-text="name"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base d-flex align-center justify-center"
+                  :return-object="true"
+                  color="#7631FF"
+                  dense
+                  placeholder="Enter responsible person"
+                  prepend-icon=""
+                >
+                  <template #append>
+                    <v-icon class="d-inline-block" color="#7631FF">
+                      mdi-magnify
+                    </v-icon>
+                  </template>
+                </v-combobox>
+              </div>
+            </v-col>
+            <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Total</div>
               <div class="d-flex align-center">
                 <v-text-field
@@ -159,23 +167,26 @@
                   dense
                   color="#7631FF"
                 />
-
               </div>
             </v-col>
-            <v-col>
-              <div class="label">Model name</div>
-              <v-text-field
-                v-model="order.modelName"
-                placeholder="Enter"
+            <v-col cols="12" lg="3" md="3" sm="6">
+              <div class="label">Order priority</div>
+              <v-select
+                :background-color="statusColor.priorityColor(order.priority)"
+                :items="priority_enums"
+                append-icon="mdi-chevron-down"
+                v-model="order.priority"
+                dense
                 outlined
                 hide-details
                 height="44"
-                class="rounded-lg base mb-4"
+                class="rounded-lg base"
                 validate-on-blur
-                dense
-                color="#7631FF"
-                readonly
+                placeholder="Select order priority"
+                dark
               />
+            </v-col>
+            <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Deadline</div>
               <div style="height: 40px !important">
                 <el-date-picker
@@ -190,14 +201,14 @@
                 </el-date-picker>
               </div>
             </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="12" lg="6">
+            <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Description</div>
               <v-textarea
                 v-model="order.description"
                 placeholder="Enter description"
                 outlined
+                rows="1"
+                auto-grow
                 hide-details
                 class="rounded-lg base"
                 validate-on-blur
@@ -205,7 +216,7 @@
                 color="#7631FF"
               />
             </v-col>
-            <v-col cols="12" lg="3">
+            <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Creator</div>
               <v-text-field
                 v-model="order.creator"
@@ -220,6 +231,8 @@
                 background-color="#F8F4FE"
                 readonly
               />
+            </v-col>
+            <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Modified person</div>
               <v-text-field
                 v-model="order.modifiedPerson"
@@ -235,8 +248,7 @@
                 readonly
               />
             </v-col>
-
-            <v-col cols="12" lg="3">
+            <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Created time</div>
               <v-text-field
                 v-model="order.createdTime"
@@ -256,7 +268,8 @@
                   <v-img src="/date-icon.svg"/>
                 </template>
               </v-text-field>
-
+            </v-col>
+            <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Updated time</div>
               <v-text-field
                 v-model="order.updatedTime"
@@ -277,36 +290,43 @@
                 </template>
               </v-text-field>
             </v-col>
+            <v-col cols="12" lg="3" md="3" sm="6"></v-col>
+            <v-col cols="12" lg="3" md="3" sm="6" class="d-flex justify-end align-center">
+              <v-btn
+                v-if="orderStatus === 'Add'"
+                color="#7631FF"
+                class="text-capitalize rounded-lg"
+                width="130"
+                height="44"
+                dark
+                @click="createdNewOrder"
+              >
+                Save
+              </v-btn>
+              <v-btn
+                v-else
+                color="#7631FF"
+                class="text-capitalize rounded-lg"
+                width="130"
+                height="44"
+                dark
+                @click="updateOrderFunc"
+              >
+                Update
+              </v-btn>
+            </v-col>
           </v-row>
         </v-form>
       </v-card-text>
       <v-card-actions class="pb-6 pr-4">
         <v-spacer/>
-        <v-btn
-          v-if="orderStatus === 'Add'"
-          color="#7631FF"
-          class="text-capitalize rounded-lg"
-          width="130"
-          height="44"
-          dark
-          @click="createdNewOrder"
-        >
-          Save
-        </v-btn>
-        <v-btn
-          v-else
-          color="#7631FF"
-          class="text-capitalize rounded-lg"
-          width="130"
-          height="44"
-          dark
-          @click="updateOrderFunc"
-        >
-          Update
-        </v-btn>
+        <ShowBtnComponent
+          :click-btn="clickBtn"
+          :show_btn_value="show_btn"
+        />
+        <v-spacer/>
       </v-card-actions>
     </v-card>
-
     <v-card class="mt-6 mb-8" flat>
       <v-tabs v-model="tab">
         <v-tabs-slider color="#7631FF"/>
@@ -352,10 +372,12 @@ import { mapActions, mapGetters, mapMutations } from "vuex";
 import ColorSizeDistirbution from "../../components/ColorSizeDistirbution.vue";
 import DetailInfo from "../../components/DetailInfo.vue";
 import OrderDocuments from "../../components/OrderDocuments.vue";
+import ShowBtnComponent from "../../components/ShowComponentBtn/ShowBtn.vue";
 
 export default {
   name: 'OrdersChildPage',
   components: {
+    ShowBtnComponent,
     OrderDocuments,
     DetailInfo,
     ColorSizeDistirbution,
@@ -363,6 +385,7 @@ export default {
   },
   data() {
     return {
+      show_btn: true,
       currency_enums: ["USD", "UZS", "RUB"],
       users: [],
       fields_status: true,
@@ -436,6 +459,11 @@ export default {
     this.getModelId();
   },
   computed: {
+    showObject(){
+      return{
+        show_active: this.show_btn
+      }
+    },
     ...mapGetters({
       orderDetail: "orders/oneOrder",
       modelId: "orders/modelId",
@@ -504,6 +532,9 @@ export default {
       updateOrder: "orders/updateOrder",
       getGivePrice: "orders/getGivePrice",
     }),
+    clickBtn(){
+      this.show_btn = !this.show_btn
+    },
     async updateOrderFunc() {
       await this.updateOrder(this.order);
     },
@@ -565,5 +596,8 @@ export default {
     }
   }
 }
-
+.show_active{
+  height: 0;
+  overflow: hidden;
+}
 </style>

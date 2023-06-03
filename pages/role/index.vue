@@ -95,7 +95,7 @@
       :no-data-text="$t('noDataText')"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50],
-        temsPerPageText: this.$t('allDataTableText')
+        itemsPerPageText: this.$t('allDataTableText')
       }"
       :loading="loading"
       class="mt-4 rounded-lg"

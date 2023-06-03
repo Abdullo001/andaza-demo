@@ -10,7 +10,7 @@
       <v-divider/>
       <v-card-text class="pb-0">
         <v-row>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label"> {{ $t('planningProduction.dialog.orderNumber') }}</div>
             <v-combobox
               v-model="planning.orderNumber"
@@ -31,7 +31,7 @@
             >
             </v-combobox>
           </v-col>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t('planningProduction.dialog.modelNumber') }}</div>
             <v-combobox
               v-model="planning.modelNumber"
@@ -54,7 +54,7 @@
               </template>
             </v-combobox>
           </v-col>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t('planningProduction.dialog.modelName') }}</div>
             <v-text-field
               outlined
@@ -66,7 +66,7 @@
               disabled
             />
           </v-col>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t('planningProduction.dialog.clientName') }}</div>
             <v-text-field
               outlined
@@ -78,7 +78,9 @@
               disabled
             />
           </v-col>
-          <v-col cols="12" lg="3">
+        </v-row>
+        <v-row :class="showObject">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t('planningProduction.dialog.responsiblePerson') }}</div>
             <v-text-field
               outlined
@@ -90,7 +92,7 @@
               disabled
             />
           </v-col>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t('planningProduction.dialog.planningCreator') }}</div>
             <v-text-field
               outlined
@@ -102,7 +104,7 @@
               disabled
             />
           </v-col>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t('planningProduction.dialog.headProduction') }}</div>
             <v-text-field
               outlined
@@ -114,7 +116,7 @@
               disabled
             />
           </v-col>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t('planningProduction.dialog.orderStatus') }}</div>
             <v-text-field
               outlined
@@ -126,7 +128,7 @@
               disabled
             />
           </v-col>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t('planningProduction.dialog.orderOpeningDate') }}</div>
             <v-text-field
               outlined
@@ -142,7 +144,7 @@
               </template>
             </v-text-field>
           </v-col>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t('planningProduction.dialog.orderClosingDate') }}</div>
             <v-text-field
               outlined
@@ -158,7 +160,7 @@
               </template>
             </v-text-field>
           </v-col>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t('planningProduction.dialog.deadline') }}</div>
             <v-text-field
               outlined
@@ -174,7 +176,7 @@
               </template>
             </v-text-field>
           </v-col>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t('planningProduction.dialog.shippingDate') }}</div>
             <v-text-field
               outlined
@@ -190,7 +192,7 @@
               </template>
             </v-text-field>
           </v-col>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t('planningProduction.dialog.overproduction') }}, %</div>
             <v-text-field
               outlined
@@ -202,7 +204,7 @@
               color="#7631FF"
             />
           </v-col>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t('planningProduction.dialog.orderQuantity') }}</div>
             <v-text-field
               outlined
@@ -214,7 +216,7 @@
               disabled
             />
           </v-col>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t('planningProduction.dialog.productionQuantity') }}</div>
             <v-text-field
               outlined
@@ -226,33 +228,44 @@
               disabled
             />
           </v-col>
-          <v-col cols="12" lg="6" md="6" class="d-flex flex-wrap px-0">
-            <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4">
-              <div class="image-box">
-                <v-img
-                  :src="modelImages[idx]?.filePath"
-                  v-if="!!modelImages[idx]?.filePath"
-                  max-height="150"
-                  contain class="pointer"
-                  @click="showImage(modelImages[idx]?.filePath)"
-                />
-                <v-img src="/default-image.svg" max-width="70" v-else/>
-              </div>
-            </v-col>
+          <v-col cols="12" lg="6" md="6">
+            <div class="label mt-4">{{ $t('workingProcess.dialog.photosModels') }}</div>
+            <div class="d-flex flex-wrap px-0">
+              <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4">
+                <div class="image-box">
+                  <v-img
+                    :src="model_images[idx]?.filePath"
+                    v-if="!!model_images[idx]?.filePath"
+                    max-height="150"
+                    contain class="pointer"
+                    @click="showImage(model_images[idx]?.filePath)"
+                  />
+                  <v-img src="/default-image.svg" max-width="70" v-else/>
+                </div>
+              </v-col>
+            </div>
+          </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6"></v-col>
+          <v-col cols="12" lg="3" md="3" sm="6" class="d-flex justify-end align-end">
+            <v-btn
+              width="130"
+              height="40"
+              color="#7631FF"
+              class="font-weight-bold rounded-lg"
+              dark @click="savePlanning"
+            >
+              {{ $route.params.id === 'create' ? $t('save') : $t('update') }}
+            </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
-      <v-card-actions class="pb-6">
+      <v-card-actions class="py-6">
         <v-spacer/>
-        <v-btn
-          width="130"
-          height="40"
-          color="#7631FF"
-          class="font-weight-bold rounded-lg"
-          dark @click="savePlanning"
-        >
-          {{ $route.params.id === 'create' ? $t('save') : $t('update') }}
-        </v-btn>
+          <ShowBtnComponent
+            :click-btn="clickBtn"
+            :show_btn_value="show_btn"
+          />
+        <v-spacer/>
       </v-card-actions>
     </v-card>
     <v-dialog max-width="590" v-model="image_dialog">
@@ -305,15 +318,18 @@ import FabricOrdered from "../../components/Fabric/Ordered.vue";
 import Documents from "../../components/Documents.vue";
 import FabricPlanningChart from "../../components/Fabric/PlanningChart.vue";
 import Subcontracts from "../../components/Subcontracts.vue";
+import ShowBtnComponent from "../../components/ShowComponentBtn/ShowBtn.vue";
 
 export default {
   name: 'ProductionOfPlanningPage',
   components: {
+    ShowBtnComponent,
     Subcontracts,
     Breadcrumbs,
     ProductionPlanningComponent},
   data() {
     return {
+      show_btn: true,
       tab: null,
       items: ["Planning of production", "Subcontracts"],
       title: "Add",
@@ -340,6 +356,7 @@ export default {
       modelList: [],
       orderSearch: '',
       modelSearch: '',
+      model_images: [],
       map_links: [
         {
           text: this.$t('listsModels.child.home'),
@@ -368,6 +385,11 @@ export default {
     this.getColorsList();
   },
   computed: {
+    showObject(){
+      return{
+        show_active: this.show_btn
+      }
+    },
     ...mapGetters({
       modelData: 'preFinance/modelData',
       modelInfo: 'production/planning/modelInfo',
@@ -389,6 +411,10 @@ export default {
     modelInfo(val) {
       this.getImages(val?.modelId);
       this.planning = JSON.parse(JSON.stringify(val))
+    },
+    modelImages(val){
+      const item = JSON.parse(JSON.stringify(val));
+      this.model_images = item
     }
   },
   methods: {
@@ -402,6 +428,9 @@ export default {
       createProcessPlanning: 'production/planning/createProcessPlanning',
       getProcessingList: 'production/planning/getProcessingList'
     }),
+    clickBtn(){
+      this.show_btn = !this.show_btn
+    },
     async savePlanning() {
       const data = {modelId: this.planning.modelId}
       await this.createProcessPlanning(data);
@@ -435,5 +464,9 @@ export default {
   align-items: center;
   min-width: 100%;
   min-height: 150px;
+}
+.show_active{
+  height: 0;
+  overflow: hidden;
 }
 </style>
