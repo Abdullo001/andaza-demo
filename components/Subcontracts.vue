@@ -3,7 +3,6 @@
     <v-data-table
       :headers="headers"
       :items="subcontractsList"
-      :loading="loading"
       :items-per-page="50"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100],
@@ -435,7 +434,6 @@ export default {
       setSubcontractsList: "subcontracts/subcontractsList",
       modelData: "subcontracts/modelList",
       modelInfo: "production/planning/modelInfo",
-      loading: "subcontracts/loading",
     }),
   },
   watch: {

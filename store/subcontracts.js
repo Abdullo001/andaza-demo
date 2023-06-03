@@ -1,5 +1,4 @@
 export const state = () => ({
-  loading: true,
   cooperation_type: [],
   partnerList: [],
   measurementUnitList: [],
@@ -13,13 +12,9 @@ export const getters = {
   measurementUnitList: (state) => state.measurementUnitList.data,
   subcontractsList: (state) => state.subcontractsList.data,
   modelList: (state) => state.modelList.content,
-  loading: state => state.loading
 };
 
 export const mutations = {
-  setSubLoading(state, item){
-    state.loading = item
-  },
   setCooperationType(state, item) {
     state.cooperation_type = item;
   },
@@ -44,7 +39,6 @@ export const actions = {
       .get(`/api/v1/subcontracts/get-modelNumber?modelId=${modelId}&modelNumber=${modelNumber}`)
       .then((res) => {
         commit("setSubcontractsList", res.data);
-        commit("setSubLoading", false);
       })
       .catch((res) => {
         console.log(res);
