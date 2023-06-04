@@ -187,7 +187,7 @@ export default {
     if (id !== "add-order") {
       this.getDetailInfo({
         orderId: this.$route.params.id,
-        modelId: this.modelId.modelId,
+        modelId: this.$route.query.modelId,
       });
     }else{
       this.getDetailInfo({

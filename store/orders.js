@@ -87,11 +87,10 @@ export const actions = {
       .catch(({ response }) => console.log(response));
   },
   async createdOrder({ commit, dispatch }, data) {
-    console.log(data);
     const order = {
-      clientId: data.client.id,
       deadline: data.deadline,
       description: data.description,
+      orderDate:data.orderDate,
       priceWithDiscount: data.priceWithDiscount,
       priceWithDiscountCurrency: data.priceWithDiscountCurrency,
       headOfProductionDepartmentId: data.headOfDepartment.id,

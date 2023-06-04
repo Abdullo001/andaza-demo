@@ -5,6 +5,8 @@ export const state = () => ({
   sizeValues: [],
   bodyPartValues: {},
   total: null,
+  overproductionPercent:null,
+  totalWithOverproductionPercent:null,
   order: [],
 });
 
@@ -14,6 +16,8 @@ export const getters = {
   sizeValues: (state) => state.sizeValues.sizeDistributions,
   bodyPartValues: (state) => state.bodyPartValues.bodyPartsCodes,
   total: (state) => state.total,
+  overproductionPercent: (state)=>state.overproductionPercent,
+  totalWithOverproductionPercent: (state)=>state.totalWithOverproductionPercent,
   modelId: (state) => state.order?.content[0]?.modelId,
 };
 
@@ -29,6 +33,14 @@ export const mutations = {
   setTotal(state, item) {
     state.total = item;
   },
+
+  setOverproductionPercent(state,item){
+    state.overproductionPercent=item
+  },
+  totalWithOverproductionPercent(state,item){
+    state.totalWithOverproductionPercent=item
+  },
+
 
   setSizeValues(state, item) {
     state.sizeValues = item;
@@ -64,6 +76,8 @@ export const actions = {
         commit("setSizeValues", res.data.data);
         commit("setBodyPartsValues", res.data.data);
         commit("setTotal", res.data.data);
+        commit("setOverproductionPercent", res.data.data);
+        commit("totalWithOverproductionPercent", res.data.data);
       })
       .catch((res) => {
         console.log(res);

@@ -311,6 +311,10 @@ export default {
                 title: this.$t('sidebar.printType'),
                 to: this.localePath('/print-type'),
               },
+              {
+                title: this.$t('sidebar.process'),
+                to: this.localePath('/catalog-process'),
+              },
             ]
           },
           {

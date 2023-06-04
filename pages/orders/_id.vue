@@ -13,7 +13,7 @@
       <v-card-text class="mt-4">
         <v-form lazy-validation v-model="new_validate" ref="order_detail">
           <v-row>
-            <v-col>
+            <v-col cols="3">
               <div class="label">Order number</div>
               <v-text-field
                 outlined
@@ -26,6 +26,79 @@
                 dense
                 color="#7631FF"
               />
+            </v-col>
+            <v-col cols="3">
+              <div class="label">Vendor (Artikul) code</div>
+              <v-text-field
+                outlined
+                hide-details
+                readonly
+                height="44"
+                class="rounded-lg base mb-4"
+                v-model="order.vendorArticularCode"
+                placeholder="Vendor articular code"
+                validate-on-blur
+                dense
+                color="#7631FF"
+              />
+            </v-col>
+            <v-col cols="3">
+              <div class="label">Client name</div>
+              <v-text-field
+                outlined
+                hide-details
+                readonly
+                height="44"
+                class="rounded-lg base mb-4"
+                v-model="order.client"
+                placeholder=" client name"
+                validate-on-blur
+                dense
+                color="#7631FF"
+              />
+            </v-col>
+            <v-col cols="3">
+              <div class="label">Model number</div>
+              <v-combobox
+                v-model="order.modelNumber"
+                @change="(e) => setModelName(e)"
+                :items="modelList"
+                :search-input.sync="modelIdSearch"
+                item-text="modelNumber"
+                item-value="id"
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base d-flex align-center justify-center mb-4"
+                :return-object="true"
+                color="#7631FF"
+                dense
+                placeholder="Enter responsible person"
+                prepend-icon=""
+              >
+                <template #append>
+                  <v-icon class="d-inline-block" color="#7631FF">
+                    mdi-magnify
+                  </v-icon>
+                </template>
+              </v-combobox>
+            </v-col>
+            <v-col cols="3">
+              <div class="label">Model name</div>
+              <v-text-field
+                v-model="order.modelName"
+                placeholder="Enter"
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base mb-4"
+                validate-on-blur
+                dense
+                color="#7631FF"
+                readonly
+              />
+            </v-col>
+            <v-col cols="3">
               <div class="label">Head of production depatment</div>
               <div class="search-field">
                 <v-combobox
@@ -52,46 +125,8 @@
                   </template>
                 </v-combobox>
               </div>
-              <div class="label">Order priority</div>
-              <v-select
-                :background-color="statusColor.priorityColor(order.priority)"
-                :items="priority_enums"
-                append-icon="mdi-chevron-down"
-                v-model="order.priority"
-                dense
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg base"
-                validate-on-blur
-                placeholder="Select order priority"
-                dark
-              />
             </v-col>
-            <v-col>
-              <div class="label">Client name</div>
-              <v-combobox
-                v-model="order.client"
-                :items="clientList"
-                :search-input.sync="clientIdSearch"
-                item-text="name"
-                item-value="id"
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg base d-flex align-center justify-center mb-4"
-                :return-object="true"
-                color="#7631FF"
-                dense
-                placeholder="Enter responsible person"
-                prepend-icon=""
-              >
-                <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
-                    mdi-magnify
-                  </v-icon>
-                </template>
-              </v-combobox>
+            <v-col cols="3">
               <div class="label">Price with discount</div>
               <div class="d-flex align-center">
                 <v-text-field
@@ -120,62 +155,54 @@
                 />
               </div>
             </v-col>
-            <v-col>
-              <div class="label">Model number</div>
-              <v-combobox
-                v-model="order.modelNumber"
-                @change="(e) => setModelName(e)"
-                :items="modelList"
-                :search-input.sync="modelIdSearch"
-                item-text="modelNumber"
-                item-value="id"
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg base d-flex align-center justify-center mb-4"
-                :return-object="true"
-                color="#7631FF"
-                dense
-                placeholder="Enter responsible person"
-                prepend-icon=""
-              >
-                <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
-                    mdi-magnify
-                  </v-icon>
-                </template>
-              </v-combobox>
+            <v-col cols="3">
               <div class="label">Total</div>
               <div class="d-flex align-center">
                 <v-text-field
-                  v-model="order.totalPrice.amount"
-                  :rules="[formRules.onlyNumber]"
-                  placeholder="0.00"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  validate-on-blur
-                  dense
-                  color="#7631FF"
-                />
-
-              </div>
-            </v-col>
-            <v-col>
-              <div class="label">Model name</div>
-              <v-text-field
-                v-model="order.modelName"
-                placeholder="Enter"
+                v-model="order.totalPrice"
+                readonly
+                placeholder="0.00"
                 outlined
                 hide-details
                 height="44"
-                class="rounded-lg base mb-4"
+                class="rounded-lg base rounded-l-lg rounded-r-0"
                 validate-on-blur
                 dense
                 color="#7631FF"
-                readonly
               />
+              <v-select
+                :items="currency_enums"
+                v-model="order.priceWithDiscountCurrency"
+                style="max-width: 100px"
+                dense
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base rounded-r-lg rounded-l-0"
+                validate-on-blur
+                append-icon="mdi-chevron-down"
+                color="#7631FF"
+              />
+              </div>
+              
+            </v-col>
+
+            <v-col cols="3">
+              <div class="label">Order date</div>
+              <div style="height: 40px !important">
+                <el-date-picker
+                  v-model="order.orderDate"
+                  type="datetime"
+                  style="width: 100%; height: 100%"
+                  placeholder="dd.MM.yyyy HH:mm:ss"
+                  :picker-options="pickerShortcuts"
+                  value-format="dd.MM.yyyy HH:mm:ss"
+                  class="base_picker"
+                >
+                </el-date-picker>
+              </div>
+            </v-col>
+            <v-col cols="3">
               <div class="label">Deadline</div>
               <div style="height: 40px !important">
                 <el-date-picker
@@ -190,13 +217,30 @@
                 </el-date-picker>
               </div>
             </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="12" lg="6">
+            <v-col cols="3">
+              <div class="label">Order priority</div>
+              <v-select
+                :background-color="statusColor.priorityColor(order.priority)"
+                :items="priority_enums"
+                append-icon="mdi-chevron-down"
+                v-model="order.priority"
+                dense
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
+                validate-on-blur
+                placeholder="Select order priority"
+                dark
+              />
+            </v-col>
+            <v-col cols="3">
               <div class="label">Description</div>
               <v-textarea
                 v-model="order.description"
                 placeholder="Enter description"
+                rows="1"
+                height="44"
                 outlined
                 hide-details
                 class="rounded-lg base"
@@ -205,7 +249,8 @@
                 color="#7631FF"
               />
             </v-col>
-            <v-col cols="12" lg="3">
+
+            <v-col cols="3" >
               <div class="label">Creator</div>
               <v-text-field
                 v-model="order.creator"
@@ -220,23 +265,9 @@
                 background-color="#F8F4FE"
                 readonly
               />
-              <div class="label">Modified person</div>
-              <v-text-field
-                v-model="order.modifiedPerson"
-                placeholder="Enter Modified person"
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg base"
-                validate-on-blur
-                dense
-                color="#7631FF"
-                background-color="#F8F4FE"
-                readonly
-              />
             </v-col>
-
-            <v-col cols="12" lg="3">
+            
+            <v-col cols="3">
               <div class="label">Created time</div>
               <v-text-field
                 v-model="order.createdTime"
@@ -247,7 +278,6 @@
                 class="rounded-lg base mb-4"
                 validate-on-blur
                 dense
-                disabled
                 color="#7631FF"
                 background-color="#F8F4FE"
                 readonly
@@ -256,7 +286,27 @@
                   <v-img src="/date-icon.svg"/>
                 </template>
               </v-text-field>
+              </v-col>
 
+              <v-col cols="3">
+                <div class="label">Modified person</div>
+                <v-text-field
+                  v-model="order.modifiedPerson"
+                  placeholder="Enter Modified person"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  validate-on-blur
+                  dense
+                  color="#7631FF"
+                  background-color="#F8F4FE"
+                  readonly
+                />
+              </v-col>
+  
+
+              <v-col cols="3">
               <div class="label">Updated time</div>
               <v-text-field
                 v-model="order.updatedTime"
@@ -267,7 +317,6 @@
                 class="rounded-lg base"
                 validate-on-blur
                 dense
-                disabled
                 color="#7631FF"
                 background-color="#F8F4FE"
                 readonly
@@ -277,6 +326,10 @@
                 </template>
               </v-text-field>
             </v-col>
+            
+             
+              
+            
           </v-row>
         </v-form>
       </v-card-text>
@@ -407,11 +460,10 @@ export default {
         modelName: "",
         priceWithDiscount: null,
         priceWithDiscountCurrency: "USD",
+        vendorArticularCode:"",
+        orderDate:"",
 
-        totalPrice: {
-          amount: "",
-          currency: "",
-        },
+        totalPrice: null,
         deadline: "",
         description: "",
         creator: "",
@@ -461,12 +513,15 @@ export default {
       order.modifiedPerson = item.updatedBy;
       order.updatedTime = item.updatedAt;
       order.headOfDepartmentId = item.headOfProductionDepartmentId;
-      order.priceWithDiscount = item.priceWithDiscount;
-      order.priceWithDiscountCurrency = item.priceWithDiscountCurrency;
+      order.priceWithDiscount = item.priceWithDiscountUSD;
+      order.totalPrice=item.totalPriceUSD
+      order.priceWithDiscountCurrency = "USD";
       order.modelId = item.modelId;
       order.priority = item.priority;
       order.headOfDepartment = item.headOfProductionDepartment
       order.client = item.client
+      order.vendorArticularCode=item.vendorArticularCode
+      order.orderDate=item.orderDate
       this.$store.commit('orders/setModelId', item.modelId);
     },
     usersList(list) {
@@ -482,15 +537,45 @@ export default {
       this.selectedModelInfo = {...item};
       this.order.priceWithDiscount = item.priceWithDiscountUSD;
       this.order.priceWithDiscountCurrency = 'USD';
+      this.order.client=item.client
+      this.order.clientId=item.clientId
     },
     "order.priceWithDiscountCurrency"(val) {
-      switch (val) {
+      const id =this.$route.params
+
+      if(id.id==="add-order"){
+
+        switch (val) {
         case 'USD':
           return this.order.priceWithDiscount = this.infoToOrder.priceWithDiscountUSD;
         case 'RUB':
           return this.order.priceWithDiscount = this.infoToOrder.priceWithDiscountRUB;
         case 'UZS':
           return this.order.priceWithDiscount = this.infoToOrder.priceWithDiscountUZS;
+        }
+
+      } else {
+        switch (val) {
+        case 'USD':
+          return (
+            this.order.priceWithDiscount = this.orderDetail.priceWithDiscountUSD,
+            this.order.totalPrice = this.orderDetail.totalPriceUSD
+          
+          );
+          
+        case 'RUB':
+          return (
+            this.order.priceWithDiscount = this.orderDetail.priceWithDiscountRUB,
+            this.order.totalPrice = this.orderDetail.totalPriceRUB
+          );
+        case 'UZS':
+          return (
+            this.order.priceWithDiscount = this.orderDetail.priceWithDiscountUZS,
+            this.order.totalPrice = this.orderDetail.totalPriceUZS
+  
+          );
+        }
+        
       }
     }
   },
@@ -514,6 +599,7 @@ export default {
     setModelName(item) {
       if(item !== 'null' || !!item) {
         this.order.modelName = item.name;
+        this.order.client=item.client
         this.getGivePrice({id: item.id});
       }
     },
