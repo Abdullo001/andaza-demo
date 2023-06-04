@@ -3,7 +3,7 @@
     <v-data-table
       id="myTable"
       :headers="headers"
-      :items="processingList"
+      :items="planningList"
       :items-per-page="10"
       :server-items-length="processingTotalElements"
       show-select
@@ -22,6 +22,7 @@
             color="#7631FF" dark
             class="rounded-lg text-capitalize font-weight-bold"
             height="40"
+            :disabled="btn_disabled"
             @click="openDialog($t('planningProduction.dialog.add'))"
           >
             <v-icon>mdi-plus</v-icon>
@@ -83,7 +84,7 @@
                   hide-details
                   height="44"
                   dense
-                  class="rounded-lg base"  color="#7631FF"
+                  class="rounded-lg base" color="#7631FF"
                   append-icon="mdi-chevron-down"
                   :placeholder="$t('planningProduction.planning.selectWorkshop')"
                   v-model="new_process.workshopId"
@@ -138,7 +139,7 @@
                   dense
                   hide-details
                   height="44"
-                  class="rounded-lg base"  color="#7631FF"
+                  class="rounded-lg base" color="#7631FF"
                   append-icon="mdi-chevron-down"
                   :placeholder="$t('planningProduction.planning.selectFabricColor')"
                   v-model="new_process.colorId"
@@ -151,7 +152,7 @@
                   hide-details
                   height="44"
                   dense
-                  class="rounded-lg base"  color="#7631FF"
+                  class="rounded-lg base" color="#7631FF"
                   placeholder="0"
                   v-model="new_process.quantity"
                 />
@@ -164,7 +165,7 @@
                   hide-details
                   height="44"
                   dense
-                  class="rounded-lg base"  color="#7631FF"
+                  class="rounded-lg base" color="#7631FF"
                   append-icon="mdi-chevron-down"
                   :placeholder="$t('planningProduction.planning.selectCurrency')"
                   v-model="new_process.unitPriceCurrency"
@@ -177,7 +178,7 @@
                   hide-details
                   dense
                   height="44"
-                  class="rounded-lg base"  color="#7631FF"
+                  class="rounded-lg base" color="#7631FF"
                   placeholder="0"
                   v-model="new_process.unitPrice"
                 />
@@ -189,7 +190,7 @@
                   hide-details
                   dense
                   height="44"
-                  class="rounded-lg base"  color="#7631FF"
+                  class="rounded-lg base" color="#7631FF"
                   :placeholder="$t('planningProduction.planning.comment')"
                   v-model="new_process.description"
                 />
@@ -272,6 +273,7 @@ export default {
   name: 'ProductionPlanningComponent',
   data() {
     return {
+      btn_disabled: true,
       validate: true,
       delete_dialog: false,
       headers: [
@@ -330,6 +332,12 @@ export default {
         this.new_process.finishedDate = '';
         delete this.new_process.id
       }
+    },
+    processingList(val) {
+      this.planningList = JSON.parse(JSON.stringify(val));
+    },
+    productionId(val) {
+      this.btn_disabled = false;
     }
   },
   methods: {
@@ -339,7 +347,7 @@ export default {
       deleteProcessing: 'production/planning/deleteProcessing'
     }),
     async saveProcessing() {
-      if(this.title === this.$t('planningProduction.dialog.add')) {
+      if (this.title === this.$t('planningProduction.dialog.add')) {
         this.new_process.productionId = this.productionId;
         await this.createProcessing(this.new_process);
         this.$refs.processing.reset();
@@ -382,11 +390,17 @@ export default {
       this.delete_dialog = false;
     },
     goWorking() {
-      if(this.selectedProcess.length) {
+      if (this.selectedProcess.length) {
         this.$router.push(this.localePath(`/working-process/${this.selectedProcess[0].id}?id=${this.$route.params.id}`));
       }
     }
   },
+  mounted() {
+    const param = this.$route.params.id;
+    if (param !== "create") {
+      this.btn_disabled = false;
+    }
+  }
 }
 </script>
 

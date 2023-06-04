@@ -22,7 +22,7 @@
       <v-divider/>
       <v-card-text class="mt-4">
         <v-row>
-          <v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{$t('listsModels.child.modelNumber')}}</div>
             <v-text-field
               v-model="model.number"
@@ -35,24 +35,8 @@
               :placeholder="$t('listsModels.child.enterModelNumber')"
               color="#7631FF"
             />
-            <div class="label">{{$t('listsModels.child.partner')}}</div>
-            <v-select
-              v-model="model.partnerId"
-              :items="partner_enums"
-              item-value="id"
-              item-text="name"
-              outlined
-              hide-details
-              class="rounded-lg base mb-4"
-              height="44"
-              dense
-              append-icon="mdi-chevron-down"
-              style="max-width: 400px"
-              :placeholder="$t('listsModels.child.selectClient')"
-              color="#7631FF"
-            />
           </v-col>
-          <v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{$t('listsModels.child.modelName')}}</div>
             <v-text-field
               v-model="model.name"
@@ -65,24 +49,8 @@
               :placeholder="$t('listsModels.child.modelName')"
               color="#7631FF"
             />
-            <div class="label">{{$t('listsModels.child.season')}}</div>
-            <v-select
-              v-model="model.season"
-              outlined
-              hide-details
-              class="rounded-lg base mb-4"
-              height="44"
-              dense
-              :items="season_enums"
-              item-value="key"
-              item-text="text"
-              append-icon="mdi-chevron-down"
-              style="max-width: 400px"
-              :placeholder="$t('listsModels.child.selectSeason')"
-              color="#7631FF"
-            />
           </v-col>
-          <v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{$t('listsModels.child.modelGroup')}}</div>
             <v-select
               v-model="model.group"
@@ -98,23 +66,8 @@
               :placeholder="$t('listsModels.child.selectModelGroup')"
               color="#7631FF"
             />
-            <div class="label">{{$t('listsModels.child.license')}}</div>
-            <v-select
-              v-model="model.licence"
-              outlined
-              hide-details
-              class="rounded-lg base mb-4"
-              height="44" dense
-              :items="licence_enums"
-              item-text="text"
-              item-value="key"
-              append-icon="mdi-chevron-down"
-              style="max-width: 400px"
-              :placeholder="$t('listsModels.child.selectModelGroup')"
-              color="#7631FF"
-            />
           </v-col>
-          <v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{$t('listsModels.child.composition')}}</div>
             <v-select
               :items="compositionList"
@@ -132,6 +85,63 @@
               color="#7631FF"
               append-icon="mdi-chevron-down"
             />
+          </v-col>
+        </v-row>
+        <v-row :class="showObject">
+          <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">{{$t('listsModels.child.partner')}}</div>
+            <v-select
+              v-model="model.partnerId"
+              :items="partner_enums"
+              item-value="id"
+              item-text="name"
+              outlined
+              hide-details
+              class="rounded-lg base mb-4"
+              height="44"
+              dense
+              append-icon="mdi-chevron-down"
+              style="max-width: 400px"
+              :placeholder="$t('listsModels.child.selectClient')"
+              color="#7631FF"
+            />
+          </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">{{$t('listsModels.child.season')}}</div>
+            <v-select
+              v-model="model.season"
+              outlined
+              hide-details
+              class="rounded-lg base mb-4"
+              height="44"
+              dense
+              :items="season_enums"
+              item-value="key"
+              item-text="text"
+              append-icon="mdi-chevron-down"
+              style="max-width: 400px"
+              :placeholder="$t('listsModels.child.selectSeason')"
+              color="#7631FF"
+            />
+          </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">{{$t('listsModels.child.license')}}</div>
+            <v-select
+              v-model="model.licence"
+              outlined
+              hide-details
+              class="rounded-lg base mb-4"
+              height="44" dense
+              :items="licence_enums"
+              item-text="text"
+              item-value="key"
+              append-icon="mdi-chevron-down"
+              style="max-width: 400px"
+              :placeholder="$t('listsModels.child.selectModelGroup')"
+              color="#7631FF"
+            />
+          </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{$t('listsModels.child.gender')}}</div>
             <v-select
               v-model="model.gender"
@@ -146,13 +156,13 @@
               color="#7631FF"
             />
           </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" lg="6">
+          <v-col cols="12" lg="6" md="6" sm="6">
             <div class="label">{{$t('listsModels.child.description')}}</div>
             <v-textarea
               v-model="model.description"
               outlined
+              auto-grow
+              rows="1"
               hide-details
               class="rounded-lg base"
               dense
@@ -160,7 +170,7 @@
               color="#7631FF"
             />
           </v-col>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{$t('listsModels.child.creator')}}</div>
             <v-text-field
               v-model="model.creator"
@@ -172,6 +182,8 @@
               :placeholder="$t('listsModels.child.enterCreator')"
               disabled
             />
+          </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{$t('listsModels.child.modifiedPerson')}}</div>
             <v-text-field
               v-model="model.modifiedPerson"
@@ -184,7 +196,7 @@
               disabled
             />
           </v-col>
-          <v-col cols="12" lg="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{$t('listsModels.child.createdTime')}}</div>
             <v-text-field
               v-model="model.createdTime"
@@ -201,6 +213,8 @@
                 <v-img src="/date-icon.svg"/>
               </template>
             </v-text-field>
+          </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{$t('listsModels.child.updatedTime')}}</div>
             <v-text-field
               v-model="model.updateTime"
@@ -218,30 +232,36 @@
               </template>
             </v-text-field>
           </v-col>
+          <v-col cols="12" lg="6" md="6" sm="6" class="d-flex justify-end align-center">
+            <v-spacer/>
+            <v-btn
+              v-if="modelStatus === 'Add'"
+              color="#7631FF"
+              class="text-capitalize rounded-lg"
+              width="130"
+              height="44"
+              dark
+              @click="createNewModel"
+            >{{ $t('listsModels.child.save') }}
+            </v-btn>
+            <v-btn
+              v-else
+              color="#7631FF"
+              class="text-capitalize rounded-lg"
+              width="130"
+              height="44"
+              dark
+              @click="updateModels"
+            >{{ $t('update') }}
+            </v-btn>
+          </v-col>
         </v-row>
       </v-card-text>
-      <v-card-actions class="pb-6 pr-4">
-        <v-spacer/>
-        <v-btn
-          v-if="modelStatus === 'Add'"
-          color="#7631FF"
-          class="text-capitalize rounded-lg"
-          width="130"
-          height="44"
-          dark
-          @click="createNewModel"
-        >{{ $t('listsModels.child.save') }}
-        </v-btn>
-        <v-btn
-          v-else
-          color="#7631FF"
-          class="text-capitalize rounded-lg"
-          width="130"
-          height="44"
-          dark
-          @click="updateModels"
-        >{{ $t('update') }}
-        </v-btn>
+      <v-card-actions class="pb-6 pr-4 d-flex justify-center">
+        <ShowBtnComponent
+          :click-btn="clickBtn"
+          :show_btn_value="show_btn"
+        />
       </v-card-actions>
     </v-card>
     <v-card class="mt-6" flat>
@@ -317,10 +337,12 @@ import SamplesComponent from "../../components/Samples.vue";
 import ModelPhotoComponent from "../../components/ModelPhoto.vue";
 import InstructionComponent from "../../components/Instruction.vue";
 import composition from "@/components/FabricCatalogs/Composition.vue";
+import ShowBtnComponent from "../../components/ShowComponentBtn/ShowBtn.vue";
 
 export default {
   name: 'addOrEditModelsPage',
   components: {
+    ShowBtnComponent,
     InstructionComponent,
     ModelPhotoComponent,
     SamplesComponent,
@@ -332,6 +354,7 @@ export default {
   },
   data() {
     return {
+      show_btn: true,
       items: [
         this.$t('listsModels.child.modelParts'),
         this.$t('listsModels.child.sizeChart'),
@@ -394,6 +417,11 @@ export default {
     this.getCompositionList();
   },
   computed: {
+    showObject(){
+      return{
+        show_active: this.show_btn
+      }
+    },
     ...mapGetters({
       oneModel: 'models/oneModel',
       modelGroups: 'models/modelGroups',
@@ -427,8 +455,10 @@ export default {
       createModel: 'models/createModel',
       updateModel: 'models/updateModel',
       getCompositionList: 'models/getCompositionList'
-
     }),
+    clickBtn(){
+      this.show_btn = !this.show_btn
+    },
     redirectPrefinance() {
       this.$store.commit('preFinance/setModelNumber', this.model.number);
       this.$router.push(this.localePath('/prefinances/creating'));
@@ -469,5 +499,9 @@ export default {
 .el-date-editor--datetime {
   width: 100%;
   border: 5px solid red;
+}
+.show_active{
+  height: 0;
+  overflow: hidden;
 }
 </style>

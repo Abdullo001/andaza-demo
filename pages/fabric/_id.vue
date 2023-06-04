@@ -93,6 +93,8 @@
                 append-icon=""
               />
             </v-col>
+          </v-row>
+          <v-row :class="showObject">
             <v-col cols="12" lg="3" md="3">
               <div class="label">Client name</div>
               <v-text-field
@@ -157,8 +159,6 @@
                 </template>
               </v-text-field>
             </v-col>
-          </v-row>
-          <v-row class="px-3">
             <v-col cols="12" lg="3" md="3">
               <div class="label">Deadline for fabric</div>
               <el-date-picker
@@ -204,7 +204,7 @@
                 </template>
               </v-text-field>
             </v-col>
-            <v-col cols="12" lg="3" md="4">
+            <v-col cols="12" lg="3" md="3">
               <div class="label">Creator of Model</div>
               <v-text-field
                 v-model="addFabric.creatorOfModel"
@@ -218,8 +218,6 @@
                 disabled
               />
             </v-col>
-          </v-row>
-          <v-row class="px-3">
             <v-col cols="12" lg="3" md="3">
               <div class="label">Created time</div>
               <v-text-field
@@ -270,9 +268,7 @@
                 </template>
               </v-text-field>
             </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
+            <v-col cols="12">
               <div class="label px-3">Photos of models</div>
               <v-col cols="12" lg="6" md="6" class="d-flex flex-wrap px-0">
                 <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4">
@@ -289,19 +285,26 @@
                 </v-col>
               </v-col>
             </v-col>
+            <v-col class="d-flex justify-end">
+              <v-btn
+                color="#7631FF"
+                dark class="text-capitalize rounded-lg font-weight-bold"
+                style="min-width: 130px;"
+                @click="createPlanning"
+              >
+                save
+              </v-btn>
+            </v-col>
           </v-row>
         </v-form>
       </v-card-text>
-      <v-card-actions class="pb-6">
+      <v-card-actions class="py-6">
         <v-spacer/>
-        <v-btn
-          color="#7631FF"
-          dark class="text-capitalize rounded-lg font-weight-bold"
-          style="min-width: 130px;"
-          @click="createPlanning"
-        >
-          save
-        </v-btn>
+        <ShowBtnComponent
+          :click-btn="clickBtn"
+          :show_btn_value="show_btn"
+        />
+        <v-spacer/>
       </v-card-actions>
     </v-card>
     <v-card elevation="0" class="mt-3 rounded-lg">
@@ -380,10 +383,12 @@ import FabricOrder from "../../components/Fabric/Order.vue"
 import FabricCalculation from "../../components/Fabric/Calculation.vue"
 import FabricPlannedOrder from "../../components/Fabric/PlannedOrder.vue"
 import Documents from "../../components/Documents.vue"
+import ShowBtnComponent from "../../components/ShowComponentBtn/ShowBtn.vue";
 
 export default {
   name: 'FabricPlanningDynamicPage',
   components: {
+    ShowBtnComponent,
     Breadcrumbs,
     FabricPlanningChart,
     FabricOrdered,
@@ -395,6 +400,7 @@ export default {
   },
   data() {
     return {
+      show_btn: true,
       date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       menu: false,
       image_dialog: false,
@@ -499,6 +505,11 @@ export default {
     }
   },
   computed: {
+    showObject(){
+      return{
+        show_active: this.show_btn
+      }
+    },
     ...mapGetters({
       modelNames: 'preFinance/modelNames',
       modelData: 'preFinance/modelData',
@@ -517,6 +528,9 @@ export default {
       getPlanningChartList: 'fabric/getPlanningChartList',
       getPlanningChartListOne: 'fabric/getPlanningChartListOne'
     }),
+    clickBtn(){
+      this.show_btn = !this.show_btn
+    },
     async createPlanning() {
       const valid = this.$refs.new_validate.validate();
       if (valid) {
@@ -584,5 +598,9 @@ export default {
       color: #9A979D !important;
     }
   }
+}
+.show_active{
+  height: 0;
+  overflow: hidden;
 }
 </style>

@@ -67,8 +67,8 @@ export const actions = {
         commit('setPlanningList', res.data);
       }).catch(({response}) => console.log(response))
   },
-  getModelInfo({commit}, id) {
-    this.$axios.$get(`/api/v1/production/model-order-info?modelId=${id}`)
+  async getModelInfo({commit}, id) {
+    await this.$axios.$get(`/api/v1/production/model-order-info?modelId=${id}`)
       .then(res => {
         commit('setModelInfo', res.data)
       }).catch(({response}) => {
@@ -106,6 +106,7 @@ export const actions = {
   createProcessPlanning({commit, dispatch}, data) {
     this.$axios.$post('/api/v1/production/create', data)
       .then(res => {
+        commit("setModelInfo", res.data.modelId);
         commit('setProductionId', res.data.id);
         dispatch('getProcessingList', {
           id: res.data.id,
