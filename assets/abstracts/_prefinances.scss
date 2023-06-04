@@ -1,4 +1,7 @@
-
+.show_active{
+  height: 0;
+  overflow: hidden;
+}
 .default-data {
   display: flex;
   align-items: center;

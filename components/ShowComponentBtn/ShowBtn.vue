@@ -4,10 +4,10 @@
       outlined
       elevation="0"
       color="#7631FF"
-      class="text-capitalize rounded-lg mr-4 font-weight-bold"
+      class="text-capitalize rounded-lg mr-4 font-weight-bold btn"
       @click="clickBtn"
     >
-      {{ show_btn_value ? "Hide detail" : "Show detail" }}
+      {{ show_btn_value ? "Show detail" : "Hide detail" }}
       <v-icon v-if="!show_btn_value">
         mdi-chevron-up
       </v-icon>
