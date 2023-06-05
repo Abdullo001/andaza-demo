@@ -500,7 +500,7 @@ export default {
   width: 100%;
   border: 5px solid red;
 }
-.show_active{
+.show_active {
   height: 0;
   overflow: hidden;
 }
