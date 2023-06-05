@@ -220,7 +220,7 @@ export default {
         {text: 'Yarn number', sortable: false, value: 'yarnNumber'},
         {text: 'Canvas type', sortable: false, value: 'canvasType'},
         {text: 'Composition', sortable: false, value: 'composition'},
-        {text: 'Comment', sortable: false, value: 'description'},
+        {text: 'Comment', sortable: false, value: 'description', width: 500},
         {text: 'Creator', sortable: false, value: 'createdBy'},
         {text: 'Created at', sortable: false, value: 'createdAt'},
         {text: 'Actions', sortable: false, align: 'center', value: 'actions'},

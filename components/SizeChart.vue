@@ -318,10 +318,8 @@ export default {
           const res = {text: el.name, sortable: false, value: el.name.toUpperCase()};
           this.headers.splice(3, 0, res);
         });
-        let arr = [...this.headers]
-        arr = arr.slice(0, 3)
-          .concat(arr.slice(3, -7).reverse())
-          .concat(arr.slice(-7));
+        let arr = [...this.headers];
+        arr = arr.slice(0, 3).concat(arr.slice(3, -7).reverse()).concat(arr.slice(-7));
         this.headers = arr
       }
       this.allSizeChart = [];
@@ -358,13 +356,13 @@ export default {
       this.$refs.new_validate.reset();
     },
     getTemplate(item) {
-      const first = this.headers.slice(0, 3);
-      const last = this.headers.slice(-7);
+      const first = this.headers.slice(0, 4);
+      const last = this.headers.slice(-6);
       this.headers = [...first, ...last];
       item = item.split(',');
       this.currentTemplate = item;
       item.forEach((el, idx) => {
-        idx = idx + 4
+        idx = idx + 4;
         let head = {
           text: el.toUpperCase().trim(),
           sortable: false,
@@ -383,8 +381,8 @@ export default {
       this.edit_dialog = false
     },
     deleteSizeChart(item) {
-      this.selectedChart = item
-      this.delete_dialog = true
+      this.selectedChart = item;
+      this.delete_dialog = true;
     },
     async deleteChart() {
       await this.deleteOneSizeChart({
@@ -395,7 +393,6 @@ export default {
     },
     newDialog() {
       this.new_dialog = true;
-
       this.headFields.forEach(elem => {
         this.new_chart[elem.value] = ''
       });
