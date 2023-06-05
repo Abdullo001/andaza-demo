@@ -1,11 +1,10 @@
 <template>
   <div>
-    <Breadcrumbs :maps="map_links" />
+    <Breadcrumbs :maps="map_links"/>
     <v-card elevation="0" class="mt-2 rounded-lg">
       <v-card-title>
         <div class="text-capitalize">
           {{ $t("sidebar.calculations") }}
-
           <v-chip
             color="#10BF41"
             class="text-capitalize ml-5 font-weight-bold"
@@ -14,15 +13,13 @@
             {{ title }}
           </v-chip>
         </div>
-        <v-spacer />
+        <v-spacer/>
       </v-card-title>
-      <v-divider />
+      <v-divider/>
       <v-card-text class="pb-0">
         <v-row>
-          <v-col cols="12" lg="3" md="3">
-            <div class="label">
-              {{ $t("prefinances.child.prefinanceNumber") }}
-            </div>
+          <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">{{ $t("prefinances.child.prefinanceNumber") }}</div>
             <v-text-field
               outlined
               class="rounded-lg base"
@@ -35,7 +32,7 @@
               disabled
             />
           </v-col>
-          <v-col cols="12" lg="3" md="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t("prefinances.child.modelNumber") }}</div>
             <v-combobox
               v-model="addPreFinances.modelNumber"
@@ -58,7 +55,7 @@
               </template>
             </v-combobox>
           </v-col>
-          <v-col cols="12" lg="3" md="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t("prefinances.child.modelName") }}</div>
             <v-text-field
               outlined
@@ -72,7 +69,7 @@
               disabled
             />
           </v-col>
-          <v-col cols="12" lg="3" md="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t("prefinances.child.partner") }}</div>
             <v-text-field
               v-model="addPreFinances.partner"
@@ -87,7 +84,9 @@
               append-icon=""
             />
           </v-col>
-          <v-col cols="12" lg="3" md="3">
+        </v-row>
+        <v-row :class="showObject">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">
               {{ $t("prefinances.child.primaryCurrency") }}
             </div>
@@ -104,7 +103,7 @@
               append-icon="mdi-chevron-down"
             />
           </v-col>
-          <v-col cols="12" lg="3" md="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">
               {{ $t("prefinances.child.secondaryCurrency") }}
             </div>
@@ -121,7 +120,7 @@
               append-icon="mdi-chevron-down"
             />
           </v-col>
-          <v-col cols="12" lg="3" md="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">
               {{ $t("prefinances.child.tertiaryCurrency") }}
             </div>
@@ -138,8 +137,7 @@
               append-icon="mdi-chevron-down"
             />
           </v-col>
-          <v-col cols="12" lg="3" md="3"></v-col>
-          <v-col cols="12" lg="3" md="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t("prefinances.child.primaryRare") }}</div>
             <v-text-field
               v-model="addPreFinances.primaryRate"
@@ -152,7 +150,7 @@
               placeholder="0"
             />
           </v-col>
-          <v-col cols="12" lg="3" md="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t("prefinances.child.secondaryRate") }}</div>
             <v-text-field
               v-model="addPreFinances.secondaryRate"
@@ -165,7 +163,7 @@
               placeholder="0"
             />
           </v-col>
-          <v-col cols="12" lg="3" md="3">
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t("prefinances.child.tertiaryRate") }}</div>
             <v-text-field
               v-model="addPreFinances.tertiaryRate"
@@ -178,107 +176,108 @@
               placeholder="0"
             />
           </v-col>
-
-          <v-row class="ma-0">
-            <v-col cols="12" lg="6" md="6">
-              <div class="label">{{ $t("prefinances.child.description") }}</div>
-              <v-textarea
-                v-model="addPreFinances.description"
-                outlined
-                class="rounded-lg base"
-                hide-details
-                color="#7631FF"
-                dense
-                rows="4"
-                :placeholder="$t('prefinances.child.enterDescription')"
-              />
-            </v-col>
-            <v-col cols="12" lg="6" md="6" class="d-flex flex-wrap">
-              <v-col cols="12" lg="6" class="pl-0 pt-0">
-                <div class="label">{{ $t("prefinances.child.owner") }}</div>
-                <v-text-field
-                  v-model="addPreFinances.owner"
-                  outlined
-                  height="44"
-                  class="rounded-lg base"
-                  hide-details
-                  color="#7631FF"
-                  dense
-                  :placeholder="$t('prefinances.child.enterOwner')"
-                  disabled
-                />
-              </v-col>
-              <v-col cols="12" lg="6" class="pt-0 pr-0">
-                <div class="label">
-                  {{ $t("prefinances.child.createdTime") }}
-                </div>
-                <v-text-field
-                  v-model="addPreFinances.createdAt"
-                  outlined
-                  height="44"
-                  class="rounded-lg base"
-                  hide-details
-                  color="#7631FF"
-                  dense
-                  placeholder="dd.MM.yyyy HH:mm:ss"
-                  disabled
-                >
-                  <template #append>
-                    <v-img src="/date-icon.svg" />
-                  </template>
-                </v-text-field>
-              </v-col>
-              <v-col cols="12" lg="6" class="pl-0 pt-0">
-                <div class="label">
-                  {{ $t("prefinances.child.modifiedPerson") }}
-                </div>
-                <v-text-field
-                  v-model="addPreFinances.modifiedPerson"
-                  outlined
-                  height="44"
-                  class="rounded-lg base"
-                  hide-details
-                  color="#7631FF"
-                  dense
-                  :placeholder="$t('prefinances.child.enterModifiedPerson')"
-                  disabled
-                />
-              </v-col>
-              <v-col cols="12" lg="6" class="pt-0 pr-0">
-                <div class="label">
-                  {{ $t("prefinances.child.updatedTime") }}
-                </div>
-                <v-text-field
-                  v-model="addPreFinances.updatedAt"
-                  outlined
-                  height="44"
-                  class="rounded-lg base"
-                  hide-details
-                  color="#7631FF"
-                  dense
-                  placeholder="dd.MM.yyyy HH:mm:ss"
-                  disabled
-                >
-                  <template #append>
-                    <v-img src="/date-icon.svg" />
-                  </template>
-                </v-text-field>
-              </v-col>
-            </v-col>
-          </v-row>
+          <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">{{ $t("prefinances.child.owner") }}</div>
+            <v-text-field
+              v-model="addPreFinances.owner"
+              outlined
+              height="44"
+              class="rounded-lg base"
+              hide-details
+              color="#7631FF"
+              dense
+              :placeholder="$t('prefinances.child.enterOwner')"
+              disabled
+            />
+          </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">{{ $t("prefinances.child.createdTime") }}</div>
+            <v-text-field
+              v-model="addPreFinances.createdAt"
+              outlined
+              height="44"
+              class="rounded-lg base"
+              hide-details
+              color="#7631FF"
+              dense
+              placeholder="dd.MM.yyyy HH:mm:ss"
+              disabled
+            >
+              <template #append>
+                <v-img src="/date-icon.svg"/>
+              </template>
+            </v-text-field>
+          </v-col>
+          <v-col cols="12" lg="6" md="6" sm="6">
+            <div class="label">{{ $t("prefinances.child.description") }}</div>
+            <v-textarea
+              v-model="addPreFinances.description"
+              outlined
+              class="rounded-lg base"
+              hide-details
+              color="#7631FF"
+              dense
+              rows="1"
+              auto-grow
+              :placeholder="$t('prefinances.child.enterDescription')"
+            />
+          </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">
+              {{ $t("prefinances.child.modifiedPerson") }}
+            </div>
+            <v-text-field
+              v-model="addPreFinances.modifiedPerson"
+              outlined
+              height="44"
+              class="rounded-lg base"
+              hide-details
+              color="#7631FF"
+              dense
+              :placeholder="$t('prefinances.child.enterModifiedPerson')"
+              disabled
+            />
+          </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">
+              {{ $t("prefinances.child.updatedTime") }}
+            </div>
+            <v-text-field
+              v-model="addPreFinances.updatedAt"
+              outlined
+              height="44"
+              class="rounded-lg base"
+              hide-details
+              color="#7631FF"
+              dense
+              placeholder="dd.MM.yyyy HH:mm:ss"
+              disabled
+            >
+              <template #append>
+                <v-img src="/date-icon.svg"/>
+              </template>
+            </v-text-field>
+          </v-col>
+          <v-col cols="12" class="d-flex justify-end align-end">
+            <v-btn
+              color="#7631FF"
+              dark
+              class="text-capitalize rounded-lg font-weight-bold"
+              style="min-width: 130px"
+              @click="createNewPreFinance"
+            >
+              {{ btn }}
+            </v-btn>
+          </v-col>
         </v-row>
       </v-card-text>
-      <v-card-actions class="pb-6">
-        <v-spacer />
-        <v-btn
-          color="#7631FF"
-          dark
-          class="text-capitalize rounded-lg font-weight-bold"
-          style="min-width: 130px"
-          @click="createNewPreFinance"
-        >
-          {{ btn }}
-        </v-btn>
+      <v-card-actions class="py-6">
+        <v-spacer/>
+        <ShowBtnComponent
+          :click-btn="clickBtn"
+          :show_btn_value="show_btn"
+        />
+        <v-spacer/>
       </v-card-actions>
     </v-card>
     <v-card class="mt-4 rounded-lg" elevation="0">
@@ -301,7 +300,7 @@
               }"
             >
               <template #top>
-                <v-divider />
+                <v-divider/>
                 <v-toolbar elevation="0">
                   <v-toolbar-title
                     class="d-flex justify-space-between w-full align-center"
@@ -339,7 +338,7 @@
                         @click="editRow(item, index)"
 
                       >
-                        <v-img src="/edit-active.svg" max-width="22" />
+                        <v-img src="/edit-active.svg" max-width="22"/>
                       </v-btn>
 
                     </template>
@@ -360,7 +359,7 @@
 
                         @click="deleteRow(item, index)"
                       >
-                        <v-img src="/delete.svg" max-width="27" />
+                        <v-img src="/delete.svg" max-width="27"/>
                       </v-btn>
                     </template>
                     <span>{{ $t("prefinances.child.delete") }}</span>
@@ -368,7 +367,7 @@
                 </div>
               </template>
               <template #footer>
-                <v-divider />
+                <v-divider/>
                 <div class="d-flex justify-end mt-4 mr-2 text-body-1">
                   {{ $t("prefinances.child.totalPrice") }}: {{ totalPrice }} USD
                 </div>
@@ -408,7 +407,7 @@
                       v-bind="attrs"
                       @click.stop
                     >
-                      <v-img src="/download.svg" max-width="24" />
+                      <v-img src="/download.svg" max-width="24"/>
                     </v-btn>
                   </template>
                   <span>{{ $t("prefinances.child.download") }}</span>
@@ -425,9 +424,10 @@
       <v-col cols="12" lg="5" class="mb-4">
         <v-card class="mt-4 rounded-lg" elevation="0" height="100%">
           <v-card-title>{{
-            $t("prefinances.child.photosModels")
-          }}</v-card-title>
-          <v-divider />
+              $t("prefinances.child.photosModels")
+            }}
+          </v-card-title>
+          <v-divider/>
           <v-card-text class="mt-4">
             <v-row>
               <v-col
@@ -458,7 +458,7 @@
                 :key="`images_${idx}`"
               >
                 <div class="rounded-lg model-images overflow-hidden">
-                  <v-img :src="link.filePath" />
+                  <v-img :src="link.filePath"/>
                 </div>
               </v-col>
             </v-row>
@@ -469,9 +469,9 @@
         <v-card class="mt-4 rounded-lg" elevation="0">
           <v-card-title>
             {{ $t("prefinances.child.calculations") }}
-            <v-spacer />
+            <v-spacer/>
             <v-btn outlined class="text-capitalize rounded-lg">
-              <v-img src="/clear.svg" max-width="16" class="mr-2" />
+              <v-img src="/clear.svg" max-width="16" class="mr-2"/>
               {{ $t("prefinances.child.clear") }}
             </v-btn>
           </v-card-title>
@@ -520,9 +520,9 @@
               </template>
             </v-data-table>
           </v-card-text>
-          <v-divider />
+          <v-divider/>
           <v-card-actions>
-            <v-spacer />
+            <v-spacer/>
             <v-btn
               color="#7631FF"
               class="text-capitalize rounded-lg"
@@ -651,20 +651,20 @@
           </v-form>
         </v-card-text>
         <v-card-actions class="py-4">
-          <v-spacer />
+          <v-spacer/>
           <v-btn
             color="amber"
             text
             class="text-capitalize font-weight-bold"
             @click="new_details = false"
-            >{{ $t("prefinances.child.cancel") }}
+          >{{ $t("prefinances.child.cancel") }}
           </v-btn>
           <v-btn
             color="#7631FF"
             text
             class="text-capitalize font-weight-bold"
             @click="createDetailsNew"
-            >{{ $t("prefinances.child.save") }}
+          >{{ $t("prefinances.child.save") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -754,20 +754,20 @@
           </v-form>
         </v-card-text>
         <v-card-actions class="py-4">
-          <v-spacer />
+          <v-spacer/>
           <v-btn
             color="amber"
             text
             class="text-capitalize font-weight-bold"
             @click="cancelFunc"
-            >{{ $t("prefinances.child.cancel") }}
+          >{{ $t("prefinances.child.cancel") }}
           </v-btn>
           <v-btn
             color="#7631FF"
             text
             class="text-capitalize font-weight-bold"
             @click="updateDetailsFunc"
-            >{{ $t("prefinances.child.updateBtn") }}
+          >{{ $t("prefinances.child.updateBtn") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -776,12 +776,13 @@
     <v-dialog v-model="delete_dialog" max-width="500">
       <v-card class="pa-4 text-center">
         <div class="d-flex justify-center mb-2">
-          <v-img src="/error-icon.svg" max-width="40" />
+          <v-img src="/error-icon.svg" max-width="40"/>
         </div>
         <v-card-title class="d-flex justify-center"
-          >Delete detail row</v-card-title
+        >Delete detail row
+        </v-card-title
         >
-        <v-card-text> Are you sure you want to Delete detail row? </v-card-text>
+        <v-card-text> Are you sure you want to Delete detail row?</v-card-text>
         <v-card-actions class="px-16">
           <v-btn
             outlined
@@ -792,7 +793,7 @@
           >
             cancel
           </v-btn>
-          <v-spacer />
+          <v-spacer/>
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             color="#FF4E4F"
@@ -810,15 +811,17 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import DefaultLayout from "@/layouts/default.vue";
 import Breadcrumbs from "../../components/Breadcrumbs.vue";
+import ShowBtnComponent from "../../components/ShowComponentBtn/ShowBtn.vue";
 
 export default {
   name: "CreatePreFinancePage",
-  components: { Breadcrumbs, DefaultLayout },
+  components: {ShowBtnComponent, Breadcrumbs, DefaultLayout},
   data() {
     return {
+      show_btn: true,
       hide_calc: true,
       new_details: false,
       delete_dialog: false,
@@ -889,10 +892,10 @@ export default {
           align: "start",
           sortable: false,
         },
-        { text: "", value: "editable", sortable: false, width: 110 },
-        { text: "USD", value: "firstCurrency", sortable: false, width: 110 },
-        { text: "UZS", value: "secondCurrency", sortable: false, width: 110 },
-        { text: "RUB", value: "tertiaryCurrency", sortable: false, width: 110 },
+        {text: "", value: "editable", sortable: false, width: 110},
+        {text: "USD", value: "firstCurrency", sortable: false, width: 110},
+        {text: "UZS", value: "secondCurrency", sortable: false, width: 110},
+        {text: "RUB", value: "tertiaryCurrency", sortable: false, width: 110},
       ],
       detailsHeaders: [
         {
@@ -929,7 +932,7 @@ export default {
           text: this.$t("prefinances.child.detailsHeaders.price"),
           value: "price",
         },
-        { text: "", value: "delete", sortable: false },
+        {text: "", value: "delete", sortable: false},
       ],
       documentsHeaders: [
         {
@@ -1090,7 +1093,7 @@ export default {
       tab: null,
       items: ["Details", "Documents"],
       count: 1,
-      allDocuments: [{ type: "word" }],
+      allDocuments: [{type: "word"}],
       model_first: null,
       model_second: null,
       model_third: null,
@@ -1107,8 +1110,12 @@ export default {
     };
   },
   computed: {
+    showObject() {
+      return {
+        show_active: this.show_btn
+      }
+    },
     ...mapGetters({
-
       modelNames: "preFinance/modelNames",
       modelData: "preFinance/modelData",
       preFinanceId: "preFinance/preFinanceId",
@@ -1121,17 +1128,16 @@ export default {
       documentsList: "documents/documentsList",
       onePreFinance: "preFinance/onePreFinance",
       selectedModelNumber: "preFinance/selectedModelNumber",
-
     }),
     title() {
       const id = this.$route.params.id;
-      return id === "create" ? "Add" : id==="creating"?"Add":"Update";
+      return id === "create" ? "Add" : id === "creating" ? "Add" : "Update";
     },
     btn() {
       const id = this.$route.params.id;
       return id === "create"
         ? this.$t("prefinances.child.save")
-        : id === "creating"?this.$t("prefinances.child.save"):this.$t("update");
+        : id === "creating" ? this.$t("prefinances.child.save") : this.$t("update");
     },
   },
   watch: {
@@ -1167,11 +1173,11 @@ export default {
       if (typeof val[0]?.id === "number") {
         const id = val[0]?.id;
         await this.getImages(id);
-        await this.getDocuments({ modelId: id });
+        await this.getDocuments({modelId: id});
       }
 
       if (this.$route.params.id === "creating") {
-        const data = { ...val[0] };
+        const data = {...val[0]};
         this.addPreFinances = {
           id: data.id,
           modelNames: data.name,
@@ -1193,10 +1199,10 @@ export default {
     "addPreFinances.modelNumber"(elem) {
 
       if (!(elem === "null" || typeof elem === "object")) {
-      
+
         this.getModelName(elem);
       }
-        const { modelNumber, name, partner, id } = this.addPreFinances.modelNumber;
+      const {modelNumber, name, partner, id} = this.addPreFinances.modelNumber;
       if (
         (Object.keys(this.addPreFinances.modelNumber).length > 3 && modelNumber) || name || partner !== undefined
       ) {
@@ -1406,6 +1412,9 @@ export default {
       deleteDetails: "preFinance/deleteDetails",
       updateDetails: "preFinance/updateDetails",
     }),
+    clickBtn() {
+      this.show_btn = !this.show_btn
+    },
     saveCalculation() {
       const calcVal = this.calculation.filter(
         (el) => el.status === false || el.usd_disabled === false
@@ -1419,7 +1428,6 @@ export default {
         currency: 2,
       });
     },
-
     async createDetailsNew() {
       const data = {
         quantity: this.details.quantity,
@@ -1430,7 +1438,6 @@ export default {
       };
       await this.createDetails(data);
       this.new_details = false;
-
       this.details.quantity = "";
       this.details.pricePerUnit = "";
       this.details.measurementUnit = "";
@@ -1444,22 +1451,19 @@ export default {
       this.delete_dialog = true;
       this.deletedDetailId = item.id;
     },
-
     deleteFunc() {
-      this.deleteDetails({ id: this.deletedDetailId });
+      this.deleteDetails({id: this.deletedDetailId});
       this.delete_dialog = false;
     },
-
     editRow(item, index) {
       this.update_details = true;
       this.details.expenseGroup = {
         id: item.expenseGroupId,
         name: item.expenseGroup,
       };
-      this.selectDetail = { ...item };
-      
-    },
+      this.selectDetail = {...item};
 
+    },
     updateDetailsFunc() {
       const data = {
         expenseId: this.selectDetail.expenseId,
@@ -1490,7 +1494,7 @@ export default {
     } else {
       this.$store.commit("modelPhoto/setModelImages", []);
       this.$store.commit("documents/setDocuments", []);
-      this.$store.commit("preFinance/setDetailsList", [{ totalPrice: 0 }]);
+      this.$store.commit("preFinance/setDetailsList", [{totalPrice: 0}]);
       setTimeout(() => {
         this.calculation[0].secondCurrency = 0;
         this.calculation[0].tertiaryCurrency = 0;
@@ -1504,4 +1508,4 @@ export default {
 };
 </script>
 
-<style lang="scss" src="../../assets/abstracts/_prefinances.scss" scoped />
+<style lang="scss" src="../../assets/abstracts/_prefinances.scss" scoped/>
