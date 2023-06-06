@@ -2,10 +2,7 @@ export const state = () => ({
   printingList: [],
   printOne: [],
   printType: {
-    content: [
-      {id: 1, name: ''},
-      {id: 2, name: ''}
-    ]
+    content: []
   },
 
 });
