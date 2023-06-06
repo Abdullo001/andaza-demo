@@ -1411,6 +1411,7 @@ export default {
       getOneDetails: "preFinance/getOneDetails",
       deleteDetails: "preFinance/deleteDetails",
       updateDetails: "preFinance/updateDetails",
+      updatePreFinance: "preFinance/updatePreFinance",
     }),
     clickBtn() {
       this.show_btn = !this.show_btn
@@ -1445,7 +1446,14 @@ export default {
       this.details.expenseGroup = "";
     },
     async createNewPreFinance() {
-      await this.createPreFinance(this.addPreFinances);
+      const params = this.$route.params.id;
+      if (params === "create"){
+        await this.createPreFinance(this.addPreFinances);
+      } else {
+        const { description, id, modelId, primaryCurrency, primaryRate, secondaryCurrency, secondaryRate,  tertiaryCurrency, tertiaryRate  } = this.addPreFinances;
+        const item = { description, id, modelId, primaryCurrency, primaryRate, secondaryCurrency, secondaryRate,  tertiaryCurrency, tertiaryRate  }
+        await this.updatePreFinance(item);
+      }
     },
     deleteRow(item, index) {
       this.delete_dialog = true;
