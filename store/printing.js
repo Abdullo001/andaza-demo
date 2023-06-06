@@ -19,42 +19,44 @@ export const mutations = {
     state.printingList = item;
   },
   setPrintOne(state, print) {
-    state.printOne = [{...print}]
+    state.printOne = print
   },
   setPrintType(state, type) {
     state.printType = type;
   }
 };
 export const actions = {
-  getPrintingList({commit}, {page= 0, size = 10}) {
+  async getPrintingList({commit}, {page= 0, size = 10}) {
     const body = {
       filters: [],
       sorts: [],
       page,
       size,
     }
-    this.$axios.$put('/api/v1/prints/list', body)
+    await this.$axios.$put('/api/v1/prints/list', body)
       .then(res => {
         commit('setPrinting', res.data.content);
         commit('setPrintOne', [])
       })
       .catch(({response}) => console.log(response))
   },
-  getPrintOne({commit}, {id}) {
-    this.$axios.$get(`/api/v1/prints/list-by-model?modelId=${id}`)
+  async getPrintOne({commit}, id) {
+    await this.$axios.$get(`/api/v1/prints/list-by-model?modelId=${id}`)
       .then(res => {
-        // commit('setPrintOne', res.data);
-        commit('setPrinting', res.data)
+        commit('setPrintOne', res.data);
       })
-      .catch(({response}) => console.log(response))
+      .catch(({response}) => {
+        console.log(response)
+        this.$toast.error(response.message)
+      })
   },
-  getPrintType({commit}, {page = 0, size = 10}) {
+  async getPrintType({commit}, {page = 0, size = 10}) {
     const body = {
       filters: [],
       sorts: [],
       page, size
     }
-    this.$axios.$put(`/api/v1/print-type/list`, body)
+    await this.$axios.$put(`/api/v1/print-type/list`, body)
       .then(res => {
         commit('setPrintType', res.data)
       })
@@ -66,15 +68,15 @@ export const actions = {
         commit('setPrinting', res.data);
       }).catch(({response}) => console.log(response))
   },
-  createPrints({commit, dispatch}, data) {
-    this.$axios.$post(`/api/v1/prints/create`, data)
+  async createPrints({commit, dispatch}, data) {
+    await this.$axios.$post(`/api/v1/prints/create`, data)
       .then(res => {
-        dispatch('getModelPrints', data.modelId);
+        dispatch('getPrintOne', data.modelId);
         this.$toast.success(res.message, {theme: 'toasted-primary'})
       })
       .catch(({response}) => console.log(response))
   },
-  updatePrints({dispatch}, item) {
+  async updatePrints({dispatch}, item) {
     const data = {
       colorQuantity: item.colorQuantity,
       currency: item.currency,
@@ -86,7 +88,7 @@ export const actions = {
       printTypeId: item.printTypeId,
       sentDate: item.sentDate
     }
-    this.$axios.$put(`/api/v1/prints/update`, data)
+    await this.$axios.$put(`/api/v1/prints/update`, data)
       .then(res => {
         dispatch('getModelPrints', item.modelId);
         this.$toast.success(res.message, {theme: 'toasted-primary'})

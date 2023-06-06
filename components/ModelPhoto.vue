@@ -13,21 +13,21 @@
             accept="image/*"
           />
 
-            <div class="update__icon" v-if="!!files[0].file">
-              <v-btn color="green" icon   @click="getFile('first')">
-                <v-img src="/upload-green.svg" max-width="22"/>
-              </v-btn>
-              <v-btn color="green" icon  @click="deleteFile('first')">
-                <v-img src="/trash-red.svg" max-width="22"/>
-              </v-btn>
-            </div>
+          <div class="update__icon" v-if="!!files[0].file">
+            <v-btn color="green" icon @click="getFile('first')">
+              <v-img src="/upload-green.svg" max-width="22"/>
+            </v-btn>
+            <v-btn color="green" icon @click="deleteFile('first')">
+              <v-img src="/trash-red.svg" max-width="22"/>
+            </v-btn>
+          </div>
 
-            <v-img
-              :src="images[0].photo"
-              lazy-src="/model-image.jpg"
-              v-if="!!files[0].file" width="100%"
-              @click="showImage(images[0].photo)"
-            />
+          <v-img
+            :src="images[0].photo"
+            lazy-src="/model-image.jpg"
+            v-if="!!files[0].file" width="100%"
+            @click="showImage(images[0].photo)"
+          />
 
           <div class="default__box" v-else>
             <v-img src="/default-image.svg" width="70"/>
@@ -35,10 +35,10 @@
               <v-img src="/upload.svg" class="mr-2"/>
               <div class="text-capitalize upload-text">Upload Image</div>
             </v-btn>
-          <div class="default__text">
-            <p>Upload a cover image for your product.</p>
-            <p>File Format <span>jpeg, png</span> Recommend Size <span>600x600 (1:1)</span></p>
-          </div>
+            <div class="default__text">
+              <p>Upload a cover image for your product.</p>
+              <p>File Format <span>jpeg, png</span> Recommend Size <span>600x600 (1:1)</span></p>
+            </div>
           </div>
 
         </div>
@@ -56,10 +56,10 @@
             />
 
             <div class="update__icon small" v-if="!!files[1].file">
-              <v-btn color="green" icon   @click="getFile('second')">
+              <v-btn color="green" icon @click="getFile('second')">
                 <v-img src="/upload-green.svg" max-width="18"/>
               </v-btn>
-              <v-btn color="green" icon  @click="deleteFile('second')">
+              <v-btn color="green" icon @click="deleteFile('second')">
                 <v-img src="/trash-red.svg" max-width="18"/>
               </v-btn>
             </div>
@@ -87,10 +87,10 @@
               accept="image/*"
             />
             <div class="update__icon small" v-if="!!files[2].file">
-              <v-btn color="green" icon   @click="getFile('third')">
+              <v-btn color="green" icon @click="getFile('third')">
                 <v-img src="/upload-green.svg" max-width="18"/>
               </v-btn>
-              <v-btn color="green" icon  @click="deleteFile('third')">
+              <v-btn color="green" icon @click="deleteFile('third')">
                 <v-img src="/trash-red.svg" max-width="18"/>
               </v-btn>
             </div>
@@ -116,10 +116,10 @@
               accept="image/*"
             />
             <div class="update__icon small" v-if="!!files[3].file">
-              <v-btn color="green" icon   @click="getFile('fourth')">
+              <v-btn color="green" icon @click="getFile('fourth')">
                 <v-img src="/upload-green.svg" max-width="18"/>
               </v-btn>
-              <v-btn color="green" icon  @click="deleteFile('fourth')">
+              <v-btn color="green" icon @click="deleteFile('fourth')">
                 <v-img src="/trash-red.svg" max-width="18"/>
               </v-btn>
             </div>
@@ -146,14 +146,16 @@
             height="44"
             style="border-width: 2px"
             @click="clearImages"
-          >clear</v-btn>
+          >clear
+          </v-btn>
           <v-btn
             class="rounded-lg white--text ml-6"
             color="#7631FF"
             width="130"
             height="44"
             @click="saveImages"
-          >save</v-btn>
+          >save
+          </v-btn>
         </div>
       </v-col>
     </v-row>
@@ -220,7 +222,7 @@ export default {
     async saveImages() {
       const param = this.$route.params.id;
       let id = '';
-      if(param === 'add-model') {
+      if (param === 'add-model') {
         id = this.newModelId
       } else id = param;
       await this.uploadImages({
@@ -261,20 +263,30 @@ export default {
       this.images[3].photo = URL.createObjectURL(this.files[3].file);
     },
     clearImages() {
-      for(let i=0; i<=3; i++) this.files[i].file = null;
+      for (let i = 0; i <= 3; i++) this.files[i].file = null;
     },
     deleteFile(count) {
       switch (count) {
-        case 'first': this.files[0].file = null; break;
-        case 'second': this.files[1].file = null; break;
-        case 'third': this.files[2].file = null; break;
-        case 'fourth': this.files[3].file = null; break;
+        case 'first':
+          this.files[0].file = null;
+          break;
+        case 'second':
+          this.files[1].file = null;
+          break;
+        case 'third':
+          this.files[2].file = null;
+          break;
+        case 'fourth':
+          this.files[3].file = null;
+          break;
       }
     }
   },
   mounted() {
     const id = this.$route.params.id;
-    this.getImages(id);
+    if (id !== "add-model") {
+      this.getImages(id);
+    }
   }
 }
 </script>
@@ -286,6 +298,7 @@ export default {
   object-position: center;
   object-fit: cover;
 }
+
 .card-image {
   object-fit: cover;
   object-position: center;
@@ -293,6 +306,7 @@ export default {
   height: 100%;
 
 }
+
 .update__icon {
   border-radius: 16px;
   position: absolute !important;
@@ -301,14 +315,17 @@ export default {
   right: 10px;
   background-color: #fff;
   padding: 5px;
+
   &.small {
     padding: 0 2px;
   }
 }
+
 .relative {
   position: relative !important;
   width: 100%;
 }
+
 .upload-text {
   font-weight: 500;
   font-size: 16px;
@@ -316,7 +333,8 @@ export default {
   text-align: center;
   color: #5570F1;
 }
-.big__image{
+
+.big__image {
   background: #F4F5FA;
   height: 413px;
   display: flex;
@@ -333,6 +351,7 @@ export default {
   align-items: center;
   flex-direction: column;
 }
+
 .default__text {
   > p {
     font-weight: 400;
@@ -341,16 +360,19 @@ export default {
     text-align: center;
     color: #8B8D97;
     margin-bottom: 7px;
+
     > span {
       color: #000;
     }
   }
 }
+
 .cards {
   display: flex;
   width: 100%;
   gap: 20px;
 }
+
 .card__item {
   overflow: hidden;
   display: flex;
@@ -363,6 +385,7 @@ export default {
   border-radius: 12px;
   border: 1px solid #E1E2E9;
 }
+
 .upload-text-child {
   font-size: 14px;
 }

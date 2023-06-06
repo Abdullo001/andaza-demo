@@ -2,14 +2,16 @@
   <div>
     <v-data-table
       :headers="headers"
-      :items="!!printingList.length ? printingList : printOne"
+      :items="printOne"
       :items-per-page="10"
       hide-default-footer
       class="elevation-0"
     >
       <template #top>
+        {{newModelId}}
         <v-toolbar elevation="0">
           <v-toolbar-title class="w-full d-flex">
+            Printing
             <v-spacer/>
             <v-btn
               class="text-capitalize rounded-lg"
@@ -262,7 +264,8 @@ export default {
       printingList: 'printing/printingList',
       printOne: 'printing/printOne',
       printTypeEnums: 'printing/printTypeEnums',
-      partnerEnums: 'models/partner_enums'
+      partnerEnums: 'models/partner_enums',
+      newModelId: "models/newModelId"
     }),
     checkModelId() {
       const param = this.$route.params.id;
@@ -301,8 +304,8 @@ export default {
       })
       this.delete_dialog = false
     },
-    async createNewPrints(item) {
-      const id = this.$route.params.id;
+    async createNewPrints() {
+      const id = this.newModelId;
       const data = this.newPrints;
       data.modelId = id;
       await this.createPrints(data);
@@ -326,9 +329,11 @@ export default {
   async mounted() {
     const id = this.$route.params.id;
     if (id !== 'add-model') {
-      await this.getPrintOne({id: id, page: 0, size: 10});
-    } else await this.getPrintingList({page: 0, size: 20})
-    await this.getPrintType({page: 0, size: 10})
+      await this.getPrintOne(id);
+    } else {
+      await this.getPrintType({page: 0, size: 10})
+      await this.$store.commit("printing/setPrintOne", []);
+    }
   }
 }
 </script>
