@@ -10,6 +10,7 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="w-full d-flex">
+            Model Parts
             <v-spacer/>
             <v-btn
               class="rounded-lg text-capitalize"
@@ -341,8 +342,8 @@ export default {
     const id = this.$route.params.id;
     if(id !== 'add-model') {
       await this.getModelPart(id)
-    } else {
-      this.$store.commit('modelParts/setModelPartsList', [])
+    }else {
+      await this.$store.commit("modelParts/setModelPartsList", [])
     }
   }
 }
