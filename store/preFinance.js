@@ -8,7 +8,6 @@ export const state = () => ({
   detailsList: [{ totalPrice: 0 }],
   loading: true,
   onePreFinance: {},
-
   selectedModelNumber: ''
 })
 export const getters = {
@@ -122,7 +121,7 @@ export const actions = {
       .$put(`/api/v1/models/list?partner=`, body)
       .then((res) => {
         commit("setModelName", res.data.content);
-       
+
       })
       .catch(({ response }) => {
         console.log(response);
@@ -142,6 +141,7 @@ export const actions = {
     await this.$axios
       .$post("/api/v1/pre-finances/create", body)
       .then((res) => {
+        commit("setOnePreFinance", res.data);
         commit("setPreFinanceId", res.data.id);
         this.$toast.success(res.message, { theme: "toasted-primary" });
         dispatch("getAllDetails", res.data.id);
@@ -165,9 +165,7 @@ export const actions = {
       priceWithDiscountUSD: data.priceWithDiscountUSD,
       priceWithDiscountRUB: data.priceWithDiscountRUB,
       priceWithDiscountUZS: data.priceWithDiscountUZS,
-
     };
-
     await this.$axios
       .$put(`/api/v1/pre-finances/prefinance-calculations`, body)
       .then((res) => {
@@ -237,7 +235,7 @@ export const actions = {
     await this.$axios
       .get(`/api/v1/possible-expense/get?id=98`)
       .then((res) => {
-        
+
       })
       .catch((res) => {
         console.log(res);
