@@ -127,6 +127,17 @@ export const actions = {
         console.log(response);
       });
   },
+  async updatePreFinance({commit, dispatch}, data){
+    await this.$axios.$put('/api/v1/pre-finances/update', data)
+      .then(res => {
+        commit("setOnePreFinance", res.data);
+        this.$toast.success(res.message);
+        dispatch("getAllDetails", res.data.id);
+      })
+      .catch(({response}) => {
+        this.$toast.error(response.data.message, { theme: "toasted-primary" });
+      })
+  },
   async createPreFinance({ commit, dispatch }, data) {
     const body = {
       modelId: data.id,
