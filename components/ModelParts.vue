@@ -341,8 +341,9 @@ export default {
     const id = this.$route.params.id;
     if(id !== 'add-model') {
       await this.getModelPart(id)
+    } else {
+      this.$store.commit('modelParts/setModelPartsList', [])
     }
-
   }
 }
 </script>

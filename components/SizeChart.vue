@@ -57,6 +57,30 @@
                 </v-list-item-group>
               </v-list>
             </v-menu>
+            <div style="width: 370px;">
+              <v-file-input
+                dense
+                outlined
+                class="rounded-lg ml-5 base pr-0"
+                hide-details
+                prepend-icon=""
+                color="#7631FF"
+                placeholder="Upload file"
+                ref="getFile"
+              >
+                <template #append>
+                  <v-btn
+                    color="#7631FF"
+                    class="text-capitalize"
+                    small
+                    dark
+                    @click="uploadFile"
+                  >
+                    Upload file
+                  </v-btn>
+                </template>
+              </v-file-input>
+            </div>
             <v-spacer/>
             <v-btn
               class="rounded-lg text-capitalize"
@@ -114,27 +138,6 @@
                     />
                   </template>
                 </v-text-field>
-              </v-col>
-              <v-col
-                cols="12"
-                lg="4"
-              >
-                <div class="label">File</div>
-                <v-file-input
-                  label="Upload file"
-                  placeholder="Select file"
-                  dense
-                  outlined
-                  height="44"
-                  class="rounded-lg base"
-                  validate-on-blur
-                  color="#7631FF"
-                  hide-details
-                  show-size
-                  prepend-icon=""
-                  prepend-inner-icon="mdi-file-document-outline"
-                  v-model="new_chart.file"
-                />
               </v-col>
             </v-row>
           </v-form>
@@ -313,10 +316,11 @@ export default {
       this.headFields = data;
     },
     chartSizes(val) {
+      console.log(val);
       if (this.headers.length <= 10) {
-        val[0]?.sizeTemplateSizeValues.forEach((el) => {
+        val[0]?.sizeTemplateSizeValues.forEach((el, idx) => {
           const res = {text: el.name, sortable: false, value: el.name.toUpperCase()};
-          this.headers.splice(3, 0, res);
+          this.headers.splice(4, 0, res);
         });
         let arr = [...this.headers];
         arr = arr.slice(0, 3).concat(arr.slice(3, -7).reverse()).concat(arr.slice(-7));
@@ -343,6 +347,9 @@ export default {
       deleteOneSizeChart: 'sizeChart/deleteOneSizeChart',
       updateChartSizes: 'sizeChart/updateChartSizes'
     }),
+    uploadFile() {
+      this.$refs.getFile.$el.querySelector('input').click();
+    },
     async saveChart() {
       let data = {...this.new_chart};
       const id = this.$route.params.id;
@@ -433,5 +440,7 @@ export default {
 .v-list-item-group .v-list-item--active {
   color: #7631FF;
 }
-
+.v-text-field--full-width.v-input--dense:not(.v-text-field--solo).v-text-field--outlined .v-input__prepend-outer, .v-text-field--full-width.v-input--dense:not(.v-text-field--solo).v-text-field--outlined .v-input__prepend-inner, .v-text-field--full-width.v-input--dense:not(.v-text-field--solo).v-text-field--outlined .v-input__append-inner, .v-text-field--full-width.v-input--dense:not(.v-text-field--solo).v-text-field--outlined .v-input__append-outer, .v-text-field--enclosed.v-input--dense:not(.v-text-field--solo).v-text-field--outlined .v-input__prepend-outer, .v-text-field--enclosed.v-input--dense:not(.v-text-field--solo).v-text-field--outlined .v-input__prepend-inner, .v-text-field--enclosed.v-input--dense:not(.v-text-field--solo).v-text-field--outlined .v-input__append-inner, .v-text-field--enclosed.v-input--dense:not(.v-text-field--solo).v-text-field--outlined .v-input__append-outer {
+  margin-top: 6px;
+}
 </style>
