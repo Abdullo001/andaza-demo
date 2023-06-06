@@ -72,7 +72,7 @@ export const actions = {
     await this.$axios.$put(`/api/v1/model-parts/list?modelId=${id}`, body)
       .then(res => {
         commit('setModelPartsList', res.data.content);
-        
+
       })
       .catch(({response}) => {
         this.$toast.error(response.data.message)

@@ -345,7 +345,6 @@ export default {
     }else {
       await this.$store.commit("modelParts/setModelPartsList", [])
     }
-
   }
 }
 </script>

@@ -132,7 +132,6 @@
         <v-tooltip
           top
           color="green"
-
           class="pointer"
           v-if="Object.keys(item).length > 2"
         >
@@ -143,11 +142,9 @@
               v-on="on"
               color="green"
               @click="editRow(item, index)"
-
             >
               <v-img src="/edit-active.svg" max-width="22" />
             </v-btn>
-
           </template>
           <span class="text-capitalize">Edit</span>
         </v-tooltip>
@@ -163,7 +160,6 @@
               v-bind="attrs"
               v-on="on"
               color="red"
-
               @click="deleteRow(item, index)"
             >
               <v-img src="/delete.svg" max-width="27" />
@@ -190,7 +186,6 @@
             <v-row>
               <v-col cols="12" md="6">
                 <div class="label">Model № <span style="color: red;">*</span></div>
-
                 <v-combobox
                 v-model="sample.modelNumber"
                 :items="modelList"
@@ -283,7 +278,6 @@
 
               <v-col cols="12" md="6">
                 <div class="label">Result <span style="color: red;">*</span></div>
-
                 <v-select
                   v-model="sample.result"
                   :rules="[formRules.required]"
@@ -303,7 +297,7 @@
               <v-col cols="12" >
                 <div class="label">Reason </div>
                 <v-text-field
-                   v-model="sample.reason"
+                  v-model="sample.reason"
                   :rules="[formRules.required]"
                   outlined
                   hide-details
@@ -729,7 +723,7 @@ export default {
       updateSample:"accessorySamples/updateSample",
       changeResult:"accessorySamples/changeResult",
       filterSamples:"accessorySamples/filterSamples",
-      
+
 
     }),
 

@@ -1197,9 +1197,7 @@ export default {
       }
     },
     "addPreFinances.modelNumber"(elem) {
-
       if (!(elem === "null" || typeof elem === "object")) {
-
         this.getModelName(elem);
       }
       const {modelNumber, name, partner, id} = this.addPreFinances.modelNumber;

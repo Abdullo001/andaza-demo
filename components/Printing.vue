@@ -180,7 +180,6 @@
           >
             add
           </v-btn>
-
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -288,7 +287,6 @@ export default {
       createPrints: "printing/createPrints",
       updatePrints: "printing/updatePrints",
       deleteOnePrinting: "printing/deleteOnePrinting",
-
     }),
 
     currentPrint(item) {
@@ -329,6 +327,7 @@ export default {
     const id = this.$route.params.id;
     if (id !== 'add-model') {
       await this.getPrintOne(id);
+      await this.getPrintType({page: 0, size: 10})
     } else {
       await this.getPrintType({page: 0, size: 10})
       await this.$store.commit("printing/setPrintOne", []);
