@@ -8,7 +8,6 @@
       class="elevation-0"
     >
       <template #top>
-        {{newModelId}}
         <v-toolbar elevation="0">
           <v-toolbar-title class="w-full d-flex">
             Printing
