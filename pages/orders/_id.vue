@@ -377,7 +377,7 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <ColorSizeDistirbution/>
+                <ColorSizeDistribution/>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -404,18 +404,18 @@
 <script>
 import Breadcrumbs from "../../components/Breadcrumbs.vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import ColorSizeDistirbution from "../../components/ColorSizeDistirbution.vue";
 import DetailInfo from "../../components/DetailInfo.vue";
 import OrderDocuments from "../../components/OrderDocuments.vue";
 import ShowBtnComponent from "../../components/ShowComponentBtn/ShowBtn.vue";
+import ColorSizeDistribution from "../../components/ColorSizeDistribution.vue";
 
 export default {
   name: 'OrdersChildPage',
   components: {
+    ColorSizeDistribution,
     ShowBtnComponent,
     OrderDocuments,
     DetailInfo,
-    ColorSizeDistirbution,
     Breadcrumbs,
   },
   data() {

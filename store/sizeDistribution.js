@@ -1,12 +1,12 @@
 export const state = () => ({
-  sizeDistirbutionInfo: {},
+  sizeDistributionInfo: {},
   bodyParts: {},
   sizes: [],
   sizeValues: [],
   bodyPartValues: {},
   total: null,
-  overproductionPercent:null,
-  totalWithOverproductionPercent:null,
+  overproductionPercent: null,
+  totalWithOverproductionPercent: null,
   order: [],
 });
 
@@ -16,8 +16,8 @@ export const getters = {
   sizeValues: (state) => state.sizeValues.sizeDistributions,
   bodyPartValues: (state) => state.bodyPartValues.bodyPartsCodes,
   total: (state) => state.total,
-  overproductionPercent: (state)=>state.overproductionPercent,
-  totalWithOverproductionPercent: (state)=>state.totalWithOverproductionPercent,
+  overproductionPercent: (state) => state.overproductionPercent,
+  totalWithOverproductionPercent: (state) => state.totalWithOverproductionPercent,
   modelId: (state) => state.order?.content[0]?.modelId,
 };
 
@@ -25,27 +25,21 @@ export const mutations = {
   setBodyParts(state, item) {
     state.bodyParts = item;
   },
-
   setSizes(state, item) {
     state.sizes = item;
   },
-
   setTotal(state, item) {
     state.total = item;
   },
-
-  setOverproductionPercent(state,item){
-    state.overproductionPercent=item
+  setOverproductionPercent(state, item) {
+    state.overproductionPercent = item
   },
-  totalWithOverproductionPercent(state,item){
-    state.totalWithOverproductionPercent=item
+  totalWithOverproductionPercent(state, item) {
+    state.totalWithOverproductionPercent = item
   },
-
-
   setSizeValues(state, item) {
     state.sizeValues = item;
   },
-
   setBodyPartsValues(state, item) {
     state.bodyPartValues = item;
   },
@@ -55,7 +49,7 @@ export const mutations = {
 };
 
 export const actions = {
-  async getSizeDistirbution({ commit }, { modelId }) {
+  async getSizeDistribution({commit}, {modelId}) {
     await this.$axios
       .get(`/api/v1/orders/size-distributions-info?modelId=${modelId}`)
       .then((res) => {
@@ -66,8 +60,7 @@ export const actions = {
         console.log(response);
       });
   },
-
-  async getSizeDistirbutionValue({ commit }, { modelId, orderId }) {
+  async getSizeDistributionValue({commit}, {modelId, orderId}) {
     await this.$axios
       .get(
         `/api/v1/orders/get-size-distributions?orderId=${orderId}&modelId=${modelId}`
@@ -83,12 +76,11 @@ export const actions = {
         console.log(res);
       });
   },
-
-  async updateSizeDistirbutionValue({ dispatch }, data) {
+  async updateSizeDistributionValue({dispatch}, data) {
     await this.$axios
       .$put(`/api/v1/orders/set-size-distributions`, data)
       .then((res) => {
-        dispatch("getSizeDistirbutionValue", {
+        dispatch("getSizeDistributionValue", {
           modelId: data.modelId,
           orderId: data.orderId,
         });
@@ -99,15 +91,14 @@ export const actions = {
         this.$toast.error(res.message);
       });
   },
-
-  async deleteSizeDistirbutionFunc({ dispatch }, { orderId, modelId }) {
-    await this.$axios.delete(
+  async deleteSizeDistributionFunc({dispatch}, {orderId, modelId}) {
+    await this.$axios.$delete(
       `api/v1/orders/delete-size-distributions?modelId=${modelId}&orderId=${orderId}`)
-      .then((res)=>{
-        dispatch("getSizeDistirbutionValue",{orderId,modelId})
+      .then((res) => {
+        dispatch("getSizeDistributionValue", {orderId, modelId})
         this.$toast.success(res.data.message);
       })
-      .catch((res)=>{
+      .catch((res) => {
         console.log(res);
         this.$toast.error(res.data.message);
 

@@ -12,32 +12,30 @@
           <v-toolbar-title class=" d-flex w-full align-center justify-space-between">
             <div>
               <v-btn
-              class="rounded-lg text-capitalize mr-2 colorSizeBtn"
-              outlined
+                class="rounded-lg text-capitalize mr-2 colorSizeBtn"
+                outlined
               >
                 Supply
               </v-btn>
               <v-btn
-              class="rounded-lg text-capitalize colorSizeBtn"
-              style="color: rgb(119, 124, 133); caret-color: rgb(119, 124, 133)"
-              outlined
+                class="rounded-lg text-capitalize colorSizeBtn"
+                style="color: rgb(119, 124, 133); caret-color: rgb(119, 124, 133)"
+                outlined
               >
-              Cutting info
+                Cutting info
               </v-btn>
             </div>
             <v-btn
               color="#7631FF"
               dark
               class="text-capitalize rounded-lg"
-              @click="new_dialog=true"
+              @click="new_dialog = true"
             >
               <v-icon>mdi-plus</v-icon>
               Add row
-          </v-btn>
+            </v-btn>
           </v-toolbar-title>
         </v-toolbar>
-
-
       </template>
 
       <template #item.actions="{ item }">
@@ -148,11 +146,11 @@
           <v-img src="/error-icon.svg" max-width="40"/>
         </div>
         <v-card-title class="d-flex justify-center"
-        >Delete Color/Size distirbution
+        >Delete Color/Size distribution
         </v-card-title
         >
         <v-card-text>
-          Are you sure you want to Delete Color/Size distirbution?
+          Are you sure you want to Delete Color/Size distribution?
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -171,7 +169,7 @@
             width="140"
             elevation="0"
             dark
-            @click="deleteSizeDistirbution"
+            @click="deleteSizeDistribution"
           >
             delete
           </v-btn>
@@ -184,10 +182,10 @@
 import {mapGetters, mapActions} from "vuex";
 
 export default {
-  name: "ColorSizeDistirbution",
+  name: "ColorSizeDistribution",
   data() {
     return {
-      new_dialog:false,
+      new_dialog: false,
       edit_dialog: false,
       delete_dialog: false,
       new_validate: true,
@@ -216,15 +214,15 @@ export default {
 
   computed: {
     ...mapGetters({
-      sizes: "sizeDistirbution/sizes",
-      bodyParts: "sizeDistirbution/bodyParts",
-      sizeValues: "sizeDistirbution/sizeValues",
-      bodyPartValues: "sizeDistirbution/bodyPartValues",
-      totalItem: "sizeDistirbution/total",
+      sizes: "sizeDistribution/sizes",
+      bodyParts: "sizeDistribution/bodyParts",
+      sizeValues: "sizeDistribution/sizeValues",
+      bodyPartValues: "sizeDistribution/bodyPartValues",
+      totalItem: "sizeDistribution/total",
       newModelIdServer: "orders/newModelId",
       newOrderIdServer: "orders/newOrderId",
-      overproductionPercent:"sizeDistirbution/overproductionPercent",
-      totalWithOverproductionPercent:"sizeDistirbution/totalWithOverproductionPercent",
+      overproductionPercent: "sizeDistribution/overproductionPercent",
+      totalWithOverproductionPercent: "sizeDistribution/totalWithOverproductionPercent",
     }),
   },
 
@@ -241,7 +239,9 @@ export default {
       }
       this.item = {...this.item, ...value};
       this.orderSizeList.shift();
-      this.orderSizeList.push(this.item);
+      if (items.length !== 0) {
+        this.orderSizeList.push(this.item);
+      }
     },
     newOrderIdServer: {
       deep: true,
@@ -255,7 +255,6 @@ export default {
         this.newModelIdId = id;
       },
     },
-
     sizes(list) {
       this.size_list_value = JSON.parse(JSON.stringify(list));
       this.headerSizes = [];
@@ -265,7 +264,6 @@ export default {
       });
       this.headers = [...this.headerSizes, ...this.templeHeaders];
     },
-
     bodyParts(items) {
       this.headerBodyPart = [];
       for (let item in items) {
@@ -274,7 +272,6 @@ export default {
       }
       this.headers = [...this.headerBodyPart, ...this.headers];
     },
-
     bodyPartValues(items) {
       this.orderSizeDetail.modelBodyParts = [];
       this.orderSizeList[0] = {};
@@ -308,31 +305,29 @@ export default {
         this.orderSizeList.push(this.item);
       }
     },
-
     totalItem(val) {
       this.item.total = val.total;
     },
-
-    totalWithOverproductionPercent(val){
-      this.item.totalWithOverproductionPercent=val.totalWithOverproductionPercent
+    totalWithOverproductionPercent(val) {
+      this.item.totalWithOverproductionPercent = val.totalWithOverproductionPercent
     },
-    overproductionPercent(val){
-      this.item.overproductionPercent=val.overproductionPercent
+    overproductionPercent(val) {
+      this.item.overproductionPercent = val.overproductionPercent
     },
   },
   methods: {
     ...mapActions({
-      getSizeDistirbution: "sizeDistirbution/getSizeDistirbution",
-      getSizeDistirbutionValue: "sizeDistirbution/getSizeDistirbutionValue",
-      updateSizeDistirbutionValue:
-        "sizeDistirbution/updateSizeDistirbutionValue",
-      deleteSizeDistirbutionFunc: "sizeDistirbution/deleteSizeDistirbutionFunc",
+      getSizeDistribution: "sizeDistribution/getSizeDistribution",
+      getSizeDistributionValue: "sizeDistribution/getSizeDistributionValue",
+      updateSizeDistributionValue:
+        "sizeDistribution/updateSizeDistributionValue",
+      deleteSizeDistributionFunc: "sizeDistribution/deleteSizeDistributionFunc",
     }),
     edit() {
       this.edit_dialog = !this.edit_dialog;
     },
     async updateNewOrder() {
-      await this.updateSizeDistirbutionValue({
+      await this.updateSizeDistributionValue({
         ...this.orderSizeDetail,
         modelId: this.$store.getters["orders/newModelId"],
         orderId: this.$store.getters["orders/newOrderId"],
@@ -344,20 +339,21 @@ export default {
         delete elem.bodyPart
       })
       const item = this.orderSizeDetail
-      await this.updateSizeDistirbutionValue( {...item,
+      await this.updateSizeDistributionValue({
+        ...item,
         modelId: this.modelId,
         orderId: this.$route.params.id,
       });
       this.edit_dialog = !this.edit_dialog;
     },
 
-    deleteSizeDistirbution() {
+    deleteSizeDistribution() {
       const id = this.$route.params.id;
       if (id !== "add-order") {
-        this.deleteSizeDistirbutionFunc({orderId: id, modelId: this.modelId});
+        this.deleteSizeDistributionFunc({orderId: id, modelId: this.modelId});
         this.delete_dialog = false;
       } else {
-        this.deleteSizeDistirbutionFunc({
+        this.deleteSizeDistributionFunc({
           modelId: this.$store.getters["orders/newModelId"],
           orderId: this.$store.getters["orders/newOrderId"],
         });
@@ -369,8 +365,8 @@ export default {
   async mounted() {
     const id = this.$route.params.id;
     if (id !== "add-order") {
-      await this.getSizeDistirbution({modelId: this.modelId});
-      await this.getSizeDistirbutionValue({
+      await this.getSizeDistribution({modelId: this.modelId});
+      await this.getSizeDistributionValue({
         modelId: this.modelId,
         orderId: id,
       });
