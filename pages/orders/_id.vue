@@ -32,7 +32,7 @@
               <v-text-field
                 outlined
                 hide-details
-                readonly
+                disabled
                 height="44"
                 class="rounded-lg base mb-4"
                 v-model="order.vendorArticularCode"
@@ -47,7 +47,7 @@
               <v-text-field
                 outlined
                 hide-details
-                readonly
+                disabled
                 height="44"
                 class="rounded-lg base mb-4"
                 v-model="order.client"
@@ -73,7 +73,7 @@
                 :return-object="true"
                 color="#7631FF"
                 dense
-                placeholder="Enter responsible person"
+                placeholder="Enter model number"
                 prepend-icon=""
               >
                 <template #append>
@@ -97,7 +97,7 @@
                 validate-on-blur
                 dense
                 color="#7631FF"
-                readonly
+                disabled
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
@@ -264,6 +264,7 @@
                 color="#7631FF"
                 background-color="#F8F4FE"
                 readonly
+                disabled
               />
             </v-col>
 
@@ -281,6 +282,8 @@
                 color="#7631FF"
                 background-color="#F8F4FE"
                 readonly
+                disabled
+
               >
                 <template #append>
                   <v-img src="/date-icon.svg"/>
@@ -302,6 +305,8 @@
                   color="#7631FF"
                   background-color="#F8F4FE"
                   readonly
+                  disabled
+
                 />
               </v-col>
 
@@ -320,6 +325,8 @@
                 color="#7631FF"
                 background-color="#F8F4FE"
                 readonly
+                disabled
+
               >
                 <template #append>
                   <v-img src="/date-icon.svg"/>

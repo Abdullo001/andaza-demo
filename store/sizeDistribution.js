@@ -84,6 +84,10 @@ export const actions = {
           modelId: data.modelId,
           orderId: data.orderId,
         });
+        dispatch(
+          "orders/getOneOrder",
+          { id: data.orderId, modelId: data.modelId },
+          {root:true});
         this.$toast.success(res.message);
       })
       .catch((res) => {
