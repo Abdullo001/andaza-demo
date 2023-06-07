@@ -138,6 +138,9 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
+
+          </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t("prefinances.child.primaryRare") }}</div>
             <v-text-field
               v-model="addPreFinances.primaryRate"
@@ -177,6 +180,20 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">{{ $t("prefinances.child.description") }}</div>
+            <v-textarea
+              v-model="addPreFinances.description"
+              outlined
+              class="rounded-lg base"
+              hide-details
+              color="#7631FF"
+              dense
+              rows="1"
+              auto-grow
+              :placeholder="$t('prefinances.child.enterDescription')"
+            />
+          </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t("prefinances.child.owner") }}</div>
             <v-text-field
               v-model="addPreFinances.owner"
@@ -207,20 +224,6 @@
                 <v-img src="/date-icon.svg"/>
               </template>
             </v-text-field>
-          </v-col>
-          <v-col cols="12" lg="6" md="6" sm="6">
-            <div class="label">{{ $t("prefinances.child.description") }}</div>
-            <v-textarea
-              v-model="addPreFinances.description"
-              outlined
-              class="rounded-lg base"
-              hide-details
-              color="#7631FF"
-              dense
-              rows="1"
-              auto-grow
-              :placeholder="$t('prefinances.child.enterDescription')"
-            />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">
