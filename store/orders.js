@@ -107,12 +107,12 @@ export const actions = {
           "getOneOrder",
           { id: res.data.data.id, modelId: res.data.data.modelId });
         dispatch(
-          "sizeDistirbution/getSizeDistirbution",
+          "sizeDistribution.js/getSizeDistirbution",
           { modelId: res.data.data.modelId },
           { root: true }
         );
         dispatch(
-          "sizeDistirbution/getSizeDistirbutionValue",
+          "sizeDistribution.js/getSizeDistirbutionValue",
           { orderId: res.data.data.id, modelId: res.data.data.modelId },
           { root: true }
         );
