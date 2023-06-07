@@ -392,7 +392,7 @@
           <v-col cols="12" lg="3" md="3">
           </v-col>
           <v-col cols="12" lg="6" md="6" sm="6">
-            <div class="label">Photos of models</div>
+            <div class="label" v-if="!!modelImages[0]?.filePath">Photos of models</div>
             <div class="d-flex flex-wrap px-0">
               <v-col
                 v-for="(image, idx) in modelImages.length === 0 ? 3 : modelImages"
@@ -400,6 +400,7 @@
                 cols="12"
                 lg="4"
                 md="4"
+                v-if="!!modelImages[idx]?.filePath"
               >
                 <div class="image-box" style="min-height: 132px">
                   <v-img
