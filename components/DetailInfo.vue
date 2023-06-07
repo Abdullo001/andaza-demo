@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row>
-      <v-col>
+      <v-col cols="4" >
         <div class="label">Order number</div>
         <v-text-field
           v-model="orderDetail.orderNumber"
@@ -16,6 +16,8 @@
           background-color="#F8F4FE"
           disabled
         />
+      </v-col>
+      <v-col cols="4">
         <div class="label">Season</div>
         <v-text-field
           placeholder="select season"
@@ -32,7 +34,7 @@
         />
       </v-col>
 
-      <v-col>
+      <v-col cols="4">
         <div class="label">Prefinance number</div>
         <v-text-field
           v-model="orderDetail.prefinanceNumber"
@@ -47,6 +49,8 @@
           background-color="#F8F4FE"
           disabled
         />
+      </v-col>
+      <v-col cols="4">
         <div class="label">Deadline</div>
         <v-text-field
           v-model="orderDetail.deadline"
@@ -67,23 +71,7 @@
         </v-text-field>
       </v-col>
 
-      <v-col>
-        <div class="label">
-          Specification number
-        </div>
-        <v-text-field
-          v-model="orderDetail.specificationNumber"
-          placeholder=" specification number"
-          outlined
-          hide-details
-          height="44"
-          class="rounded-lg mb-4 base"
-          validate-on-blur
-          dense
-          color="#7631FF"
-          background-color="#F8F4FE"
-          disabled
-        />
+      <v-col cols="4">
         <div class="label">
           Responsipble person
         </div>
@@ -102,7 +90,7 @@
         />
       </v-col>
 
-      <v-col>
+      <v-col cols="4">
         <div class="label">Model group</div>
         <v-text-field
           placeholder="select Order group"

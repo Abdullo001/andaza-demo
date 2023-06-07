@@ -193,8 +193,8 @@ export default {
       new_validate: true,
       templeHeaders: [
         {text: "Total", sortable: false, value: "total"},
-        {text: "Over-production %", sortable: false, value: "totalWithOverproductionPercent"},
-        {text: "Total with overproduction", sortable: false, value: "overproductionPercent"},
+        {text: "Over-production %", sortable: false, value: "overproductionPercent"},
+        {text: "Total with overproduction", sortable: false, value: "totalWithOverproductionPercent"},
         {text: "Actions", sortable: false, align: "center", value: "actions"},
       ],
       headerSizes: [],
