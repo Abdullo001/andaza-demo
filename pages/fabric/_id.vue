@@ -271,7 +271,7 @@
             <v-col cols="12">
               <div class="label px-3">Photos of models</div>
               <v-col cols="12" lg="6" md="6" class="d-flex flex-wrap px-0">
-                <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4">
+                <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4" v-if="!!modelImages[idx]?.filePath">
                   <div class="image-box" style="min-height: 132px">
                     <v-img
                       :src="modelImages[idx]?.filePath"
