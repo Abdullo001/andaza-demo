@@ -229,9 +229,9 @@
             />
           </v-col>
           <v-col cols="12" lg="6" md="6">
-            <div class="label mt-4">{{ $t('workingProcess.dialog.photosModels') }}</div>
+            <div class="label mt-4"  v-if="!!model_images[0]?.filePath">{{ $t('workingProcess.dialog.photosModels') }}</div>
             <div class="d-flex flex-wrap px-0">
-              <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4">
+              <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4"  v-if="!!model_images[idx]?.filePath">
                 <div class="image-box">
                   <v-img
                     :src="model_images[idx]?.filePath"
