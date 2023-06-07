@@ -302,7 +302,12 @@ export default {
       this.delete_dialog = false
     },
     async createNewPrints() {
-      const id = this.newModelId;
+      let id = 0
+      if(this.$route.params.id === 'add-model') {
+        id = this.newModelId;
+      } else {
+        id = this.$route.params.id;
+      }
       const data = this.newPrints;
       data.modelId = id;
       await this.createPrints(data);
