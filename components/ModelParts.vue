@@ -295,7 +295,7 @@ export default {
     async saveModelParts() {
       const id = this.$route.params.id;
       if(id === 'add-model') {
-        this.newModelParts.modelId = this.newModelId
+        this.newModelParts.modelId = this.newModelId;
         await this.createModelParts(this.newModelParts);
         this.partsDialog = false
       } else {
