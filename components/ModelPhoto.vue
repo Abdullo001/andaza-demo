@@ -44,9 +44,9 @@
         </div>
       </v-col>
       <v-col>
-        <div class="text-body-1 font-weight-medium text-capitalize">Additional Images</div>
+        <div class="text-body-1 font-weight-medium text-capitalize" v-if="!!files[0].file">Additional Images</div>
         <div class="cards mt-5">
-          <div class="card__item relative">
+          <div class="card__item relative" v-if="!!files[0].file">
             <input
               ref="uploaderSecond"
               class="d-none"
@@ -78,7 +78,7 @@
               </v-btn>
             </div>
           </div>
-          <div class="card__item relative">
+          <div class="card__item relative" v-if="!!files[1].file">
             <input
               ref="uploaderThird"
               class="d-none"
@@ -99,15 +99,17 @@
               v-if="!!files[2].file"
               @click="showImage(images[2].photo)"
             />
-            <div class="d-flex flex-column align-center" v-else>
-              <v-img src="/default-image.svg" max-width="70" contain/>
-              <v-btn text color="#5570F1" class="rounded-lg  my-4" @click="getFile('third')">
-                <v-img src="/upload.svg" max-width="20" class="mr-2"/>
-                <div class="text-capitalize upload-text-child">Upload Image</div>
-              </v-btn>
+              <div v-else>
+            <div class="d-flex flex-column align-center">
+                <v-img src="/default-image.svg" max-width="70" contain/>
+                <v-btn text color="#5570F1" class="rounded-lg  my-4" @click="getFile('third')">
+                  <v-img src="/upload.svg" max-width="20" class="mr-2"/>
+                  <div class="text-capitalize upload-text-child">Upload Image</div>
+                </v-btn>
             </div>
+              </div>
           </div>
-          <div class="card__item relative">
+          <div class="card__item relative" v-if="!!files[2].file">
             <input
               ref="uploaderFourth"
               class="d-none"
