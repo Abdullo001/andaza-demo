@@ -63,10 +63,48 @@
             </v-list-item>
           </v-list-group>
         </div>
+          <v-btn
+            text
+            color="#397CFD"
+            class="logout text-none mt-16"
+            @click="dialog=true"
+          >
+            Log out
+          </v-btn>
       </v-list>
-
     </v-navigation-drawer>
+    <v-dialog
+      v-model="dialog"
+      max-width="500"
+    >
+      <v-card>
+        <v-card-title class="text-h5 d-flex justify-center">
+          Use Google's location service?
+        </v-card-title>
 
+        <v-card-actions>
+          <v-spacer/>
+          <v-btn
+            color="amber darken-1"
+            text
+            @click="dialog = false"
+            class="text-none"
+          >
+            Cancel
+          </v-btn>
+
+          <v-btn
+            color="#7631FF"
+            text
+            @click="logOutApp"
+            class="text-none"
+          >
+            Log out
+          </v-btn>
+          <v-spacer/>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-app-bar
       :clipped-left="clipped"
       fixed
@@ -138,12 +176,13 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
   name: 'SidebarComponent',
   data() {
     return {
+      dialog: false,
       isOpen: [],
       clipped: false,
       drawer: true,
@@ -271,10 +310,6 @@ export default {
                 title: this.$t('sidebar.expenseGroup'),
                 to: this.localePath("/expense-group")
               },
-              // {
-              //   title: this.$t('sidebar.measurementUnit'),
-              //   to: this.localePath("/measurement")
-              // },
               {
                 title: this.$t('sidebar.packageShape'),
                 to: this.localePath("/package-shape")
@@ -364,6 +399,12 @@ export default {
     })
   },
   methods: {
+    ...mapActions({
+      logOut: 'logOut'
+    }),
+    logOutApp() {
+      this.$auth.logout();
+    },
     clickShowLang() {
       this.active = !this.active;
     },
@@ -372,10 +413,6 @@ export default {
     },
     getSearch() {
       console.log('hello search')
-    },
-    selectedLang() {
-      const current_lang = document.querySelector('.language__list');
-      current_lang.classList.toggle('active')
     },
   },
 }

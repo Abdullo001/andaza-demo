@@ -19,3 +19,13 @@ export const mutations = {
     state.token = token;
   },
 };
+
+export const actions = {
+  logOut({commit}) {
+    this.$axios.$post("/api/v1/auth/logout")
+      .then(res => {
+        console.log(res);
+      }).catch(err => {
+      console.log(err);})
+  }
+}
