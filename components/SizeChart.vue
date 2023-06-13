@@ -67,6 +67,7 @@
                 color="#7631FF"
                 placeholder="Upload file"
                 ref="getFile"
+                multiple
               >
                 <template #append>
                   <v-btn
