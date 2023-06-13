@@ -78,8 +78,9 @@
       max-width="500"
     >
       <v-card>
-        <v-card-title class="text-h5 d-flex justify-center">
-          Use Google's location service?
+        <v-card-title class="text-h5 d-flex justify-center align-center">
+          <div>Are you sure</div>
+          <div>you want to exit the platform ?</div>
         </v-card-title>
 
         <v-card-actions>
