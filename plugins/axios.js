@@ -1,10 +1,18 @@
-export default function ({ $axios, store }) {
+export default function ({ $axios, store, app, redirect }) {
   $axios.onRequest( (config) => {
     delete $axios.defaults.headers.common["Authorization"];
     if (store.state.token) {
       config.headers.common['token'] = `${store.state.token}`
       config.headers.common['Content-Type'] = 'application/json'
-      // config.headers.common['device-id'] = `381b74b9-085f-46d4-a013-00180a4ccba7`
+    }
+  });
+  $axios.onError((error) => {
+    const code = parseInt(error.response && error.response.status)
+    if(code) {
+      if(code === 401) {
+        console.log(store.$axios);
+        redirect('/login');
+      }
     }
   })
 }
