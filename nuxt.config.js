@@ -8,17 +8,16 @@ export default {
       lang: 'en'
     },
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      {charset: 'utf-8'},
+      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
+      {hid: 'description', name: 'description', content: ''},
+      {name: 'format-detection', content: 'telephone=no'}
     ],
     link: [
-      { rel: 'icon', type: 'image/svg', href: '/logo.svg' }
+      {rel: 'icon', type: 'image/svg', href: '/logo.svg'}
     ]
   },
-  script: [
-  ],
+  script: [],
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
@@ -28,7 +27,7 @@ export default {
     {src: "~/plugins/mixins.js"},
     {src: "~/plugins/v-mask.js"},
     {src: "~/plugins/axios.js"},
-    { src: "./plugins/element-io.js" }
+    {src: "./plugins/element-io.js"}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -137,9 +136,9 @@ export default {
     position: "bottom-center",
     duration: 5000,
     theme: "toasted-primary",
-    action:{
-      text:'',
-      onClick:(e,toastObject)=>{
+    action: {
+      text: '',
+      onClick: (e, toastObject) => {
         toastObject.goAway(0);
       }
     }
@@ -161,8 +160,8 @@ export default {
     strategies: {
       local: {
         endpoints: {
-          login: { url: '/api/v1/auth/login', method: 'post', propertyName: 'response'},
-          logout: false,
+          login: {url: '/api/v1/auth/login', method: 'post', propertyName: 'response'},
+          logout: {url: '/api/v1/auth/logout', method: 'post', propertyName: 'response'},
           user: false
         },
         tokenRequired: false,
