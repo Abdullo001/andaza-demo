@@ -268,7 +268,6 @@ export default {
         deviation: '',
         shrinkagePercent: '',
         description: '',
-        file: null
       },
       currentTemplate: [],
       headers: [
@@ -283,7 +282,6 @@ export default {
         {text: 'Date', sortable: false, value: 'updatedAt'},
         {text: 'Actions', sortable: false, value: 'actions'},
       ],
-
       sizeChartDialog: false,
       new_dialog: false,
       templateStatus: null,
@@ -317,7 +315,6 @@ export default {
       this.headFields = data;
     },
     chartSizes(val) {
-      console.log(val);
       if (this.headers.length <= 10) {
         val[0]?.sizeTemplateSizeValues.forEach((el, idx) => {
           const res = {text: el.name, sortable: false, value: el.name.toUpperCase()};
