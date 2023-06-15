@@ -68,6 +68,7 @@
                 placeholder="Upload file"
                 ref="getFile"
                 multiple
+                show-size
               >
                 <template #append>
                   <v-btn
