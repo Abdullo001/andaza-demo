@@ -284,28 +284,32 @@
             
           
         </v-row>
-        <div class="label">Photos of models</div>
-        <v-row>
-          <v-col cols="12" lg="6" md="6" class="d-flex flex-wrap px-0">
-            <div
-              v-for="(image, idx) in modelImages.length === 0 ? 3 : modelImages"
-              :key="idx"
-              class="mr-3"
-            >
-              <div class="image-box" style="min-height: 132px">
-                <v-img
-                  :src="modelImages[idx]?.filePath"
-                  v-if="!!modelImages[idx]?.filePath"
-                  max-height="150"
-                  contain
-                  class="pointer"
-                  @click="showImage(modelImages[idx]?.filePath)"
-                />
-                <v-img src="/default-image.svg" max-width="50" v-else />
-              </div>
-            </div>
-          </v-col>
-        </v-row>
+        <div class="">
+          <div class="label">Photos of models</div>
+          <div class="mx-3">
+            <v-row>
+              <v-col cols="12" lg="6" md="6" class="d-flex flex-wrap px-0">
+                <div
+                  v-for="(image, idx) in modelImages.length === 0 ? 3 : modelImages"
+                  :key="idx"
+                  class="mr-3"
+                >
+                  <div class="image-box" style="min-height: 132px">
+                    <v-img
+                      :src="modelImages[idx]?.filePath"
+                      v-if="!!modelImages[idx]?.filePath"
+                      max-height="150"
+                      contain
+                      class="pointer"
+                      @click="showImage(modelImages[idx]?.filePath)"
+                    />
+                    <v-img src="/default-image.svg" max-width="50" v-else />
+                  </div>
+                </div>
+              </v-col>
+            </v-row>
+          </div>
+        </div>
       </v-card-text>
     </v-card>
 

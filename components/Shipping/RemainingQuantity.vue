@@ -10,12 +10,12 @@
               
               elevation="0"
               color="#7631FF"
-              class="text-capitalize rounded-lg font-weight-bold"
+              class="text-capitalize rounded-lg "
               width="130"
               height="44"
               dark
             >
-          + Add Info
+            <v-icon>mdi-plus</v-icon> Add Info
         </v-btn>
       </v-toolbar-title>
     </v-toolbar>
