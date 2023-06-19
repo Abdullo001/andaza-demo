@@ -114,6 +114,13 @@
         </v-toolbar>
         <v-divider/>
       </template>
+      <template #item.brandName="{ item }">
+        <div>
+          <span v-for="(el,idx) in item.brandNames"  :key="idx">
+            {{ el }},
+          </span>
+        </div>
+      </template>
       <template #item.status="{ item }">
         <div>
           <v-select
@@ -155,17 +162,46 @@
         <v-card-text class="mt-4">
           <v-form ref="new_form" lazy-validation v-model="validate">
             <v-row>
-              <v-col cols="12" md="6">
-                <div class="label">{{ $t('partners.dialog.brandName') }} <span style="color: red;">*</span></div>
+              <v-col cols="12" md="7">
+                <div class="label">Add Brand name</div>
                 <v-text-field
-                  v-model="create_partner.brandName"
+                  v-model="add_brand.name"
+                  color="#7631FF"
+                  placeholder="Enter Brand name"
+                  outlined
+                  hide-details
+                  height="44"
+                  dense
+                  class="base rounded-lg mr-3"
+                />
+              </v-col>
+              <v-col cols="12" md="5" class="d-flex align-end">
+                <v-btn
+                  @click="addBrand"
+                  color="#7631FF"
+                  class="rounded-lg text-capitalize"
+                  dark
+                >
+                  <v-icon>mdi-plus</v-icon>
+                  Add Brand name
+                </v-btn>
+              </v-col>
+              <v-col cols="12">
+                <div class="label">Brand names</div>
+                <v-autocomplete
                   :rules="[formRules.required]"
+                  chips
+                  multiple
+                  v-model="create_partner.brandName"
+                  :items="brandNameList"
+                  deletable-chips
+                  append-icon="mdi-chevron-down"
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
                   dense
-                  :placeholder="$t('partners.dialog.pNameText')"
+                  placeholder="Select brand name"
                   color="#7631FF"
                 />
               </v-col>
@@ -202,16 +238,19 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{ $t('partners.dialog.pNumber') }} <span style="color: red;">*</span></div>
+                <div class="label">{{ $t('partners.dialog.pNumber') }} </div>
                 <vue-phone-number-input
                   v-model="create_partner.phoneNumber"
                   :required="true"
                   :color="'#7631FF'"
+                  default-country-code="UZ"
                   @update="newPhoneNumber"
                 />
               </v-col>
+              
+              
               <v-col cols="12" md="6">
-                <div class="label">{{ $t('partners.dialog.email') }} <span style="color: red;">*</span></div>
+                <div class="label">{{ $t('partners.dialog.email') }} </div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="create_partner.email"
@@ -225,7 +264,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{ $t('partners.dialog.addres') }} <span style="color: red;">*</span></div>
+                <div class="label">{{ $t('partners.dialog.addres') }} </div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="create_partner.address"
@@ -239,7 +278,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{ $t('partners.dialog.contractNumber') }} <span style="color: red;">*</span></div>
+                <div class="label">{{ $t('partners.dialog.contractNumber') }} </div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="create_partner.contractNumber"
@@ -253,7 +292,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{ $t('partners.dialog.created') }} <span style="color: red;">*</span></div>
+                <div class="label">{{ $t('partners.dialog.created') }} </div>
                 <el-date-picker
                   :rules="[formRules.required]"
                   v-model="create_partner.contractDate"
@@ -269,11 +308,54 @@
               <v-col cols="12" md="6">
                 <div class="label">{{ $t('partners.dialog.status') }}</div>
                 <v-select
-                  :rules="[formRules.required]"
-                  v-model="create_partner.status"
+                  v-model="create_partner.status "
                   :items="statusEnums"
                   append-icon="mdi-chevron-down"
                   placeholder="Select status"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  color="#7631FF"
+                  dense
+                />
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="label">Country</div>
+                <v-combobox
+                v-model="create_partner.country"
+                :items="countryList"
+                :search-input.sync="countryIdSearch"
+                item-text="name"
+                item-value="id"
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base d-flex align-center justify-center mb-4"
+                :return-object="true"
+                color="#7631FF"
+                dense
+                placeholder="Enter model number"
+                prepend-icon=""
+              >
+                <template #append>
+                  <v-icon class="d-inline-block" color="#7631FF">
+                    mdi-magnify
+                  </v-icon>
+                </template>
+              </v-combobox>
+              </v-col>
+
+              <v-col cols="12" md="6" v-if="create_partner.typeId!==11 && create_partner.typeId">
+                <div class="label">Cooperation type</div>
+                <v-select
+                  :rules="[formRules.required]"
+                  v-model="create_partner.cooperationType"
+                  :items="cooperationType"
+                  append-icon="mdi-chevron-down"
+                  placeholder="Select cooperation type"
+                  item-text="name"
+                  item-value="id"
                   outlined
                   hide-details
                   height="44"
@@ -368,17 +450,47 @@
         <v-card-text class="mt-4">
           <v-form ref="edit_form" lazy-validation v-model="edit_validate">
             <v-row>
-              <v-col cols="12" md="6">
-                <div class="label">{{ $t('partners.dialog.brandName') }} <span style="color: red;">*</span></div>
+              <v-col cols="12" md="7">
+                <div class="label">Add Brand name</div>
                 <v-text-field
-                  v-model="edit_partner.brandName"
+                  v-model="edit_brand.name"
+                  color="#7631FF"
+                  placeholder="Enter Brand name"
+                  outlined
+                  hide-details
+                  height="44"
+                  dense
+                  class="base rounded-lg mr-3"
+                />
+              </v-col>
+              <v-col cols="12" md="5" class="d-flex align-end">
+                <v-btn
+                  @click="editBrand"
+                  color="#7631FF"
+                  class="rounded-lg text-capitalize"
+                  dark
+                >
+                  <v-icon>mdi-plus</v-icon>
+                  Add Brand name
+                </v-btn>
+              </v-col>
+              <v-col cols="12">
+                <div class="label">Brand names</div>
+                <v-autocomplete
                   :rules="[formRules.required]"
+                  chips
+                  multiple
+                  v-model="edit_partner.brandNames"
+                  :items="brandNameList"
+                  deletable-chips
+                  
+                  append-icon="mdi-chevron-down"
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
                   dense
-                  :placeholder="$t('partners.dialog.enterBrand')"
+                  placeholder="Select brand name"
                   color="#7631FF"
                 />
               </v-col>
@@ -490,6 +602,51 @@
                   dense
                 />
               </v-col>
+
+              <v-col cols="12" md="6">
+                <div class="label">Country</div>
+                <v-combobox
+                v-model="edit_partner.country"
+                :items="countryList"
+                :search-input.sync="countryIdSearch"
+                item-text="name"
+                item-value="id"
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base d-flex align-center justify-center mb-4"
+                :return-object="true"
+                color="#7631FF"
+                dense
+                placeholder="Enter model number"
+                prepend-icon=""
+              >
+                <template #append>
+                  <v-icon class="d-inline-block" color="#7631FF">
+                    mdi-magnify
+                  </v-icon>
+                </template>
+              </v-combobox>
+              </v-col>
+
+              <v-col cols="12" md="6" v-if="edit_partner.partnerTypeId!==11 && edit_partner.partnerTypeId">
+                <div class="label">Cooperation type</div>
+                <v-select
+                  :rules="[formRules.required]"
+                  v-model="edit_partner.cooperationType"
+                  :items="cooperationType"
+                  append-icon="mdi-chevron-down"
+                  placeholder="Select cooperation type"
+                  item-text="name"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  color="#7631FF"
+                  dense
+                />
+              </v-col>
               <v-col cols="12">
                 <div class="text-body-1 font-weight-medium mb-3 d-flex">
                   {{ $t("partners.dialog.uploadContract") }}
@@ -550,7 +707,6 @@
                   </v-card-text>
                 </v-card>
               </v-col>
-              <v-col class="d-flex justify-start"></v-col>
             </v-row>
           </v-form>
         </v-card-text>
@@ -633,10 +789,11 @@ export default {
       new_dialog: false,
       itemPrePage: 10,
       current_page: 0,
+      countryIdSearch:"",
       headers: [
         {text: this.$t('partners.table.id'), value: "id", sortable: false},
         {text: this.$t('partners.table.name'), value: "name", sortable: false},
-        {text: this.$t('partners.table.brandName'), value: "brandName", sortable: false},
+        {text: this.$t('partners.table.brandName'), value: "brandName", sortable: false, width: 150 },
         {text: this.$t('partners.table.address'), value: "address", sortable: false},
         {text: this.$t('partners.table.email'), value: "email", sortable: false},
         {text: this.$t('partners.table.partnerType'), value: "partnerType", sortable: false},
@@ -648,6 +805,12 @@ export default {
       ],
       items_list: [],
       image_list: [],
+      add_brand: {
+        name: "",
+      },
+      edit_brand: {
+        name: "",
+      },
       create_partner: {
         address: "",
         contractDate: "",
@@ -657,8 +820,11 @@ export default {
         status: "",
         typeId: "",
         phoneNumber: "",
-        brandName: "",
+        brandName: [],
+        country:"",
+        cooperationType:"",
       },
+      brandNameList:[],
       edit_partner: {},
       edit_image_list: [],
       filters: {
@@ -668,6 +834,7 @@ export default {
         email: "",
       },
       newPhone: '',
+      countryCode:'',
       editPhone: ''
     };
   },
@@ -678,12 +845,24 @@ export default {
     partner_one_list(val) {
       const item = JSON.parse(JSON.stringify(val));
       this.edit_partner = {...item};
-      this.edit_partner.phoneNumber = this.edit_partner.phoneNumber.slice(4);
+      if(this.edit_partner.phoneNumber){
+        this.edit_partner.phoneNumber = this.edit_partner.phoneNumber.slice(4);
+      }
+      this.countryIdSearch=item.country
+    },
+
+    "create_partner.brandName"(value){
+      this.brandNameList=value
+    },
+    "edit_partner.brandNames"(value){
+      this.brandNameList=value
     },
   },
   async created() {
     await this.getPartnerList({page: 0, size: 10});
     await this.getPartnerType({page: 0, size: 50});
+    this.getCountryList({name:""});
+    this.getCooperationType();
   },
   computed: {
     ...mapGetters({
@@ -692,6 +871,9 @@ export default {
       totalElements: "partners/totalElements",
       partner_type: "partners/partner_type",
       partner_one_list: "partners/partner_one_list",
+      cooperationType: "partners/cooperationType",
+      countryList: "partners/countryList",
+      
     }),
   },
   methods: {
@@ -704,12 +886,29 @@ export default {
       updatePartnerList: "partners/updatePartnerList",
       filterPartnerList: "partners/filterPartnerList",
       deletePartnerList: "partners/deletePartnerList",
+      getCountryList:"partners/getCountryList",
+      getCooperationType:"partners/getCooperationType",
     }),
     downloadPDF(e) {
       const link = document.createElement("a");
       link.download = "file";
       link.href = e;
       link.click();
+    },
+    addBrand() {
+      if (true) {
+        const item = { ...this.add_brand };
+        this.create_partner.brandName.push(item.name);
+        this.add_brand.name = "";
+      }
+    },
+
+    editBrand() {
+      if (this.edit_brand.name !== "") {
+        const item = { ...this.edit_brand };
+        this.edit_partner.brandNames.push(item.name);
+        this.edit_brand.name = "";
+      }
     },
     removeImageEdit(e) {
       this.edit_image_list = this.edit_image_list.filter(
@@ -753,13 +952,16 @@ export default {
     },
     newPhoneNumber(e) {
       this.newPhone = e.formattedNumber;
+      this.countryCode=e.countryCallingCode
     },
     editPhoneNumber(e) {
+      
       this.editPhone = e.formattedNumber;
+
     },
     async save() {
       const validate = this.$refs.new_form.validate();
-      if (validate && this.newPhone !== '') {
+      if (this.create_partner.name) {
         const {
           address,
           contractDate,
@@ -768,7 +970,10 @@ export default {
           contractNumber,
           status,
           typeId,
-          brandName
+          brandName,
+          country,
+          cooperationType,
+
         } = this.create_partner;
         const formData = new FormData();
         formData.append("address", address);
@@ -782,12 +987,19 @@ export default {
         formData.append("status", status);
         formData.append("typeId", typeId);
         formData.append("phoneNumber", this.newPhone);
-        formData.append("brandName", brandName);
+        formData.append("countryCode", this.countryCode);
+        formData.append("brandNames", brandName);
+        formData.append("countryId", country.id);
+        if(cooperationType){
+          formData.append("cooperationTypeId", cooperationType);
+        }
         await this.createPartnerList(formData);
         this.image_list = [];
         this.create_partner.contractDate = "";
+        this.create_partner.brandName = [];
         this.$refs.new_form.reset();
         this.newPhone = '';
+        this.countryCode='';
         this.create_partner.phoneNumber = '';
         this.new_dialog = false;
       }
@@ -804,13 +1016,17 @@ export default {
           name,
           status,
           partnerTypeId,
-          brandName
+          brandNames,
+          cooperationType
         } = this.edit_partner;
         const formData = new FormData();
         formData.append("address", address);
         formData.append("contractDate", contractDate);
         formData.append("contractNumber", contractNumber);
-        formData.append("brandName", brandName);
+        formData.append("brandNames", brandNames);
+        if(cooperationType){
+          formData.append("cooperationTypeId", cooperationType);
+        }
         formData.append("email", email);
         formData.append("id", id);
         formData.append("name", name);
@@ -825,6 +1041,8 @@ export default {
         this.edit_image_list = [];
       }
     },
+
+   
 
     async deletePartners() {
       await this.deletePartnerList(this.delete_partners_id);

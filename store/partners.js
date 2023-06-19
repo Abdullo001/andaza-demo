@@ -2,7 +2,9 @@ export const state = () => ({
   loading: true,
   partner_list: [],
   partner_type: [],
-  partner_one_list: []
+  cooperationType:[],
+  partner_one_list: [],
+  countryList:[],
 });
 export const getters = {
   loading: state => state.loading,
@@ -10,6 +12,8 @@ export const getters = {
   totalElements: state => state.partner_list.totalElements,
   partner_type: state => state.partner_type.content,
   partner_one_list: state => state.partner_one_list,
+  cooperationType: state=>state.cooperationType,
+  countryList: state=>state.countryList,
 };
 export const mutations = {
   setLoading(state, loadings) {
@@ -24,6 +28,12 @@ export const mutations = {
   setPartnerOneList(state, partnerOne){
     state.partner_one_list = partnerOne
   },
+  setCooperationType(state,item){
+    state.cooperationType=item
+  },
+  setCountryList(state,item){
+    state.countryList=item
+  }
 };
 export const actions = {
   async deletePartnerList({dispatch}, id) {
@@ -152,4 +162,25 @@ export const actions = {
         console.log(response)
       })
   },
+
+  async getCountryList({commit},{name}){
+    await this.$axios.get(`/api/v1/country/list?name=${name}&size=245`)
+    .then((res)=>{
+      commit("setCountryList",res.data.data.content)
+
+    })
+    .catch((res)=>{
+      console.log(res);
+    })
+  },
+
+  async getCooperationType({commit}){
+    await this.$axios.get(`/api/v1/cooperation-types/thin-list`)
+    .then((res)=>{
+      commit("setCooperationType",res.data.data)
+    })
+    .catch((res)=>{
+      console.log(res);
+    })
+  }
 };
