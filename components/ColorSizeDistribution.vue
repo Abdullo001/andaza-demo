@@ -68,9 +68,44 @@
                 :key="idx"
               >
                 <div class="label">{{ item.bodyPart }}</div>
-                <v-text-field
-                  v-model="item.value"
+                <v-select
+                  v-model="item.value "
+                  :items="colorsList"
+                  append-icon="mdi-chevron-down"
                   :placeholder="item.bodyPart"
+                  outlined
+                  item-text="name"
+                  item-value="name"
+                  single-line
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  color="#7631FF"
+                  dense
+                />
+              </v-col>
+            </v-row>
+
+            <v-row class="mb-4 ">
+              <v-col cols="12">
+                <div class="label">Main color</div>
+                <v-text-field
+                  placeholder="Enter main color"
+                  single-line
+                  outlined
+                  hide-details
+                  height="44"
+                  validate-on-blur
+                  dense
+                  class="rounded-lg base"
+                  color="#7631FF"
+                  background-color="#F8F4FE"
+                />
+              </v-col>
+              <v-col cols="12">
+                <div class="label">Color code</div>
+                <v-text-field
+                  placeholder="Enter color code"
                   single-line
                   outlined
                   hide-details
@@ -212,6 +247,10 @@ export default {
     };
   },
 
+  created(){
+    this.getColorsList()
+  },
+
   computed: {
     ...mapGetters({
       sizes: "sizeDistribution/sizes",
@@ -223,6 +262,7 @@ export default {
       newOrderIdServer: "orders/newOrderId",
       overproductionPercent: "sizeDistribution/overproductionPercent",
       totalWithOverproductionPercent: "sizeDistribution/totalWithOverproductionPercent",
+      colorsList: "sizeDistribution/colorsList",
     }),
   },
 
@@ -323,6 +363,7 @@ export default {
       updateSizeDistributionValue:
         "sizeDistribution/updateSizeDistributionValue",
       deleteSizeDistributionFunc: "sizeDistribution/deleteSizeDistributionFunc",
+      getColorsList: "sizeDistribution/getColorsList",
     }),
     edit() {
       this.edit_dialog = !this.edit_dialog;

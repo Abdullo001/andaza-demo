@@ -167,7 +167,6 @@ export const actions = {
     await this.$axios.get(`/api/v1/country/list?name=${name}&size=245`)
     .then((res)=>{
       commit("setCountryList",res.data.data.content)
-      console.log(res.data.data.content)
 
     })
     .catch((res)=>{

@@ -162,21 +162,6 @@
         <v-card-text class="mt-4">
           <v-form ref="new_form" lazy-validation v-model="validate">
             <v-row>
-              <!-- <v-col cols="12" md="6">
-                <div class="label">{{ $t('partners.dialog.brandName') }} <span style="color: red;">*</span></div>
-                <v-text-field
-                  v-model="create_partner.brandName"
-                  :rules="[formRules.required]"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  dense
-                  :placeholder="$t('partners.dialog.pNameText')"
-                  color="#7631FF"
-                />
-              </v-col> -->
-
               <v-col cols="12" md="7">
                 <div class="label">Add Brand name</div>
                 <v-text-field
@@ -648,7 +633,7 @@
                 <div class="label">Cooperation type</div>
                 <v-select
                   :rules="[formRules.required]"
-                  v-model="create_partner.cooperationType"
+                  v-model="edit_partner.cooperationType"
                   :items="cooperationType"
                   append-icon="mdi-chevron-down"
                   placeholder="Select cooperation type"
@@ -864,7 +849,6 @@ export default {
         this.edit_partner.phoneNumber = this.edit_partner.phoneNumber.slice(4);
       }
       this.countryIdSearch=item.country
-      console.log(val);
     },
 
     "create_partner.brandName"(value){
@@ -1032,13 +1016,17 @@ export default {
           name,
           status,
           partnerTypeId,
-          brandNames
+          brandNames,
+          cooperationType
         } = this.edit_partner;
         const formData = new FormData();
         formData.append("address", address);
         formData.append("contractDate", contractDate);
         formData.append("contractNumber", contractNumber);
         formData.append("brandNames", brandNames);
+        if(cooperationType){
+          formData.append("cooperationTypeId", cooperationType);
+        }
         formData.append("email", email);
         formData.append("id", id);
         formData.append("name", name);

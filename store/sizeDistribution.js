@@ -8,6 +8,7 @@ export const state = () => ({
   overproductionPercent: null,
   totalWithOverproductionPercent: null,
   order: [],
+  colorsList:[],
 });
 
 export const getters = {
@@ -19,6 +20,7 @@ export const getters = {
   overproductionPercent: (state) => state.overproductionPercent,
   totalWithOverproductionPercent: (state) => state.totalWithOverproductionPercent,
   modelId: (state) => state.order?.content[0]?.modelId,
+  colorsList: state=>state.colorsList
 };
 
 export const mutations = {
@@ -46,6 +48,9 @@ export const mutations = {
   setOneOrder(state, item) {
     state.order = item;
   },
+  setColorsList(state,item){
+    state.colorsList=item
+  }
 };
 
 export const actions = {
@@ -108,4 +113,14 @@ export const actions = {
 
       })
   },
+
+  async getColorsList({commit}){
+    await this.$axios.get(`/api/v1/colors/thin-list`)
+    .then((res)=>{
+      commit('setColorsList',res.data.data)
+    })
+    .catch((res)=>{
+      console.log(res);
+    })
+  }
 };
