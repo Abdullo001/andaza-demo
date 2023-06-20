@@ -61,30 +61,6 @@
 
         <v-card-text>
           <v-form lazy-validation v-model="new_validate" ref="new_form">
-            <v-row class="mb-4 d-flex justify-space-between">
-              <v-col
-                cols="6"
-                v-for="(item, idx) in orderSizeDetail.modelBodyParts"
-                :key="idx"
-              >
-                <div class="label">{{ item.bodyPart }}</div>
-                <v-select
-                  v-model="item.value "
-                  :items="colorsList"
-                  append-icon="mdi-chevron-down"
-                  :placeholder="item.bodyPart"
-                  outlined
-                  item-text="name"
-                  item-value="name"
-                  single-line
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  color="#7631FF"
-                  dense
-                />
-              </v-col>
-            </v-row>
 
             <v-row class="mb-4 ">
               <v-col cols="12">
@@ -119,6 +95,31 @@
               </v-col>
             </v-row>
 
+            <v-row class="mb-4 d-flex justify-space-between">
+              <v-col
+                cols="6"
+                v-for="(item, idx) in orderSizeDetail.modelBodyParts"
+                :key="idx"
+              >
+                <div class="label">{{ item.bodyPart }}</div>
+                <v-select
+                  v-model="item.value "
+                  :items="colorsList"
+                  append-icon="mdi-chevron-down"
+                  :placeholder="item.bodyPart"
+                  outlined
+                  item-text="name"
+                  item-value="name"
+                  single-line
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  color="#7631FF"
+                  dense
+                />
+              </v-col>
+            </v-row>
+            
             <v-row class="mb-4 d-flex justify-space-between">
               <v-col
                 cols="3"
@@ -224,12 +225,18 @@ export default {
       edit_dialog: false,
       delete_dialog: false,
       new_validate: true,
+      
       templeHeaders: [
         {text: "Total", sortable: false, value: "total"},
         {text: "Over-production %", sortable: false, value: "overproductionPercent"},
         {text: "Total with overproduction", sortable: false, value: "totalWithOverproductionPercent"},
         {text: "Actions", sortable: false, align: "center", value: "actions"},
       ],
+
+      templaFirstHeaders:[
+        {text: "Main color ", sortable: false, value: "mainColor"},
+        {text: "Color code ", sortable: false, value: "colorCode"},
+        ],
       headerSizes: [],
       headerBodyPart: [],
       headers: [],
@@ -311,7 +318,7 @@ export default {
         const res = {text: item, sortable: false, value: item};
         this.headerBodyPart.push(res);
       }
-      this.headers = [...this.headerBodyPart, ...this.headers];
+      this.headers = [...this.templaFirstHeaders,...this.headerBodyPart, ...this.headers];
     },
     bodyPartValues(items) {
       this.orderSizeDetail.modelBodyParts = [];

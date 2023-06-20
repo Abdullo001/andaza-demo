@@ -526,7 +526,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{ $t('partners.dialog.pNumber') }} <span style="color: red;">*</span></div>
+                <div class="label">{{ $t('partners.dialog.pNumber') }} </div>
                 <vue-phone-number-input
                   v-model="edit_partner.phoneNumber"
                   :color="'#7631FF'"
@@ -534,7 +534,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{ $t('partners.dialog.email') }} <span style="color: red;">*</span></div>
+                <div class="label">{{ $t('partners.dialog.email') }} </div>
                 <v-text-field
                   v-model="edit_partner.email"
                   outlined
@@ -548,7 +548,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{ $t('partners.dialog.addres') }} <span style="color: red;">*</span></div>
+                <div class="label">{{ $t('partners.dialog.addres') }} </div>
                 <v-text-field
                   v-model="edit_partner.address"
                   outlined
@@ -562,7 +562,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{ $t('partners.dialog.contractNumber') }} <span style="color: red;">*</span></div>
+                <div class="label">{{ $t('partners.dialog.contractNumber') }} </div>
                 <v-text-field
                   v-model="edit_partner.contractNumber"
                   outlined
@@ -576,7 +576,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{ $t('partners.dialog.created') }} <span style="color: red;">*</span></div>
+                <div class="label">{{ $t('partners.dialog.created') }} </div>
                 <el-date-picker
                   v-model="edit_partner.contractDate"
                   style="width: 100%;"
