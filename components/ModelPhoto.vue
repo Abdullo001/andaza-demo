@@ -185,10 +185,22 @@ export default {
       selected_img: null,
       avatar: null,
       files: [
-        {file: null},
-        {file: null},
-        {file: null},
-        {file: null},
+        {
+          file: null,
+          id:null,
+        },
+        {
+          file: null,
+          id:null
+        },
+        {
+          file: null,
+          id:null
+        }, 
+        {
+          file: null,
+          id:null
+        },
       ],
       currentImage: '',
       image_dialog: false
@@ -212,6 +224,7 @@ export default {
     setModelImages(link) {
       this.images.forEach((el, idx) => {
         this.files[idx].file = link[idx]?.filePath
+        this.files[idx].id=link[idx]?.id
         el.photo = link[idx]?.filePath;
       })
     }
@@ -219,7 +232,9 @@ export default {
   methods: {
     ...mapActions({
       uploadImages: "modelPhoto/uploadImages",
-      getImages: "modelPhoto/getImages"
+      getImages: "modelPhoto/getImages",
+      deleteImages: "modelPhoto/deleteImages"
+
     }),
     async saveImages() {
       const param = this.$route.params.id;
@@ -271,15 +286,19 @@ export default {
       switch (count) {
         case 'first':
           this.files[0].file = null;
+          this.deleteImages({id:this.files[0].id,modelId:this.$route.params.id})
           break;
         case 'second':
           this.files[1].file = null;
+          this.deleteImages({id:this.files[1].id,modelId:this.$route.params.id})
           break;
         case 'third':
           this.files[2].file = null;
+          this.deleteImages({id:this.files[2].id,modelId:this.$route.params.id})
           break;
         case 'fourth':
           this.files[3].file = null;
+          this.deleteImages({id:this.files[3].id,modelId:this.$route.params.id})
           break;
       }
     }

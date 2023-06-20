@@ -18,7 +18,7 @@ export const actions = {
     }
     const formData = new FormData();
     for (let file = 0; file <= 3; file++) {
-      if (data[file].file !== null) formData.append('files', data[file].file)
+      if (data[file].file) formData.append('files', data[file].file)
     }
     this.$axios.$post(`/api/v1/model-resources/upload-photos?modelId=${modelId}`, formData, config)
       .then(res => {
@@ -33,6 +33,17 @@ export const actions = {
         commit('setModelImages', res.data);
       }).catch((response) => {
       console.log(response);
+    })
+  },
+
+  deleteImages({dispatch},{id,modelId}){
+    this.$axios.delete(`/api/v1/model-resources/delete?id=${id}`)
+    .then((res)=>{
+      dispatch('getImages',modelId)
+      this.$toast.success(res.message)
+    })
+    .catch((res)=>{
+      console.log(res);
     })
   }
 };
