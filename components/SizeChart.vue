@@ -57,32 +57,6 @@
                 </v-list-item-group>
               </v-list>
             </v-menu>
-            <div style="width: 370px;">
-              <v-file-input
-                dense
-                outlined
-                class="rounded-lg ml-5 base pr-0"
-                hide-details
-                prepend-icon=""
-                color="#7631FF"
-                placeholder="Upload file"
-                ref="getFile"
-                multiple
-                show-size
-              >
-                <template #append>
-                  <v-btn
-                    color="#7631FF"
-                    class="text-capitalize"
-                    small
-                    dark
-                    @click="uploadFile"
-                  >
-                    Upload file
-                  </v-btn>
-                </template>
-              </v-file-input>
-            </div>
             <v-spacer/>
             <v-btn
               class="rounded-lg text-capitalize"
@@ -346,9 +320,9 @@ export default {
       deleteOneSizeChart: 'sizeChart/deleteOneSizeChart',
       updateChartSizes: 'sizeChart/updateChartSizes'
     }),
-    uploadFile() {
-      this.$refs.getFile.$el.querySelector('input').click();
-    },
+    // uploadFile() {
+    //   this.$refs.getFile.$el.querySelector('input').click();
+    // },
     async saveChart() {
       let data = {...this.new_chart};
       const id = this.$route.params.id;

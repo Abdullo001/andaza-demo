@@ -91,6 +91,7 @@
                   dense
                   prepend-icon=""
                   prepend-inner-icon="mdi-file-document-outline"
+                  placeholder="Select document"
                   color="#7631FF"
                   v-model="newDocument.file"
                   validate-on-blur
