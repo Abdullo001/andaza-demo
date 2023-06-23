@@ -55,7 +55,6 @@
               class="mt-0"
               hide-details
             />
-            <!--            <nuxt-link to="/reset" class="text-base login__forgot">Forgot your password?</nuxt-link>-->
           </div>
           <v-btn
             color="#7631FF"
