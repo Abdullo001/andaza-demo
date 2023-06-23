@@ -145,14 +145,6 @@ export default {
   },
 
   loading: false,
-
-  // loading: {
-  //   name: 'chasing-dots',
-  //   color: '#7631FF',
-  //   background: 'white',
-  //   height: '4px'
-  // },
-
   axios: {
     baseURL: 'https://dev-atp.asgardia.uz'
   },

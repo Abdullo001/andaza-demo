@@ -116,7 +116,7 @@
       </template>
       <template #item.brandName="{ item }">
         <div>
-          <span v-for="(el,idx) in item.brandNames"  :key="idx">
+          <span v-for="(el,idx) in item.brandNames" :key="idx">
             {{ el }},
           </span>
         </div>
@@ -173,6 +173,7 @@
                   height="44"
                   dense
                   class="base rounded-lg mr-3"
+                  @keydown.enter="addBrand"
                 />
               </v-col>
               <v-col cols="12" md="5" class="d-flex align-end">
@@ -189,7 +190,6 @@
               <v-col cols="12">
                 <div class="label">Brand names</div>
                 <v-autocomplete
-                  :rules="[formRules.required]"
                   chips
                   multiple
                   v-model="create_partner.brandName"
@@ -202,8 +202,23 @@
                   class="rounded-lg base"
                   dense
                   placeholder="Select brand name"
+                  label="Select brand name"
+                  single-line
                   color="#7631FF"
-                />
+                >
+                  <template v-slot:selection="{item, attrs, on}">
+                    <v-chip
+                      v-bind="attrs"
+                      v-on="on"
+                      color="#7631FF"
+                      dark
+                      close
+                      @click:close="remove(item)"
+                    >
+                      {{ item }}
+                    </v-chip>
+                  </template>
+                </v-autocomplete>
               </v-col>
               <v-col cols="12" md="6">
                 <div class="label">{{ $t('partners.dialog.pName') }} <span style="color: red;">*</span></div>
@@ -222,7 +237,6 @@
               <v-col cols="12" md="6">
                 <div class="label">{{ $t('partners.dialog.pType') }}</div>
                 <v-select
-                  :rules="[formRules.required]"
                   v-model="create_partner.typeId"
                   :items="partner_type"
                   item-text="name"
@@ -238,7 +252,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{ $t('partners.dialog.pNumber') }} </div>
+                <div class="label">{{ $t('partners.dialog.pNumber') }}</div>
                 <vue-phone-number-input
                   v-model="create_partner.phoneNumber"
                   :required="true"
@@ -247,12 +261,11 @@
                   @update="newPhoneNumber"
                 />
               </v-col>
-              
-              
+
+
               <v-col cols="12" md="6">
-                <div class="label">{{ $t('partners.dialog.email') }} </div>
+                <div class="label">{{ $t('partners.dialog.email') }}</div>
                 <v-text-field
-                  :rules="[formRules.required]"
                   v-model="create_partner.email"
                   outlined
                   hide-details
@@ -264,9 +277,8 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{ $t('partners.dialog.addres') }} </div>
+                <div class="label">{{ $t('partners.dialog.addres') }}</div>
                 <v-text-field
-                  :rules="[formRules.required]"
                   v-model="create_partner.address"
                   outlined
                   hide-details
@@ -278,9 +290,8 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{ $t('partners.dialog.contractNumber') }} </div>
+                <div class="label">{{ $t('partners.dialog.contractNumber') }}</div>
                 <v-text-field
-                  :rules="[formRules.required]"
                   v-model="create_partner.contractNumber"
                   outlined
                   hide-details
@@ -292,9 +303,8 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{ $t('partners.dialog.created') }} </div>
+                <div class="label">{{ $t('partners.dialog.created') }}</div>
                 <el-date-picker
-                  :rules="[formRules.required]"
                   v-model="create_partner.contractDate"
                   style="width: 100%"
                   type="datetime"
@@ -323,27 +333,27 @@
               <v-col cols="12" md="6">
                 <div class="label">Country</div>
                 <v-combobox
-                v-model="create_partner.country"
-                :items="countryList"
-                :search-input.sync="countryIdSearch"
-                item-text="name"
-                item-value="id"
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg base d-flex align-center justify-center mb-4"
-                :return-object="true"
-                color="#7631FF"
-                dense
-                placeholder="Enter model number"
-                prepend-icon=""
-              >
-                <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
-                    mdi-magnify
-                  </v-icon>
-                </template>
-              </v-combobox>
+                  v-model="create_partner.country"
+                  :items="countryList"
+                  :search-input.sync="countryIdSearch"
+                  item-text="name"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base d-flex align-center justify-center mb-4"
+                  :return-object="true"
+                  color="#7631FF"
+                  dense
+                  placeholder="Enter model number"
+                  prepend-icon=""
+                >
+                  <template #append>
+                    <v-icon class="d-inline-block" color="#7631FF">
+                      mdi-magnify
+                    </v-icon>
+                  </template>
+                </v-combobox>
               </v-col>
 
               <v-col cols="12" md="6" v-if="create_partner.typeId!==11 && create_partner.typeId">
@@ -483,7 +493,7 @@
                   v-model="edit_partner.brandNames"
                   :items="brandNameList"
                   deletable-chips
-                  
+
                   append-icon="mdi-chevron-down"
                   outlined
                   hide-details
@@ -526,7 +536,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{ $t('partners.dialog.pNumber') }} </div>
+                <div class="label">{{ $t('partners.dialog.pNumber') }}</div>
                 <vue-phone-number-input
                   v-model="edit_partner.phoneNumber"
                   :color="'#7631FF'"
@@ -534,7 +544,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{ $t('partners.dialog.email') }} </div>
+                <div class="label">{{ $t('partners.dialog.email') }}</div>
                 <v-text-field
                   v-model="edit_partner.email"
                   outlined
@@ -548,7 +558,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{ $t('partners.dialog.addres') }} </div>
+                <div class="label">{{ $t('partners.dialog.addres') }}</div>
                 <v-text-field
                   v-model="edit_partner.address"
                   outlined
@@ -562,7 +572,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{ $t('partners.dialog.contractNumber') }} </div>
+                <div class="label">{{ $t('partners.dialog.contractNumber') }}</div>
                 <v-text-field
                   v-model="edit_partner.contractNumber"
                   outlined
@@ -576,7 +586,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">{{ $t('partners.dialog.created') }} </div>
+                <div class="label">{{ $t('partners.dialog.created') }}</div>
                 <el-date-picker
                   v-model="edit_partner.contractDate"
                   style="width: 100%;"
@@ -606,27 +616,27 @@
               <v-col cols="12" md="6">
                 <div class="label">Country</div>
                 <v-combobox
-                v-model="edit_partner.country"
-                :items="countryList"
-                :search-input.sync="countryIdSearch"
-                item-text="name"
-                item-value="id"
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg base d-flex align-center justify-center mb-4"
-                :return-object="true"
-                color="#7631FF"
-                dense
-                placeholder="Enter model number"
-                prepend-icon=""
-              >
-                <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
-                    mdi-magnify
-                  </v-icon>
-                </template>
-              </v-combobox>
+                  v-model="edit_partner.country"
+                  :items="countryList"
+                  :search-input.sync="countryIdSearch"
+                  item-text="name"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base d-flex align-center justify-center mb-4"
+                  :return-object="true"
+                  color="#7631FF"
+                  dense
+                  placeholder="Enter model number"
+                  prepend-icon=""
+                >
+                  <template #append>
+                    <v-icon class="d-inline-block" color="#7631FF">
+                      mdi-magnify
+                    </v-icon>
+                  </template>
+                </v-combobox>
               </v-col>
 
               <v-col cols="12" md="6" v-if="edit_partner.partnerTypeId!==11 && edit_partner.partnerTypeId">
@@ -789,11 +799,11 @@ export default {
       new_dialog: false,
       itemPrePage: 10,
       current_page: 0,
-      countryIdSearch:"",
+      countryIdSearch: "",
       headers: [
         {text: this.$t('partners.table.id'), value: "id", sortable: false},
         {text: this.$t('partners.table.name'), value: "name", sortable: false},
-        {text: this.$t('partners.table.brandName'), value: "brandName", sortable: false, width: 150 },
+        {text: this.$t('partners.table.brandName'), value: "brandName", sortable: false, width: 150},
         {text: this.$t('partners.table.address'), value: "address", sortable: false},
         {text: this.$t('partners.table.email'), value: "email", sortable: false},
         {text: this.$t('partners.table.partnerType'), value: "partnerType", sortable: false},
@@ -821,10 +831,10 @@ export default {
         typeId: "",
         phoneNumber: "",
         brandName: [],
-        country:"",
-        cooperationType:"",
+        country: "",
+        cooperationType: "",
       },
-      brandNameList:[],
+      brandNameList: [],
       edit_partner: {},
       edit_image_list: [],
       filters: {
@@ -834,7 +844,7 @@ export default {
         email: "",
       },
       newPhone: '',
-      countryCode:'',
+      countryCode: '',
       editPhone: ''
     };
   },
@@ -845,23 +855,23 @@ export default {
     partner_one_list(val) {
       const item = JSON.parse(JSON.stringify(val));
       this.edit_partner = {...item};
-      if(this.edit_partner.phoneNumber){
+      if (this.edit_partner.phoneNumber) {
         this.edit_partner.phoneNumber = this.edit_partner.phoneNumber.slice(4);
       }
-      this.countryIdSearch=item.country
+      this.countryIdSearch = item.country
     },
 
-    "create_partner.brandName"(value){
-      this.brandNameList=value
+    "create_partner.brandName"(value) {
+      this.brandNameList = value
     },
-    "edit_partner.brandNames"(value){
-      this.brandNameList=value
+    "edit_partner.brandNames"(value) {
+      this.brandNameList = value
     },
   },
   async created() {
     await this.getPartnerList({page: 0, size: 10});
     await this.getPartnerType({page: 0, size: 50});
-    this.getCountryList({name:""});
+    this.getCountryList({name: ""});
     this.getCooperationType();
   },
   computed: {
@@ -873,7 +883,7 @@ export default {
       partner_one_list: "partners/partner_one_list",
       cooperationType: "partners/cooperationType",
       countryList: "partners/countryList",
-      
+
     }),
   },
   methods: {
@@ -886,9 +896,14 @@ export default {
       updatePartnerList: "partners/updatePartnerList",
       filterPartnerList: "partners/filterPartnerList",
       deletePartnerList: "partners/deletePartnerList",
-      getCountryList:"partners/getCountryList",
-      getCooperationType:"partners/getCooperationType",
+      getCountryList: "partners/getCountryList",
+      getCooperationType: "partners/getCooperationType",
     }),
+    remove(item) {
+      console.log(item)
+      const index = this.brandNameList.indexOf(item)
+      if (index >= 0) this.brandNameList.splice(index, 1)
+    },
     downloadPDF(e) {
       const link = document.createElement("a");
       link.download = "file";
@@ -896,8 +911,8 @@ export default {
       link.click();
     },
     addBrand() {
-      if (true) {
-        const item = { ...this.add_brand };
+      const item = {...this.add_brand};
+      if (!!item.name) {
         this.create_partner.brandName.push(item.name);
         this.add_brand.name = "";
       }
@@ -905,7 +920,7 @@ export default {
 
     editBrand() {
       if (this.edit_brand.name !== "") {
-        const item = { ...this.edit_brand };
+        const item = {...this.edit_brand};
         this.edit_partner.brandNames.push(item.name);
         this.edit_brand.name = "";
       }
@@ -952,10 +967,10 @@ export default {
     },
     newPhoneNumber(e) {
       this.newPhone = e.formattedNumber;
-      this.countryCode=e.countryCallingCode
+      this.countryCode = e.countryCallingCode
     },
     editPhoneNumber(e) {
-      
+
       this.editPhone = e.formattedNumber;
 
     },
@@ -990,7 +1005,7 @@ export default {
         formData.append("countryCode", this.countryCode);
         formData.append("brandNames", brandName);
         formData.append("countryId", country.id);
-        if(cooperationType){
+        if (cooperationType) {
           formData.append("cooperationTypeId", cooperationType);
         }
         await this.createPartnerList(formData);
@@ -999,7 +1014,7 @@ export default {
         this.create_partner.brandName = [];
         this.$refs.new_form.reset();
         this.newPhone = '';
-        this.countryCode='';
+        this.countryCode = '';
         this.create_partner.phoneNumber = '';
         this.new_dialog = false;
       }
@@ -1024,7 +1039,7 @@ export default {
         formData.append("contractDate", contractDate);
         formData.append("contractNumber", contractNumber);
         formData.append("brandNames", brandNames);
-        if(cooperationType){
+        if (cooperationType) {
           formData.append("cooperationTypeId", cooperationType);
         }
         formData.append("email", email);
@@ -1042,7 +1057,6 @@ export default {
       }
     },
 
-   
 
     async deletePartners() {
       await this.deletePartnerList(this.delete_partners_id);
