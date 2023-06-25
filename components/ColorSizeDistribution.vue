@@ -119,7 +119,7 @@
                 />
               </v-col>
             </v-row>
-            
+
             <v-row class="mb-4 d-flex justify-space-between">
               <v-col
                 cols="3"
@@ -225,7 +225,7 @@ export default {
       edit_dialog: false,
       delete_dialog: false,
       new_validate: true,
-      
+
       templeHeaders: [
         {text: "Total", sortable: false, value: "total"},
         {text: "Over-production %", sortable: false, value: "overproductionPercent"},
@@ -367,8 +367,7 @@ export default {
     ...mapActions({
       getSizeDistribution: "sizeDistribution/getSizeDistribution",
       getSizeDistributionValue: "sizeDistribution/getSizeDistributionValue",
-      updateSizeDistributionValue:
-        "sizeDistribution/updateSizeDistributionValue",
+      updateSizeDistributionValue: "sizeDistribution/updateSizeDistributionValue",
       deleteSizeDistributionFunc: "sizeDistribution/deleteSizeDistributionFunc",
       getColorsList: "sizeDistribution/getColorsList",
     }),
