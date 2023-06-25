@@ -277,6 +277,30 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Country</div>
+                <v-combobox
+                  v-model="create_partner.country"
+                  :items="countryList"
+                  :search-input.sync="countryIdSearch"
+                  item-text="name"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base d-flex align-center justify-center mb-4"
+                  :return-object="true"
+                  color="#7631FF"
+                  dense
+                  placeholder="Enter model number"
+                >
+                  <template #append>
+                    <v-icon class="d-inline-block" color="#7631FF">
+                      mdi-magnify
+                    </v-icon>
+                  </template>
+                </v-combobox>
+              </v-col>
+              <v-col cols="12" md="6">
                 <div class="label">{{ $t('partners.dialog.addres') }}</div>
                 <v-text-field
                   v-model="create_partner.address"
@@ -330,32 +354,6 @@
                   dense
                 />
               </v-col>
-              <v-col cols="12" md="6">
-                <div class="label">Country</div>
-                <v-combobox
-                  v-model="create_partner.country"
-                  :items="countryList"
-                  :search-input.sync="countryIdSearch"
-                  item-text="name"
-                  item-value="id"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base d-flex align-center justify-center mb-4"
-                  :return-object="true"
-                  color="#7631FF"
-                  dense
-                  placeholder="Enter model number"
-                  prepend-icon=""
-                >
-                  <template #append>
-                    <v-icon class="d-inline-block" color="#7631FF">
-                      mdi-magnify
-                    </v-icon>
-                  </template>
-                </v-combobox>
-              </v-col>
-
               <v-col cols="12" md="6" v-if="create_partner.typeId!==11 && create_partner.typeId">
                 <div class="label">Cooperation type</div>
                 <v-select
