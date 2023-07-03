@@ -9,6 +9,7 @@ export const state = () => ({
   totalWithOverproductionPercent: null,
   order: [],
   colorsList:[],
+  sizeDistributionList:[],
 });
 
 export const getters = {
@@ -20,7 +21,8 @@ export const getters = {
   overproductionPercent: (state) => state.overproductionPercent,
   totalWithOverproductionPercent: (state) => state.totalWithOverproductionPercent,
   modelId: (state) => state.order?.content[0]?.modelId,
-  colorsList: state=>state.colorsList
+  colorsList: state=>state.colorsList,
+  sizeDistributionList: state=>state.sizeDistributionList
 };
 
 export const mutations = {
@@ -50,6 +52,10 @@ export const mutations = {
   },
   setColorsList(state,item){
     state.colorsList=item
+  },
+
+  setSizeDistributionList(state,list){
+    state.sizeDistributionList=list
   }
 };
 
@@ -71,11 +77,7 @@ export const actions = {
         `/api/v1/orders/get-size-distributions?orderId=${orderId}&modelId=${modelId}`
       )
       .then((res) => {
-        commit("setSizeValues", res.data.data);
-        commit("setBodyPartsValues", res.data.data);
-        commit("setTotal", res.data.data);
-        commit("setOverproductionPercent", res.data.data);
-        commit("totalWithOverproductionPercent", res.data.data);
+        commit("setSizeDistributionList",res.data.data)
       })
       .catch((res) => {
         console.log(res);
@@ -83,7 +85,7 @@ export const actions = {
   },
   async updateSizeDistributionValue({dispatch}, data) {
     await this.$axios
-      .$put(`/api/v1/orders/set-size-distributions`, data)
+      .$put(`/api/v1/orders/update-size-distributions`, data)
       .then((res) => {
         dispatch("getSizeDistributionValue", {
           modelId: data.modelId,
@@ -100,18 +102,32 @@ export const actions = {
         this.$toast.error(res.message);
       });
   },
-  async deleteSizeDistributionFunc({dispatch}, {orderId, modelId}) {
+  async deleteSizeDistributionFunc({dispatch}, {setIdentifier, sizeDistributionId,orderId,modelId}) {
     await this.$axios.$delete(
-      `api/v1/orders/delete-size-distributions?modelId=${modelId}&orderId=${orderId}`)
+      `/api/v1/orders/delete-size-distributions?setIdentifier=${setIdentifier}&sizeDistributionId=${sizeDistributionId}`)
       .then((res) => {
         dispatch("getSizeDistributionValue", {orderId, modelId})
-        this.$toast.success(res.data.message);
+        this.$toast.success(res.message);
       })
       .catch((res) => {
         console.log(res);
-        this.$toast.error(res.data.message);
+        this.$toast.error(res.message);
 
       })
+  },
+
+  async createSizeDistirbutionFunc({dispatch},data){
+    await this.$axios.post(`/api/v1/orders/create-size-distributions`,data)
+    .then((res)=>{
+      dispatch("getSizeDistributionValue",{orderId:data.orderId,modelId:data.modelId})
+      dispatch(
+        "orders/getOneOrder",
+        { id: data.orderId, modelId: data.modelId },
+        {root:true});
+    })
+    .catch((res)=>{
+      console.log(res);
+    })
   },
 
   async getColorsList({commit}){
