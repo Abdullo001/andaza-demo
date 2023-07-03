@@ -40,15 +40,120 @@
 
       <template #item.actions="{ item }">
         <div>
-          <v-btn icon class="mr-2" @click="edit()">
+          <v-btn icon class="mr-2" @click="edit(item)">
             <v-img src="/edit-green.svg" max-width="20"/>
           </v-btn>
-          <v-btn icon @click="delete_dialog = true">
+          <v-btn icon @click="deleteFunc(item)">
             <v-img src="/trash-red.svg" max-width="20"/>
           </v-btn>
         </div>
       </template>
     </v-data-table>
+
+    <v-dialog v-model="new_dialog" max-width="572">
+      <v-card>
+        <v-card-title class="w-full d-flex justify-space-between">
+          <div>Create color/Size</div>
+          <v-btn @click="new_dialog = !new_dialog" icon>
+            <v-icon color="#7631FF">mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+
+        <v-card-text>
+          <v-form lazy-validation v-model="new_validate" ref="new_form">
+            <v-row class="mb-4 d-flex justify-space-between">
+              <v-col
+                cols="6"
+                v-for="(item, idx) in newSizeDistirbution.modelBodyParts"
+                :key="idx"
+              >
+                <div v-if="item.bodyPartId!==0">
+                  <div class="label">{{ item.bodyPart }}</div>
+                  <v-select
+                    v-model="item.colorId "
+                    :items="colorsList"
+                    :rules="[formRules.required]"
+                    append-icon="mdi-chevron-down"
+                    :placeholder="item.bodyPart"
+                    outlined
+                    item-text="name"
+                    item-value="id"
+                    single-line
+                    hide-details
+                    height="44"
+                    class="rounded-lg base"
+                    color="#7631FF"
+                    dense
+                  />
+                </div>
+
+                <div v-else>
+                  <div class="label">{{ item.bodyPart }}</div>
+                  <v-text-field
+                  :rules="[formRules.required]"
+                  :placeholder="item.bodyPart"
+                  v-model="item.colorCode"
+                  single-line
+                  outlined
+                  hide-details
+                  height="44"
+                  validate-on-blur
+                  dense
+                  class="rounded-lg base"
+                  color="#7631FF"
+                  background-color="#F8F4FE"
+                />
+                </div>
+              </v-col>
+            </v-row>
+
+            <v-row class="mb-4 d-flex justify-space-between">
+              <v-col
+                cols="3"
+                v-for="(item, idx) in newSizeDistirbution.sizeDistributions"
+                :key="idx"
+              >
+                <div class="label">{{ item.size }}</div>
+                <v-text-field
+                  v-model="item.quantity"
+                  :rules="[formRules.onlyNumber,formRules.required]"
+                  single-line
+                  outlined
+                  hide-details
+                  height="44"
+                  validate-on-blur
+                  dense
+                  class="rounded-lg base"
+                  color="#7631FF"
+                  background-color="#F8F4FE"
+                />
+              </v-col>
+            </v-row>
+         
+
+          <v-card-actions class="d-flex justify-center pb-6">
+            <v-btn
+              outlined
+              class="text-capitalize rounded-lg font-weight-bold mr-6"
+              color="#7631FF"
+              width="163"
+              @click="new_dialog = !new_dialog"
+            >cancel
+            </v-btn>
+            <v-btn
+              class="text-capitalize rounded-lg font-weight-bold"
+              color="#7631FF"
+              dark
+              width="163"
+              @click="createSizeDistirbution"
+              >
+                Create
+              </v-btn>
+            </v-card-actions>
+          </v-form>
+        </v-card-text>
+      </v-card> 
+    </v-dialog>
 
     <v-dialog v-model="edit_dialog" max-width="572">
       <v-card>
@@ -60,56 +165,23 @@
         </v-card-title>
 
         <v-card-text>
-          <v-form lazy-validation v-model="new_validate" ref="new_form">
-
-            <v-row class="mb-4 ">
-              <v-col cols="12">
-                <div class="label">Main color</div>
-                <v-text-field
-                  placeholder="Enter main color"
-                  single-line
-                  outlined
-                  hide-details
-                  height="44"
-                  validate-on-blur
-                  dense
-                  class="rounded-lg base"
-                  color="#7631FF"
-                  background-color="#F8F4FE"
-                />
-              </v-col>
-              <v-col cols="12">
-                <div class="label">Color code</div>
-                <v-text-field
-                  placeholder="Enter color code"
-                  single-line
-                  outlined
-                  hide-details
-                  height="44"
-                  validate-on-blur
-                  dense
-                  class="rounded-lg base"
-                  color="#7631FF"
-                  background-color="#F8F4FE"
-                />
-              </v-col>
-            </v-row>
-
+          <v-form lazy-validation v-model="new_validate" ref="edit_form">
             <v-row class="mb-4 d-flex justify-space-between">
               <v-col
-                cols="6"
-                v-for="(item, idx) in orderSizeDetail.modelBodyParts"
-                :key="idx"
-              >
+              cols="6"
+              v-for="(item, idx) in oneSizeDistirbution?.modelBodyParts?.slice()?.reverse()"
+              :key="idx"
+            >
+              <div v-if="Object.keys(item).length==4">
                 <div class="label">{{ item.bodyPart }}</div>
                 <v-select
-                  v-model="item.value "
+                  v-model="item.colorId "
                   :items="colorsList"
                   append-icon="mdi-chevron-down"
                   :placeholder="item.bodyPart"
                   outlined
                   item-text="name"
-                  item-value="name"
+                  item-value="id"
                   single-line
                   hide-details
                   height="44"
@@ -117,19 +189,37 @@
                   color="#7631FF"
                   dense
                 />
-              </v-col>
+              </div>
+
+              <div v-else>
+                <div class="label">{{ item.bodyPart }}</div>
+                <v-text-field
+                :placeholder="item.bodyPart"
+                v-model="item.colorCode"
+                single-line
+                outlined
+                hide-details
+                height="44"
+                validate-on-blur
+                dense
+                class="rounded-lg base"
+                color="#7631FF"
+                background-color="#F8F4FE"
+              />
+              </div>
+            </v-col>
             </v-row>
 
             <v-row class="mb-4 d-flex justify-space-between">
               <v-col
                 cols="3"
-                v-for="(item, idx) in orderSizeDetail.sizeDistributions"
+                v-for="(item, idx) in oneSizeDistirbution.sizeDistributions"
                 :key="idx"
               >
                 <div class="label">{{ item.size }}</div>
                 <v-text-field
                   v-model="item.quantity"
-                  :placeholder="item.size"
+                  placeholder="Enter size"
                   single-line
                   outlined
                   hide-details
@@ -246,9 +336,16 @@ export default {
       size_list_value: {},
       orderSizeList: [],
       size_value_list: {},
+      
       orderSizeDetail: {
         modelBodyParts: [],
         sizeDistributions: [],
+      },
+      oneSizeDistirbution:{},
+      newSizeDistirbution:{
+        modelBodyParts:[],
+        sizeDistributions:[],
+
       },
       modelId: this.$route.query.modelId,
     };
@@ -270,6 +367,8 @@ export default {
       overproductionPercent: "sizeDistribution/overproductionPercent",
       totalWithOverproductionPercent: "sizeDistribution/totalWithOverproductionPercent",
       colorsList: "sizeDistribution/colorsList",
+      sizeDistributionList: "sizeDistribution/sizeDistributionList",
+      
     }),
   },
 
@@ -290,6 +389,9 @@ export default {
         this.orderSizeList.push(this.item);
       }
     },
+
+   
+    
     newOrderIdServer: {
       deep: true,
       handler(id) {
@@ -308,6 +410,8 @@ export default {
       this.headerSizes = [];
       list.forEach((item) => {
         const res = {text: item, sortable: false, value: item};
+        const val={size:item,quantity:null}
+        this.newSizeDistirbution.sizeDistributions.push(val)
         this.headerSizes.push(res);
       });
       this.headers = [...this.headerSizes, ...this.templeHeaders];
@@ -316,52 +420,61 @@ export default {
       this.headerBodyPart = [];
       for (let item in items) {
         const res = {text: item, sortable: false, value: item};
+        let val={}
+        if(items[item]===0){
+          val={bodyPart:item,bodyPartId:items[item],colorCode:null,isMain:false}
+        }else{
+          val={bodyPart:item,bodyPartId:items[item],colorId:null}
+        }
+        this.newSizeDistirbution.modelBodyParts.push(val)
+
         this.headerBodyPart.push(res);
       }
-      this.headers = [...this.templaFirstHeaders,...this.headerBodyPart, ...this.headers];
-    },
-    bodyPartValues(items) {
-      this.orderSizeDetail.modelBodyParts = [];
-      this.orderSizeList[0] = {};
-      const value = {};
-      for (let item in items) {
-        const part = {
-          bodyPart: item,
-          value: items[item],
-          bodyPartId: this.bodyParts[item],
-        };
-        value[item] = items[item];
-        this.orderSizeDetail.modelBodyParts.push(part);
-      }
-      this.item = {...value};
+
+      this.headers = [...this.headerBodyPart, ...this.headers];
     },
 
-    sizeValues(items) {
-      if (Object.keys(items).length !== 0) {
-        this.orderSizeDetail.sizeDistributions = [];
+    
+
+    sizeDistributionList(list){
+      this.orderSizeList=[]
+      const specialList=list.map(function(el,idx){
+
         const value = {};
-        for (let item in items) {
+        el.bodyPartsCodes.forEach((item) => {
+          if(item.color){
+            value[item.bodyPart]=item.color
+          }else{
+            value[item.bodyPart]=item.colorCode
+          }
+        });
+
+        const valueSizes = {};
+        const valueSizesList=[];
+        for (let item in el.sizeDistributions) {
           const sizeObj = {
             size: item,
-            quantity: items[item],
+            quantity: el.sizeDistributions[item],
           };
-          value[item] = items[item];
-          this.orderSizeDetail.sizeDistributions.push(sizeObj);
+          valueSizes[item] = el.sizeDistributions[item];
+          valueSizesList.push(sizeObj);
         }
-        this.item = {...this.item, ...value};
-        this.orderSizeList.shift();
-        this.orderSizeList.push(this.item);
-      }
-    },
-    totalItem(val) {
-      this.item.total = val.total;
-    },
-    totalWithOverproductionPercent(val) {
-      this.item.totalWithOverproductionPercent = val.totalWithOverproductionPercent
-    },
-    overproductionPercent(val) {
-      this.item.overproductionPercent = val.overproductionPercent
-    },
+
+        return{
+          ...value,
+          ...valueSizes,
+          modelBodyParts:[...el.bodyPartsCodes],
+          overproductionPercent:el.overproductionPercent,
+          total:el.total,
+          setIdentifier:el.setIdentifier,
+          sizeDistributionId:el.sizeDistributionId,
+          totalWithOverproductionPercent:el.totalWithOverproductionPercent,
+          sizeDistributions:[...valueSizesList]
+
+        }
+      })
+      this.orderSizeList=[...specialList]
+    }
   },
   methods: {
     ...mapActions({
@@ -370,9 +483,18 @@ export default {
       updateSizeDistributionValue: "sizeDistribution/updateSizeDistributionValue",
       deleteSizeDistributionFunc: "sizeDistribution/deleteSizeDistributionFunc",
       getColorsList: "sizeDistribution/getColorsList",
+      createSizeDistirbutionFunc: "sizeDistribution/createSizeDistirbutionFunc",
     }),
-    edit() {
+    edit(item) {
+      this.oneSizeDistirbution={}
       this.edit_dialog = !this.edit_dialog;
+      this.oneSizeDistirbution={...item}
+    },
+    deleteFunc(item){
+      this.oneSizeDistirbution={}
+      this.delete_dialog=true
+      this.oneSizeDistirbution={...item}
+
     },
     async updateNewOrder() {
       await this.updateSizeDistributionValue({
@@ -382,28 +504,67 @@ export default {
       });
       this.edit_dialog = !this.edit_dialog;
     },
+
+    async createSizeDistirbution(){
+      
+      const list=[...this.newSizeDistirbution.modelBodyParts]
+      const validate=this.$refs.new_form.validate()
+      if(validate){
+        list.forEach((item)=>{
+          if(item.bodyPart==="Main Color"){
+            item.isMain=true
+          }
+        })
+        const requstedObj={
+          modelBodyParts:[...this.newSizeDistirbution.modelBodyParts]
+        }
+        await this.createSizeDistirbutionFunc({
+          
+          ...this.newSizeDistirbution,
+          modelId: this.modelId,
+          orderId: this.$route.params.id,
+        })
+        this.new_dialog=false
+        await this.$refs.new_form.reset();
+      }
+      
+    },
+
     async update() {
       this.orderSizeDetail.modelBodyParts.map(elem => {
         delete elem.bodyPart
       })
-      const item = this.orderSizeDetail
-      await this.updateSizeDistributionValue({
-        ...item,
+      const item = this.oneSizeDistirbution
+      const specialObj={
+        modelBodyParts:[...item.modelBodyParts],
         modelId: this.modelId,
         orderId: this.$route.params.id,
-      });
+        setIdentifier:item.setIdentifier,
+        sizeDistributionId:item.sizeDistributionId,
+        sizeDistributions:[...item.sizeDistributions]
+
+      }
+
+      await this.updateSizeDistributionValue(specialObj)
       this.edit_dialog = !this.edit_dialog;
     },
 
     deleteSizeDistribution() {
       const id = this.$route.params.id;
       if (id !== "add-order") {
-        this.deleteSizeDistributionFunc({orderId: id, modelId: this.modelId});
+        this.deleteSizeDistributionFunc({
+          orderId: id,
+          modelId: this.modelId,
+          setIdentifier:this.oneSizeDistirbution.setIdentifier,
+          sizeDistributionId:this.oneSizeDistirbution.sizeDistributionId
+        });
         this.delete_dialog = false;
       } else {
         this.deleteSizeDistributionFunc({
           modelId: this.$store.getters["orders/newModelId"],
           orderId: this.$store.getters["orders/newOrderId"],
+          setIdentifier:this.oneSizeDistirbution.setIdentifier,
+          sizeDistributionId:this.oneSizeDistirbution.sizeDistributionId
         });
         this.delete_dialog = false;
       }
