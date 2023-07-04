@@ -55,13 +55,19 @@
 
       <template v-slot:body.append>
         <tr>
+          <td class="text-capitalize text-body-1 font-weight-bold">total quantities</td>
           <td></td>
           <td></td>
           <td></td>
-          <td></td>
-          <td v-for="(item,idx) in totalSizes.sizesList " :key="idx">{{item}}</td>
-         
-          <td>{{ totalSizes.total }}</td>
+          <td
+            v-for="(item,idx) in totalSizes.sizesList"
+            :key="idx*12"
+            class="font-weight-bold text-body-1"
+          >
+            {{item}}
+          </td>
+
+          <td class="font-weight-bold text-body-1">{{ totalSizes.total }}</td>
         </tr>
       </template>
     </v-data-table>
@@ -145,7 +151,7 @@
                 />
               </v-col>
             </v-row>
-         
+
 
           <v-card-actions class="d-flex justify-center pb-6">
             <v-btn
@@ -168,7 +174,7 @@
             </v-card-actions>
           </v-form>
         </v-card-text>
-      </v-card> 
+      </v-card>
     </v-dialog>
 
     <v-dialog v-model="edit_dialog" max-width="572">
@@ -188,7 +194,7 @@
               v-for="(item, idx) in oneSizeDistirbution?.modelBodyParts?.slice()?.reverse()"
               :key="idx"
             >
-              <div v-if="Object.keys(item).length==4">
+              <div v-if="Object.keys(item).length===4">
                 <div class="label">{{ item.bodyPart }}</div>
                 <v-select
                   v-model="item.colorId "
@@ -339,10 +345,10 @@ export default {
         {text: "Actions", sortable: false, align: "center", value: "actions"},
       ],
 
-      templaFirstHeaders:[
+      templateFirstHeaders: [
         {text: "Main color ", sortable: false, value: "mainColor"},
         {text: "Color code ", sortable: false, value: "colorCode"},
-        ],
+      ],
       headerSizes: [],
       headerBodyPart: [],
       headers: [],
@@ -352,7 +358,7 @@ export default {
       size_list_value: {},
       orderSizeList: [],
       size_value_list: {},
-      
+
       orderSizeDetail: {
         modelBodyParts: [],
         sizeDistributions: [],
@@ -388,7 +394,7 @@ export default {
       totalWithOverproductionPercent: "sizeDistribution/totalWithOverproductionPercent",
       colorsList: "sizeDistribution/colorsList",
       sizeDistributionList: "sizeDistribution/sizeDistributionList",
-      
+
     }),
   },
 
@@ -410,8 +416,8 @@ export default {
       }
     },
 
-   
-    
+
+
     newOrderIdServer: {
       deep: true,
       handler(id) {
@@ -454,7 +460,7 @@ export default {
       this.headers = [...this.headerBodyPart, ...this.headers];
     },
 
-    
+
 
     sizeDistributionList(list){
       this.orderSizeList=[]
@@ -489,7 +495,7 @@ export default {
         }
 
         totalObj=totalObj+el.total
-        
+
         return{
           ...value,
           ...valueSizes,
@@ -500,11 +506,11 @@ export default {
           sizeDistributionId:el.sizeDistributionId,
           totalWithOverproductionPercent:el.totalWithOverproductionPercent,
           sizeDistributions:[...valueSizesList]
-          
+
         }
       })
       this.orderSizeList=[...specialList]
-      
+
       this.totalSizes.sizesList=[...totalSizes]
       this.totalSizes.total=totalObj
     }
@@ -547,9 +553,9 @@ export default {
             item.isMain=true
           }
         })
-        
+
         await this.createSizeDistirbutionFunc({
-          
+
           ...this.newSizeDistirbution,
           modelId: this.modelId,
           orderId: this.$route.params.id,
@@ -557,7 +563,7 @@ export default {
         this.new_dialog=false
         await this.$refs.new_form.reset();
       }
-      
+
     },
 
     async update() {
