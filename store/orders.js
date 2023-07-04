@@ -107,25 +107,16 @@ export const actions = {
           "getOneOrder",
           { id: res.data.data.id, modelId: res.data.data.modelId });
         dispatch(
-          "sizeDistribution.js/getSizeDistirbution",
+          "sizeDistribution/getSizeDistribution",
           { modelId: res.data.data.modelId },
           { root: true }
         );
         dispatch(
-          "sizeDistribution.js/getSizeDistirbutionValue",
+          "sizeDistribution/getSizeDistirbutionValue",
           { orderId: res.data.data.id, modelId: res.data.data.modelId },
           { root: true }
         );
-        dispatch(
-          "shippingInfo/getShippingInfo",
-          { id: res.data.data.id, modelId: res.data.data.modelId },
-          { root: true }
-        );
-        dispatch(
-          "subcontracts/getSubcontractsList",
-          { modelNumber: "", modelId: res.data.data.modelId },
-          { root: true }
-        );
+        
         dispatch(
           "documents/getDocuments",
           { modelId: res.data.data.modelId },

@@ -71,7 +71,7 @@ export const actions = {
         console.log(response);
       });
   },
-  async getSizeDistributionValue({commit}, {modelId, orderId}) {
+  async getSizeDistirbutionValue({commit}, {modelId, orderId}) {
     await this.$axios
       .get(
         `/api/v1/orders/get-size-distributions?orderId=${orderId}&modelId=${modelId}`
@@ -87,7 +87,7 @@ export const actions = {
     await this.$axios
       .$put(`/api/v1/orders/update-size-distributions`, data)
       .then((res) => {
-        dispatch("getSizeDistributionValue", {
+        dispatch("getSizeDistirbutionValue", {
           modelId: data.modelId,
           orderId: data.orderId,
         });
@@ -106,7 +106,7 @@ export const actions = {
     await this.$axios.$delete(
       `/api/v1/orders/delete-size-distributions?setIdentifier=${setIdentifier}&sizeDistributionId=${sizeDistributionId}`)
       .then((res) => {
-        dispatch("getSizeDistributionValue", {orderId, modelId})
+        dispatch("getSizeDistirbutionValue", {orderId, modelId})
         this.$toast.success(res.message);
       })
       .catch((res) => {
@@ -119,7 +119,7 @@ export const actions = {
   async createSizeDistirbutionFunc({dispatch},data){
     await this.$axios.post(`/api/v1/orders/create-size-distributions`,data)
     .then((res)=>{
-      dispatch("getSizeDistributionValue",{orderId:data.orderId,modelId:data.modelId})
+      dispatch("getSizeDistirbutionValue",{orderId:data.orderId,modelId:data.modelId})
       dispatch(
         "orders/getOneOrder",
         { id: data.orderId, modelId: data.modelId },

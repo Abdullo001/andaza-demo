@@ -55,10 +55,7 @@
 
       <template v-slot:body.append>
         <tr>
-          <td class="text-capitalize text-body-1 font-weight-bold">total quantities</td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td :colspan="orderSizeList[0]?.modelBodyParts?.length" class="text-capitalize text-body-1 font-weight-bold">total quantities</td>
           <td
             v-for="(item,idx) in totalSizes.sizesList"
             :key="idx*12"
@@ -68,6 +65,9 @@
           </td>
 
           <td class="font-weight-bold text-body-1">{{ totalSizes.total }}</td>
+          <td></td>
+          <td class="font-weight-bold text-body-1">{{totalSizes.totalPriceWithDiscount}}</td>
+          <td></td>
         </tr>
       </template>
     </v-data-table>
@@ -344,11 +344,6 @@ export default {
         {text: "Total with overproduction", sortable: false, value: "totalWithOverproductionPercent"},
         {text: "Actions", sortable: false, align: "center", value: "actions"},
       ],
-
-      templateFirstHeaders: [
-        {text: "Main color ", sortable: false, value: "mainColor"},
-        {text: "Color code ", sortable: false, value: "colorCode"},
-      ],
       headerSizes: [],
       headerBodyPart: [],
       headers: [],
@@ -371,7 +366,8 @@ export default {
       },
       totalSizes:{
         sizesList:[],
-        total:0
+        total: null,
+        totalPriceWithDiscount:null
       },
       modelId: this.$route.query.modelId,
     };
@@ -415,9 +411,7 @@ export default {
         this.orderSizeList.push(this.item);
       }
     },
-
-
-
+    
     newOrderIdServer: {
       deep: true,
       handler(id) {
@@ -466,6 +460,7 @@ export default {
       this.orderSizeList=[]
       let totalObj=0
       let totalSizes=[]
+      let totalPriceWithDiscount=0
 
       const specialList=list.map(function(el){
 
@@ -495,6 +490,7 @@ export default {
         }
 
         totalObj=totalObj+el.total
+        totalPriceWithDiscount=totalPriceWithDiscount+el.totalWithOverproductionPercent
 
         return{
           ...value,
@@ -513,12 +509,13 @@ export default {
 
       this.totalSizes.sizesList=[...totalSizes]
       this.totalSizes.total=totalObj
+      this.totalSizes.totalPriceWithDiscount=totalPriceWithDiscount
     }
   },
   methods: {
     ...mapActions({
       getSizeDistribution: "sizeDistribution/getSizeDistribution",
-      getSizeDistributionValue: "sizeDistribution/getSizeDistributionValue",
+      getSizeDistirbutionValue: "sizeDistribution/getSizeDistirbutionValue",
       updateSizeDistributionValue: "sizeDistribution/updateSizeDistributionValue",
       deleteSizeDistributionFunc: "sizeDistribution/deleteSizeDistributionFunc",
       getColorsList: "sizeDistribution/getColorsList",
@@ -536,12 +533,26 @@ export default {
 
     },
     async updateNewOrder() {
-      await this.updateSizeDistributionValue({
-        ...this.orderSizeDetail,
-        modelId: this.$store.getters["orders/newModelId"],
-        orderId: this.$store.getters["orders/newOrderId"],
-      });
-      this.edit_dialog = !this.edit_dialog;
+      const list=[...this.oneSizeDistirbution.modelBodyParts]
+      const item = this.oneSizeDistirbution
+      const validate=this.$refs.edit_form.validate()
+      if(validate){
+        list.forEach((el)=>{
+          if(el.bodyPart==="Color Code"){
+            el.isMain=false
+          }
+        })
+        const specialObj={
+          modelBodyParts:[...item.modelBodyParts],
+          modelId: this.$store.getters["orders/newModelId"],
+          orderId: this.$store.getters["orders/newOrderId"],
+          setIdentifier:item.setIdentifier,
+          sizeDistributionId:item.sizeDistributionId,
+          sizeDistributions:[...item.sizeDistributions]
+        }
+        await this.updateSizeDistributionValue({specialObj});
+        this.edit_dialog = !this.edit_dialog;
+      }
     },
 
     async createSizeDistirbution(){
@@ -554,39 +565,51 @@ export default {
           }
         })
 
-        await this.createSizeDistirbutionFunc({
+        if(this.$route.params.id!=="add-order"){
+          await this.createSizeDistirbutionFunc({
+            ...this.newSizeDistirbution,
+            modelId: this.modelId,
+            orderId: this.$route.params.id,
+            })
+          }
+          else{
+            await this.createSizeDistirbutionFunc({
+            ...this.newSizeDistirbution,
+            modelId: this.$store.getters["orders/newModelId"],
+            orderId: this.$store.getters["orders/newOrderId"],
+            })
+          }
 
-          ...this.newSizeDistirbution,
-          modelId: this.modelId,
-          orderId: this.$route.params.id,
-        })
-        this.new_dialog=false
-        await this.$refs.new_form.reset();
-      }
+          this.new_dialog=false
+          await this.$refs.new_form.reset();
+        }
+      },
 
-    },
+    
 
     async update() {
       const list=[...this.oneSizeDistirbution.modelBodyParts]
       const item = this.oneSizeDistirbution
       const validate=this.$refs.edit_form.validate()
-      list.forEach((el)=>{
+      if(validate){
+        list.forEach((el)=>{
           if(el.bodyPart==="Color Code"){
             el.isMain=false
           }
         })
-      const specialObj={
-        modelBodyParts:[...item.modelBodyParts],
-        modelId: this.modelId,
-        orderId: this.$route.params.id,
-        setIdentifier:item.setIdentifier,
-        sizeDistributionId:item.sizeDistributionId,
-        sizeDistributions:[...item.sizeDistributions]
+        const specialObj={
+          modelBodyParts:[...item.modelBodyParts],
+          modelId: this.modelId,
+          orderId: this.$route.params.id,
+          setIdentifier:item.setIdentifier,
+          sizeDistributionId:item.sizeDistributionId,
+          sizeDistributions:[...item.sizeDistributions]
 
+        }
+
+        await this.updateSizeDistributionValue(specialObj)
+        this.edit_dialog = !this.edit_dialog;
       }
-
-      await this.updateSizeDistributionValue(specialObj)
-      this.edit_dialog = !this.edit_dialog;
     },
 
     deleteSizeDistribution() {
@@ -615,7 +638,7 @@ export default {
     const id = this.$route.params.id;
     if (id !== "add-order") {
       await this.getSizeDistribution({modelId: this.modelId});
-      await this.getSizeDistributionValue({
+      await this.getSizeDistirbutionValue({
         modelId: this.modelId,
         orderId: id,
       });
