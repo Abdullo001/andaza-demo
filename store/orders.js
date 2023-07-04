@@ -174,6 +174,7 @@ export const actions = {
       priceWithDiscountCurrency: data.priceWithDiscountCurrency,
       headOfProductionDepartmentId: data.headOfDepartmentId,
       id: data.id,
+      orderDate:data.orderDate,
       modelId: data.modelId,
       orderNumber: data.orderNumber,
       priority: data.priority,
