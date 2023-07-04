@@ -6,6 +6,10 @@
       :items-per-page="50"
       class="elevation-0"
       hide-default-footer
+      :no-data-text="$t('noDataText')"
+      :footer-props="{
+        itemsPerPageText: this.$t('allDataTableText'),
+      }"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -39,7 +43,7 @@
       </template>
 
       <template #item.actions="{ item }">
-        <div>
+        <div style="min-width: 100px;">
           <v-btn icon class="mr-2" @click="edit(item)">
             <v-img src="/edit-green.svg" max-width="20"/>
           </v-btn>
@@ -47,6 +51,18 @@
             <v-img src="/trash-red.svg" max-width="20"/>
           </v-btn>
         </div>
+      </template>
+
+      <template v-slot:body.append>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td v-for="(item,idx) in totalSizes.sizesList " :key="idx">{{item}}</td>
+         
+          <td>{{ totalSizes.total }}</td>
+        </tr>
       </template>
     </v-data-table>
 
@@ -347,6 +363,10 @@ export default {
         sizeDistributions:[],
 
       },
+      totalSizes:{
+        sizesList:[],
+        total:0
+      },
       modelId: this.$route.query.modelId,
     };
   },
@@ -438,7 +458,10 @@ export default {
 
     sizeDistributionList(list){
       this.orderSizeList=[]
-      const specialList=list.map(function(el,idx){
+      let totalObj=0
+      let totalSizes=[]
+
+      const specialList=list.map(function(el){
 
         const value = {};
         el.bodyPartsCodes.forEach((item) => {
@@ -451,7 +474,12 @@ export default {
 
         const valueSizes = {};
         const valueSizesList=[];
+        let idx=0
+
         for (let item in el.sizeDistributions) {
+          totalSizes[idx]?totalSizes[idx]=totalSizes[idx]:totalSizes[idx]=0
+          totalSizes[idx]=parseInt(totalSizes[idx])+parseInt(el.sizeDistributions[item])
+          idx++
           const sizeObj = {
             size: item,
             quantity: el.sizeDistributions[item],
@@ -460,6 +488,8 @@ export default {
           valueSizesList.push(sizeObj);
         }
 
+        totalObj=totalObj+el.total
+        
         return{
           ...value,
           ...valueSizes,
@@ -470,10 +500,13 @@ export default {
           sizeDistributionId:el.sizeDistributionId,
           totalWithOverproductionPercent:el.totalWithOverproductionPercent,
           sizeDistributions:[...valueSizesList]
-
+          
         }
       })
       this.orderSizeList=[...specialList]
+      
+      this.totalSizes.sizesList=[...totalSizes]
+      this.totalSizes.total=totalObj
     }
   },
   methods: {
@@ -506,7 +539,6 @@ export default {
     },
 
     async createSizeDistirbution(){
-      
       const list=[...this.newSizeDistirbution.modelBodyParts]
       const validate=this.$refs.new_form.validate()
       if(validate){
@@ -515,9 +547,7 @@ export default {
             item.isMain=true
           }
         })
-        const requstedObj={
-          modelBodyParts:[...this.newSizeDistirbution.modelBodyParts]
-        }
+        
         await this.createSizeDistirbutionFunc({
           
           ...this.newSizeDistirbution,
@@ -531,10 +561,14 @@ export default {
     },
 
     async update() {
-      this.orderSizeDetail.modelBodyParts.map(elem => {
-        delete elem.bodyPart
-      })
+      const list=[...this.oneSizeDistirbution.modelBodyParts]
       const item = this.oneSizeDistirbution
+      const validate=this.$refs.edit_form.validate()
+      list.forEach((el)=>{
+          if(el.bodyPart==="Color Code"){
+            el.isMain=false
+          }
+        })
       const specialObj={
         modelBodyParts:[...item.modelBodyParts],
         modelId: this.modelId,
