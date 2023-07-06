@@ -111,10 +111,8 @@ export const actions = {
     }
     await this.$axios.$put('/api/v1/sample-purposes/list', body)
       .then(res => {
-        if (res.message === "Successfully") {
-          commit('setSampleData', res.data)
-          commit("setLoading", false)
-        }
+        commit('setSampleData', res.data)
+        commit("setLoading", false)
       })
       .catch(({response}) => {
         console.log(response)
