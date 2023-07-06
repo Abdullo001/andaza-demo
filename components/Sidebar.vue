@@ -312,6 +312,10 @@ export default {
                 to: this.localePath("/expense-group")
               },
               {
+                title: this.$t('sidebar.measurementUnit'),
+                to: this.localePath("/measurement")
+              },
+              {
                 title: this.$t('sidebar.packageShape'),
                 to: this.localePath("/package-shape")
               },
