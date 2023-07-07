@@ -378,7 +378,7 @@ import {mapActions, mapGetters} from "vuex";
 import Breadcrumbs from "../../components/Breadcrumbs.vue";
 import FabricPlanningChart from "../../components/Fabric/PlanningChart.vue"
 import FabricOrdered from "../../components/Fabric/Ordered.vue"
-import FabricSupplyFabric from "../../components/Fabric/Ordered.vue"
+import FabricSupplyFabric from "../../components/Fabric/SupplyFabric.vue"
 import FabricOrder from "../../components/Fabric/Order.vue"
 import FabricCalculation from "../../components/Fabric/Calculation.vue"
 import FabricPlannedOrder from "../../components/Fabric/PlannedOrder.vue"
