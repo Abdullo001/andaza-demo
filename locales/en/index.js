@@ -1075,6 +1075,7 @@ export default {
 
     table: {
       mainMenu: "Partners",
+      cooperationType:"Cooperation type",
       id: "Id",
       name: "Name",
       address: "Addres",

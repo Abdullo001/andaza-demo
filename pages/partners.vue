@@ -354,7 +354,7 @@
                   dense
                 />
               </v-col>
-              <v-col cols="12" md="6" v-if="create_partner.typeId!==11 && create_partner.typeId">
+              <v-col cols="12" md="6" v-if="create_partner.typeId!==3 && create_partner.typeId">
                 <div class="label">Cooperation type</div>
                 <v-select
                   :rules="[formRules.required]"
@@ -637,7 +637,7 @@
                 </v-combobox>
               </v-col>
 
-              <v-col cols="12" md="6" v-if="edit_partner.partnerTypeId!==11 && edit_partner.partnerTypeId">
+              <v-col cols="12" md="6" v-if="edit_partner.partnerTypeId!==3 && edit_partner.partnerTypeId">
                 <div class="label">Cooperation type</div>
                 <v-select
                   :rules="[formRules.required]"
@@ -802,13 +802,13 @@ export default {
         {text: this.$t('partners.table.id'), value: "id", sortable: false},
         {text: this.$t('partners.table.name'), value: "name", sortable: false},
         {text: this.$t('partners.table.brandName'), value: "brandName", sortable: false, width: 150},
+        {text: this.$t('partners.table.cooperationType'), value: "cooperationType", sortable: false},
         {text: this.$t('partners.table.address'), value: "address", sortable: false},
         {text: this.$t('partners.table.email'), value: "email", sortable: false},
         {text: this.$t('partners.table.partnerType'), value: "partnerType", sortable: false},
         {text: this.$t('partners.table.pNumber'), value: "phoneNumber", sortable: false},
         {text: this.$t('partners.table.status'), value: "status", sortable: false, width: 120},
         {text: this.$t('partners.table.createdAt'), value: "createdAt", sortable: false},
-        {text: this.$t('partners.table.updatedAt'), value: "updatedAt", sortable: false},
         {text: this.$t('partners.table.actions'), value: "actions", align: "center", sortable: false, width: 108},
       ],
       items_list: [],
@@ -989,20 +989,24 @@ export default {
 
         } = this.create_partner;
         const formData = new FormData();
-        formData.append("address", address);
+        formData.append("address", address?address:"");
         formData.append("contractDate", contractDate);
         if (this.image_list[0] !== undefined) {
           formData.append("contractFile", this.image_list[0]);
         }
-        formData.append("email", email);
+        formData.append("email", email?email:"");
         formData.append("name", name);
-        formData.append("contractNumber", contractNumber);
-        formData.append("status", status);
+        formData.append("contractNumber", contractNumber?contractNumber:"");
+        formData.append("status", status?status:"");
         formData.append("typeId", typeId);
         formData.append("phoneNumber", this.newPhone);
         formData.append("countryCode", this.countryCode);
         formData.append("brandNames", brandName);
-        formData.append("countryId", country.id);
+        if(country?.id){
+          formData.append("countryId", country.id);
+        }else{
+          formData.append("countryId", "");
+        }
         if (cooperationType) {
           formData.append("cooperationTypeId", cooperationType);
         }
