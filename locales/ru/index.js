@@ -1076,6 +1076,7 @@ export default {
       brandName: "Имя бренда",
       mainMenu:"Партнеры",
       id:"Id",
+      cooperationType:"Тип сотрудничества",
       name:"Имя",
       address:"Адрес",
       email:"Электронная почта",

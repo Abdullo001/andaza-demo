@@ -1074,6 +1074,7 @@ export default {
     table:{
       brandName: "Brend nomi",
       mainMenu:"Hamkorlar",
+      cooperationType:"Hamkorlik turi",
       id:"Id",
       name:"Nomi",
       address:"Manzil",
