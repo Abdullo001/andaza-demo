@@ -337,7 +337,7 @@ export default {
         await this.createAccessoryType(item);
         this.$refs.new_form.reset();
         this.new_dialog = false;
-      };
+      }
     },
     async update() {
       const edit_validate = this.$refs.edit_form.validate();

@@ -91,32 +91,6 @@
                 />
               </v-col>
               <v-col lg="6">
-                <div class="label">VAR.1</div>
-                <v-text-field
-                  outlined
-                  hide-details
-                  height="44"
-                  placeholder="Enter VAR.1"
-                  class="rounded-lg base" dense
-                  validate-on-blur
-                  color="#7631FF"
-                  v-model="fabric_planning.var1"
-                />
-              </v-col>
-              <v-col lg="6">
-                <div class="label">VAR.2</div>
-                <v-text-field
-                  outlined
-                  hide-details
-                  height="44"
-                  placeholder="Enter VAR.2"
-                  class="rounded-lg base" dense
-                  validate-on-blur
-                  color="#7631FF"
-                  v-model="fabric_planning.var2"
-                />
-              </v-col>
-              <v-col lg="6">
                 <div class="label">Width type</div>
                 <v-select
                   :items="withTypeEnum"
@@ -246,8 +220,6 @@ export default {
       chartHeaders: [
         {text: 'Part', align: 'start', sortable: false, value: 'bodyPartName'},
         {text: 'Fabric specification', value: 'fabricSpecification'},
-        {text: 'VAR.1', value: 'var1'},
-        {text: 'VAR.2', value: 'var2'},
         {text: 'Quantity', value: 'quantity'},
         {text: 'M/U', value: 'quantityUnit'},
         {text: 'Width type', value: 'widthType'},
