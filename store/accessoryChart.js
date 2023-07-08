@@ -1,11 +1,13 @@
 export const state = () => ({
   loading: true,
   nameData: [],
+  specificationData:[],
   accessoryAllData: [],
 })
 export const getters = {
   loading: state => state.loading,
   nameData: state => state.nameData,
+  specificationData: state => state.specificationData,
   accessoryAllData: state => state.accessoryAllData,
 }
 export const mutations = {
@@ -14,6 +16,9 @@ export const mutations = {
   },
   setAccessoryName(state, items){
     state.nameData = items
+  },
+  setAccessorySpecification(state, items){
+    state.specificationData = items
   },
   setAllChartAccessory(state, data){
     state.accessoryAllData = data
@@ -54,8 +59,16 @@ export const actions = {
       })
   },
   async getAccessoryList({commit}){
+
     const body = {
-      filters : [],
+      filters : [
+        // {
+        //   key:"id",
+        //   operator:"EQUAL",
+        //   propertyType:"LONG",
+        //   value:a,
+        // }
+      ],
       sorts: [],
       page: 0,
       size: 100
@@ -68,10 +81,36 @@ export const actions = {
         console.log(response)
       })
   },
+
+  async getAccessoryComposition({commit},id){
+
+    const body = {
+      filters : [
+        {
+          key:"id",
+          operator:"EQUAL",
+          propertyType:"LONG",
+          value:id,
+        }
+      ],
+      sorts: [],
+      page: 0,
+      size: 100
+    }
+    body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
+    await this.$axios.$put(`/api/v1/accessory/list`, body)
+      .then(res => {
+        commit("setAccessorySpecification", res.data.content[0]?.specification)
+
+      })
+      .catch(({response}) => {
+        console.log(response)
+      })
+  },
+
   async getChartAllData({commit}, id){
     await this.$axios.get(`/api/v1/accessory-planning-chart/list?accessoryPlanningId=${id}`)
       .then(res => {
-        console.log(res);
         commit("setAllChartAccessory", res.data.data);
       })
       .catch(({response}) => {
