@@ -110,6 +110,7 @@ export const actions = {
       })
       .catch(({response}) => {
         console.log(response);
+        this.$toast.error(response.data.message);
       })
   },
   async getAllModelData({commit}, {page, size}) {
