@@ -74,9 +74,7 @@
                 <div class="label">Specification</div>
                 <v-select
                   v-model="create_accessory_chart.specification"
-                  :items="nameData"
-                  item-text="specification"
-                  item-value="id"
+                  :items="specificationData"
                   outlined
                   hide-details
                   height="44"
@@ -466,11 +464,12 @@ export default {
     };
   },
   watch: {
-    "create_accessory_chart.specification"(val) {
-      this.create_accessory_chart.accessoryId = val;
-    },
+    // "create_accessory_chart.specification"(val) {
+    //   this.create_accessory_chart.accessoryId = val;
+    // },
     "create_accessory_chart.accessoryId"(val) {
       this.create_accessory_chart.specification = val;
+      this.getAccessoryComposition(val)
     },
   },
   created() {
@@ -483,6 +482,7 @@ export default {
       measurementUnit: "measurement/measurementUnit",
       nameData: "accessoryChart/nameData",
       accessoryAllData: "accessoryChart/accessoryAllData",
+      specificationData: "accessoryChart/specificationData",
     }),
     checkId() {
       const param = this.$route.params.id;
@@ -500,6 +500,7 @@ export default {
       updateChartAccessory: "accessoryChart/updateChartAccessory",
       deleteChartAccessory: "accessoryChart/deleteChartAccessory",
       getChartAllData: "accessoryChart/getChartAllData",
+      getAccessoryComposition: "accessoryChart/getAccessoryComposition",
     }),
     async deleteChart() {
       const items = this.delete_acceccory_chart;
@@ -534,13 +535,12 @@ export default {
     async create() {
       const validate = this.$refs.new_form.validate();
       if (validate) {
-        if (true) {
+
           this.create_accessory_chart.accessoryPlanningId =this.$route.params.id;
           await this.createChartAccessory(this.create_accessory_chart);
-          console.log(this.create_accessory_chart);
           this.new_dialog = false;
           this.$refs.new_form.reset();
-        }
+
       }
     },
     editItem(item) {

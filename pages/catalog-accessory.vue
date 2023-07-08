@@ -147,20 +147,6 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Specification</div>
-                <v-text-field
-                  v-model="create_accessory.specification"
-                  filled
-                  dense
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  placeholder="Select Specification"
-                  color="#7631FF"
-                />
-              </v-col>
-              <v-col cols="12" lg="6">
                 <div class="label">Measurement unit</div>
                 <v-select
                   v-model="create_accessory.measurementUnitId"
@@ -180,6 +166,65 @@
                   color="#7631FF"
                 />
               </v-col>
+              <v-col cols="12" md="7">
+                <div class="label">Add Specification</div>
+                <v-text-field
+                  v-model="specification"
+                  color="#7631FF"
+                  placeholder="Enter specification"
+                  outlined
+                  hide-details
+                  height="44"
+                  dense
+                  class="base rounded-lg mr-3"
+                  @keydown.enter="addSpecification"
+                />
+              </v-col>
+              <v-col cols="12" md="5" class="d-flex align-end">
+                <v-btn
+                  @click="addSpecification"
+                  color="#7631FF"
+                  class="rounded-lg text-capitalize"
+                  dark
+                >
+                  <v-icon>mdi-plus</v-icon>
+                  Add Specification
+                </v-btn>
+              </v-col>
+
+              <v-col cols="12">
+                <div class="label">Specifications</div>
+                <v-autocomplete
+                  chips
+                  multiple
+                  v-model="create_accessory.specification"
+                  :items="specificationList"
+                  deletable-chips
+                  append-icon="mdi-chevron-down"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  dense
+                  placeholder="Select specification name"
+                  single-line
+                  color="#7631FF"
+                >
+                  <template v-slot:selection="{item, attrs, on}">
+                    <v-chip
+                      v-bind="attrs"
+                      v-on="on"
+                      color="#7631FF"
+                      dark
+                      close
+                      @click:close="remove(item)"
+                    >
+                      {{ item }}
+                    </v-chip>
+                  </template>
+                </v-autocomplete>
+              </v-col>
+
               <v-col cols="12">
                 <div class="label">Description</div>
                 <v-textarea
@@ -247,19 +292,6 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Specification</div>
-                <v-text-field
-                  v-model="edit_accessory.specification"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  placeholder="Select Specification"
-                  dense
-                  color="#7631FF"
-                />
-              </v-col>
-              <v-col cols="12" lg="6">
                 <div class="label">Measurement unit</div>
                 <v-select
                   v-model="edit_accessory.measurementUnitId"
@@ -278,6 +310,64 @@
                   append-icon="mdi-chevron-down"
                   color="#7631FF"
                 />
+              </v-col>
+              <v-col cols="12" md="7">
+                <div class="label">Add Specification</div>
+                <v-text-field
+                  v-model="editSpecification"
+                  color="#7631FF"
+                  placeholder="Enter specification"
+                  outlined
+                  hide-details
+                  height="44"
+                  dense
+                  class="base rounded-lg mr-3"
+                  @keydown.enter="editSpecificationFunc"
+                />
+              </v-col>
+              <v-col cols="12" md="5" class="d-flex align-end">
+                <v-btn
+                  @click="editSpecificationFunc"
+                  color="#7631FF"
+                  class="rounded-lg text-capitalize"
+                  dark
+                >
+                  <v-icon>mdi-plus</v-icon>
+                  Add Specification
+                </v-btn>
+              </v-col>
+
+              <v-col cols="12">
+                <div class="label">Specifications</div>
+                <v-autocomplete
+                  chips
+                  multiple
+                  v-model="edit_accessory.specification"
+                  :items="specificationList"
+                  deletable-chips
+                  append-icon="mdi-chevron-down"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  dense
+                  placeholder="Select specification name"
+                  single-line
+                  color="#7631FF"
+                >
+                  <template v-slot:selection="{item, attrs, on}">
+                    <v-chip
+                      v-bind="attrs"
+                      v-on="on"
+                      color="#7631FF"
+                      dark
+                      close
+                      @click:close="remove(item)"
+                    >
+                      {{ item }}
+                    </v-chip>
+                  </template>
+                </v-autocomplete>
               </v-col>
               <v-col cols="12">
                 <div class="label">Description</div>
@@ -372,9 +462,11 @@ export default {
       create_accessory: {
         measurementUnitId: "",
         name: "",
-        specification: "",
+        specification: [],
         description: "",
       },
+      specification:"",
+      editSpecification:"",
       edit_accessory: {},
       filter_accessory: {
         id: "",
@@ -396,6 +488,8 @@ export default {
         { text: "UpdatedAt", value: "updatedAt", sortable: false },
         { text: "Actions", value: "actions", align: "center", sortable: false },
       ],
+      specificationList:[],
+
     };
   },
   async created() {
@@ -412,6 +506,16 @@ export default {
       accessory_type_id: "catalogAccessory/accessory_type_id",
     }),
   },
+
+  watch:{
+    "create_accessory.specification"(value) {
+      this.specificationList = value
+    },
+    "edit_accessory.specification"(value) {
+      this.specificationList = value
+    },
+  },
+
   methods: {
     ...mapActions({
       getAccessoryList: "catalogAccessory/getAccessoryList",
@@ -432,6 +536,7 @@ export default {
         size: this.itemPrePage,
       });
     },
+
     async save() {
       const validate = this.$refs.new_form.validate();
       if (validate) {
@@ -439,6 +544,13 @@ export default {
         await this.createAccessoryList(item);
         this.$refs.new_form.reset();
         this.new_dialog = false;
+      }
+    },
+    editSpecificationFunc() {
+      if (this.editSpecification !== "") {
+        const item = this.editSpecification;
+        this.edit_accessory.specification.push(item);
+        this.editSpecification = "";
       }
     },
     async update() {
@@ -472,6 +584,20 @@ export default {
     async filterData() {
       await this.filterAccessoryList(this.filter_accessory);
     },
+
+    addSpecification() {
+      const item = this.specification;
+      if (!!item) {
+        this.create_accessory.specification.push(item);
+        this.specification = "";
+      }
+    },
+
+    remove(item) {
+      const index = this.specificationList.indexOf(item)
+      if (index >= 0) this.specificationList.splice(index, 1)
+    },
+
     async resetFilters() {
       this.filter_accessory = {
         id: "",
