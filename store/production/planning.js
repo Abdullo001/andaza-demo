@@ -87,9 +87,14 @@ export const actions = {
       }).catch(({response}) => console.log(response));
   },
   getWorkshopList({commit}) {
-    this.$axios.$get('/api/v1/partner/list-by-type?type=workshop')
+    const body = {
+      filters: [],
+      sorts: [],
+      page: 0, size: 100
+    }
+    this.$axios.put('/api/v1/partner/list',body)
       .then(res => {
-        commit('setWorkshopList', res.data);
+        commit('setWorkshopList', res.data.data.content);
       }).catch(({response}) => console.log(response))
   },
   getColorsList({commit}) {

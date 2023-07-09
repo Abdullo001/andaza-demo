@@ -58,7 +58,7 @@
           <v-form v-model="validate" ref="processing">
             <v-row justify="center">
               <v-col cols="12" lg="6">
-                <div class="label">{{ $t('planningProduction.planning.workingProcess') }}</div>
+                <div class="label">{{ $t('planningProduction.planning.workingProcess') }}<span style="color: red" >*</span> </div>
                 <v-select
                   :items="processList"
                   item-text="name"
@@ -75,7 +75,7 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">{{ $t('planningProduction.planning.workshop') }}</div>
+                <div class="label">{{ $t('planningProduction.planning.workshop') }}<span style="color: red" >*</span></div>
                 <v-select
                   :items="workshopList"
                   item-text="name"
@@ -146,7 +146,7 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">{{ $t('planningProduction.planning.quantity') }}</div>
+                <div class="label">{{ $t('planningProduction.planning.quantity') }}<span style="color: red" >*</span></div>
                 <v-text-field
                   outlined
                   hide-details
@@ -349,7 +349,14 @@ export default {
     async saveProcessing() {
       if (this.title === this.$t('planningProduction.dialog.add')) {
         this.new_process.productionId = this.productionId;
-        await this.createProcessing(this.new_process);
+        let item={}
+        for(let el in this.new_process) {
+          if(this.new_process[el]){
+            item[el] = this.new_process[el]
+          }
+
+        }
+        await this.createProcessing(item);
         this.$refs.processing.reset();
         this.dialog = false;
       } else {
