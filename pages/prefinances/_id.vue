@@ -1344,16 +1344,10 @@ export default {
           val[7].tertiaryCurrency = (
             val[7].firstCurrency * +this.addPreFinances.tertiaryRate
           ).toFixed(2);
-
-          val[8].firstCurrency = (
-            +val[5].firstCurrency + +val[6].firstCurrency
-          ).toFixed(2);
-          val[8].secondCurrency = (
-            val[8].firstCurrency * +this.addPreFinances.secondaryRate
-          ).toFixed(2);
-          val[8].tertiaryCurrency = (
-            val[8].firstCurrency * +this.addPreFinances.tertiaryRate
-          ).toFixed(2);
+          const target = 100 / (100 - (100 * (+val[6].firstCurrency / 100)))
+          val[8].firstCurrency = (+val[5].firstCurrency * target).toFixed(2);
+          val[8].secondCurrency = (val[8].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2);
+          val[8].tertiaryCurrency = (val[8].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2);
 
           const discount = val[9].editable;
           val[9].firstCurrency = (

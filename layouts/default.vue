@@ -11,6 +11,7 @@
 
 <script>
 import SidebarComponent from "../components/Sidebar.vue";
+import {mapGetters} from "vuex";
 
 export default {
   name: 'DefaultLayout',
@@ -20,7 +21,13 @@ export default {
   },
   created() {
     const token = this.$auth.strategy.token.get()
-    this.$store.commit('setToken', token)
+    this.$store.commit('setToken', token);
+    this.$store.dispatch('getUserInfo');
+  },
+  computed: {
+    ...mapGetters({
+      currentUser: 'currentUser'
+    })
   },
   mounted() {
     document.addEventListener('contextmenu', event => event.preventDefault());
