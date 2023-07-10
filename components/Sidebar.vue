@@ -166,10 +166,10 @@
       </v-card>
       <div class="profile">
         <div class="mr-3">
-          <div class="profile__title">Khamidullaev Abbos</div>
-          <div class="profile__role">Admin</div>
+          <div class="profile__title">{{ currentUser?.fullName }}</div>
+          <div class="profile__role">{{ currentUser?.username }}</div>
         </div>
-        <v-img src="/profilePicture.svg" width="52" height="52"/>
+        <v-img :src="currentUser?.photoUrl" width="52" height="52" class="rounded-pill"/>
       </div>
     </v-app-bar>
   </div>
@@ -400,7 +400,8 @@ export default {
       return this.$i18n.locales.filter(i => i.code !== this.$i18n.locale)
     },
     ...mapGetters({
-      pageTitle: 'pageTitle'
+      pageTitle: 'pageTitle',
+      currentUser: 'currentUser'
     })
   },
   methods: {
