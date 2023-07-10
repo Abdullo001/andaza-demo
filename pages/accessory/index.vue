@@ -197,6 +197,10 @@ export default {
       this.$router.push(`/accessory/create`);
     },
   },
+
+  mounted() {
+    this.$store.commit("setPageTitle", "Planning");
+  }
 };
 </script>
 

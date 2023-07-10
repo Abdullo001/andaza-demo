@@ -261,10 +261,9 @@
               </el-date-picker>
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">Recieved date<span style="color: red;">*</span></div>
+                <div class="label">Recieved date</div>
                 <el-date-picker
                 v-model="sample.recievedDate"
-                :rules="[formRules.required]"
                 style="width: 100%"
                 type="datetime"
                 placeholder="Enter recieved date "
@@ -277,10 +276,9 @@
 
 
               <v-col cols="12" md="6">
-                <div class="label">Result <span style="color: red;">*</span></div>
+                <div class="label">Result </div>
                 <v-select
                   v-model="sample.result"
-                  :rules="[formRules.required]"
                   :items="result_enums"
                   item-text="name"
                   item-value="id"
@@ -295,7 +293,7 @@
                 />
               </v-col>
               <v-col cols="12" >
-                <div class="label">Reason </div>
+                <div class="label">Reason <span style="color: red;">*</span> </div>
                 <v-text-field
                   v-model="sample.reason"
                   :rules="[formRules.required]"
@@ -334,7 +332,7 @@
                   <v-card-text>
                     <div
                       v-for="(item, idx) in image_list"
-                      :key="`imade_${idx}`"
+                      :key="`image_${idx}`"
                     >
                       <div class="d-flex justify-space-between align-center">
                         <p class="font-weight-bold">
@@ -871,6 +869,7 @@ export default {
   },
 
   mounted(){
+    this.$store.commit("setPageTitle", "Planning");
     this.getSamplesList({page:0,size:10})
   }
 }
