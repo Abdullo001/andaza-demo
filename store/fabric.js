@@ -98,8 +98,8 @@ export const actions = {
   async updatePlanningChart({dispatch}, {id, data}) {
     await this.$axios.$put(`/api/v1/fabric-planning-chart/update`, data)
       .then(res => {
-        console.log(res);
         dispatch('getPlanningChartList', id);
+        this.$toast.success(res.message);
       }).catch(({response}) => console.log(response));
   }
 };

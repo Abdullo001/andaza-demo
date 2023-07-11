@@ -22,6 +22,15 @@
           </v-toolbar-title>
         </v-toolbar>
       </template>
+
+      <template #item.withFleece="{item}">
+        {{ item.withFleece?"Fleece":"-" }}
+      </template>
+
+      <template #item.peachEffectEnabled="{item}">
+        {{ item.peachEffectEnabled?"Peach effect":"-" }}
+      </template>
+
       <template #item.actions="{item}">
         <v-btn
           icon
@@ -138,6 +147,20 @@
                 />
               </v-col>
               <v-col lg="6">
+                <div class="label">Density kg/m2</div>
+                <v-text-field
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base" dense
+                  validate-on-blur
+                  color="#7631FF"
+                  placeholder="Enter density kg/m2"
+                  v-model="fabric_planning.density"
+                  :rules="[formRules.required]"
+                />
+              </v-col>
+              <v-col lg="6">
                 <div class="label">Comment</div>
                 <v-text-field
                   outlined
@@ -150,32 +173,20 @@
                   v-model="fabric_planning.description"
                 />
               </v-col>
+            </v-row>
+            <v-row>
               <v-col cols="12" lg="6" class="d-flex align-center">
                 <div class="body-1 font-weight-medium">Fleece</div>
                 <v-spacer/>
-                <v-switch
-                  inset color="#4F46E5"
+                <v-switch v-model="fabric_planning.withFleece"
+                          inset color="#4F46E5"
                 />
               </v-col>
               <v-col cols="12" lg="6" class="d-flex align-center">
                 <div class="body-1 font-weight-medium">Peach effect</div>
                 <v-spacer/>
-                <v-switch
-                  inset color="#4F46E5"
-                />
-              </v-col>
-              <v-col lg="6">
-                <div class="label">Density kg/m2</div>
-                <v-text-field
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base" dense
-                  validate-on-blur
-                  color="#7631FF"
-                  placeholder="Enter density kg/m2"
-                  v-model="fabric_planning.density"
-                  :rules="[formRules.required]"
+                <v-switch v-model="fabric_planning.peachEffectEnabled"
+                          inset color="#4F46E5"
                 />
               </v-col>
             </v-row>
@@ -217,16 +228,18 @@ export default {
   data() {
     return {
       delete_dialog: false,
+      currency_enums: ["USD", "UZS", "RUB"],
       chartHeaders: [
         {text: 'Part', align: 'start', sortable: false, value: 'bodyPartName'},
-        {text: 'Fabric specification', value: 'fabricSpecification'},
-        {text: 'Quantity', value: 'quantity'},
-        {text: 'M/U', value: 'quantityUnit'},
-        {text: 'Width type', value: 'widthType'},
-        {text: 'Width(cm)', value: 'width'},
-        {text: 'Density kg/m2', value: 'density'},
-        {text: 'Comment', value: 'description'},
-        {text: 'Actions', value: 'actions', align: 'center'},
+        {text: 'Fabric specification', value: 'fabricSpecification', width:200},
+        {text: 'Fleece', value: 'withFleece',width: 90},
+        {text: 'Peach effect', value: 'peachEffectEnabled', width: 130},
+        {text: 'Quantity', value: 'quantity',width:100},
+        {text: 'M/U', value: 'quantityUnit',width:80},
+        {text: 'Width type', value: 'widthType',width:120},
+        {text: 'Width(cm)', value: 'width',width:120},
+        {text: 'Density kg/m2', value: 'density', width: 140},
+        {text: 'Actions', value: 'actions', align: 'center',width: 140},
       ],
       planningCharts: [],
       new_dialog: false,
@@ -235,10 +248,12 @@ export default {
         description: "",
         fabricPlanningId: null,
         modelPartId: null,
+        withFleece:false,
+        peachEffectEnabled:false,
         quantity: "",
+        fabricPriceCurrency:"USD",
+        fabricPrice:null,
         quantityUnitId: null,
-        var1: "",
-        var2: "",
         width: "",
         widthType: ""
       },
@@ -272,9 +287,11 @@ export default {
           fabricPlanningId: null,
           modelPartId: null,
           quantity: "",
+          fabricPriceCurrency:"USD",
+          fabricPrice:null,
           quantityUnitId: null,
-          var1: "",
-          var2: "",
+          withFleece:false,
+          peachEffectEnabled:false,
           width: "",
           widthType: ""
         };
@@ -298,9 +315,11 @@ export default {
         fabricPlanningId: val.fabricPlanningId,
         modelPartId: val.modelPartId,
         quantity: val.quantity,
+        fabricPriceCurrency:val.fabricPriceCurrency,
+        fabricPrice:val.fabricPrice,
+        withFleece:val.withFleece,
+        peachEffectEnabled:val.peachEffectEnabled,
         quantityUnitId: val.quantityUnitId,
-        var1: val.var1,
-        var2: val.var2,
         width: val.width,
         widthType: val.widthType
       }

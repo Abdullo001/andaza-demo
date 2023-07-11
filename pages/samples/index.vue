@@ -652,7 +652,7 @@ export default {
       itemsPerPage:10,
       image_list:[],
       edit_image_list: [],
-      result_enums:["NG", "OK", "REMAKE"],
+      result_enums:["PENDING", "OK", "REMAKE"],
       sample:{
         modelNumber:null,
         purposeId:"",
