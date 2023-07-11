@@ -93,7 +93,7 @@ export default (context, inject) => {
             switch (color) {
               case 'OK':
                 return '#10BF41'
-              case 'NG':
+              case 'PENDING':
                 return 'amber'
               case 'REMAKE':
                 return '#FF4E4F'
