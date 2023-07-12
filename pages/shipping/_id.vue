@@ -24,11 +24,11 @@
               color="#7631FF"
             />
           </v-col>
-          
+
           <v-col cols="3">
             <div class="label">Order number</div>
             <v-combobox
-              
+
               :search-input.sync="orderIdSearch"
               item-text="modelNumber"
               item-value="id"
@@ -52,7 +52,7 @@
           <v-col cols="3">
             <div class="label">Model number</div>
             <v-combobox
-             
+
               :search-input.sync="modelIdSearch"
               item-text="modelNumber"
               item-value="id"
@@ -78,7 +78,7 @@
             <v-text-field
               outlined
               hide-details
-              
+
               height="44"
               class="rounded-lg base mb-4"
               placeholder="client name"
@@ -87,7 +87,7 @@
               color="#7631FF"
             />
           </v-col>
-         
+
           <v-col cols="3">
             <div class="label">Brand name</div>
             <v-select
@@ -102,13 +102,13 @@
             color="#7631FF"
           />
           </v-col>
-          
+
           <v-col cols="3">
             <div class="label">Contract No.</div>
             <v-text-field
               outlined
               hide-details
-              
+
               height="44"
               class="rounded-lg base mb-4"
               placeholder="Enter contract No."
@@ -122,7 +122,7 @@
             <v-text-field
               outlined
               hide-details
-              
+
               height="44"
               class="rounded-lg base mb-4"
               placeholder="Enter Invoice No."
@@ -136,7 +136,7 @@
             <v-text-field
               outlined
               hide-details
-              
+
               height="44"
               class="rounded-lg base mb-4"
               placeholder="Enter Packing List No."
@@ -203,6 +203,84 @@
             />
           </v-col>
 
+          <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">Ex.rate in planning created day</div>
+            <div class="rounded w-100 d-flex align-center justify-center " style="font-size:18px;background-color: #F8F4FE;height: 44px">
+              1 USD
+            </div>
+          </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">Ex.rate in planning created day</div>
+            <div class="d-flex align-center">
+              <v-text-field
+                v-model="shippingDetails.exRateSecondaryRate"
+                :rules="[formRules.onlyNumber]"
+                placeholder="0.00"
+                validate-on-blur
+                outlined
+                hide-details
+                height="44"
+                dense
+                class="rounded-l-lg rounded-r-0 rounded-lg base mb-4"
+                color="#7631FF"
+              />
+              <v-select
+                v-model="shippingDetails.exRateSecondaryCurrency"
+                :items="['UZS','RUB']"
+                style="max-width: 100px"
+                outlined
+                hide-details
+                height="44"
+                dense
+                validate-on-blur
+                class="rounded-r-lg rounded-l-0 rounded-lg base mb-4"
+                append-icon="mdi-chevron-down"
+                color="#7631FF"
+              />
+            </div>
+          </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">Exchange rate in prefinanced day</div>
+            <div class="d-flex align-center">
+              <v-text-field
+                v-model="shippingDetails.exRatePreFinancedDay"
+                :rules="[formRules.onlyNumber]"
+                placeholder="0.00"
+                disabled
+                outlined
+                hide-details
+                height="44"
+                dense
+                validate-on-blur
+                class="rounded-l-lg rounded-r-0 rounded-lg base mb-4"
+                color="#7631FF"
+                :suffix="shippingDetails.exRateSecondaryCurrency"
+              />
+            </div>
+          </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">Exchange rate difference</div>
+            <div class="d-flex align-center">
+              <v-text-field
+                v-model="shippingDetails.differenceRate"
+                :rules="[formRules.onlyNumber]"
+                :background-color="
+                  shippingDetails.differenceRate >= 0 ? 'green' : 'red'
+                "
+                placeholder="0.00"
+                disabled
+                outlined
+                hide-details
+                height="44"
+                dense
+                validate-on-blur
+                class="rounded-l-lg  rounded-lg base mb-4"
+                color="#7631FF"
+                dark
+                :suffix="shippingDetails.exRateSecondaryCurrency"
+              />
+            </div>
+          </v-col>
           <v-col cols="3">
             <div class="label">Creator</div>
             <v-text-field
@@ -216,10 +294,10 @@
               dense
               color="#7631FF"
               background-color="#F8F4FE"
-              
+
             />
           </v-col>
-          
+
           <v-col cols="3">
             <div class="label">Created time</div>
             <v-text-field
@@ -233,7 +311,7 @@
               dense
               color="#7631FF"
               background-color="#F8F4FE"
-              
+
             >
               <template #append>
                 <v-img src="/date-icon.svg"/>
@@ -254,7 +332,7 @@
                 dense
                 color="#7631FF"
                 background-color="#F8F4FE"
-                
+
               />
             </v-col>
 
@@ -272,17 +350,17 @@
               dense
               color="#7631FF"
               background-color="#F8F4FE"
-              
+
             >
               <template #append>
                 <v-img src="/date-icon.svg"/>
               </template>
             </v-text-field>
           </v-col>
-          
-           
-            
-          
+
+
+
+
         </v-row>
         <div class="">
           <div class="label">Photos of models</div>
@@ -349,7 +427,7 @@
 
         </v-tabs-items>
       </v-tabs>
-    
+
     </v-card>
   </div>
 </template>
@@ -374,6 +452,15 @@ export default {
         "Packing list",
         "Remaining quantity for dom.market"
         ],
+      shippingDetails:{
+        exRatePrimaryCurrency: "USD",
+        exRatePrimaryRate: null,
+        exRateSecondaryCurrency: "UZS",
+        exRateSecondaryRate: null,
+        exRatePreFinancedDay: "",
+        exRatePreFinancedDayCurrency: "UZS",
+      },
+      currency_enums: ["USD", "UZS", "RUB"],
       map_links: [
                 {
                     text: "Home",
@@ -396,6 +483,19 @@ export default {
         ],
       };
     },
+
+  watch:{
+    "shippingDetails.exRateSecondaryRate"(val) {
+      if (typeof this.shippingDetails.exRateSecondaryRate !== undefined) {
+        this.shippingDetails.differenceRate =
+          val - this.shippingDetails.exRatePreFinancedDay;
+      }
+
+      this.shippingDetails.differenceRate = this.shippingDetails.differenceRate
+        ? this.shippingDetails.differenceRate
+        : 0;
+    },
+  }
 }
 </script>
 <style lang="scss" scoped>

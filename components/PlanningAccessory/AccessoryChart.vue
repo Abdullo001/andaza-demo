@@ -87,31 +87,20 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">VAR.1</div>
-                <v-text-field
-                  v-model="create_accessory_chart.var1"
+                <div class="label">Colors</div>
+                <v-select
+                  v-model="create_accessory_chart.colorId"
+                  :items="colorsList"
+                  item-value="id"
+                  item-text="name"
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  placeholder="Enter VAR.1"
+                  placeholder="Select color"
                   dense
+                  append-icon="mdi-chevron-down"
                   color="#7631FF"
-                  :rules="[formRules.required]"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <div class="label">VAR.2</div>
-                <v-text-field
-                  v-model="create_accessory_chart.var2"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  placeholder="Enter VAR.2"
-                  dense
-                  color="#7631FF"
-                  :rules="[formRules.required]"
                 />
               </v-col>
               <v-col cols="12" md="6">
@@ -198,7 +187,6 @@
                   placeholder="Enter Canvas type"
                   dense
                   color="#7631FF"
-                  :rules="[formRules.required]"
                 />
               </v-col>
             </v-row>
@@ -268,28 +256,19 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">VAR.1</div>
-                <v-text-field
-                  v-model="edit_accessory_chart.var1"
+                <div class="label">Colors</div>
+                <v-select
+                  v-model="edit_accessory_chart.colorId"
+                  :items="colorsList"
+                  item-text="name"
+                  item-value="id"
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  placeholder="Enter VAR.1"
+                  placeholder="Select color"
                   dense
-                  color="#7631FF"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <div class="label">VAR.2</div>
-                <v-text-field
-                  v-model="edit_accessory_chart.var2"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  placeholder="Enter VAR.2"
-                  dense
+                  append-icon="mdi-chevron-down"
                   color="#7631FF"
                 />
               </v-col>
@@ -425,11 +404,11 @@ export default {
         accessoryPricePerUnit: "",
         description: "",
         quantity: "",
-        var1: "",
-        var2: "",
+        color:"",
         wastage: "",
       },
       edit_accessory_chart: {
+        specification: null,
         accessoryId: null,
         accessoryPlanningId: null,
         accessoryPricePerCurrency: "",
@@ -437,8 +416,7 @@ export default {
         description: "",
         id: null,
         quantity: "",
-        var1: "",
-        var2: "",
+        color:"",
         wastage: "",
       },
       delete_acceccory_chart: {},
@@ -449,8 +427,7 @@ export default {
       headers: [
         { text: "Name", value: "name" },
         { text: "Specification", value: "specification" },
-        { text: "VAR.1", value: "var1" },
-        { text: "VAR.2", value: "var2" },
+        { text: "Color", value: "color" },
         { text: "Price P/U", value: "pricePerUnit" },
         { text: "Currency", value: "pricePerUnitCurrency" },
         { text: "Quantity", value: "quantity" },
@@ -459,14 +436,11 @@ export default {
         { text: "Production Quantity", value: "productionQuantity" },
         { text: "totalAccessory", value: "totalAccessory" },
         { text: "Description", value: "description" },
-        { text: "Actions", value: "actions", align: "center", sortable: false },
+        { text: "Actions", value: "actions", align: "center", sortable: false , width: 150},
       ],
     };
   },
   watch: {
-    // "create_accessory_chart.specification"(val) {
-    //   this.create_accessory_chart.accessoryId = val;
-    // },
     "create_accessory_chart.accessoryId"(val) {
       this.create_accessory_chart.specification = val;
       this.getAccessoryComposition(val)
@@ -475,6 +449,7 @@ export default {
   created() {
     this.getMeasurementUnit({ page: 0, size: 20 });
     this.getAccessoryList();
+    this.getColorsList();
   },
   computed: {
     ...mapGetters({
@@ -483,6 +458,7 @@ export default {
       nameData: "accessoryChart/nameData",
       accessoryAllData: "accessoryChart/accessoryAllData",
       specificationData: "accessoryChart/specificationData",
+      colorsList: "accessoryChart/colorsList",
     }),
     checkId() {
       const param = this.$route.params.id;
@@ -501,6 +477,7 @@ export default {
       deleteChartAccessory: "accessoryChart/deleteChartAccessory",
       getChartAllData: "accessoryChart/getChartAllData",
       getAccessoryComposition: "accessoryChart/getAccessoryComposition",
+      getColorsList: "accessoryChart/getColorsList",
     }),
     async deleteChart() {
       const items = this.delete_acceccory_chart;
@@ -523,8 +500,7 @@ export default {
           description: this.edit_accessory_chart.description,
           id: this.edit_accessory_chart.id,
           quantity: this.edit_accessory_chart.quantity,
-          var1: this.edit_accessory_chart.var1,
-          var2: this.edit_accessory_chart.var2,
+          colorId: this.edit_accessory_chart.colorId,
           wastage: this.edit_accessory_chart.wastage,
         };
         await this.updateChartAccessory(items);
