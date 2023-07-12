@@ -80,5 +80,13 @@ export const actions = {
         dispatch('getPlannedOrderList', id);
         this.$toast.success(res.message);
       }).catch(({response}) => console.log(response));
+  },
+
+  generateFabricOrder({commit,dispatch},id){
+    this.$axios.post(`/api/v1/fabric-planning-chart/generate-planned-order?fabricPlanningId=${id}`)
+      .then((res)=>{
+        this.$toast.success(res.data.message);
+        dispatch("getPlannedOrderList",id)
+      }).catch((response)=>{console.log(response)})
   }
 };

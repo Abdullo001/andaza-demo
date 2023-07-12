@@ -113,10 +113,21 @@
     <div class="d-flex mt-6">
       <v-spacer/>
       <v-btn
-        class="text-capitalize rounded-lg font-weight-bold"
-        color="#7631FF" dark
+        class="text-capitalize rounded-lg font-weight-bold mr-4 py-1 px-6"
+        color="#7631FF"
+        outlined
         height="44"
-        width="133"
+        @click="generateFabricPlanningOrder"
+      >
+        {{ allPlannerOrder.length===0?'Generate order':'Refresh Order' }}
+      </v-btn>
+
+      <v-btn
+        class="text-capitalize rounded-lg font-weight-bold px-6"
+        color="#7631FF"
+        height="44"
+        :disabled="allPlannerOrder.length===0"
+        :dark="allPlannerOrder.length!==0"
         @click="savePlanningOrder"
       >
         order
@@ -174,7 +185,9 @@ export default {
   },
   watch: {
     plannedOrderList(val) {
-      this.allPlannerOrder = JSON.parse(JSON.stringify(val));
+      if(val){
+        this.allPlannerOrder = JSON.parse(JSON.stringify(val));
+      }
     },
     partnerName(val) {
       if(!!val && val !== '') {
@@ -206,6 +219,7 @@ export default {
       getWarehouseCodeList: 'plannedOrder/getWarehouseCodeList',
       getPlannedOrderList: 'plannedOrder/getPlannedOrderList',
       createPlanningOrder: 'plannedOrder/createPlanningOrder',
+      generateFabricOrder:'plannedOrder/generateFabricOrder',
       getDocuments: "documents/getDocuments",
     }),
     savePlanningOrder() {
@@ -220,6 +234,10 @@ export default {
         }
         this.createPlanningOrder({data, id: this.fabricPlanningId});
       }
+    },
+
+    generateFabricPlanningOrder(){
+      this.generateFabricOrder( this.fabricPlanningId)
     }
   },
   mounted() {
