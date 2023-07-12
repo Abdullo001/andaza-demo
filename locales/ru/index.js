@@ -475,6 +475,7 @@ export default {
       modelName: "Название модели",
       composition: "Состав",
       modelGroup: "Группа моделей",
+      clientName:"Клиент",
       license: "Лицензия",
       order: "Заказ в/д",
       deadline: "Крайний срок",
