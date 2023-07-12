@@ -1327,64 +1327,32 @@ export default {
           ).toFixed(2);
 
           const targetProfit = val[6].editable;
-          val[6].firstCurrency = (
-            (val[5].firstCurrency / 100) *
-            targetProfit
-          ).toFixed(2);
-          val[6].secondCurrency = (
-            val[6].firstCurrency * this.addPreFinances.secondaryRate
-          ).toFixed(2);
-          val[6].tertiaryCurrency = (
-            val[6].firstCurrency * this.addPreFinances.tertiaryRate
-          ).toFixed(2);
+          val[6].firstCurrency = ((val[5].firstCurrency / 100) * targetProfit).toFixed(2);
+          val[6].secondCurrency = (val[6].firstCurrency * this.addPreFinances.secondaryRate).toFixed(2);
+          val[6].tertiaryCurrency = (val[6].firstCurrency * this.addPreFinances.tertiaryRate).toFixed(2);
 
-          val[7].secondCurrency = (
-            val[7].firstCurrency * +this.addPreFinances.secondaryRate
-          ).toFixed(2);
-          val[7].tertiaryCurrency = (
-            val[7].firstCurrency * +this.addPreFinances.tertiaryRate
-          ).toFixed(2);
-          const target = 100 / (100 - Number(val[6].firstCurrency));
-          val[8].firstCurrency = (+val[5].firstCurrency * target).toFixed(2);
+          val[7].secondCurrency = (val[7].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2);
+          val[7].tertiaryCurrency = (val[7].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2);
+
+          const target = 100 / (100 - Number(val[6].editable));
+          val[8].firstCurrency = (Number(val[5].firstCurrency) * target).toFixed(2);
           val[8].secondCurrency = (val[8].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2);
           val[8].tertiaryCurrency = (val[8].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2);
 
           const discount = val[9].editable;
-          val[9].firstCurrency = (
-            (val[8].firstCurrency / 100) *
-            discount
-          ).toFixed(2);
-          val[9].secondCurrency = (
-            val[9].firstCurrency * +this.addPreFinances.secondaryRate
-          ).toFixed(2);
-          val[9].tertiaryCurrency = (
-            val[9].firstCurrency * +this.addPreFinances.tertiaryRate
-          ).toFixed(2);
+          val[9].firstCurrency = ((val[8].firstCurrency / 100) * discount).toFixed(2);
+          val[9].secondCurrency = (val[9].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2);
+          val[9].tertiaryCurrency = (val[9].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2);
 
-          val[10].firstCurrency = (
-            val[8].firstCurrency - val[9].firstCurrency
-          ).toFixed(2);
-          val[10].secondCurrency = (
-            val[8].secondCurrency - val[9].secondCurrency
-          ).toFixed(2);
-          val[10].tertiaryCurrency = (
-            val[8].tertiaryCurrency - val[9].tertiaryCurrency
-          ).toFixed(2);
+          val[10].firstCurrency = (val[8].firstCurrency - val[9].firstCurrency).toFixed(2);
+          val[10].secondCurrency = (val[8].secondCurrency - val[9].secondCurrency).toFixed(2);
+          val[10].tertiaryCurrency = (val[8].tertiaryCurrency - val[9].tertiaryCurrency).toFixed(2);
 
-          val[12].firstCurrency = (
-            val[10].firstCurrency - val[5].firstCurrency
-          ).toFixed(2);
-          val[12].secondCurrency = (
-            val[12].firstCurrency * +this.addPreFinances.secondaryRate
-          ).toFixed(2);
-          val[12].tertiaryCurrency = (
-            val[12].firstCurrency * +this.addPreFinances.tertiaryRate
-          ).toFixed(2);
+          val[12].firstCurrency = (val[10].firstCurrency - val[5].firstCurrency).toFixed(2);
+          val[12].secondCurrency = (val[12].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2);
+          val[12].tertiaryCurrency = (val[12].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2);
 
-          val[11].editable = (
-            (val[12].firstCurrency / val[5].firstCurrency) *
-            100
-          ).toFixed(2);
+          val[11].editable = ((val[12].firstCurrency / val[5].firstCurrency) * 100).toFixed(2);
         }
       },
       deep: true,
