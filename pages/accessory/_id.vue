@@ -156,138 +156,6 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Ex.rate in planning created day</div>
-            <div class="d-flex align-center">
-              <v-text-field
-                v-model="accessoryDetail.exRatePrimaryRate"
-                :rules="[formRules.onlyNumber]"
-                placeholder="0.00"
-                validate-on-blur
-                outlined
-                hide-details
-                height="44"
-                dense
-                class="rounded-l-lg rounded-r-0 rounded-lg base mb-4"
-                color="#7631FF"
-              />
-              <v-select
-                v-model="accessoryDetail.exRatePrimaryCurrency"
-                :items="currency_enums"
-                style="max-width: 100px"
-                outlined
-                hide-details
-                height="44"
-                dense
-                validate-on-blur
-                class="rounded-r-lg rounded-l-0 rounded-lg base mb-4"
-                append-icon="mdi-chevron-down"
-                color="#7631FF"
-              />
-            </div>
-          </v-col>
-          <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Ex.rate in planning created day</div>
-            <div class="d-flex align-center">
-              <v-text-field
-                v-model="accessoryDetail.exRateSecondaryRate"
-                :rules="[formRules.onlyNumber]"
-                placeholder="0.00"
-                validate-on-blur
-                outlined
-                hide-details
-                height="44"
-                dense
-                class="rounded-l-lg rounded-r-0 rounded-lg base mb-4"
-                color="#7631FF"
-              />
-              <v-select
-                v-model="accessoryDetail.exRateSecondaryCurrency"
-                :items="['UZS']"
-                style="max-width: 100px"
-                outlined
-                hide-details
-                height="44"
-                dense
-                validate-on-blur
-                class="rounded-r-lg rounded-l-0 rounded-lg base mb-4"
-                append-icon="mdi-chevron-down"
-                color="#7631FF"
-              />
-            </div>
-          </v-col>
-          <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Exchange rate in prefinanced day</div>
-            <div class="d-flex align-center">
-              <v-text-field
-                v-model="accessoryDetail.exRatePreFinancedDay"
-                :rules="[formRules.onlyNumber]"
-                placeholder="0.00"
-                disabled
-                outlined
-                hide-details
-                height="44"
-                dense
-                validate-on-blur
-                class="rounded-l-lg rounded-r-0 rounded-lg base mb-4"
-                color="#7631FF"
-              />
-              <v-select
-                v-model="accessoryDetail.exRatePreFinancedDayCurrency"
-                :items="currency_enums"
-                style="max-width: 100px"
-                disabled
-                outlined
-                hide-details
-                height="44"
-                dense
-                validate-on-blur
-                class="rounded-r-lg rounded-l-0 rounded-lg base mb-4"
-                append-icon="mdi-chevron-down"
-                color="#7631FF"
-              />
-            </div>
-          </v-col>
-          <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Exchange rate difference</div>
-            <div class="d-flex align-center">
-              <v-text-field
-                v-model="accessoryDetail.differenceRate"
-                :rules="[formRules.onlyNumber]"
-                :background-color="
-                  accessoryDetail.differenceRate >= 0 ? 'green' : 'red'
-                "
-                placeholder="0.00"
-                disabled
-                outlined
-                hide-details
-                height="44"
-                dense
-                validate-on-blur
-                class="rounded-l-lg rounded-r-0 rounded-lg base mb-4"
-                color="#7631FF"
-                dark
-              />
-              <v-select
-                v-model="accessoryDetail.differenceCurrency"
-                :items="currency_enums"
-                :background-color="
-                  accessoryDetail.differenceRate >= 0 ? 'green' : 'red'
-                "
-                style="max-width: 100px"
-                disabled
-                outlined
-                hide-details
-                height="44"
-                dense
-                validate-on-blur
-                class="rounded-r-lg rounded-l-0 base rounded-lg mb-4"
-                color="#7631FF"
-                append-icon="mdi-chevron-down"
-                dark
-              />
-            </div>
-          </v-col>
-          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">Creator of planning</div>
             <v-text-field
               v-model="accessoryDetail.creatorOfPlanning"
@@ -591,16 +459,7 @@ export default {
       }
     },
 
-    "accessoryDetail.exRateSecondaryRate"(val) {
-      if (typeof this.accessoryDetail.exRateSecondaryRate !== undefined) {
-        this.accessoryDetail.differenceRate =
-          val - this.accessoryDetail.exRatePreFinancedDay;
-      }
 
-      this.accessoryDetail.differenceRate = this.accessoryDetail.differenceRate
-        ? this.accessoryDetail.differenceRate
-        : 0;
-    },
 
     accessoryData(item) {
       this.accessoryDetail = JSON.parse(JSON.stringify(item));
@@ -627,19 +486,13 @@ export default {
     async saveBtn() {
       if (this.title === "Add") {
         await this.createPlanningAccessory({
-          exRatePrimaryCurrency: this.accessoryDetail.exRatePrimaryCurrency,
-          exRatePrimaryRate: this.accessoryDetail.exRatePrimaryRate,
-          exRateSecondaryCurrency: this.accessoryDetail.exRateSecondaryCurrency,
-          exRateSecondaryRate: this.accessoryDetail.exRateSecondaryRate,
+
           modelId: this.accessoryDetail.modelId,
           orderId: this.accessoryDetail.orderId,
         });
       } else if (this.title === "Edit") {
         await this.updatePlanningAccessory({
-          exRatePrimaryCurrency: this.accessoryDetail.exRatePrimaryCurrency,
-          exRatePrimaryRate: this.accessoryDetail.exRatePrimaryRate,
-          exRateSecondaryCurrency: this.accessoryDetail.exRateSecondaryCurrency,
-          exRateSecondaryRate: this.accessoryDetail.exRateSecondaryRate,
+
           id: this.$route.params.id,
           modelId: this.accessoryDetail.modelId,
           orderId: this.accessoryDetail.orderId,
