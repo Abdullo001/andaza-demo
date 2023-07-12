@@ -105,8 +105,35 @@
       <template #item.isOrdered="{item}">
         <v-simple-checkbox
           v-model="item.isOrdered"
+          :disabled="item.status==='ORDERED'"
           color="#7631FF"
         ></v-simple-checkbox>
+      </template>
+
+      <template #item.status="{item}">
+        <v-select
+          :background-color="statusColor.fabricOrderedStatus(item.status)"
+          :items="status_enums"
+          append-icon="mdi-chevron-down"
+          v-model="item.status"
+          hide-details
+          class="mt-n2"
+          rounded
+          dark
+        />
+      </template>
+
+      <template #item.pricePerUnit="{item}">
+        <v-text-field
+          @keyup="(e)=>setPricePerUnit(e,item)"
+          outlined
+          hide-details
+          height="44"
+          class="rounded-lg base" dense
+          validate-on-blur
+          color="#7631FF"
+          v-model="item.pricePerUnit"
+        />
       </template>
     </v-data-table>
     <v-divider/>
@@ -144,23 +171,26 @@ export default {
     return {
       headers: [
         { text: '', value: 'isOrdered', sortable: false },
+        { text: 'Fabric specification', value: 'specification', sortable: false },
+        { text: 'Supplier name', value: 'supplierName', sortable: false },
+        { text: 'Delivery time', value: 'deliveryTime', sortable: false },
+        { text: 'Warehouse C/N', value: 'warehouseCode', sortable: false },
         {
           text: 'Deadline',
           align: 'start',
           sortable: false,
           value: 'deadline',
         },
-        { text: 'Supplier name', value: 'supplierName', sortable: false },
-        { text: 'Warehouse C/N', value: 'warehouseCode', sortable: false },
-        { text: 'Delivery time', value: 'deliveryTime', sortable: false },
-        { text: 'Fabric specification', value: 'specification', sortable: false },
+        { text: 'Status',value:'status',sortable: false},
         { text: 'Color', value: 'color', sortable: false },
         { text: 'Quantity', value: 'quantity', sortable: false },
-        { text: 'M/U', value: 'quantityUnit', sortable: false },
         { text: 'Fabric 1pc', value: 'quantityOnePc', sortable: false },
-        { text: 'M/U', value: 'quantityOnePcUnit', sortable: false },
         { text: 'Total fabric', value: 'total', sortable: false },
+        { text: 'Price per unit', value: 'pricePerUnit', sortable: false,width: 100 },
+        { text: 'Total price', value: 'totalPrice', sortable: false },
+
       ],
+      status_enums: ["ORDERED", "CANCELLED", "PENDING"],
       details: {
         partnerName: '',
         warehouseCode: '',
@@ -220,16 +250,23 @@ export default {
       getPlannedOrderList: 'plannedOrder/getPlannedOrderList',
       createPlanningOrder: 'plannedOrder/createPlanningOrder',
       generateFabricOrder:'plannedOrder/generateFabricOrder',
+      setPricePerUnitFunc: 'plannedOrder/setPricePerUnitFunc',
       getDocuments: "documents/getDocuments",
     }),
     savePlanningOrder() {
       const valid = this.$refs.valid.validate();
       if(valid) {
-        const planningChartIds = this.allPlannerOrder.map(item => item.fabricPlanningChartId)
+        const plannedOrderIds = []
+          this.allPlannerOrder.forEach((item) => {
+            if(item.isOrdered&&item.status!=="ORDERED"){
+              plannedOrderIds.push(item.plannedFabricOrderId)
+            }
+        })
+
         const data = {
           deliveryTime: this.details.deliveryTime,
           partnerId: this.details.partnerName.id,
-          planningChartIds,
+          plannedOrderIds,
           warehouseId: this.details.warehouseCode.id
         }
         this.createPlanningOrder({data, id: this.fabricPlanningId});
@@ -238,12 +275,21 @@ export default {
 
     generateFabricPlanningOrder(){
       this.generateFabricOrder( this.fabricPlanningId)
+    },
+
+    setPricePerUnit(e,item){
+      if(e.code===`Enter`){
+        const data={
+          plannedOrderId:item.plannedFabricOrderId,
+          pricePerUnit:item.pricePerUnit,
+        }
+        this.setPricePerUnitFunc({data,id:this.fabricPlanningId})
+      }
     }
   },
   mounted() {
     if(!!this.fabricPlanningId) {
        this.getPlannedOrderList(this.fabricPlanningId);
-       this.getDocuments(this.modelId);
     }
   }
 }

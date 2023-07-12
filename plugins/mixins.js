@@ -89,6 +89,17 @@ export default (context, inject) => {
             }
           },
 
+          fabricOrderedStatus(color){
+            switch (color) {
+              case 'ORDERED':
+                return '#10BF41'
+              case 'CANCELLED':
+                return '#FF4E4F'
+              case 'PENDING':
+                return 'amber'
+            }
+          },
+
           resultColor(color) {
             switch (color) {
               case 'OK':

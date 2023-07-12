@@ -88,5 +88,13 @@ export const actions = {
         this.$toast.success(res.data.message);
         dispatch("getPlannedOrderList",id)
       }).catch((response)=>{console.log(response)})
+  },
+
+  setPricePerUnitFunc({dispatch},{data,id}){
+    this.$axios.put(`/api/v1/fabric-planning-chart/set-price-order`,data)
+      .then((res)=>{
+        dispatch("getPlannedOrderList",id)
+        this.$toast.success(res.data.message);
+      }).catch((response)=>{console.log(response)})
   }
 };
