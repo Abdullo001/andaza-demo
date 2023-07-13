@@ -91,7 +91,6 @@ export const actions = {
   },
   createUser({dispatch, commit}, user) {
     user.phone = `+998${user.phone.replace('(','').replace(')','').replaceAll(' ', '')}`
-
     const config = {
       headers: { 'Content-Type': 'multipart/form-data' }
     }
@@ -178,6 +177,14 @@ export const actions = {
         this.$toast.success(res.message, {theme: 'toasted-primary'})
       })
       .catch(({response}) => console.log(response))
+  },
+  resetPassword({commit, dispatch}, email) {
+    this.$axios.$post(`/api/v1/auth/reset-password?usernameOrEmail=${email}`)
+      .then(res => {
+        console.log(res);
+      }).catch(({response}) => {
+      console.log(response);
+    })
   }
 }
 

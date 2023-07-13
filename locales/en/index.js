@@ -75,6 +75,7 @@ export default {
       home: "Home",
       userManagement: "User-management",
       details: "Details",
+      update: 'Update password'
     },
     dialog: {
       userId: "User ID",
