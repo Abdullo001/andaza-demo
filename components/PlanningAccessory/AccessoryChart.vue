@@ -87,23 +87,6 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">Colors</div>
-                <v-select
-                  v-model="create_accessory_chart.colorId"
-                  :items="colorsList"
-                  item-value="id"
-                  item-text="name"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  placeholder="Select color"
-                  dense
-                  append-icon="mdi-chevron-down"
-                  color="#7631FF"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
                 <div class="label">Price per unit</div>
                 <div class="d-flex align-center">
                   <v-text-field
@@ -250,23 +233,6 @@
                   height="44"
                   class="rounded-lg base"
                   placeholder="Select Specification"
-                  dense
-                  append-icon="mdi-chevron-down"
-                  color="#7631FF"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <div class="label">Colors</div>
-                <v-select
-                  v-model="edit_accessory_chart.colorId"
-                  :items="colorsList"
-                  item-text="name"
-                  item-value="id"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  placeholder="Select color"
                   dense
                   append-icon="mdi-chevron-down"
                   color="#7631FF"
@@ -427,7 +393,6 @@ export default {
       headers: [
         { text: "Name", value: "name" },
         { text: "Specification", value: "specification" },
-        { text: "Color", value: "color" },
         { text: "Price P/U", value: "pricePerUnit" },
         { text: "Currency", value: "pricePerUnitCurrency" },
         { text: "Quantity", value: "quantity" },
@@ -449,7 +414,6 @@ export default {
   created() {
     this.getMeasurementUnit({ page: 0, size: 20 });
     this.getAccessoryList();
-    this.getColorsList();
   },
   computed: {
     ...mapGetters({
@@ -458,7 +422,6 @@ export default {
       nameData: "accessoryChart/nameData",
       accessoryAllData: "accessoryChart/accessoryAllData",
       specificationData: "accessoryChart/specificationData",
-      colorsList: "accessoryChart/colorsList",
     }),
     checkId() {
       const param = this.$route.params.id;
@@ -477,7 +440,6 @@ export default {
       deleteChartAccessory: "accessoryChart/deleteChartAccessory",
       getChartAllData: "accessoryChart/getChartAllData",
       getAccessoryComposition: "accessoryChart/getAccessoryComposition",
-      getColorsList: "accessoryChart/getColorsList",
     }),
     async deleteChart() {
       const items = this.delete_acceccory_chart;

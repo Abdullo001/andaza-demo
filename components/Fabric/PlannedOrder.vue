@@ -86,14 +86,14 @@
              </v-combobox>
            </v-col>
            <v-col cols="12" lg="3">
-             <div class="label">Delivery time</div>
+             <div class="label mb-2">Delivery time</div>
              <el-date-picker
                v-model="details.deliveryTime"
                type="datetime"
                placeholder="Deadline for fabric"
                :picker-options="pickerShortcuts"
                value-format="dd.MM.yyyy HH:mm:ss"
-               class="base_picker"
+               class="base_picker rounded custom-picker2 date-input w-100 "
                :rules="[formRules.required]"
                validate-on-blur
              >
@@ -124,16 +124,20 @@
       </template>
 
       <template #item.pricePerUnit="{item}">
-        <v-text-field
-          @keyup="(e)=>setPricePerUnit(e,item)"
-          outlined
-          hide-details
-          height="44"
-          class="rounded-lg base" dense
-          validate-on-blur
-          color="#7631FF"
-          v-model="item.pricePerUnit"
-        />
+
+          <v-text-field
+            @keyup="(e)=>setPricePerUnit(e,item)"
+            outlined
+            hide-details
+            height="32"
+            class="rounded-lg base my-2" dense
+            :disabled="item.status==='ORDERED'"
+            :rules="[formRules.required]"
+            validate-on-blur
+            color="#7631FF"
+            v-model="item.pricePerUnit"
+          />
+
       </template>
     </v-data-table>
     <v-divider/>
@@ -201,7 +205,8 @@ export default {
       warehouseCode: '',
       warehouseName: '',
       allPlannerOrder: [],
-      new_valid: true
+      new_valid: true,
+      price_valid:true,
     }
   },
   computed: {
@@ -259,17 +264,23 @@ export default {
         const plannedOrderIds = []
           this.allPlannerOrder.forEach((item) => {
             if(item.isOrdered&&item.status!=="ORDERED"){
-              plannedOrderIds.push(item.plannedFabricOrderId)
+              if(item.pricePerUnit){
+                plannedOrderIds.push(item.plannedFabricOrderId)
+              }else{
+                this.$toast.error(`please enter the price of the order of this Specification:${item.specification} Color:${item.color}`);
+              }
             }
         })
 
-        const data = {
-          deliveryTime: this.details.deliveryTime,
-          partnerId: this.details.partnerName.id,
-          plannedOrderIds,
-          warehouseId: this.details.warehouseCode.id
+        if(plannedOrderIds.length!==0){
+          const data = {
+            deliveryTime: this.details.deliveryTime,
+            partnerId: this.details.partnerName.id,
+            plannedOrderIds,
+            warehouseId: this.details.warehouseCode.id
+          }
+          this.createPlanningOrder({data, id: this.fabricPlanningId});
         }
-        this.createPlanningOrder({data, id: this.fabricPlanningId});
       }
     },
 
@@ -295,16 +306,17 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .custom-picker2 {
   width: 100% !important;
   background: #F8F4FE;
-  border-radius: 10px 10px 0 0 !important;
+  border-radius: 10px 10px 10px 10px !important;
   &::placeholder {
     color: #cccccc;
   }
+
   >input.el-input__inner {
-    border-radius: 10px 10px 0 0 !important;
+    border-radius: 10px 10px 10px 10px !important;
 
     background: #F8F4FE !important;
     border: 0;
@@ -314,6 +326,15 @@ export default {
     &::placeholder {
       color: #9A979D !important;
     }
+  }
+
+  .el-date-editor.el-input{
+    width:100%;
+  }
+
+  .date-input{
+    height: 44px !important;
+    width:293px;
   }
 }
 </style>
