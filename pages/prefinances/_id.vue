@@ -1152,12 +1152,8 @@ export default {
         this.$store.commit("preFinance/setPreFinanceId", data.id);
         this.addPreFinances.owner = data.createdBy;
         this.calculation[0].firstCurrency = this.detailsList[0].totalPrice;
-        this.calculation[0].secondCurrency = (
-          this.detailsList[0].totalPrice * val?.secondaryRate
-        ).toFixed(2);
-        this.calculation[0].tertiaryCurrency = (
-          this.detailsList[0].totalPrice * val?.tertiaryRate
-        ).toFixed(2);
+        this.calculation[0].secondCurrency = (this.detailsList[0].totalPrice * val?.secondaryRate).toFixed(2);
+        this.calculation[0].tertiaryCurrency = (this.detailsList[0].totalPrice * val?.tertiaryRate).toFixed(2);
         if (val?.overProductionPercent >= 0) {
           this.calculation[1].editable = val?.overProductionPercent;
           this.calculation[2].editable = val?.lossPercent;
@@ -1165,6 +1161,7 @@ export default {
           this.calculation[4].editable = val?.extraExpensePercent;
           this.calculation[6].editable = val?.targetProfitPercent;
           this.calculation[7].firstCurrency = val?.targetProfitPercent;
+          console.log(val?.targetProfitPercent)
           this.calculation[9].editable = val?.discountPercent;
         }
       }
@@ -1237,12 +1234,8 @@ export default {
     totalPrice(val) {
       let data = this.calculation[0];
       data.firstCurrency = +val.toFixed(2);
-      data.secondCurrency = (+val * +this.addPreFinances.secondaryRate).toFixed(
-        2
-      );
-      data.tertiaryCurrency = (
-        +val * +this.addPreFinances.tertiaryRate
-      ).toFixed(2);
+      data.secondCurrency = (+val * +this.addPreFinances.secondaryRate).toFixed(2);
+      data.tertiaryCurrency = (+val * +this.addPreFinances.tertiaryRate).toFixed(2);
     },
     calculation: {
       handler(val) {
@@ -1327,7 +1320,7 @@ export default {
           ).toFixed(2);
 
           const targetProfit = val[6].editable;
-          val[6].firstCurrency = ((val[5].firstCurrency / 100) * targetProfit).toFixed(2);
+          val[6].firstCurrency = (+val[8].firstCurrency - +val[5].firstCurrency).toFixed(2);
           val[6].secondCurrency = (val[6].firstCurrency * this.addPreFinances.secondaryRate).toFixed(2);
           val[6].tertiaryCurrency = (val[6].firstCurrency * this.addPreFinances.tertiaryRate).toFixed(2);
 
