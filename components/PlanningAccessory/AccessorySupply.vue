@@ -149,7 +149,6 @@ export default {
         { text: 'Warehouse C/N', value: 'warehouseCode', sortable: false },
         { text: 'Delivery time', value: 'deliveryTime', sortable: false },
         { text: 'Fabric specification', value: 'specification', sortable: false },
-        { text: "Color", value: "color", sortable: false },
         { text: 'Quantity', value: 'quantity', sortable: false },
         { text: 'M/U', value: 'quantityUnit', sortable: false },
         { text: 'Fabric 1pc', value: 'quantityOnePc', sortable: false },

@@ -155,7 +155,6 @@ export default {
           sortable: false,
           width: "200",
         },
-        { text: "Color", value: "color", sortable: false },
         { text: "Producing", value: "producingQuantity", sortable: false },
         { text: "M/U", value: "producingQuantityMUnit", sortable: false },
         { text: "Quantity for 1pc", value: "quantityOnePc", sortable: false },
