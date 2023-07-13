@@ -35,6 +35,7 @@
               clearable
               style="max-width: 400px"
               :disabled="fields_status"
+              color="#7631FF"
             />
             <div class="label">{{ $t('userManagement.child.lang') }}</div>
             <v-select
@@ -47,6 +48,7 @@
               clearable
               :disabled="fields_status"
               style="max-width: 400px;"
+              color="#7631FF"
             >
               <template #selection="{item, index}">
                 <v-img :src="item.icon" max-width="22" class="mr-4" contain/>
@@ -78,6 +80,7 @@
               height="44"
               :disabled="fields_status"
               style="max-width: 400px"
+              color="#7631FF"
             />
             <div class="label">{{ $t('userManagement.child.eMail') }}</div>
             <v-text-field
@@ -88,6 +91,7 @@
               height="44"
               :disabled="fields_status"
               style="max-width: 400px"
+              color="#7631FF"
             />
             <div class="label">{{ $t('userManagement.child.registeredDate') }}</div>
             <v-text-field
@@ -98,6 +102,7 @@
               height="44"
               disabled
               style="max-width: 400px"
+              color="#7631FF"
             />
           </v-col>
           <v-col>
@@ -110,6 +115,7 @@
               height="44"
               :disabled="fields_status"
               style="max-width: 400px"
+              color="#7631FF"
             />
             <div class="label">{{ $t('userManagement.child.phoneNumber') }}</div>
             <v-text-field
@@ -119,6 +125,7 @@
               dense
               height="44"
               :disabled="fields_status"
+              color="#7631FF"
               style="max-width: 400px"
             />
             <div class="label">{{ $t('userManagement.child.status') }}</div>
@@ -141,8 +148,16 @@
         <v-btn
           color="#7631FF"
           dark
-          class="text-capitalize font-weight-medium mx-3 mb-4"
-          width="150"
+          class="text-none font-weight-bold mx-3 mb-4 px-5"
+          height="40"
+          @click="updatePassword"
+        >{{ $t('userManagement.child.update') }}
+        </v-btn>
+        <v-btn
+          color="#7631FF"
+          dark
+          class="text-capitalize font-weight-bold mx-3 mb-4 px-5"
+          height="40"
           @click="saveChanges"
         >{{ $t('userManagement.child.save') }}
         </v-btn>
@@ -179,9 +194,9 @@ export default {
           icon: false
         },
       ],
-      fields_status: true,
+      fields_status: false,
       lang_list: [
-        {title: "EN", code: "en", icon: "/us.svg"},
+        {title: "EN", code: "en", icon: "/en.svg"},
         {title: "UZ", code: "uz", icon: "/uz.svg"},
         {title: "RU", code: "ru", icon: "/ru.svg"},
       ],
@@ -223,8 +238,13 @@ export default {
   },
   methods: {
     ...mapActions({
-      updateUser: "users/updateUser"
+      updateUser: "users/updateUser",
+      resetPassword: 'users/resetPassword'
     }),
+    updatePassword() {
+      const data = {...this.one_user};
+      this.resetPassword( data.email );
+    },
     handleFileImport() {
       this.$refs.uploader.click();
     },
