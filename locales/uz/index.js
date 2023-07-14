@@ -73,7 +73,8 @@ export default {
       home: "Uy",
       userManagement: "Foydalanuvchi boshqaruvi",
       details: "Tafsilotlar",
-      update: 'Parolni yangilash'
+      update: 'Parolni yangilash',
+      password: 'Yangi parol'
     },
     dialog: {
       userId: "Foydalanuvchi IDsi",

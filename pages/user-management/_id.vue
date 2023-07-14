@@ -140,6 +140,30 @@
               disabled
               style="max-width: 400px"
             />
+            <div v-if="!!userPasswordData?.password">
+              <div class="label">
+                {{ $t('userManagement.child.password') }}
+              </div>
+              <div
+                class="d-flex align-center"
+              >
+                <div class="body-1">{{ userPasswordData.password }}</div>
+                <v-tooltip top color="green">
+                  <template v-slot:activator="{on, attrs}">
+                    <v-btn
+                      icon
+                      v-on="on"
+                      v-bind="attrs"
+                      class="ml-4"
+                      @click="getPassword(userPasswordData.password)"
+                    >
+                      <v-icon>mdi-content-copy</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Copy</span>
+                </v-tooltip>
+              </div>
+            </div>
           </v-col>
         </v-row>
       </v-card-text>
@@ -163,6 +187,13 @@
         </v-btn>
       </v-card-actions>
     </v-card>
+    <div class="loader" v-if="loader">
+      <v-progress-circular
+        indeterminate
+        color="#7631FF"
+        class="progress"
+      />
+    </div>
   </div>
 </template>
 
@@ -217,7 +248,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentUser: 'users/currentUser'
+      currentUser: 'users/currentUser',
+      userPasswordData: 'users/userPasswordData',
+      loader: 'users/loader'
     })
   },
   watch: {
@@ -241,7 +274,12 @@ export default {
       updateUser: "users/updateUser",
       resetPassword: 'users/resetPassword'
     }),
+    getPassword(password) {
+      navigator.clipboard.writeText(password);
+      this.$toast.success(`Copied to clipboard !`);
+    },
     updatePassword() {
+      this.$store.commit('users/setLoader', true);
       const data = {...this.one_user};
       this.resetPassword( data.email );
     },
@@ -282,6 +320,23 @@ export default {
 </script>
 
 <style lang="scss">
+.loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.4);
+  z-index: 10;
+  > .v-progress-circular {
+    position: absolute;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+  }
+}
 .overlay {
   position: relative;
   max-width: 120px;
