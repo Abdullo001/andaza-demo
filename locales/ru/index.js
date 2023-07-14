@@ -73,7 +73,8 @@ export default {
       home: "Дом",
       userManagement: "Управление пользователями",
       details: "Подробности",
-      update: 'Обновить пароль'
+      update: 'Обновить пароль',
+      password: 'Новый пароль'
     },
     dialog: {
       userId: "ID пользователя",

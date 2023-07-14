@@ -3,7 +3,9 @@ export const state = () => ({
   users: [],
   current_user: {},
   loading: true,
-  created_user: {}
+  created_user: {},
+  reset_password_data: {},
+  loader: false
 })
 
 export const getters = {
@@ -11,7 +13,9 @@ export const getters = {
   currentUser: state => state.current_user,
   loading: state => state.loading,
   totalElements: state => state.users.totalElements,
-  createdUser: state => state.created_user
+  createdUser: state => state.created_user,
+  userPasswordData: state => state.reset_password_data,
+  loader: state => state.loader
 }
 
 export const mutations = {
@@ -26,6 +30,12 @@ export const mutations = {
   },
   setCreatedUser(state, res) {
     state.created_user = res
+  },
+  setResetData(state, info) {
+    state.reset_password_data = info;
+  },
+  setLoader(state, status) {
+    state.loader = status;
   }
 }
 
@@ -181,7 +191,9 @@ export const actions = {
   resetPassword({commit, dispatch}, email) {
     this.$axios.$post(`/api/v1/auth/reset-password?usernameOrEmail=${email}`)
       .then(res => {
-        console.log(res);
+        commit('setLoader', false);
+        this.$toast.success(res.message);
+        commit('setResetData', res.data);
       }).catch(({response}) => {
       console.log(response);
     })
