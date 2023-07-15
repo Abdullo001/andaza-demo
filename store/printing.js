@@ -65,29 +65,25 @@ export const actions = {
         commit('setPrinting', res.data);
       }).catch(({response}) => console.log(response))
   },
-  async createPrints({commit, dispatch}, data) {
-    await this.$axios.$post(`/api/v1/prints/create`, data)
+  async createPrints({commit, dispatch}, {data,modelId}) {
+    const config = {
+      headers: {"Content-Type": "multipart/form-data"}
+    }
+    await this.$axios.$post(`/api/v1/prints/create`, data,config)
       .then(res => {
-        dispatch('getPrintOne', data.modelId);
+        dispatch('getPrintOne', modelId);
         this.$toast.success(res.message, {theme: 'toasted-primary'})
       })
       .catch(({response}) => console.log(response))
   },
-  async updatePrints({dispatch}, item) {
-    const data = {
-      colorQuantity: item.colorQuantity,
-      currency: item.currency,
-      description: item.description,
-      id: item.id,
-      modelId: item.modelId,
-      partnerId: item.partnerId,
-      price: item.price,
-      printTypeId: item.printTypeId,
-      sentDate: item.sentDate
+  async updatePrints({dispatch}, {data,id}) {
+    const config = {
+      headers: {"Content-Type": "multipart/form-data"}
     }
-    await this.$axios.$put(`/api/v1/prints/update`, data)
+
+    await this.$axios.$put(`/api/v1/prints/update`, data,config)
       .then(res => {
-        dispatch('getModelPrints', item.modelId);
+        dispatch('getModelPrints', id);
         this.$toast.success(res.message, {theme: 'toasted-primary'})
       })
       .catch(({response}) => console.log(response))
