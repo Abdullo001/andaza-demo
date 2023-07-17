@@ -227,6 +227,42 @@
                 color="#7631FF"
               />
               </v-col>
+              <v-col cols="12" md="6" v-if="sample.purposeId===11">
+                <div class="label">Body part <span style="color: red;">*</span></div>
+                <v-select
+                  v-model="sample.modelPartId"
+                  :rules="[formRules.required]"
+                  :items="modelPartsList"
+                  item-text="bodyPart"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  append-icon="mdi-chevron-down"
+                  dense
+                  placeholder="Select body part "
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12" md="6" v-if="sample.purposeId===11">
+                <div class="label">Part colors <span style="color: red;">*</span></div>
+                <v-select
+                  v-model="sample.colorId"
+                  :rules="[formRules.required]"
+                  :items="colorList"
+                  item-text="name"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  append-icon="mdi-chevron-down"
+                  dense
+                  placeholder="Select part color"
+                  color="#7631FF"
+                />
+              </v-col>
               <v-col cols="12" md="6">
                 <div class="label">Partner <span style="color: red;">*</span></div>
 
@@ -292,7 +328,36 @@
                   color="#7631FF"
                 />
               </v-col>
-              <v-col cols="12" >
+              <v-col cols="12" lg="6"  v-if="sample.purposeId===11">
+                <div class="label">Panton code</div>
+                <div class="d-flex align-center">
+                  <v-text-field
+                    v-model="sample.pantoneCode"
+                    placeholder="0"
+                    outlined
+                    hide-details
+                    height="44"
+                    class="rounded-lg base rounded-l-lg rounded-r-0"
+                    validate-on-blur
+                    dense
+                    color="#7631FF"
+                  />
+                  <v-select
+                    :items="enums"
+                    v-model="sample.pantoneType"
+                    style="max-width: 100px"
+                    dense
+                    outlined
+                    hide-details
+                    height="44"
+                    class="rounded-lg base rounded-r-lg rounded-l-0"
+                    validate-on-blur
+                    append-icon="mdi-chevron-down"
+                    color="#7631FF"
+                  />
+                </div>
+              </v-col>
+              <v-col cols="12" lg="6" >
                 <div class="label">Reason <span style="color: red;">*</span> </div>
                 <v-text-field
                   v-model="sample.reason"
@@ -303,6 +368,20 @@
                   class="rounded-lg base"
                   dense
                   placeholder="Enter reason"
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12" lg="6" v-if="sample.purposeId===11">
+                <div class="label">Color variant  </div>
+                <v-text-field
+                  :rules="[formRules.required]"
+                  v-model="sample.colorVariant"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  dense
+                  placeholder="Enter color variant"
                   color="#7631FF"
                 />
               </v-col>
@@ -400,7 +479,8 @@
                 <v-combobox
                 v-model="selectedSample.modelNumber"
                 :items="modelList"
-                :search-input.sync="modelIdSearch"
+                :search-input.sync="modelIdSearchEdit"
+                readonly
                 item-text="modelNumber"
                 item-value="id"
                 outlined
@@ -437,6 +517,42 @@
                 placeholder="Select purpose"
                 color="#7631FF"
               />
+              </v-col>
+              <v-col cols="12" md="6" v-if="selectedSample.samplePurposeId===11">
+                <div class="label">Body part <span style="color: red;">*</span></div>
+                <v-select
+                  v-model="selectedSample.modelPartId"
+                  :rules="[formRules.required]"
+                  :items="modelPartsList"
+                  item-text="bodyPart"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  append-icon="mdi-chevron-down"
+                  dense
+                  placeholder="Select body part "
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12" md="6" v-if="selectedSample.samplePurposeId===11">
+                <div class="label">Part colors <span style="color: red;">*</span></div>
+                <v-select
+                  v-model="selectedSample.colorId"
+                  :rules="[formRules.required]"
+                  :items="colorList"
+                  item-text="name"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  append-icon="mdi-chevron-down"
+                  dense
+                  placeholder="Select part color"
+                  color="#7631FF"
+                />
               </v-col>
               <v-col cols="12" md="6">
                 <div class="label">Partner <span style="color: red;">*</span></div>
@@ -506,6 +622,35 @@
                   color="#7631FF"
                 />
               </v-col>
+              <v-col cols="12" lg="6"  v-if="selectedSample.samplePurposeId===11">
+                <div class="label">Panton code</div>
+                <div class="d-flex align-center">
+                  <v-text-field
+                    v-model="selectedSample.pantoneCode"
+                    placeholder="0"
+                    outlined
+                    hide-details
+                    height="44"
+                    class="rounded-lg base rounded-l-lg rounded-r-0"
+                    validate-on-blur
+                    dense
+                    color="#7631FF"
+                  />
+                  <v-select
+                    :items="enums"
+                    v-model="selectedSample.pantoneType"
+                    style="max-width: 100px"
+                    dense
+                    outlined
+                    hide-details
+                    height="44"
+                    class="rounded-lg base rounded-r-lg rounded-l-0"
+                    validate-on-blur
+                    append-icon="mdi-chevron-down"
+                    color="#7631FF"
+                  />
+                </div>
+              </v-col>
               <v-col cols="12" >
                 <div class="label">Reason </div>
                 <v-text-field
@@ -517,6 +662,20 @@
                   class="rounded-lg base"
                   dense
                   placeholder="Enter reason"
+                  color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12" lg="6" v-if="selectedSample.samplePurposeId===11">
+                <div class="label">Color variant  </div>
+                <v-text-field
+                  :rules="[formRules.required]"
+                  v-model="selectedSample.colorVariant"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  dense
+                  placeholder="Enter color variant"
                   color="#7631FF"
                 />
               </v-col>
@@ -646,8 +805,10 @@ export default {
       validate: true,
       edit_validate:true,
       deleteId:null,
+      enums:["TPX","TPC","TPG","C"],
 
       modelIdSearch: "",
+      modelIdSearchEdit:"",
       current_page: 0,
       itemsPerPage:10,
       image_list:[],
@@ -655,6 +816,8 @@ export default {
       result_enums:["PENDING", "OK", "REMAKE"],
       sample:{
         modelNumber:null,
+        modelPartId:null,
+        colorId:null,
         purposeId:"",
         partnerId:"",
         sentDate:"",
@@ -702,10 +865,36 @@ export default {
       modelList: "orders/modelList",
       loading: "accessorySamples/loading",
       totalElements: "accessorySamples/totalElements",
+      modelPartsList: "modelParts/modelPartsList",
+      colorList: "accessorySamples/colorList",
     })
   },
 
   watch:{
+    "sample.modelNumber"(val){
+      if(val!==null) {
+        this.getModelPart(val.id)
+      }
+    },
+    "sample.modelPartId"(val){
+      this.modelPartColor(val)
+    },
+    "selectedSample.modelId"(val){
+      if(val!==null) {
+        this.getModelPart(val)
+      }
+    },
+    "selectedSample.modelPartId"(val){
+      if(val!==null){
+        this.modelPartColor(val)
+      }
+    },
+    "selectedSample.modelNumber"(val){
+      if(val!==null) {
+        this.getModelPart(val.id)
+      }
+    },
+
 
   },
 
@@ -721,7 +910,8 @@ export default {
       updateSample:"accessorySamples/updateSample",
       changeResult:"accessorySamples/changeResult",
       filterSamples:"accessorySamples/filterSamples",
-
+      modelPartColor:"accessorySamples/modelPartColor",
+      getModelPart:"modelParts/getModelPart",
 
     }),
 
@@ -797,6 +987,11 @@ export default {
           partnerId,
           sentDate,
           recievedDate,
+          modelPartId,
+          colorId,
+          pantoneCode,
+          pantoneType,
+          colorVariant,
           result,
           reason,
         } = this.sample;
@@ -806,10 +1001,23 @@ export default {
         if (this.image_list[0] !== undefined) {
           formData.append("file", this.image_list[0]);
         }
-        formData.append("partnerId", partnerId);
         formData.append("sentDate", sentDate);
-        formData.append("receivedDate", recievedDate);
-        formData.append("result", result);
+        formData.append("partnerId", partnerId);
+        if(modelPartId!==null){
+          formData.append("modelPartId", modelPartId);
+        }
+        if(colorId!==null){
+          formData.append("colorId", colorId);
+          formData.append("pantoneCode", pantoneCode);
+          formData.append("pantoneType", pantoneType);
+          formData.append("colorVariant", colorVariant);
+        }
+        if(recievedDate!==""){
+          formData.append("receivedDate", recievedDate);
+        }
+        if(result!==""){
+          formData.append("result", result);
+        }
         formData.append("reason", reason);
 
         await this.createSample(formData);
@@ -828,32 +1036,47 @@ export default {
         const {
           id,
           modelNumber,
+          modelId,
           samplePurposeId,
           partnerId,
           sentDate,
+          modelPartId,
+          colorVariant,
+          pantoneType,
+          pantoneCode,
+          colorId,
           receivedDate,
           result,
           reason,
         } = this.selectedSample;
         const formData = new FormData();
-        formData.append("modelId",modelNumber.id );
+        formData.append("modelId",modelId );
         formData.append("id",id );
         formData.append("samplePurposeId", samplePurposeId);
         if (this.image_list[0] !== undefined) {
           formData.append("file", this.edit_image_list[0]);
         }
+        if(modelPartId!==null){
+          formData.append("modelPartId", modelPartId);
+        }
+        if(colorId!==null){
+          formData.append("colorId", colorId);
+          formData.append("pantoneCode", pantoneCode);
+          formData.append("pantoneType", pantoneType);
+          formData.append("colorVariant", colorVariant);
+        }
         formData.append("partnerId", partnerId);
         formData.append("sentDate", sentDate);
-        formData.append("receivedDate", receivedDate);
-        formData.append("result", result);
+        if(receivedDate!==""&&receivedDate!==undefined){
+          formData.append("receivedDate", receivedDate);
+        }
+        if(result!==""&&receivedDate!==undefined){
+          formData.append("result", result);
+        }
         formData.append("reason", reason);
 
         await this.updateSample(formData);
         this.edit_image_list = [];
-
-        this.$refs.new_form.reset();
-        this.selectedSample.sentDate = '';
-        this.selectedSample.receivedDate = '';
         this.edit_dialog = false;
       }
 
