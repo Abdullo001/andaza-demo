@@ -99,6 +99,7 @@ export const actions = {
     await this.$axios.$put(`/api/v1/fabric-planning-chart/update`, data)
       .then(res => {
         dispatch('getPlanningChartList', id);
+        dispatch('fabricOrdered/getFabricOrdered',id,{root:true})
         this.$toast.success(res.message);
       }).catch(({response}) => console.log(response));
   }
