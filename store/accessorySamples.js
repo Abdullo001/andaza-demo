@@ -3,6 +3,7 @@ export const state = () => ({
   purposeList:[],
   totalElement:null,
   loading:true,
+  colorList:[],
 
 
 });
@@ -12,6 +13,7 @@ export const getters = {
   purposeList: (state)=>state.purposeList,
   totalElements: (state)=>state.totalElement,
   loading:(state)=>state.loading,
+  colorList: (state)=>state.colorList,
 
 };
 
@@ -27,6 +29,9 @@ export const mutations = {
   },
   setLoading(state,item){
     state.loading=item
+  },
+  setColorList(state,list){
+    state.colorList=list
   }
 
 };
@@ -35,7 +40,7 @@ export const actions = {
   getSamplesList({ commit },{size,page}) {
     const body = {
       filters: [
-        
+
       ],
       sorts: [],
       page: page,
@@ -51,7 +56,7 @@ export const actions = {
       commit("setTotalElement",res.data.data.totalElements)
       commit("setLoading",false)
 
-      
+
     })
     .catch((res)=>{
       console.log(res);
@@ -71,7 +76,7 @@ export const actions = {
   async createSample({dispatch},data){
     await this.$axios.post(`/api/v1/samples/create`,data)
     .then((res)=>{
-     
+
       this.$toast.success(res.data.message);
       dispatch('getSamplesList',{size:10,page:0})
     })
@@ -84,7 +89,7 @@ export const actions = {
     await this.$axios.put(`/api/v1/samples/update`,data)
     .then((res)=>{
       dispatch("getSamplesList",{page:0,size:10})
-      
+
     })
     .catch((res)=>{
       console.log(res);
@@ -146,7 +151,7 @@ export const actions = {
           value: data.partner,
         },
 
-       
+
       ],
       sorts: [],
       page: 0,
@@ -160,10 +165,21 @@ export const actions = {
       commit("setSamplesList",res.data.data.content)
       commit("setTotalElement",res.data.data.totalElements)
 
-      
+
     })
     .catch((res)=>{
       console.log(res);
     })
+  },
+
+  modelPartColor({commit},id){
+    this.$axios.get(`/api/v1/colors/list-by-model-part?modelPartId=${id}`)
+      .then((res)=>{
+        console.log(res)
+        commit("setColorList",res.data.data)
+      })
+      .catch((res)=>{
+        console.log(res)
+      })
   }
 };
