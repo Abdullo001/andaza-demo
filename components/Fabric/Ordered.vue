@@ -31,9 +31,7 @@ export default {
         { text: 'Fabric specification', value: 'specification', width: 340, sortable: false },
         { text: 'Color', value: 'color', sortable: false },
         { text: 'Quantity', value: 'quantity', sortable: false },
-        { text: 'M/U', value: 'quantityUnit', sortable: false },
         { text: 'Fabric 1pc', value: 'quantityOnePc', sortable: false },
-        { text: 'M/U', value: 'quantityOnePcUnit', sortable: false },
         { text: 'Total fabric', value: 'total', sortable: false },
       ],
     }
@@ -52,7 +50,6 @@ export default {
   methods: {
     ...mapActions({
       getFabricOrdered: 'fabricOrdered/getFabricOrdered',
-
     })
   },
   mounted() {
@@ -60,7 +57,7 @@ export default {
     if(param !== 'create') {
       this.getFabricOrdered(param)
     }
-  }
+  } 
 }
 </script>
 
