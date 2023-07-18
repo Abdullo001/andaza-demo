@@ -230,7 +230,7 @@ export default {
       delete_dialog: false,
       currency_enums: ["USD", "UZS", "RUB"],
       chartHeaders: [
-        {text: 'Part', align: 'start', sortable: false, value: 'bodyPartName'},
+        {text: 'Part', align: 'start', sortable: false, value: 'bodyPartName', width:200},
         {text: 'Fabric specification', value: 'fabricSpecification', width:200},
         {text: 'Fleece', value: 'withFleece',width: 90},
         {text: 'Peach effect', value: 'peachEffectEnabled', width: 130},
