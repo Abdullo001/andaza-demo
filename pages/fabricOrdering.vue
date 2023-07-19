@@ -132,6 +132,28 @@
     </v-toolbar>
   </template>
 
+  <template #item.isOrdered="{item}">
+    <v-simple-checkbox
+      v-model="item.isOrdered"
+      :disabled="item.status==='ORDERED'"
+      color="#7631FF"
+    ></v-simple-checkbox>
+  </template>
+
+  <template #item.status="{item}">
+    <v-select
+      :background-color="statusColor.fabricOrderedStatus(item.status)"
+      :items="status_enums"
+      append-icon="mdi-chevron-down"
+      v-model="item.status"
+      hide-details
+      class="mt-n2"
+      rounded
+      readonly
+      dark
+    />
+  </template>
+
   </v-data-table>
   <div class="d-flex my-6 ">
     <v-spacer/>
@@ -162,20 +184,21 @@ export default {
         {text:"Total fabric",value:"total",sortable:false},
         {text:"Price",value:"pricePerUnit",sortable:false},
         {text:"Total price",value:"totalPrice",sortable:false},
-
       ],
       genHeaders:[
+        {text:"",value:"isOrder",sortable:false},
         {text:"Sip №",value:"sipNumber",sortable:false},
         {text:"Model №",value:"modelNumber",sortable:false},
         {text:"Fabric specification",value:"specification",sortable:false},
         {text:"Color",value:"color",sortable:false},
+        {text:"Status",value:"status",sortable:false},
         {text:"Supplier",value:"color",sortable:false},
         {text:"Total fabric",value:"total",sortable:false},
         {text:"Total price",value:"totalPrice",sortable:false},
         {text:"Fabric deadline",value:"deadline",sortable:false},
-        
       ],
       orderNumber:"",
+      status_enums: ["ORDERED", "CANCELLED", "PENDING"],
     }
   }
 }
