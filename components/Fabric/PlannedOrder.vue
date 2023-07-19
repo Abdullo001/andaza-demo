@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-4">
     <v-data-table
       :headers="headers"
       :items="allPlannerOrder"
@@ -7,109 +7,6 @@
       class="elevation-0"
       hide-default-footer
     >
-     <template #top>
-       <v-form v-model="new_valid" ref="valid" lazy-validation>
-         <v-row class="my-4">
-           <v-col cols="12" lg="3">
-             <div class="label">Partner name</div>
-             <v-combobox
-               v-model="details.partnerName"
-               :items="partnerLists"
-               :search-input.sync="partnerName"
-               item-text="name"
-               item-value="id"
-               outlined
-               hide-details
-               height="44"
-               class="rounded-lg base"
-               :return-object="true"
-               color="#7631FF"
-               dense
-               placeholder="Enter partner name"
-               append-icon="mdi-chevron-down"
-               :rules="[formRules.required]"
-               validate-on-blur
-             >
-               <template #append>
-                 <v-icon color="#7631FF">mdi-magnify</v-icon>
-               </template>
-             </v-combobox>
-           </v-col>
-           <v-col cols="12" lg="3">
-             <div class="label">Warehouse code</div>
-             <v-combobox
-               v-model="details.warehouseCode"
-               :items="warehouseList"
-               :search-input.sync="warehouseCode"
-               item-text="code"
-               item-value="id"
-               outlined
-               hide-details
-               height="44"
-               class="rounded-lg base"
-               :return-object="true"
-               color="#7631FF"
-               dense
-               placeholder="Enter warehouse code"
-               append-icon="mdi-chevron-down"
-               :rules="[formRules.required]"
-               validate-on-blur
-             >
-               <template #append>
-                 <v-icon color="#7631FF">mdi-magnify</v-icon>
-               </template>
-             </v-combobox>
-           </v-col>
-           <v-col cols="12" lg="3">
-             <div class="label">Warehouse name</div>
-             <v-combobox
-               v-model="details.warehouseName"
-               :items="warehouseList"
-               :search-input.sync="warehouseName"
-               item-text="name"
-               item-value="id"
-               outlined
-               hide-details
-               height="44"
-               class="rounded-lg base"
-               :return-object="true"
-               color="#7631FF"
-               dense
-               placeholder="Enter warehouse code"
-               append-icon="mdi-chevron-down"
-               :rules="[formRules.required]"
-               validate-on-blur
-             >
-               <template #append>
-                 <v-icon color="#7631FF">mdi-magnify</v-icon>
-               </template>
-             </v-combobox>
-           </v-col>
-           <v-col cols="12" lg="3">
-             <div class="label mb-2">Delivery time</div>
-             <el-date-picker
-               v-model="details.deliveryTime"
-               type="datetime"
-               placeholder="Deadline for fabric"
-               :picker-options="pickerShortcuts"
-               value-format="dd.MM.yyyy HH:mm:ss"
-               class="base_picker rounded custom-picker2 date-input w-100 "
-               :rules="[formRules.required]"
-               validate-on-blur
-             >
-             </el-date-picker>
-           </v-col>
-         </v-row>
-       </v-form>
-     </template>
-      <template #item.isOrdered="{item}">
-        <v-simple-checkbox
-          v-model="item.isOrdered"
-          :disabled="item.status==='ORDERED'"
-          color="#7631FF"
-        ></v-simple-checkbox>
-      </template>
-
       <template #item.status="{item}">
         <v-select
           :background-color="statusColor.fabricOrderedStatus(item.status)"
@@ -119,6 +16,7 @@
           hide-details
           class="mt-n2"
           rounded
+          readonly
           dark
         />
       </template>
@@ -153,16 +51,6 @@
         {{ allPlannerOrder.length===0?'Generate order':'Refresh Order' }}
       </v-btn>
 
-      <v-btn
-        class="text-capitalize rounded-lg font-weight-bold px-6"
-        color="#7631FF"
-        height="44"
-        :disabled="allPlannerOrder.length===0"
-        :dark="allPlannerOrder.length!==0"
-        @click="savePlanningOrder"
-      >
-        order
-      </v-btn>
     </div>
   </div>
 </template>
@@ -174,11 +62,7 @@ export default {
   data() {
     return {
       headers: [
-        { text: '', value: 'isOrdered', sortable: false },
         { text: 'Fabric specification', value: 'specification', sortable: false },
-        { text: 'Supplier name', value: 'supplierName', sortable: false },
-        { text: 'Delivery time', value: 'deliveryTime', sortable: false },
-        { text: 'Warehouse C/N', value: 'warehouseCode', sortable: false },
         {
           text: 'Deadline',
           align: 'start',
