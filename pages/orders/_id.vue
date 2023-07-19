@@ -28,21 +28,6 @@
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Vendor (Artikul) code</div>
-              <v-text-field
-                outlined
-                hide-details
-                disabled
-                height="44"
-                class="rounded-lg base mb-4"
-                v-model="order.vendorArticularCode"
-                placeholder="Vendor articular code"
-                validate-on-blur
-                dense
-                color="#7631FF"
-              />
-            </v-col>
-            <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Client name</div>
               <v-text-field
                 outlined
@@ -83,8 +68,6 @@
                 </template>
               </v-combobox>
             </v-col>
-          </v-row>
-          <v-row :class="showObject">
             <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Model name</div>
               <v-text-field
@@ -100,6 +83,8 @@
                 disabled
               />
             </v-col>
+          </v-row>
+          <v-row :class="showObject">
             <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Head of production depatment</div>
               <div class="search-field">
@@ -472,7 +457,6 @@ export default {
         modelName: "",
         priceWithDiscount: null,
         priceWithDiscountCurrency: "USD",
-        vendorArticularCode:"",
         orderDate:"",
 
         totalPrice: null,
@@ -537,7 +521,6 @@ export default {
       order.priority = item.priority;
       order.headOfDepartment = item.headOfProductionDepartment
       order.client = item.client
-      order.vendorArticularCode=item.vendorArticularCode
       order.orderDate=item.orderDate
       this.$store.commit('orders/setModelId', item.modelId);
     },
