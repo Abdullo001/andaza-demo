@@ -49,6 +49,7 @@ export default {
     accessory: "Accessory",
     planning: "Planning",
     fabric: "Fabric",
+    fabricOrdering:"Fabric ordering",
     samples:"Samples",
     production: "Production",
     planningOfProduction: "Planning of production",

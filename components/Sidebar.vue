@@ -226,6 +226,10 @@ export default {
                 to: this.localePath('/fabric'),
               },
               {
+                title: this.$t('sidebar.fabricOrdering'),
+                to: this.localePath('/fabricOrdering'),
+              },
+              {
                 title: this.$t('sidebar.accessory'),
                 to: this.localePath('/accessory'),
               },
