@@ -192,10 +192,8 @@ export const actions = {
     await this.$axios
       .$put("/api/v1/accessory-planning/list", body)
       .then((res) => {
-        if (res.message === "Successfully") {
           commit("setAccessoryList", res.data);
           commit("setLoading", false);
-        }
       })
       .catch(({ response }) => {
         console.log(response);
