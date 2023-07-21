@@ -1,6 +1,7 @@
 <template >
   <div>
     <v-data-table
+    :items="sampleFabricOrdering"
     :headers="headers"
     :items-per-page="10"
     class="elevation-0"
@@ -14,13 +15,15 @@
           </v-toolbar-title>
 
         </v-toolbar>
-        <div class="px-4">
+        <div class="px-4 py-4">
           <v-row class=" mb-4 align-end justify-space-beetwen">
             <v-col cols="12" lg="4"  >
               <div class="label"> Order number <span style="color:red">*</span></div>
               <v-combobox   
               :search-input.sync="orderNumber"
-              item-text="name"
+              :items="ordersList"
+              v-model="orderId"
+              item-text="orderNumber"
               item-value="id"
               outlined
               hide-details
@@ -30,7 +33,6 @@
               color="#7631FF"
               dense
               placeholder="Enter order number"
-              append-icon="mdi-chevron-down"
               :rules="[formRules.required]"
               validate-on-blur
             >
@@ -46,43 +48,56 @@
                 color="#7631FF"
                 dark
                 height="44"
+                @click="searchModels"
               >
                 Search models
               </v-btn>
             </v-col>
           </v-row>
-          <v-row>
-            <v-col cols="12" lg="3">
-              <div class="label">Supplier name</div>
-                <v-select
+          <v-form v-model="new_valid" ref="valid" lazy-validation>
+            <v-row >
+              <v-col cols="12" lg="3">
+                <div class="label">Supplier name</div>
+                <v-combobox
+                  v-model="partnerId"
+                  :items="partnerLists"
+                  :search-input.sync="partnerName"
                   item-text="name"
                   item-value="id"
                   outlined
                   hide-details
                   height="44"
-                  class="rounded-lg base" dense
-                  validate-on-blur
-                  placeholder="Select supplier name"
-                  append-icon="mdi-chevron-down"
+                  class="rounded-lg base"
+                  :return-object="true"
                   color="#7631FF"
+                  dense
+                  placeholder="Enter partner name"
+                  append-icon="mdi-chevron-down"
                   :rules="[formRules.required]"
-                />
-            </v-col>
-            <v-col cols="12" lg="3">
-              <div class="label">Delivery time</div>
-              <div style="height: 44px !important">
-                <el-date-picker
-                  type="datetime"
-                  style="width: 100%; height: 100%"
-                  placeholder="dd.MM.yyyy HH:mm:ss"
-                  :picker-options="pickerShortcuts"
-                  value-format="dd.MM.yyyy HH:mm:ss"
-                  class="base_picker"
-                >
-                </el-date-picker>
-              </div>
-            </v-col>
-          </v-row>
+                  validate-on-blur
+                  >
+                  <template #append>
+                    <v-icon color="#7631FF">mdi-magnify</v-icon>
+                  </template>
+                 </v-combobox>
+              </v-col>
+              <v-col cols="12" lg="3">
+                <div class="label">Delivery time</div>
+                <div style="height: 44px !important">
+                  <el-date-picker
+                    v-model="deliveryTime"
+                    type="datetime"
+                    style="width: 100%; height: 100%"
+                    placeholder="dd.MM.yyyy HH:mm:ss"
+                    :picker-options="pickerShortcuts"
+                    value-format="dd.MM.yyyy HH:mm:ss"
+                    class="base_picker"
+                  >
+                  </el-date-picker>
+                </div>
+              </v-col>
+            </v-row>
+          </v-form>
         </div>
 
       </div>
@@ -90,19 +105,22 @@
 
     <template #item.isOrdered="{item}">
       <v-simple-checkbox
+        v-if="!item.isOrdered"
+        v-model="item.checked"
+        :disabled="item.isOrdered"
+        :value="item.isOrdered"
+        color="#7631FF"
+      ></v-simple-checkbox>
+      <v-simple-checkbox
+        v-else
         v-model="item.isOrdered"
-        :disabled="item.status==='ORDERED'"
+        :disabled="item.isOrdered"
+        :value="item.isOrdered"
         color="#7631FF"
       ></v-simple-checkbox>
     </template>
 
-    <template #item.withFleece="{item}">
-      {{ item.withFleece?"Fleece":"-" }}
-    </template>
-
-    <template #item.peachEffectEnabled="{item}">
-      {{ item.peachEffectEnabled?"Peach effect":"-" }}
-    </template>
+    
   </v-data-table>
 
   <div class="d-flex my-6 ">
@@ -112,12 +130,14 @@
       color="#7631FF"
       outlined
       height="44"
+      @click="generateFabric"
     >
       Generate Fabric Order
     </v-btn>
   </div>
 
   <v-data-table
+    :items="generatedFabricOrdering"
     :headers="genHeaders"
     :items-per-page="10"
     class="elevation-0"
@@ -132,13 +152,30 @@
     </v-toolbar>
   </template>
 
-  <template #item.isOrdered="{item}">
+  <template #item.isOrder="{item}">
     <v-simple-checkbox
       v-model="item.isOrdered"
       :disabled="item.status==='ORDERED'"
       color="#7631FF"
     ></v-simple-checkbox>
   </template>
+
+  <template #item.totalPrice="{item}">
+
+    <v-text-field
+      @keyup="(e)=>setTotalPriceFunc(e,item)"
+      outlined
+      hide-details
+      height="32"
+      class="rounded-lg base my-2" dense
+      :disabled="item.status==='ORDERED'"
+      :rules="[formRules.required]"
+      validate-on-blur
+      color="#7631FF"
+      v-model="item.totalPrice"
+    />
+
+</template>
 
   <template #item.status="{item}">
     <v-select
@@ -162,6 +199,7 @@
       color="#7631FF"
       dark
       height="44"
+      @click="ordering"
     >
       Order Fabric
     </v-btn>
@@ -170,7 +208,9 @@
   </div>
 </template>
 <script>
+import {mapActions, mapGetters} from "vuex";
 export default {
+
   data(){
     return{
       headers:[
@@ -178,7 +218,7 @@ export default {
         {text:"Model №",value:"modelNumber",sortable:false},
         {text:"Fabric specification",value:"specification",sortable:false},
         {text:"Density gr/m2",value:"density",sortable:false},
-        {text:"Fleece",value:"withFleece",sortable:false},
+        {text:"Fleece",value:"fleeceEnabled",sortable:false},
         {text:"Peach effect",value:"peachEffectEnabled",sortable:false},
         {text:"Color",value:"color",sortable:false},
         {text:"Total fabric",value:"total",sortable:false},
@@ -188,20 +228,117 @@ export default {
       genHeaders:[
         {text:"",value:"isOrder",sortable:false},
         {text:"Sip №",value:"sipNumber",sortable:false},
-        {text:"Model №",value:"modelNumber",sortable:false},
-        {text:"Fabric specification",value:"specification",sortable:false},
+        {text:"Model №",value:"modelNumbers",sortable:false},
+        {text:"Fabric specification",value:"fabricSpecification",sortable:false},
         {text:"Color",value:"color",sortable:false},
         {text:"Status",value:"status",sortable:false},
         {text:"Supplier",value:"color",sortable:false},
-        {text:"Total fabric",value:"total",sortable:false},
-        {text:"Total price",value:"totalPrice",sortable:false},
-        {text:"Fabric deadline",value:"deadline",sortable:false},
+        {text:"Total fabric",value:"totalFabric",sortable:false},
+        {text:"Total price",value:"totalPrice",sortable:false,width:200},
+        {text:"Fabric deadline",value:"fabricDeadline",sortable:false},
       ],
+      new_valid:true,
       orderNumber:"",
+      partnerName:"",
+      partnerId:null,
+      orderId:null,
+      deliveryTime:null,
       status_enums: ["ORDERED", "CANCELLED", "PENDING"],
     }
+  },
+
+  computed:{
+    ...mapGetters({
+      ordersList:"orders/ordersList",
+      sampleFabricOrdering:"fabricOrdering/sampleFabricOrdering",
+      partnerLists: "fabricOrdering/partnerLists",
+      generatedFabricOrdering: "fabricOrdering/generatedFabricOrdering",
+    })
+  },
+
+  watch:{
+    partnerName(val) {
+      if(!!val && val !== '') {
+      this.getPartnerName(val);
+      }
+    },
+  },
+
+
+  methods:{
+    ...mapActions({
+      getOrdersList:"orders/getOrdersList",
+      getSampleFabricOrdering:"fabricOrdering/getSampleFabricOrdering",
+      getPartnerName: 'fabricOrdering/getPartnerName',
+      generateFabricOrder: 'fabricOrdering/generateFabricOrder',
+      getGeneratedFabricOrdering: 'fabricOrdering/getGeneratedFabricOrdering',
+      setFabricOrder: 'fabricOrdering/setFabricOrder',
+      setTotalPrice: 'fabricOrdering/setTotalPrice',
+
+    }),
+
+    setTotalPriceFunc(e,item){
+      if(e.code===`Enter`){
+        const data={
+          fabricOrderId:item.fabricOrderId,
+          totalPrice:item.totalPrice.split(' ')[0],
+        }
+        this.setTotalPrice({data,id:this.orderId.id})
+      }
+    },
+    
+
+    searchModels(){
+      this.getSampleFabricOrdering(this.orderId.id)
+      this.getGeneratedFabricOrdering(this.orderId.id)
+    },
+
+    generateFabric(){
+      const validate=this.$refs.valid.validate()
+      if(validate){
+        const plannedFabricOrderIds = []
+        this.sampleFabricOrdering.forEach((item)=>{
+          if(item.checked){
+            plannedFabricOrderIds.push(item.plannedFabricOrderId)
+          }
+        })
+
+        if(plannedFabricOrderIds.length!==0){
+          const data={
+            plannedFabricOrderIds,
+            fabricDeadline: this.deliveryTime,
+            orderId:this.orderId.id ,
+            supplierId: this.partnerId.id 
+          }
+
+          this.generateFabricOrder(data)
+        }
+      }
+      
+    },
+
+    ordering(){
+      const fabricOrderIds = []
+      this.generatedFabricOrdering.forEach((item)=>{
+        if(item.isOrdered){
+          fabricOrderIds.push(item.fabricOrderId)
+        }
+      })
+
+      const data={
+        fabricOrderIds
+      }
+      
+      this.setFabricOrder({data,id:this.orderId.id})
+    }
+  },
+
+  mounted(){
+    this.getOrdersList({page:0,size:100})
+    this.getPartnerName("")
   }
 }
+
 </script>
 <style lang="scss" scoped>
   
