@@ -1092,6 +1092,16 @@ export default {
           usd_disabled: true,
           readonly: false,
         },
+        {
+          name: "Solid price",
+          editable: "-",
+          firstCurrency: "",
+          secondCurrency: "0.0",
+          tertiaryCurrency: "0.0",
+          status: true,
+          usd_disabled: false,
+          readonly: false,
+        },
       ],
       tab: null,
       items: ["Details", "Documents"],
@@ -1201,9 +1211,7 @@ export default {
         this.getModelName(elem);
       }
       const {modelNumber, name, partner, id} = this.addPreFinances.modelNumber;
-      if (
-        (Object.keys(this.addPreFinances.modelNumber).length > 3 && modelNumber) || name || partner !== undefined
-      ) {
+      if ((Object.keys(this.addPreFinances.modelNumber).length > 3 && modelNumber) || name || partner !== undefined) {
         this.addPreFinances.partner = partner;
         this.addPreFinances.id = id;
         this.addPreFinances.modelNames = name;
@@ -1347,6 +1355,9 @@ export default {
           val[12].tertiaryCurrency = (val[12].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2);
 
           val[11].editable = (val[6].editable - val[9].editable).toFixed(2);
+
+          val[13].secondCurrency = (val[13].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2);
+          val[13].tertiaryCurrency = (val[13].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2);
         }
       },
       deep: true,
