@@ -489,6 +489,9 @@
                 itemsPerPageText: this.$t('allDataTableText'),
               }"
             >
+              <template #item.name="{item}">
+                <div :class="item.id === 14?'text-body-1 font-weight-bold':null">{{ item.name }}</div>
+              </template>
               <template #item.editable="{ item }">
                 <v-text-field
                   solo
@@ -509,11 +512,7 @@
                   hide-details
                   placeholder="0.0"
                   flat
-                  :background-color="
-                    !item.usd_disabled && !item.readonly
-                      ? '#F8F4FE'
-                      : 'transparent'
-                  "
+                  :background-color="!item.usd_disabled && !item.readonly ? '#F8F4FE': 'transparent'"
                   :disabled="item.usd_disabled"
                   class="pa-0 ma-0"
                   :readonly="
@@ -522,8 +521,8 @@
                 />
               </template>
             </v-data-table>
+            <v-divider/>
           </v-card-text>
-          <v-divider/>
           <v-card-actions>
             <v-spacer/>
             <v-btn
@@ -963,6 +962,7 @@ export default {
       ],
       calculation: [
         {
+          id: 1,
           name: "Cost subtotal",
           editable: "-",
           firstCurrency: 0,
@@ -973,6 +973,7 @@ export default {
           readonly: false,
         },
         {
+          id: 2,
           name: "Overproduction %",
           editable: "",
           firstCurrency: "0.0",
@@ -983,6 +984,7 @@ export default {
           readonly: false,
         },
         {
+          id: 3,
           name: "Lost resource %",
           editable: "",
           firstCurrency: "0.0",
@@ -993,6 +995,7 @@ export default {
           readonly: false,
         },
         {
+          id: 4,
           name: "General expenses %",
           editable: "",
           firstCurrency: "0.0",
@@ -1003,6 +1006,7 @@ export default {
           readonly: false,
         },
         {
+          id: 5,
           name: "Extra expenses %",
           editable: "",
           firstCurrency: "0.0",
@@ -1013,6 +1017,7 @@ export default {
           readonly: false,
         },
         {
+          id: 6,
           name: "Cost price",
           editable: "-",
           firstCurrency: "0.0",
@@ -1023,6 +1028,7 @@ export default {
           readonly: false,
         },
         {
+          id: 7,
           name: "Target profit %",
           editable: "",
           firstCurrency: "0.0",
@@ -1033,6 +1039,7 @@ export default {
           readonly: false,
         },
         {
+          id: 8,
           name: "Client target price",
           editable: "-",
           firstCurrency: "",
@@ -1043,6 +1050,7 @@ export default {
           readonly: false,
         },
         {
+          id: 9,
           name: "Given price",
           editable: "-",
           firstCurrency: "",
@@ -1053,6 +1061,7 @@ export default {
           readonly: true,
         },
         {
+          id: 10,
           name: "Discount %",
           editable: "",
           firstCurrency: "0.0",
@@ -1063,6 +1072,7 @@ export default {
           readonly: false,
         },
         {
+          id: 11,
           name: "Price with discount",
           editable: "-",
           firstCurrency: "0.0",
@@ -1073,6 +1083,7 @@ export default {
           readonly: false,
         },
         {
+          id: 12,
           name: "Actual profit %",
           editable: "",
           firstCurrency: "0.0",
@@ -1083,6 +1094,7 @@ export default {
           readonly: false,
         },
         {
+          id: 13,
           name: "Actual profit amount",
           editable: "-",
           firstCurrency: "0.0",
@@ -1093,7 +1105,8 @@ export default {
           readonly: false,
         },
         {
-          name: "Solid price",
+          id: 14,
+          name: "Sold price",
           editable: "-",
           firstCurrency: "",
           secondCurrency: "0.0",
@@ -1484,4 +1497,4 @@ export default {
 };
 </script>
 
-<style lang="scss" src="../../assets/abstracts/_prefinances.scss" scoped/>
+<style lang="scss" src="../../assets/abstracts/_prefinances.scss" scoped></style>
