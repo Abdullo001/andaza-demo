@@ -1184,8 +1184,8 @@ export default {
           this.calculation[4].editable = val?.extraExpensePercent;
           this.calculation[6].editable = val?.targetProfitPercent;
           this.calculation[7].firstCurrency = val?.targetProfitPercent;
-          console.log(val?.targetProfitPercent)
           this.calculation[9].editable = val?.discountPercent;
+          this.calculation[13].firstCurrency = val?.soldPrice;
         }
       }
     },
@@ -1262,46 +1262,19 @@ export default {
       handler(val) {
         if (val[0].firstCurrency > 0) {
           const overproduction = val[1].editable;
-          val[1].firstCurrency = (
-            (this.totalPrice / 100) *
-            overproduction
-          ).toFixed(2);
-          val[1].secondCurrency = (
-            (this.calculation[0].secondCurrency / 100) *
-            overproduction
-          ).toFixed(2);
-          val[1].tertiaryCurrency = (
-            (this.calculation[0].tertiaryCurrency / 100) *
-            overproduction
-          ).toFixed(2);
+          val[1].firstCurrency = ((this.totalPrice / 100) * overproduction).toFixed(2);
+          val[1].secondCurrency = ((this.calculation[0].secondCurrency / 100) * overproduction).toFixed(2);
+          val[1].tertiaryCurrency = ((this.calculation[0].tertiaryCurrency / 100) * overproduction).toFixed(2);
 
           const lostResource = val[2].editable;
-          val[2].firstCurrency = (
-            (this.totalPrice / 100) *
-            lostResource
-          ).toFixed(2);
-          val[2].secondCurrency = (
-            (this.calculation[0].secondCurrency / 100) *
-            lostResource
-          ).toFixed(2);
-          val[2].tertiaryCurrency = (
-            (this.calculation[0].tertiaryCurrency / 100) *
-            lostResource
-          ).toFixed(2);
+          val[2].firstCurrency = ((this.totalPrice / 100) * lostResource).toFixed(2);
+          val[2].secondCurrency = ((this.calculation[0].secondCurrency / 100) * lostResource).toFixed(2);
+          val[2].tertiaryCurrency = ((this.calculation[0].tertiaryCurrency / 100) * lostResource).toFixed(2);
 
           const generalExpenses = val[3].editable;
-          val[3].firstCurrency = (
-            (this.totalPrice / 100) *
-            generalExpenses
-          ).toFixed(2);
-          val[3].secondCurrency = (
-            (this.calculation[0].secondCurrency / 100) *
-            generalExpenses
-          ).toFixed(2);
-          val[3].tertiaryCurrency = (
-            (this.calculation[0].tertiaryCurrency / 100) *
-            generalExpenses
-          ).toFixed(2);
+          val[3].firstCurrency = ((this.totalPrice / 100) * generalExpenses).toFixed(2);
+          val[3].secondCurrency = ((this.calculation[0].secondCurrency / 100) * generalExpenses).toFixed(2);
+          val[3].tertiaryCurrency = ((this.calculation[0].tertiaryCurrency / 100) * generalExpenses).toFixed(2);
 
           const extraExpenses = val[4].editable;
           val[4].firstCurrency = (

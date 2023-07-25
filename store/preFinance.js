@@ -153,6 +153,7 @@ export const actions = {
       });
   },
   async saveCalculation({commit}, {data, id, currency}) {
+    console.log(data);
     const body = {
       overProductionPercent: data[0].editable,
       lossPercent: data[1].editable,
@@ -162,6 +163,7 @@ export const actions = {
       clientTargetPrice: data[5].firstCurrency,
       givenPrice: data[6].firstCurrency,
       discountPercent: data[7].editable,
+      soldPrice: data[8].firstCurrency,
       givenPriceCurrency: currency,
       preFinanceId: id,
       priceWithDiscountUSD: data.priceWithDiscountUSD,
