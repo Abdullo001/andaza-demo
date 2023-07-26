@@ -1,7 +1,7 @@
 <template >
   <div>
     <v-data-table
-    :items="sampleFabricOrdering"
+    :items="sampleList"
     :headers="headers"
     :items-per-page="10"
     class="elevation-0"
@@ -137,7 +137,7 @@
   </div>
 
   <v-data-table
-    :items="generatedFabricOrdering"
+    :items="generatedList"
     :headers="genHeaders"
     :items-per-page="10"
     class="elevation-0"
@@ -194,6 +194,16 @@
   </v-data-table>
   <div class="d-flex my-6 ">
     <v-spacer/>
+
+    <v-btn
+      class="text-capitalize rounded-lg font-weight-bold mr-4 py-1 px-6"
+      color="#7631FF"
+      outlined
+      height="44"
+      @click="returnFunc"
+    >
+      Return
+    </v-btn>
     <v-btn
       class="text-capitalize rounded-lg font-weight-bold mr-4 py-1 px-6"
       color="#7631FF"
@@ -244,6 +254,8 @@ export default {
       orderId:null,
       deliveryTime:null,
       status_enums: ["ORDERED", "CANCELLED", "PENDING"],
+      generatedList:[],
+      sampleList:[],
     }
   },
 
@@ -262,6 +274,13 @@ export default {
       this.getPartnerName(val);
       }
     },
+
+    generatedFabricOrdering(val){
+      this.generatedList=JSON.parse(JSON.stringify(val))
+    },
+    sampleFabricOrdering(val){
+      this.sampleList=JSON.parse(JSON.stringify(val))
+    }
   },
 
 
@@ -275,6 +294,7 @@ export default {
       setFabricOrder: 'fabricOrdering/setFabricOrder',
       setTotalPrice: 'fabricOrdering/setTotalPrice',
       changeStatus: 'fabricOrdering/changeStatus',
+      returnOrders: 'fabricOrdering/returnOrders',
 
     }),
 
@@ -291,6 +311,17 @@ export default {
     changeStatusFunc(item){
       this.changeStatus({id:item.fabricOrderId,status:item.status})
     },
+
+    returnFunc(){
+      const ids = []
+      this.generatedList.forEach((item)=>{
+        if(item.isOrdered&&item.status!=="ORDERED"){
+          ids.push(item.fabricOrderId)
+        }
+      })
+
+      this.returnOrders({ids,id:this.orderId.id})
+    },
     
 
     searchModels(){
@@ -302,7 +333,7 @@ export default {
       const validate=this.$refs.valid.validate()
       if(validate){
         const plannedFabricOrderIds = []
-        this.sampleFabricOrdering.forEach((item)=>{
+        this.sampleList.forEach((item)=>{
           if(item.checked){
             plannedFabricOrderIds.push(item.plannedFabricOrderId)
           }
@@ -324,7 +355,7 @@ export default {
 
     ordering(){
       const fabricOrderIds = []
-      this.generatedFabricOrdering.forEach((item)=>{
+      this.generatedList.forEach((item)=>{
         if(item.isOrdered){
           fabricOrderIds.push(item.fabricOrderId)
         }

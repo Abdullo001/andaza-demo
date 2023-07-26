@@ -102,5 +102,12 @@ export const actions = {
         dispatch("getPlannedOrderList",id)
         this.$toast.success(res.data.message);
       }).catch((response)=>{console.log(response)})
-  }
+  },
+  setActualTotalFunc({dispatch},{data,id}){
+    this.$axios.put(`/api/v1/fabric-planning-chart/set-actual-total`,data)
+      .then((res)=>{
+        dispatch("getPlannedOrderList",id)
+        this.$toast.success(res.data.message);
+      }).catch((response)=>{console.log(response)})
+  },
 };

@@ -110,5 +110,17 @@ export const actions={
       console.log(res);
     })
   },
+  returnOrders({dispatch},{ids,id}){
+    this.$axios.delete(`/api/v1/fabric-order/delete-orders?ids=${ids}`)
+    .then((res)=>{
+      dispatch("getGeneratedFabricOrdering",id)
+      dispatch("getSampleFabricOrdering",id)
+      this.$toast.success(res.data.message)
+    })
+    .catch((res)=>{
+      this.$toast.error(res.message)
+      console.log(res);
+    })
+  }
   
 }

@@ -37,7 +37,7 @@
       </template>
       <template #item.actualTotalFabric="{item}">
         <v-text-field
-          @keyup="(e)=>setActualFabric(e,item)"
+          @keyup.enter="setActualFabric(item)"
           outlined
           hide-details
           height="32"
@@ -46,7 +46,7 @@
           :rules="[formRules.required]"
           validate-on-blur
           color="#7631FF"
-          v-model="item.actualTotalFabric"
+          v-model="item.actualFabricTotal"
         />
       </template>
     </v-data-table>
@@ -86,8 +86,8 @@ export default {
         { text: 'Quantity', value: 'quantity', sortable: false },
         { text: 'Fabric 1pc', value: 'quantityOnePc', sortable: false },
         { text: 'Total fabric', value: 'total', sortable: false },
-        { text: 'Actual total fabric', value: 'actualTotalFabric', sortable: false },
-        { text: 'Price per unit', value: 'pricePerUnit', sortable: false,width: 100 },
+        { text: 'Actual total fabric', value: 'actualTotalFabric', sortable: false,width: 110  },
+        { text: 'Price per unit', value: 'pricePerUnit', sortable: false,width: 110 },
         { text: 'Total price', value: 'totalPrice', sortable: false },
 
       ],
@@ -153,6 +153,7 @@ export default {
       createPlanningOrder: 'plannedOrder/createPlanningOrder',
       generateFabricOrder:'plannedOrder/generateFabricOrder',
       setPricePerUnitFunc: 'plannedOrder/setPricePerUnitFunc',
+      setActualTotalFunc: 'plannedOrder/setActualTotalFunc',
       getDocuments: "documents/getDocuments",
     }),
     savePlanningOrder() {
@@ -195,14 +196,15 @@ export default {
       }
     },
 
-    setActualFabric(e,item){
-      if(e.code===`Enter`){
+    setActualFabric(item){
+        const text= item.actualFabricTotal
+        const arr=text?.split(" ")
         const data={
           plannedOrderId:item.plannedFabricOrderId,
-          actualTotalFabric:item.actualTotalFabric,
+          actualTotalFabric:arr[0],
         }
-        // this.setPricePerUnitFunc({data,id:this.fabricPlanningId})
-      }
+        this.setActualTotalFunc({data,id:this.fabricPlanningId})
+      
     }
   },
   mounted() {

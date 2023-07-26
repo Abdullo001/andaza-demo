@@ -81,7 +81,7 @@
 
     <v-data-table
     :headers="headers"
-    :items="samplesList"
+    :items="currentList"
     :items-per-page="itemsPerPage"
     :footer-props="{
       itemsPerPageOptions: [10, 20, 50, 100],
@@ -827,8 +827,8 @@ export default {
         {text: "Created", sortable: false, value: "createdAt"},
         {text: "Created by", sortable: false, value: "createdBy",width:120},
         {text: "Actions", sortable: false, value: "actions", align:"center",width:150},
-
-    ]
+      ],
+      currentList:[],
     }
   },
 
@@ -853,6 +853,10 @@ export default {
   },
 
   watch:{
+    samplesList(val){
+      this.currentList=JSON.parse(JSON.stringify(val))
+    },
+
     "sample.modelNumber"(val){
       if(val!==null) {
         this.modelColor(val.id)

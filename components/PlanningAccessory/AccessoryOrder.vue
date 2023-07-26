@@ -193,7 +193,6 @@ export default {
   watch: {
     plannedOrderList(val) {
       this.allPlannerOrder = JSON.parse(JSON.stringify(val));
-      console.log(val);
     },
     partnerName(val) {
       if (!!val && val !== "") {
@@ -222,31 +221,35 @@ export default {
       getPartnerName: "plannedOrder/getPartnerName",
       getWarehouseCodeList: "plannedOrder/getWarehouseCodeList",
       getPlannedOrderList: "accessoryOrder/getPlannedOrderList",
-      createPlanningOrder: "plannedOrder/createPlanningOrder",
+      createPlanningOrder: "accessoryOrder/createPlanningOrder",
       getDocuments: "documents/getDocuments",
     }),
     savePlanningOrder() {
+      const id = this.$route.params.id;
       const valid = this.$refs.valid.validate();
       if (valid) {
-        const planningChartIds = this.allPlannerOrder.map(
-          (item) => item.fabricPlanningChartId
-        );
+        const planningChartIds = []
+        this.allPlannerOrder.forEach((item) => {
+          if(item.isOrdered){
+            planningChartIds.push(item.planningChartId)
+          }
+        });
         const data = {
           deliveryTime: this.details.deliveryTime,
           partnerId: this.details.partnerName.id,
           planningChartIds,
           warehouseId: this.details.warehouseCode.id,
         };
-        this.createPlanningOrder({ data, id: this.accessoryData });
+        this.createPlanningOrder({ data,id });
       }
     },
   },
   mounted() {
     const id = this.$route.params.id;
     if (id !== "create") {
-      this.getPlannedOrderList({id});
+      this.getPlannedOrderList(id);
     } else {
-      this.getPlannedOrderList({id : this.$store.getters["accessory/newId"]});
+      this.getPlannedOrderList(id =this.$store.getters["accessory/newId"]);
     }
   },
 };
