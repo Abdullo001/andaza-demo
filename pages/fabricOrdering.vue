@@ -186,8 +186,8 @@
       hide-details
       class="mt-n2"
       rounded
-      readonly
       dark
+      @change="changeStatusFunc(item)"
     />
   </template>
 
@@ -274,6 +274,7 @@ export default {
       getGeneratedFabricOrdering: 'fabricOrdering/getGeneratedFabricOrdering',
       setFabricOrder: 'fabricOrdering/setFabricOrder',
       setTotalPrice: 'fabricOrdering/setTotalPrice',
+      changeStatus: 'fabricOrdering/changeStatus',
 
     }),
 
@@ -285,6 +286,10 @@ export default {
         }
         this.setTotalPrice({data,id:this.orderId.id})
       }
+    },
+
+    changeStatusFunc(item){
+      this.changeStatus({id:item.fabricOrderId,status:item.status})
     },
     
 

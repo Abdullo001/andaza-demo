@@ -22,20 +22,32 @@
       </template>
 
       <template #item.pricePerUnit="{item}">
-
-          <v-text-field
-            @keyup="(e)=>setPricePerUnit(e,item)"
-            outlined
-            hide-details
-            height="32"
-            class="rounded-lg base my-2" dense
-            :disabled="item.status==='ORDERED'"
-            :rules="[formRules.required]"
-            validate-on-blur
-            color="#7631FF"
-            v-model="item.pricePerUnit"
-          />
-
+        <v-text-field
+          @keyup="(e)=>setPricePerUnit(e,item)"
+          outlined
+          hide-details
+          height="32"
+          class="rounded-lg base my-2" dense
+          :disabled="item.status==='ORDERED'"
+          :rules="[formRules.required]"
+          validate-on-blur
+          color="#7631FF"
+          v-model="item.pricePerUnit"
+        />
+      </template>
+      <template #item.actualTotalFabric="{item}">
+        <v-text-field
+          @keyup="(e)=>setActualFabric(e,item)"
+          outlined
+          hide-details
+          height="32"
+          class="rounded-lg base my-2" dense
+          :disabled="item.status==='ORDERED'"
+          :rules="[formRules.required]"
+          validate-on-blur
+          color="#7631FF"
+          v-model="item.actualTotalFabric"
+        />
       </template>
     </v-data-table>
     <v-divider/>
@@ -74,6 +86,7 @@ export default {
         { text: 'Quantity', value: 'quantity', sortable: false },
         { text: 'Fabric 1pc', value: 'quantityOnePc', sortable: false },
         { text: 'Total fabric', value: 'total', sortable: false },
+        { text: 'Actual total fabric', value: 'actualTotalFabric', sortable: false },
         { text: 'Price per unit', value: 'pricePerUnit', sortable: false,width: 100 },
         { text: 'Total price', value: 'totalPrice', sortable: false },
 
@@ -179,6 +192,16 @@ export default {
           pricePerUnit:item.pricePerUnit,
         }
         this.setPricePerUnitFunc({data,id:this.fabricPlanningId})
+      }
+    },
+
+    setActualFabric(e,item){
+      if(e.code===`Enter`){
+        const data={
+          plannedOrderId:item.plannedFabricOrderId,
+          actualTotalFabric:item.actualTotalFabric,
+        }
+        // this.setPricePerUnitFunc({data,id:this.fabricPlanningId})
       }
     }
   },

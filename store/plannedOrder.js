@@ -79,7 +79,10 @@ export const actions = {
       .then(res => {
         dispatch('getPlannedOrderList', id);
         this.$toast.success(res.message);
-      }).catch(({response}) => console.log(response));
+      }).catch(({response}) =>{
+        console.log(response)
+
+      });
   },
 
   generateFabricOrder({commit,dispatch},id){
@@ -87,7 +90,10 @@ export const actions = {
       .then((res)=>{
         this.$toast.success(res.data.message);
         dispatch("getPlannedOrderList",id)
-      }).catch((response)=>{console.log(response)})
+      }).catch((res)=>{
+        console.log(res)
+        this.$toast.error(res.message);
+      })
   },
 
   setPricePerUnitFunc({dispatch},{data,id}){
