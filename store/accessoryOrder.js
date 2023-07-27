@@ -46,7 +46,6 @@ export const actions = {
     this.$axios
       .$put("/api/v1/warehouse/list", body)
       .then((res) => {
-        console.log(res);
         commit("setWarehouseList", res.data.content);
       })
       .catch(({ response }) => console.log(response));
@@ -73,13 +72,12 @@ export const actions = {
       })
       .catch(({ response }) => console.log(response));
   },
-  getPlannedOrderList({ commit }, {id}) {
+  getPlannedOrderList({ commit }, id) {
     this.$axios
       .$get(
         `/api/v1/accessory-planning-chart/get-planned-order?accessoryPlanningId=${id}`
       )
       .then((res) => {
-        console.log(res);
         commit("setPlannedOrderList", res.data);
       })
       .catch(({ response }) => console.log(response));

@@ -81,7 +81,7 @@
     <v-data-table
       class="mt-4 rounded-lg pt-4"
       :headers="headers"
-      :items="ordersList"
+      :items="list"
       :loading="loading"
       :items-per-page="itemPrePage"
       :footer-props="{
@@ -201,6 +201,7 @@ export default {
         {text: "Deadline", value: "deadLine"},
         {text: "Actions", value: "action", sortable: false},
       ],
+      list:[],
     };
   },
   created() {
@@ -213,6 +214,11 @@ export default {
       modelGroups: "orders/modelGroups",
       totalElements: "orders/totalElements",
     }),
+  },
+  watch:{
+    ordersList(val){
+      this.list=JSON.parse(JSON.stringify(val))
+    }
   },
   methods: {
     ...mapActions({

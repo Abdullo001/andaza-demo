@@ -172,8 +172,8 @@ export const actions = {
     })
   },
 
-  modelPartColor({commit},id){
-    this.$axios.get(`/api/v1/colors/list-by-model-part?modelPartId=${id}`)
+  modelColor({commit},id){
+    this.$axios.get(`/api/v1/colors/list-by-model?modelId=${id}`)
       .then((res)=>{
         console.log(res)
         commit("setColorList",res.data.data)

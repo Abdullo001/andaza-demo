@@ -187,12 +187,7 @@ export default {
       };
       await this.getAccessoryList({page: 0, size: 20});
     },
-    page(value) {
-      console.log(value)
-    },
-    size(value) {
-      console.log(value)
-    },
+   
     addOrder() {
       this.$router.push(`/accessory/create`);
     },

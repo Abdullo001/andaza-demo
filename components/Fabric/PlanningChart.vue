@@ -147,7 +147,7 @@
                 />
               </v-col>
               <v-col lg="6">
-                <div class="label">Density kg/m2</div>
+                <div class="label">Density gr/m2</div>
                 <v-text-field
                   outlined
                   hide-details
@@ -155,7 +155,7 @@
                   class="rounded-lg base" dense
                   validate-on-blur
                   color="#7631FF"
-                  placeholder="Enter density kg/m2"
+                  placeholder="Enter density gr/m2"
                   v-model="fabric_planning.density"
                   :rules="[formRules.required]"
                 />
@@ -238,7 +238,7 @@ export default {
         {text: 'M/U', value: 'quantityUnit',width:80},
         {text: 'Width type', value: 'widthType',width:120},
         {text: 'Width(cm)', value: 'width',width:120},
-        {text: 'Density kg/m2', value: 'density', width: 140},
+        {text: 'Density gr/m2', value: 'density', width: 140},
         {text: 'Actions', value: 'actions', align: 'center',width: 140},
       ],
       planningCharts: [],

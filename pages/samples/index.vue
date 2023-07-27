@@ -81,7 +81,7 @@
 
     <v-data-table
     :headers="headers"
-    :items="samplesList"
+    :items="currentList"
     :items-per-page="itemsPerPage"
     :footer-props="{
       itemsPerPageOptions: [10, 20, 50, 100],
@@ -226,24 +226,6 @@
                 placeholder="Select purpose"
                 color="#7631FF"
               />
-              </v-col>
-              <v-col cols="12" md="6" v-if="sample.purposeId===11">
-                <div class="label">Body part <span style="color: red;">*</span></div>
-                <v-select
-                  v-model="sample.modelPartId"
-                  :rules="[formRules.required]"
-                  :items="modelPartsList"
-                  item-text="bodyPart"
-                  item-value="id"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  append-icon="mdi-chevron-down"
-                  dense
-                  placeholder="Select body part "
-                  color="#7631FF"
-                />
               </v-col>
               <v-col cols="12" md="6" v-if="sample.purposeId===11">
                 <div class="label">Part colors <span style="color: red;">*</span></div>
@@ -845,8 +827,8 @@ export default {
         {text: "Created", sortable: false, value: "createdAt"},
         {text: "Created by", sortable: false, value: "createdBy",width:120},
         {text: "Actions", sortable: false, value: "actions", align:"center",width:150},
-
-    ]
+      ],
+      currentList:[],
     }
   },
 
@@ -871,27 +853,25 @@ export default {
   },
 
   watch:{
+    samplesList(val){
+      this.currentList=JSON.parse(JSON.stringify(val))
+    },
+
     "sample.modelNumber"(val){
       if(val!==null) {
-        this.getModelPart(val.id)
+        this.modelColor(val.id)
       }
     },
-    "sample.modelPartId"(val){
-      this.modelPartColor(val)
-    },
+   
     "selectedSample.modelId"(val){
       if(val!==null) {
-        this.getModelPart(val)
+        this.modelColor(val)
       }
     },
-    "selectedSample.modelPartId"(val){
-      if(val!==null){
-        this.modelPartColor(val)
-      }
-    },
+   
     "selectedSample.modelNumber"(val){
       if(val!==null) {
-        this.getModelPart(val.id)
+        this.modelColor(val.id)
       }
     },
 
@@ -910,7 +890,7 @@ export default {
       updateSample:"accessorySamples/updateSample",
       changeResult:"accessorySamples/changeResult",
       filterSamples:"accessorySamples/filterSamples",
-      modelPartColor:"accessorySamples/modelPartColor",
+      modelColor:"accessorySamples/modelColor",
       getModelPart:"modelParts/getModelPart",
 
     }),
@@ -1003,9 +983,7 @@ export default {
         }
         formData.append("sentDate", sentDate);
         formData.append("partnerId", partnerId);
-        if(modelPartId!==null){
-          formData.append("modelPartId", modelPartId);
-        }
+        
         if(colorId!==null){
           formData.append("colorId", colorId);
           formData.append("pantoneCode", pantoneCode);
