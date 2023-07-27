@@ -243,7 +243,21 @@ export default {
             icon: ['warehouse.svg', "warehouse-active.svg"],
             title: this.$t('sidebar.warehouse'),
             to: this.localePath('/warehouse'),
-            has_child: false,
+            has_child: true,
+            child: [
+              {
+                title: this.$t('sidebar.fabricWarehouse'),
+                to: this.localePath('/fabric-warehouse'),
+              },
+              {
+                title: this.$t('sidebar.accessoryWarehouse'),
+                to: this.localePath('/accessory-warehouse'),
+              },
+              {
+                title: this.$t('sidebar.finishedProducts'),
+                to: this.localePath('/finished-warehouse'),
+              },
+            ]
           },
           {
             icon: ['production.svg', 'production-active.svg'],

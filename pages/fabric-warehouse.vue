@@ -1,0 +1,469 @@
+<template >
+  <div>
+    <v-card
+    color="#fff"
+    elevation="0"
+    class="rounded-t-lg"
+    >
+      <v-form lazy-validation v-model="valid_search" ref="filter_form">
+        <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
+          <v-col cols="12" lg="2" md="2">
+            <v-text-field
+              label="Sip №"
+              outlined
+              class="rounded-lg filter"
+              v-model.trim="filters.sipNumber"
+              hide-details
+              dense
+              @keydown.enter="filterData"
+            />
+          </v-col>
+          <v-col cols="12" lg="2" md="2">
+            <v-text-field
+              label="Batch №"
+              outlined
+              class="rounded-lg filter"
+              v-model.trim="filters.batchNumber"
+              hide-details
+              dense
+              @keydown.enter="filterData"
+            />
+          </v-col>
+          <v-col cols="12" lg="2" md="2">
+            <v-text-field
+              label="Order №"
+              outlined
+              class="rounded-lg filter"
+              v-model.trim="filters.orderId"
+              hide-details
+              dense
+              @keydown.enter="filterData"
+            />
+          </v-col>
+          <v-spacer/>
+          <v-col cols="12" lg="4">
+            <div class="d-flex justify-end">
+              <v-btn
+                width="140" outlined
+                color="#397CFD" elevation="0"
+                class="text-capitalize mr-4 rounded-lg"
+                @click.stop="resetFilters"
+              >
+                Reset
+              </v-btn>
+              <v-btn
+                width="140" color="#397CFD" dark
+                elevation="0"
+                class="text-capitalize rounded-lg"
+                @click="filterData"
+              >
+                Search
+              </v-btn>
+            </div>
+          </v-col>
+        </v-row>
+      </v-form>
+    </v-card>
+    <v-data-table
+      class="mt-4 rounded-lg pt-4"
+      :headers="headers"
+      :items="current_list"
+      :items-per-page="10"
+      :footer-props="{
+          itemsPerPageOptions: [10, 20, 50, 100],
+      }"
+    >
+      <template #top>
+        <v-toolbar elevation="0">
+          <v-toolbar-title class="d-flex w-full align-center justify-space-between">
+            <div>Fabric warehouse</div>
+            <v-btn
+              color="#7631FF"
+              dark class="text-capitalize rounded-lg"
+              @click="addArrivedFabric"
+            >
+              <v-icon>mdi-plus</v-icon>
+              Add arrived Fabric
+            </v-btn>
+          </v-toolbar-title>
+        </v-toolbar>
+      </template>
+
+      <template #item.spending="{item}">
+        <div class="d-flex ">
+          <v-btn icon color="#7631FF" @click="spendFunc(item)">
+            <v-img src="/spend-icon.svg" max-width="22"/>
+          </v-btn>
+          
+        </div>
+      </template>
+      <template #item.actions="{item}">
+        <div class="d-flex ">
+          <v-btn icon color="green" @click="editItem(item)">
+            <v-img src="/edit-active.svg" max-width="22"/>
+          </v-btn>
+          <v-btn icon color="red" @click="getDeleteItem(item)">
+            <v-img src="/delete.svg" max-width="27"/>
+          </v-btn>
+          <v-btn icon color="#7631FF" >
+            <v-icon>mdi-chevron-down</v-icon>
+          </v-btn>
+          
+        </div>
+      </template>
+    </v-data-table>
+
+    <v-dialog v-model="new_dialog" width="580">
+      <v-card>
+        <v-card-title class="d-flex justify-space-between w-full">
+          <div class="text-capitalize font-weight-bold">{{ title }} arrived Fabric</div>
+          <v-btn icon color="#7631FF" @click="new_dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text class="mt-4">
+          <v-form ref="new_form" v-model="new_validate" lazy-validation>
+            <v-row>
+              <v-col cols="12" lg="6">
+                <div class="label">Sip №</div>
+                <v-select
+                  append-icon="mdi-chevron-down"
+                  v-model="arrivedFabric.fabricOrderId"
+                  :rules="[formRules.required]"
+                  :items="sipNumbers"
+                  item-text="sipNumber"
+                  item-value="fabricOrderId"
+                  hide-details
+                  class=" base rounded-lg"
+                  rounded
+                  outlined
+                  dense
+                  placeholder="Select Sip №"
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <div class="label">Batch №</div>
+                <v-text-field
+                :rules="[formRules.required]"
+                v-model="arrivedFabric.batchNumber"
+                outlined
+                hide-details
+                dense
+                class="rounded-lg base "
+                placeholder="Enter batch №"
+                color="#7631FF"
+              />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <div class="label">Fabric width in fact (cm)</div>
+                <v-text-field
+                :rules="[formRules.required]"
+                v-model="arrivedFabric.fabricWidthInFact"
+                outlined
+                hide-details
+                dense
+                class="rounded-lg base "
+                placeholder="Enter fabric widht in fact"
+                color="#7631FF"
+              />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <div class="label">Density (gsm) in fact gr/m2</div>
+                <v-text-field
+                :rules="[formRules.required]"
+                v-model="arrivedFabric.densityInFact"
+                outlined
+                hide-details
+                class="rounded-lg base "
+                height="44"
+                dense
+                color="#7631FF"
+                placeholder="Enter density (gsm) in fact"
+              />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <div class="label">Fact received Gross weight</div>
+                <v-text-field
+                :rules="[formRules.required]"
+                v-model="arrivedFabric.factReceivedGrossWeight"
+                outlined
+                hide-details
+                dense
+                class="rounded-lg base "
+                placeholder="Enter fact received gross weight"
+                color="#7631FF"
+              />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <div class="label">Fact received Netto weight</div>
+                <v-text-field
+                :rules="[formRules.required]"
+                v-model="arrivedFabric.factReceivedNettoWeight"
+                outlined
+                hide-details
+                dense
+                class="rounded-lg base "
+                placeholder="Enter fact received netto weight"
+                color="#7631FF"
+              />
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="d-flex justify-center pb-8">
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            outlined color="#7631FF"
+            width="163"
+            @click="new_dialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-btn
+            v-if="title==='New'"
+            class="rounded-lg text-capitalize ml-4 font-weight-bold"
+            color="#7631FF" dark
+            width="163"
+            @click="saveArrivedFabric"
+          >
+            save
+          </v-btn>
+          <v-btn
+            v-else
+            class="rounded-lg text-capitalize ml-4 font-weight-bold"
+            color="#7631FF" dark
+            width="163"
+            @click="editArrivedFabric"
+          >
+            Edit
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="spend_dialog" width="350">
+      <v-card>
+        <v-card-title class="d-flex justify-space-between w-full">
+          <div class="text-capitalize font-weight-bold">Spending fabric</div>
+          <v-btn icon color="#7631FF" @click="spend_dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+
+        <v-card-text class="mt-4">
+          <v-form ref="spend_form" v-model="spend_validate" lazy-validation>
+            <v-row>
+              <v-col cols="12" >
+                <div class="label">to Sip №</div>
+                <v-select
+                  append-icon="mdi-chevron-down"
+                  v-model="spendingFabric.idTo"
+                  :rules="[formRules.required]"
+                  :items="toSipNumbers"
+                  item-text="sipNumber"
+                  item-value="id"
+                  hide-details
+                  color="#7631FF"
+                  class=" base rounded-lg"
+                  rounded
+                  outlined
+                  dense
+                  placeholder="Select Sip №"
+                />
+              </v-col>
+              <v-col cols="12" >
+                <div class="label">to Batch №</div>
+                <v-select
+                  append-icon="mdi-chevron-down"
+                  v-model="spendingFabric.idTo"
+                  :rules="[formRules.required]"
+                  :items="toSipNumbers"
+                  item-text="batchNumber"
+                  item-value="id"
+                  hide-details
+                  class=" base rounded-lg"
+                  rounded
+                  color="#7631FF"
+                  outlined
+                  dense
+                  placeholder="Batch №"
+                />
+              </v-col>
+              <v-col cols="12">
+                <div class="label">Spending quantity</div>
+                <v-text-field
+                :rules="[formRules.required]"
+                v-model="spendingFabric.spendingQuantity"
+                outlined
+                hide-details
+                dense
+                class="rounded-lg base "
+                placeholder="Enter spending quantity"
+                color="#7631FF"
+                suffix="kg"
+              />
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="d-flex justify-center pb-8">
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            outlined color="#7631FF"
+            width="130"
+            @click="spend_dialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-btn
+            class="rounded-lg text-capitalize ml-4 font-weight-bold"
+            color="#7631FF" dark
+            width="130"
+            @click="saveSpending"
+          >
+            save
+          </v-btn>
+         
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </div>
+</template>
+<script>
+import {mapActions, mapGetters} from "vuex";
+
+export default {
+  data(){
+    return{
+      headers:[
+        {text: "Sip №", value: "sipNumber", sortable: false},
+        {text: "Batch №", value: "batchNumber", sortable: false},
+        {text: "Order №", value: "orderNumber", sortable: false},
+        {text: "Model №", value: "modelNumber", sortable: false},
+        {text: "Fabric specification", value: "fabricSpecification", sortable: false,width:200},
+        {text: "Color", value: "color", sortable: false},
+        {text: "Density (gsm) in fact gr/m2", value: "densityInFact", sortable: false},
+        {text: "Actual Fabric quantity", value: "actualFabricQuantity", sortable: false},
+        {text: "Ordered quantity", value: "orderedQuantity", sortable: false},
+        {text: "Fact recieved Netto weight", value: "factReceivedNettoWeight", sortable: false},
+        {text: "Given to cutting", value: "givenToCutting", sortable: false},
+        {text: "Remaining q-ty in warehouse", value: "remainingQuantity", sortable: false},
+        {text: "Spending", value: "spending", sortable: false,align:"center"},
+        {text: "Action", value: "actions", sortable: false,align:"center"}, 
+      ],
+      valid_search:"",
+      new_validate:true,
+      spend_validate:true,
+      new_dialog:false,
+      spend_dialog:false,
+      title:"",
+      arrivedFabric:{},
+      spendingFabric:{
+        batchNumber:null,
+        idFrom:null,
+        idTo:null,
+        spendingQuantity:null,
+      },
+
+      filters:{
+        sipNumber:null,
+        batchNumber:null,
+        orderId:null,
+      },
+
+      current_list:[],
+    }
+  },
+
+  computed:{
+    ...mapGetters({
+      fabricWarehouseList:"fabricWarehouse/fabricWarehouseList",
+      sipNumbers:"fabricWarehouse/sipNumbers",
+      toSipNumbers:"fabricWarehouse/toSipNumbers",
+    })
+  },
+
+  watch:{
+    fabricWarehouseList(val){
+      this.current_list=JSON.parse(JSON.stringify(val))
+    }
+  },
+
+  created(){
+    this.getSipNumbers()
+    this.getToSipNumbers()
+  },
+
+  methods:{
+    ...mapActions({
+      getFabricWarehouseList:"fabricWarehouse/getFabricWarehouseList",
+      createFabricWarehouse:"fabricWarehouse/createFabricWarehouse",
+      getSipNumbers:"fabricWarehouse/getSipNumbers",
+      updateFabricWarehouse:"fabricWarehouse/updateFabricWarehouse",
+      deleteFabricWarehouse:"fabricWarehouse/deleteFabricWarehouse",
+      getToSipNumbers:"fabricWarehouse/getToSipNumbers",
+      setSpendingFabric:"fabricWarehouse/setSpendingFabric",
+    }),
+
+    addArrivedFabric(){
+      this.title="New"
+      this.new_dialog=true
+    },
+
+    async saveArrivedFabric(){
+      const data={...this.arrivedFabric}      
+      await this.createFabricWarehouse(data)
+      await this.$refs.new_form.reset()
+      this.new_dialog=false
+    },
+
+    editItem(item){
+      this.title="Edit"
+      this.arrivedFabric={...item}
+      this.new_dialog=true
+    },
+
+    editArrivedFabric(){
+      const data={
+        batchNumber: this.arrivedFabric.batchNumber ,
+        densityInFact: this.arrivedFabric.densityInFact,
+        fabricOrderId: this.arrivedFabric.fabricOrderId,
+        fabricWidthInFact: this.arrivedFabric.fabricWidthInFact.split(" ")[0],
+        factReceivedGrossWeight: this.arrivedFabric.factReceivedGrossWeight.split(" ")[0],
+        factReceivedNettoWeight: this.arrivedFabric.factReceivedNettoWeight.split(" ")[0],
+        id: this.arrivedFabric.id,
+      }
+      this.updateFabricWarehouse(data)
+      this.new_dialog=false
+    },
+
+    getDeleteItem(item){
+      this.deleteFabricWarehouse(item.id)
+    },
+
+    spendFunc(item){
+      this.spendingFabric.idFrom=item.id
+      this.spend_dialog=true
+    },
+
+    
+
+    async saveSpending(){
+      const data={...this.spendingFabric}
+      await this.setSpendingFabric(data)
+      await this.$refs.spend_form.reset()
+      this.spend_dialog=false
+    },
+
+    filterData() {},
+    resetFilters() {},
+  },
+
+  mounted(){
+    this.getFabricWarehouseList()
+  }
+}
+</script>
+<style lang="">
+  
+</style>
