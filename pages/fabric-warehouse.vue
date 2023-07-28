@@ -327,6 +327,40 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-dialog v-model="delete_dialog" max-width="500">
+      <v-card class="pa-4 text-center">
+        <div class="d-flex justify-center mb-2">
+          <v-img src="/error-icon.svg" max-width="40"/>
+        </div>
+        <v-card-title class="d-flex justify-center">Delete fabric warehouse row</v-card-title>
+        <v-card-text>
+          Are you sure you want to Delete fabric warehouse row? 
+        </v-card-text>
+        <v-card-actions class="px-16">
+          <v-btn
+            outlined
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#777C85"
+            width="140"
+            @click.stop="delete_dialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-spacer/>
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#FF4E4F"
+            width="140"
+            elevation="0"
+            dark
+            @click="deleteItem"
+          >
+            delete
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -355,6 +389,7 @@ export default {
       new_validate:true,
       spend_validate:true,
       new_dialog:false,
+      delete_dialog:false,
       spend_dialog:false,
       title:"",
       arrivedFabric:{},
@@ -370,6 +405,8 @@ export default {
         batchNumber:null,
         orderId:null,
       },
+
+      deletedId:null,
 
       current_list:[],
     }
@@ -437,9 +474,7 @@ export default {
       this.new_dialog=false
     },
 
-    getDeleteItem(item){
-      this.deleteFabricWarehouse(item.id)
-    },
+    
 
     spendFunc(item){
       this.spendingFabric.idFrom=item.id
@@ -453,6 +488,17 @@ export default {
       await this.setSpendingFabric(data)
       await this.$refs.spend_form.reset()
       this.spend_dialog=false
+    },
+
+    getDeleteItem(item){
+      this.deletedId=item.id
+      this.delete_dialog=true
+    },
+    
+    deleteItem(){
+      this.deleteFabricWarehouse(this.deletedId)
+      this.delete_dialog=false
+
     },
 
     filterData() {},
