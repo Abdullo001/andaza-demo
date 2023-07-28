@@ -21,3 +21,6 @@
   border: 1px solid #919191;
   color: #000000 !important;
 }
+.v-data-table > .v-data-table__wrapper tbody tr.v-data-table__expanded__content {
+  box-shadow: none;
+}

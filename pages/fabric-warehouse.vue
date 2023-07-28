@@ -1,4 +1,4 @@
-<template >
+<template>
   <div>
     <v-card
     color="#fff"
@@ -72,6 +72,10 @@
       :footer-props="{
           itemsPerPageOptions: [10, 20, 50, 100],
       }"
+      show-expand
+      :single-expand="singleExpand"
+      :expanded.sync="expanded"
+      @item-expanded="loadDetails"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -88,13 +92,12 @@
           </v-toolbar-title>
         </v-toolbar>
       </template>
-
       <template #item.spending="{item}">
         <div class="d-flex ">
           <v-btn icon color="#7631FF" @click="spendFunc(item)">
             <v-img src="/spend-icon.svg" max-width="22"/>
           </v-btn>
-          
+
         </div>
       </template>
       <template #item.actions="{item}">
@@ -105,11 +108,51 @@
           <v-btn icon color="red" @click="getDeleteItem(item)">
             <v-img src="/delete.svg" max-width="27"/>
           </v-btn>
-          <v-btn icon color="#7631FF" >
-            <v-icon>mdi-chevron-down</v-icon>
-          </v-btn>
-          
         </div>
+      </template>
+      <template #expanded-item="{headers, item}">
+        <td :colspan="headers.length">
+          <v-card flat>
+            <v-card-text>
+              <v-row>
+                <v-col>
+                  <div class="body-1 mb-3">
+                    Fabric width in order:
+                    <span class="font-weight-bold ml-2"> {{ item?.fabricWidthInOrder }}</span>
+                  </div>
+                  <div class="body-1 mb-3">
+                    Fabric width in fact:
+                    <span class="font-weight-bold ml-2"> {{ item?.fabricWidthInFact }}</span>
+                  </div>
+                  <div class="body-1 mb-3">
+                    Density(gsm) in order gr/m2:
+                    <span class="font-weight-bold ml-2"> {{ item?.densityInOrder ?? 'No'}}</span>
+                  </div>
+                </v-col>
+                <v-col>
+                  <div class="body-1 mb-3">
+                    Fabric received Gross weight:
+                    <span class="font-weight-bold ml-2"> {{ item?.factReceivedGrossWeight }}</span>
+                  </div>
+                  <div class="body-1 mb-3">
+                    Fabric unit Price:
+                    <span class="font-weight-bold ml-2"> {{ item?.fabricUnitPrice }}</span>
+                  </div>
+                </v-col>
+                <v-col>
+                  <div class="body-1 mb-3">
+                    Created at:
+                    <span class="font-weight-bold ml-2"> {{ item?.updatedAt }}</span>
+                  </div>
+                  <div class="body-1 mb-3">
+                    Created by:
+                    <span class="font-weight-bold ml-2"> {{ item?.updatedBy }}</span>
+                  </div>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+        </td>
       </template>
     </v-data-table>
 
@@ -323,7 +366,7 @@
           >
             save
           </v-btn>
-         
+
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -335,7 +378,7 @@
         </div>
         <v-card-title class="d-flex justify-center">Delete fabric warehouse row</v-card-title>
         <v-card-text>
-          Are you sure you want to Delete fabric warehouse row? 
+          Are you sure you want to Delete fabric warehouse row?
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -383,8 +426,11 @@ export default {
         {text: "Given to cutting", value: "givenToCutting", sortable: false},
         {text: "Remaining q-ty in warehouse", value: "remainingQuantity", sortable: false},
         {text: "Spending", value: "spending", sortable: false,align:"center"},
-        {text: "Action", value: "actions", sortable: false,align:"center"}, 
+        {text: "Action", value: "actions", sortable: false,align:"center"},
+        {text: '', value: 'data-table-expand'},
       ],
+      expanded: [],
+      singleExpand: true,
       valid_search:"",
       new_validate:true,
       spend_validate:true,
@@ -441,6 +487,10 @@ export default {
       getToSipNumbers:"fabricWarehouse/getToSipNumbers",
       setSpendingFabric:"fabricWarehouse/setSpendingFabric",
     }),
+    loadDetails({item}) {
+      // current opened || choose object ^
+      console.log(item);
+    },
 
     addArrivedFabric(){
       this.title="New"
@@ -448,7 +498,7 @@ export default {
     },
 
     async saveArrivedFabric(){
-      const data={...this.arrivedFabric}      
+      const data={...this.arrivedFabric}
       await this.createFabricWarehouse(data)
       await this.$refs.new_form.reset()
       this.new_dialog=false
@@ -474,14 +524,14 @@ export default {
       this.new_dialog=false
     },
 
-    
+
 
     spendFunc(item){
       this.spendingFabric.idFrom=item.id
       this.spend_dialog=true
     },
 
-    
+
 
     async saveSpending(){
       const data={...this.spendingFabric}
@@ -494,7 +544,7 @@ export default {
       this.deletedId=item.id
       this.delete_dialog=true
     },
-    
+
     deleteItem(){
       this.deleteFabricWarehouse(this.deletedId)
       this.delete_dialog=false
@@ -511,5 +561,5 @@ export default {
 }
 </script>
 <style lang="">
-  
+
 </style>
