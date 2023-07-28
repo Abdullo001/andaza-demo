@@ -37,56 +37,7 @@
                     </template>
                   </v-combobox>
                 </v-col>
-                <v-col cols="12" lg="3">
-                  <div class="label">Warehouse code</div>
-                  <v-combobox
-                    v-model="details.warehouseCode"
-                    :items="warehouseList"
-                    :search-input.sync="warehouseCode"
-                    item-text="code"
-                    item-value="id"
-                    outlined
-                    hide-details
-                    height="44"
-                    class="rounded-lg base"
-                    :return-object="true"
-                    color="#7631FF"
-                    dense
-                    placeholder="Enter warehouse code"
-                    append-icon="mdi-chevron-down"
-                    :rules="[formRules.required]"
-                    validate-on-blur
-                  >
-                    <template #append>
-                      <v-icon color="#7631FF">mdi-magnify</v-icon>
-                    </template>
-                  </v-combobox>
-                </v-col>
-                <v-col cols="12" lg="3">
-                  <div class="label">Warehouse name</div>
-                  <v-combobox
-                    v-model="details.warehouseName"
-                    :items="warehouseList"
-                    :search-input.sync="warehouseName"
-                    item-text="name"
-                    item-value="id"
-                    outlined
-                    hide-details
-                    height="44"
-                    class="rounded-lg base"
-                    :return-object="true"
-                    color="#7631FF"
-                    dense
-                    placeholder="Enter warehouse code"
-                    append-icon="mdi-chevron-down"
-                    :rules="[formRules.required]"
-                    validate-on-blur
-                  >
-                    <template #append>
-                      <v-icon color="#7631FF">mdi-magnify</v-icon>
-                    </template>
-                  </v-combobox>
-                </v-col>
+                
                 <v-col cols="12" lg="3">
                   <div class="label">Delivery time</div>
                   <el-date-picker
@@ -110,8 +61,23 @@
       <template #item.isOrdered="{ item }">
         <v-simple-checkbox
           v-model="item.isOrdered"
+          :disabled="item.status==='ORDERED'"
           color="#7631FF"
         ></v-simple-checkbox>
+      </template>
+
+      <template #item.status="{item}">
+        <v-select
+          :background-color="statusColor.fabricOrderedStatus(item.status)"
+          :items="status_enums"
+          @change="changeStatusFunc(item)"
+          append-icon="mdi-chevron-down"
+          v-model="item.status"
+          hide-details
+          class="mt-n2"
+          rounded
+          dark
+        />
       </template>
     </v-data-table>
     <v-divider />
@@ -138,6 +104,8 @@ export default {
   name: "AccessoryOrderPages",
   data() {
     return {
+      status_enums: ["ORDERED", "CANCELLED", "PENDING"],
+
       headers: [
         { text: "", value: "isOrdered", sortable: false },
         {
@@ -155,6 +123,7 @@ export default {
           sortable: false,
           width: "200",
         },
+        { text: "Status", value: "status", sortable: false },
         { text: "Producing", value: "producingQuantity", sortable: false },
         { text: "M/U", value: "producingQuantityMUnit", sortable: false },
         { text: "Quantity for 1pc", value: "quantityOnePc", sortable: false },
@@ -222,6 +191,7 @@ export default {
       getWarehouseCodeList: "plannedOrder/getWarehouseCodeList",
       getPlannedOrderList: "accessoryOrder/getPlannedOrderList",
       createPlanningOrder: "accessoryOrder/createPlanningOrder",
+      changeStatus: "accessoryOrder/changeStatus",
       getDocuments: "documents/getDocuments",
     }),
     savePlanningOrder() {
@@ -243,6 +213,11 @@ export default {
         this.createPlanningOrder({ data,id });
       }
     },
+
+    changeStatusFunc(item){
+      const id = this.$route.params.id;
+      this.changeStatus({id:item.planningChartId,status:item.status,planningId:id})
+    }
   },
   mounted() {
     const id = this.$route.params.id;
