@@ -91,4 +91,17 @@ export const actions = {
       })
       .catch(({ response }) => console.log(response));
   },
+
+  changeStatus({dispatch},{id,status,planningId}){
+    this.$axios.put(`/api/v1/accessory-planning-chart/change-status?planningChartId=${id}&status=${status}`)
+    .then((res)=>{
+      this.$toast.success(res.data.message);
+      dispatch("getPlannedOrderList", planningId);
+    })
+    .catch((res)=>{
+      console.log(res);
+      this.$toast.error(res.data.message);
+
+    })
+  }
 };

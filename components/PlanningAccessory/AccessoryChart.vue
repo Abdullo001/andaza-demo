@@ -116,7 +116,7 @@
                 </div>
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">Quantity</div>
+                <div class="label">Quantity per unit</div>
                 <v-text-field
                   v-model="create_accessory_chart.quantity"
                   outlined
@@ -132,13 +132,15 @@
               <v-col cols="12" md="6">
                 <div class="label">Measurement unit</div>
                 <v-select
-                  :items="measurementUnit"
+                  :items="nameData"
+                  v-model="create_accessory_chart.accessoryId"
+                  item-text="measurementUnit"
+                  readonly
+                  item-value="id"
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  item-text="name"
-                  item-value="id"
                   placeholder="Select Measurement unit"
                   dense
                   append-icon="mdi-chevron-down"
@@ -155,6 +157,20 @@
                   height="44"
                   class="rounded-lg base"
                   placeholder="Enter Wastage"
+                  dense
+                  color="#7631FF"
+                  :rules="[formRules.required]"
+                />
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="label">Production quantity</div>
+                <v-text-field
+                  v-model="create_accessory_chart.productionQuantity"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  placeholder="Enter production quantity"
                   dense
                   color="#7631FF"
                   :rules="[formRules.required]"
@@ -239,6 +255,35 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
+                <div class="label">Price per unit</div>
+                <div class="d-flex align-center">
+                  <v-text-field
+                    v-model="edit_accessory_chart.pricePerUnit"
+                    outlined
+                    hide-details
+                    height="44"
+                    class="rounded-lg base rounded-l-lg rounded-r-0"
+                    placeholder="0.0"
+                    dense
+                    color="#7631FF"
+                    :rules="[formRules.required]"
+                  />
+                  <v-select
+                    :items="currency_enums"
+                    style="max-width: 100px"
+                    outlined
+                    hide-details
+                    height="44"
+                    dense
+                    v-model="edit_accessory_chart.pricePerUnitCurrency"
+                    class="rounded-lg base rounded-r-lg rounded-l-0"
+                    append-icon="mdi-chevron-down"
+                    color="#7631FF"
+                    :rules="[formRules.required]"
+                  />
+                </div>
+              </v-col>
+              <v-col cols="12" md="6">
                 <div class="label">Quantity</div>
                 <v-text-field
                   v-model="edit_accessory_chart.quantity"
@@ -253,17 +298,21 @@
               </v-col>
               <v-col cols="12" md="6">
                 <div class="label">Measurement unit</div>
-                <v-text-field
-                  v-model="edit_accessory_chart.quantityUnitId"
+                <v-select
+                  :items="nameData"
+                  v-model="edit_accessory_chart.accessoryId"
+                  item-text="measurementUnit"
+                  item-value="id"
+                  disabled
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  disabled
                   placeholder="Select Measurement unit"
                   dense
                   append-icon="mdi-chevron-down"
                   color="#7631FF"
+                  :rules="[formRules.required]"
                 />
               </v-col>
               <v-col cols="12" md="6">
@@ -277,6 +326,20 @@
                   placeholder="Enter Wastage"
                   dense
                   color="#7631FF"
+                />
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="label">Production quantity</div>
+                <v-text-field
+                  v-model="edit_accessory_chart.productionQuantity"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  placeholder="Enter production quantity"
+                  dense
+                  color="#7631FF"
+                  :rules="[formRules.required]"
                 />
               </v-col>
               <v-col cols="12">
@@ -374,16 +437,7 @@ export default {
         wastage: "",
       },
       edit_accessory_chart: {
-        specification: null,
-        accessoryId: null,
-        accessoryPlanningId: null,
-        accessoryPricePerCurrency: "",
-        accessoryPricePerUnit: "",
-        description: "",
-        id: null,
-        quantity: "",
-        color:"",
-        wastage: "",
+        
       },
       delete_acceccory_chart: {},
       currency_enums: ["USD", "UZS", "RUB"],
@@ -456,17 +510,16 @@ export default {
           accessoryId: this.edit_accessory_chart.accessoryId,
           accessoryPlanningId: this.edit_accessory_chart.accessoryPlanningId,
           accessoryPricePerCurrency:
-            this.edit_accessory_chart.accessoryPricePerCurrency,
+            this.edit_accessory_chart.pricePerUnitCurrency,
           accessoryPricePerUnit:
-            this.edit_accessory_chart.accessoryPricePerUnit,
+            this.edit_accessory_chart.pricePerUnit,
           description: this.edit_accessory_chart.description,
           id: this.edit_accessory_chart.id,
+          productionQuantity:this.edit_accessory_chart.productionQuantity,
           quantity: this.edit_accessory_chart.quantity,
-          colorId: this.edit_accessory_chart.colorId,
           wastage: this.edit_accessory_chart.wastage,
         };
         await this.updateChartAccessory(items);
-        this.$refs.edit_form.reset();
         this.edit_dialog = false;
       }
     },
