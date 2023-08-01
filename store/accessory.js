@@ -39,7 +39,7 @@ export const mutations = {
 };
 
 export const actions = {
-  async updatePlanningAccessory({ commit,dispatch }, data) {
+  async updatePlanningAccessory({ commit, dispatch }, data) {
     this.$axios
       .$put(`/api/v1/accessory-planning/update`, data)
       .then((res) => {
