@@ -34,3 +34,15 @@ export default {
   }
 }
 </script>
+<style>
+::-webkit-scrollbar {
+  width: 8px !important;
+  height: 8px !important;
+  background-color: #cccccc;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #777777;
+  border-radius: 16px;
+}
+</style>

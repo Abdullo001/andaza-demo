@@ -489,7 +489,6 @@ export default {
     }),
     loadDetails({item}) {
       // current opened || choose object ^
-      console.log(item);
     },
 
     addArrivedFabric(){
@@ -524,14 +523,10 @@ export default {
       this.new_dialog=false
     },
 
-
-
-    spendFunc(item){
+    spendFunc(item) {
       this.spendingFabric.idFrom=item.id
       this.spend_dialog=true
     },
-
-
 
     async saveSpending(){
       const data={...this.spendingFabric}
@@ -560,6 +555,6 @@ export default {
   }
 }
 </script>
-<style lang="">
+<style lang="scss">
 
 </style>
