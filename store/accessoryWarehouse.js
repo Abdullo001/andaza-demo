@@ -3,7 +3,7 @@ export const state = () => ({
 });
 
 export const getters = {
-  accessoryList: state => state.accessoryList
+  accessoryList: state => state.accessoryList.content
 }
 export const mutations = {
   setAccessoryList(state, item) {
@@ -11,15 +11,15 @@ export const mutations = {
   }
 }
 export const actions = {
-  getAccessoryWarehouseList({commit}, {page, size}) {
+  async getAccessoryWarehouseList({commit}, {page, size}) {
     const body = {
       filters: [],
       sorts: [],
       page, size
     }
-    this.$axios.$put('/api/v1/accessory-warehouse/list', body)
+    await this.$axios.$put('/api/v1/accessory-warehouse/list', body)
       .then(res => {
-        console.log(res);
+        commit('setAccessoryList', res.data);
       }).catch(({response}) => console.log(response));
   }
 }
