@@ -102,9 +102,9 @@ export const actions={
       this.$toast.success(res.data.message)
       dispatch("getFabricWarehouseList")
     })
-    .catch((res)=>{
-      console.log(res);
-      this.$toast.error(res.data.message)
+    .catch(({response})=>{
+      console.log(response);
+        this.$toast.error(response.data.message);
 
     })
   }
