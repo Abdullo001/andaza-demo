@@ -92,11 +92,68 @@
           </v-toolbar-title>
         </v-toolbar>
       </template>
-      <template #item.spending="{item}">
+      <template #item.production="{item}">
         <div class="d-flex ">
-          <v-btn icon color="#7631FF" @click="spendFunc(item)">
-            <v-img src="/spend-icon.svg" max-width="22"/>
-          </v-btn>
+
+          <v-tooltip
+            top
+            color="#7631FF"
+            class="pointer"
+            v-if="Object.keys(item).length > 2"
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+                color="#7631FF"
+                @click="spendFunc(item)"
+              >
+                <v-img src="/spend-icon.svg" max-width="22"/>
+              </v-btn>
+            </template>
+            <span class="text-capitalize">Spend</span>
+          </v-tooltip>
+
+          <v-tooltip
+            top
+            color="#7631FF"
+            class="pointer"
+            v-if="Object.keys(item).length > 2"
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+                color="#7631FF"
+                @click="workshopFunc(item)"
+              >
+                <v-img src="/cut-icon.svg" max-width="22"/>
+              </v-btn>
+            </template>
+            <span class="text-capitalize">Workshop</span>
+          </v-tooltip>
+
+          <v-tooltip
+            top
+            color="#7631FF"
+            class="pointer"
+            v-if="Object.keys(item).length > 2"
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+                color="#7631FF"
+                @click="subcontractorFunc(item)"
+              >
+                <v-img src="/bag-icon.svg" max-width="22"/>
+              </v-btn>
+            </template>
+            <span class="text-capitalize">subcontractor</span>
+          </v-tooltip>
 
         </div>
       </template>
@@ -383,6 +440,163 @@
       </v-card>
     </v-dialog>
 
+    <v-dialog v-model="workshop_dialog" width="450">
+      <v-card>
+        <v-card-title class="d-flex justify-space-between w-full">
+          <div class="text-capitalize font-weight-bold">Fabric giving to own workshop</div>
+          <v-btn icon color="#7631FF" @click="workshop_dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+
+        <v-card-text class="mt-4">
+          <v-form ref="workshop_form" v-model="workshop_validate" lazy-validation>
+            <v-row>
+              <v-col cols="12" >
+                <div class="label">Model №</div>
+                <v-select
+                  append-icon="mdi-chevron-down"
+                  v-model="workshop.modelId"
+                  :rules="[formRules.required]"
+                  item-text="modelNumber"
+                  item-value="id"
+                  hide-details
+                  color="#7631FF"
+                  class=" base rounded-lg"
+                  rounded
+                  outlined
+                  dense
+                  placeholder="Select Model №"
+                />
+              </v-col>
+
+              <v-col cols="12">
+                <div class="label">Giving fabric quantity</div>
+                <v-text-field
+                :rules="[formRules.required]"
+                v-model="workshop.quantity"
+                outlined
+                hide-details
+                dense
+                class="rounded-lg base "
+                placeholder="Enter giving fabric quantity"
+                color="#7631FF"
+                :suffix="workshop.measurement"
+              />
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="d-flex justify-center pb-8">
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            outlined color="#7631FF"
+            width="130"
+            @click="workshop_dialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-btn
+            class="rounded-lg text-capitalize ml-4 font-weight-bold"
+            color="#7631FF" dark
+            width="130"
+            @click="saveWorkshop"
+          >
+            save
+          </v-btn>
+
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="subcontractor_dialog" width="450">
+      <v-card>
+        <v-card-title class="d-flex justify-space-between w-full">
+          <div class="text-capitalize font-weight-bold">Fabric giving to Subcontractor</div>
+          <v-btn icon color="#7631FF" @click="subcontractor_dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title> 
+
+        <v-card-text class="mt-4">
+          <v-form ref="subcontractor_form" v-model="subcontractor_validate" lazy-validation>
+            <v-row>
+              <v-col cols="12" >
+                <div class="label">Partner</div>
+                <v-select
+                  append-icon="mdi-chevron-down"
+                  v-model="subcontractor.partnerId"
+                  :items="partnerList"
+                  :rules="[formRules.required]"
+                  item-text="name"
+                  item-value="id"
+                  hide-details
+                  color="#7631FF"
+                  class=" base rounded-lg"
+                  rounded
+                  outlined
+                  dense
+                  placeholder="Select partner"
+                />
+              </v-col>
+
+              <v-col cols="12" >
+                <div class="label">Model №</div>
+                <v-select
+                  append-icon="mdi-chevron-down"
+                  v-model="subcontractor.modelId"
+                  :rules="[formRules.required]"
+                  item-text="modelNumber"
+                  item-value="id"
+                  hide-details
+                  color="#7631FF"
+                  class=" base rounded-lg"
+                  rounded
+                  outlined
+                  dense
+                  placeholder="Select Model №"
+                />
+              </v-col>
+
+              <v-col cols="12">
+                <div class="label">Giving fabric quantity</div>
+                <v-text-field
+                :rules="[formRules.required]"
+                v-model="subcontractor.quantity"
+                outlined
+                hide-details
+                dense
+                class="rounded-lg base "
+                placeholder="Enter giving fabric quantity"
+                color="#7631FF"
+                :suffix="subcontractor.measurement"
+              />
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="d-flex justify-center pb-8">
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            outlined color="#7631FF"
+            width="130"
+            @click="subcontractor_dialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-btn
+            class="rounded-lg text-capitalize ml-4 font-weight-bold"
+            color="#7631FF" dark
+            width="130"
+            @click="saveSubcontractor"
+          >
+            save
+          </v-btn>
+
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <v-dialog v-model="delete_dialog" max-width="500">
       <v-card class="pa-4 text-center">
         <div class="d-flex justify-center mb-2">
@@ -434,7 +648,7 @@ export default {
         {text: "Fact recieved Netto weight", value: "factReceivedNettoWeight", sortable: false},
         {text: "Given to cutting", value: "givenToCutting", sortable: false},
         {text: "Remaining q-ty in warehouse", value: "remainingQuantity", sortable: false},
-        {text: "Spending", value: "spending", sortable: false,align:"center"},
+        {text: "Production", value: "production", sortable: false,align:"center"},
         {text: "Action", value: "actions", sortable: false,align:"center"},
         {text: '', value: 'data-table-expand'},
       ],
@@ -442,10 +656,15 @@ export default {
       singleExpand: true,
       valid_search:"",
       new_validate:true,
+      workshop_validate:true,
+      subcontractor_validate:true,
       spend_validate:true,
       new_dialog:false,
       delete_dialog:false,
       spend_dialog:false,
+      workshop_dialog:false,
+      subcontractor_dialog:false,
+      
       title:"",
       arrivedFabric:{},
       spendingFabric:{
@@ -453,6 +672,19 @@ export default {
         idFrom:null,
         idTo:null,
         spendingQuantity:null,
+      },
+
+      workshop:{
+        modelId:null,
+        quantity:null,
+        measurement:null,
+      },
+
+      subcontractor:{
+        partnerId:null,
+        modelId:null,
+        quantity:null,
+        measurement:null,
       },
 
       filters:{
@@ -472,6 +704,7 @@ export default {
       fabricWarehouseList:"fabricWarehouse/fabricWarehouseList",
       sipNumbers:"fabricWarehouse/sipNumbers",
       toSipNumbers:"fabricWarehouse/toSipNumbers",
+      partnerList:"subcontracts/partnerList",
     })
   },
 
@@ -484,6 +717,7 @@ export default {
   created(){
     this.getSipNumbers()
     this.getToSipNumbers()
+    this.getPartnerList()
   },
 
   methods:{
@@ -495,6 +729,7 @@ export default {
       deleteFabricWarehouse:"fabricWarehouse/deleteFabricWarehouse",
       getToSipNumbers:"fabricWarehouse/getToSipNumbers",
       setSpendingFabric:"fabricWarehouse/setSpendingFabric",
+      getPartnerList:"subcontracts/getPartnerList",
     }),
     loadDetails({item}) {
       // current opened || choose object ^
@@ -553,6 +788,32 @@ export default {
       this.deleteFabricWarehouse(this.deletedId)
       this.delete_dialog=false
 
+    },
+
+    workshopFunc(item){
+      this.workshop_dialog=true
+      this.workshop.measurement=item.factReceivedNettoWeight.split(" ")[1]
+    },
+
+    async saveWorkshop(){
+      this.workshop_dialog=false
+      const data={
+        modelId:this.workshop.modelId,
+        quantity:this.workshop.quantity
+      }
+
+      await this.$refs.workshop_form.reset()
+    },
+
+    async saveSubcontractor(){
+      this.subcontractor_dialog=false
+
+      await this.$refs.subcontractor_form.reset()
+    },
+
+    async subcontractorFunc(item){
+      this.subcontractor_dialog=true
+      this.subcontractor.measurement=item.factReceivedNettoWeight.split(" ")[1]
     },
 
     filterData() {},
