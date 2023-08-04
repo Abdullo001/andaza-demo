@@ -90,9 +90,9 @@ export const actions = {
       .then((res)=>{
         this.$toast.success(res.data.message);
         dispatch("getPlannedOrderList",id)
-      }).catch((res)=>{
-        console.log(res)
-        this.$toast.error(res.message);
+      }).catch(({response})=>{
+        console.log(response)
+        this.$toast.error(response.data.message);
       })
   },
 

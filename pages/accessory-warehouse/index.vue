@@ -140,7 +140,10 @@ export default {
       this.$router.push(`/accessory-warehouse/add-accessory-warehouse`);
     },
     getRow(item) {
-      console.log(item);
+      const data={orderNumber:item.orderNumber,modelNumber:item.modelNumber,modelId:item.modelId}
+      this.$store.commit('accessoryWarehouse/setEditDates', data);
+      this.$router.push(`/accessory-warehouse/${item.orderId}`);
+
     },
 
     resetFilters() {
