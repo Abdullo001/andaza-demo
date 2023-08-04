@@ -128,8 +128,16 @@
                     Density(gsm) in order gr/m2:
                     <span class="font-weight-bold ml-2"> {{ item?.densityInOrder ?? 'No'}}</span>
                   </div>
+                  <div class="body-1 mb-3">
+                    Density(gsm) in fact gr/m2:
+                    <span class="font-weight-bold ml-2"> {{ item?.densityInFact ?? 'No'}}</span>
+                  </div>
                 </v-col>
                 <v-col>
+                  <div class="body-1 mb-3">
+                    Actual fabric quantity:
+                    <span class="font-weight-bold ml-2"> {{ item?.actualFabricQuantity }}</span>
+                  </div>
                   <div class="body-1 mb-3">
                     Fabric received Gross weight:
                     <span class="font-weight-bold ml-2"> {{ item?.factReceivedGrossWeight }}</span>
@@ -137,6 +145,10 @@
                   <div class="body-1 mb-3">
                     Fabric unit Price:
                     <span class="font-weight-bold ml-2"> {{ item?.fabricUnitPrice }}</span>
+                  </div>
+                  <div class="body-1 mb-3">
+                    Ordered quantity:
+                    <span class="font-weight-bold ml-2"> {{ item?.orderedQuantity }}</span>
                   </div>
                 </v-col>
                 <v-col>
@@ -419,9 +431,6 @@ export default {
         {text: "Model №", value: "modelNumber", sortable: false},
         {text: "Fabric specification", value: "fabricSpecification", sortable: false,width:200},
         {text: "Color", value: "color", sortable: false},
-        {text: "Density (gsm) in fact gr/m2", value: "densityInFact", sortable: false},
-        {text: "Actual Fabric quantity", value: "actualFabricQuantity", sortable: false},
-        {text: "Ordered quantity", value: "orderedQuantity", sortable: false},
         {text: "Fact recieved Netto weight", value: "factReceivedNettoWeight", sortable: false},
         {text: "Given to cutting", value: "givenToCutting", sortable: false},
         {text: "Remaining q-ty in warehouse", value: "remainingQuantity", sortable: false},
@@ -491,25 +500,25 @@ export default {
       // current opened || choose object ^
     },
 
-    addArrivedFabric(){
+    addArrivedFabric() {
       this.title="New"
       this.new_dialog=true
     },
 
-    async saveArrivedFabric(){
+    async saveArrivedFabric() {
       const data={...this.arrivedFabric}
       await this.createFabricWarehouse(data)
       await this.$refs.new_form.reset()
       this.new_dialog=false
     },
 
-    editItem(item){
+    editItem(item) {
       this.title="Edit"
       this.arrivedFabric={...item}
       this.new_dialog=true
     },
 
-    editArrivedFabric(){
+    editArrivedFabric() {
       const data={
         batchNumber: this.arrivedFabric.batchNumber ,
         densityInFact: this.arrivedFabric.densityInFact,
