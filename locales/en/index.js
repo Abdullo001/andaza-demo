@@ -53,7 +53,7 @@ export default {
     samples:"Samples",
     fabricWarehouse:"Fabric warehouse",
     accessoryWarehouse:"Accessory warehouse",
-    finishedProducts:"Finished products warehouse",
+    finishedProducts:"Ready garment warehouse",
     production: "Production",
     planningOfProduction: "Planning of production",
     workingOperations: "Working operations",
