@@ -6,7 +6,7 @@
       :clipped="clipped"
       fixed
       app
-      width="296"
+      width="310"
     >
       <nuxt-link to="/" class="d-flex align-center ma-8">
         <v-img src="/logo.svg" max-width="100"/>
