@@ -108,8 +108,8 @@
 
             />
           </v-col>
-         
-          
+
+
         </v-row>
 
         <div class="d-flex  justify-end mr-3  ">
@@ -154,7 +154,7 @@
 
       <template #item.actions="{item}">
         <div class="d-flex ">
-          
+
           <v-btn icon color="red" @click="getDeleteItem(item)">
             <v-img src="/delete.svg" max-width="27"/>
           </v-btn>
@@ -412,7 +412,7 @@ export default {
           icon: true,
         },
         {
-          text: "add arrived accessory-warehouse",
+          text: "Add arrived accessory-warehouse",
           disabled: true,
           to: "/accessory-warehouse/7",
           icon: false,
@@ -441,7 +441,7 @@ export default {
         {text: "Ordered date", value: "orderedDate", sortable: false},
         {text: "Spending", value: "spending", sortable: false},
         {text: "Actions", value: "actions", sortable: false},
-        
+
       ],
 
       accessoryList:[],
@@ -464,7 +464,7 @@ export default {
     editDates:{
       deep:true,
       immediate:true,
-      
+
       handler(val){
         const id = this.$route.params.id
         this.orderNumber=val.orderNumber
@@ -473,7 +473,7 @@ export default {
         this.filters.modelId={id:val.modelId,modelNumber:val.modelNumber}
         if(id!=="add-accessory-warehouse"){
           this.searchAccessory({orderId:id,modelId:val.modelId})
-        } 
+        }
       }
     },
     orderNumber(val){
@@ -489,7 +489,7 @@ export default {
 
     "filters.orderId"(val){
       if(!!val && val !== ''){
-        this.getModelsList(val.id)  
+        this.getModelsList(val.id)
       }
     },
     "spend.orderId"(val){
@@ -498,7 +498,7 @@ export default {
       }
     },
 
-   
+
     "spend.modelId"(val){
       if(!!val && val !== ''){
         if(!!this.spend.orderId && this.spend.orderId !== ''){
@@ -577,7 +577,7 @@ export default {
       this.delete_dialog=false
     }
 
-    
+
   },
 
   mounted() {
@@ -586,16 +586,16 @@ export default {
     const id=this.$route.params.id
     if(id!=="add-accessory-warehouse"){
       this.stateStatus="Edit"
-      
+
     }else{
       this.filters.orderId=null
       this.filters.modelId=null
       this.stateStatus="New"
     }
-    
+
   },
 }
 </script>
 <style lang="">
-  
+
 </style>
