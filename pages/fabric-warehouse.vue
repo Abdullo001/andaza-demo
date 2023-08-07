@@ -34,7 +34,7 @@
               label="Order №"
               outlined
               class="rounded-lg filter"
-              v-model.trim="filters.orderId"
+              v-model.trim="filters.orderNumber"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -690,7 +690,7 @@ export default {
       filters:{
         sipNumber:null,
         batchNumber:null,
-        orderId:null,
+        orderNumber:null,
       },
 
       deletedId:null,
@@ -816,12 +816,17 @@ export default {
       this.subcontractor.measurement=item.factReceivedNettoWeight.split(" ")[1]
     },
 
-    filterData() {},
-    resetFilters() {},
+    filterData() {
+      this.getFabricWarehouseList({sipNumber:this.filters.sipNumber,batchNumber:this.filters.batchNumber,orderNumber:this.filters.orderNumber})
+    },
+    async resetFilters() {
+      await this.getFabricWarehouseList({sipNumber:"",batchNumber:"",orderNumber:""})
+      await this.$refs.filter_form.reset()
+    },
   },
 
   mounted(){
-    this.getFabricWarehouseList()
+    this.getFabricWarehouseList({sipNumber:"",batchNumber:"",orderNumber:""})
   }
 }
 </script>
