@@ -227,6 +227,24 @@
                 color="#7631FF"
               />
               </v-col>
+              <v-col cols="12" md="6" v-if="sample.purposeId===3">
+                <div class="label">Part colors <span style="color: red;">*</span></div>
+                <v-select
+                  v-model="sample.colorId"
+                  :rules="[formRules.required]"
+                  :items="colorList"
+                  item-text="name"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  append-icon="mdi-chevron-down"
+                  dense
+                  placeholder="Select part color"
+                  color="#7631FF"
+                />
+              </v-col>
               <v-col cols="12" md="6" v-if="sample.purposeId===11">
                 <div class="label">Part colors <span style="color: red;">*</span></div>
                 <v-select
@@ -862,13 +880,13 @@ export default {
         this.modelColor(val.id)
       }
     },
-   
+
     "selectedSample.modelId"(val){
       if(val!==null) {
         this.modelColor(val)
       }
     },
-   
+
     "selectedSample.modelNumber"(val){
       if(val!==null) {
         this.modelColor(val.id)
@@ -983,9 +1001,11 @@ export default {
         }
         formData.append("sentDate", sentDate);
         formData.append("partnerId", partnerId);
-        
+
         if(colorId!==null){
           formData.append("colorId", colorId);
+        }
+        if(pantoneCode!==null){
           formData.append("pantoneCode", pantoneCode);
           formData.append("pantoneType", pantoneType);
           formData.append("colorVariant", colorVariant);

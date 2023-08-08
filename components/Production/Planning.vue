@@ -271,6 +271,8 @@ export default {
       this.dialog = true;
     },
     getCurrentRow(item){
+      const id =this.$route.params.id
+      this.$router.push(this.localePath(`/planning-production/cutting/${id}`));
 
     },
     editItem(item) {
