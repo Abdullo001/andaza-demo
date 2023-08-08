@@ -263,13 +263,7 @@ export default {
             icon: ['production.svg', 'production-active.svg'],
             title: this.$t('sidebar.production'),
             to: this.localePath('/production'),
-            has_child: true,
-            child: [
-              {
-                title: this.$t('sidebar.planningOfProduction'),
-                to: this.localePath('/planning-production'),
-              },
-            ]
+            has_child: false,
           },
           {
             icon: ['shipping.svg', "shipping-active.svg"],

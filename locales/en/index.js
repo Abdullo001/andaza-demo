@@ -643,6 +643,9 @@ export default {
       enterModelNumber: "Enter Model number",
       enterModelName: "Enter Model name",
       enterOverproduction: "Enter Overproduction",
+      deleteTitle: "Delete process",
+      deleteText: "Are you sure you want to delete this process",
+
     },
   },
 
