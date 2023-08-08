@@ -249,15 +249,15 @@ export default {
           icon: true
         },
         {
-          text: this.$t('workingProcess.dialog.planningProduction'),
+          text:"Production",
           disabled: false,
-          to: this.localePath('/planning-production'),
+          to: this.localePath('/production'),
           icon: true
         },
         {
-          text: this.$t('workingProcess.dialog.planningDetails'),
+          text: "Production processes for current model",
           disabled: false,
-          to: this.localePath(`/planning-production/${this.$route.query.id}`),
+          to: this.localePath(`/production/${this.$route.query.id}`),
           icon: true
         },
         {

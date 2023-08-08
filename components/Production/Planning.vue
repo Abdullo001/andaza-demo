@@ -6,17 +6,14 @@
       :items="planningList"
       :items-per-page="10"
       :server-items-length="processingTotalElements"
-      show-select
-      :single-select="true"
-      v-model="selectedProcess"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100],
       }"
-      checkbox-color="#7631FF"
+      @click:row="(item) => getCurrentRow(item)"
     >
       <template #top>
         <v-card-title class="d-flex">
-          <div class="title">{{ $t('planningProduction.planning.planningProduction') }}</div>
+          <div class="title">Production processes for current model</div>
           <v-spacer/>
           <v-btn
             color="#7631FF" dark
@@ -75,6 +72,19 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
+                <div class="label">{{ $t('planningProduction.planning.startedDate') }}</div>
+                <el-date-picker
+                  v-model="new_process.startedDate"
+                  type="datetime"
+                  style="width: 100%"
+                  placeholder="DD.MM.YYYY"
+                  :picker-options="pickerShortcuts"
+                  value-format="dd.MM.yyyy HH:mm:ss"
+                  class="base_picker"
+                >
+                </el-date-picker>
+              </v-col>
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('planningProduction.planning.workshop') }}<span style="color: red" >*</span></div>
                 <v-select
                   :items="workshopList"
@@ -91,99 +101,6 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">{{ $t('planningProduction.planning.contractDate') }}</div>
-                <el-date-picker
-                  v-model="new_process.contractDate"
-                  type="datetime"
-                  style="width: 100%"
-                  placeholder="DD.MM.YYYY"
-                  :picker-options="pickerShortcuts"
-                  value-format="dd.MM.yyyy HH:mm:ss"
-                  class="base_picker"
-                >
-                </el-date-picker>
-              </v-col>
-              <v-col cols="12" lg="6">
-                <div class="label">{{ $t('planningProduction.planning.startedDate') }}</div>
-                <el-date-picker
-                  v-model="new_process.startedDate"
-                  type="datetime"
-                  style="width: 100%"
-                  placeholder="DD.MM.YYYY"
-                  :picker-options="pickerShortcuts"
-                  value-format="dd.MM.yyyy HH:mm:ss"
-                  class="base_picker"
-                >
-                </el-date-picker>
-              </v-col>
-              <v-col cols="12" lg="6">
-                <div class="label">{{ $t('planningProduction.planning.finishedDate') }}</div>
-                <el-date-picker
-                  v-model="new_process.finishedDate"
-                  type="datetime"
-                  style="width: 100%"
-                  placeholder="DD.MM.YYYY"
-                  :picker-options="pickerShortcuts"
-                  value-format="dd.MM.yyyy HH:mm:ss"
-                  class="base_picker"
-                >
-                </el-date-picker>
-              </v-col>
-              <v-col cols="12" lg="6">
-                <div class="label">{{ $t('planningProduction.planning.fabricColor') }}</div>
-                <v-select
-                  :items="colorsList"
-                  item-value="id"
-                  item-text="name"
-                  outlined
-                  dense
-                  hide-details
-                  height="44"
-                  class="rounded-lg base" color="#7631FF"
-                  append-icon="mdi-chevron-down"
-                  :placeholder="$t('planningProduction.planning.selectFabricColor')"
-                  v-model="new_process.colorId"
-                />
-              </v-col>
-              <v-col cols="12" lg="6">
-                <div class="label">{{ $t('planningProduction.planning.quantity') }}<span style="color: red" >*</span></div>
-                <v-text-field
-                  outlined
-                  hide-details
-                  height="44"
-                  dense
-                  class="rounded-lg base" color="#7631FF"
-                  placeholder="0"
-                  v-model="new_process.quantity"
-                />
-              </v-col>
-              <v-col cols="12" lg="6">
-                <div class="label">{{ $t('planningProduction.planning.currency') }}</div>
-                <v-select
-                  :items="currencyEnums"
-                  outlined
-                  hide-details
-                  height="44"
-                  dense
-                  class="rounded-lg base" color="#7631FF"
-                  append-icon="mdi-chevron-down"
-                  :placeholder="$t('planningProduction.planning.selectCurrency')"
-                  v-model="new_process.unitPriceCurrency"
-                />
-              </v-col>
-              <v-col cols="12" lg="6">
-                <div class="label">{{ $t('planningProduction.planning.unitPrice') }}</div>
-                <v-text-field
-                  outlined
-                  hide-details
-                  dense
-                  height="44"
-                  class="rounded-lg base" color="#7631FF"
-                  placeholder="0"
-                  v-model="new_process.unitPrice"
-                />
-              </v-col>
-              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('planningProduction.planning.comment') }}</div>
                 <v-text-field
                   outlined
@@ -195,6 +112,8 @@
                   v-model="new_process.description"
                 />
               </v-col>
+
+
             </v-row>
           </v-form>
         </v-card-text>
@@ -224,9 +143,9 @@
         <div class="d-flex justify-center mb-2">
           <v-img src="/error-icon.svg" max-width="40"/>
         </div>
-        <v-card-title class="d-flex justify-center">{{ $t('localization.dialog.deleteDilaog') }}</v-card-title>
+        <v-card-title class="d-flex justify-center">{{ $t('workingProcess.dialog.deleteTitle') }}</v-card-title>
         <v-card-text>
-          {{ $t('localization.dialog.deletetext') }}
+          {{ $t('workingProcess.dialog.deleteText') }}
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -251,18 +170,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <div class="d-flex">
-      <v-spacer/>
-      <v-btn
-        color="#7631FF"
-        class="rounded-lg text-capitalize font-weight-bold mt-4"
-        width="194" height="44"
-        @click="goWorking"
-        dark
-      >
-        {{ $t('planningProduction.planning.workingOperations') }}
-      </v-btn>
-    </div>
+
   </div>
 </template>
 
@@ -279,16 +187,9 @@ export default {
       headers: [
         {text: this.$t('planningProduction.planning.process'), align: 'start', sortable: false, value: 'process'},
         {text: this.$t('planningProduction.planning.workshop'), sortable: false, value: 'workshop'},
-        {text: this.$t('planningProduction.planning.contractDate'), sortable: false, value: 'contractDate'},
         {text: this.$t('planningProduction.planning.startedDate'), sortable: false, value: 'startedDate'},
         {text: this.$t('planningProduction.planning.finishedDate'), sortable: false, value: 'finishedDate'},
-        {text: this.$t('planningProduction.planning.color'), sortable: false, value: 'color'},
         {text: this.$t('planningProduction.planning.comment'), sortable: false, value: 'description'},
-        {text: this.$t('planningProduction.planning.quantity'), sortable: false, value: 'quantity'},
-        {text: this.$t('planningProduction.planning.currency'), sortable: false, value: 'unitPriceCurrency'},
-        {text: this.$t('planningProduction.planning.unitPrice'), sortable: false, value: 'unitPrice'},
-        {text: this.$t('planningProduction.planning.totalPrice'), sortable: false, value: 'totalPrice'},
-        {text: this.$t('planningProduction.planning.createdDate'), sortable: false, value: 'createdDate'},
         {text: this.$t('planningProduction.planning.actions'), sortable: false, value: 'actions'},
       ],
       planningList: [],
@@ -368,6 +269,9 @@ export default {
     openDialog(title) {
       this.title = title;
       this.dialog = true;
+    },
+    getCurrentRow(item){
+
     },
     editItem(item) {
       this.dialog = true;

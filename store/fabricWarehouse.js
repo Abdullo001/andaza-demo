@@ -24,13 +24,33 @@ export const mutations={
 }
 
 export const actions={
-  getFabricWarehouseList({commit}){
+  getFabricWarehouseList({commit},{sipNumber,batchNumber,orderNumber}){
     const body={
-      filters:[],
+      filters:[
+        {
+          key: 'sipNumber',
+          operator: 'LIKE',
+          propertyType: 'STRING',
+          value: sipNumber
+        },
+        {
+          key: 'batchNumber',
+          operator: 'LIKE',
+          propertyType: 'STRING',
+          value: batchNumber
+        },
+        {
+          key: 'orderNumber',
+          operator: 'LIKE',
+          propertyType: 'STRING',
+          value: orderNumber
+        },
+      ],
       sorts:[],
       page:0,
-      size:10,
+      size:50,
     }
+    body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
     this.$axios.put(`/api/v1/fabric-warehouse/list`,body)
     .then((res)=>{
       commit("setFabricWarehouseList",res.data.data)
@@ -44,7 +64,7 @@ export const actions={
     this.$axios.post(`/api/v1/fabric-warehouse/create`,data)
     .then((res)=>{
       this.$toast.success(res.data.message)
-      dispatch("getFabricWarehouseList")
+      dispatch("getFabricWarehouseList",{sipNumber:"",batchNumber:"",orderNumber:""})
     })
     .catch((res)=>{
       this.$toast.error(res.data.message)
@@ -66,7 +86,7 @@ export const actions={
     this.$axios.put(`/api/v1/fabric-warehouse/update`,data)
     .then((res)=>{
       this.$toast.success(res.data.message)
-      dispatch("getFabricWarehouseList")
+      dispatch("getFabricWarehouseList",{sipNumber:"",batchNumber:"",orderNumber:""})
     })
     .catch((res)=>{
       console.log(res);
@@ -78,7 +98,7 @@ export const actions={
     this.$axios.delete(`/api/v1/fabric-warehouse/delete?id=${id}`)
     .then((res)=>{
       this.$toast.success(res.data.message)
-      dispatch("getFabricWarehouseList")
+      dispatch("getFabricWarehouseList",{sipNumber:"",batchNumber:"",orderNumber:""})
     })
     .catch((res)=>{
       console.log(res);
@@ -100,7 +120,7 @@ export const actions={
     this.$axios.put(`/api/v1/fabric-warehouse/spend-fabric`,data)
     .then((res)=>{
       this.$toast.success(res.data.message)
-      dispatch("getFabricWarehouseList")
+      dispatch("getFabricWarehouseList",{sipNumber:"",batchNumber:"",orderNumber:""})
     })
     .catch(({response})=>{
       console.log(response);

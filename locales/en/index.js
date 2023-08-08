@@ -53,7 +53,7 @@ export default {
     samples:"Samples",
     fabricWarehouse:"Fabric warehouse",
     accessoryWarehouse:"Accessory warehouse",
-    finishedProducts:"Finished products warehouse",
+    finishedProducts:"Ready garment warehouse",
     production: "Production",
     planningOfProduction: "Planning of production",
     workingOperations: "Working operations",
@@ -643,6 +643,9 @@ export default {
       enterModelNumber: "Enter Model number",
       enterModelName: "Enter Model name",
       enterOverproduction: "Enter Overproduction",
+      deleteTitle: "Delete process",
+      deleteText: "Are you sure you want to delete this process",
+
     },
   },
 
