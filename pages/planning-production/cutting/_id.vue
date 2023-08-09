@@ -376,7 +376,7 @@ export default {
         {
           text: this.$t('planningProduction.table.planningProduction'),
           disabled: false,
-          to: this.localePath('/planning-production'),
+          to: this.localePath('/production'),
           icon: true
         },
         {
