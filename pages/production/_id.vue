@@ -257,11 +257,6 @@
 import {mapActions, mapGetters} from "vuex";
 import ProductionPlanningComponent from "../../components/Production/Planning.vue";
 import Breadcrumbs from "../../components/Breadcrumbs.vue";
-import FabricPlannedOrder from "../../components/Fabric/PlannedOrder.vue";
-import FabricSupplyFabric from "../../components/Fabric/Ordered.vue";
-import FabricOrdered from "../../components/Fabric/Ordered.vue";
-import Documents from "../../components/Documents.vue";
-import FabricPlanningChart from "../../components/Fabric/PlanningChart.vue";
 import Subcontracts from "../../components/Subcontracts.vue";
 import ShowBtnComponent from "../../components/ShowComponentBtn/ShowBtn.vue";
 

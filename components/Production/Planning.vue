@@ -272,7 +272,8 @@ export default {
     },
     getCurrentRow(item){
       const id =this.$route.params.id
-      this.$router.push(this.localePath(`/planning-production/cutting/${id}`));
+      const process=item.process.toLowerCase()
+      this.$router.push(this.localePath(`/planning-production/${process}/${id}`));
 
     },
     editItem(item) {
