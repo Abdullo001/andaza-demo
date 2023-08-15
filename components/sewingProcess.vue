@@ -21,7 +21,7 @@
   <v-dialog v-model="edit_dialog" width="450">
     <v-card>
       <v-card-title class="d-flex justify-space-between w-full">
-        <div class="text-capitalize font-weight-bold">Edit printing info</div>
+        <div class="text-capitalize font-weight-bold">Edit sewing info</div>
         <v-btn icon color="#7631FF" @click="edit_dialog = false">
           <v-icon>mdi-close</v-icon>
         </v-btn>

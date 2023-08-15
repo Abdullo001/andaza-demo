@@ -343,7 +343,7 @@ export default {
     return {
       show_btn: true,
       tab: null,
-      items: ["Printing", "Subcontracts"],
+      items: ["Sewing", "Subcontracts"],
       title: "Add",
       currentImage: '',
       image_dialog: false,
