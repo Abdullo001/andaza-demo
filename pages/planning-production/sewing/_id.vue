@@ -300,7 +300,7 @@
             <SewingProcess/>
           </v-tab-item>
           <v-tab-item>
-            <PrintingSubcontract/>
+            <SewingSubcontract/>
           </v-tab-item>
         </v-tabs-items>
       </v-card-text>
@@ -312,7 +312,22 @@
       <v-col>
         <OrderQuantities/>
       </v-col>
+      <v-col>
+        <GivenAccessoryQuantity/>
+      </v-col>
     </v-row>
+    <div class="text-right mt-5 mb-8">
+      <v-btn
+        outlined
+        color="#7631FF"
+        class="rounded-lg text-capitalize font-weight-bold"
+        width="200"
+        height="44"
+        style="border-width: 2px"
+      >
+        Finish Process
+      </v-btn>
+    </div>
   </div>
 </template>
 
@@ -326,6 +341,8 @@ import CalculationShortcomings from "../../../components/CalculationsShoertcomin
 import OrderQuantities from "../../../OrderQuantities.vue";
 import PrintingSubcontract from "../../../components/SubcontractsFolder/PrintingSubcontract.vue";
 import SewingProcess from "../../../components/sewingProcess.vue";
+import GivenAccessoryQuantity from "../../../components/GivenAccessoryQuantity.vue";
+import SewingSubcontract from '../../../components/SubcontractsFolder/SewingSubcontract.vue';
 
 export default {
   name: 'ProductionOfPlanningPage',
@@ -337,7 +354,9 @@ export default {
     ProductionPlanningComponent,
     PrintingProcess,
     PrintingSubcontract,
-    SewingProcess
+    SewingProcess,
+    GivenAccessoryQuantity,
+    SewingSubcontract,
 },
   data() {
     return {

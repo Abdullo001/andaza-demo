@@ -7,7 +7,7 @@
     >
       <template #top>
         <div class="pa-4 d-flex align-center justify-space-between">
-          <div class="title">Calculations of shortcomings</div>
+          <div class="title">Classification of shortcomings</div>
           <div>
             <v-btn
               color="#7631FF"

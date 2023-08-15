@@ -10,18 +10,7 @@
         </template>
       </v-data-table>
     </v-card>
-    <div class="text-right mt-5 mb-8">
-      <v-btn
-        outlined
-        color="#7631FF"
-        class="rounded-lg text-capitalize font-weight-bold"
-        width="200"
-        height="44"
-        style="border-width: 2px"
-      >
-        Finish Process
-      </v-btn>
-    </div>
+    
   </div>
 </template>
 

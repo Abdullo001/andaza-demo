@@ -29,54 +29,26 @@
         <v-card-text class="mt-4">
           <v-form ref="edit_form" v-model="edit_validate" lazy-validation>
             <v-row>
-              <v-col cols="12" >
-                <div class="label">Color</div>
-                <v-select
-                  append-icon="mdi-chevron-down"
-                  :rules="[formRules.required]"
-                  item-text="name"
-                  item-value="id"
-                  hide-details
-                  color="#7631FF"
-                  class=" base rounded-lg"
-                  rounded
-                  outlined
-                  dense
-                  placeholder="Select color"
-                />
-              </v-col>
+              
 
               <v-col cols="12">
                 <div class="label">Photos of printing</div>
               </v-col>
-              <v-col cols="6">
-                <div class="label">Size</div>
-                <v-select
-                  append-icon="mdi-chevron-down"
-                  :rules="[formRules.required]"
-                  item-text="name"
-                  item-value="id"
-                  hide-details
-                  color="#7631FF"
-                  class=" base rounded-lg"
-                  rounded
+              <v-col cols="12" lg="3" v-for="(item,idx) in selectedItem.sizes" :key="idx">
+                <div class="label">{{item.size}}</div>
+                <v-text-field
+                  v-model="item.quantity"
+                  placeholder="0"
                   outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base "
+                  validate-on-blur
                   dense
-                  placeholder="Select size"
+                  color="#7631FF"   
                 />
               </v-col>
-              <v-col cols="6">
-                <div class="label">Production</div>
-                <v-text-field
-                :rules="[formRules.required]"
-                outlined
-                hide-details
-                dense
-                class="rounded-lg base "
-                placeholder="Enter Production"
-                color="#7631FF"
-              />
-              </v-col>
+              
               
               <v-col cols="12" class="d-flex justify-center mt-4">
                 <v-radio-group v-model="radioGroup" row class="d-flex"    >
@@ -189,6 +161,24 @@ export default {
           fabricSpecification: 'Description of Suppliers catalogs',
           quantity: '1000 kg',
           usedFabric: '900 kg',
+          sizes:[
+            {
+              size:24,
+              quantity:0,
+            },
+            {
+              size:26,
+              quantity:0,
+            },
+            {
+              size:28,
+              quantity:0,
+            },
+            {
+              size:30,
+              quantity:0,
+            },
+          ],
           color: 'Grey 8996 TPX',
           cutQuantity: '',
           producedTotal: '21',
@@ -202,6 +192,24 @@ export default {
           color: 'Grey 8996 TPX',
           cutQuantity: '',
           producedTotal: '21',
+          sizes:[
+            {
+              size:24,
+              quantity:0,
+            },
+            {
+              size:26,
+              quantity:0,
+            },
+            {
+              size:28,
+              quantity:0,
+            },
+            {
+              size:30,
+              quantity:0,
+            },
+          ]
         },
         {
           sipNumber: 'ART005/03-23',
@@ -212,8 +220,27 @@ export default {
           color: 'Grey 8996 TPX',
           cutQuantity: '',
           producedTotal: '21',
+          sizes:[
+            {
+              size:24,
+              quantity:0,
+            },
+            {
+              size:26,
+              quantity:0,
+            },
+            {
+              size:28,
+              quantity:0,
+            },
+            {
+              size:30,
+              quantity:0,
+            },
+          ]
         },
       ],
+      selectedItem:{},
       edit_dialog:false,
       delete_dialog:false,
     }
@@ -227,7 +254,8 @@ export default {
 
   methods: {
     editItem(item){
-      this.edit_dialog=true
+      this.edit_dialog=true,
+      this.selectedItem={...item}
     },
     deleteItem(item){
       this.delete_dialog=true

@@ -29,25 +29,6 @@
       <v-card-text class="mt-4">
         <v-form ref="edit_form" v-model="edit_validate" lazy-validation>
           <v-row>
-            <v-col cols="12" >
-              <div class="label">Color</div>
-              <v-select
-                append-icon="mdi-chevron-down"
-                :rules="[formRules.required]"
-                item-text="name"
-                item-value="id"
-                hide-details
-                color="#7631FF"
-                class=" base rounded-lg"
-                rounded
-                outlined
-                dense
-                placeholder="Select color"
-              />
-            </v-col>
-          </v-row>
-
-          <v-row>
             <v-col cols="12" lg="3" v-for="(item,idx) in selectedItem.sizes" :key="idx">
               <div class="label">{{item.size}}</div>
               <v-text-field
@@ -56,7 +37,7 @@
                 outlined
                 hide-details
                 height="44"
-                class="rounded-lg base mb-4"
+                class="rounded-lg base "
                 validate-on-blur
                 dense
                 color="#7631FF"   
@@ -65,7 +46,7 @@
           </v-row>
 
           <v-row>
-            <v-col cols="12" class="d-flex justify-center mt-4">
+            <v-col cols="12" class="d-flex justify-center ">
               <v-radio-group v-model="radioGroup" row class="d-flex"    >
                 <v-radio color="#7631FF"  value="2" >
                   <template v-slot:label>
