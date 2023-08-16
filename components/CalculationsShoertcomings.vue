@@ -8,15 +8,6 @@
       <template #top>
         <div class="pa-4 d-flex align-center justify-space-between">
           <div class="title">Classification of shortcomings</div>
-          <div>
-            <v-btn
-              color="#7631FF"
-              class="white--text text-capitalize"
-            >
-              <v-icon class="mr-2" size="26">mdi-plus</v-icon>
-              classification
-            </v-btn>
-          </div>
         </div>
       </template>
       <template #item.actions="{item}">
