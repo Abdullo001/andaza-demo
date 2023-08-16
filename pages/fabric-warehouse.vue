@@ -127,6 +127,26 @@
                 v-bind="attrs"
                 v-on="on"
                 color="#7631FF"
+                @click="getHistory(item)"
+              >
+              <v-img src="/history.svg" max-width="20"/>
+              </v-btn>
+            </template>
+            <span class="text-capitalize">History</span>
+          </v-tooltip>
+
+          <v-tooltip
+            top
+            color="#7631FF"
+            class="pointer"
+            v-if="Object.keys(item).length > 2"
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+                color="#7631FF"
                 @click="workshopFunc(item)"
               >
                 <v-img src="/cut-icon.svg" max-width="22"/>
@@ -597,6 +617,32 @@
       </v-card>
     </v-dialog>
 
+    <v-dialog v-model="history_dialog" max-width="800">
+      <v-card flat>
+        <v-card-title>
+          <div class="title">History</div>
+          <v-spacer/>
+          <v-btn
+            icon
+            @click="history_dialog=false"
+            color="#7631FF"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text>
+          <v-data-table
+            :headers="historyHeaders"
+            :items="historyList"
+            hide-default-footer
+            class="mt-4 rounded-lg"
+            style="border: 1px solid #E9EAEB"
+          >
+          </v-data-table>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+
     <v-dialog v-model="delete_dialog" max-width="500">
       <v-card class="pa-4 text-center">
         <div class="d-flex justify-center mb-2">
@@ -652,6 +698,27 @@ export default {
         {text: "Action", value: "actions", sortable: false,align:"center"},
         {text: '', value: 'data-table-expand'},
       ],
+
+      historyHeaders:[
+        {text: "Date", value: "date", sortable: false},
+        {text: "Warehouse operations", value: "warehouseOperations", sortable: false},
+        {text: "From", value: "from", sortable: false},
+        {text: "To", value: "to", sortable: false},
+        {text: "Quantity", value: "quantity", sortable: false},
+        {text: "Done by ", value: "doneBy", sortable: false},
+      ],
+
+      historyList:[
+        {
+          date:"08.01.2023",
+          warehouseOperations:"Fabric order income",
+          from:"Fashionmelon LLC",
+          to:"Fashionmelon LLC",
+          quantity:"1800 kg",
+          doneBy:"Shavkatova M.",
+        }
+      ],
+
       expanded: [],
       singleExpand: true,
       valid_search:"",
@@ -664,6 +731,8 @@ export default {
       spend_dialog:false,
       workshop_dialog:false,
       subcontractor_dialog:false,
+
+      history_dialog:false,
       
       title:"",
       arrivedFabric:{},
@@ -814,6 +883,10 @@ export default {
     async subcontractorFunc(item){
       this.subcontractor_dialog=true
       this.subcontractor.measurement=item.factReceivedNettoWeight.split(" ")[1]
+    },
+
+    getHistory(item) {
+      this.history_dialog = true;
     },
 
     filterData() {
