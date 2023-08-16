@@ -255,7 +255,6 @@ export default {
           if(this.new_process[el]){
             item[el] = this.new_process[el]
           }
-
         }
         await this.createProcessing(item);
         this.$refs.processing.reset();
@@ -273,8 +272,7 @@ export default {
     getCurrentRow(item){
       const id =this.$route.params.id
       const process=item.process.toLowerCase()
-      this.$router.push(this.localePath(`/planning-production/cutting/${id}`));
-
+      this.$router.push(this.localePath(`/planning-production/cutting/68`));
     },
     editItem(item) {
       this.dialog = true;
