@@ -352,9 +352,8 @@ export default {
       this.getImages(val?.modelId);
       this.planning = JSON.parse(JSON.stringify(val))
     },
-    modelImages(val){
-      const item = JSON.parse(JSON.stringify(val));
-      this.model_images = item
+    modelImages(val) {
+      this.model_images = JSON.parse(JSON.stringify(val))
     }
   },
   methods: {
