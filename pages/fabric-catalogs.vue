@@ -137,7 +137,7 @@
               <CanvasTypePage/>
             </div>
             <div v-if="component === 'YarnTypePage'">
-              <YarnTypePages/>
+              <YarnTypePage/>
             </div>
             <div v-if="component === 'YarnNumberPage'">
               <YarnNumberPage/>
@@ -164,9 +164,17 @@
 <script>
 
 
+import CanvasTypePage from "./canvas-type.vue";
+import YarnNumberPage from "./yarn-numbers.vue";
+import CompositionPage from "../components/FabricCatalogs/Composition.vue";
+import DensityPage from "../components/FabricCatalogs/Density.vue";
+import WoolPage from "../components/FabricCatalogs/Wool.vue";
+import PeachEffectPage from "../components/FabricCatalogs/PeachEffect.vue";
+import YarnTypePage from "../components/FabricCatalogs/YarnType.vue";
+
 export default {
   name: 'CatalogFabricPage',
-  components: {PeachEffectPage, WoolPage, DensityPage, CompositionPage, YarnNumberPage, YarnTypePages, CanvasTypePage},
+  components: {YarnTypePage, PeachEffectPage, WoolPage, DensityPage, CompositionPage, YarnNumberPage, CanvasTypePage},
   data() {
     return {
       new_dialog: false,
