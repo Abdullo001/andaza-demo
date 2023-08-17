@@ -1,0 +1,42 @@
+.show_active{
+  height: 0;
+  overflow: hidden;
+}
+.default-data {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 260px;
+  width: 100%;
+  background: #F4F5FA;
+  border: 1px solid #E1E2E9;
+  border-radius: 12px;
+  padding: 5px;
+}
+.model-images {
+  border: 1px solid #E1E2E9;
+  border-radius: 12px;
+}
+.upload-btn {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  color: #5570F1;
+  margin-left: 12px;
+}
+.upload-wrap {
+  margin-top: 34px;
+}
+.upload-subtitle {
+  margin-top: 13px;
+  max-width: 351px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 17px;
+  color: #8B8D97;
+}
+//.v-input--is-focused {
+//  color: #1D2433 !important;
+//}

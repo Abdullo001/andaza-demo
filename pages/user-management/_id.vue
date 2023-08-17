@@ -1,44 +1,15 @@
 <template>
   <div>
-    <div class="breadcrumbs d-flex align-center ml-2">
-      <div class="breadcrumbs d-flex align-center font-weight-medium mb-4 text-body-2" v-for="(item,idx) in map_links"
-           :key="idx">
-        <nuxt-link :to="item.to" class="base-color" v-if="!item.disabled">{{ item.text }}</nuxt-link>
-        <div class="grey--text" v-if="item.disabled">{{ item.text }}</div>
-        <v-icon class="mx-3" size="18" v-if="item.icon">mdi-slash-forward</v-icon>
-      </div>
-    </div>
+    <Breadcrumbs :maps="map_links"/>
     <v-card color="#fff" elevation="0">
       <v-card-title class="d-flex justify-space-between">
         <div>{{ currentUser.username }}</div>
-        <div>
-          <v-btn
-            outlined
-            elevation="0"
-            color="#777C85"
-            class="text-capitalize rounded-lg mr-4"
-          >
-            <v-img src="/trash.svg" class="mr-1"/>
-            Delete
-          </v-btn>
-          <v-btn
-            outlined
-            elevation="0"
-            color="#777C85"
-            class="text-capitalize rounded-lg"
-            @click="fields_status = !fields_status"
-            :color="!fields_status ? 'green' : null"
-          >
-            <v-img :src="fields_status ? '/edit.svg' : '/edit-active.svg'" class="mr-1"/>
-            Edit
-          </v-btn>
-        </div>
       </v-card-title>
       <v-divider/>
       <v-card-text>
         <v-row>
           <v-col>
-            <div class="mb-2 text-body-1">Photo</div>
+            <div class="label">{{ $t('userManagement.child.photo') }}</div>
             <div class="overlay" @click="handleFileImport">
               <v-img :src="one_user.photo" class="rounded-lg mb-4" width="120"/>
               <v-icon
@@ -54,24 +25,30 @@
                 accept="image/*"
               />
             </div>
-            <div class="mb-1 text-body-1">Username</div>
+            <div class="label">{{ $t('userManagement.child.username') }}</div>
             <v-text-field
               v-model="one_user.username"
-              filled
+              outlined
+              class="base rounded-lg"
               dense
+              height="44"
               clearable
               style="max-width: 400px"
               :disabled="fields_status"
+              color="#7631FF"
             />
-            <div class="mb-2 text-body-1">Lang</div>
+            <div class="label">{{ $t('userManagement.child.lang') }}</div>
             <v-select
               :items="lang_list"
               v-model="one_user.lang" append-icon="mdi-chevron-down"
-              filled
+              outlined
+              height="44"
+              class="base rounded-lg"
               dense
               clearable
               :disabled="fields_status"
               style="max-width: 400px;"
+              color="#7631FF"
             >
               <template #selection="{item, index}">
                 <v-img :src="item.icon" max-width="22" class="mr-4" contain/>
@@ -84,66 +61,109 @@
             </v-select>
           </v-col>
           <v-col>
-            <div class="mb-2 text-body-1">ID</div>
+            <div class="label">ID</div>
             <v-text-field
-              filled
+              outlined
+              class="base rounded-lg"
               v-model="one_user.id"
               dense
+              height="44"
               disabled
               style="max-width: 400px"
             />
-            <div class="mb-1 text-body-1">Lastname</div>
+            <div class="label">{{ $t('userManagement.child.lastName') }}</div>
             <v-text-field
-              filled
+              outlined
+              class="base rounded-lg"
               v-model="one_user.lastName"
               dense
+              height="44"
               :disabled="fields_status"
               style="max-width: 400px"
+              color="#7631FF"
             />
-            <div class="mb-2 text-body-1">E-mail</div>
+            <div class="label">{{ $t('userManagement.child.eMail') }}</div>
             <v-text-field
-              filled
+              outlined
+              class="base rounded-lg"
               v-model="one_user.email"
               dense
+              height="44"
               :disabled="fields_status"
               style="max-width: 400px"
+              color="#7631FF"
             />
-            <div class="mb-2 text-body-1">Registered date</div>
+            <div class="label">{{ $t('userManagement.child.registeredDate') }}</div>
             <v-text-field
-              filled
+              outlined
+              class="base rounded-lg"
               v-model="one_user.registeredDate"
               dense
+              height="44"
               disabled
               style="max-width: 400px"
+              color="#7631FF"
             />
           </v-col>
           <v-col>
-            <div class="mb-2 text-body-1">First name</div>
+            <div class="label">{{ $t('userManagement.child.firstName') }}</div>
             <v-text-field
-              filled
+              outlined
+              class="base rounded-lg"
               v-model="one_user.firstName"
               dense
+              height="44"
               :disabled="fields_status"
               style="max-width: 400px"
+              color="#7631FF"
             />
-            <div class="mb-1 text-body-1">Phone number</div>
+            <div class="label">{{ $t('userManagement.child.phoneNumber') }}</div>
             <v-text-field
-              filled
+              outlined
+              class="base rounded-lg"
               v-model="one_user.phoneNumber"
               dense
+              height="44"
               :disabled="fields_status"
+              color="#7631FF"
               style="max-width: 400px"
             />
-            <div class="mb-2 text-body-1">Status</div>
+            <div class="label">{{ $t('userManagement.child.status') }}</div>
             <v-select
-              filled
+              outlined
+              class="base rounded-lg"
               v-model="one_user.status"
               dense
+              height="44"
               :items="status_list"
               append-icon="mdi-chevron-down"
               disabled
               style="max-width: 400px"
             />
+            <div v-if="!!userPasswordData?.password">
+              <div class="label">
+                {{ $t('userManagement.child.password') }}
+              </div>
+              <div
+                class="d-flex align-center"
+              >
+                <div class="body-1">{{ userPasswordData.password }}</div>
+                <v-tooltip top color="green">
+                  <template v-slot:activator="{on, attrs}">
+                    <v-btn
+                      icon
+                      v-on="on"
+                      v-bind="attrs"
+                      class="ml-4"
+                      @click="getPassword(userPasswordData.password)"
+                    >
+                      <v-icon>mdi-content-copy</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Copy</span>
+                </v-tooltip>
+              </div>
+            </div>
           </v-col>
         </v-row>
       </v-card-text>
@@ -152,45 +172,62 @@
         <v-btn
           color="#7631FF"
           dark
-          class="text-capitalize font-weight-medium mx-3 mb-4"
-          width="150"
+          class="text-none font-weight-bold mx-3 mb-4 px-5"
+          height="40"
+          @click="updatePassword"
+        >{{ $t('userManagement.child.update') }}
+        </v-btn>
+        <v-btn
+          color="#7631FF"
+          dark
+          class="text-capitalize font-weight-bold mx-3 mb-4 px-5"
+          height="40"
           @click="saveChanges"
-        >save
+        >{{ $t('userManagement.child.save') }}
         </v-btn>
       </v-card-actions>
     </v-card>
+    <div class="loader" v-if="loader">
+      <v-progress-circular
+        indeterminate
+        color="#7631FF"
+        class="progress"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import {mapGetters, mapActions} from "vuex";
+import Breadcrumbs from "../../components/Breadcrumbs.vue";
 
 export default {
+  components: {Breadcrumbs},
   data() {
     return {
       map_links: [
         {
-          text: 'Home',
+          text: this.$t('userManagement.child.home'),
           disabled: false,
-          to: '/',
+          to: this.localePath('/'),
           icon: true
         },
         {
-          text: 'User-management',
+          text: this.$t('userManagement.child.userManagement'),
           disabled: false,
-          to: '/user-management',
+          to: this.localePath('/user-management'),
           icon: true
         },
         {
-          text: 'Details',
+          text: this.$t('userManagement.child.details'),
           disabled: true,
-          to: '/user-management/7a42ec47-7351-4128-9db9-5236adbbfe6d',
+          to: this.localePath(`/user-management/${this.$route.params.id}`),
           icon: false
         },
       ],
-      fields_status: true,
+      fields_status: false,
       lang_list: [
-        {title: "EN", code: "en", icon: "/us.svg"},
+        {title: "EN", code: "en", icon: "/en.svg"},
         {title: "UZ", code: "uz", icon: "/uz.svg"},
         {title: "RU", code: "ru", icon: "/ru.svg"},
       ],
@@ -211,7 +248,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentUser: 'users/currentUser'
+      currentUser: 'users/currentUser',
+      userPasswordData: 'users/userPasswordData',
+      loader: 'users/loader'
     })
   },
   watch: {
@@ -232,8 +271,18 @@ export default {
   },
   methods: {
     ...mapActions({
-      updateUser: "users/updateUser"
+      updateUser: "users/updateUser",
+      resetPassword: 'users/resetPassword'
     }),
+    getPassword(password) {
+      navigator.clipboard.writeText(password);
+      this.$toast.success(`Copied to clipboard !`);
+    },
+    updatePassword() {
+      this.$store.commit('users/setLoader', true);
+      const data = {...this.one_user};
+      this.resetPassword( data.email );
+    },
     handleFileImport() {
       this.$refs.uploader.click();
     },
@@ -247,7 +296,7 @@ export default {
       let data = JSON.parse(JSON.stringify(this.one_user))
       data.lang = data.lang.title;
       ['registeredDate', 'password', 'status'].forEach(e => delete data[e])
-      if(typeof this.avatar === "object") {
+      if (typeof this.avatar === "object") {
         data.photo = this.avatar
       } else data.photo = null
       this.updateUser(data);
@@ -271,6 +320,23 @@ export default {
 </script>
 
 <style lang="scss">
+.loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.4);
+  z-index: 10;
+  > .v-progress-circular {
+    position: absolute;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+  }
+}
 .overlay {
   position: relative;
   max-width: 120px;

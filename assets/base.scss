@@ -15,13 +15,15 @@
   margin-top: 20px !important;
   top: 20px !important;
 }
-//
-//.v-btn--outlined {
-//  border: 2px solid;
-//}
 
 .el-input__inner {
   border-radius: 10px !important;
   border: 1px solid #919191;
   color: #000000 !important;
+}
+.v-data-table > .v-data-table__wrapper tbody tr.v-data-table__expanded__content {
+  box-shadow: none;
+}
+.v-data-table-header {
+  background-color: #F4F5FA;
 }

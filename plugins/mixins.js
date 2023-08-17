@@ -7,12 +7,12 @@ export default (context, inject) => {
         return {
           required: (value) => !!value || 'This item is required',
           phone: val => /^[0-9]{13}$/.test(val) || "Write here only phone number",
-          onlyNumber: v => /^\d+$/.test(v) || 'This field only accept numbers',
+          onlyNumber: v => !v || /^[-+]?(\d+|\d+\.\d+|\.\d+)([eE][-+]?\d+)?$/.test(v) || 'This field only accept numbers',
           limitImage20: v => !v || v.size < 20000000 || 'Image size should be less than 20 MB!',
           limitImage10: v => !v || v.size < 10000000 || 'Image size should be less than 10 MB!',
           confirmPassword: (a, b) => a === b || 'Password must match',
-          email:  (v) => {
-            if(v)
+          email: (v) => {
+            if (v)
               return v && !!v.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) || 'Email not valid'
             else
               return true
@@ -29,19 +29,117 @@ export default (context, inject) => {
       },
       statusColor() {
         return {
+          prodColor(color) {
+            switch (color) {
+              case 'ACTIVE':
+                return '#10BF41'
+              case 'DISABLED':
+                return '#FF4E4F'
+              case 'FINISHED':
+                return 'primary'
+            }
+          },
           color(color) {
             switch (color) {
-              case 'ACTIVE': return 'green';
-              case 'DISABLED': return 'red'
-              case 'PENDING': return 'amber'
-              case 'UNBLOCKED': return 'green'
-              case 'BLOCKED': return 'red'
+              case 'ACTIVE':
+                return '#10BF41'
+              case 'DISABLED':
+                return '#FF4E4F'
+              case 'PENDING':
+                return 'amber'
+              case 'UNBLOCKED':
+                return '#10BF41'
+              case 'BLOCKED':
+                return '#FF4E4F'
             }
-          }
-        }
+          },
 
+          licenseColor(color) {
+            const status = color ? 'Yes' : 'No'
+            switch (status) {
+              case 'Yes':
+                return '#10BF41'
+              case 'No':
+                return '#FF4E4F'
+            }
+          },
+
+          orderColor(color) {
+            switch (color) {
+              case 'FINISHED':
+                return '#10BF41'
+              case 'CANCELED':
+                return '#FF4E4F'
+              case 'PENDING':
+                return 'amber'
+              case 'IN_PROCESS':
+                return '#397CFD'
+
+            }
+          },
+
+          priorityColor(color) {
+            switch (color) {
+              case 'LOW':
+                return '#10BF41'
+              case 'MEDIUM':
+                return 'amber'
+              case 'HIGH':
+                return '#FF4E4F'
+            }
+          },
+
+          fabricOrderedStatus(color){
+            switch (color) {
+              case 'ORDERED':
+                return '#10BF41'
+              case 'CANCELLED':
+                return '#FF4E4F'
+              case 'PENDING':
+                return 'amber'
+            }
+          },
+
+          resultColor(color) {
+            switch (color) {
+              case 'OK':
+                return '#10BF41'
+              case 'PENDING':
+                return 'amber'
+              case 'REMAKE':
+                return '#FF4E4F'
+            }
+          },
+        }
+      },
+      pickerShortcuts() {
+        return {
+          shortcuts: [
+            {
+              text: "Cегодня",
+              onClick(picker) {
+                picker.$emit("pick", new Date());
+              },
+            },
+            {
+              text: "Вчера",
+              onClick(picker) {
+                const date = new Date();
+                date.setTime(date.getTime() - 3600 * 1000 * 24);
+                picker.$emit("pick", date);
+              },
+            },
+            {
+              text: "Неделя",
+              onClick(picker) {
+                const date = new Date();
+                date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                picker.$emit("pick", date);
+              },
+            },
+          ]
+        }
       },
     }
   })
-
 }

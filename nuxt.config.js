@@ -1,44 +1,45 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
+  target: 'static',
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'ATP - Mytex',
+    title: 'ATP - textile',
     htmlAttrs: {
       lang: 'en'
     },
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      {charset: 'utf-8'},
+      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
+      {hid: 'description', name: 'description', content: ''},
+      {name: 'format-detection', content: 'telephone=no'}
     ],
     link: [
-      { rel: 'icon', type: 'image/svg', href: '/logo.svg' }
+      {rel: 'icon', type: 'image/svg', href: '/logo.svg'}
     ]
   },
-  script: [
-  ],
+  script: [],
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    {src: "~/plugins/axios.js"},
     {src: "~/plugins/mixins.js"},
     {src: "~/plugins/v-mask.js"},
-    {src: "~/plugins/axios.js"},
-    { src: "./plugins/element-io.js" }
+    {src: "./plugins/element-io.js"}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components: true,
+  components: false,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
-    '@nuxtjs/style-resources'
+    '@nuxtjs/style-resources',
+    '@nuxtjs/pwa'
   ],
   styleResources: {
     scss: [
@@ -50,22 +51,101 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     "@nuxtjs/toast",
-    '@nuxtjs/auth-next'
-    // ['@nuxtjs/auth']
+    '@nuxtjs/auth-next',
+    '@nuxtjs/i18n',
+    '@nuxtjs/pwa'
   ],
+  pwa: {
+    manifest: {
+      name: 'ATP',
+      short_name: 'ATP',
+      lang: 'en',
+      display: 'standalone',
+      description: 'Automatization of Textile Production',
+      useWebmanifestExtension: false,
+      icons: [
+        {
+          src: '/logo-144x144.png',
+          sizes: '144x144',
+          type: 'image/png'
+        },
+        {
+          src: '/logo-64x64.png',
+          sizes: '64x64',
+          type: 'image/png'
+        },
+        {
+          src: '/logo-32x32.png',
+          sizes: '32x32',
+          type: 'image/png'
+        },
+        {
+          src: '/logo-16x16.png',
+          sizes: '16x16',
+          type: 'image/png'
+        }
+      ]
+    },
+    workbox: {
+      navigateFallback: '/'
+    },
+    devOptions: {
+      enabled: true,
+      type: 'module'
+    }
+  },
+
+  i18n: {
+    useCookie: false,
+    alwaysRedirect: true,
+    detectBrowserLanguage: false,
+    locales: [
+      {
+        code: "ru",
+        iso: "ru-RU",
+        name: "Russian",
+        file: "ru/index.js",
+        icon: "/ru.svg",
+        title: "Ru"
+      },
+      {
+        code: "uz",
+        iso: "uz-UZ",
+        name: "O'zbek",
+        file: "uz/index.js",
+        icon: "/uz.svg",
+        title: "Uz"
+      },
+      {
+        code: "en",
+        iso: "en-US",
+        name: "English",
+        file: "en/index.js",
+        icon: "/en.svg",
+        title: "En"
+      }
+    ],
+    lazy: true,
+    seo: true,
+    langDir: "locales/",
+    strategy: 'prefix_except_default',
+    defaultLocale: "en",
+    parsePages: true
+  },
+
   toast: {
     position: "bottom-center",
-    duration: 4000,
-    action:{
-      text:'',
-      onClick:(e,toastObject)=>{
+    duration: 5000,
+    theme: "toasted-primary",
+    action: {
+      text: '',
+      onClick: (e, toastObject) => {
         toastObject.goAway(0);
       }
     }
   },
 
-  loading: { color: '#7631FF' },
-
+  loading: false,
   axios: {
     baseURL: 'https://dev-atp.asgardia.uz'
   },
@@ -73,8 +153,8 @@ export default {
     strategies: {
       local: {
         endpoints: {
-          login: { url: '/api/v1/auth/login', method: 'post', propertyName: 'response'},
-          logout: false,
+          login: {url: '/api/v1/auth/login', method: 'post', propertyName: 'response'},
+          logout: {url: '/api/v1/auth/logout', method: 'post', propertyName: 'response'},
           user: false
         },
         tokenRequired: false,
@@ -118,7 +198,13 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-
+    transpile: [
+      'defu',
+      'vue-phone-number-input'
+    ],
+    babel: {
+      compact: true
+    }
   },
   server: {
     port: process.env.PORT || 8000,

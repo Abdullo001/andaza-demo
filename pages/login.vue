@@ -12,24 +12,28 @@
             <img src="/logo.svg" alt="logo">
           </div>
           <div class="login__description mb-8">Authentication</div>
+          <div class="label">Username</div>
           <v-text-field
-            label="Username"
-            filled
+            outlined
+            hide-details
+            height="44"
             dense
             color="#7631FF"
             placeholder="Enter Username or E-mail"
-            class="mb-3"
+            class="mb-3 rounded-lg base"
             v-model.trim="login.userName"
             :rules="[formRules.required]"
             validate-on-blur
           />
+          <div class="label">Password</div>
           <v-text-field
-            label="Password"
-            filled
+            outlined
+            hide-details
+            height="44"
             dense
             color="#7631FF"
             placeholder="Enter password"
-            class="mb-3"
+            class="mb-3 rounded-lg base"
             v-model.trim="login.password"
             :type="show_password ? 'password' : 'text'"
             :rules="[formRules.required]"
@@ -51,7 +55,6 @@
               class="mt-0"
               hide-details
             />
-            <!--            <nuxt-link to="/reset" class="text-base login__forgot">Forgot your password?</nuxt-link>-->
           </div>
           <v-btn
             color="#7631FF"

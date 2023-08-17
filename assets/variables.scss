@@ -3,6 +3,7 @@
 // The variables you want to modify
 // $font-size-root: 20px;
 
+
 html, body, .v-application {
   font-family: 'Inter', sans-serif !important;
 }
@@ -10,8 +11,14 @@ html, body, .v-application {
 .w-full {
   width: 100%;
 }
+.m-w-full {
+  min-width: 100%;
+}
 .h-full {
   height: 100%;
+}
+.m-h-full {
+  min-height: 100%;
 }
 
 .pointer {
@@ -24,7 +31,9 @@ html, body, .v-application {
     background: #F8F4FE !important;
   }
 }
-
 .text-base {
   color: #7631FF;
+}
+.border {
+  border: 2px solid #7631FF;
 }

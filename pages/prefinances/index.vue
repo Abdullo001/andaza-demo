@@ -9,72 +9,39 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Refinance number"
+              :label="$t('prefinances.dialog.refinanceNumber')"
               outlined
-              class="rounded-lg"
-              v-model="filters.financeNumber"
+              class="rounded-lg filter"
+              v-model.trim="filters.financeNumber"
               hide-details
               dense
+              @keydown.enter="filterData"
             />
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Model ID"
+              :label="$t('prefinances.dialog.modelN')"
               outlined
-              class="rounded-lg"
-              v-model="filters.modelId"
+              class="rounded-lg filter"
+              v-model.trim="filters.modelId"
               hide-details
               dense
+              @keydown.enter="filterData"
             />
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Partner ID"
+              :label="$t('prefinances.dialog.partner')"
               outlined
-              class="rounded-lg"
-              v-model="filters.partnerId"
+              class="rounded-lg filter"
+              v-model.trim="filters.partnerId"
               hide-details
               dense
+              @keydown.enter="filterData"
             />
           </v-col>
-          <v-col
-            cols="12" lg="2" md="2"
-          >
-            <v-menu
-              v-model="menu2"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              transition="scale-transition"
-              offset-y
-              min-width="auto"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                  v-model="filters.createAt"
-                  label="Created at"
-                  readonly
-                  v-bind="attrs"
-                  v-on="on"
-                  outlined
-                  dense
-                  append-icon="mdi-lock"
-                  class="rounded-lg"
-                  hide-details
-                  style="width: 200px"
-                >
-                  <template #append>
-                    <v-img src="/date-icon.svg"/>
-                  </template>
-                </v-text-field>
-              </template>
-              <v-date-picker
-                v-model="filters.createAt"
-                @input="menu2 = false"
-                color="#7631FF"
-              ></v-date-picker>
-            </v-menu>
-          </v-col>
-          <v-col class="" cols="12" lg="4">
+          <v-spacer/>
+          <v-col cols="12" lg="4">
             <div class="d-flex justify-end">
               <v-btn
                 width="140" outlined
@@ -82,14 +49,15 @@
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
-                Reset
+                {{ $t('prefinances.dialog.reset') }}
               </v-btn>
               <v-btn
                 width="140" color="#397CFD" dark
                 elevation="0"
                 class="text-capitalize rounded-lg"
+                @click="filterData"
               >
-                Search
+                {{ $t('prefinances.dialog.search') }}
               </v-btn>
             </div>
           </v-col>
@@ -98,16 +66,30 @@
     </v-card>
     <v-data-table
       :headers="headers"
-      :items="finances"
+      :items="preFinanceList"
       :items-per-page="10"
+      :loading="loading"
+      @update:items-per-page="getItemSize"
+      @update:page="page"
+      :server-items-length="totalElements"
+      :footer-props="{
+          itemsPerPageOptions: [10, 20, 50, 100],
+      }"
+      :options.sync="options"
+      @click:row="(item) => $router.push(localePath(`/prefinances/${item.id}`))"
     >
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium">Prefinance</div>
-            <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="$router.push(`/prefinances/create`)">
+            <div class="font-weight-medium">{{ $t('sidebar.calculations') }}</div>
+            <v-btn
+              color="#7631FF"
+              class="rounded-lg text-capitalize"
+              dark
+              @click="$router.push(localePath(`/prefinances/create`))"
+            >
               <v-icon>mdi-plus</v-icon>
-              Prefinance
+              {{ $t('sidebar.calculations') }}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -116,7 +98,9 @@
       <template #item.status="{item}">
         <div>
           <v-select
-            :items="statusEnums"
+            @click.stop
+            @change="changeStatus(item)"
+            :items="status_enum"
             v-model="item.status"
             hide-details
             rounded
@@ -128,14 +112,32 @@
           />
         </div>
       </template>
+      <template #item.actions="{item}">
+        <v-tooltip top color="primary">
+          <template v-slot:activator="{on, attrs}">
+            <v-btn
+              icon color="primary"
+              v-on="on" v-bind="attrs"
+              @click="$router.push(localePath(`/prefinances/${item.id}`))"
+            >
+              <v-icon>mdi-chevron-right</v-icon>
+            </v-btn>
+          </template>
+          <span>{{ $t('prefinances.dialog.edit') }}</span>
+        </v-tooltip>
+      </template>
     </v-data-table>
   </div>
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   data() {
     return {
+      options: {},
+      status_enum: ['ACTIVE', 'DISABLED'],
       new_prefinance: false,
       filters: {
         financeNumber: '',
@@ -146,58 +148,97 @@ export default {
       valid_search: '',
       menu2: false,
       headers: [
-        {text: 'Prefinance number', align: 'start', sortable: false, value: 'financeNumber'},
-        {text: 'Model №', value: 'modelId'},
-        {text: 'Partner', value: 'partnerId'},
-        {text: 'Price', value: 'price'},
-        {text: 'Currency', value: 'currency'},
-        {text: 'Status', value: 'status', align: 'center', width: 200},
+        {text: this.$t('prefinances.table.prefinanceNumber'), align: 'start', sortable: false, value: 'preFinanceNumber'},
+        {text: this.$t('prefinances.table.modelN'), value: 'modelNumber'},
+        {text: this.$t('prefinances.table.partner'), value: 'partner'},
+        {text: this.$t('prefinances.table.price'), value: 'priceWithDiscount'},
+        {text: this.$t('prefinances.table.currency'), value: 'primaryCurrency'},
+        {text: this.$t('prefinances.table.status'), value: 'status', width: 200},
+        {text: this.$t('prefinances.table.actions'), value: 'actions', align: 'center'},
       ],
-      finances: [
-        {
-          id: 2134,
-          financeNumber: 'AA-55-G4-67-Y7',
-          modelId: '123456',
-          partnerId: '85456',
-          price: 'USD',
-          currency: '1.00',
-          status: 'ACTIVE'
-        },
-        {
-          id: 12345,
-          financeNumber: 'AA-55-G4-67-Y7',
-          modelId: '123456',
-          partnerId: '85456',
-          price: 'USD',
-          senderCurrency: 'RUB',
-          transferCurrency: 'UZS',
-          currency: '5.00',
-          status: 'DISABLED'
-        },
-        {
-          id: 54874,
-          financeNumber: 'AA-55-G4-67-Y7',
-          modelId: '123456',
-          partnerId: '85456',
-          price: 'USD',
-          senderCurrency: 'RUB',
-          transferCurrency: 'UZS',
-          currency: '1.00',
-          status: 'PENDING'
-        },
-      ]
+      preFinanceList: [],
+      itemPerPage: 10,
+      current_page: 0,
+    }
+  },
+  created() {
+    this.getReFinancesList(
+      {
+        page: 0,
+        size: 10,
+        preFinanceNumber: '',
+        modelNumber: '',
+        partner: ''
+      })
+  },
+  computed: {
+    ...mapGetters({
+      preFinancesContent: 'preFinance/preFinancesContent',
+      loading: 'preFinance/loading',
+      totalElements: 'preFinance/totalElements'
+    })
+  },
+  watch: {
+    preFinancesContent(val) {
+      this.preFinanceList = JSON.parse(JSON.stringify(val))
     }
   },
   methods: {
+    ...mapActions({
+      getReFinancesList: "preFinance/getPreFinancesList",
+      changePreFinanceStatus: "preFinance/changeStatus"
+    }),
     resetFilters() {
-      this.$refs.filter_form.reset()
-    },
-    deleteRow(item) {
+      this.$refs.filter_form.reset();
+      this.getReFinancesList(
+        {
+          page: 0,
+          size: 10,
+          preFinanceNumber: '',
+          modelNumber: '',
+          partner: ''
+        })
 
+    },
+    changeStatus(item) {
+      this.changePreFinanceStatus({
+        id: item.id,
+        status: item.status
+      })
+    },
+    async getItemSize(val) {
+      this.itemPerPage = val;
+      await this.getReFinancesList({
+        page: this.current_page,
+        size: this.itemPerPage,
+        modelNumber: this.filters.modelId,
+        preFinanceNumber: this.filters.financeNumber,
+        partner: this.filters.partnerId
+      })
+    },
+    async page(val) {
+      // arrows < > value page
+      this.current_page = val - 1
+      await this.getReFinancesList({
+        page: this.current_page,
+        size: this.itemPerPage,
+        modelNumber: this.filters.modelId,
+        preFinanceNumber: this.filters.financeNumber,
+        partner: this.filters.partnerId
+      })
+    },
+    async filterData() {
+      await this.getReFinancesList({
+        page: this.current_page,
+        size: this.itemPerPage,
+        modelNumber: this.filters.modelId,
+        preFinanceNumber: this.filters.financeNumber,
+        partner: this.filters.partnerId
+      })
     }
   },
   mounted() {
-    this.$store.commit('setPageTitle', 'Prefinances')
+    this.$store.commit('setPageTitle', this.$t('sidebar.calculations'))
   }
 }
 </script>

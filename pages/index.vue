@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Hello home  page</h2>
+    <h2>Hello home page</h2>
   </div>
 </template>
 
@@ -11,7 +11,7 @@ export default {
   },
   mounted() {
     this.$store.commit('setPageTitle', 'Dashboard')
-    this.$router.push('/user-management')
+    this.$router.push(this.localePath('/user-management'))
   }
 }
 </script>
