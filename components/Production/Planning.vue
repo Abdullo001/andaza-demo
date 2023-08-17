@@ -68,13 +68,13 @@
                   color="#7631FF"
                   append-icon="mdi-chevron-down"
                   :placeholder="$t('planningProduction.planning.selectWorkingProcess')"
-                  v-model="new_process.processId"
+                  v-model="new_process.process"
                 />
               </v-col>
               <v-col cols="12" lg="6">
                 <div class="label">{{ $t('planningProduction.planning.startedDate') }}</div>
                 <el-date-picker
-                  v-model="new_process.startedDate"
+                  v-model="new_process.startDate"
                   type="datetime"
                   style="width: 100%"
                   placeholder="DD.MM.YYYY"
@@ -88,8 +88,6 @@
                 <div class="label">{{ $t('planningProduction.planning.workshop') }}<span style="color: red" >*</span></div>
                 <v-select
                   :items="workshopList"
-                  item-text="name"
-                  item-value="id"
                   outlined
                   hide-details
                   height="44"
@@ -97,7 +95,7 @@
                   class="rounded-lg base" color="#7631FF"
                   append-icon="mdi-chevron-down"
                   :placeholder="$t('planningProduction.planning.selectWorkshop')"
-                  v-model="new_process.workshopId"
+                  v-model="new_process.workshopType"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -186,7 +184,7 @@ export default {
       delete_dialog: false,
       headers: [
         {text: this.$t('planningProduction.planning.process'), align: 'start', sortable: false, value: 'process'},
-        {text: this.$t('planningProduction.planning.workshop'), sortable: false, value: 'workshop'},
+        {text: this.$t('planningProduction.planning.workshop'), sortable: false, value: 'workshopType'},
         {text: this.$t('planningProduction.planning.startedDate'), sortable: false, value: 'startedDate'},
         {text: this.$t('planningProduction.planning.finishedDate'), sortable: false, value: 'finishedDate'},
         {text: this.$t('planningProduction.planning.comment'), sortable: false, value: 'description'},
@@ -198,26 +196,20 @@ export default {
       btnText: this.$t('planningProduction.dialog.save'),
       currencyEnums: ['UZS', 'RUB', 'USD'],
       new_process: {
-        processId: '',
-        workshopId: '',
-        contractDate: '',
-        startedDate: '',
-        finishedDate: '',
-        colorId: '',
+        process: '',
+        workshopType: '',
+        startDate: '',
         description: '',
-        quantity: '',
-        unitPriceCurrency: '',
-        unitPrice: '',
         productionId: '',
       },
       selectedProcess: [],
-      currentProcessId: ''
+      currentProcessId: '',
+      processList:["CUTTING","PRINTING","SEWING","IRONING","QUALITY_CONTROL","PACKAGING"],
+      workshopList:["SUBCONTRACTOR", "OWN_WORKSHOP", "BOTH"],
     }
   },
   computed: {
     ...mapGetters({
-      processList: 'production/planning/processList',
-      workshopList: 'production/planning/workshopList',
       colorsList: 'production/planning/colorsList',
       productionId: 'production/planning/productionId',
       processingList: 'production/planning/processingList',
@@ -228,9 +220,7 @@ export default {
     dialog(val) {
       if (!val) {
         this.$refs.processing.reset();
-        this.new_process.contractDate = '';
-        this.new_process.startedDate = '';
-        this.new_process.finishedDate = '';
+        this.new_process.startDate = '';
         delete this.new_process.id
       }
     },
@@ -270,26 +260,23 @@ export default {
       this.dialog = true;
     },
     getCurrentRow(item){
+      this.$store.commit('cuttingProcess/setPlanningProcessId', item.id)
       const id =this.$route.params.id
       const process=item.process.toLowerCase()
-      this.$router.push(this.localePath(`/planning-production/cutting/68`));
+      this.$router.push(this.localePath(`/planning-production/${process}/${id}`));
+
     },
     editItem(item) {
       this.dialog = true;
       this.title = this.$t('planningProduction.dialog.edit');
       this.btnText = this.$t('planningProduction.dialog.update');
       this.new_process = {
-        processId: item.processId,
-        workshopId: item.workshopId,
-        contractDate: item.contractDate,
-        startedDate: item.startedDate,
-        finishedDate: item.finishedDate,
-        colorId: item.colorId,
+        process: item.process,
+        workshopType: item.workshopType,
+        startDate: item.startedDate,
         id: item.id,
         description: item.description,
         quantity: item.quantity,
-        unitPriceCurrency: item.unitPriceCurrency,
-        unitPrice: item.unitPrice,
         productionId: item.productionId,
       }
     },

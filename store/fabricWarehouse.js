@@ -124,8 +124,34 @@ export const actions={
     })
     .catch(({response})=>{
       console.log(response);
-        this.$toast.error(response.data.message);
+      this.$toast.error(response.data.message);
 
+    })
+  },
+
+  setFabricToWorkshop({dispatch},data){
+    this.$axios.put(`/api/v1/fabric-warehouse/give-own-cutting`,data)
+    .then((res)=>{
+      console.log(res);
+      this.$toast.success(res.data.message)
+      dispatch("getFabricWarehouseList",{sipNumber:"",batchNumber:"",orderNumber:""})
+    })
+    .catch(({response})=>{
+      console.log(response);
+      this.$toast.error(response.data.message);
+    })
+  },
+
+  setFabricToSubcontract({dispatch},data){
+    this.$axios.put(`/api/v1/fabric-warehouse/give-subcontractor`,data)
+    .then((res)=>{
+      console.log(res);
+      this.$toast.success(res.data.message)
+      dispatch("getFabricWarehouseList",{sipNumber:"",batchNumber:"",orderNumber:""})
+    })
+    .catch(({response})=>{
+      console.log(response);
+      this.$toast.error(response.data.message);
     })
   }
 

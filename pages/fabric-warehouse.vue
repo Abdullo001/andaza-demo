@@ -476,10 +476,9 @@
                 <div class="label">Model №</div>
                 <v-select
                   append-icon="mdi-chevron-down"
-                  v-model="workshop.modelId"
+                  v-model="workshop.modelNumber"
                   :rules="[formRules.required]"
-                  item-text="modelNumber"
-                  item-value="id"
+                  :items="modelNumbers"
                   hide-details
                   color="#7631FF"
                   class=" base rounded-lg"
@@ -564,10 +563,9 @@
                 <div class="label">Model №</div>
                 <v-select
                   append-icon="mdi-chevron-down"
-                  v-model="subcontractor.modelId"
+                  v-model="subcontractor.modelNumber"
+                  :items="modelNumbers"
                   :rules="[formRules.required]"
-                  item-text="modelNumber"
-                  item-value="id"
                   hide-details
                   color="#7631FF"
                   class=" base rounded-lg"
@@ -744,14 +742,16 @@ export default {
       },
 
       workshop:{
-        modelId:null,
+        modelNumber:null,
         quantity:null,
         measurement:null,
+        fabricWarehouseId:null,
       },
 
       subcontractor:{
+        fabricWarehouseId:null,
         partnerId:null,
-        modelId:null,
+        modelNumber:null,
         quantity:null,
         measurement:null,
       },
@@ -763,6 +763,7 @@ export default {
       },
 
       deletedId:null,
+      modelNumbers:[],
 
       current_list:[],
     }
@@ -798,6 +799,8 @@ export default {
       deleteFabricWarehouse:"fabricWarehouse/deleteFabricWarehouse",
       getToSipNumbers:"fabricWarehouse/getToSipNumbers",
       setSpendingFabric:"fabricWarehouse/setSpendingFabric",
+      setFabricToWorkshop:"fabricWarehouse/setFabricToWorkshop",
+      setFabricToSubcontract:"fabricWarehouse/setFabricToSubcontract",
       getPartnerList:"subcontracts/getPartnerList",
     }),
     loadDetails({item}) {
@@ -861,28 +864,43 @@ export default {
 
     workshopFunc(item){
       this.workshop_dialog=true
+      this.workshop.fabricWarehouseId=item.id
       this.workshop.measurement=item.factReceivedNettoWeight.split(" ")[1]
+      this.modelNumbers=[...item.modelNumber.split("/")]
+      
     },
 
     async saveWorkshop(){
       this.workshop_dialog=false
       const data={
-        modelId:this.workshop.modelId,
-        quantity:this.workshop.quantity
+        modelNumber:this.workshop.modelNumber,
+        quantity:this.workshop.quantity,
+        fabricWarehouseId:this.workshop.fabricWarehouseId,
+        
       }
-
+      this.setFabricToWorkshop(data)
+    
       await this.$refs.workshop_form.reset()
     },
 
     async saveSubcontractor(){
       this.subcontractor_dialog=false
-
+      const data={
+        modelNumber:this.subcontractor.modelNumber,
+        quantity:this.subcontractor.quantity,
+        fabricWarehouseId:this.subcontractor.fabricWarehouseId,
+        partnerId:this.subcontractor.partnerId,
+        
+      }
+      this.setFabricToSubcontract(data)
       await this.$refs.subcontractor_form.reset()
     },
 
     async subcontractorFunc(item){
       this.subcontractor_dialog=true
       this.subcontractor.measurement=item.factReceivedNettoWeight.split(" ")[1]
+      this.subcontractor.fabricWarehouseId=item.id
+      this.modelNumbers=[...item.modelNumber.split("/")]
     },
 
     getHistory(item) {
