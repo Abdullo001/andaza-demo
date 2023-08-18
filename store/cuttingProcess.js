@@ -1,3 +1,4 @@
+
 export const state=()=>({
   cuttingList:[],
   planningProcessId:null,
@@ -11,14 +12,15 @@ export const getters={
   cuttingList: state=>state.cuttingList,
   historyList: state=>state.historyList,
   classificationList: state=>state.classificationList,
+
 }
 
-export const mutations={
-  setCuttingList(state,item){
-    state.cuttingList=item
+export const mutations = {
+  setCuttingList(state, item) {
+    state.cuttingList = item
   },
-  setPlanningProcessId(state,item){
-    state.planningProcessId=item
+  setPlanningProcessId(state, item) {
+    state.planningProcessId = item
   },
   setHistoryList(state,item){
     state.historyList=item
@@ -29,15 +31,16 @@ export const mutations={
 
 }
 
-export const actions={
-  getCuttingList({commit,state}){
+export const actions = {
+  getCuttingList({commit, state}) {
+    if(!!state.planningProcessId)
     this.$axios.get(`/api/v1/process-details/list-own?planningProcessId=${state.planningProcessId}`)
-    .then((res)=>{
-      commit("setCuttingList",res.data.data)
-    })
-    .catch((res)=>{
-      console.log(res);
-    })
+      .then((res) => {
+        commit("setCuttingList", res.data.data)
+      })
+      .catch((res) => {
+        console.log(res);
+      })
   },
 
   setUpdateSizes({dispatch,state},data){
@@ -175,5 +178,6 @@ export const actions={
     .catch((res)=>{
       console.log(res);
     })
+ 
   }
 }

@@ -117,6 +117,7 @@
               </template>
             </v-data-table>
           </div>
+
       </v-card>
     </v-dialog>
     <v-dialog v-model="delete_dialog" max-width="500">
@@ -128,7 +129,7 @@
           Delete cutting info
         </v-card-title>
         <v-card-text>
-          Are you sure you want to  Delete  cutting info?
+          Are you sure you want to Delete cutting info?
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -347,12 +348,12 @@ export default {
   name: 'CuttingComponent',
   data() {
     return {
-      edit_dialog:false,
+      edit_dialog: false,
       return_dialog: false,
       history_dialog: false,
-      delete_dialog:false,
-      edit_validate:true,
-      selectedItem:{},
+      delete_dialog: false,
+      edit_validate: true,
+      selectedItem: {},
       classification_dialog: false,
       headers: [
         {text: 'Sip №', sortable: false, align: 'start', value: 'sipNumber'},
@@ -383,7 +384,7 @@ export default {
     }
   },
 
-  computed:{
+  computed: {
     ...mapGetters({
       cuttingList:"cuttingProcess/cuttingList",
       historyListDate:"cuttingProcess/historyList",
@@ -402,18 +403,19 @@ export default {
         {text: 'Color', sortable: false, align: 'start', value: 'color'},
       ]
       list[0]?.sizeDistributionList?.forEach((item)=>{
+
         this.headers.push({
           text: item.size, sortable: false, align: 'start', value: item.size
         })
       })
 
-      this.headers=[
+      this.headers = [
         ...this.headers,
         {text: 'Produced total', sortable: false, align: 'start', value: 'totalCutQuantity'},
-        {text: 'Actions', sortable: false, align: 'end', value: 'actions', width:"150"},
+        {text: 'Actions', sortable: false, align: 'end', value: 'actions', width: "150"},
       ]
 
-      const specialList=list.map(function(el){
+      const specialList = list.map(function (el) {
         const value = {};
         const sizesList=[];
         el?.sizeDistributionList.forEach((item) => {
@@ -457,6 +459,7 @@ export default {
       })
       this.historyList=JSON.parse(JSON.stringify(specialList))
 
+
     }
   },
 
@@ -472,6 +475,7 @@ export default {
       deleteHistoryFunc:"cuttingProcess/deleteHistoryFunc",
       getClassificationList:"cuttingProcess/getClassificationList",
       createClassification:"cuttingProcess/createClassification",
+
     }),
     returnDialog(item) {
       this.return_dialog = true;
@@ -493,7 +497,6 @@ export default {
       this.history_dialog = true;
       this.getHistoryList(item.id)
     },
-
     save(){
       if(this.selectedItem.status==="infoEdit"){
         const data={
@@ -510,6 +513,7 @@ export default {
         this.setHistoryItem(data)
       }
 
+
       this.edit_dialog=false
     },
     editItem(item) {
@@ -522,10 +526,11 @@ export default {
     deleteItem(item) {
       this.delete_dialog=true
       this.selectedItem={...item,status:"deleteItem"}
+
     },
 
-    deleteFunc(){
-      this.delete_dialog=false
+    deleteFunc() {
+      this.delete_dialog = false
       this.deleteCuttingSizes(this.selectedItem.id)
     },
 
@@ -569,7 +574,7 @@ export default {
 
   },
 
-  mounted(){
+  mounted() {
     this.getCuttingList()
     this.getClassificationList()
   }
