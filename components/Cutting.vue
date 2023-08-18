@@ -3,7 +3,7 @@
     <v-data-table
       :headers="headers"
       :items="items"
-      item-key="sipNumber"
+      item-key="id"
       show-select
       :single-select="singleSelect"
       v-model="selected"
@@ -69,11 +69,11 @@
                   class="rounded-lg base "
                   validate-on-blur
                   dense
-                  color="#7631FF"   
+                  color="#7631FF"
                 />
               </v-col>
             </v-row>
-  
+
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
@@ -94,9 +94,7 @@
             save
           </v-btn>
         </v-card-actions>
-        
-        <v-divider></v-divider>
-  
+        <v-divider/>
           <div class="px-4 pb-4">
             <v-data-table
               :headers="historyHeaders"
@@ -121,7 +119,7 @@
           Delete cutting info
         </v-card-title>
         <v-card-text>
-          Are you sure you want to  Delete  cutting info? 
+          Are you sure you want to  Delete  cutting info?
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -396,7 +394,7 @@ export default {
         {text: 'Given fabric quantity for cut.', sortable: false, align: 'start', value: 'givenFabricQuantity'},
         {text: 'Used fabric', sortable: false, align: 'start', value: 'usedFabricQuantity'},
         {text: 'Color', sortable: false, align: 'start', value: 'color'},
-        
+
       ],
       items: [ ],
       returned_fabric: {
@@ -479,7 +477,7 @@ export default {
         const value = {};
         el.sizeDistributionList.forEach((item) => {
           value[item.size]=item.quantity
-          
+
         });
         console.log(value)
 
