@@ -151,15 +151,17 @@ export const actions = {
       }).catch(({response}) => console.log(response));
   },
   getProcessingList({commit}, {id, page = 0, size = 10}) {
-    const body = {
-      filters: [],
-      sorts: [],
-      page, size,
+    if(!!id) {
+      const body = {
+        filters: [],
+        sorts: [],
+        page, size,
+      }
+      this.$axios.$put(`/api/v1/process-planning/list?productionId=${id}`, body)
+        .then(res => {
+          commit('setProcessingList', res.data);
+        }).catch(({response}) => console.log(response));
     }
-    this.$axios.$put(`/api/v1/process-planning/list?productionId=${id}`, body)
-      .then(res => {
-        commit('setProcessingList', res.data);
-      }).catch(({response}) => console.log(response));
   },
   getStatusList({commit}) {
     const body = {
