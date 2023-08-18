@@ -46,6 +46,107 @@
         />
       </template>
     </v-data-table>
+
+    <v-dialog v-model="edit_dialog" width="600">
+      <v-card>
+        <v-card-title class="d-flex justify-space-between w-full">
+          <div class="text-capitalize font-weight-bold">Edit Cutting info</div>
+          <v-btn icon color="#7631FF" @click="edit_dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text class="mt-4">
+          <v-form ref="edit_form" v-model="edit_validate" lazy-validation>
+            <v-row>
+              <v-col cols="12" lg="3" v-for="(item,idx) in selectedItem.sizeDistributionList" :key="idx">
+                <div class="label">{{item.size}}</div>
+                <v-text-field
+                  v-model="item.quantity"
+                  placeholder="0"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base "
+                  validate-on-blur
+                  dense
+                  color="#7631FF"   
+                />
+              </v-col>
+            </v-row>
+  
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="d-flex justify-center pb-8">
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            outlined color="#7631FF"
+            width="130"
+            @click="edit_dialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-btn
+            class="rounded-lg text-capitalize ml-4 font-weight-bold"
+            color="#7631FF" dark
+            width="130"
+            @click="save"
+          >
+            save
+          </v-btn>
+        </v-card-actions>
+        
+        <v-divider></v-divider>
+  
+          <div class="px-4 pb-4">
+            <v-data-table
+              :headers="historyHeaders"
+              hide-default-footer
+              :items="historyList"
+              class="mt-4 rounded-lg"
+              style="border: 1px solid #E9EAEB"
+            >
+            <template #top>
+              <div class="title ma-4">History</div>
+            </template>
+            </v-data-table>
+          </div>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="delete_dialog" max-width="500">
+      <v-card class="pa-4 text-center">
+        <div class="d-flex justify-center mb-2">
+          <v-img src="/error-icon.svg" max-width="40"/>
+        </div>
+        <v-card-title class="d-flex justify-center">
+          Delete cutting info
+        </v-card-title>
+        <v-card-text>
+          Are you sure you want to  Delete  cutting info? 
+        </v-card-text>
+        <v-card-actions class="px-16">
+          <v-btn
+            outlined
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#777C85"
+            width="140"
+            @click.stop="delete_dialog = false"
+          >
+            Cancel
+          </v-btn>
+          <v-spacer/>
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#FF4E4F"
+            width="140"
+            elevation="0"
+            dark
+            @click="deleteFunc"
+          >
+            Delete
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-dialog max-width="500" v-model="return_dialog">
       <v-card>
         <v-card-title class="d-flex align-center w-full">
@@ -275,56 +376,29 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   name: 'CuttingComponent',
   data() {
     return {
+      edit_dialog:false,
       return_dialog: false,
       history_dialog: false,
+      delete_dialog:false,
+      edit_validate:true,
+      selectedItem:{},
       classification_dialog: false,
       headers: [
         {text: 'Sip №', sortable: false, align: 'start', value: 'sipNumber'},
         {text: 'Batch №', sortable: false, align: 'start', value: 'batchNumber'},
         {text: 'Fabric specification', sortable: false, align: 'start', value: 'fabricSpecification'},
-        {text: 'Given fabric quantity for cut.', sortable: false, align: 'start', value: 'quantity'},
-        {text: 'Used fabric', sortable: false, align: 'start', value: 'usedFabric'},
+        {text: 'Given fabric quantity for cut.', sortable: false, align: 'start', value: 'givenFabricQuantity'},
+        {text: 'Used fabric', sortable: false, align: 'start', value: 'usedFabricQuantity'},
         {text: 'Color', sortable: false, align: 'start', value: 'color'},
-        {text: 'Cut quantity', sortable: false, align: 'start', value: 'cutQuantity'},
-        {text: 'Produced total', sortable: false, align: 'start', value: 'producedTotal'},
-        {text: 'Actions', sortable: false, align: 'end', value: 'actions'},
+        
       ],
-      items: [
-        {
-          sipNumber: 'ART005/03-23',
-          batchNumber: '02259-89',
-          fabricSpecification: 'Description of Suppliers catalogs',
-          quantity: '1000 kg',
-          usedFabric: '900 kg',
-          color: 'Grey 8996 TPX',
-          cutQuantity: '',
-          producedTotal: '21',
-        },
-        {
-          sipNumber: 'ART005/03-24',
-          batchNumber: '02259-89',
-          fabricSpecification: 'Description of Suppliers catalogs',
-          quantity: '1000 kg',
-          usedFabric: '900 kg',
-          color: 'Grey 8996 TPX',
-          cutQuantity: '',
-          producedTotal: '21',
-        },
-        {
-          sipNumber: 'ART005/03-25',
-          batchNumber: '02259-89',
-          fabricSpecification: 'Description of Suppliers catalogs',
-          quantity: '1000 kg',
-          usedFabric: '900 kg',
-          color: 'Grey 8996 TPX',
-          cutQuantity: '',
-          producedTotal: '21',
-        },
-      ],
+      items: [ ],
       returned_fabric: {
         sipNumber: '',
         batchNumber: '',
@@ -380,7 +454,51 @@ export default {
       ]
     }
   },
+
+  computed:{
+    ...mapGetters({
+      cuttingList:"cuttingProcess/cuttingList",
+    })
+  },
+
+  watch:{
+    cuttingList(list){
+      list[0].sizeDistributionList?.forEach((item)=>{
+        this.headers.push({
+          text: item.size, sortable: false, align: 'start', value: item.size
+        })
+      })
+
+      this.headers=[
+        ...this.headers,
+        {text: 'Produced total', sortable: false, align: 'start', value: 'totalCutQuantity'},
+        {text: 'Actions', sortable: false, align: 'end', value: 'actions', width:"150"},
+      ]
+
+      const specialList=list.map(function(el){
+        const value = {};
+        el.sizeDistributionList.forEach((item) => {
+          value[item.size]=item.quantity
+          
+        });
+        console.log(value)
+
+        return {
+          ...value,
+          ...el,
+
+        }
+      })
+      this.items=JSON.parse(JSON.stringify(specialList))
+    }
+  },
+
   methods: {
+    ...mapActions({
+      getCuttingList:"cuttingProcess/getCuttingList",
+      setUpdateSizes:"cuttingProcess/setUpdateSizes",
+      deleteCuttingSizes:"cuttingProcess/deleteCuttingSizes",
+    }),
     returnDialog(item) {
       this.return_dialog = true;
       this.returned_fabric = {...item};
@@ -391,10 +509,35 @@ export default {
     getClassification(item) {
       this.classification_dialog = true;
     },
+
+    save(){
+      const data={
+        id:this.selectedItem.id,
+        sizeDistributionList:[...this.selectedItem.sizeDistributionList]
+      }
+      this.edit_dialog=false
+
+
+      this.setUpdateSizes(data)
+    },
     editItem(item) {
+      this.edit_dialog=true
+      this.selectedItem={...item}
     },
     deleteItem(item) {
+      this.delete_dialog=true
+      this.selectedItem={...item}
+    },
+
+    deleteFunc(){
+      this.delete_dialog=false
+      this.deleteCuttingSizes(this.selectedItem.id)
     }
+
+  },
+
+  mounted(){
+    this.getCuttingList()
   }
 }
 </script>

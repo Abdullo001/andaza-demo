@@ -16,7 +16,7 @@ export const getters = {
   workshopList: state => state.workshopList,
   colorsList: state => state.colorsList.content,
   productionId: state => state.productionId,
-  processingList: state => state.processingList.content,
+  processingList: state => state.processingList,
   processingTotalElements: state => state.processingList.totalElements,
   statusList: state => state.statusList
 }
