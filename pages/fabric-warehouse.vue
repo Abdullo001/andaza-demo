@@ -94,7 +94,6 @@
       </template>
       <template #item.production="{item}">
         <div class="d-flex ">
-
           <v-tooltip
             top
             color="#7631FF"
@@ -535,7 +534,7 @@
           <v-btn icon color="#7631FF" @click="subcontractor_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-        </v-card-title> 
+        </v-card-title>
 
         <v-card-text class="mt-4">
           <v-form ref="subcontractor_form" v-model="subcontractor_validate" lazy-validation>
@@ -731,7 +730,7 @@ export default {
       subcontractor_dialog:false,
 
       history_dialog:false,
-      
+
       title:"",
       arrivedFabric:{},
       spendingFabric:{
@@ -867,7 +866,7 @@ export default {
       this.workshop.fabricWarehouseId=item.id
       this.workshop.measurement=item.factReceivedNettoWeight.split(" ")[1]
       this.modelNumbers=[...item.modelNumber.split("/")]
-      
+
     },
 
     async saveWorkshop(){
@@ -876,10 +875,10 @@ export default {
         modelNumber:this.workshop.modelNumber,
         quantity:this.workshop.quantity,
         fabricWarehouseId:this.workshop.fabricWarehouseId,
-        
+
       }
       this.setFabricToWorkshop(data)
-    
+
       await this.$refs.workshop_form.reset()
     },
 
@@ -890,7 +889,7 @@ export default {
         quantity:this.subcontractor.quantity,
         fabricWarehouseId:this.subcontractor.fabricWarehouseId,
         partnerId:this.subcontractor.partnerId,
-        
+
       }
       this.setFabricToSubcontract(data)
       await this.$refs.subcontractor_form.reset()

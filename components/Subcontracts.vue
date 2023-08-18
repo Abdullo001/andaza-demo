@@ -4,6 +4,12 @@
       :headers="headers"
       :items="subcontractsList"
       :items-per-page="50"
+      item-key="id"
+      show-select
+      :single-select="singleSelect"
+      show-expand
+      :single-expand="singleExpand"
+      :expanded.sync="expanded"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100],
       }"
@@ -13,30 +19,7 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="w-full d-flex align-center">
-            <span class="mr-8">Model Number</span>
-            <div class="search-field">
-              <v-combobox
-                v-model="modelNumber"
-                :items="model_data"
-                :search-input.sync="modelSearch"
-                item-text="modelNumber"
-                item-value="modelNumber"
-                outlined
-                :disabled="btn_disabled"
-                height="44"
-                @keydown.enter="event => searchSubcontracts(event)"
-                hide-details
-                class="rounded-lg d-flex align-center justify-center base"
-                :return-object="true"
-                color="#7631FF"
-                dense
-                placeholder="Enter responsible person"
-              >
-                <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">mdi-magnify</v-icon>
-                </template>
-              </v-combobox>
-            </div>
+            <span class="mr-8">Subcontractor</span>
             <v-spacer/>
             <v-btn
               class="rounded-lg text-capitalize"
@@ -53,9 +36,33 @@
           </v-toolbar-title>
         </v-toolbar>
       </template>
-
+      <template #[`header.data-table-select`]="{ props, on }">
+        <v-simple-checkbox
+          :value="props.value || props.indeterminate"
+          v-on="on"
+          :indeterminate="props.indeterminate"
+          color="#7631FF"
+        />
+      </template>
+      <template #item.data-table-select="{isSelected, select}">
+        <v-simple-checkbox
+          color="#7631FF"
+          v-ripple
+          :value="isSelected"
+          @input="select($event)"
+        />
+      </template>
       <template #item.actions="{ item }">
         <div>
+          <v-btn icon @click="returnDialog(item)">
+            <v-img src="/rotate.svg" max-width="20"/>
+          </v-btn>
+          <v-btn icon @click="getClassification(item)">
+            <v-img src="/t-shirt.svg" max-width="20"/>
+          </v-btn>
+          <v-btn icon @click="getHistory(item)">
+            <v-img src="/history.svg" max-width="20"/>
+          </v-btn>
           <v-btn icon class="mr-2" @click="editParts(item)">
             <v-img src="/edit-green.svg" max-width="20"/>
           </v-btn>
@@ -63,6 +70,36 @@
             <v-img src="/trash-red.svg" max-width="20"/>
           </v-btn>
         </div>
+      </template>
+      <template #expanded-item="{headers, item}">
+        <td :colspan="headers.length">
+          <v-card flat>
+            <v-card-text>
+              <v-row>
+                <v-col>
+                  <div class="body-1 mb-3">
+                    Used fabric:
+                    <span class="font-weight-bold ml-2"> 900 kg</span>
+                  </div>
+                  <div class="body-1 mb-3">
+                    sent date:
+                    <span class="font-weight-bold ml-2">05.03.2023</span>
+                  </div>
+                </v-col>
+                <v-col>
+                  <div class="body-1 mb-3">
+                    Total price:
+                    <span class="font-weight-bold ml-2"> 900 kg</span>
+                  </div>
+                  <div class="body-1 mb-3">
+                    Deadline:
+                    <span class="font-weight-bold ml-2">05.03.2023</span>
+                  </div>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+        </td>
       </template>
     </v-data-table>
 
@@ -369,6 +406,10 @@ export default {
   name: "Subcontracts",
   data() {
     return {
+      selected: [],
+      singleSelect: false,
+      expanded: [],
+      singleExpand: true,
       btn_disabled: true,
       edit_dialog: false,
       new_dialog: false,
@@ -403,7 +444,8 @@ export default {
           width: "220",
         },
         {text: "Date", sortable: false, value: "dispatchedDate"},
-        {text: "Action", sortable: false, align: "center", value: "actions"},
+        {text: "Action", sortable: false, align: "end", value: "actions"},
+        {text: '', value: 'data-table-expand'},
       ],
       subcontractsList: [],
       subcontractsDetail: {},
@@ -457,8 +499,7 @@ export default {
       this.btn_disabled = false;
     },
     modelData(val) {
-      const item = JSON.parse(JSON.stringify(val));
-      this.model_data = item;
+      this.model_data = JSON.parse(JSON.stringify(val));
     },
   },
 
@@ -474,6 +515,17 @@ export default {
       deleteSubcontractServer: "subcontracts/deleteSubcontractServer",
       getModelInfo: 'production/planning/getModelInfo',
     }),
+    returnDialog(item) {
+      this.return_dialog = true;
+      this.returned_fabric = {...item};
+    },
+    getHistory(item) {
+      this.history_dialog = true;
+    },
+    getClassification(item) {
+      this.classification_dialog = true;
+    },
+
     editParts(item) {
       this.edit_dialog = !this.edit_dialog;
       this.subcontractsDetail = {...item};
@@ -483,10 +535,10 @@ export default {
       let day = "";
       let month = "";
       let date = "";
-      today.getDate().toString().length == 1
+      today.getDate().toString().length === 1
         ? (day = `0${today.getDate()}`)
         : (day = `${today.getDate()}`);
-      today.getMonth().toString().length == 1
+      today.getMonth().toString().length === 1
         ? (month = `0${today.getMonth()}`)
         : (month = `${today.getMonth()}`);
       date = day + "." + month + "." + today.getFullYear();
@@ -494,13 +546,13 @@ export default {
       let hour = "";
       let minut = "";
       let second = "";
-      today.getHours().toString().length == 1
+      today.getHours().toString().length === 1
         ? (hour = `0${today.getHours()}`)
         : (hour = `${today.getHours()}`);
-      today.getMinutes().toString().length == 1
+      today.getMinutes().toString().length === 1
         ? (minut = `0${today.getMinutes()}`)
         : (minut = `${today.getMinutes()}`);
-      today.getSeconds().toString().length == 1
+      today.getSeconds().toString().length === 1
         ? (second = `0${today.getSeconds()}`)
         : (second = `${today.getSeconds()}`);
       time = hour + ":" + minut + ":" + second;
