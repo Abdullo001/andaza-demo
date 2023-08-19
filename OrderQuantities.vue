@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   name: 'OrderQuantities',
 
@@ -36,6 +38,17 @@ export default {
       ]
     }
   },
+
+  methods:{
+    ...mapActions({
+      getOrderQuantity:"cuttingProcess/getOrderQuantity"
+    })
+  },
+
+  mounted(){
+    const id = this.$route.params.id
+    this.getOrderQuantity(id)
+  }
 }
 </script>
 
