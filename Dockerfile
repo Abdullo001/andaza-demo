@@ -7,6 +7,7 @@ RUN echo "nameserver 1.1.1.1" >> /etc/resolv.conf
 
 COPY . /app/
 
+RUN npm cache clean --force
 RUN npm install
 RUN npm run build
 
