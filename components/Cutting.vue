@@ -114,7 +114,7 @@
           </template>
           <span class="text-capitalize">delete</span>
         </v-tooltip>
-        
+
       </template>
       <template #[`header.data-table-select`]="{ props, on }">
         <v-simple-checkbox
@@ -134,7 +134,7 @@
       </template>
     </v-data-table>
 
-    <v-dialog v-model="edit_dialog" width="600">
+    <v-dialog v-model="edit_dialog" width="1200">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Edit Cutting info</div>
@@ -145,8 +145,8 @@
         <v-card-text class="mt-4">
           <v-form ref="edit_form" v-model="edit_validate" lazy-validation>
             <v-row>
-              <v-col cols="12" lg="3" v-for="(item,idx) in selectedItem.sizeDistributions" :key="idx">
-                <div class="label">{{item.size}}</div>
+              <v-col cols="12" lg="3" v-for="(item, idx) in selectedItem.sizeDistributions" :key="`_cutting_${idx}`">
+                <div class="label">{{ item.size }}</div>
                 <v-text-field
                   v-model="item.quantity"
                   placeholder="0"
@@ -160,7 +160,6 @@
                 />
               </v-col>
             </v-row>
-
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
@@ -182,18 +181,17 @@
           </v-btn>
         </v-card-actions>
         <v-divider/>
-          <div class="px-4 pb-4">
-            <v-data-table
-              :headers="[...historyHeaders,{text: 'Actions', sortable: false, align: 'center', value: 'actions',width:'120' },]"
-              hide-default-footer
-              :items="historyList"
-              class="mt-4 rounded-lg"
-              style="border: 1px solid #E9EAEB"
-            >
+        <div class="px-4 pb-4">
+          <v-data-table
+            :headers="[...historyHeaders,{text: 'Actions', sortable: false, align: 'center', value: 'actions',width:'120' },]"
+            hide-default-footer
+            :items="historyList"
+            class="mt-4 rounded-lg"
+            style="border: 1px solid #E9EAEB"
+          >
             <template #top>
               <div class="title ma-4">History</div>
             </template>
-
             <template #item.actions="{item}">
               <v-btn icon color="green" @click.stop="editHistoryItem(item)">
                 <v-img src="/edit-active.svg" max-width="22"/>
@@ -201,10 +199,9 @@
               <v-btn icon color="red" @click.stop="deleteHistoryItem(item)">
                 <v-img src="/delete.svg" max-width="27"/>
               </v-btn>
-              </template>
-            </v-data-table>
-          </div>
-
+            </template>
+          </v-data-table>
+        </div>
       </v-card>
     </v-dialog>
     <v-dialog v-model="delete_dialog" max-width="500">
@@ -319,7 +316,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="history_dialog" max-width="600">
+    <v-dialog v-model="history_dialog" max-width="1200">
       <v-card flat>
         <v-card-title>
           <div class="title">History</div>
@@ -340,7 +337,7 @@
             class="mt-4 rounded-lg"
             style="border: 1px solid #E9EAEB"
           >
-         
+
           </v-data-table>
         </v-card-text>
       </v-card>
@@ -360,8 +357,8 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-row>
-            <v-col  cols="12" lg="3" v-for="(item,idx) in classification_shortcom.sizeDistributions" :key="idx">
-              <div class="label">{{item.size}}</div>
+            <v-col cols="12" lg="3" v-for="(item,idx) in classification_shortcom.sizeDistributions" :key="idx">
+              <div class="label">{{ item.size }}</div>
               <v-text-field
                 outlined
                 hide-details
@@ -372,7 +369,7 @@
                 v-model.trim="item.quantity"
               />
             </v-col>
-            
+
             <v-col cols="12" lg="6">
               <div class="label">Reason</div>
               <v-select
@@ -458,30 +455,30 @@ export default {
         quantity: '',
         type: 'KG'
       },
-      classification_shortcom:{},
+      classification_shortcom: {},
 
-      classificationEnums: ['DEFECT','PHOTO','PHOTO_SAMPLE','SAMPLE','LOST','OTHERS'],
+      classificationEnums: ['DEFECT', 'PHOTO', 'PHOTO_SAMPLE', 'SAMPLE', 'LOST', 'OTHERS'],
       selected: [],
       singleSelect: false,
       fabricEnums: ['KG', 'm'],
       historyHeaders: [],
       historyList: [],
-      cuttingId:null,
+      cuttingId: null,
 
     }
   },
 
   computed: {
     ...mapGetters({
-      cuttingList:"cuttingProcess/cuttingList",
-      historyListDate:"cuttingProcess/historyList",
+      cuttingList: "cuttingProcess/cuttingList",
+      historyListDate: "cuttingProcess/historyList",
     })
   },
 
-  watch:{
-    cuttingList(list){
-      this.headers=[]
-      this.headers=[
+  watch: {
+    cuttingList(list) {
+      this.headers = []
+      this.headers = [
         {text: 'Sip №', sortable: false, align: 'start', value: 'sipNumber'},
         {text: 'Batch №', sortable: false, align: 'start', value: 'batchNumber'},
         {text: 'Fabric specification', sortable: false, align: 'start', value: 'fabricSpecification'},
@@ -489,7 +486,7 @@ export default {
         {text: 'Used fabric', sortable: false, align: 'start', value: 'usedFabricQuantity'},
         {text: 'Color', sortable: false, align: 'start', value: 'color'},
       ]
-      list[0]?.sizeDistributionList?.forEach((item)=>{
+      list[0]?.sizeDistributionList?.forEach((item) => {
 
         this.headers.push({
           text: item.size, sortable: false, align: 'start', value: item.size
@@ -504,47 +501,46 @@ export default {
 
       const specialList = list.map(function (el) {
         const value = {};
-        const sizesList=[];
+        const sizesList = [];
         el?.sizeDistributionList.forEach((item) => {
-          value[item.size]=item.quantity
-          sizesList.push({size:item.size,quantity:0})
+          value[item.size] = item.quantity
+          sizesList.push({size: item.size, quantity: 0})
         });
 
         return {
           ...value,
           ...el,
-          sizeDistributions:[...sizesList],
+          sizeDistributions: [...sizesList],
 
         }
       })
-      this.items=JSON.parse(JSON.stringify(specialList))
+      this.items = JSON.parse(JSON.stringify(specialList))
     },
 
-    historyListDate(list){
-      this.historyHeaders= [
+    historyListDate(list) {
+      this.historyHeaders = [
         {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
       ],
-      list[0]?.sizeDistributionList?.forEach((item)=>{
-        this.historyHeaders.push({
-          text: item.size, sortable: false, align: 'start', value: item.size
+        list[0]?.sizeDistributionList?.forEach((item) => {
+          this.historyHeaders.push({
+            text: item.size, sortable: false, align: 'start', value: item.size
+          })
         })
-      })
       this.historyHeaders.push(
         {text: 'Done By', sortable: false, align: 'canter', value: 'createdBy'},
-        
-        )
+      )
 
-      const specialList=list.map(function(el){
+      const specialList = list.map(function (el) {
         const value = {};
         el?.sizeDistributionList.forEach((item) => {
-          value[item.size]=item.quantity
+          value[item.size] = item.quantity
         });
-        return{
+        return {
           ...el,
           ...value,
         }
       })
-      this.historyList=JSON.parse(JSON.stringify(specialList))
+      this.historyList = JSON.parse(JSON.stringify(specialList))
 
 
     }
@@ -552,29 +548,29 @@ export default {
 
   methods: {
     ...mapActions({
-      getCuttingList:"cuttingProcess/getCuttingList",
-      setUpdateSizes:"cuttingProcess/setUpdateSizes",
-      deleteCuttingSizes:"cuttingProcess/deleteCuttingSizes",
-      getOneCutting:"cuttingProcess/getOneCutting",
-      getHistoryList:"cuttingProcess/getHistoryList",
-      setHistoryItem:"cuttingProcess/setHistoryItem",
-      saveReturnFabricFunc:"cuttingProcess/saveReturnFabric",
-      deleteHistoryFunc:"cuttingProcess/deleteHistoryFunc",
-      getClassificationList:"cuttingProcess/getClassificationList",
-      createClassification:"cuttingProcess/createClassification",
+      getCuttingList: "cuttingProcess/getCuttingList",
+      setUpdateSizes: "cuttingProcess/setUpdateSizes",
+      deleteCuttingSizes: "cuttingProcess/deleteCuttingSizes",
+      getOneCutting: "cuttingProcess/getOneCutting",
+      getHistoryList: "cuttingProcess/getHistoryList",
+      setHistoryItem: "cuttingProcess/setHistoryItem",
+      saveReturnFabricFunc: "cuttingProcess/saveReturnFabric",
+      deleteHistoryFunc: "cuttingProcess/deleteHistoryFunc",
+      getClassificationList: "cuttingProcess/getClassificationList",
+      createClassification: "cuttingProcess/createClassification",
 
     }),
     returnDialog(item) {
       this.return_dialog = true;
       this.returned_fabric = {...item};
-      this.returned_fabric.measurment=item.givenFabricQuantity.split(" ")[1]
+      this.returned_fabric.measurment = item.givenFabricQuantity.split(" ")[1]
 
     },
-    saveReturnFabric(){
-      const data={
-        id:this.returned_fabric.id,
-        quantity:this.returned_fabric.quantity,
-        warehouseId:this.returned_fabric.warehouseId
+    saveReturnFabric() {
+      const data = {
+        id: this.returned_fabric.id,
+        quantity: this.returned_fabric.quantity,
+        warehouseId: this.returned_fabric.warehouseId
       }
       this.saveReturnFabricFunc(data)
       this.return_dialog = false;
@@ -584,35 +580,35 @@ export default {
       this.history_dialog = true;
       this.getHistoryList(item.id)
     },
-    save(){
-      if(this.selectedItem.status==="infoEdit"){
-        const data={
-          id:this.selectedItem.id,
-          sizeDistributions:[...this.selectedItem?.sizeDistributions]
+    save() {
+      if (this.selectedItem.status === "infoEdit") {
+        const data = {
+          id: this.selectedItem.id,
+          sizeDistributions: [...this.selectedItem?.sizeDistributions]
         }
         this.setUpdateSizes(data)
       }
-      if(this.selectedItem.status==="historyEdit"){
-        const data={
-          id:this.selectedItem.id,
-          sizeDistributionList:[...this.selectedItem?.sizeDistributions]
+      if (this.selectedItem.status === "historyEdit") {
+        const data = {
+          id: this.selectedItem.id,
+          sizeDistributionList: [...this.selectedItem?.sizeDistributions]
         }
         this.setHistoryItem(data)
       }
 
 
-      this.edit_dialog=false
+      this.edit_dialog = false
     },
     editItem(item) {
-      this.cuttingId=item.id
-      this.edit_dialog=true
-      this.selectedItem={...item,status:"infoEdit"}
+      this.cuttingId = item.id
+      this.edit_dialog = true
+      this.selectedItem = {...item, status: "infoEdit"}
       this.getHistoryList(item.id)
 
     },
     deleteItem(item) {
-      this.delete_dialog=true
-      this.selectedItem={...item,status:"deleteItem"}
+      this.delete_dialog = true
+      this.selectedItem = {...item, status: "deleteItem"}
 
     },
 
@@ -621,44 +617,42 @@ export default {
       this.deleteCuttingSizes(this.selectedItem.id)
     },
 
-    editHistoryItem(item){
+    editHistoryItem(item) {
       this.selectedItem={
         id:item.id,
         sizeDistributions:[...item.sizeDistributionList],
         status:"historyEdit",
-        cuttingId:cuttingId,
+        cuttingId:this.cuttingId,
       }
     },
-    deleteHistoryItem(item){
-      this.deleteHistoryFunc({id:item.id,processId:this.cuttingId})
+    deleteHistoryItem(item) {
+      this.deleteHistoryFunc({id: item.id, processId: this.cuttingId})
     },
 
     getClassification(item) {
       this.classification_dialog = true
-      this.classification_shortcom={
+      this.classification_shortcom = {
         ...item,
         reason: '',
         comment: '',
       }
     },
-    saveClassification(){
-      const data={
+    saveClassification() {
+      const data = {
         description: this.classification_shortcom.comment,
         detailsId: this.classification_shortcom.id,
         reason: this.classification_shortcom.reason,
-        sizeDistributions:[]
+        sizeDistributions: []
       }
-      this.classification_shortcom?.sizeDistributions.forEach((item)=>{
-        if(item.quantity!==0 && item.quantity){
+      this.classification_shortcom?.sizeDistributions.forEach((item) => {
+        if (item.quantity !== 0 && item.quantity) {
           data.sizeDistributions.push(item)
         }
       })
-      
+
       this.createClassification(data)
       this.classification_dialog = false
-      
     }
-
   },
 
   mounted() {
