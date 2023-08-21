@@ -4,6 +4,7 @@ export const state=()=>({
   planningProcessId:null,
   historyList:[],
   classificationList:[],
+
   orderQuantityList:[],
 
 })
@@ -32,7 +33,6 @@ export const mutations = {
   setOrderQuantityList(state,item){
     state.orderQuantityList=item
   },
-
 }
 
 export const actions = {
@@ -179,6 +179,7 @@ export const actions = {
     this.$axios.get(`/api/v1/process-details/order-quantities?modelId=${id}`)
     .then((res)=>{
       commit("setOrderQuantityList",res.data.data)
+
     })
     .catch((res)=>{
       console.log(res);
