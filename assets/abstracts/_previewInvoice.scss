@@ -1,0 +1,77 @@
+.logo {
+  width: 200px;
+  height: 180px;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 10px;
+}
+.header-invoice {
+  width: 180px;
+  height: 180px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-right: 20px;
+}
+.header-color {
+  background: #7631FF;
+  padding: 40px 15px;
+}
+.header-text {
+  color: #fff;
+  font-family: sans-serif, 'Inter';
+  font-style: normal;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  margin-left: 20px;
+  > div > span {
+    font-weight: 700;
+  }
+}
+.buyer-info {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 28px;
+  text-transform: uppercase;
+  color: #7631FF;
+  margin: 40px 0 10px;
+}
+.buyer-text {
+  font-size: 16px;
+  color: #1D2433;
+  width: 100%;
+  line-height: 30px;
+  > div > span {
+    font-weight: 700;
+    width: 150px;
+    display: inline-block;
+  }
+}
+.base-color {
+  color: #7631FF;
+}
+.v-data-table-header {
+  background: #F4F5FA;
+}
+.brand {
+  margin-top: 118px;
+}
+
+.footer-color {
+  background: #7631FF;
+  color: #fff;
+  padding: 20px 36px;
+  display: flex;
+  justify-content: flex-end;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 32px;
+  margin-top: 30px;
+}
