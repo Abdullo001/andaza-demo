@@ -312,7 +312,7 @@
       <v-col>
         <OrderQuantities/>
       </v-col>
-      
+
     </v-row>
     <div class="text-right mt-5 mb-8">
       <v-btn
@@ -335,7 +335,7 @@ import ProductionPlanningComponent from "@/components/Production/Planning.vue";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
 import CalculationShortcomings from "../../../components/CalculationsShoertcomings.vue";
-import OrderQuantities from "../../../OrderQuantities.vue";
+import OrderQuantities from "../../../components/OrderQuantities.vue";
 import GivenAccessoryQuantity from "../../../components/GivenAccessoryQuantity.vue";
 import SewingSubcontract from '../../../components/SubcontractsFolder/SewingSubcontract.vue';
 import IroningProcess from "@/components/IroningProcess.vue";
@@ -481,7 +481,7 @@ export default {
         page: 0,
         size: 10
       })
-      
+
     }
   }
 }

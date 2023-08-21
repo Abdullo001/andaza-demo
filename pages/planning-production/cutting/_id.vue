@@ -324,7 +324,7 @@ import Subcontracts from "../../../components/Subcontracts.vue";
 import ShowBtnComponent from "../../../components/ShowComponentBtn/ShowBtn.vue";
 import CuttingComponent from '../../../components/Cutting.vue';
 import CalculationShortcomings from "../../../components/CalculationsShoertcomings.vue";
-import OrderQuantities from "../../../OrderQuantities.vue";
+import OrderQuantities from "../../../components/OrderQuantities.vue";
 
 export default {
   name: 'ProductionOfPlanningPage',
