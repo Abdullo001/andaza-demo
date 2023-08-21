@@ -338,7 +338,7 @@ import ProductionPlanningComponent from "@/components/Production/Planning.vue";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
 import CalculationShortcomings from "../../../components/CalculationsShoertcomings.vue";
-import OrderQuantities from "../../../OrderQuantities.vue";
+import OrderQuantities from "../../../components/OrderQuantities.vue";
 import PrintingSubcontract from "../../../components/SubcontractsFolder/PrintingSubcontract.vue";
 import SewingProcess from "../../../components/sewingProcess.vue";
 import GivenAccessoryQuantity from "../../../components/GivenAccessoryQuantity.vue";
@@ -488,7 +488,7 @@ export default {
         page: 0,
         size: 10
       })
-      
+
     }
   }
 }
