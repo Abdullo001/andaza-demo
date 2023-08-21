@@ -122,20 +122,18 @@
           <span>{{ $t('planningProduction.dialog.details') }}</span>
         </v-tooltip>
       </template>
-      <template #item.status="{item}">
+      <template #item.status="{ item }">
         <v-select
           @click.stop
           @change="changeStatus(item)"
-          :background-color="prodColor(item.statusId)"
+          :background-color="statusColor.prodColor(item.status)"
           :items="status_enums"
           append-icon="mdi-chevron-down"
-          item-text="name"
-          item-value="id"
-          v-model="item.statusId"
+          v-model="item.status"
           hide-details
           class="mt-n2"
-          dark
           rounded
+          dark
         />
       </template>
     </v-data-table>
@@ -169,7 +167,7 @@ export default {
       itemPerPage: 10,
       current_page: 0,
       filteredPlanning: [],
-      status_enums: [],
+      status_enums: ["ACTIVE","FINISHED","DISABLED"],
       current_status: ''
     }
   },
@@ -181,9 +179,10 @@ export default {
     }),
   },
   watch: {
-    statusList(val) {
-      this.status_enums = JSON.parse(JSON.stringify(val));
-    },
+    // statusList(val) {
+    //   this.status_enums = JSON.parse(JSON.stringify(val));
+    //   console.log(val);
+    // },
     planningList(val) {
       let data = JSON.parse(JSON.stringify(val));
       data = data.filter(obj => Object.keys(obj).length !== 0);
@@ -200,16 +199,7 @@ export default {
       this.$router.push(this.localePath(`/planning-production/${row.modelId}`));
       this.$store.commit('production/planning/setProductionId', row.id);
     },
-    prodColor(color) {
-      switch (color) {
-        case 1:
-          return '#10BF41'
-        case 3:
-          return '#FF4E4F'
-        case 2:
-          return '#4B86FE'
-      }
-    },
+    
     async filterData() {
       await this.getPlanningList({
         page: this.current_page,
@@ -230,13 +220,14 @@ export default {
         updatedAt: ''
       }
     },
-    async changeStatus(item) {
-      await this.updateStatus({
-        id: item.id,
-        statusId: item.statusId,
-        page: this.current_page,
-        size: this.itemPerPage
-      })
+     changeStatus(item) {
+      // this.updateStatus({
+      //   id: item.id,
+      //   statusId: item.statusId,
+      //   page: this.current_page,
+      //   size: this.itemPerPage
+      // })
+      console.log(item);
     },
     async page(val) {
       this.current_page = val - 1;
