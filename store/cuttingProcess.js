@@ -5,6 +5,8 @@ export const state=()=>({
   historyList:[],
   classificationList:[],
 
+  orderQuantityList:[],
+
 })
 
 export const getters={
@@ -12,7 +14,7 @@ export const getters={
   cuttingList: state=>state.cuttingList,
   historyList: state=>state.historyList,
   classificationList: state=>state.classificationList,
-
+  orderQuantityList: state=>state.orderQuantityList,
 }
 
 export const mutations = {
@@ -28,7 +30,9 @@ export const mutations = {
   setClassificationList(state,item){
     state.classificationList=item
   },
-
+  setOrderQuantityList(state,item){
+    state.orderQuantityList=item
+  },
 }
 
 export const actions = {
@@ -174,6 +178,8 @@ export const actions = {
   getOrderQuantity({commit},id){
     this.$axios.get(`/api/v1/process-details/order-quantities?modelId=${id}`)
     .then((res)=>{
+      commit("setOrderQuantityList",res.data.data)
+
     })
     .catch((res)=>{
       console.log(res);

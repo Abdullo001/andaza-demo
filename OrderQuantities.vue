@@ -22,20 +22,42 @@ export default {
 
   data() {
     return {
-      headers: [
-        {text: 'Main color', sortable: false, value: 'mainColor', align: 'start'},
-        {text: '24', sortable: false, value: '24', align: 'start'},
-        {text: '26', sortable: false, value: '26', align: 'start'},
-        {text: '28', sortable: false, value: '28', align: 'start'},
-        {text: '30', sortable: false, value: '30', align: 'start'},
-        {text: 'Total', sortable: false, value: 'total', align: 'end'},
+      headers: [],
+      items: []
+    }
+  },
+
+  computed:{
+    ...mapGetters({
+      orderQuantityList:"cuttingProcess/orderQuantityList",
+    })
+  },
+
+  watch:{
+    orderQuantityList(list){
+      this.headers= [
+        {text: 'Main color', sortable: false, value: 'color', align: 'start'}, 
       ],
-      items: [
-        {mainColor: 'Black', 24: '24', 26: '26', 28: '28', 30: '30', total: '2100'},
-        {mainColor: 'White', 24: '24', 26: '26', 28: '28', 30: '30', total: '2100'},
-        {mainColor: 'Grey', 24: '24', 26: '26', 28: '28', 30: '30', total: '2700'},
-        {mainColor: 'Total', 24: '1500', 26: '1600', 28: '1600', 30: '1800', total: '6900'},
-      ]
+      list[0]?.sizeDistributionList.forEach((item)=>{
+        this.headers.push(
+          {text: item.size, sortable: false, value: item.size, align: 'start'},
+        )
+      })
+      this.headers.push({text: 'Total', sortable: false, value: 'total', align: 'end'},)
+
+      const specialList = list.map(function (el) {
+        const sizeList={}
+        el?.sizeDistributionList.forEach((item)=>{
+          sizeList[item.size]=item.quantity
+        })
+
+        return{
+          color:el.color,
+          total:el.total,
+          ...sizeList,
+        }
+      })
+      this.items=JSON.parse(JSON.stringify(specialList))
     }
   },
 
