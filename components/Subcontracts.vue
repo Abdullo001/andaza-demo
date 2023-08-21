@@ -20,19 +20,6 @@
         <v-toolbar elevation="0">
           <v-toolbar-title class="w-full d-flex align-center">
             <span class="mr-8">Subcontractor</span>
-            <v-spacer/>
-            <v-btn
-              class="rounded-lg text-capitalize"
-              color="#7631FF"
-              width="160"
-              height="36"
-              dark
-              :disabled="btn_disabled"
-              @click="newSubcontract"
-            >
-              <v-icon>mdi-plus</v-icon>
-              Subcontract
-            </v-btn>
           </v-toolbar-title>
         </v-toolbar>
       </template>

@@ -13,21 +13,108 @@
         <div class="title ma-4">Cutting</div>
       </template>
       <template #item.actions="{item}">
-        <v-btn icon @click="returnDialog(item)">
+        <v-tooltip
+          top
+          color="#7631FF"
+          class="pointer"
+          v-if="Object.keys(item).length > 2"
+        >
+          <template #activator="{ on, attrs }">
+            <v-btn
+              icon
+              v-bind="attrs"
+              v-on="on"
+              color="#7631FF"
+              @click="returnDialog(item)"
+            >
+              <v-img src="/rotate.svg" max-width="22"/>
+            </v-btn>
+          </template>
+          <span class="text-capitalize">return fabric</span>
+        </v-tooltip>
+        <!-- <v-btn icon @click="returnDialog(item)">
           <v-img src="/rotate.svg" max-width="20"/>
-        </v-btn>
-        <v-btn icon @click="getClassification(item)">
-          <v-img src="/t-shirt.svg" max-width="20"/>
-        </v-btn>
-        <v-btn icon @click="getHistory(item)">
-          <v-img src="/history.svg" max-width="20"/>
-        </v-btn>
-        <v-btn icon color="green" @click.stop="editItem(item)">
-          <v-img src="/edit-active.svg" max-width="22"/>
-        </v-btn>
-        <v-btn icon color="red" @click.stop="deleteItem(item)">
-          <v-img src="/delete.svg" max-width="27"/>
-        </v-btn>
+        </v-btn> -->
+        <v-tooltip
+          top
+          color="#7631FF"
+          class="pointer"
+          v-if="Object.keys(item).length > 2"
+        >
+          <template #activator="{ on, attrs }">
+            <v-btn
+              icon
+              v-bind="attrs"
+              v-on="on"
+              color="#7631FF"
+              @click="getClassification(item)"
+            >
+              <v-img src="/t-shirt.svg" max-width="22"/>
+            </v-btn>
+          </template>
+          <span class="text-capitalize">classification</span>
+        </v-tooltip>
+
+        <v-tooltip
+          top
+          color="#7631FF"
+          class="pointer"
+          v-if="Object.keys(item).length > 2"
+        >
+          <template #activator="{ on, attrs }">
+            <v-btn
+              icon
+              v-bind="attrs"
+              v-on="on"
+              color="#7631FF"
+              @click="getHistory(item)"
+            >
+              <v-img src="/history.svg" max-width="22"/>
+            </v-btn>
+          </template>
+          <span class="text-capitalize">History</span>
+        </v-tooltip>
+
+        <v-tooltip
+          top
+          color="green"
+          class="pointer"
+          v-if="Object.keys(item).length > 2"
+        >
+          <template #activator="{ on, attrs }">
+            <v-btn
+              icon
+              v-bind="attrs"
+              v-on="on"
+              color="green"
+              @click="editItem(item)"
+            >
+              <v-img src="/edit-active.svg" max-width="22"/>
+            </v-btn>
+          </template>
+          <span class="text-capitalize">edit</span>
+        </v-tooltip>
+
+        <v-tooltip
+          top
+          color="red"
+          class="pointer"
+          v-if="Object.keys(item).length > 2"
+        >
+          <template #activator="{ on, attrs }">
+            <v-btn
+              icon
+              v-bind="attrs"
+              v-on="on"
+              color="red"
+              @click="deleteItem(item)"
+            >
+              <v-img src="/delete.svg" max-width="22"/>
+            </v-btn>
+          </template>
+          <span class="text-capitalize">delete</span>
+        </v-tooltip>
+
       </template>
       <template #[`header.data-table-select`]="{ props, on }">
         <v-simple-checkbox
@@ -47,7 +134,7 @@
       </template>
     </v-data-table>
 
-    <v-dialog v-model="edit_dialog" width="600">
+    <v-dialog v-model="edit_dialog" width="1200">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Edit Cutting info</div>
@@ -58,7 +145,7 @@
         <v-card-text class="mt-4">
           <v-form ref="edit_form" v-model="edit_validate" lazy-validation>
             <v-row>
-              <v-col cols="12" lg="3" v-for="(item,idx) in selectedItem.sizeDistributionList" :key="idx">
+              <v-col cols="12" lg="3" v-for="(item, idx) in selectedItem.sizeDistributions" :key="`_cutting_${idx}`">
                 <div class="label">{{ item.size }}</div>
                 <v-text-field
                   v-model="item.quantity"
@@ -73,7 +160,6 @@
                 />
               </v-col>
             </v-row>
-
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
@@ -97,7 +183,7 @@
         <v-divider/>
         <div class="px-4 pb-4">
           <v-data-table
-            :headers="historyHeaders"
+            :headers="[...historyHeaders,{text: 'Actions', sortable: false, align: 'center', value: 'actions',width:'120' },]"
             hide-default-footer
             :items="historyList"
             class="mt-4 rounded-lg"
@@ -105,6 +191,14 @@
           >
             <template #top>
               <div class="title ma-4">History</div>
+            </template>
+            <template #item.actions="{item}">
+              <v-btn icon color="green" @click.stop="editHistoryItem(item)">
+                <v-img src="/edit-active.svg" max-width="22"/>
+              </v-btn>
+              <v-btn icon color="red" @click.stop="deleteHistoryItem(item)">
+                <v-img src="/delete.svg" max-width="27"/>
+              </v-btn>
             </template>
           </v-data-table>
         </div>
@@ -153,6 +247,7 @@
           <v-btn
             icon
             color="#7631FF"
+            @click="return_dialog=false"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -193,18 +288,7 @@
                 class="rounded-l-lg base" color="#7631FF"
                 placeholder="Enter returned fabric quantity"
                 v-model.trim="returned_fabric.quantity"
-              />
-              <v-select
-                :items="fabricEnums"
-                v-model="returned_fabric.type"
-                outlined
-                hide-details
-                dense
-                height="44"
-                append-icon="mdi-chevron-down"
-                style="max-width: 100px;"
-                class="rounded-r-lg base" color="#7631FF"
-                placeholder="Select.."
+                :suffix="returned_fabric.measurment"
               />
             </div>
           </v-col>
@@ -225,13 +309,14 @@
             class="rounded-lg text-capitalize font-weight-bold ml-8"
             color="#7631FF" dark
             width="163" height="44"
+            @click="saveReturnFabric"
           >
             Save
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="history_dialog" max-width="600">
+    <v-dialog v-model="history_dialog" max-width="1200">
       <v-card flat>
         <v-card-title>
           <div class="title">History</div>
@@ -252,6 +337,7 @@
             class="mt-4 rounded-lg"
             style="border: 1px solid #E9EAEB"
           >
+
           </v-data-table>
         </v-card-text>
       </v-card>
@@ -271,8 +357,8 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-row>
-            <v-col cols="12" lg="3">
-              <div class="label">24</div>
+            <v-col cols="12" lg="3" v-for="(item,idx) in classification_shortcom.sizeDistributions" :key="idx">
+              <div class="label">{{ item.size }}</div>
               <v-text-field
                 outlined
                 hide-details
@@ -280,50 +366,15 @@
                 height="44"
                 class="rounded-lg base" color="#7631FF"
                 placeholder="Enter branch number"
-                v-model.trim="classificationList['24']"
+                v-model.trim="item.quantity"
               />
             </v-col>
-            <v-col cols="12" lg="3">
-              <div class="label">26</div>
-              <v-text-field
-                outlined
-                hide-details
-                dense
-                height="44"
-                class="rounded-lg base" color="#7631FF"
-                placeholder="Enter branch number"
-                v-model.trim="classificationList['26']"
-              />
-            </v-col>
-            <v-col cols="12" lg="3">
-              <div class="label">28</div>
-              <v-text-field
-                outlined
-                hide-details
-                dense
-                height="44"
-                class="rounded-lg base" color="#7631FF"
-                placeholder="Enter branch number"
-                v-model.trim="classificationList['28']"
-              />
-            </v-col>
-            <v-col cols="12" lg="3">
-              <div class="label">30</div>
-              <v-text-field
-                outlined
-                hide-details
-                dense
-                height="44"
-                class="rounded-lg base" color="#7631FF"
-                placeholder="Enter branch number"
-                v-model.trim="classificationList['30']"
-              />
-            </v-col>
+
             <v-col cols="12" lg="6">
               <div class="label">Reason</div>
               <v-select
                 :items="classificationEnums"
-                v-model.trim="classificationList.reason"
+                v-model.trim="classification_shortcom.reason"
                 append-icon="mdi-chevron-down"
                 outlined
                 hide-details
@@ -336,7 +387,7 @@
             <v-col cols="12" lg="6">
               <div class="label">Comment</div>
               <v-text-field
-                v-model.trim="classificationList.comment"
+                v-model.trim="classification_shortcom.comment"
                 outlined
                 hide-details
                 dense
@@ -363,6 +414,7 @@
             class="rounded-lg text-capitalize font-weight-bold ml-8"
             color="#7631FF" dark
             width="163" height="44"
+            @click="saveClassification"
           >
             Save
           </v-btn>
@@ -403,65 +455,39 @@ export default {
         quantity: '',
         type: 'KG'
       },
-      classificationList: {
-        24: 100,
-        26: 120,
-        28: 140,
-        30: 160,
-        reason: 'Defect',
-        comment: ''
-      },
-      classificationEnums: ['Defect', 'Effect )'],
+      classification_shortcom: {},
+
+      classificationEnums: ['DEFECT', 'PHOTO', 'PHOTO_SAMPLE', 'SAMPLE', 'LOST', 'OTHERS'],
       selected: [],
       singleSelect: false,
       fabricEnums: ['KG', 'm'],
-      historyHeaders: [
-        {text: 'Date', sortable: false, align: 'start', value: 'date'},
-        {text: '24', sortable: false, align: '24', value: '24'},
-        {text: '26', sortable: false, align: '26', value: '26'},
-        {text: '28', sortable: false, align: '28', value: '28'},
-        {text: '30', sortable: false, align: '30', value: '30'},
-        {text: 'Done By', sortable: false, align: 'canter', value: 'doneBy'},
-      ],
-      historyList: [
-        {
-          date: '08.01.2023',
-          24: '180',
-          26: '200',
-          28: '300',
-          30: '350',
-          doneBy: 'Shavkatova M.'
-        },
-        {
-          date: '08.01.2023',
-          24: '180',
-          26: '200',
-          28: '300',
-          30: '350',
-          doneBy: 'Shavkatova M.'
-        },
-        {
-          date: '08.01.2023',
-          24: '180',
-          26: '200',
-          28: '300',
-          30: '350',
-          doneBy: 'Shavkatova M.'
-        },
+      historyHeaders: [],
+      historyList: [],
+      cuttingId: null,
 
-      ]
     }
   },
 
   computed: {
     ...mapGetters({
       cuttingList: "cuttingProcess/cuttingList",
+      historyListDate: "cuttingProcess/historyList",
     })
   },
 
   watch: {
     cuttingList(list) {
-      list[0].sizeDistributionList?.forEach((item) => {
+      this.headers = []
+      this.headers = [
+        {text: 'Sip №', sortable: false, align: 'start', value: 'sipNumber'},
+        {text: 'Batch №', sortable: false, align: 'start', value: 'batchNumber'},
+        {text: 'Fabric specification', sortable: false, align: 'start', value: 'fabricSpecification'},
+        {text: 'Given fabric quantity for cut.', sortable: false, align: 'start', value: 'givenFabricQuantity'},
+        {text: 'Used fabric', sortable: false, align: 'start', value: 'usedFabricQuantity'},
+        {text: 'Color', sortable: false, align: 'start', value: 'color'},
+      ]
+      list[0]?.sizeDistributionList?.forEach((item) => {
+
         this.headers.push({
           text: item.size, sortable: false, align: 'start', value: item.size
         })
@@ -470,21 +496,53 @@ export default {
       this.headers = [
         ...this.headers,
         {text: 'Produced total', sortable: false, align: 'start', value: 'totalCutQuantity'},
-        {text: 'Actions', sortable: false, align: 'end', value: 'actions', width: "150"},
+        {text: 'Actions', sortable: false, align: 'center', value: 'actions', width: "250"},
       ]
 
       const specialList = list.map(function (el) {
         const value = {};
-        el.sizeDistributionList.forEach((item) => {
+        const sizesList = [];
+        el?.sizeDistributionList.forEach((item) => {
           value[item.size] = item.quantity
-
+          sizesList.push({size: item.size, quantity: 0})
         });
+
         return {
           ...value,
           ...el,
+          sizeDistributions: [...sizesList],
+
         }
       })
       this.items = JSON.parse(JSON.stringify(specialList))
+    },
+
+    historyListDate(list) {
+      this.historyHeaders = [
+        {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
+      ],
+        list[0]?.sizeDistributionList?.forEach((item) => {
+          this.historyHeaders.push({
+            text: item.size, sortable: false, align: 'start', value: item.size
+          })
+        })
+      this.historyHeaders.push(
+        {text: 'Done By', sortable: false, align: 'canter', value: 'createdBy'},
+      )
+
+      const specialList = list.map(function (el) {
+        const value = {};
+        el?.sizeDistributionList.forEach((item) => {
+          value[item.size] = item.quantity
+        });
+        return {
+          ...el,
+          ...value,
+        }
+      })
+      this.historyList = JSON.parse(JSON.stringify(specialList))
+
+
     }
   },
 
@@ -493,45 +551,113 @@ export default {
       getCuttingList: "cuttingProcess/getCuttingList",
       setUpdateSizes: "cuttingProcess/setUpdateSizes",
       deleteCuttingSizes: "cuttingProcess/deleteCuttingSizes",
+      getOneCutting: "cuttingProcess/getOneCutting",
+      getHistoryList: "cuttingProcess/getHistoryList",
+      setHistoryItem: "cuttingProcess/setHistoryItem",
+      saveReturnFabricFunc: "cuttingProcess/saveReturnFabric",
+      deleteHistoryFunc: "cuttingProcess/deleteHistoryFunc",
+      getClassificationList: "cuttingProcess/getClassificationList",
+      createClassification: "cuttingProcess/createClassification",
+
     }),
     returnDialog(item) {
       this.return_dialog = true;
       this.returned_fabric = {...item};
+      this.returned_fabric.measurment = item.givenFabricQuantity.split(" ")[1]
+
+    },
+    saveReturnFabric() {
+      const data = {
+        id: this.returned_fabric.id,
+        quantity: this.returned_fabric.quantity,
+        warehouseId: this.returned_fabric.warehouseId
+      }
+      this.saveReturnFabricFunc(data)
+      this.return_dialog = false;
+
     },
     getHistory(item) {
       this.history_dialog = true;
-    },
-    getClassification(item) {
-      this.classification_dialog = true;
+      this.getHistoryList(item.id)
     },
     save() {
-      const data = {
-        id: this.selectedItem.id,
-        sizeDistributionList: [...this.selectedItem.sizeDistributionList]
+      if (this.selectedItem.status === "infoEdit") {
+        const data = {
+          id: this.selectedItem.id,
+          sizeDistributions: [...this.selectedItem?.sizeDistributions]
+        }
+        this.setUpdateSizes(data)
       }
+      if (this.selectedItem.status === "historyEdit") {
+        const data = {
+          id: this.selectedItem.id,
+          sizeDistributionList: [...this.selectedItem?.sizeDistributions]
+        }
+        this.setHistoryItem(data)
+      }
+
+
       this.edit_dialog = false
-
-
-      this.setUpdateSizes(data)
     },
     editItem(item) {
+      this.cuttingId = item.id
       this.edit_dialog = true
-      this.selectedItem = {...item}
+      this.selectedItem = {...item, status: "infoEdit"}
+      this.getHistoryList(item.id)
+
     },
     deleteItem(item) {
       this.delete_dialog = true
-      this.selectedItem = {...item}
+      this.selectedItem = {...item, status: "deleteItem"}
+
     },
 
     deleteFunc() {
       this.delete_dialog = false
       this.deleteCuttingSizes(this.selectedItem.id)
-    }
+    },
 
+    editHistoryItem(item) {
+      this.selectedItem={
+        id:item.id,
+        sizeDistributions:[...item.sizeDistributionList],
+        status:"historyEdit",
+        cuttingId:this.cuttingId,
+      }
+    },
+    deleteHistoryItem(item) {
+      this.deleteHistoryFunc({id: item.id, processId: this.cuttingId})
+    },
+
+    getClassification(item) {
+      this.classification_dialog = true
+      this.classification_shortcom = {
+        ...item,
+        reason: '',
+        comment: '',
+      }
+    },
+    saveClassification() {
+      const data = {
+        description: this.classification_shortcom.comment,
+        detailsId: this.classification_shortcom.id,
+        reason: this.classification_shortcom.reason,
+        sizeDistributions: []
+      }
+      this.classification_shortcom?.sizeDistributions.forEach((item) => {
+        if (item.quantity !== 0 && item.quantity) {
+          data.sizeDistributions.push(item)
+        }
+      })
+
+      this.createClassification(data)
+      this.classification_dialog = false
+    }
   },
 
   mounted() {
     this.getCuttingList()
+    this.getClassificationList()
   }
 }
 </script>
