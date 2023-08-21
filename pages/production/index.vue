@@ -122,20 +122,20 @@
           <span>{{ $t('planningProduction.dialog.details') }}</span>
         </v-tooltip>
       </template>
-      <template #item.status="{item}">
+      <template #item.status="{ item }">
         <v-select
           @click.stop
           @change="changeStatus(item)"
-          :background-color="prodColor(item.statusId)"
+          :background-color="statusColor.prodColor(item.status)"
           :items="status_enums"
-          append-icon="mdi-chevron-down"
           item-text="name"
-          item-value="id"
-          v-model="item.statusId"
+          item-value="name"
+          append-icon="mdi-chevron-down"
+          v-model="item.status"
           hide-details
           class="mt-n2"
-          dark
           rounded
+          dark
         />
       </template>
     </v-data-table>
@@ -200,16 +200,7 @@ export default {
       this.$router.push(this.localePath(`/production/${row.modelId}`));
       this.$store.commit('production/planning/setProductionId', row.id);
     },
-    prodColor(color) {
-      switch (color) {
-        case 1:
-          return '#10BF41'
-        case 3:
-          return '#FF4E4F'
-        case 2:
-          return '#4B86FE'
-      }
-    },
+    
     async filterData() {
       await this.getPlanningList({
         page: this.current_page,
@@ -231,9 +222,23 @@ export default {
       }
     },
     async changeStatus(item) {
+      let statusId=null
+      switch (item.status) {
+        case 'ACTIVE':
+         statusId=1
+         break;
+        case 'DISABLED':
+         statusId=3
+         break;
+        case 'FINISHED':
+         statusId=2 
+         break;
+
+      }
+
       await this.updateStatus({
         id: item.id,
-        statusId: item.statusId,
+        statusId:statusId,
         page: this.current_page,
         size: this.itemPerPage
       })
