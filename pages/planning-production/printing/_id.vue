@@ -325,7 +325,7 @@ import Subcontracts from "@/components/Subcontracts.vue";
 import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
 import CuttingComponent from '@/components/Cutting.vue';
 import CalculationShortcomings from "../../../components/CalculationsShoertcomings.vue";
-import OrderQuantities from "../../../OrderQuantities.vue";
+import OrderQuantities from "../../../components/OrderQuantities.vue";
 import PrintingProcessVue from '../../../components/PrintingProcess.vue';
 import PrintingSubcontract from "../../../components/SubcontractsFolder/PrintingSubcontract.vue";
 
@@ -472,7 +472,7 @@ export default {
         page: 0,
         size: 10
       })
-      
+
     }
   }
 }

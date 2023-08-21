@@ -10,7 +10,7 @@
         </template>
       </v-data-table>
     </v-card>
-    
+
   </div>
 </template>
 
@@ -36,8 +36,8 @@ export default {
   watch:{
     orderQuantityList(list){
       this.headers= [
-        {text: 'Main color', sortable: false, value: 'color', align: 'start'}, 
-      ],
+        {text: 'Main color', sortable: false, value: 'color', align: 'start'},
+      ];
       list[0]?.sizeDistributionList.forEach((item)=>{
         this.headers.push(
           {text: item.size, sortable: false, value: item.size, align: 'start'},
