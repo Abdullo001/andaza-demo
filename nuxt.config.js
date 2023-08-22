@@ -27,24 +27,19 @@ export default {
     {src: "./plugins/element-io.js"}
   ],
 
-  // Auto import components: https://go.nuxtjs.dev/config-components
   components: false,
 
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
     '@nuxtjs/style-resources',
     '@nuxtjs/pwa'
   ],
   styleResources: {
     scss: [
-      '~/assets/abstracts/_global.scss' // use underscore "_" & also file extension ".scss"
+      '~/assets/abstracts/_global.scss'
     ]
   },
-  // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     "@nuxtjs/toast",
     '@nuxtjs/auth-next',
