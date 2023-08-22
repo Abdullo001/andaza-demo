@@ -34,7 +34,7 @@ export const mutations = {
 
 export const actions = {
   async getSubcontractsList({ commit }, { modelNumber, modelId = "" }) {
-    modelNumber = modelNumber === null && modelNumber === undefined ? "" : modelNumber;
+    modelNumber = modelNumber === null && typeof modelNumber === undefined ? "" : modelNumber;
     await this.$axios
       .get(`/api/v1/subcontracts/get-modelNumber?modelId=${modelId}&modelNumber=${modelNumber}`)
       .then((res) => {

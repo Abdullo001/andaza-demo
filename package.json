@@ -22,16 +22,16 @@
     "v-mask": "^2.3.0",
     "vue": "^2.6.14",
     "vue-phone-number-input": "^1.12.13",
-    "vue-server-renderer": "^2.7.10",
+    "vue-server-renderer": "^2.6.14",
     "vue-template-compiler": "^2.7.10",
-    "vuetify": "^2.6.10"
+    "vuetify": "^2.6.10",
+    "webpack": "^4.46.0"
   },
   "devDependencies": {
     "@nuxt/types": "~2.15.0",
     "@nuxtjs/vuetify": "^1.12.3",
     "fibers": "^5.0.3",
     "sass": "^1.56.1",
-    "sass-loader": "^10.4.1",
-    "webpack": "^4.46.0"
+    "sass-loader": "^10.4.1"
   }
 }
