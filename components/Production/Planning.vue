@@ -261,6 +261,7 @@ export default {
     },
     getCurrentRow(item){
       this.$store.commit('cuttingProcess/setPlanningProcessId', item.id)
+      this.$store.commit('subcontracts/setPlanningProcessId', item.id)
       const id =this.$route.params.id
       const process=item.process.toLowerCase()
       this.$router.push(this.localePath(`/planning-production/${process}/${id}`));

@@ -110,6 +110,16 @@ export default (context, inject) => {
                 return '#FF4E4F'
             }
           },
+
+          subcontractColor(color) {
+            switch (color) {
+              case 'SENT':
+                return '#FF4E4F'
+                case 'RECEIVED':
+                  return '#10BF41'
+             
+            }
+          },
         }
       },
       pickerShortcuts() {

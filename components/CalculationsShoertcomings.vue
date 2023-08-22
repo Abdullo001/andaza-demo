@@ -184,7 +184,8 @@ export default {
           text: '',
           sortable: false,
           align: 'end',
-          value: 'actions'
+          value: 'actions',
+          width: 120,
         },
       ],
       items: [],
@@ -203,7 +204,58 @@ export default {
 
   watch:{
     classificationList(val){
+      this.headers=[
+        {
+          text: 'Colors',
+          sortable: false,
+          align: 'start',
+          value: 'color'
+        },
+        {
+          text: 'Size',
+          sortable: false,
+          align: 'start',
+          value: 'size'
+        },
+        {
+          text: 'Quantity',
+          sortable: false,
+          align: 'start',
+          value: 'quantity'
+        },
+        {
+          text: 'Reason',
+          sortable: false,
+          align: 'start',
+          value: 'reason'
+        },
+        {
+          text: 'Comment',
+          sortable: false,
+          align: 'start',
+          value: 'description'
+        },
+        {
+          text: '',
+          sortable: false,
+          align: 'end',
+          value: 'actions',
+          width: 120,
+        },
+      ]
       this.items=JSON.parse(JSON.stringify(val))
+      
+      if(val[0]?.partner){
+        this.headers.splice(4,0,
+          {
+            text: 'Partner',
+            sortable: false,
+            align: 'start',
+            value: 'partner'
+          },
+          
+        )
+      }
     }
   },
 
@@ -211,6 +263,8 @@ export default {
     ...mapActions({
       deleteClassification:"cuttingProcess/deleteClassification",
       updateClassification:"cuttingProcess/updateClassification",
+      updateClassificationSubcontract:"subcontracts/updateClassificationSubcontract",
+      deleteClassificationSubcontracts:"subcontracts/deleteClassificationSubcontracts",
 
     }),
 
@@ -227,7 +281,11 @@ export default {
         quantity: this.selectedItem.quantity,
         reason: this.selectedItem.reason,
       }
-      this.updateClassification(data)
+      if(this.selectedItem.partner){
+        this.updateClassificationSubcontract(data)
+      }else{
+        this.updateClassification(data)
+      }
       this.edit_dialog=false
 
     },
@@ -238,7 +296,11 @@ export default {
     },
     deleteFunc(){
       this.delete_dialog=false
-      this.deleteClassification(this.selectedItem.id)
+      if(this.selectedItem.partner){
+        this.deleteClassificationSubcontracts(this.selectedItem.id)
+      }else{
+        this.deleteClassification(this.selectedItem.id)
+      }
     }
   }
 }
