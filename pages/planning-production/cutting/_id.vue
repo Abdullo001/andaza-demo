@@ -302,10 +302,13 @@
           <v-tab-item>
             <Subcontracts/>
           </v-tab-item>
+          <v-tab-item>
+            <PassingToNextProcess/>
+          </v-tab-item>
         </v-tabs-items>
       </v-card-text>
     </v-card>
-    <v-row class="mt-2">
+    <v-row class="mt-2" v-if="tab!==2">
       <v-col cols="6">
         <CalculationShortcomings/>
       </v-col>
@@ -325,6 +328,7 @@ import ShowBtnComponent from "../../../components/ShowComponentBtn/ShowBtn.vue";
 import CuttingComponent from '../../../components/Cutting.vue';
 import CalculationShortcomings from "../../../components/CalculationsShoertcomings.vue";
 import OrderQuantities from "../../../components/OrderQuantities.vue";
+import PassingToNextProcess from "~/components/PassingToNextProcess.vue";
 
 export default {
   name: 'ProductionOfPlanningPage',
@@ -335,12 +339,14 @@ export default {
     ShowBtnComponent,
     Subcontracts,
     Breadcrumbs,
-    ProductionPlanningComponent},
+    ProductionPlanningComponent,
+    PassingToNextProcess
+  },
   data() {
     return {
       show_btn: true,
       tab: null,
-      items: ["Cutting", "Subcontracts"],
+      items: ["Cutting", "Subcontracts","Passing to next process"],
       title: "Add",
       currentImage: '',
       image_dialog: false,

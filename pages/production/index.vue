@@ -264,6 +264,8 @@ export default {
   async mounted() {
     await this.getPlanningList({page: 0, size: 20, id: ''});
     await this.getStatusList()
+    this.$store.commit("setPageTitle", "Production");
+
   }
 }
 </script>

@@ -264,7 +264,7 @@ export default {
     },
   },
   async mounted() {
-    this.$store.commit("setPageTitle", "Lists");
+    this.$store.commit("setPageTitle", "Orders");
     await this.getOrdersList({page: 0, size: 10, modelGroup: "",});
   },
 };

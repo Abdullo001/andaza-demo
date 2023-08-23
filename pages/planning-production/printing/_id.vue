@@ -302,10 +302,13 @@
           <v-tab-item>
             <PrintingSubcontract/>
           </v-tab-item>
+          <v-tab-item>
+            <PassingToNextProcess/>
+          </v-tab-item>
         </v-tabs-items>
       </v-card-text>
     </v-card>
-    <v-row class="mt-2">
+    <v-row class="mt-2" v-if="tab!==2">
       <v-col>
         <CalculationShortcomings/>
       </v-col>
@@ -321,32 +324,29 @@ import {mapActions, mapGetters} from "vuex";
 import PrintingProcess from "@/components/PrintingProcess.vue"
 import ProductionPlanningComponent from "@/components/Production/Planning.vue";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
-import Subcontracts from "@/components/Subcontracts.vue";
 import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
-import CuttingComponent from '@/components/Cutting.vue';
 import CalculationShortcomings from "../../../components/CalculationsShoertcomings.vue";
 import OrderQuantities from "../../../components/OrderQuantities.vue";
-import PrintingProcessVue from '../../../components/PrintingProcess.vue';
 import PrintingSubcontract from "../../../components/SubcontractsFolder/PrintingSubcontract.vue";
+import PassingToNextProcess from "~/components/PassingToNextProcess.vue";
 
 export default {
   name: 'ProductionOfPlanningPage',
   components: {
     OrderQuantities,
     CalculationShortcomings,
-    CuttingComponent,
     ShowBtnComponent,
-    Subcontracts,
     Breadcrumbs,
     ProductionPlanningComponent,
     PrintingProcess,
-    PrintingSubcontract
+    PrintingSubcontract,
+    PassingToNextProcess
 },
   data() {
     return {
       show_btn: true,
       tab: null,
-      items: ["Printing", "Subcontracts"],
+      items: ["Printing", "Subcontracts","Passing to next process"],
       title: "Add",
       currentImage: '',
       image_dialog: false,
