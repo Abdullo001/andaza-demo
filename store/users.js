@@ -112,7 +112,9 @@ export const actions = {
     formData.append('lang', user.lang)
     formData.append('phoneNumber', user.userPhone)
     formData.append('username', user.username)
-    formData.append('photo', user.photo)
+    if(user.photo){
+      formData.append('photo', user.photo)
+    }
 
     this.$axios.post('/api/v1/user/register', formData, config)
       .then(res => {

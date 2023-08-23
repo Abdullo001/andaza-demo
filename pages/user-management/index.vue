@@ -675,13 +675,16 @@ export default {
         endTime: this.search.end_time
       })
     },
-    async addUser() {
+    addUser() {
       const valid = this.$refs.new_user.validate()
       if (valid) {
+        if(this.user_data.photo===null){
+          delete this.user_data.photo
+        }
         const user = {...this.user_data};
         user.lang = user.lang.title;
         user.userPhone =  this.userPhoneNumber;
-        await this.createUser(user);
+        this.createUser(user);
         this.user_data.phone = '';
       }
     },
