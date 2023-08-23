@@ -306,10 +306,10 @@
       </v-card-text>
     </v-card>
     <v-row class="mt-2">
-      <v-col>
+      <v-col cols="6">
         <CalculationShortcomings/>
       </v-col>
-      <v-col>
+      <v-col cols="6">
         <OrderQuantities/>
       </v-col>
     </v-row>
@@ -424,6 +424,13 @@ export default {
     modelImages(val){
       const item = JSON.parse(JSON.stringify(val));
       this.model_images = item
+    },
+    tab(val){
+      if(val!==0){
+        this.setClassification()
+      }else{
+        this.getClassificationList()
+      }
     }
   },
   methods: {
@@ -435,7 +442,11 @@ export default {
       getWorkshopList: 'production/planning/getWorkshopList',
       getColorsList: 'production/planning/getColorsList',
       createProcessPlanning: 'production/planning/createProcessPlanning',
-      getProcessingList: 'production/planning/getProcessingList'
+      getProcessingList: 'production/planning/getProcessingList',
+      setClassification: "subcontracts/setClassification",
+      getClassificationList:"cuttingProcess/getClassificationList",
+
+
     }),
     clickBtn(){
       this.show_btn = !this.show_btn

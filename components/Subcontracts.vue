@@ -39,6 +39,20 @@
           @input="select($event)"
         />
       </template>
+      <template #item.status="{item}">
+        <v-select
+          @click.stop
+          @change="changeStatus(item)"
+          :background-color="statusColor.subcontractColor(item.status)"
+          :items="status_enums"
+          append-icon="mdi-chevron-down"
+          v-model="item.status"
+          hide-details
+          class="mt-n2"
+          rounded
+          dark
+        />
+      </template>
       <template #item.actions="{ item }">
         <div>
           <v-btn icon @click="returnDialog(item)">
@@ -66,7 +80,7 @@
                 <v-col>
                   <div class="body-1 mb-3">
                     Used fabric:
-                    <span class="font-weight-bold ml-2"> 900 kg</span>
+                    <span class="font-weight-bold ml-2"> {{item.usedFabricQuantity}}</span>
                   </div>
                   <div class="body-1 mb-3">
                     sent date:
@@ -76,7 +90,7 @@
                 <v-col>
                   <div class="body-1 mb-3">
                     Total price:
-                    <span class="font-weight-bold ml-2"> 900 kg</span>
+                    <span class="font-weight-bold ml-2"> {{item.totalPrice}}</span>
                   </div>
                   <div class="body-1 mb-3">
                     Deadline:
@@ -90,134 +104,6 @@
       </template>
     </v-data-table>
 
-    <v-dialog v-model="new_dialog" max-width="572">
-      <v-card>
-        <v-card-title class="w-full text-h6 d-flex justify-space-between text-capitalize">
-          <div>Create Subcontracts</div>
-          <v-btn @click="new_dialog = !new_dialog" icon>
-            <v-icon color="#7631FF">mdi-close</v-icon>
-          </v-btn>
-        </v-card-title>
-
-        <v-card-text>
-          <v-form lazy-validation v-model="new_validate" ref="new_form">
-            <v-row class="mb-4">
-              <v-col cols="6">
-                <div class="label">Cooperation type</div>
-                <v-select
-                  v-model="newSubcontractDetail.cooperationTypeId"
-                  placeholder="select cooperation Type"
-                  :items="cooperation_type"
-                  item-text="name"
-                  item-value="id"
-                  append-icon="mdi-chevron-down"
-                  rounded
-                  single-line
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base mb-4"
-                  validate-on-blur
-                  dense
-                  color="#7631FF"
-                  background-color="#F8F4FE"
-                />
-                <div class="label">Quantity</div>
-                <v-text-field
-                  v-model="newSubcontractDetail.quantity"
-                  placeholder="Enter quantity"
-                  single-line
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  validate-on-blur
-                  dense
-                  color="#7631FF"
-                  background-color="#F8F4FE"
-                />
-              </v-col>
-
-              <v-col cols="6">
-                <div class="label">Partner name</div>
-                <v-select
-                  v-model="newSubcontractDetail.partnerId"
-                  placeholder="select Partner"
-                  :items="partnerList"
-                  item-text="name"
-                  item-value="id"
-                  append-icon="mdi-chevron-down"
-                  rounded
-                  single-line
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base mb-4"
-                  validate-on-blur
-                  dense
-                  color="#7631FF"
-                  background-color="#F8F4FE"
-                />
-                <div class="label">Measurement unit</div>
-                <v-select
-                  v-model="newSubcontractDetail.measurementUnitId"
-                  placeholder="select unit"
-                  :items="measurementUnitList"
-                  item-text="name"
-                  item-value="id"
-                  append-icon="mdi-chevron-down"
-                  rounded
-                  single-line
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  validate-on-blur
-                  dense
-                  color="#7631FF"
-                  background-color="#F8F4FE"
-                />
-              </v-col>
-
-              <v-col cols="12">
-                <div class="label">Description</div>
-                <v-textarea
-                  v-model="newSubcontractDetail.description"
-                  placeholder="Enter description"
-                  single-line
-                  outlined
-                  hide-details
-                  class="rounded-lg base"
-                  validate-on-blur
-                  dense
-                  color="#7631FF"
-                  background-color="#F8F4FE"
-                />
-              </v-col>
-            </v-row>
-
-            <v-card-actions class="d-flex justify-center pb-6">
-              <v-btn
-                outlined
-                class="text-capitalize rounded-lg font-weight-bold mr-6"
-                color="#7631FF"
-                width="163"
-                @click="new_dialog = !new_dialog"
-              >cancel
-              </v-btn>
-              <v-btn
-                class="text-capitalize rounded-lg font-weight-bold"
-                color="#7631FF"
-                dark
-                width="163"
-                @click="setNewSubcontracts"
-              >save
-              </v-btn>
-            </v-card-actions>
-          </v-form>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
 
     <v-dialog v-model="edit_dialog" max-width="572">
       <v-card>
@@ -228,123 +114,116 @@
           </v-btn>
         </v-card-title>
 
-        <v-card-text>
-          <v-form lazy-validation v-model="new_validate" ref="edit_form">
-            <v-row class="mb-4">
-              <v-col cols="6">
-                <div class="label">Cooperation type</div>
-                <v-select
-                  v-model="subcontractsDetail.cooperationTypeId"
-                  placeholder="select cooperation Type"
-                  :items="cooperation_type"
-                  item-text="name"
-                  item-value="id"
-                  append-icon="mdi-chevron-down"
-                  rounded
-                  single-line
-                  height="44"
-                  outlined
-                  hide-details
-                  validate-on-blur
-                  dense
-                  class="rounded-lg base mb-4"
-                  color="#7631FF"
-                  background-color="#F8F4FE"
-                />
-                <div class="label">Quantity</div>
+        <v-card-text class="mt-4">
+          <v-form ref="edit_form" v-model="edit_validate" lazy-validation>
+            <v-row>
+              <v-col cols="12" lg="6">
+                <div class="label">Price per work</div>
                 <v-text-field
-                  v-model="subcontractsDetail.quantity"
-                  placeholder="Enter quantity"
-                  single-line
-                  height="44"
+                  v-model="subcontractsDetail.pricePerWork"
+                  placeholder="0.00"
                   outlined
                   hide-details
+                  height="44"
+                  class="rounded-lg base "
                   validate-on-blur
                   dense
-                  class="rounded-lg base"
                   color="#7631FF"
-                  background-color="#F8F4FE"
+                  :suffix="subcontractsDetail.priceCurrency"
                 />
               </v-col>
-
-              <v-col cols="6">
-                <div class="label">Partner name</div>
-                <v-select
-                  v-model="subcontractsDetail.partnerId"
-                  placeholder="select Partner"
-                  :items="partnerList"
-                  item-text="name"
-                  item-value="id"
-                  append-icon="mdi-chevron-down"
-                  rounded
-                  single-line
-                  outlined
-                  hide-details
-                  height="44"
-                  validate-on-blur
-                  dense
-                  class="rounded-lg base mb-4"
-                  color="#7631FF"
-                  background-color="#F8F4FE"
-                />
-                <div class="label">Measurement unit</div>
-                <v-select
-                  v-model="subcontractsDetail.measurementUnitId"
-                  placeholder="select unit"
-                  :items="measurementUnitList"
-                  item-text="name"
-                  item-value="id"
-                  append-icon="mdi-chevron-down"
-                  rounded
-                  single-line
-                  height="44"
-                  outlined
-                  hide-details
-                  validate-on-blur
-                  dense
-                  class="rounded-lg base"
-                  color="#7631FF"
-                  background-color="#F8F4FE"
-                />
+              <v-col cols="12" lg="6">
+                <div class="label">Sent date</div>
+                <div style="height: 40px !important">
+                  <el-date-picker
+                    v-model="subcontractsDetail.sentDate"
+                    type="datetime"
+                    style="width: 100%; height: 100%"
+                    placeholder="dd.MM.yyyy HH:mm:ss"
+                    :picker-options="pickerShortcuts"
+                    value-format="dd.MM.yyyy HH:mm:ss"
+                    class="base_picker"
+                  >
+                  </el-date-picker>
+                </div>
               </v-col>
-
-              <v-col cols="12">
-                <div class="label">Description</div>
-                <v-textarea
-                  v-model="subcontractsDetail.description"
-                  placeholder="Enter description"
-                  single-line
+              <v-col cols="12" lg="6">
+                <div class="label">Deadline</div>
+                <div style="height: 40px !important">
+                  <el-date-picker
+                    v-model="subcontractsDetail.deadline"
+                    type="datetime"
+                    style="width: 100%; height: 100%"
+                    placeholder="dd.MM.yyyy HH:mm:ss"
+                    :picker-options="pickerShortcuts"
+                    value-format="dd.MM.yyyy HH:mm:ss"
+                    class="base_picker"
+                  >
+                  </el-date-picker>
+                </div>
+              </v-col>
+              <v-col cols="12" lg="6"></v-col>
+              
+              <v-col cols="12" lg="3" v-for="(item,idx) in subcontractsDetail.sizeDistributions" :key="idx">
+                <div class="label">{{item.size}}</div>
+                <v-text-field
+                  v-model="item.quantity"
+                  placeholder="0"
                   outlined
                   hide-details
+                  height="44"
+                  class="rounded-lg base "
                   validate-on-blur
                   dense
-                  class="rounded-lg base"
                   color="#7631FF"
-                  background-color="#F8F4FE"
                 />
               </v-col>
             </v-row>
 
-            <v-card-actions class="d-flex justify-center pb-6">
-              <v-btn
-                outlined
-                class="text-capitalize rounded-lg font-weight-bold mr-6"
-                color="#7631FF"
-                width="163"
-                @click="edit_dialog = !edit_dialog"
-              >cancel
-              </v-btn>
-              <v-btn
-                class="text-capitalize rounded-lg font-weight-bold"
-                color="#7631FF"
-                dark
-                width="163"
-                @click="updateSubcontractsView"
-              >{{ $t('update') }}
-              </v-btn>
-            </v-card-actions>
           </v-form>
         </v-card-text>
+        <v-card-actions class="d-flex justify-center pb-8">
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            outlined color="#7631FF"
+            width="130"
+            @click="edit_dialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-btn
+            class="rounded-lg text-capitalize ml-4 font-weight-bold"
+            color="#7631FF" dark
+            width="130"
+            @click="updateSubcontractsView"
+          >
+            save
+          </v-btn>
+        </v-card-actions>
+
+        <v-divider/>
+          <div class="px-4 pb-4">
+            <v-data-table
+              :headers="[...historyHeaders,{text: 'Actions', sortable: false, align: 'center', value: 'actions',width:'120' },]"
+              hide-default-footer
+              :items="historyList"
+              class="mt-4 rounded-lg"
+              style="border: 1px solid #E9EAEB"
+            >
+            <template #top>
+              <div class="title ma-4">History</div>
+            </template>
+
+            <template #item.actions="{item}">
+              <v-btn icon color="green" @click.stop="editHistoryItem(item)">
+                <v-img src="/edit-active.svg" max-width="22"/>
+              </v-btn>
+              <v-btn icon color="red" @click.stop="deleteHistoryItem(item)">
+                <v-img src="/delete.svg" max-width="27"/>
+              </v-btn>
+              </template>
+            </v-data-table>
+          </div>
       </v-card>
     </v-dialog>
 
@@ -384,6 +263,192 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-dialog v-model="classification_dialog" max-width="600">
+      <v-card flat>
+        <v-card-title>
+          <div class="title">Add classification</div>
+          <v-spacer/>
+          <v-btn
+            icon
+            @click="classification_dialog=false"
+            color="#7631FF"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text class="mt-4">
+          <v-row>
+            <v-col  cols="12" lg="3" v-for="(item,idx) in classification_shortcom.sizeDistributions" :key="idx">
+              <div class="label">{{item.size}}</div>
+              <v-text-field
+                outlined
+                hide-details
+                dense
+                height="44"
+                class="rounded-lg base" color="#7631FF"
+                placeholder="Enter branch number"
+                v-model.trim="item.quantity"
+              />
+            </v-col>
+            
+            <v-col cols="12" lg="6">
+              <div class="label">Reason</div>
+              <v-select
+                :items="classificationEnums"
+                v-model.trim="classification_shortcom.reason"
+                append-icon="mdi-chevron-down"
+                outlined
+                hide-details
+                dense
+                height="44"
+                class="rounded-lg base" color="#7631FF"
+                placeholder="Enter branch number"
+              />
+            </v-col>
+            <v-col cols="12" lg="6">
+              <div class="label">Comment</div>
+              <v-text-field
+                v-model.trim="classification_shortcom.comment"
+                outlined
+                hide-details
+                dense
+                height="44"
+                class="rounded-lg base" color="#7631FF"
+                placeholder="Enter branch number"
+              />
+            </v-col>
+          </v-row>
+        </v-card-text>
+        <v-card-actions class="px-10 pb-5">
+          <v-spacer/>
+          <v-btn
+            outlined
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#7631FF"
+            width="163" height="44"
+            @click="classification_dialog=false"
+            style="border-width: 2px"
+          >
+            {{ $t('planningProduction.planning.cancel') }}
+          </v-btn>
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold ml-8"
+            color="#7631FF" dark
+            width="163" height="44"
+            @click="saveClassification"
+          >
+            Save
+          </v-btn>
+          <v-spacer/>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog max-width="500" v-model="return_dialog">
+      <v-card>
+        <v-card-title class="d-flex align-center w-full">
+          <div class="title">Returned fabric</div>
+          <v-spacer/>
+          <v-btn
+            icon
+            color="#7631FF"
+            @click="return_dialog=false"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text>
+          <v-col cols="12">
+            <div class="label">Sip №</div>
+            <v-text-field
+              outlined
+              hide-details
+              dense
+              height="44"
+              class="rounded-lg base" color="#7631FF"
+              placeholder="Enter spin number"
+              v-model.trim="returned_fabric.sipNumber"
+            />
+          </v-col>
+          <v-col cols="12">
+            <div class="label">Batch №</div>
+            <v-text-field
+              outlined
+              hide-details
+              dense
+              height="44"
+              class="rounded-lg base" color="#7631FF"
+              placeholder="Enter branch number"
+              v-model.trim="returned_fabric.batchNumber"
+            />
+          </v-col>
+          <v-col cols="12">
+            <div class="label">Returned fabric quantity</div>
+            <div class="d-flex align-center">
+              <v-text-field
+                outlined
+                hide-details
+                dense
+                height="44"
+                class="rounded-l-lg base" color="#7631FF"
+                placeholder="Enter returned fabric quantity"
+                v-model.trim="returned_fabric.quantity"
+                :suffix="returned_fabric.measurment"
+              />
+            </div>
+          </v-col>
+        </v-card-text>
+        <v-card-actions class="px-10 pb-5">
+          <v-btn
+            outlined
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#7631FF"
+            width="163" height="44"
+            @click="return_dialog=false"
+            style="border-width: 2px"
+          >
+            {{ $t('planningProduction.planning.cancel') }}
+          </v-btn>
+          <v-spacer/>
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold ml-8"
+            color="#7631FF" dark
+            width="163" height="44"
+            @click="saveReturnFabric"
+          >
+            Save
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="history_dialog" max-width="600">
+      <v-card flat>
+        <v-card-title>
+          <div class="title">History</div>
+          <v-spacer/>
+          <v-btn
+            icon
+            @click="history_dialog=false"
+            color="#7631FF"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text>
+          <v-data-table
+            :headers="historyHeaders"
+            hide-default-footer
+            :items="historyList"
+            class="mt-4 rounded-lg"
+            style="border: 1px solid #E9EAEB"
+          >
+         
+          </v-data-table>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -393,177 +458,202 @@ export default {
   name: "Subcontracts",
   data() {
     return {
+      historyList:[],
+      historyHeaders:[],
+      history_dialog:false,
+      returned_fabric:{},
+      return_dialog:false,
+      classification_dialog:false,
+      classification_shortcom:{},
+      edit_validate:true,
       selected: [],
       singleSelect: false,
       expanded: [],
       singleExpand: true,
+      classificationEnums: ['DEFECT','PHOTO','PHOTO_SAMPLE','SAMPLE','LOST','OTHERS'],
+      status_enums: ["RECEIVED", "SENT"],
+
+
+
       btn_disabled: true,
       edit_dialog: false,
-      new_dialog: false,
       delete_dialog: false,
-      new_validate: true,
       modelSearch: "",
       modelNumber: "",
-      headers: [
-        {
-          text: "Cooperation type",
-          sortable: false,
-          value: "cooperationType",
-          width: "180",
-        },
-        {
-          text: "Partner Name",
-          sortable: false,
-          value: "partnerName",
-          width: "210",
-        },
-        {text: "Quantity", sortable: false, value: "quantity"},
-        {
-          text: "Meansurement Unit",
-          sortable: false,
-          value: "measurementUnit",
-          width: "180",
-        },
-        {
-          text: "Comment",
-          sortable: false,
-          value: "description",
-          width: "220",
-        },
-        {text: "Date", sortable: false, value: "dispatchedDate"},
-        {text: "Action", sortable: false, align: "end", value: "actions"},
-        {text: '', value: 'data-table-expand'},
-      ],
+      headers: [],
       subcontractsList: [],
       subcontractsDetail: {},
       selectedSubcontract: {},
-      newSubcontractDetail: {
-        cooperationTypeId: null,
-        partnerId: null,
-        quantity: null,
-        measurementUnitId: null,
-        comment: "",
-        dispatchedDate: "",
-      },
-      planning_model_id: "",
-      model_data: []
     };
   },
-  async created() {
-    await this.getCooperationTypes();
-    await this.getPartnerList();
-    await this.getMeasurementUnit();
-    await this.getModelList();
-  },
+  
   computed: {
     ...mapGetters({
-      cooperation_type: "subcontracts/cooperation_type",
-      partnerList: "subcontracts/partnerList",
-      measurementUnitList: "subcontracts/measurementUnitList",
       setSubcontractsList: "subcontracts/subcontractsList",
-      modelData: "subcontracts/modelList",
-      modelInfo: "production/planning/modelInfo",
+      historyListDate:"cuttingProcess/historyList",
+
     }),
   },
   watch: {
-    overlay(val) {
-      val &&
-      setTimeout(() => {
-        this.overlay = false;
-      }, 2000);
+    setSubcontractsList(list) {
+      this.headers= [
+        {text: "Sip №", sortable: false, align: "start", value: "sipNumber"},
+        {text: "Batch №", sortable: false, align: "start", value: "batchNumber"},
+        {text: "Given fabric quantity f/c.", sortable: false, value: "givenFabricQuantity",width:"150"},
+        {text: "Color", sortable: false, value: "color"}, 
+      ],
+
+      list[0]?.sizeDistributionList?.forEach((item)=>{
+        this.headers.push({
+          text: item.size, sortable: false, align: 'start', value: item.size
+        })
+      })
+      this.headers.push(
+        {text: "Received total quantity", sortable: false, value: "receivedQuantity"},
+        {text: "Partner", sortable: false, value: "partnerName"},
+        {text: "Price per work", sortable: false, value: "pricePerWork",width:"100"},
+        {text: "Status", sortable: false, value: "status",width:"200"},
+        {text: "Action", sortable: false, value: "actions",width:"250"},
+        {text: '', value: 'data-table-expand'},
+      )
+
+      const specialList = list.map(function (el) {
+        const value = {};
+        const sizesList=[];
+        el?.sizeDistributionList.forEach((item) => {
+          value[item.size]=item.quantity
+          sizesList.push({size:item.size,quantity:0})
+        });
+        return{
+          ...el,
+          ...value,
+          sizeDistributions:[...sizesList],
+        }
+      })
+
+      this.subcontractsList = JSON.parse(JSON.stringify(specialList));
+
     },
-    edit_dialog(val) {
-      if (!val) this.$refs.edit_form.reset();
-    },
-    new_dialog(val) {
-      if (!val) this.$refs.new_form.reset();
-    },
-    setSubcontractsList(subcontracts) {
-      this.subcontractsList = JSON.parse(JSON.stringify(subcontracts));
-    },
-    modelInfo(val) {
-      this.planning_model_id = val.modelId
-      this.btn_disabled = false;
-    },
-    modelData(val) {
-      this.model_data = JSON.parse(JSON.stringify(val));
-    },
+
+    historyListDate(list){
+      this.historyHeaders= [
+        {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
+      ],
+      list[0]?.sizeDistributionList?.forEach((item)=>{
+        this.historyHeaders.push({
+          text: item.size, sortable: false, align: 'start', value: item.size
+        })
+      })
+      this.historyHeaders.push(
+        {text: 'Done By', sortable: false, align: 'canter', value: 'createdBy'},
+        
+        )
+
+      const specialList=list.map(function(el){
+        const value = {};
+        el?.sizeDistributionList.forEach((item) => {
+          value[item.size]=item.quantity
+        });
+        return{
+          ...el,
+          ...value,
+        }
+      })
+      this.historyList=JSON.parse(JSON.stringify(specialList))
+
+
+    }
   },
 
   methods: {
     ...mapActions({
       getSubcontractsList: "subcontracts/getSubcontractsList",
-      getCooperationTypes: "subcontracts/getCooperationTypes",
-      getPartnerList: "subcontracts/getPartnerList",
-      getMeasurementUnit: "subcontracts/getMeasurementUnit",
-      createSubcontracts: "subcontracts/createSubcontracts",
-      getModelList: "subcontracts/getModelList",
-      updateSubcontracts: "subcontracts/updateSubcontracts",
+      setUpdateSizes: "subcontracts/setUpdateSizes",
       deleteSubcontractServer: "subcontracts/deleteSubcontractServer",
-      getModelInfo: 'production/planning/getModelInfo',
+      setClassification: "subcontracts/setClassification",
+      createClassification: "subcontracts/createClassification",
+      saveReturnFabricFunc: "subcontracts/saveReturnFabric",
+      changeStatusFunc: "subcontracts/changeStatus",
+      getHistoryList: "cuttingProcess/getHistoryList",
     }),
     returnDialog(item) {
       this.return_dialog = true;
       this.returned_fabric = {...item};
     },
+    saveReturnFabric(){
+      const data={
+        id:this.returned_fabric.id,
+        quantity:this.returned_fabric.quantity,
+        warehouseId:this.returned_fabric.warehouseId
+      }
+      this.saveReturnFabricFunc(data)
+      this.return_dialog = false;
+
+    },
     getHistory(item) {
       this.history_dialog = true;
-    },
-    getClassification(item) {
-      this.classification_dialog = true;
+      this.getHistoryList(item.id)
     },
 
     editParts(item) {
       this.edit_dialog = !this.edit_dialog;
       this.subcontractsDetail = {...item};
+      const price=item.pricePerWork.split(" ")
+      this.subcontractsDetail.pricePerWork=price[0]
+      this.subcontractsDetail.priceCurrency=price[1]
+      this.getHistoryList(item.id)
+
     },
-    getTime() {
-      const today = new Date();
-      let day = "";
-      let month = "";
-      let date = "";
-      today.getDate().toString().length === 1
-        ? (day = `0${today.getDate()}`)
-        : (day = `${today.getDate()}`);
-      today.getMonth().toString().length === 1
-        ? (month = `0${today.getMonth()}`)
-        : (month = `${today.getMonth()}`);
-      date = day + "." + month + "." + today.getFullYear();
-      let time = "";
-      let hour = "";
-      let minut = "";
-      let second = "";
-      today.getHours().toString().length === 1
-        ? (hour = `0${today.getHours()}`)
-        : (hour = `${today.getHours()}`);
-      today.getMinutes().toString().length === 1
-        ? (minut = `0${today.getMinutes()}`)
-        : (minut = `${today.getMinutes()}`);
-      today.getSeconds().toString().length === 1
-        ? (second = `0${today.getSeconds()}`)
-        : (second = `${today.getSeconds()}`);
-      time = hour + ":" + minut + ":" + second;
-      return date + " " + time;
+
+    editHistoryItem(){},
+
+    deleteHistoryItem(){},
+
+    changeStatus(item){
+      this.changeStatusFunc({id:item.id, status:item.status})
     },
-    async changeCombobox(item) {
-      const items = item.modelNumber === null ? '' : item.modelNumber
-      await this.getSubcontractsList({modelNumber: items, modelId: this.planning_model_id})
+
+    getClassification(item) {
+      this.classification_dialog = true
+      this.classification_shortcom={
+        ...item,
+        reason: '',
+        comment: '',
+      }
     },
+
+    saveClassification(){
+      const data={
+        description: this.classification_shortcom.comment,
+        detailsId: this.classification_shortcom.id,
+        reason: this.classification_shortcom.reason,
+        sizeDistributions:[]
+      }
+      this.classification_shortcom?.sizeDistributions.forEach((item)=>{
+        if(item.quantity!==0 && item.quantity){
+          data.sizeDistributions.push(item)
+        }
+      })
+      
+      this.createClassification(data)
+      this.classification_dialog = false
+      
+    },
+    
+   
     async updateSubcontractsView() {
-      this.edit_dialog = !this.edit_dialog;
-      await this.updateSubcontracts({...this.subcontractsDetail, modelId: this.planning_model_id});
+      this.edit_dialog = false;
+      const data={
+        sizeDistributions:[...this.subcontractsDetail.sizeDistributions],
+        deadline:this.subcontractsDetail.deadline,
+        sentDate:this.subcontractsDetail.sentDate,
+        pricePerWork:this.subcontractsDetail.pricePerWork,
+        id:this.subcontractsDetail.id,
+
+      }
+      this.setUpdateSizes(data);
     },
-    newSubcontract() {
-      this.new_dialog = !this.new_dialog;
-    },
-    async setNewSubcontracts() {
-      this.newSubcontractDetail.dispatchedDate = this.getTime();
-      await this.createSubcontracts({...this.newSubcontractDetail, modelId: this.planning_model_id});
-      this.new_dialog = !this.new_dialog;
-    },
-    async searchSubcontracts(item) {
-      await this.getSubcontractsList({modelNumber: item.target._value, modelId: this.planning_model_id});
-    },
+    
     deleteSubcontractOne(item) {
       this.selectedSubcontract = item;
       this.delete_dialog = true;
@@ -571,17 +661,15 @@ export default {
     async deleteSubcontract() {
       await this.deleteSubcontractServer({
         id: this.selectedSubcontract.id,
-        modelId: this.planning_model_id,
       });
       this.delete_dialog = false;
     },
   },
   async mounted() {
     const id = this.$route.params.id;
-    if (id !== "create") {
-      await this.getModelInfo(id);
-      await this.getSubcontractsList({modelNumber: "", modelId: this.planning_model_id});
-    }
+    await this.getSubcontractsList();
+    
+    this.setClassification()
   },
 };
 </script>
