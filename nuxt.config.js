@@ -1,8 +1,6 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
-  target: 'static',
-  // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'ATP - textile',
     htmlAttrs: {
@@ -20,10 +18,8 @@ export default {
   },
   script: [],
 
-  // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
 
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     {src: "~/plugins/axios.js"},
     {src: "~/plugins/mixins.js"},
@@ -31,24 +27,19 @@ export default {
     {src: "./plugins/element-io.js"}
   ],
 
-  // Auto import components: https://go.nuxtjs.dev/config-components
   components: false,
 
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
     '@nuxtjs/style-resources',
     '@nuxtjs/pwa'
   ],
   styleResources: {
     scss: [
-      '~/assets/abstracts/_global.scss' // use underscore "_" & also file extension ".scss"
+      '~/assets/abstracts/_global.scss'
     ]
   },
-  // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     "@nuxtjs/toast",
     '@nuxtjs/auth-next',
@@ -147,7 +138,7 @@ export default {
 
   loading: false,
   axios: {
-    baseURL: 'https://dev-atp.asgardia.uz'
+    baseURL: process.env.APP_ENV === 'PROD' ? 'https://atp.asgardia.uz' : 'https://dev-atp.asgardia.uz'
   },
   auth: {
     strategies: {
@@ -177,7 +168,6 @@ export default {
     middleware: ['auth', 'isAuth']
   },
 
-  // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss', '~/assets/base.scss'],
     theme: {
@@ -196,7 +186,6 @@ export default {
     }
   },
 
-  // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: [
       'defu',

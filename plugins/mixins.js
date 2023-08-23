@@ -36,7 +36,9 @@ export default (context, inject) => {
               case 'DISABLED':
                 return '#FF4E4F'
               case 'FINISHED':
-                return 'primary'
+                return 'primary';
+              case '':
+                return 'grey'
             }
           },
           color(color) {
@@ -117,7 +119,7 @@ export default (context, inject) => {
                 return '#FF4E4F'
                 case 'RECEIVED':
                   return '#10BF41'
-             
+
             }
           },
         }

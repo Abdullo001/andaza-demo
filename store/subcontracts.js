@@ -87,7 +87,18 @@ export const actions = {
       });
   },
 
- 
+  async createSubcontracts({ dispatch }, data) {
+    await this.$axios
+      .post("/api/v1/subcontracts/create", data)
+      .then((res) => {
+        dispatch("getSubcontractsList", { modelNumber: "",modelId:res.data.data.modelId });
+        this.$toast.success(res.data.message);
+      })
+      .catch(({ response }) => {
+        console.log(response);
+        this.$toast.error(response.data.message, { theme: "toasted-primary" });
+      });
+  },
 
   async getModelList({ commit }) {
     const body = {
@@ -170,7 +181,7 @@ export const actions = {
     })
   },
 
-  saveReturnFabric({dispatch},data){ 
+  saveReturnFabric({dispatch},data){
     this.$axios.put(`/api/v1/process-details/return-fabric`,data)
     .then((res)=>{
       this.$toast.success(res.data.message)

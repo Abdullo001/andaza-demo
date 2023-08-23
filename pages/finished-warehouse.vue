@@ -1,6 +1,6 @@
 <template >
   <div>
-    finish warehouse
+    finish warehouse prod version
   </div>
 </template>
 <script>

@@ -199,7 +199,7 @@ export default {
       this.$router.push(this.localePath(`/planning-production/${row.modelId}`));
       this.$store.commit('production/planning/setProductionId', row.id);
     },
-    
+
     async filterData() {
       await this.getPlanningList({
         page: this.current_page,
