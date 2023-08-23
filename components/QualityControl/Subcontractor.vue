@@ -87,13 +87,16 @@
           <span class="text-capitalize">delete</span>
         </v-tooltip>
       </template>
+      <template #item.status="{item}">
+
+      </template>
     </v-data-table>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'QualityControl',
+  name: 'Subcontractor',
   data() {
     return {
       headers: [
@@ -102,22 +105,69 @@ export default {
         {text: '26', align: 'start', sortable: false, value: '26'},
         {text: '28', align: 'start', sortable: false, value: '28'},
         {text: '30', align: 'start', sortable: false, value: '30'},
-        {text: 'Produced total', align: 'start', sortable: false, value: 'producedTotal'},
+        {text: 'Partner', align: 'start', sortable: false, value: 'partner'},
+        {text: 'Price per work', align: 'start', sortable: false, value: 'pricePerWork'},
+        {text: 'Total price', align: 'start', sortable: false, value: 'totalPrice'},
+        {text: 'Sent date', align: 'start', sortable: false, value: 'sentDate'},
+        {text: 'Deadline', align: 'start', sortable: false, value: 'deadline'},
+        {text: 'Status', align: 'start', sortable: false, value: 'status'},
         {text: 'Actions', align: 'end', sortable: false, value: 'actions'},
       ],
       checkedList: [
-        {id: 1, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', producedTotal: '2105'},
-        {id: 2, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', producedTotal: '2105'},
-        {id: 3, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', producedTotal: '2105'},
-        {id: 4, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', producedTotal: '2105'},
+        {
+          id: 1,
+          color: 'Grey 8996 TPX',
+          24: '24',
+          26: '26',
+          28: '28',
+          30: '30',
+          partner: 'Chicco GPX',
+          pricePerWork: '0.8 USD',
+          totalPrice: '5520',
+          sentDate: '22.08.2023',
+          deadline: '30.08.2024',
+          status: 'Sent'
+        },
+        {
+          id: 2,
+          color: 'Grey 8996 TPX',
+          24: '24',
+          26: '26',
+          28: '28',
+          30: '30',
+          partner: 'Chicco GPX',
+          pricePerWork: '0.8 USD',
+          totalPrice: '5520',
+          sentDate: '22.08.2023',
+          deadline: '30.08.2024',
+          status: 'Sent'
+        },
+        {
+          id: 3,
+          color: 'Grey 8996 TPX',
+          24: '24',
+          26: '26',
+          28: '28',
+          30: '30',
+          partner: 'Chicco GPX',
+          pricePerWork: '0.8 USD',
+          totalPrice: '5520',
+          sentDate: '22.08.2023',
+          deadline: '30.08.2024',
+          status: 'Sent'
+        },
 
       ],
+      statusEnums: ['Sent', 'Ment', 'Fent']
     }
   },
   methods: {
-    getHistory(item) {},
-    editItem() {},
-    deleteItem() {}
+    getHistory(item) {
+    },
+    editItem() {
+    },
+    deleteItem() {
+    }
   }
 }
 </script>

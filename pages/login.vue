@@ -72,6 +72,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'IndexPage',
   layout: 'main',
@@ -90,16 +91,21 @@ export default {
         usernameOrEmail: this.login.userName,
         password: this.login.password
       }
+      try {
+        const res = await this.$axios.$post(`/api/v1/auth/login`, data)
+          // .then(res => {
+          //   const token = String(res.data.token)
+          //   this.$auth.setUserToken(token)
+          //   this.$toast.success(res.message, {theme: 'toasted-primary'})
+          // }).catch(error => {
+          //   console.log(error);
+          // })
+        console.log(res)
 
-      await this.$auth.loginWith('local', {data: data})
-        .then(res => {
-          const token = String(res.data.data.token)
-          this.$auth.setUserToken(token)
-          this.$toast.success(res.data.message, {theme: 'toasted-primary'})
-        })
-        .catch(({response}) => {
-          this.$toast.error(response.data.message, {theme: 'toasted-primary'})
-        })
+      } catch (error) {
+        console.log(error, 'error')
+      }
+
     }
   }
 }

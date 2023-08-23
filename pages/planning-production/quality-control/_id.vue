@@ -229,9 +229,12 @@
             />
           </v-col>
           <v-col cols="12" lg="6" md="6">
-            <div class="label mt-4"  v-if="!!model_images[0]?.filePath">{{ $t('workingProcess.dialog.photosModels') }}</div>
+            <div class="label mt-4" v-if="!!model_images[0]?.filePath">{{
+                $t('workingProcess.dialog.photosModels')
+              }}
+            </div>
             <div class="d-flex flex-wrap px-0">
-              <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4"  v-if="!!model_images[idx]?.filePath">
+              <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4" v-if="!!model_images[idx]?.filePath">
                 <div class="image-box">
                   <v-img
                     :src="model_images[idx]?.filePath"
@@ -297,20 +300,22 @@
         <v-divider/>
         <v-tabs-items v-model="tab">
           <v-tab-item>
-            <QualityControl/>
+            <QuantitiesOne/>
           </v-tab-item>
           <v-tab-item>
-            <Subcontracts/>
+            <Subcontractor/>
+          </v-tab-item>
+          <v-tab-item>
+            <NextProcess/>
           </v-tab-item>
         </v-tabs-items>
       </v-card-text>
     </v-card>
+    <!--    Small tables -->
     <v-row class="mt-2">
       <v-col>
-        <CalculationShortcomings/>
       </v-col>
       <v-col>
-        <OrderQuantities/>
       </v-col>
     </v-row>
   </div>
@@ -318,26 +323,15 @@
 
 <script>
 import {mapActions, mapGetters} from "vuex";
-import ProductionPlanningComponent from "../../../components/Production/Planning.vue";
-import Breadcrumbs from "../../../components/Breadcrumbs.vue";
-import Subcontracts from "../../../components/Subcontracts.vue";
-import ShowBtnComponent from "../../../components/ShowComponentBtn/ShowBtn.vue";
-import CuttingComponent from '../../../components/Cutting.vue';
-import CalculationShortcomings from "../../../components/CalculationsShoertcomings.vue";
-import OrderQuantities from "../../../components/OrderQuantities.vue";
-import QualityControl from "~/components/QualityControl.vue";
-
 export default {
   name: 'ProductionOfPlanningPage',
   components: {
-    QualityControl,
-    OrderQuantities,
-    CalculationShortcomings,
-    CuttingComponent,
-    ShowBtnComponent,
-    Subcontracts,
-    Breadcrumbs,
-    ProductionPlanningComponent},
+    ShowBtnComponent: () => import('@/components/ShowComponentBtn/ShowBtn.vue'),
+    QuantitiesOne: () => import('@/components/QualityControl/QuantitiesOne.vue'),
+    Breadcrumbs: () => import('@/components/Breadcrumbs.vue'),
+    Subcontractor: () => import('@/components/QualityControl/Subcontractor.vue'),
+    NextProcess: () => import('@/components/QualityControl/NextProcess.vue')
+  },
   data() {
     return {
       show_btn: true,
@@ -383,8 +377,14 @@ export default {
         },
         {
           text: this.$t('planningProduction.table.details'),
+          disabled: false,
+          to: this.localePath(`/production/${this.$route.params.id}`),
+          icon: true
+        },
+        {
+          text: "Production porcesses for current model",
           disabled: true,
-          to: this.localePath('/models/7'),
+          to: this.localePath('/production/cutting/7'),
           icon: false
         },
       ],
@@ -396,8 +396,8 @@ export default {
     this.getColorsList();
   },
   computed: {
-    showObject(){
-      return{
+    showObject() {
+      return {
         show_active: this.show_btn
       }
     },
@@ -423,7 +423,7 @@ export default {
       this.getImages(val?.modelId);
       this.planning = JSON.parse(JSON.stringify(val))
     },
-    modelImages(val){
+    modelImages(val) {
       this.model_images = JSON.parse(JSON.stringify(val))
     }
   },
@@ -438,7 +438,7 @@ export default {
       createProcessPlanning: 'production/planning/createProcessPlanning',
       getProcessingList: 'production/planning/getProcessingList'
     }),
-    clickBtn(){
+    clickBtn() {
       this.show_btn = !this.show_btn
     },
     async savePlanning() {
@@ -452,7 +452,7 @@ export default {
   },
   mounted() {
     const param = this.$route.params.id;
-    if(param !== 'create') {
+    if (param !== 'create') {
       this.title = "Edit"
       this.getModelInfo(param);
       this.getProcessingList({
@@ -475,7 +475,8 @@ export default {
   min-width: 100%;
   min-height: 150px;
 }
-.show_active{
+
+.show_active {
   height: 0;
   overflow: hidden;
 }
