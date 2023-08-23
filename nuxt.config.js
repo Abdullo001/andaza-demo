@@ -22,6 +22,7 @@ export default {
 
   plugins: [
     {src: "~/plugins/axios.js"},
+    {src: "~/plugins/auth.js", mode: 'server'},
     {src: "~/plugins/mixins.js"},
     {src: "~/plugins/v-mask.js"},
     {src: "./plugins/element-io.js"}

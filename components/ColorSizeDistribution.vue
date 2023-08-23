@@ -411,7 +411,7 @@ export default {
         this.orderSizeList.push(this.item);
       }
     },
-    
+
     newOrderIdServer: {
       deep: true,
       handler(id) {
@@ -585,7 +585,7 @@ export default {
         }
       },
 
-    
+
 
     async update() {
       const list=[...this.oneSizeDistirbution.modelBodyParts]

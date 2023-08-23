@@ -36,7 +36,7 @@
             </v-col>
             <v-col cols="12" lg="2" md="2">
               <el-date-picker
-                
+
                 type="datetime"
                 class="rounded-lg d-block filter_picker"
                 placeholder="Updated at"
@@ -78,10 +78,10 @@
       :items="shippingList"
       :headers="headers"
       @click:row="(item)=>viewDetails(item)"
-      items-per-page="10"
+      :items-per-page="10"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100],
-      }"     
+      }"
     >
     <template #top>
       <v-toolbar elevation="0">
@@ -89,7 +89,7 @@
           class="d-flex w-full align-center justify-space-between"
         >
           <div>Shipping</div>
-          
+
         </v-toolbar-title>
       </v-toolbar>
     </template>
@@ -110,7 +110,7 @@
     </template>
     </v-data-table>
 
-   
+
   </div>
 
 
@@ -129,11 +129,11 @@ export default {
           packingList:"TEST-01",
           client:"NONAME",
           actualShippingQuantity:"1000",
-          
+
         }
       ],
-      
-      
+
+
 
       headers:[
         {text: "Id", align: "start", sortable: false, value: "id"},
@@ -163,5 +163,5 @@ export default {
 }
 </script>
 <style lang="">
-  
+
 </style>

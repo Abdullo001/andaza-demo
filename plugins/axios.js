@@ -12,8 +12,8 @@ export default function ({$axios, store, app, redirect}) {
       app.$auth.reset()
       app.$auth.$storage.removeUniversal('accessToken')
       app.$auth.$storage.removeUniversal('refreshToken')
-      app.$auth.$storage.reset()
       redirect('/login');
     }
+    app.$toast.error(error.response.data.message);
   })
 }

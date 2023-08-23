@@ -381,8 +381,14 @@ export default {
         },
         {
           text: this.$t('planningProduction.table.details'),
+          disabled: false,
+          to: this.localePath(`/production/${this.$route.params.id}`),
+          icon: true
+        },
+        {
+          text: "Production porcesses for current model",
           disabled: true,
-          to: this.localePath('/models/7'),
+          to: this.localePath('/production/cutting/7'),
           icon: false
         },
       ],
