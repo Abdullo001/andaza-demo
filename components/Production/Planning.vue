@@ -168,7 +168,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
   </div>
 </template>
 
@@ -261,8 +260,9 @@ export default {
     },
     getCurrentRow(item){
       this.$store.commit('cuttingProcess/setPlanningProcessId', item.id)
-      const id =this.$route.params.id
-      const process=item.process.toLowerCase()
+      const id = this.$route.params.id;
+      const process=item.process.toLowerCase().replace('_', '-');
+      this.$store.commit('subcontracts/setPlanningProcessId', item.id)
       this.$router.push(this.localePath(`/planning-production/${process}/${id}`));
 
     },

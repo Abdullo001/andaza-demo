@@ -124,6 +124,7 @@
       </template>
       <template #item.status="{ item }">
         <v-select
+          v-if="item.status"
           @click.stop
           @change="changeStatus(item)"
           :background-color="statusColor.prodColor(item.status)"
@@ -200,7 +201,7 @@ export default {
       this.$router.push(this.localePath(`/production/${row.modelId}`));
       this.$store.commit('production/planning/setProductionId', row.id);
     },
-    
+
     async filterData() {
       await this.getPlanningList({
         page: this.current_page,
@@ -231,7 +232,7 @@ export default {
          statusId=3
          break;
         case 'FINISHED':
-         statusId=2 
+         statusId=2
          break;
 
       }

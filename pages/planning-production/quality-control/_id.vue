@@ -297,7 +297,7 @@
         <v-divider/>
         <v-tabs-items v-model="tab">
           <v-tab-item>
-            <CuttingComponent/>
+            <QualityControl/>
           </v-tab-item>
           <v-tab-item>
             <Subcontracts/>
@@ -306,10 +306,10 @@
       </v-card-text>
     </v-card>
     <v-row class="mt-2">
-      <v-col cols="6">
+      <v-col>
         <CalculationShortcomings/>
       </v-col>
-      <v-col cols="6">
+      <v-col>
         <OrderQuantities/>
       </v-col>
     </v-row>
@@ -325,10 +325,12 @@ import ShowBtnComponent from "../../../components/ShowComponentBtn/ShowBtn.vue";
 import CuttingComponent from '../../../components/Cutting.vue';
 import CalculationShortcomings from "../../../components/CalculationsShoertcomings.vue";
 import OrderQuantities from "../../../components/OrderQuantities.vue";
+import QualityControl from "~/components/QualityControl.vue";
 
 export default {
   name: 'ProductionOfPlanningPage',
   components: {
+    QualityControl,
     OrderQuantities,
     CalculationShortcomings,
     CuttingComponent,
@@ -340,7 +342,7 @@ export default {
     return {
       show_btn: true,
       tab: null,
-      items: ["Cutting", "Subcontracts"],
+      items: ["Quality control", "Subcontractor", "Passing to next process"],
       title: "Add",
       currentImage: '',
       image_dialog: false,
@@ -422,15 +424,7 @@ export default {
       this.planning = JSON.parse(JSON.stringify(val))
     },
     modelImages(val){
-      const item = JSON.parse(JSON.stringify(val));
-      this.model_images = item
-    },
-    tab(val){
-      if(val!==0){
-        this.setClassification()
-      }else{
-        this.getClassificationList()
-      }
+      this.model_images = JSON.parse(JSON.stringify(val))
     }
   },
   methods: {
@@ -442,11 +436,7 @@ export default {
       getWorkshopList: 'production/planning/getWorkshopList',
       getColorsList: 'production/planning/getColorsList',
       createProcessPlanning: 'production/planning/createProcessPlanning',
-      getProcessingList: 'production/planning/getProcessingList',
-      setClassification: "subcontracts/setClassification",
-      getClassificationList:"cuttingProcess/getClassificationList",
-
-
+      getProcessingList: 'production/planning/getProcessingList'
     }),
     clickBtn(){
       this.show_btn = !this.show_btn

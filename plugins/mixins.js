@@ -36,7 +36,9 @@ export default (context, inject) => {
               case 'DISABLED':
                 return '#FF4E4F'
               case 'FINISHED':
-                return 'primary'
+                return 'primary';
+              case '':
+                return 'grey'
             }
           },
           color(color) {
@@ -108,6 +110,16 @@ export default (context, inject) => {
                 return 'amber'
               case 'REMAKE':
                 return '#FF4E4F'
+            }
+          },
+
+          subcontractColor(color) {
+            switch (color) {
+              case 'SENT':
+                return '#FF4E4F'
+                case 'RECEIVED':
+                  return '#10BF41'
+
             }
           },
         }
