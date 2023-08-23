@@ -32,9 +32,6 @@
           </template>
           <span class="text-capitalize">return fabric</span>
         </v-tooltip>
-        <!-- <v-btn icon @click="returnDialog(item)">
-          <v-img src="/rotate.svg" max-width="20"/>
-        </v-btn> -->
         <v-tooltip
           top
           color="#7631FF"
@@ -369,7 +366,6 @@
                 v-model.trim="item.quantity"
               />
             </v-col>
-
             <v-col cols="12" lg="6">
               <div class="label">Reason</div>
               <v-select

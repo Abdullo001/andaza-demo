@@ -138,7 +138,7 @@ export default {
 
   loading: false,
   axios: {
-    baseURL: 'https://dev-atp.asgardia.uz'
+    baseURL: process.env.APP_ENV === 'PROD' ? 'https://atp.asgardia.uz' : 'https://dev-atp.asgardia.uz'
   },
   auth: {
     strategies: {
