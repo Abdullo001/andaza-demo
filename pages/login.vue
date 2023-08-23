@@ -91,21 +91,12 @@ export default {
         usernameOrEmail: this.login.userName,
         password: this.login.password
       }
-      try {
-        const res = await this.$axios.$post(`/api/v1/auth/login`, data)
-          // .then(res => {
-          //   const token = String(res.data.token)
-          //   this.$auth.setUserToken(token)
-          //   this.$toast.success(res.message, {theme: 'toasted-primary'})
-          // }).catch(error => {
-          //   console.log(error);
-          // })
-        console.log(res)
-
-      } catch (error) {
-        console.log(error, 'error')
-      }
-
+      await this.$axios.$post(`/api/v1/auth/login`, data)
+        .then(res => {
+          const token = String(res.data.token)
+          this.$auth.setUserToken(token)
+          this.$toast.success(res.message, {theme: 'toasted-primary'})
+        })
     }
   }
 }
