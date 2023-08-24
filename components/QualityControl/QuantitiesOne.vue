@@ -117,7 +117,7 @@ export default {
   methods: {
     getHistory(item) {},
     editItem() {},
-    deleteItem() {}
+    deleteItem() {},
   }
 }
 </script>
