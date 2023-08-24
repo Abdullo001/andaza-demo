@@ -95,7 +95,8 @@ export default {
         .then(res => {
           const token = String(res.data.token)
           this.$auth.setUserToken(token)
-          this.$toast.success(res.message, {theme: 'toasted-primary'})
+          this.$toast.success(res.message, {theme: 'toasted-primary'});
+          this.$router.push('/user-management');
         })
     }
   }
