@@ -12,7 +12,7 @@
         </v-card>
       </template>
       <template #item.actions="{item}">
-        
+
         <v-tooltip
           top
           color="#7631FF"
@@ -83,21 +83,21 @@
             <v-row>
               <v-col cols="12">
                 <v-radio-group
-                row
-                v-model.trim="selectedItem.workshopType"
-                class="mb-4"
-              >
-                <v-radio
-                  color="#7631FF"
-                  label="Own workshop"
-                  value="OWN_WORKSHOP"
-                ></v-radio>
-                <v-radio
-                  color="#7631FF"
-                  label="Subcontractor"
-                  value="SUBCONTRACTOR"
-                ></v-radio>
-              </v-radio-group>
+                  row
+                  v-model.trim="selectedItem.workshopType"
+                  class="mb-4"
+                >
+                  <v-radio
+                    color="#7631FF"
+                    label="Own workshop"
+                    value="OWN_WORKSHOP"
+                  ></v-radio>
+                  <v-radio
+                    color="#7631FF"
+                    label="Subcontractor"
+                    value="SUBCONTRACTOR"
+                  ></v-radio>
+                </v-radio-group>
               </v-col>
               <v-col cols="12" lg="6">
                 <div class="label">Select the next process</div>
@@ -158,17 +158,18 @@
     <div class="d-flex">
       <v-spacer/>
       <v-btn
-        class="text-capitalize rounded-lg mr-4"
+        class="text-capitalize font-weight-bold rounded-lg mr-4"
         color="#7631FF"
         width="205"
         outlined
+        style="border-width: 2px"
       >
         Cancel the last passing
       </v-btn>
       <v-btn
         class="text-capitalize rounded-lg"
         color="#7631FF"
-        width="205"
+        width="237"
         dark
       >
         Generate
@@ -184,13 +185,12 @@ export default {
   name: 'QualityControl',
   data() {
     return {
-      edit_dialog:false,
-      selectedItem:{},
-      edit_validate:true,
-      process_list:["CUTTING","PRINTING","SEWING","IRONING","QUALITY_CONTROL","PACKAGING"],
+      edit_dialog: false,
+      selectedItem: {},
+      edit_validate: true,
+      process_list: ["CUTTING", "PRINTING", "SEWING", "IRONING", "QUALITY_CONTROL", "PACKAGING"],
       headers: [
         {text: 'Color', align: 'start', sortable: false, value: 'color'},
-        
         {text: 'Total', align: 'start', sortable: false, value: 'total'},
         {text: 'Workshop', align: 'start', sortable: false, value: 'workshop'},
         {text: 'Actions', align: 'end', sortable: false, value: 'actions'},
@@ -199,25 +199,24 @@ export default {
     }
   },
 
-  computed:{
+  computed: {
     ...mapGetters({
-      planningProcessId:"cuttingProcess/planningProcessId",
-      passingList:"passingToNextProcess/passingList",
+      planningProcessId: "cuttingProcess/planningProcessId",
+      passingList: "passingToNextProcess/passingList",
       productionId: "production/planning/productionId",
-      partnerList:"subcontracts/partnerList",
-
+      partnerList: "subcontracts/partnerList",
 
 
     })
   },
 
-  watch:{
-    passingList(list){
-      this.headers= [
+  watch: {
+    passingList(list) {
+      this.headers = [
         {text: 'Color', align: 'start', sortable: false, value: 'color'},
       ]
 
-      list[0]?.sizeDistributionList.forEach((item)=>{
+      list[0]?.sizeDistributionList.forEach((item) => {
         this.headers.push({
           text: item.size, sortable: false, align: 'start', value: item.size
         })
@@ -245,48 +244,50 @@ export default {
         }
       })
 
-      this.checkedList=JSON.parse(JSON.stringify(specialList))
+      this.checkedList = JSON.parse(JSON.stringify(specialList))
     }
 
   },
 
-  created(){
+  created() {
     this.getPartnerList()
   },
 
   methods: {
     ...mapActions({
-      getPassingList:"passingToNextProcess/getPassingList",
-      setUpdatePass:"passingToNextProcess/setUpdatePass",
-      getPartnerList:"subcontracts/getPartnerList",
+      getPassingList: "passingToNextProcess/getPassingList",
+      setUpdatePass: "passingToNextProcess/setUpdatePass",
+      getPartnerList: "subcontracts/getPartnerList",
 
     }),
-    getHistory(item) {},
-    editItem(item) {
-      this.edit_dialog=true
-      this.selectedItem={...item}
+    getHistory(item) {
     },
-    deleteItem() {},
+    editItem(item) {
+      this.edit_dialog = true
+      this.selectedItem = {...item}
+    },
+    deleteItem() {
+    },
 
-    save(){
-      let data={
-        entityId:this.selectedItem.entityId,
-        process:this.selectedItem.process,
-        sizeDistributionList:[...this.selectedItem.sizeDistributions],
-        productionId:this.productionId,
-        workshopType:this.selectedItem.workshopType,
-        planningProcessId:this.planningProcessId,
+    save() {
+      let data = {
+        entityId: this.selectedItem.entityId,
+        process: this.selectedItem.process,
+        sizeDistributionList: [...this.selectedItem.sizeDistributions],
+        productionId: this.productionId,
+        workshopType: this.selectedItem.workshopType,
+        planningProcessId: this.planningProcessId,
       }
 
-      if(this.selectedItem.partnerId){
-        data={...data,partnerId:this.selectedItem.partnerId}
+      if (this.selectedItem.partnerId) {
+        data = {...data, partnerId: this.selectedItem.partnerId}
       }
       this.setUpdatePass(data)
-      this.edit_dialog=false
+      this.edit_dialog = false
     }
   },
 
-  mounted(){
+  mounted() {
     this.getPassingList(this.planningProcessId)
   }
 }
