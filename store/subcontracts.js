@@ -120,7 +120,7 @@ export const actions = {
   setUpdateSizes({dispatch,state},data){
     this.$axios.put(`/api/v1/process-details/update`,data)
     .then((res)=>{
-      dispatch("createSubcontracts")
+      dispatch("getSubcontractsList")
     })
     .catch(({res})=>{
       this.$toast.error(res.data.message)
@@ -214,6 +214,18 @@ export const actions = {
     .catch(({res})=>{
       console.log(res);
       this.$toast.error(res.data.message)
+    })
+  },
+
+  setMainColor({dispatch},id){
+    this.$axios.put(`/api/v1/process-details/set-main?id=${id}`)
+    .then((res)=>{
+      dispatch("getSubcontractsList")
+      this.$toast.success(res.data.message)
+    })
+    .catch(({res})=>{
+      this.$toast.error(res.data.message)
+      console.log(res);
     })
   }
 };

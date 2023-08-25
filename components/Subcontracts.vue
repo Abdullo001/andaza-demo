@@ -27,16 +27,19 @@
         <v-simple-checkbox
           :value="props.value || props.indeterminate"
           v-on="on"
+          disabled
           :indeterminate="props.indeterminate"
           color="#7631FF"
         />
       </template>
-      <template #item.data-table-select="{isSelected, select}">
+      <template #item.data-table-select="{isSelected, select,item}">
         <v-simple-checkbox
           color="#7631FF"
           v-ripple
           :value="isSelected"
+          :disabled="item.isMain"
           @input="select($event)"
+          @click="setMainColor(item)"
         />
       </template>
       <template #item.status="{item}">
@@ -81,7 +84,7 @@
                 <v-col>
                   <div class="body-1 mb-3">
                     Used fabric:
-                    <span class="font-weight-bold ml-2"> {{ item.usedFabricQuantity }}</span>
+                    <span class="font-weight-bold ml-2"> {{item.usedFabricQuantity}}</span>
                   </div>
                   <div class="body-1 mb-3">
                     sent date:
@@ -91,7 +94,7 @@
                 <v-col>
                   <div class="body-1 mb-3">
                     Total price:
-                    <span class="font-weight-bold ml-2"> {{ item.totalPrice }}</span>
+                    <span class="font-weight-bold ml-2"> {{item.totalPrice}}</span>
                   </div>
                   <div class="body-1 mb-3">
                     Deadline:
@@ -164,9 +167,9 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6"></v-col>
-
+              
               <v-col cols="12" lg="3" v-for="(item,idx) in subcontractsDetail.sizeDistributions" :key="idx">
-                <div class="label">{{ item.size }}</div>
+                <div class="label">{{item.size}}</div>
                 <v-text-field
                   v-model="item.quantity"
                   placeholder="0"
@@ -203,14 +206,14 @@
         </v-card-actions>
 
         <v-divider/>
-        <div class="px-4 pb-4">
-          <v-data-table
-            :headers="[...historyHeaders,{text: 'Actions', sortable: false, align: 'center', value: 'actions',width:'120' },]"
-            hide-default-footer
-            :items="historyList"
-            class="mt-4 rounded-lg"
-            style="border: 1px solid #E9EAEB"
-          >
+          <div class="px-4 pb-4">
+            <v-data-table
+              :headers="[...historyHeaders,{text: 'Actions', sortable: false, align: 'center', value: 'actions',width:'120' },]"
+              hide-default-footer
+              :items="historyList"
+              class="mt-4 rounded-lg"
+              style="border: 1px solid #E9EAEB"
+            >
             <template #top>
               <div class="title ma-4">History</div>
             </template>
@@ -222,9 +225,9 @@
               <v-btn icon color="red" @click.stop="deleteHistoryItem(item)">
                 <v-img src="/delete.svg" max-width="27"/>
               </v-btn>
-            </template>
-          </v-data-table>
-        </div>
+              </template>
+            </v-data-table>
+          </div>
       </v-card>
     </v-dialog>
 
@@ -280,8 +283,8 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-row>
-            <v-col cols="12" lg="3" v-for="(item,idx) in classification_shortcom.sizeDistributions" :key="idx">
-              <div class="label">{{ item.size }}</div>
+            <v-col  cols="12" lg="3" v-for="(item,idx) in classification_shortcom.sizeDistributions" :key="idx">
+              <div class="label">{{item.size}}</div>
               <v-text-field
                 outlined
                 hide-details
@@ -292,7 +295,7 @@
                 v-model.trim="item.quantity"
               />
             </v-col>
-
+            
             <v-col cols="12" lg="6">
               <div class="label">Reason</div>
               <v-select
@@ -445,7 +448,7 @@
             class="mt-4 rounded-lg"
             style="border: 1px solid #E9EAEB"
           >
-
+         
           </v-data-table>
         </v-card-text>
       </v-card>
@@ -459,20 +462,23 @@ export default {
   name: "Subcontracts",
   data() {
     return {
-      historyList: [],
-      historyHeaders: [],
-      history_dialog: false,
-      returned_fabric: {},
-      return_dialog: false,
-      classification_dialog: false,
-      classification_shortcom: {},
-      edit_validate: true,
+      historyList:[],
+      historyHeaders:[],
+      history_dialog:false,
+      returned_fabric:{},
+      return_dialog:false,
+      classification_dialog:false,
+      classification_shortcom:{},
+      edit_validate:true,
       selected: [],
       singleSelect: false,
       expanded: [],
       singleExpand: true,
-      classificationEnums: ['DEFECT', 'PHOTO', 'PHOTO_SAMPLE', 'SAMPLE', 'LOST', 'OTHERS'],
+      classificationEnums: ['DEFECT','PHOTO','PHOTO_SAMPLE','SAMPLE','LOST','OTHERS'],
       status_enums: ["RECEIVED", "SENT"],
+
+
+
       btn_disabled: true,
       edit_dialog: false,
       delete_dialog: false,
@@ -484,48 +490,48 @@ export default {
       selectedSubcontract: {},
     };
   },
-
+  
   computed: {
     ...mapGetters({
       setSubcontractsList: "subcontracts/subcontractsList",
-      historyListDate: "cuttingProcess/historyList",
+      historyListDate:"cuttingProcess/historyList",
 
     }),
   },
   watch: {
     setSubcontractsList(list) {
-      this.headers = [
+      this.headers= [
         {text: "Sip №", sortable: false, align: "start", value: "sipNumber"},
         {text: "Batch №", sortable: false, align: "start", value: "batchNumber"},
-        {text: "Given fabric quantity f/c.", sortable: false, value: "givenFabricQuantity", width: "150"},
-        {text: "Color", sortable: false, value: "color"},
+        {text: "Given fabric quantity f/c.", sortable: false, value: "givenFabricQuantity",width:"150"},
+        {text: "Color", sortable: false, value: "color"}, 
       ],
 
-        list[0]?.sizeDistributionList?.forEach((item) => {
-          this.headers.push({
-            text: item.size, sortable: false, align: 'start', value: item.size
-          })
+      list[0]?.sizeDistributionList?.forEach((item)=>{
+        this.headers.push({
+          text: item.size, sortable: false, align: 'start', value: item.size
         })
+      })
       this.headers.push(
         {text: "Received total quantity", sortable: false, value: "receivedQuantity"},
         {text: "Partner", sortable: false, value: "partnerName"},
-        {text: "Price per work", sortable: false, value: "pricePerWork", width: "100"},
-        {text: "Status", sortable: false, value: "status", width: "200"},
-        {text: "Action", sortable: false, value: "actions", width: "250"},
+        {text: "Price per work", sortable: false, value: "pricePerWork",width:"100"},
+        {text: "Status", sortable: false, value: "status",width:"200"},
+        {text: "Action", sortable: false, value: "actions",width:"250"},
         {text: '', value: 'data-table-expand'},
       )
 
       const specialList = list.map(function (el) {
         const value = {};
-        const sizesList = [];
+        const sizesList=[];
         el?.sizeDistributionList.forEach((item) => {
-          value[item.size] = item.quantity
-          sizesList.push({size: item.size, quantity: 0})
+          value[item.size]=item.quantity
+          sizesList.push({size:item.size,quantity:0})
         });
-        return {
+        return{
           ...el,
           ...value,
-          sizeDistributions: [...sizesList],
+          sizeDistributions:[...sizesList],
         }
       })
 
@@ -533,30 +539,31 @@ export default {
 
     },
 
-    historyListDate(list) {
-      this.historyHeaders = [
+    historyListDate(list){
+      this.historyHeaders= [
         {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
       ],
-        list[0]?.sizeDistributionList?.forEach((item) => {
-          this.historyHeaders.push({
-            text: item.size, sortable: false, align: 'start', value: item.size
-          })
+      list[0]?.sizeDistributionList?.forEach((item)=>{
+        this.historyHeaders.push({
+          text: item.size, sortable: false, align: 'start', value: item.size
         })
+      })
       this.historyHeaders.push(
         {text: 'Done By', sortable: false, align: 'canter', value: 'createdBy'},
-      )
+        
+        )
 
-      const specialList = list.map(function (el) {
+      const specialList=list.map(function(el){
         const value = {};
         el?.sizeDistributionList.forEach((item) => {
-          value[item.size] = item.quantity
+          value[item.size]=item.quantity
         });
-        return {
+        return{
           ...el,
           ...value,
         }
       })
-      this.historyList = JSON.parse(JSON.stringify(specialList))
+      this.historyList=JSON.parse(JSON.stringify(specialList))
 
 
     }
@@ -572,16 +579,22 @@ export default {
       saveReturnFabricFunc: "subcontracts/saveReturnFabric",
       changeStatusFunc: "subcontracts/changeStatus",
       getHistoryList: "cuttingProcess/getHistoryList",
+      setMainColorFunc: "subcontracts/setMainColor",
     }),
+    setMainColor(item){
+      if(!item.isMain){
+        this.setMainColorFunc(item.id)
+      }
+    },
     returnDialog(item) {
       this.return_dialog = true;
       this.returned_fabric = {...item};
     },
-    saveReturnFabric() {
-      const data = {
-        id: this.returned_fabric.id,
-        quantity: this.returned_fabric.quantity,
-        warehouseId: this.returned_fabric.warehouseId
+    saveReturnFabric(){
+      const data={
+        id:this.returned_fabric.id,
+        quantity:this.returned_fabric.quantity,
+        warehouseId:this.returned_fabric.warehouseId
       }
       this.saveReturnFabricFunc(data)
       this.return_dialog = false;
@@ -595,64 +608,61 @@ export default {
     editParts(item) {
       this.edit_dialog = !this.edit_dialog;
       this.subcontractsDetail = {...item};
-      const price = item.pricePerWork.split(" ")
-      this.subcontractsDetail.pricePerWork = price[0]
-      this.subcontractsDetail.priceCurrency = price[1]
+      const price=item.pricePerWork.split(" ")
+      this.subcontractsDetail.pricePerWork=price[0]
+      this.subcontractsDetail.priceCurrency=price[1]
       this.getHistoryList(item.id)
 
     },
 
-    editHistoryItem() {
-    },
+    editHistoryItem(){},
 
-    deleteHistoryItem() {
-    },
+    deleteHistoryItem(){},
 
-    changeStatus(item) {
-      this.changeStatusFunc({id: item.id, status: item.status})
+    changeStatus(item){
+      this.changeStatusFunc({id:item.id, status:item.status})
     },
 
     getClassification(item) {
       this.classification_dialog = true
-      this.classification_shortcom = {
+      this.classification_shortcom={
         ...item,
         reason: '',
         comment: '',
       }
     },
 
-    saveClassification() {
-      const data = {
+    saveClassification(){
+      const data={
         description: this.classification_shortcom.comment,
         detailsId: this.classification_shortcom.id,
         reason: this.classification_shortcom.reason,
-        sizeDistributions: []
+        sizeDistributions:[]
       }
-      this.classification_shortcom?.sizeDistributions.forEach((item) => {
-        if (item.quantity !== 0 && item.quantity) {
+      this.classification_shortcom?.sizeDistributions.forEach((item)=>{
+        if(item.quantity!==0 && item.quantity){
           data.sizeDistributions.push(item)
         }
       })
-
+      
       this.createClassification(data)
       this.classification_dialog = false
-
+      
     },
-
-
+    
+   
     async updateSubcontractsView() {
       this.edit_dialog = false;
-      const data = {
-        sizeDistributions: [...this.subcontractsDetail.sizeDistributions],
-        deadline: this.subcontractsDetail.deadline,
-        sentDate: this.subcontractsDetail.sentDate,
-        pricePerWork: this.subcontractsDetail.pricePerWork,
-        id: this.subcontractsDetail.id,
-
+      const data={
+        sizeDistributions:[...this.subcontractsDetail.sizeDistributions],
+        deadline:this.subcontractsDetail.deadline,
+        sentDate:this.subcontractsDetail.sentDate,
+        pricePerWork:this.subcontractsDetail.pricePerWork,
+        id:this.subcontractsDetail.id,
       }
       this.setUpdateSizes(data);
     },
-
+    
     deleteSubcontractOne(item) {
       this.selectedSubcontract = item;
       this.delete_dialog = true;
@@ -667,7 +677,7 @@ export default {
   async mounted() {
     const id = this.$route.params.id;
     await this.getSubcontractsList();
-
+    
     this.setClassification()
   },
 };

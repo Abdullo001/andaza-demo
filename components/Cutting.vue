@@ -121,12 +121,15 @@
           color="#7631FF"
         />
       </template>
-      <template #item.data-table-select="{isSelected, select}">
+      <template #item.data-table-select="{isSelected, select,item}">
         <v-simple-checkbox
           color="#7631FF"
           v-ripple
           :value="isSelected"
+          :disabled="item.isMain"
+          v-model="item.isMain"
           @input="select($event)"
+          @click="setMainColor(item)"
         />
       </template>
     </v-data-table>
@@ -554,8 +557,15 @@ export default {
       deleteHistoryFunc: "cuttingProcess/deleteHistoryFunc",
       getClassificationList: "cuttingProcess/getClassificationList",
       createClassification: "cuttingProcess/createClassification",
+      setMainColorFunc: "cuttingProcess/setMainColor",
 
     }),
+    setMainColor(item){
+      if(!item.isMain){
+        console.log(item);
+        this.setMainColorFunc(item.id)
+      }
+    },
     returnDialog(item) {
       this.return_dialog = true;
       this.returned_fabric = {...item};

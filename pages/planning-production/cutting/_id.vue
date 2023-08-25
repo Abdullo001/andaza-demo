@@ -321,14 +321,14 @@
 
 <script>
 import {mapActions, mapGetters} from "vuex";
-import ProductionPlanningComponent from "../../../components/Production/Planning.vue";
-import Breadcrumbs from "../../../components/Breadcrumbs.vue";
-import Subcontracts from "../../../components/Subcontracts.vue";
-import ShowBtnComponent from "../../../components/ShowComponentBtn/ShowBtn.vue";
-import CuttingComponent from '../../../components/Cutting.vue';
-import CalculationShortcomings from "../../../components/CalculationsShoertcomings.vue";
-import OrderQuantities from "../../../components/OrderQuantities.vue";
-import PassingToNextProcess from "~/components/PassingToNextProcess.vue";
+import ProductionPlanningComponent from "@/components/Production/Planning.vue";
+import Breadcrumbs from "@/components/Breadcrumbs.vue";
+import Subcontracts from "@/components/Subcontracts.vue";
+import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
+import CuttingComponent from "@/components/Cutting.vue";
+import CalculationShortcomings from "@/components/CalculationsShoertcomings.vue";
+import OrderQuantities from "@/components/OrderQuantities.vue";
+import PassingToNextProcess from "@/components/PassingToNextProcess.vue";
 
 export default {
   name: 'ProductionOfPlanningPage',
@@ -438,9 +438,10 @@ export default {
       this.model_images = item
     },
     tab(val){
-      if(val!==0){
+      if(val===1){
         this.setClassification()
-      }else{
+      }
+      if(val===0){
         this.getClassificationList()
       }
     }
