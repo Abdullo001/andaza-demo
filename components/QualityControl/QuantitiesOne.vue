@@ -4,6 +4,8 @@
       :headers="headers"
       :items="checkedList"
       hide-default-footer
+      style="border: 1px solid #eae9e9"
+      class="rounded-lg overflow-hidden"
     >
       <template #top>
         <v-card flat>
@@ -92,6 +94,8 @@
 </template>
 
 <script>
+import {mapGetters, mapActions} from "vuex";
+
 export default {
   name: 'QuantitiesOne',
   data() {
@@ -115,9 +119,16 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      getOwnList: "commonProcess/getOwnList"
+    }),
     getHistory(item) {},
     editItem() {},
     deleteItem() {},
+  },
+  async mounted() {
+    const id = this.$route.params.id;
+    await this.getOwnList(id);
   }
 }
 </script>
