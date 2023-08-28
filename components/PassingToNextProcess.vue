@@ -12,7 +12,7 @@
         </v-card>
       </template>
       <template #item.actions="{item}">
-        
+
         <v-tooltip
           top
           color="#7631FF"
@@ -54,20 +54,122 @@
       </template>
     </v-data-table>
 
+    <v-dialog v-model="edit_dialog" width="1200">
+      <v-card>
+        <v-card-title class="d-flex justify-space-between w-full">
+          <div class="text-capitalize font-weight-bold">Edit Cutting info</div>
+          <v-btn icon color="#7631FF" @click="edit_dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text class="mt-4">
+          <v-form ref="edit_form" v-model="edit_validate" lazy-validation>
+            <v-row>
+              <v-col cols="12" lg="3" v-for="(item, idx) in selectedItem.sizeDistributions" :key="`_cutting_${idx}`">
+                <div class="label">{{ item.size }}</div>
+                <v-text-field
+                  v-model="item.quantity"
+                  placeholder="0"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base "
+                  validate-on-blur
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12">
+                <v-radio-group
+                  row
+                  v-model.trim="selectedItem.workshopType"
+                  class="mb-4"
+                >
+                  <v-radio
+                    color="#7631FF"
+                    label="Own workshop"
+                    value="OWN_WORKSHOP"
+                  ></v-radio>
+                  <v-radio
+                    color="#7631FF"
+                    label="Subcontractor"
+                    value="SUBCONTRACTOR"
+                  ></v-radio>
+                </v-radio-group>
+              </v-col>
+              <v-col cols="12" lg="6">
+                <div class="label">Select the next process</div>
+                <v-select
+                  :items="process_list"
+                  v-model.trim="selectedItem.process"
+                  append-icon="mdi-chevron-down"
+                  outlined
+                  hide-details
+                  dense
+                  height="44"
+                  class="rounded-lg base" color="#7631FF"
+                  placeholder="Select process type"
+                />
+              </v-col>
+              <v-col cols="12" lg="6" v-if="selectedItem.workshopType==='SUBCONTRACTOR'">
+                <div class="label">Partner</div>
+                <v-select
+                  append-icon="mdi-chevron-down"
+                  v-model="selectedItem.partnerId"
+                  :items="partnerList"
+                  :rules="[formRules.required]"
+                  item-text="name"
+                  item-value="id"
+                  hide-details
+                  color="#7631FF"
+                  class=" base rounded-lg"
+                  rounded
+                  outlined
+                  dense
+                  placeholder="Select partner"
+                />
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="d-flex justify-center pb-8">
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            outlined color="#7631FF"
+            width="130"
+            @click="edit_dialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-btn
+            class="rounded-lg text-capitalize ml-4 font-weight-bold"
+            color="#7631FF" dark
+            width="130"
+            @click="save"
+          >
+            save
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <div class="d-flex">
       <v-spacer/>
       <v-btn
-        class="text-capitalize rounded-lg mr-4"
+        class="text-capitalize font-weight-bold rounded-lg mr-4"
         color="#7631FF"
         width="205"
         outlined
+        style="border-width: 2px"
       >
         Cancel the last passing
       </v-btn>
       <v-btn
         class="text-capitalize rounded-lg"
         color="#7631FF"
-        width="205"
+        width="237"
         dark
       >
         Generate
@@ -77,33 +179,119 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   name: 'QualityControl',
   data() {
     return {
+      edit_dialog: false,
+      selectedItem: {},
+      edit_validate: true,
+      process_list: ["CUTTING", "PRINTING", "SEWING", "IRONING", "QUALITY_CONTROL", "PACKAGING"],
       headers: [
         {text: 'Color', align: 'start', sortable: false, value: 'color'},
-        {text: '24', align: 'start', sortable: false, value: '24'},
-        {text: '26', align: 'start', sortable: false, value: '26'},
-        {text: '28', align: 'start', sortable: false, value: '28'},
-        {text: '30', align: 'start', sortable: false, value: '30'},
         {text: 'Total', align: 'start', sortable: false, value: 'total'},
         {text: 'Workshop', align: 'start', sortable: false, value: 'workshop'},
         {text: 'Actions', align: 'end', sortable: false, value: 'actions'},
       ],
-      checkedList: [
-        {id: 1, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', producedTotal: '2105'},
-        {id: 2, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', producedTotal: '2105'},
-        {id: 3, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', producedTotal: '2105'},
-        {id: 4, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', producedTotal: '2105'},
-
-      ],
+      checkedList: [],
     }
   },
+
+  computed: {
+    ...mapGetters({
+      planningProcessId: "cuttingProcess/planningProcessId",
+      passingList: "passingToNextProcess/passingList",
+      productionId: "production/planning/productionId",
+      partnerList: "subcontracts/partnerList",
+
+
+    })
+  },
+
+  watch: {
+    passingList(list) {
+      this.headers = [
+        {text: 'Color', align: 'start', sortable: false, value: 'color'},
+      ]
+
+      list[0]?.sizeDistributionList.forEach((item) => {
+        this.headers.push({
+          text: item.size, sortable: false, align: 'start', value: item.size
+        })
+      })
+
+      this.headers.push(
+        {text: 'Total', align: 'start', sortable: false, value: 'total'},
+        {text: 'Workshop', align: 'start', sortable: false, value: 'workshop'},
+        {text: 'Actions', align: 'end', sortable: false, value: 'actions'},
+      )
+
+      const specialList = list.map(function (el) {
+        const value = {};
+        const sizesList = [];
+        el?.sizeDistributionList.forEach((item) => {
+          value[item.size] = item.quantity
+          sizesList.push({size: item.size, quantity: 0})
+        });
+
+        return {
+          ...value,
+          ...el,
+          sizeDistributions: [...sizesList],
+
+        }
+      })
+
+      this.checkedList = JSON.parse(JSON.stringify(specialList))
+    }
+
+  },
+
+  created() {
+    this.getPartnerList()
+  },
+
   methods: {
-    getHistory(item) {},
-    editItem() {},
-    deleteItem() {}
+    ...mapActions({
+      getPassingList: "passingToNextProcess/getPassingList",
+      setUpdatePass: "passingToNextProcess/setUpdatePass",
+      getPartnerList: "subcontracts/getPartnerList",
+      getHistoryList: "history/getHistoryList",
+
+    }),
+    getHistory(item) {
+      this.getHistoryList(item.entityId)
+    },
+    editItem(item) {
+      this.edit_dialog = true
+      this.selectedItem = {...item}
+      this.getHistoryList(item.entityId)
+    },
+    deleteItem() {
+    },
+
+    save() {
+      let data = {
+        entityId: this.selectedItem.entityId,
+        process: this.selectedItem.process,
+        sizeDistributionList: [...this.selectedItem.sizeDistributions],
+        productionId: this.productionId,
+        workshopType: this.selectedItem.workshopType,
+        planningProcessId: this.planningProcessId,
+      }
+
+      if (this.selectedItem.partnerId) {
+        data = {...data, partnerId: this.selectedItem.partnerId}
+      }
+      this.setUpdatePass(data)
+      this.edit_dialog = false
+    }
+  },
+
+  mounted() {
+    this.getPassingList(this.planningProcessId)
   }
 }
 </script>

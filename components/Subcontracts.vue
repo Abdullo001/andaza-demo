@@ -27,16 +27,19 @@
         <v-simple-checkbox
           :value="props.value || props.indeterminate"
           v-on="on"
+          disabled
           :indeterminate="props.indeterminate"
           color="#7631FF"
         />
       </template>
-      <template #item.data-table-select="{isSelected, select}">
+      <template #item.data-table-select="{isSelected, select,item}">
         <v-simple-checkbox
           color="#7631FF"
           v-ripple
           :value="isSelected"
+          :disabled="item.isMain"
           @input="select($event)"
+          @click="setMainColor(item)"
         />
       </template>
       <template #item.status="{item}">
@@ -49,6 +52,7 @@
           v-model="item.status"
           hide-details
           class="mt-n2"
+          item-color="green"
           rounded
           dark
         />
@@ -575,7 +579,13 @@ export default {
       saveReturnFabricFunc: "subcontracts/saveReturnFabric",
       changeStatusFunc: "subcontracts/changeStatus",
       getHistoryList: "cuttingProcess/getHistoryList",
+      setMainColorFunc: "subcontracts/setMainColor",
     }),
+    setMainColor(item){
+      if(!item.isMain){
+        this.setMainColorFunc(item.id)
+      }
+    },
     returnDialog(item) {
       this.return_dialog = true;
       this.returned_fabric = {...item};
@@ -649,7 +659,6 @@ export default {
         sentDate:this.subcontractsDetail.sentDate,
         pricePerWork:this.subcontractsDetail.pricePerWork,
         id:this.subcontractsDetail.id,
-
       }
       this.setUpdateSizes(data);
     },

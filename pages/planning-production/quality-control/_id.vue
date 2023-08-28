@@ -229,9 +229,8 @@
             />
           </v-col>
           <v-col cols="12" lg="6" md="6">
-            <div class="label mt-4" v-if="!!model_images[0]?.filePath">{{
-                $t('workingProcess.dialog.photosModels')
-              }}
+            <div class="label mt-4" v-if="!!model_images[0]?.filePath">
+              {{ $t('workingProcess.dialog.photosModels') }}
             </div>
             <div class="d-flex flex-wrap px-0">
               <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4" v-if="!!model_images[idx]?.filePath">
@@ -304,6 +303,27 @@
           </v-tab-item>
           <v-tab-item>
             <Subcontractor/>
+            <v-row class="pa-0 ma-0">
+              <v-col>
+                <Calculations/>
+              </v-col>
+              <v-col>
+                <OrderQuantities/>
+              </v-col>
+            </v-row>
+            <v-spacer/>
+            <div class="mt-4 mr-4 mb-10 d-flex justify-end">
+              <v-btn
+                outlined
+                color="#7631FF"
+                style="border-width: 2px"
+                width="280"
+                height="44"
+                class="rounded-lg font-weight-bold"
+              >
+                Finish Process
+              </v-btn>
+            </div>
           </v-tab-item>
           <v-tab-item>
             <NextProcess/>
@@ -312,20 +332,18 @@
       </v-card-text>
     </v-card>
     <!--    Small tables -->
-    <v-row class="mt-2">
-      <v-col>
-      </v-col>
-      <v-col>
-      </v-col>
-    </v-row>
+
   </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+
 export default {
   name: 'ProductionOfPlanningPage',
   components: {
+    OrderQuantities: () => import('@/components/QualityControl/OrderQuantities.vue'),
+    Calculations: () => import('@/components/QualityControl/Calculations.vue'),
     ShowBtnComponent: () => import('@/components/ShowComponentBtn/ShowBtn.vue'),
     QuantitiesOne: () => import('@/components/QualityControl/QuantitiesOne.vue'),
     Breadcrumbs: () => import('@/components/Breadcrumbs.vue'),

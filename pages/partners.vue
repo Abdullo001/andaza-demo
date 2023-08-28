@@ -641,7 +641,7 @@
                 <div class="label">Cooperation type</div>
                 <v-select
                   :rules="[formRules.required]"
-                  v-model="edit_partner.cooperationType"
+                  v-model="edit_partner.cooperationTypeId"
                   :items="cooperationType"
                   append-icon="mdi-chevron-down"
                   placeholder="Select cooperation type"
@@ -1023,7 +1023,7 @@ export default {
     },
     async update() {
       const edit_validate = this.$refs.edit_form.validate();
-      if (edit_validate && this.editPhone !== '') {
+      if (this.edit_partner.name) {
         const {
           address,
           contractDate,
@@ -1033,26 +1033,33 @@ export default {
           name,
           status,
           partnerTypeId,
+          countryId,
           brandNames,
-          cooperationType
+          cooperationTypeId
         } = this.edit_partner;
         const formData = new FormData();
-        formData.append("address", address);
-        formData.append("contractDate", contractDate);
-        formData.append("contractNumber", contractNumber);
-        formData.append("brandNames", brandNames);
-        if (cooperationType) {
-          formData.append("cooperationTypeId", cooperationType);
-        }
-        formData.append("email", email);
         formData.append("id", id);
-        formData.append("name", name);
-        if (this.edit_image_list[0] !== undefined) {
-          formData.append("contractFile", this.edit_image_list[0]);
-        }
-        formData.append("phoneNumber", this.editPhone);
-        formData.append("status", status);
         formData.append("typeId", partnerTypeId);
+        formData.append("address", address?address:"");
+        formData.append("contractDate", contractDate?contractDate:"");
+        if (this.image_list[0] !== undefined) {
+          formData.append("contractFile", this.image_list[0]);
+        }
+        formData.append("email", email?email:"");
+        formData.append("name", name);
+        formData.append("contractNumber", contractNumber?contractNumber:"");
+        formData.append("status", status?status:"");
+        formData.append("phoneNumber", this.newPhone);
+        formData.append("countryCode", this.countryCode);
+        formData.append("brandNames", brandNames);
+        if(countryId){
+          formData.append("countryId",countryId);
+        }else{
+          formData.append("countryId", "");
+        }
+        if (cooperationTypeId) {
+          formData.append("cooperationTypeId", cooperationTypeId);
+        }
         await this.updatePartnerList(formData);
         this.edit_dialog = false;
         this.edit_image_list = [];
