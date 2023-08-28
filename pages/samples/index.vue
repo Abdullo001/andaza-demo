@@ -805,7 +805,7 @@ export default {
       validate: true,
       edit_validate:true,
       deleteId:null,
-      enums:["TPX","TPC","TPG","C"],
+      enums:["TPX","TPC","TPG","C","MELANGE"],
 
       modelIdSearch: "",
       modelIdSearchEdit:"",

@@ -178,12 +178,10 @@
         <v-card-text class="mt-4">
           <v-form ref="edit_form" v-model="edit_validate" lazy-validation>
             <v-row>
-              
-
               <v-col cols="12">
                 <div class="label">Photos of printing</div>
               </v-col>
-              <v-col cols="12" lg="3" v-for="(item,idx) in selectedItem.sizes" :key="idx">
+              <v-col cols="12" lg="3" v-for="(item,idx) in selectedItem.sizeDistributions" :key="idx">
                 <div class="label">{{item.size}}</div>
                 <v-text-field
                   v-model="item.quantity"
@@ -286,6 +284,8 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   name: 'CuttingComponent',
   data() {
@@ -296,102 +296,13 @@ export default {
       radioGroup:null,
       headers: [
         {text: 'Color', sortable: false, align: 'start', value: 'color'},
-        {text: '24', sortable: false, align: 'start', value: '24'},
-        {text: '26', sortable: false, align: 'start', value: '26'},
-        {text: '28', sortable: false, align: 'start', value: '28'},
-        {text: '30', sortable: false, align: 'start', value: '30'},
-
+        
         {text: 'Printing total quantity', sortable: false, align: 'start', value: 'printingTotalQuantity'},
         {text: 'Print photo', sortable: false, align: 'start', value: 'printPhoto'},
         {text: 'Comment', sortable: false, align: 'end', value: 'comment'},
         {text: 'Actions', sortable: false, align: 'center', value: 'actions'},
       ],
-      items: [
-        {
-          sipNumber: 'ART005/03-23',
-          batchNumber: '02259-89',
-          fabricSpecification: 'Description of Suppliers catalogs',
-          quantity: '1000 kg',
-          usedFabric: '900 kg',
-          sizes:[
-            {
-              size:24,
-              quantity:0,
-            },
-            {
-              size:26,
-              quantity:0,
-            },
-            {
-              size:28,
-              quantity:0,
-            },
-            {
-              size:30,
-              quantity:0,
-            },
-          ],
-          color: 'Grey 8996 TPX',
-          cutQuantity: '',
-          producedTotal: '21',
-        },
-        {
-          sipNumber: 'ART005/03-23',
-          batchNumber: '02259-89',
-          fabricSpecification: 'Description of Suppliers catalogs',
-          quantity: '1000 kg',
-          usedFabric: '900 kg',
-          color: 'Grey 8996 TPX',
-          cutQuantity: '',
-          producedTotal: '21',
-          sizes:[
-            {
-              size:24,
-              quantity:0,
-            },
-            {
-              size:26,
-              quantity:0,
-            },
-            {
-              size:28,
-              quantity:0,
-            },
-            {
-              size:30,
-              quantity:0,
-            },
-          ]
-        },
-        {
-          sipNumber: 'ART005/03-23',
-          batchNumber: '02259-89',
-          fabricSpecification: 'Description of Suppliers catalogs',
-          quantity: '1000 kg',
-          usedFabric: '900 kg',
-          color: 'Grey 8996 TPX',
-          cutQuantity: '',
-          producedTotal: '21',
-          sizes:[
-            {
-              size:24,
-              quantity:0,
-            },
-            {
-              size:26,
-              quantity:0,
-            },
-            {
-              size:28,
-              quantity:0,
-            },
-            {
-              size:30,
-              quantity:0,
-            },
-          ]
-        },
-      ],
+      items: [],
       selectedItem:{},
       edit_dialog:false,
       delete_dialog:false,
@@ -445,18 +356,64 @@ export default {
         comment: ''
       },
       classificationEnums: ['Defect', 'Effect )'],
-
-
     }
+  },
+
+  computed:{
+    ...mapGetters({
+      ownList:"commonProcess/ownList"
+    }),
   },
 
   watch:{
     radioGroup(val){
       console.log(val);
+    },
+
+    ownList(list){
+      this.headers= [
+        {text: 'Color', sortable: false, align: 'start', value: 'color'},  
+      ],
+
+      list[0]?.sizeDistributionList?.forEach((item) => {
+        this.headers.push({
+          text: item.size, sortable: false, align: 'start', value: item.size
+        })
+      })
+
+      this.headers.push(
+        {text: 'Printing total quantity', sortable: false, align: 'start', value: 'totalCutQuantity'},
+        {text: 'Print photo', sortable: false, align: 'start', value: 'printPhoto'},
+        {text: 'Comment', sortable: false, align: 'end', value: 'description'},
+        {text: 'Actions', sortable: false, align: 'center', value: 'actions'},
+      )
+
+      const specialList = list.map(function (el) {
+        const value = {};
+        const sizesList = [];
+        el?.sizeDistributionList.forEach((item) => {
+          value[item.size] = item.quantity
+          sizesList.push({size: item.size, quantity: 0})
+        });
+
+        return {
+          ...value,
+          ...el,
+          sizeDistributions: [...sizesList],
+
+        }
+      })
+      this.items = JSON.parse(JSON.stringify(specialList))
     }
+    
   },
 
   methods: {
+    ...mapActions({
+      getOwnList:"commonProcess/getOwnList",
+      updateCommonProcess:"commonProcess/updateCommonProcess",
+      deleteCommonProcess:"commonProcess/deleteCommonProcess",
+    }),
     getHistory(item) {
       this.history_dialog = true;
     },
@@ -471,13 +428,26 @@ export default {
     },
     deleteItem(item){
       this.delete_dialog=true
+      this.selectedItem={...item}
     },
 
-    save(){},
+    save(){
+      const data={
+        id:this.selectedItem.id,
+        sizeDistributions:[...this.selectedItem.sizeDistributions]
+      }
+      this.updateCommonProcess(data)
+    },
     deletePrinting(){
-
+      this.deleteCommonProcess(this.selectedItem.id)
+      this.delete_dialog=false
     },
-  }
+
+    
+  },
+  mounted(){
+    this.getOwnList()
+  },
 }
 </script>
 
