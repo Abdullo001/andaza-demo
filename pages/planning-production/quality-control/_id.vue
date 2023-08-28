@@ -299,15 +299,31 @@
         <v-divider/>
         <v-tabs-items v-model="tab">
           <v-tab-item>
-            <QuantitiesOne/>
+            <QuantitiesOne class="mb-5"/>
+            <v-row class="pa-0 ma-0">
+              <v-col class="pl-0">
+                <QuantitiesTwo/>
+              </v-col>
+              <v-col class="pr-0">
+                <Alteration/>
+              </v-col>
+            </v-row>
+            <v-row class="pa-0 ma-0">
+              <vCol class="pl-0">
+                <Classification/>
+              </vCol>
+              <v-col class="pr-0">
+                <OrderQuantities/>
+              </v-col>
+            </v-row>
           </v-tab-item>
           <v-tab-item>
-            <Subcontractor/>
+            <Subcontractor class="mb-10"/>
             <v-row class="pa-0 ma-0">
-              <v-col>
+              <v-col class="pl-0">
                 <Calculations/>
               </v-col>
-              <v-col>
+              <v-col class="pr-0">
                 <OrderQuantities/>
               </v-col>
             </v-row>
@@ -342,6 +358,9 @@ import {mapActions, mapGetters} from "vuex";
 export default {
   name: 'ProductionOfPlanningPage',
   components: {
+    Classification: () => import('@/components/QualityControl/Classification.vue'),
+    Alteration: () => import('@/components/QualityControl/Alteration.vue'),
+    QuantitiesTwo: () => import('@/components/QualityControl/QuantitiesTwo.vue'),
     OrderQuantities: () => import('@/components/QualityControl/OrderQuantities.vue'),
     Calculations: () => import('@/components/QualityControl/Calculations.vue'),
     ShowBtnComponent: () => import('@/components/ShowComponentBtn/ShowBtn.vue'),

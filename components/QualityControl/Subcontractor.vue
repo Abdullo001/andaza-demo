@@ -4,6 +4,8 @@
       :headers="headers"
       :items="checkedList"
       hide-default-footer
+      style="border: 1px solid #eae9e9"
+      class="rounded-lg overflow-hidden"
     >
       <template #top>
         <v-card flat>
@@ -103,12 +105,12 @@
         />
       </template>
     </v-data-table>
-    <v-divider/>
     <v-data-table
-      class="mt-10"
       :headers="headers"
       :items="checkedList"
       hide-default-footer
+      style="border: 1px solid #eae9e9"
+      class="rounded-lg overflow-hidden mt-10"
     >
       <template #top>
         <v-card flat>

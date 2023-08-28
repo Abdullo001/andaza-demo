@@ -9,47 +9,10 @@
     >
       <template #top>
         <v-card flat>
-          <v-card-title>Checked products’ quantities (2 sort)</v-card-title>
+          <v-card-title>Quantity of Resent to alteration</v-card-title>
         </v-card>
       </template>
       <template #item.actions="{item}">
-        <v-tooltip
-          top
-          color="#7631FF"
-          class="pointer"
-          v-if="Object.keys(item).length > 2"
-        >
-          <template #activator="{ on, attrs }">
-            <v-btn
-              icon
-              v-bind="attrs"
-              v-on="on"
-              color="#7631FF"
-            >
-              <v-img src="/t-shirt.svg" max-width="22"/>
-            </v-btn>
-          </template>
-          <span class="text-capitalize">classification</span>
-        </v-tooltip>
-        <v-tooltip
-          top
-          color="#7631FF"
-          class="pointer"
-          v-if="Object.keys(item).length > 2"
-        >
-          <template #activator="{ on, attrs }">
-            <v-btn
-              icon
-              v-bind="attrs"
-              v-on="on"
-              color="#7631FF"
-              @click="getHistory(item)"
-            >
-              <v-img src="/history.svg" max-width="22"/>
-            </v-btn>
-          </template>
-          <span class="text-capitalize">History</span>
-        </v-tooltip>
         <v-tooltip
           top
           color="green"
@@ -97,7 +60,7 @@
 import {mapGetters, mapActions} from "vuex";
 
 export default {
-  name: 'QuantitiesTwo',
+  name: 'Alteration',
   data() {
     return {
       headers: [

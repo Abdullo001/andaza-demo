@@ -229,9 +229,12 @@
             />
           </v-col>
           <v-col cols="12" lg="6" md="6">
-            <div class="label mt-4"  v-if="!!model_images[0]?.filePath">{{ $t('workingProcess.dialog.photosModels') }}</div>
+            <div class="label mt-4" v-if="!!model_images[0]?.filePath">{{
+                $t('workingProcess.dialog.photosModels')
+              }}
+            </div>
             <div class="d-flex flex-wrap px-0">
-              <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4"  v-if="!!model_images[idx]?.filePath">
+              <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4" v-if="!!model_images[idx]?.filePath">
                 <div class="image-box">
                   <v-img
                     :src="model_images[idx]?.filePath"
@@ -308,7 +311,7 @@
         </v-tabs-items>
       </v-card-text>
     </v-card>
-    <v-row class="mt-2" v-if="tab!==2">
+    <v-row class="mt-2" v-if="tab !== 2">
       <v-col>
         <CalculationShortcomings/>
       </v-col>
@@ -341,12 +344,12 @@ export default {
     PrintingProcess,
     PrintingSubcontract,
     PassingToNextProcess
-},
+  },
   data() {
     return {
       show_btn: true,
       tab: null,
-      items: ["Printing", "Subcontracts","Passing to next process"],
+      items: ["Printing", "Subcontracts", "Passing to next process"],
       title: "Add",
       currentImage: '',
       image_dialog: false,
@@ -406,8 +409,8 @@ export default {
     this.getColorsList();
   },
   computed: {
-    showObject(){
-      return{
+    showObject() {
+      return {
         show_active: this.show_btn
       }
     },
@@ -433,9 +436,8 @@ export default {
       this.getImages(val?.modelId);
       this.planning = JSON.parse(JSON.stringify(val))
     },
-    modelImages(val){
-      const item = JSON.parse(JSON.stringify(val));
-      this.model_images = item
+    modelImages(val) {
+      this.model_images = JSON.parse(JSON.stringify(val))
     }
   },
   methods: {
@@ -449,7 +451,7 @@ export default {
       createProcessPlanning: 'production/planning/createProcessPlanning',
       getProcessingList: 'production/planning/getProcessingList'
     }),
-    clickBtn(){
+    clickBtn() {
       this.show_btn = !this.show_btn
     },
     async savePlanning() {
@@ -464,6 +466,7 @@ export default {
   mounted() {
     const param = this.$route.params.id;
     if(param !== 'create') {
+
       this.title = "Edit"
       this.getModelInfo(param);
       this.getProcessingList({
