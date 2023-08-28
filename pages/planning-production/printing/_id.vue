@@ -326,7 +326,7 @@ import ProductionPlanningComponent from "@/components/Production/Planning.vue";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
 import CalculationShortcomings from "../../../components/CalculationsShoertcomings.vue";
-import OrderQuantities from "../../../components/OrderQuantities.vue";
+import OrderQuantities from "../../../components/commonProcess/OrderQuantities.vue";
 import PrintingSubcontract from "../../../components/SubcontractsFolder/PrintingSubcontract.vue";
 import PassingToNextProcess from "~/components/PassingToNextProcess.vue";
 
@@ -463,7 +463,6 @@ export default {
   },
   mounted() {
     const param = this.$route.params.id;
-    console.log(this.$route.path.split("/")[2])
     if(param !== 'create') {
       this.title = "Edit"
       this.getModelInfo(param);

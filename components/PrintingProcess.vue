@@ -225,7 +225,7 @@
 
         <div class="px-4 pb-4">
           <v-data-table
-            :headers="historyHeaders"
+            :headers="[...historyHeaders,{text: 'Actions', sortable: false, align: 'center', value: 'actions',width:'120' },]"
             hide-default-footer
             :items="historyList"
             class="mt-4 rounded-lg"
@@ -233,6 +233,14 @@
           >
           <template #top>
             <div class="title ma-4">History</div>
+          </template>
+          <template #item.actions="{item}">
+            <v-btn icon color="green" @click.stop="editHistoryItem(item)">
+              <v-img src="/edit-active.svg" max-width="22"/>
+            </v-btn>
+            <v-btn icon color="red" @click.stop="deleteHistoryItem(item)">
+              <v-img src="/delete.svg" max-width="27"/>
+            </v-btn>
           </template>
           </v-data-table>
         </div>
@@ -293,7 +301,6 @@ export default {
       table:"", 
       edit_validate:true,
       return_dialog: false,
-      radioGroup:null,
       headers: [
         {text: 'Color', sortable: false, align: 'start', value: 'color'},
         
@@ -304,48 +311,20 @@ export default {
       ],
       items: [],
       selectedItem:{},
+      selectedProcessId:null,
       edit_dialog:false,
       delete_dialog:false,
 
       history_dialog:false,
       classification_dialog:false,
+      classification_shortcom:{},
 
       historyHeaders: [
         {text: 'Date', sortable: false, align: 'start', value: 'date'},
-        {text: '24', sortable: false, align: '24', value: '24'},
-        {text: '26', sortable: false, align: '26', value: '26'},
-        {text: '28', sortable: false, align: '28', value: '28'},
-        {text: '30', sortable: false, align: '30', value: '30'},
         {text: 'Done By', sortable: false, align: 'canter', value: 'doneBy'},
       ],
 
-      historyList: [
-        {
-          date: '08.01.2023',
-          24: '180',
-          26: '200',
-          28: '300',
-          30: '350',
-          doneBy: 'Shavkatova M.'
-        },
-        {
-          date: '08.01.2023',
-          24: '180',
-          26: '200',
-          28: '300',
-          30: '350',
-          doneBy: 'Shavkatova M.'
-        },
-        {
-          date: '08.01.2023',
-          24: '180',
-          26: '200',
-          28: '300',
-          30: '350',
-          doneBy: 'Shavkatova M.'
-        },
-
-      ],
+      historyList: [],
 
       classificationList: {
         24: 100,
@@ -361,15 +340,12 @@ export default {
 
   computed:{
     ...mapGetters({
-      ownList:"commonProcess/ownList"
+      ownList:"commonProcess/ownList",
+      historyServerList:"history/historyList",
     }),
   },
 
   watch:{
-    radioGroup(val){
-      console.log(val);
-    },
-
     ownList(list){
       this.headers= [
         {text: 'Color', sortable: false, align: 'start', value: 'color'},  
@@ -404,6 +380,35 @@ export default {
         }
       })
       this.items = JSON.parse(JSON.stringify(specialList))
+    },
+
+    historyServerList(list){
+      this.historyHeaders = [
+        {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
+      ],
+        list[0]?.sizeDistributionList?.forEach((item) => {
+          this.historyHeaders.push({
+            text: item.size, sortable: false, align: 'start', value: item.size
+          })
+        })
+      this.historyHeaders.push(
+        {text: 'Done By', sortable: false, align: 'canter', value: 'createdBy'},
+      )
+
+      const specialList = list.map(function (el) {
+        const value = {};
+        const sizesList = [];
+        el?.sizeDistributionList.forEach((item) => {
+          value[item.size] = item.quantity
+          sizesList.push({size: item.size, quantity: item.quantity})
+        });
+        return {
+          ...el,
+          ...value,
+          sizeDistributions: [...sizesList],
+        }
+      })
+      this.historyList = JSON.parse(JSON.stringify(specialList))
     }
     
   },
@@ -413,9 +418,14 @@ export default {
       getOwnList:"commonProcess/getOwnList",
       updateCommonProcess:"commonProcess/updateCommonProcess",
       deleteCommonProcess:"commonProcess/deleteCommonProcess",
+      getHistoryList:"history/getHistoryList",
+      deleteHistory:"history/deleteHistoryItem",
+      editHistory:"history/editHistoryItem",
+
     }),
     getHistory(item) {
       this.history_dialog = true;
+      this.getHistoryList(item.id)
     },
 
     getClassification(item) {
@@ -423,8 +433,12 @@ export default {
     },
 
     editItem(item){
-      this.edit_dialog=true,
+      this.edit_dialog=true
       this.selectedItem={...item}
+      this.selectedItem.status="editProcess"
+      this.selectedProcessId=item.id
+      this.getHistoryList(item.id)
+
     },
     deleteItem(item){
       this.delete_dialog=true
@@ -432,16 +446,35 @@ export default {
     },
 
     save(){
-      const data={
-        id:this.selectedItem.id,
-        sizeDistributions:[...this.selectedItem.sizeDistributions]
+      if(this.selectedItem.status==="editProcess"){
+        const data={
+          id:this.selectedItem.id,
+          sizeDistributions:[...this.selectedItem.sizeDistributions]
+        }
+        this.updateCommonProcess(data)
       }
-      this.updateCommonProcess(data)
+      if(this.selectedItem.status==="editHistory"){
+        const data={
+          id:this.selectedItem.id,
+          sizeDistributionList:[...this.selectedItem.sizeDistributions]
+        }
+        this.editHistory(data)
+      }
+      this.edit_dialog=false
+      
     },
     deletePrinting(){
       this.deleteCommonProcess(this.selectedItem.id)
       this.delete_dialog=false
     },
+    editHistoryItem(item){
+      this.selectedItem={...item}
+      this.selectedItem.status="editHistory"
+    },
+    deleteHistoryItem(item){
+      this.deleteHistory({id:item.id,processId:this.selectedProcessId})
+    },
+
 
     
   },
