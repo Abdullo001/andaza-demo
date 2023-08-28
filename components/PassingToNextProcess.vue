@@ -258,13 +258,16 @@ export default {
       getPassingList: "passingToNextProcess/getPassingList",
       setUpdatePass: "passingToNextProcess/setUpdatePass",
       getPartnerList: "subcontracts/getPartnerList",
+      getHistoryList: "history/getHistoryList",
 
     }),
     getHistory(item) {
+      this.getHistoryList(item.entityId)
     },
     editItem(item) {
       this.edit_dialog = true
       this.selectedItem = {...item}
+      this.getHistoryList(item.entityId)
     },
     deleteItem() {
     },
