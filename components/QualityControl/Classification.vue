@@ -9,47 +9,10 @@
     >
       <template #top>
         <v-card flat>
-          <v-card-title>Checked products’ quantities (2 sort)</v-card-title>
+          <v-card-title>Classification of shortcomings</v-card-title>
         </v-card>
       </template>
       <template #item.actions="{item}">
-        <v-tooltip
-          top
-          color="#7631FF"
-          class="pointer"
-          v-if="Object.keys(item).length > 2"
-        >
-          <template #activator="{ on, attrs }">
-            <v-btn
-              icon
-              v-bind="attrs"
-              v-on="on"
-              color="#7631FF"
-            >
-              <v-img src="/t-shirt.svg" max-width="22"/>
-            </v-btn>
-          </template>
-          <span class="text-capitalize">classification</span>
-        </v-tooltip>
-        <v-tooltip
-          top
-          color="#7631FF"
-          class="pointer"
-          v-if="Object.keys(item).length > 2"
-        >
-          <template #activator="{ on, attrs }">
-            <v-btn
-              icon
-              v-bind="attrs"
-              v-on="on"
-              color="#7631FF"
-              @click="getHistory(item)"
-            >
-              <v-img src="/history.svg" max-width="22"/>
-            </v-btn>
-          </template>
-          <span class="text-capitalize">History</span>
-        </v-tooltip>
         <v-tooltip
           top
           color="green"
@@ -97,23 +60,22 @@
 import {mapGetters, mapActions} from "vuex";
 
 export default {
-  name: 'QuantitiesTwo',
+  name: 'Classification',
   data() {
     return {
       headers: [
         {text: 'Color', align: 'start', sortable: false, value: 'color'},
-        {text: '24', align: 'start', sortable: false, value: '24'},
-        {text: '26', align: 'start', sortable: false, value: '26'},
-        {text: '28', align: 'start', sortable: false, value: '28'},
-        {text: '30', align: 'start', sortable: false, value: '30'},
-        {text: 'Total', align: 'start', sortable: false, value: 'total'},
+        {text: 'Size', align: 'start', sortable: false, value: 'size'},
+        {text: 'Quality', align: 'start', sortable: false, value: 'quality'},
+        {text: 'Status', align: 'start', sortable: false, value: 'status'},
+        {text: 'Comment', align: 'start', sortable: false, value: 'comment'},
         {text: 'Actions', align: 'end', sortable: false, value: 'actions'},
       ],
       checkedList: [
-        {id: 1, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', total: '2105'},
-        {id: 2, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', total: '2105'},
-        {id: 3, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', total: '2105'},
-        {id: 4, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', total: '2105'},
+        {id: 1, color: 'Grey', size: '24', quality: '1', status: 'Photo sample', comment: 'test comment'},
+        {id: 2, color: 'Black', size: '24', quality: '1', status: 'Sample to client', comment: 'test comment'},
+        {id: 3, color: 'White', size: '24', quality: '3', status: 'Defect', comment: 'test comment'},
+        {id: 4, color: 'Purple', size: '24', quality: '2', status: 'Barak', comment: 'test comment'},
       ],
 
     }

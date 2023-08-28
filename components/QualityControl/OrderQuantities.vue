@@ -1,10 +1,11 @@
 <template>
-  <div class="mt-10">
+  <div>
     <v-data-table
       :headers="headers"
       :items="items"
       style="border: 1px solid #E9EAEB;"
       class="rounded-lg overflow-hidden"
+      hide-default-footer
     >
       <template #top>
         <v-card flat>
@@ -14,14 +15,10 @@
         </v-card>
       </template>
     </v-data-table>
-
   </div>
 </template>
 
 <script setup>
-// export default {
-//   name: 'CalculationsTable'
-// }
 import {reactive, ref} from "vue";
 
 const headers = reactive([
