@@ -255,7 +255,7 @@ export default {
               },
               {
                 title: this.$t('sidebar.finishedProducts'),
-                to: this.localePath('/finished-warehouse'),
+                to: this.localePath('/ready-warehouse'),
               },
             ]
           },

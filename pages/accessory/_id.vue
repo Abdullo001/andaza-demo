@@ -510,7 +510,7 @@ export default {
     const param = this.$route.params.id;
     if (param !== "create") {
       this.title = "Edit";
-      this.getOneAccessory({ id: param });
+      await this.getOneAccessory({ id: param });
     }
 
     this.$store.commit("modelPhoto/setModelImages", []);
