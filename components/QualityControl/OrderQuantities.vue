@@ -19,9 +19,9 @@
 </template>
 
 <script setup>
-import {reactive, ref} from "vue";
+import {ref} from "vue";
 
-const headers = reactive([
+const headers = ref([
   {text: 'Main color', sortable: false, align: 'start', value: 'mainColor'},
   {text: '24', sortable: false, align: 'start', value: '24'},
   {text: '26', sortable: false, align: 'start', value: '26'},
@@ -48,7 +48,6 @@ const items = ref([
   },
 ]);
 
-// TODO: methods
 </script>
 
 <style lang="scss" scoped>
