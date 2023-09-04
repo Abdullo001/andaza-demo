@@ -337,7 +337,6 @@
             class="mt-4 rounded-lg"
             style="border: 1px solid #E9EAEB"
           >
-
           </v-data-table>
         </v-card-text>
       </v-card>
@@ -519,12 +518,12 @@ export default {
     historyListDate(list) {
       this.historyHeaders = [
         {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
-      ],
-        list[0]?.sizeDistributionList?.forEach((item) => {
-          this.historyHeaders.push({
-            text: item.size, sortable: false, align: 'start', value: item.size
-          })
+      ]
+      list[0]?.sizeDistributionList?.forEach((item) => {
+        this.historyHeaders.push({
+          text: item.size, sortable: false, align: 'start', value: item.size
         })
+      })
       this.historyHeaders.push(
         {text: 'Done By', sortable: false, align: 'canter', value: 'createdBy'},
       )

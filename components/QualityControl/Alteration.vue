@@ -53,6 +53,111 @@
         </v-tooltip>
       </template>
     </v-data-table>
+    <v-dialog v-model="delete_dialog" max-width="500">
+      <v-card class="pa-4 text-center">
+        <div class="d-flex justify-center mb-2">
+          <v-img src="/error-icon.svg" max-width="40"/>
+        </div>
+        <v-card-title class="d-flex justify-center">
+          Delete this info
+        </v-card-title>
+        <v-card-text>
+          Are you sure you want to Delete this info?
+        </v-card-text>
+        <v-card-actions class="px-16">
+          <v-btn
+            outlined
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#777C85"
+            width="140"
+            @click.stop="delete_dialog = false"
+          >
+            Cancel
+          </v-btn>
+          <v-spacer/>
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#FF4E4F"
+            width="140"
+            elevation="0"
+            dark
+            @click="deleteConfirm"
+          >
+            Delete
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="edit_dialog" width="1200">
+      <v-card>
+        <v-card-title class="d-flex justify-space-between w-full">
+          <div class="text-capitalize font-weight-bold">
+            Edit quantity of resent to alteration
+          </div>
+          <v-btn icon color="#7631FF" @click="edit_dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text class="mt-4">
+          <v-form ref="edit_form" v-model="edit_validate" lazy-validation>
+            <v-row>
+              <v-col cols="12" lg="3" v-for="(item,idx) in sizeDistributions" :key="idx">
+                <div class="label">{{ item.size }}</div>
+                <v-text-field
+                  outlined
+                  hide-details
+                  dense
+                  height="44"
+                  class="rounded-lg base" color="#7631FF"
+                  placeholder="Enter branch number"
+                  v-model.trim="item.quantity"
+                />
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="d-flex justify-center pb-8">
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            outlined color="#7631FF"
+            width="130"
+            @click="edit_dialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-btn
+            class="rounded-lg text-capitalize ml-4 font-weight-bold"
+            color="#7631FF" dark
+            width="130"
+            @click="saveChanges"
+          >
+            save
+          </v-btn>
+        </v-card-actions>
+        <v-divider/>
+        <div class="px-4 pb-4">
+          <v-data-table
+            :headers="historyHeaders"
+            hide-default-footer
+            :items="historyList"
+            class="mt-4 rounded-lg"
+            style="border: 1px solid #E9EAEB"
+          >
+            <template #top>
+              <div class="title ma-4">History</div>
+            </template>
+            <template #item.actions="{item}">
+              <v-btn icon color="green" @click.stop="editHistoryItem(item)">
+                <v-img src="/edit-active.svg" max-width="22"/>
+              </v-btn>
+              <v-btn icon color="red" @click.stop="deleteHistoryItem(item)">
+                <v-img src="/delete.svg" max-width="27"/>
+              </v-btn>
+            </template>
+          </v-data-table>
+        </div>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -78,16 +183,71 @@ export default {
         {id: 3, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', total: '2105'},
         {id: 4, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', total: '2105'},
       ],
-
+      edit_dialog: false,
+      delete_dialog: false,
+      edit_validate: true,
+      sizeDistributions: [
+        {size: 24, quantity: 24},
+        {size: 26, quantity: 26},
+        {size: 28, quantity: 28},
+        {size: 30, quantity: 30},
+      ],
+      historyHeaders: [
+        {text: "Date", sortable: false, align: 'start', value: 'date'},
+        {text: "26", sortable: false, align: 'center', value: '26'},
+        {text: "28", sortable: false, align: 'center', value: '28'},
+        {text: "30", sortable: false, align: 'center', value: '30'},
+        {text: "34", sortable: false, align: 'center', value: '34'},
+        {text: "Done by ", sortable: false, align: 'center', value: 'doneBy'},
+      ],
+      historyList: [
+        {
+          id: 1,
+          date: '07.03.2024',
+          26: "26",
+          28: "28",
+          30: "30",
+          34: "34",
+          doneBy: 'Shavkatova M.'
+        },
+        {
+          id: 2,
+          date: '07.03.2024',
+          26: "26",
+          28: "28",
+          30: "30",
+          34: "34",
+          doneBy: 'Shavkatova M.'
+        },
+        {
+          id: 3,
+          date: '07.03.2024',
+          26: "26",
+          28: "28",
+          30: "30",
+          34: "34",
+          doneBy: 'Shavkatova M.'
+        },
+      ],
     }
   },
   methods: {
     ...mapActions({
       getOwnList: "commonProcess/getOwnList"
     }),
-    getHistory(item) {},
-    editItem() {},
-    deleteItem() {},
+    editItem() {
+      this.edit_dialog = !this.edit_dialog;
+    },
+    deleteItem(item) {
+      this.delete_dialog = true;
+    },
+    deleteConfirm() {
+    },
+    saveChanges() {
+    },
+    editHistoryItem(item) {
+    },
+    deleteHistoryItem(item) {}
   },
   async mounted() {
     const id = this.$route.params.id;
