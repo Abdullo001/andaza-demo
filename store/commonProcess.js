@@ -25,7 +25,6 @@ export const actions = {
   getOwnList({commit, state}, id) {
     this.$axios.get(`/api/v1/common-process-details/list-own?planningProcessId=${id || state.planningProcessId}`)
       .then((res) => {
-        console.log(res)
         commit("setOwnList", res.data.data)
       })
       .catch((res) => {
@@ -40,7 +39,6 @@ export const actions = {
         this.$toast.success(res.data.message)
       })
       .catch(({res}) => {
-        console.log(res);
         this.$toast.error(res.data.message)
       })
   },

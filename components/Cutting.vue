@@ -342,7 +342,7 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="classification_dialog" max-width="600">
+    <v-dialog v-model="classification_dialog" max-width="800">
       <v-card flat>
         <v-card-title>
           <div class="title">Add classification</div>
@@ -560,8 +560,8 @@ export default {
       setMainColorFunc: "cuttingProcess/setMainColor",
 
     }),
-    setMainColor(item){
-      if(!item.isMain){
+    setMainColor(item) {
+      if (!item.isMain) {
         console.log(item);
         this.setMainColorFunc(item.id)
       }
@@ -624,11 +624,11 @@ export default {
     },
 
     editHistoryItem(item) {
-      this.selectedItem={
-        id:item.id,
-        sizeDistributions:[...item.sizeDistributionList],
-        status:"historyEdit",
-        cuttingId:this.cuttingId,
+      this.selectedItem = {
+        id: item.id,
+        sizeDistributions: [...item.sizeDistributionList],
+        status: "historyEdit",
+        cuttingId: this.cuttingId,
       }
     },
     deleteHistoryItem(item) {
