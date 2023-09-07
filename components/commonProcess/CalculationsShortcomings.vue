@@ -198,7 +198,9 @@ export default {
 
   computed:{
     ...mapGetters({
-      classificationList:"cuttingProcess/classificationList",
+      classificationList:"commonCalculationsShortcomings/shortcomingsList",
+      planningProcessId:"commonProcess/planningProcessId",
+
     })
   },
 
@@ -261,8 +263,8 @@ export default {
 
   methods:{
     ...mapActions({
-      deleteClassification:"cuttingProcess/deleteClassification",
-      updateClassification:"cuttingProcess/updateClassification",
+      deleteClassification:"commonCalculationsShortcomings/deleteShortcomings",
+      updateShortcomings:"commonCalculationsShortcomings/updateShortcomings",
       updateClassificationSubcontract:"subcontracts/updateClassificationSubcontract",
       deleteClassificationSubcontracts:"subcontracts/deleteClassificationSubcontracts",
 
@@ -281,11 +283,9 @@ export default {
         quantity: this.selectedItem.quantity,
         reason: this.selectedItem.reason,
       }
-      if(this.selectedItem.partner){
-        this.updateClassificationSubcontract(data)
-      }else{
-        this.updateClassification(data)
-      }
+     
+      this.updateShortcomings({data,id:this.planningProcessId})
+      
       this.edit_dialog=false
 
     },
@@ -299,7 +299,7 @@ export default {
       if(this.selectedItem.partner){
         this.deleteClassificationSubcontracts(this.selectedItem.id)
       }else{
-        this.deleteClassification(this.selectedItem.id)
+        this.deleteClassification({id:this.selectedItem.id,planningProcessId:this.planningProcessId})
       }
     }
   }

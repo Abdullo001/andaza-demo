@@ -229,11 +229,9 @@
             />
           </v-col>
           <v-col cols="12" lg="6" md="6">
-            <div class="label mt-4" v-if="!!model_images[0]?.filePath">
-              {{ $t('workingProcess.dialog.photosModels') }}
-            </div>
+            <div class="label mt-4"  v-if="!!model_images[0]?.filePath">{{ $t('workingProcess.dialog.photosModels') }}</div>
             <div class="d-flex flex-wrap px-0">
-              <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4" v-if="!!model_images[idx]?.filePath">
+              <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4"  v-if="!!model_images[idx]?.filePath">
                 <div class="image-box">
                   <v-img
                     :src="model_images[idx]?.filePath"
@@ -299,81 +297,71 @@
         <v-divider/>
         <v-tabs-items v-model="tab">
           <v-tab-item>
-            <QuantitiesOne class="mb-5"/>
-            <v-row class="pa-0 ma-0">
-              <v-col class="pl-0">
-                <QuantitiesTwo/>
-              </v-col>
-              <v-col class="pr-0">
-                <Alteration/>
-              </v-col>
-            </v-row>
-            <v-row class="pa-0 ma-0">
-              <vCol class="pl-0">
-                <Classification/>
-              </vCol>
-              <v-col class="pr-0">
-                <OrderQuantities/>
-              </v-col>
-            </v-row>
+            <PackagingProcess/>
           </v-tab-item>
           <v-tab-item>
-            <Subcontractor class="mb-10"/>
-            <v-row class="pa-0 ma-0">
-              <v-col class="pl-0">
-                <Calculations/>
-              </v-col>
-              <v-col class="pr-0">
-                <OrderQuantities/>
-              </v-col>
-            </v-row>
-            <v-spacer/>
-            <div class="mt-4 mr-4 mb-10 d-flex justify-end">
-              <v-btn
-                outlined
-                color="#7631FF"
-                style="border-width: 2px"
-                width="280"
-                height="44"
-                class="rounded-lg font-weight-bold"
-              >
-                Finish Process
-              </v-btn>
-            </div>
+            <SewingSubcontract/>
           </v-tab-item>
           <v-tab-item>
-            <NextProcess/>
+            <PassingToNextProcess/>
           </v-tab-item>
         </v-tabs-items>
       </v-card-text>
     </v-card>
-    <!--    Small tables -->
-
+    <v-row class="mt-2" v-if="tab!==2">
+      <v-col>
+        <CalculationShortcomings/>
+      </v-col>
+      <v-col>
+        <OrderQuantities/>
+      </v-col>
+      <v-col>
+        <GivenAccessoryQuantity/>
+      </v-col>
+    </v-row>
+    <div class="text-right mt-5 mb-8">
+      <v-btn
+        outlined
+        color="#7631FF"
+        class="rounded-lg text-capitalize font-weight-bold"
+        width="200"
+        height="44"
+        style="border-width: 2px"
+      >
+        Finish Process
+      </v-btn>
+    </div>
   </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+import Breadcrumbs from "@/components/Breadcrumbs.vue";
+import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
+import CalculationShortcomings from "@/components/CalculationsShoertcomings.vue";
+import OrderQuantities from "@/components/OrderQuantities.vue";
+import GivenAccessoryQuantity from "@/components/GivenAccessoryQuantity.vue";
+import SewingSubcontract from "@/components/SubcontractsFolder/SewingSubcontract.vue";
+import PassingToNextProcess from "@/components/PassingToNextProcess.vue";
+import PackagingProcess from "@/components/PackagingProcess.vue";
 
 export default {
   name: 'ProductionOfPlanningPage',
   components: {
-    Classification: () => import('@/components/QualityControl/Classification.vue'),
-    Alteration: () => import('@/components/QualityControl/Alteration.vue'),
-    QuantitiesTwo: () => import('@/components/QualityControl/QuantitiesTwo.vue'),
-    OrderQuantities: () => import('@/components/QualityControl/OrderQuantities.vue'),
-    Calculations: () => import('@/components/QualityControl/Calculations.vue'),
-    ShowBtnComponent: () => import('@/components/ShowComponentBtn/ShowBtn.vue'),
-    QuantitiesOne: () => import('@/components/QualityControl/QuantitiesOne.vue'),
-    Breadcrumbs: () => import('@/components/Breadcrumbs.vue'),
-    Subcontractor: () => import('@/components/QualityControl/Subcontractor.vue'),
-    NextProcess: () => import('@/components/QualityControl/NextProcess.vue')
-  },
+    OrderQuantities,
+    CalculationShortcomings,
+    ShowBtnComponent,
+    Breadcrumbs,
+    GivenAccessoryQuantity,
+    SewingSubcontract,
+    PassingToNextProcess,
+    PackagingProcess
+},
   data() {
     return {
       show_btn: true,
       tab: null,
-      items: ["Quality control", "Subcontractor", "Passing to next process"],
+      items: ["Packaging", "Subcontracts","Passing to next process"],
       title: "Add",
       currentImage: '',
       image_dialog: false,
@@ -433,8 +421,8 @@ export default {
     this.getColorsList();
   },
   computed: {
-    showObject() {
-      return {
+    showObject(){
+      return{
         show_active: this.show_btn
       }
     },
@@ -460,8 +448,9 @@ export default {
       this.getImages(val?.modelId);
       this.planning = JSON.parse(JSON.stringify(val))
     },
-    modelImages(val) {
-      this.model_images = JSON.parse(JSON.stringify(val))
+    modelImages(val){
+      const item = JSON.parse(JSON.stringify(val));
+      this.model_images = item
     }
   },
   methods: {
@@ -475,7 +464,7 @@ export default {
       createProcessPlanning: 'production/planning/createProcessPlanning',
       getProcessingList: 'production/planning/getProcessingList'
     }),
-    clickBtn() {
+    clickBtn(){
       this.show_btn = !this.show_btn
     },
     async savePlanning() {
@@ -489,7 +478,8 @@ export default {
   },
   mounted() {
     const param = this.$route.params.id;
-    if (param !== 'create') {
+    console.log(this.$route.path.split("/")[2])
+    if(param !== 'create') {
       this.title = "Edit"
       this.getModelInfo(param);
       this.getProcessingList({
@@ -497,24 +487,8 @@ export default {
         page: 0,
         size: 10
       })
+
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.image-box {
-  background: #F8F4FE;
-  border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 100%;
-  min-height: 150px;
-}
-
-.show_active {
-  height: 0;
-  overflow: hidden;
-}
-</style>

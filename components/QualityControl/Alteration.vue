@@ -9,48 +9,10 @@
     >
       <template #top>
         <v-card flat>
-          <v-card-title>Checked products’ quantities (1 sort)</v-card-title>
+          <v-card-title>Quantity of Resent to alteration</v-card-title>
         </v-card>
       </template>
       <template #item.actions="{item}">
-        <v-tooltip
-          top
-          color="#7631FF"
-          class="pointer"
-          v-if="Object.keys(item).length > 2"
-        >
-          <template #activator="{ on, attrs }">
-            <v-btn
-              icon
-              v-bind="attrs"
-              v-on="on"
-              color="#7631FF"
-              @click="getClassification(item)"
-            >
-              <v-img src="/t-shirt.svg" max-width="22"/>
-            </v-btn>
-          </template>
-          <span class="text-capitalize">classification</span>
-        </v-tooltip>
-        <v-tooltip
-          top
-          color="#7631FF"
-          class="pointer"
-          v-if="Object.keys(item).length > 2"
-        >
-          <template #activator="{ on, attrs }">
-            <v-btn
-              icon
-              v-bind="attrs"
-              v-on="on"
-              color="#7631FF"
-              @click="getHistory(item)"
-            >
-              <v-img src="/history.svg" max-width="22"/>
-            </v-btn>
-          </template>
-          <span class="text-capitalize">History</span>
-        </v-tooltip>
         <v-tooltip
           top
           color="green"
@@ -91,110 +53,6 @@
         </v-tooltip>
       </template>
     </v-data-table>
-    <v-dialog v-model="classification_dialog" max-width="600">
-      <v-card flat>
-        <v-card-title>
-          <div class="title">Add classification</div>
-          <v-spacer/>
-          <v-btn
-            icon
-            @click="classification_dialog = !classification_dialog"
-            color="#7631FF"
-          >
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-card-title>
-        <v-card-text class="mt-4">
-          <v-row>
-            <v-col cols="12" lg="3" v-for="(item,idx) in sizeDistributions" :key="idx">
-              <div class="label">{{ item.size }}</div>
-              <v-text-field
-                outlined
-                hide-details
-                dense
-                height="44"
-                class="rounded-lg base" color="#7631FF"
-                placeholder="Enter branch number"
-                v-model.trim="item.quantity"
-              />
-            </v-col>
-            <v-col cols="12" lg="6">
-              <div class="label">Reason</div>
-              <v-select
-                :items="classificationEnums"
-                v-model.trim="classification.reason"
-                append-icon="mdi-chevron-down"
-                outlined
-                hide-details
-                dense
-                height="44"
-                class="rounded-lg base" color="#7631FF"
-                placeholder="Enter branch number"
-              />
-            </v-col>
-            <v-col cols="12" lg="6">
-              <div class="label">Comment</div>
-              <v-text-field
-                v-model.trim="classification.comment"
-                outlined
-                hide-details
-                dense
-                height="44"
-                class="rounded-lg base" color="#7631FF"
-                placeholder="Enter branch number"
-              />
-            </v-col>
-          </v-row>
-        </v-card-text>
-        <v-card-actions class="px-10 pb-5">
-          <v-spacer/>
-          <v-btn
-            outlined
-            class="rounded-lg text-capitalize font-weight-bold"
-            color="#7631FF"
-            width="163" height="44"
-            @click="classification_dialog = !classification_dialog"
-            style="border-width: 2px"
-          >
-            {{ $t('planningProduction.planning.cancel') }}
-          </v-btn>
-          <v-btn
-            class="rounded-lg text-capitalize font-weight-bold ml-8"
-            color="#7631FF" dark
-            width="163" height="44"
-            @click="saveClassification"
-          >
-            Save
-          </v-btn>
-          <v-spacer/>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-    <v-dialog v-model="history_dialog" max-width="1200">
-      <v-card flat>
-        <v-card-title>
-          <div class="title">History</div>
-          <v-spacer/>
-          <v-btn
-            icon
-            @click="history_dialog=false"
-            color="#7631FF"
-          >
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-card-title>
-        <v-card-text>
-          <v-data-table
-            :headers="historyHeaders"
-            hide-default-footer
-            :items="historyList"
-            class="mt-4 rounded-lg"
-            style="border: 1px solid #E9EAEB"
-          >
-          </v-data-table>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
     <v-dialog v-model="delete_dialog" max-width="500">
       <v-card class="pa-4 text-center">
         <div class="d-flex justify-center mb-2">
@@ -234,7 +92,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
-            Edit Checked products’ quantities (1 sort)
+            Edit quantity of resent to alteration
           </div>
           <v-btn icon color="#7631FF" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -304,12 +162,10 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapGetters, mapActions} from "vuex";
 
 export default {
-  name: 'QuantitiesOne',
-  components: {
-  },
+  name: 'Alteration',
   data() {
     return {
       headers: [
@@ -318,29 +174,24 @@ export default {
         {text: '26', align: 'start', sortable: false, value: '26'},
         {text: '28', align: 'start', sortable: false, value: '28'},
         {text: '30', align: 'start', sortable: false, value: '30'},
-        {text: 'Produced total', align: 'start', sortable: false, value: 'producedTotal'},
+        {text: 'Total', align: 'start', sortable: false, value: 'total'},
         {text: 'Actions', align: 'end', sortable: false, value: 'actions'},
       ],
       checkedList: [
-        {id: 1, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', producedTotal: '2105'},
-        {id: 2, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', producedTotal: '2105'},
-        {id: 3, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', producedTotal: '2105'},
-        {id: 4, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', producedTotal: '2105'},
+        {id: 1, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', total: '2105'},
+        {id: 2, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', total: '2105'},
+        {id: 3, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', total: '2105'},
+        {id: 4, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', total: '2105'},
       ],
-      classification_dialog: false,
+      edit_dialog: false,
+      delete_dialog: false,
+      edit_validate: true,
       sizeDistributions: [
         {size: 24, quantity: 24},
         {size: 26, quantity: 26},
         {size: 28, quantity: 28},
         {size: 30, quantity: 30},
       ],
-      classification: {
-        reason: 'DEFECT',
-        comment: ''
-      },
-      classificationEnums: ['DEFECT', 'PHOTO', 'PHOTO_SAMPLE', 'SAMPLE', 'LOST', 'OTHERS'],
-      history_dialog: false,
-      delete_dialog: false,
       historyHeaders: [
         {text: "Date", sortable: false, align: 'start', value: 'date'},
         {text: "26", sortable: false, align: 'center', value: '26'},
@@ -378,21 +229,12 @@ export default {
           doneBy: 'Shavkatova M.'
         },
       ],
-      edit_dialog: false,
-      edit_validate: true,
-
     }
   },
   methods: {
     ...mapActions({
       getOwnList: "commonProcess/getOwnList"
     }),
-    getClassification(item) {
-      this.classification_dialog = !this.classification_dialog;
-    },
-    getHistory(item) {
-      this.history_dialog = !this.history_dialog;
-    },
     editItem() {
       this.edit_dialog = !this.edit_dialog;
     },
@@ -400,8 +242,6 @@ export default {
       this.delete_dialog = true;
     },
     deleteConfirm() {
-    },
-    saveClassification() {
     },
     saveChanges() {
     },

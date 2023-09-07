@@ -328,9 +328,6 @@
           <AccessoryOrderPages />
         </v-tab-item>
         <v-tab-item>
-          <AccessorySupplyPages />
-        </v-tab-item>
-        <v-tab-item>
           <AccessoryDocumentsPages />
         </v-tab-item>
       </v-tabs-items>
@@ -354,7 +351,6 @@ import { mapActions, mapGetters } from "vuex";
 import Breadcrumbs from "../../components/Breadcrumbs.vue";
 import AccessoryChartPages from "../../components/PlanningAccessory/AccessoryChart.vue";
 import AccessoryOrderPages from "../../components/PlanningAccessory/AccessoryOrder.vue";
-import AccessorySupplyPages from "../../components/PlanningAccessory/AccessorySupply.vue";
 import AccessoryDocumentsPages from "../../components/PlanningAccessory/AccessorDocuments.vue";
 import ShowBtnComponent from "../../components/ShowComponentBtn/ShowBtn.vue";
 
@@ -362,7 +358,6 @@ export default {
   components: {
     ShowBtnComponent,
     AccessoryDocumentsPages,
-    AccessorySupplyPages,
     AccessoryOrderPages,
     AccessoryChartPages,
     Breadcrumbs,
@@ -400,7 +395,6 @@ export default {
       items: [
         "Accessory planning chart",
         "Planned accessory order",
-        "Supply accessory",
         "Documentation",
       ],
       fields_status: true,
@@ -510,7 +504,7 @@ export default {
     const param = this.$route.params.id;
     if (param !== "create") {
       this.title = "Edit";
-      this.getOneAccessory({ id: param });
+      await this.getOneAccessory({ id: param });
     }
 
     this.$store.commit("modelPhoto/setModelImages", []);

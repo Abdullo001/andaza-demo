@@ -337,12 +337,11 @@
             class="mt-4 rounded-lg"
             style="border: 1px solid #E9EAEB"
           >
-
           </v-data-table>
         </v-card-text>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="classification_dialog" max-width="600">
+    <v-dialog v-model="classification_dialog" max-width="800">
       <v-card flat>
         <v-card-title>
           <div class="title">Add classification</div>
@@ -519,12 +518,12 @@ export default {
     historyListDate(list) {
       this.historyHeaders = [
         {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
-      ],
-        list[0]?.sizeDistributionList?.forEach((item) => {
-          this.historyHeaders.push({
-            text: item.size, sortable: false, align: 'start', value: item.size
-          })
+      ]
+      list[0]?.sizeDistributionList?.forEach((item) => {
+        this.historyHeaders.push({
+          text: item.size, sortable: false, align: 'start', value: item.size
         })
+      })
       this.historyHeaders.push(
         {text: 'Done By', sortable: false, align: 'canter', value: 'createdBy'},
       )
@@ -560,8 +559,8 @@ export default {
       setMainColorFunc: "cuttingProcess/setMainColor",
 
     }),
-    setMainColor(item){
-      if(!item.isMain){
+    setMainColor(item) {
+      if (!item.isMain) {
         console.log(item);
         this.setMainColorFunc(item.id)
       }
@@ -624,11 +623,11 @@ export default {
     },
 
     editHistoryItem(item) {
-      this.selectedItem={
-        id:item.id,
-        sizeDistributions:[...item.sizeDistributionList],
-        status:"historyEdit",
-        cuttingId:this.cuttingId,
+      this.selectedItem = {
+        id: item.id,
+        sizeDistributions: [...item.sizeDistributionList],
+        status: "historyEdit",
+        cuttingId: this.cuttingId,
       }
     },
     deleteHistoryItem(item) {

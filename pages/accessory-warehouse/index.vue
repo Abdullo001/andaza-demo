@@ -67,14 +67,6 @@
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex w-full align-center justify-space-between">
             <div>Accessory warehouse</div>
-            <v-btn
-              color="#7631FF"
-              dark class="text-capitalize rounded-lg"
-              @click="addArrivedAccessory"
-            >
-              <v-icon>mdi-plus</v-icon>
-              Add arrived Accessory
-            </v-btn>
           </v-toolbar-title>
         </v-toolbar>
       </template>

@@ -229,9 +229,12 @@
             />
           </v-col>
           <v-col cols="12" lg="6" md="6">
-            <div class="label mt-4"  v-if="!!model_images[0]?.filePath">{{ $t('workingProcess.dialog.photosModels') }}</div>
+            <div class="label mt-4" v-if="!!model_images[0]?.filePath">{{
+                $t('workingProcess.dialog.photosModels')
+              }}
+            </div>
             <div class="d-flex flex-wrap px-0">
-              <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4"  v-if="!!model_images[idx]?.filePath">
+              <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4" v-if="!!model_images[idx]?.filePath">
                 <div class="image-box">
                   <v-img
                     :src="model_images[idx]?.filePath"
@@ -308,7 +311,7 @@
         </v-tabs-items>
       </v-card-text>
     </v-card>
-    <v-row class="mt-2" v-if="tab!==2">
+    <v-row class="mt-2" v-if="tab !== 2">
       <v-col>
         <CalculationShortcomings/>
       </v-col>
@@ -325,10 +328,10 @@ import PrintingProcess from "@/components/PrintingProcess.vue"
 import ProductionPlanningComponent from "@/components/Production/Planning.vue";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
-import CalculationShortcomings from "../../../components/CalculationsShoertcomings.vue";
-import OrderQuantities from "../../../components/OrderQuantities.vue";
-import PrintingSubcontract from "../../../components/SubcontractsFolder/PrintingSubcontract.vue";
-import PassingToNextProcess from "~/components/PassingToNextProcess.vue";
+import CalculationShortcomings from "@/components/commonProcess/CalculationsShortcomings.vue";
+import OrderQuantities from "@/components/commonProcess/OrderQuantities.vue";
+import PrintingSubcontract from "@/components/SubcontractsFolder/PrintingSubcontract.vue";
+import PassingToNextProcess from "@/components/PassingToNextProcess.vue";
 
 export default {
   name: 'ProductionOfPlanningPage',
@@ -341,12 +344,12 @@ export default {
     PrintingProcess,
     PrintingSubcontract,
     PassingToNextProcess
-},
+  },
   data() {
     return {
       show_btn: true,
       tab: null,
-      items: ["Printing", "Subcontracts","Passing to next process"],
+      items: ["Printing", "Subcontracts", "Passing to next process"],
       title: "Add",
       currentImage: '',
       image_dialog: false,
@@ -406,8 +409,8 @@ export default {
     this.getColorsList();
   },
   computed: {
-    showObject(){
-      return{
+    showObject() {
+      return {
         show_active: this.show_btn
       }
     },
@@ -415,7 +418,8 @@ export default {
       modelData: 'preFinance/modelData',
       modelInfo: 'production/planning/modelInfo',
       modelImages: 'modelPhoto/modelImages',
-      productionId: 'production/planning/productionId'
+      productionId: 'production/planning/productionId',
+      planningProcessId:'commonProcess/planningProcessId',
     })
   },
   watch: {
@@ -433,9 +437,16 @@ export default {
       this.getImages(val?.modelId);
       this.planning = JSON.parse(JSON.stringify(val))
     },
-    modelImages(val){
-      const item = JSON.parse(JSON.stringify(val));
-      this.model_images = item
+    modelImages(val) {
+      this.model_images = JSON.parse(JSON.stringify(val))
+    },
+    tab(val){
+      if(val===1){
+        this.getSubcontractShortcomingsList(this.planningProcessId)
+      }
+      if(val===0){
+        this.getShortcomingsList(this.planningProcessId)
+      }
     }
   },
   methods: {
@@ -447,9 +458,11 @@ export default {
       getWorkshopList: 'production/planning/getWorkshopList',
       getColorsList: 'production/planning/getColorsList',
       createProcessPlanning: 'production/planning/createProcessPlanning',
-      getProcessingList: 'production/planning/getProcessingList'
+      getProcessingList: 'production/planning/getProcessingList',
+      getShortcomingsList:'commonCalculationsShortcomings/getShortcomingsList',
+      getSubcontractShortcomingsList:'commonCalculationsShortcomings/getSubcontractShortcomingsList',
     }),
-    clickBtn(){
+    clickBtn() {
       this.show_btn = !this.show_btn
     },
     async savePlanning() {
@@ -463,8 +476,8 @@ export default {
   },
   mounted() {
     const param = this.$route.params.id;
-    console.log(this.$route.path.split("/")[2])
     if(param !== 'create') {
+
       this.title = "Edit"
       this.getModelInfo(param);
       this.getProcessingList({

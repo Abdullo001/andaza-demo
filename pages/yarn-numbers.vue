@@ -292,7 +292,7 @@ export default {
   name: "YarnNumberPage",
   data() {
     return {
-      radio_item:["Comb", "CD", "EO"],
+      radio_item:["PN", "KD", "OE", "CB"],
       filters: {
         id: "",
         name: "",
