@@ -331,6 +331,20 @@ export default {
       } else {
         data.modelId = id
       }
+      for (let item in data){
+        if(data[item]==="" || data[item]===null){
+          data[item]=0
+        }
+      }
+      if(data.code==="" || data.code===null || data.code===0){
+        data.code=""
+      }
+      if(data.description==="" || data.description===null || data.description===0){
+        data.description=""
+      }
+      if(data.sizeName==="" || data.sizeName===null || data.sizeName===0){
+        data.sizeName=""
+      }
       await this.createSizeChart(data);
       this.new_dialog = false;
       this.$refs.new_validate.reset();
