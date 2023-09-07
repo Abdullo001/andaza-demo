@@ -2,11 +2,14 @@ export const state = () => ({
   ownList: [],
   planningProcessId: null,
   orderQuantityList: [],
+  subcontractList:[],
 })
 
 export const getters = {
   ownList: state => state.ownList,
-  orderQuantityList: state => state.orderQuantityList
+  orderQuantityList: state => state.orderQuantityList,
+  planningProcessId: state => state.planningProcessId,
+  subcontractList: state => state.subcontractList,
 }
 
 export const mutations = {
@@ -18,7 +21,10 @@ export const mutations = {
   },
   setOrderQuantityList(state, item) {
     state.orderQuantityList = item
-  }
+  },
+  setSubcontractList(state,item){
+    state.subcontractList = item
+  },
 }
 
 export const actions = {
@@ -35,7 +41,11 @@ export const actions = {
   updateCommonProcess({dispatch}, data) {
     this.$axios.put(`/api/v1/common-process-details/update`, data)
       .then((res) => {
-        dispatch("getOwnList")
+        if(Object.keys(data).length===2){
+          dispatch("getOwnList")
+        }else{
+          dispatch("getSubcontarctList")
+        }
         this.$toast.success(res.data.message)
       })
       .catch(({res}) => {
@@ -47,6 +57,7 @@ export const actions = {
     this.$axios.delete(`/api/v1/common-process-details/delete?id=${id}`)
       .then((res) => {
         dispatch("getOwnList")
+        dispatch("getSubcontarctList")
         this.$toast.success(res.data.message)
       })
       .catch(({res}) => {
@@ -63,6 +74,29 @@ export const actions = {
       .catch(({res}) => {
         console.log(res);
       })
+  },
+
+
+  getSubcontarctList({commit,state}){
+    this.$axios.get(`/api/v1/common-process-details/list-subcontractor?planningProcessId=${state.planningProcessId}`)
+    .then((res)=>{
+      commit("setSubcontractList",res.data.data)
+    })
+    .catch((res) => {
+      console.log(res);
+    })
+  },
+
+  changeStatusCommon({dispatch},{id,status}){
+    this.$axios.put(`/api/v1/common-process-details/change-status?id=${id}&status=${status}`)
+    .then((res)=>{
+      dispatch("getSubcontarctList")
+      this.$toast.success(res.data.message)
+    })
+    .catch(({res})=>{
+      console.log(res);
+      this.$toast.error(res.data.message)
+    })
   }
 
 

@@ -29,6 +29,7 @@ export const actions={
     .then((res)=>{
       dispatch("getHistoryList",processId)
       dispatch("commonProcess/getOwnList",'',{root:true})
+      dispatch("commonProcess/getSubcontarctList",'',{root:true})
       this.$toast.success(res.data.message)
     })
     .catch(({res})=>{
@@ -41,6 +42,7 @@ export const actions={
     this.$axios.put(`/api/v1/common-operation/update`,data)
     .then((res)=>{
       dispatch("commonProcess/getOwnList",'',{root:true})
+      dispatch("commonProcess/getSubcontarctList",'',{root:true})
       this.$toast.success(res.data.message)
     })
     .catch(({res})=>{

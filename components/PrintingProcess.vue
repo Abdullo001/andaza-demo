@@ -41,8 +41,8 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-row>
-            <v-col cols="12" lg="3">
-              <div class="label">24</div>
+            <v-col cols="12" lg="3" v-for="(item,idx) in classification_shortcom.sizeDistributions" :key="idx">
+              <div class="label">{{ item.size }}</div>
               <v-text-field
                 outlined
                 hide-details
@@ -50,50 +50,14 @@
                 height="44"
                 class="rounded-lg base" color="#7631FF"
                 placeholder="Enter branch number"
-                v-model.trim="classificationList['24']"
-              />
-            </v-col>
-            <v-col cols="12" lg="3">
-              <div class="label">26</div>
-              <v-text-field
-                outlined
-                hide-details
-                dense
-                height="44"
-                class="rounded-lg base" color="#7631FF"
-                placeholder="Enter branch number"
-                v-model.trim="classificationList['26']"
-              />
-            </v-col>
-            <v-col cols="12" lg="3">
-              <div class="label">28</div>
-              <v-text-field
-                outlined
-                hide-details
-                dense
-                height="44"
-                class="rounded-lg base" color="#7631FF"
-                placeholder="Enter branch number"
-                v-model.trim="classificationList['28']"
-              />
-            </v-col>
-            <v-col cols="12" lg="3">
-              <div class="label">30</div>
-              <v-text-field
-                outlined
-                hide-details
-                dense
-                height="44"
-                class="rounded-lg base" color="#7631FF"
-                placeholder="Enter branch number"
-                v-model.trim="classificationList['30']"
+                v-model.trim="item.quantity"
               />
             </v-col>
             <v-col cols="12" lg="6">
               <div class="label">Reason</div>
               <v-select
                 :items="classificationEnums"
-                v-model.trim="classificationList.reason"
+                v-model.trim="classification_shortcom.reason"
                 append-icon="mdi-chevron-down"
                 outlined
                 hide-details
@@ -106,7 +70,7 @@
             <v-col cols="12" lg="6">
               <div class="label">Comment</div>
               <v-text-field
-                v-model.trim="classificationList.comment"
+                v-model.trim="classification_shortcom.comment"
                 outlined
                 hide-details
                 dense
@@ -133,6 +97,7 @@
             class="rounded-lg text-capitalize font-weight-bold ml-8"
             color="#7631FF" dark
             width="163" height="44"
+            @click="saveShortcom"
           >
             Save
           </v-btn>
@@ -167,7 +132,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="edit_dialog" width="600">
+    <v-dialog v-model="edit_dialog" width="1200">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Edit printing info</div>
@@ -319,6 +284,7 @@ export default {
       classification_dialog:false,
       classification_shortcom:{},
 
+
       historyHeaders: [
         {text: 'Date', sortable: false, align: 'start', value: 'date'},
         {text: 'Done By', sortable: false, align: 'canter', value: 'doneBy'},
@@ -326,15 +292,9 @@ export default {
 
       historyList: [],
 
-      classificationList: {
-        24: 100,
-        26: 120,
-        28: 140,
-        30: 160,
-        reason: 'Defect',
-        comment: ''
-      },
-      classificationEnums: ['Defect', 'Effect )'],
+      
+      classificationEnums: ['DEFECT', 'PHOTO', 'PHOTO_SAMPLE', 'SAMPLE', 'LOST', 'OTHERS'],
+
     }
   },
 
@@ -342,6 +302,8 @@ export default {
     ...mapGetters({
       ownList:"commonProcess/ownList",
       historyServerList:"history/historyList",
+      planningProcessId:"commonProcess/planningProcessId",
+
     }),
   },
 
@@ -421,6 +383,7 @@ export default {
       getHistoryList:"history/getHistoryList",
       deleteHistory:"history/deleteHistoryItem",
       editHistory:"history/editHistoryItem",
+      createShortcomingsList:"commonCalculationsShortcomings/createShortcomingsList",
 
     }),
     getHistory(item) {
@@ -430,6 +393,23 @@ export default {
 
     getClassification(item) {
       this.classification_dialog = true;
+      this.classification_shortcom={...item}
+    },
+
+    saveShortcom(){
+      const data={
+        description:this.classification_shortcom.comment,
+        detailsId:this.classification_shortcom.id,
+        reason:this.classification_shortcom.reason,
+        sizeDistributions:[],
+      }
+      this.classification_shortcom?.sizeDistributions.forEach((item) => {
+        if (item.quantity !== 0 && item.quantity) {
+          data.sizeDistributions.push(item)
+        }
+      })
+      this.createShortcomingsList({data,id:this.planningProcessId})
+      this.classification_dialog=false
     },
 
     editItem(item){

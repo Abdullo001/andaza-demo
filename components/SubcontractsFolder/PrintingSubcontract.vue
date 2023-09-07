@@ -14,7 +14,30 @@
       :expanded.sync="expanded"
       @item-expanded="loadDetails"
     >
+
+      <template #item.status="{item}">
+        <v-select
+          @click.stop
+          @change="changeStatus(item)"
+          :background-color="statusColor.subcontractColor(item.status)"
+          :items="status_enums"
+          append-icon="mdi-chevron-down"
+          v-model="item.status"
+          hide-details
+          class="mt-n2"
+          item-color="green"
+          rounded
+          dark
+        />
+      </template>
+
       <template #item.actions="{item}">
+        <v-btn icon @click="getClassification(item)">
+          <v-img src="/t-shirt.svg" max-width="20"/>
+        </v-btn>
+        <v-btn icon @click="getHistory(item)">
+          <v-img src="/history.svg" max-width="20"/>
+        </v-btn>
         <v-btn icon color="green" @click.stop="editPrintingRow(item)">
           <v-img src="/edit-active.svg" max-width="22"/>
         </v-btn>
@@ -54,7 +77,7 @@
       </template>
     </v-data-table>
 
-    <v-dialog v-model="edit_dialog" max-width="572">
+    <v-dialog v-model="edit_dialog" max-width="1200">
       <v-card>
         <v-card-title class="w-full d-flex text-capitalize text-h6 justify-space-between">
           <div>Edit Info</div>
@@ -70,6 +93,7 @@
                 <div class="label">Price per work</div>
                 <div class="d-flex align-center">
                   <v-text-field
+                    v-model="selectedSubcontract.pricePerWork"
                     placeholder="0.00"
                     outlined
                     hide-details
@@ -78,26 +102,16 @@
                     validate-on-blur
                     dense
                     color="#7631FF"
-                  />
-                  <v-select
-                    :items="currency_enums"
-                    style="max-width: 100px"
-                    dense
-                    outlined
-                    hide-details
-                    height="44"
-                    class="rounded-lg base rounded-r-lg rounded-l-0"
-                    validate-on-blur
-                    append-icon="mdi-chevron-down"
-                    color="#7631FF"
+                    :suffix="selectedSubcontract.currency"
                   />
                 </div>
               </v-col>
 
               <v-col cols="12" lg="6">
-                <div class="label">Order date</div>
+                <div class="label">Sent date</div>
                 <div style="height: 40px !important">
                   <el-date-picker
+                    v-model="selectedSubcontract.sentDate"
                     type="datetime"
                     style="width: 100%; height: 100%"
                     placeholder="dd.MM.yyyy HH:mm:ss"
@@ -109,7 +123,7 @@
                 </div>
               </v-col>
 
-              <v-col cols="12" lg="3" v-for="(item,idx) in selectedSubcontrac.sizes" :key="idx">
+              <v-col cols="12" lg="3" v-for="(item,idx) in selectedSubcontract.sizeDistributions" :key="idx">
                 <div class="label">{{item.size}}</div>
                 <v-text-field
                   v-model="item.quantity"
@@ -129,6 +143,7 @@
                 <div class="label">Deadline</div>
                 <div style="height: 40px !important">
                   <el-date-picker
+                    v-model="selectedSubcontract.deadline"
                     type="datetime"
                     style="width: 100%; height: 100%"
                     placeholder="dd.MM.yyyy HH:mm:ss"
@@ -162,6 +177,29 @@
           </v-btn>
           
         </v-card-actions>
+        <v-divider></v-divider>
+
+        <div class="px-4 pb-4">
+          <v-data-table
+            :headers="[...historyHeaders,{text: 'Actions', sortable: false, align: 'center', value: 'actions',width:'120' },]"
+            hide-default-footer
+            :items="historyList"
+            class="mt-4 rounded-lg"
+            style="border: 1px solid #E9EAEB"
+          >
+          <template #top>
+            <div class="title ma-4">History</div>
+          </template>
+          <template #item.actions="{item}">
+            <v-btn icon color="green" @click.stop="editHistoryItem(item)">
+              <v-img src="/edit-active.svg" max-width="22"/>
+            </v-btn>
+            <v-btn icon color="red" @click.stop="deleteHistoryItem(item)">
+              <v-img src="/delete.svg" max-width="27"/>
+            </v-btn>
+          </template>
+          </v-data-table>
+        </div>
       </v-card>
     </v-dialog>
 
@@ -198,26 +236,142 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-dialog v-model="classification_dialog" max-width="600">
+      <v-card flat>
+        <v-card-title>
+          <div class="title">Add classification</div>
+          <v-spacer/>
+          <v-btn
+            icon
+            @click="classification_dialog=false"
+            color="#7631FF"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text class="mt-4">
+          <v-row>
+            <v-col cols="12" lg="3" v-for="(item,idx) in classification_shortcom.sizeDistributions" :key="idx">
+              <div class="label">{{ item.size }}</div>
+              <v-text-field
+                outlined
+                hide-details
+                dense
+                height="44"
+                class="rounded-lg base" color="#7631FF"
+                placeholder="Enter branch number"
+                v-model.trim="item.quantity"
+              />
+            </v-col>
+            <v-col cols="12" lg="6">
+              <div class="label">Reason</div>
+              <v-select
+                :items="classificationEnums"
+                v-model.trim="classification_shortcom.reason"
+                append-icon="mdi-chevron-down"
+                outlined
+                hide-details
+                dense
+                height="44"
+                class="rounded-lg base" color="#7631FF"
+                placeholder="Enter branch number"
+              />
+            </v-col>
+            <v-col cols="12" lg="6">
+              <div class="label">Comment</div>
+              <v-text-field
+                v-model.trim="classification_shortcom.comment"
+                outlined
+                hide-details
+                dense
+                height="44"
+                class="rounded-lg base" color="#7631FF"
+                placeholder="Enter branch number"
+              />
+            </v-col>
+          </v-row>
+        </v-card-text>
+        <v-card-actions class="px-10 pb-5">
+          <v-spacer/>
+          <v-btn
+            outlined
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#7631FF"
+            width="163" height="44"
+            @click="classification_dialog=false"
+            style="border-width: 2px"
+          >
+            {{ $t('planningProduction.planning.cancel') }}
+          </v-btn>
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold ml-8"
+            color="#7631FF" dark
+            width="163" height="44"
+            @click="saveShortcom"
+          >
+            Save
+          </v-btn>
+          <v-spacer/>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="history_dialog" max-width="600">
+      <v-card flat>
+        <v-card-title>
+          <div class="title">History</div>
+          <v-spacer/>
+          <v-btn
+            icon
+            @click="history_dialog=false"
+            color="#7631FF"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text>
+          <v-data-table
+            :headers="historyHeaders"
+            hide-default-footer
+            :items="historyList"
+            class="mt-4 rounded-lg"
+            style="border: 1px solid #E9EAEB"
+          >
+          </v-data-table>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
+import {mapActions, mapGetters} from "vuex";
 export default {
   data(){
     return{
       printingDelete_dialog:false,
       edit_dialog:false,
+      history_dialog:false,
+      classification_dialog:false,
       singleExpand: true,
       expanded: [],
       new_validate:true,
       currency_enums:["USD","UZS","RUB"],
-      selectedSubcontrac:{},
+      selectedSubcontract:{},
+      classification_shortcom:{},
+      classificationEnums: ['DEFECT', 'PHOTO', 'PHOTO_SAMPLE', 'SAMPLE', 'LOST', 'OTHERS'],
+      selectedProcessId:null,
+      status_enums: ["RECEIVED", "SENT"],
+
+      historyHeaders: [
+        {text: 'Date', sortable: false, align: 'start', value: 'date'},
+        {text: 'Done By', sortable: false, align: 'canter', value: 'doneBy'},
+      ],
+
+      historyList: [],
 
       printingHeader:[
         {text: 'Color', sortable: false, align: 'start', value: 'color'},
-        {text: '24', sortable: false, align: 'start', value: '24'},
-        {text: '26', sortable: false, align: 'start', value: '26'},
-        {text: '28', sortable: false, align: 'start', value: '28'},
-        {text: '30', sortable: false, align: 'start', value: '30'},
 
         {text: 'Recived total quantity', sortable: false, align: 'start', value: 'recivedTotalQuantity'},
         {text: 'Partner', sortable: false, align: 'start', value: 'partner'},
@@ -230,52 +384,180 @@ export default {
 
       ],
 
-      printingList:[
-        {
-          color:"red",
-          sizes:[
-            {
-              size:24,
-              quantity:0,
-            },
-            {
-              size:26,
-              quantity:0,
-            },
-            {
-              size:28,
-              quantity:0,
-            },
-            {
-              size:30,
-              quantity:0,
-            },
-          ]
-        }
+      printingList:[],
+    }
+  },
+
+  computed:{
+    ...mapGetters({
+      subcontractList:"commonProcess/subcontractList",
+      planningProcessId:"commonProcess/planningProcessId",
+      historyServerList:"history/historyList",
+    })
+  },
+
+  watch:{
+    subcontractList(list){
+      this.printingHeader= [
+        {text: "Color", sortable: false, value: "color"}, 
       ],
+
+      list[0]?.sizeDistributionList?.forEach((item)=>{
+        this.printingHeader.push({
+          text: item.size, sortable: false, align: 'start', value: item.size
+        })
+      })
+      this.printingHeader.push(
+        {text: "Received total quantity", sortable: false, value: "receivedQuantity"},
+        {text: "Partner", sortable: false, value: "partnerName"},
+        {text: "Price per work", sortable: false, value: "pricePerWork",width:"100"},
+        {text: "Status", sortable: false, value: "status",width:"200"},
+        {text: "Print photo", sortable: false, align: 'start', value: 'printPhoto'},
+        {text: "Action", sortable: false, value: "actions",width:"200"},
+        {text: '', value: 'data-table-expand'},
+      )
+
+      const specialList = list.map(function (el) {
+        const value = {};
+        const sizesList=[];
+        el?.sizeDistributionList.forEach((item) => {
+          value[item.size]=item.quantity
+          sizesList.push({size:item.size,quantity:0})
+        });
+        return{
+          ...el,
+          ...value,
+          sizeDistributions:[...sizesList],
+        }
+      })
+
+      this.printingList = JSON.parse(JSON.stringify(specialList));
+    },
+
+    historyServerList(list){
+      this.historyHeaders = [
+        {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
+      ],
+        list[0]?.sizeDistributionList?.forEach((item) => {
+          this.historyHeaders.push({
+            text: item.size, sortable: false, align: 'start', value: item.size
+          })
+        })
+      this.historyHeaders.push(
+        {text: 'Done By', sortable: false, align: 'canter', value: 'createdBy'},
+      )
+
+      const specialList = list.map(function (el) {
+        const value = {};
+        const sizesList = [];
+        el?.sizeDistributionList.forEach((item) => {
+          value[item.size] = item.quantity
+          sizesList.push({size: item.size, quantity: item.quantity})
+        });
+        return {
+          ...el,
+          ...value,
+          sizeDistributions: [...sizesList],
+        }
+      })
+      this.historyList = JSON.parse(JSON.stringify(specialList))
     }
   },
 
   methods:{
+    ...mapActions({
+      getSubcontarctList:"commonProcess/getSubcontarctList",
+      updateCommonProcess:"commonProcess/updateCommonProcess",
+      deleteCommonProcess:"commonProcess/deleteCommonProcess",
+      createShortcomingsList:"commonCalculationsShortcomings/createShortcomingsList",
+      getHistoryList:"history/getHistoryList",
+      deleteHistory:"history/deleteHistoryItem",
+      editHistory:"history/editHistoryItem",
+      changeStatusCommon:"commonProcess/changeStatusCommon",
+    }),
     loadDetails({item}) {
       // current opened || choose object ^
     },
 
     editPrintingRow(item){
       this.edit_dialog=true
-      this.selectedSubcontrac={...item}
+      this.selectedSubcontract={...item}
+      this.selectedSubcontract.pricePerWork=item.pricePerWork.split(" ")[0]
+      this.selectedSubcontract.currency=item.pricePerWork.split(" ")[1]
+      this.selectedProcessId=item.id
+      this.getHistoryList(item.id)
     },
-    deletePrintingRow(){
+    deletePrintingRow(item){
       this.printingDelete_dialog=true
+      this.selectedSubcontract={...item}
     },
 
     deletePrintingItem(){
-
+      this.deleteCommonProcess(this.selectedSubcontract.id)
     },
 
     setSubcontract(){
       
+      if(this.selectedSubcontract.status==="editHistory"){
+        const data={
+          id:this.selectedSubcontract.id,
+          sizeDistributionList:[...this.selectedSubcontract.sizeDistributions]
+        }
+        this.editHistory(data)
+      }else{
+        const data={
+          deadline:this.selectedSubcontract.deadline,
+          id:this.selectedSubcontract.id,
+          pricePerWork:this.selectedSubcontract.pricePerWork,
+          sentDate:this.selectedSubcontract.sentDate,
+          sizeDistributions:[...this.selectedSubcontract.sizeDistributions],
+        }
+        this.updateCommonProcess(data)
+      }
+      this.edit_dialog=false
+    },
+    getClassification(item){
+      this.classification_shortcom={...item}
+      this.classification_dialog=true
+    },
+
+    saveShortcom(){
+      const data={
+        description:this.classification_shortcom.comment,
+        detailsId:this.classification_shortcom.id,
+        reason:this.classification_shortcom.reason,
+        sizeDistributions:[],
+        status:"subcontract_classification"
+      }
+      this.classification_shortcom?.sizeDistributions.forEach((item) => {
+        if (item.quantity !== 0 && item.quantity) {
+          data.sizeDistributions.push(item)
+        }
+      })
+      this.createShortcomingsList({data,id:this.planningProcessId})
+      this.classification_dialog=false
+    },
+
+    getHistory(item){
+      this.history_dialog=true
+      this.getHistoryList(item.id)
+    },
+
+    editHistoryItem(item){
+      this.selectedSubcontract={...item}
+      this.selectedSubcontract.status="editHistory"
+    },
+    deleteHistoryItem(item){
+      this.deleteHistory({id:item.id,processId:this.selectedProcessId})
+    },
+    changeStatus(item){
+      this.changeStatusCommon({id:item.id,status:item.status})
     }
+
+  },
+
+  mounted(){
+    this.getSubcontarctList()
   }
 }
 </script>

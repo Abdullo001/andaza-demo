@@ -328,10 +328,10 @@ import PrintingProcess from "@/components/PrintingProcess.vue"
 import ProductionPlanningComponent from "@/components/Production/Planning.vue";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
-import CalculationShortcomings from "../../../components/CalculationsShoertcomings.vue";
-import OrderQuantities from "../../../components/commonProcess/OrderQuantities.vue";
-import PrintingSubcontract from "../../../components/SubcontractsFolder/PrintingSubcontract.vue";
-import PassingToNextProcess from "~/components/PassingToNextProcess.vue";
+import CalculationShortcomings from "@/components/commonProcess/CalculationsShortcomings.vue";
+import OrderQuantities from "@/components/commonProcess/OrderQuantities.vue";
+import PrintingSubcontract from "@/components/SubcontractsFolder/PrintingSubcontract.vue";
+import PassingToNextProcess from "@/components/PassingToNextProcess.vue";
 
 export default {
   name: 'ProductionOfPlanningPage',
@@ -418,7 +418,8 @@ export default {
       modelData: 'preFinance/modelData',
       modelInfo: 'production/planning/modelInfo',
       modelImages: 'modelPhoto/modelImages',
-      productionId: 'production/planning/productionId'
+      productionId: 'production/planning/productionId',
+      planningProcessId:'commonProcess/planningProcessId',
     })
   },
   watch: {
@@ -438,6 +439,14 @@ export default {
     },
     modelImages(val) {
       this.model_images = JSON.parse(JSON.stringify(val))
+    },
+    tab(val){
+      if(val===1){
+        this.getSubcontractShortcomingsList(this.planningProcessId)
+      }
+      if(val===0){
+        this.getShortcomingsList(this.planningProcessId)
+      }
     }
   },
   methods: {
@@ -449,7 +458,9 @@ export default {
       getWorkshopList: 'production/planning/getWorkshopList',
       getColorsList: 'production/planning/getColorsList',
       createProcessPlanning: 'production/planning/createProcessPlanning',
-      getProcessingList: 'production/planning/getProcessingList'
+      getProcessingList: 'production/planning/getProcessingList',
+      getShortcomingsList:'commonCalculationsShortcomings/getShortcomingsList',
+      getSubcontractShortcomingsList:'commonCalculationsShortcomings/getSubcontractShortcomingsList',
     }),
     clickBtn() {
       this.show_btn = !this.show_btn
