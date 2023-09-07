@@ -303,7 +303,7 @@
             <Subcontracts/>
           </v-tab-item>
           <v-tab-item>
-            <PassingToNextProcess/>
+            <CuttingToNextProcess/>
           </v-tab-item>
         </v-tabs-items>
       </v-card-text>
@@ -328,7 +328,7 @@ import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
 import CuttingComponent from "@/components/Cutting.vue";
 import CalculationShortcomings from "@/components/CalculationsShoertcomings.vue";
 import OrderQuantities from "@/components/OrderQuantities.vue";
-import PassingToNextProcess from "@/components/PassingToNextProcess.vue";
+import CuttingToNextProcess from "@/components/CuttingToNextProcess.vue";
 
 export default {
   name: 'ProductionOfPlanningPage',
@@ -340,7 +340,7 @@ export default {
     Subcontracts,
     Breadcrumbs,
     ProductionPlanningComponent,
-    PassingToNextProcess
+    CuttingToNextProcess
   },
   data() {
     return {

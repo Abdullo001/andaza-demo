@@ -64,10 +64,14 @@ export const actions={
     })
   },
 
-  deleteShortcomings({dispatch},{id,planningProcessId}){
-    this.$axios.delete(`/api/v1/classification/delete?id=${id}`)
+  deleteShortcomings({dispatch},{data,planningProcessId}){
+    this.$axios.delete(`/api/v1/classification/delete?id=${data.id}`)
     .then((res)=>{
-      dispatch("getShortcomingsList",planningProcessId)
+      if(data.partner){
+        dispatch("getSubcontractShortcomingsList",planningProcessId)
+      }else{
+        dispatch("getShortcomingsList",planningProcessId)
+      }
       this.$toast.success(res.data.message)
     })
     .catch(({res})=>{

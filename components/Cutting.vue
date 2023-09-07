@@ -525,7 +525,7 @@ export default {
         })
       })
       this.historyHeaders.push(
-        {text: 'Done By', sortable: false, align: 'canter', value: 'createdBy'},
+        {text: 'Done By', sortable: false, align: 'center', value: 'createdBy'},
       )
 
       const specialList = list.map(function (el) {

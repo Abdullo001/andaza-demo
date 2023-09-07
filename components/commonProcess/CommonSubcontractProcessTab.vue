@@ -14,23 +14,6 @@
       :expanded.sync="expanded"
       @item-expanded="loadDetails"
     >
-
-      <template #item.status="{item}">
-        <v-select
-          @click.stop
-          @change="changeStatus(item)"
-          :background-color="statusColor.subcontractColor(item.status)"
-          :items="status_enums"
-          append-icon="mdi-chevron-down"
-          v-model="item.status"
-          hide-details
-          class="mt-n2"
-          item-color="green"
-          rounded
-          dark
-        />
-      </template>
-
       <template #item.actions="{item}">
         <v-btn icon @click="getClassification(item)">
           <v-img src="/t-shirt.svg" max-width="20"/>
@@ -351,17 +334,32 @@ export default {
     return{
       printingDelete_dialog:false,
       edit_dialog:false,
-      history_dialog:false,
-      classification_dialog:false,
       singleExpand: true,
       expanded: [],
       new_validate:true,
       currency_enums:["USD","UZS","RUB"],
       selectedSubcontract:{},
+      history_dialog:false,
+      classification_dialog:false,
       classification_shortcom:{},
       classificationEnums: ['DEFECT', 'PHOTO', 'PHOTO_SAMPLE', 'SAMPLE', 'LOST', 'OTHERS'],
-      selectedProcessId:null,
-      status_enums: ["RECEIVED", "SENT"],
+
+
+      printingHeader:[
+        {text: 'Color', sortable: false, align: 'start', value: 'color'},
+        
+
+        {text: 'Recived total quantity', sortable: false, align: 'start', value: 'recivedTotalQuantity'},
+        {text: 'Partner', sortable: false, align: 'start', value: 'partner'},
+        {text: 'Price per work', sortable: false, align: 'start', value: 'pricePerWork'},
+        {text: 'Total price', sortable: false, align: 'start', value: 'totalPrice'},
+        {text: 'Status', sortable: false, align: 'start', value: 'status'},
+        {text: 'Actions', sortable: false, align: 'center', value: 'actions'},
+        {text: '', value: 'data-table-expand'},
+
+      ],
+
+      printingList:[],
 
       historyHeaders: [
         {text: 'Date', sortable: false, align: 'start', value: 'date'},
@@ -369,22 +367,6 @@ export default {
       ],
 
       historyList: [],
-
-      printingHeader:[
-        {text: 'Color', sortable: false, align: 'start', value: 'color'},
-
-        {text: 'Recived total quantity', sortable: false, align: 'start', value: 'recivedTotalQuantity'},
-        {text: 'Partner', sortable: false, align: 'start', value: 'partner'},
-        {text: 'Price per work', sortable: false, align: 'start', value: 'pricePerWork'},
-        {text: 'Total price', sortable: false, align: 'start', value: 'totalPrice'},
-        {text: 'Status', sortable: false, align: 'start', value: 'status'},
-        {text: 'Print photo', sortable: false, align: 'start', value: 'printPhoto'},
-        {text: 'Actions', sortable: false, align: 'center', value: 'actions'},
-        {text: '', value: 'data-table-expand'},
-
-      ],
-
-      printingList:[],
     }
   },
 
@@ -411,8 +393,8 @@ export default {
         {text: "Received total quantity", sortable: false, value: "receivedQuantity"},
         {text: "Partner", sortable: false, value: "partnerName"},
         {text: "Price per work", sortable: false, value: "pricePerWork",width:"100"},
+        {text: "Total price", sortable: false, align: 'start', value: 'totalPrice'},
         {text: "Status", sortable: false, value: "status",width:"200"},
-        {text: "Print photo", sortable: false, align: 'start', value: 'printPhoto'},
         {text: "Action", sortable: false, value: "actions",width:"200"},
         {text: '', value: 'data-table-expand'},
       )
@@ -487,17 +469,7 @@ export default {
       this.selectedProcessId=item.id
       this.getHistoryList(item.id)
     },
-    deletePrintingRow(item){
-      this.printingDelete_dialog=true
-      this.selectedSubcontract={...item}
-    },
-
-    deletePrintingItem(){
-      this.deleteCommonProcess(this.selectedSubcontract.id)
-    },
-
     setSubcontract(){
-      
       if(this.selectedSubcontract.status==="editHistory"){
         const data={
           id:this.selectedSubcontract.id,
@@ -516,11 +488,20 @@ export default {
       }
       this.edit_dialog=false
     },
+
+    deletePrintingRow(item){
+      this.printingDelete_dialog=true
+      this.selectedSubcontract={...item}
+    },
+
+    deletePrintingItem(){
+      this.deleteCommonProcess(this.selectedSubcontract.id)
+    },
+    
     getClassification(item){
       this.classification_shortcom={...item}
       this.classification_dialog=true
     },
-
     saveShortcom(){
       const data={
         description:this.classification_shortcom.comment,
@@ -542,7 +523,6 @@ export default {
       this.history_dialog=true
       this.getHistoryList(item.id)
     },
-
     editHistoryItem(item){
       this.selectedSubcontract={...item}
       this.selectedSubcontract.status="editHistory"
@@ -553,9 +533,7 @@ export default {
     changeStatus(item){
       this.changeStatusCommon({id:item.id,status:item.status})
     }
-
   },
-
   mounted(){
     this.getSubcontarctList()
   }
