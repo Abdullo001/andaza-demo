@@ -328,7 +328,7 @@ export default {
         {text: '26', sortable: false, align: '26', value: '26'},
         {text: '28', sortable: false, align: '28', value: '28'},
         {text: '30', sortable: false, align: '30', value: '30'},
-        {text: 'Done By', sortable: false, align: 'canter', value: 'doneBy'},
+        {text: 'Done By', sortable: false, align: 'center', value: 'doneBy'},
       ],
 
       historyList: [

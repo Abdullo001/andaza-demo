@@ -297,10 +297,10 @@
         <v-divider/>
         <v-tabs-items v-model="tab">
           <v-tab-item>
-            <IroningProcess/>
+            <CommonProcessTab/>
           </v-tab-item>
           <v-tab-item>
-            <SewingSubcontract/>
+            <CommonSubcontractProcessTab/>
           </v-tab-item>
           <v-tab-item>
             <PassingToNextProcess/>
@@ -336,11 +336,14 @@
 import {mapActions, mapGetters} from "vuex";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
-import CalculationShortcomings from "../../../components/CalculationsShoertcomings.vue";
-import OrderQuantities from "../../../components/OrderQuantities.vue";
-import SewingSubcontract from "../../../components/SubcontractsFolder/SewingSubcontract.vue";
+import CalculationShortcomings from "@/components/commonProcess/CalculationsShortcomings.vue";
+import OrderQuantities from "@/components/commonProcess/OrderQuantities.vue";
+import SewingSubcontract from "@/components/SubcontractsFolder/SewingSubcontract.vue";
 import IroningProcess from "@/components/IroningProcess.vue";
-import PassingToNextProcess from "~/components/PassingToNextProcess.vue";
+import PassingToNextProcess from "@/components/PassingToNextProcess.vue";
+import CommonProcessTab from "@/components/commonProcess/CommonProcessTab.vue";
+import CommonSubcontractProcessTab from "@/components/commonProcess/CommonSubcontractProcessTab.vue";
+
 
 
 export default {
@@ -353,12 +356,14 @@ export default {
     SewingSubcontract,
     IroningProcess,
     PassingToNextProcess,
+    CommonProcessTab,
+    CommonSubcontractProcessTab,
 },
   data() {
     return {
       show_btn: true,
       tab: null,
-      items: ["Printing", "Subcontracts","Passing to next process"],
+      items: ["Ironing", "Subcontracts","Passing to next process"],
       title: "Add",
       currentImage: '',
       image_dialog: false,
@@ -488,3 +493,9 @@ export default {
   }
 }
 </script>
+<style scoped lang="scss">
+.show_active {
+  height: 0;
+  overflow: hidden;
+}
+</style>

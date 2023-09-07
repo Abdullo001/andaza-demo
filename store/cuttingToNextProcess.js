@@ -23,7 +23,7 @@ export const mutations={
 
 export const actions={
   getPassingList({commit},id){
-    this.$axios.get(`/api/v1/processable-entity/common-pass-next-process?planningProcessId=${id}`)
+    this.$axios.get(`/api/v1/processable-entity/fabric-pass-next-process?planningProcessId=${id}`)
     .then((res)=>{
       commit("setPassingList",res.data.data)
     })
