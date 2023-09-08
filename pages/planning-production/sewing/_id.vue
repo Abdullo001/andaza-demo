@@ -340,9 +340,7 @@ import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
 import CalculationShortcomings from "@/components/commonProcess/CalculationsShortcomings.vue";
 import OrderQuantities from "@/components/commonProcess/OrderQuantities.vue";
-import SewingProcess from "@/components/sewingProcess.vue";
 import GivenAccessoryQuantity from "@/components/GivenAccessoryQuantity.vue";
-import SewingSubcontract from "@/components/SubcontractsFolder/SewingSubcontract.vue";
 import PassingToNextProcess from "@/components/PassingToNextProcess.vue";
 import CommonProcessTab from "@/components/commonProcess/CommonProcessTab.vue";
 import CommonSubcontractProcessTab from "@/components/commonProcess/CommonSubcontractProcessTab.vue";
@@ -354,9 +352,7 @@ export default {
     CalculationShortcomings,
     ShowBtnComponent,
     Breadcrumbs,
-    SewingProcess,
     GivenAccessoryQuantity,
-    SewingSubcontract,
     PassingToNextProcess,
     CommonProcessTab,
     CommonSubcontractProcessTab,
@@ -465,6 +461,9 @@ export default {
       if(val===0){
         this.getShortcomingsList(this.planningProcessId)
       }
+      if(val===2){
+        this.getPassingList(this.planningProcessId)
+      }
     }
   },
   methods: {
@@ -479,6 +478,7 @@ export default {
       getProcessingList: 'production/planning/getProcessingList',
       getShortcomingsList:'commonCalculationsShortcomings/getShortcomingsList',
       getSubcontractShortcomingsList:'commonCalculationsShortcomings/getSubcontractShortcomingsList',
+      getPassingList:'cuttingToNextProcess/getPassingList',
     }),
     clickBtn(){
       this.show_btn = !this.show_btn

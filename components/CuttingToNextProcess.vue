@@ -392,7 +392,7 @@ export default {
   },
 
   mounted() {
-    this.getPassingList(this.planningProcessId)
+    
   }
 }
 </script>

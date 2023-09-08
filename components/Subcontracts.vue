@@ -27,7 +27,6 @@
         <v-simple-checkbox
           :value="props.value || props.indeterminate"
           v-on="on"
-          disabled
           :indeterminate="props.indeterminate"
           color="#7631FF"
         />
@@ -37,9 +36,10 @@
           color="#7631FF"
           v-ripple
           :value="isSelected"
+          v-model="item.isMain"
           :disabled="item.isMain"
           @input="select($event)"
-          @click="setMainColor(item)"
+          @change="setMainColor(item,isSelected)"
         />
       </template>
       <template #item.status="{item}">
@@ -581,8 +581,8 @@ export default {
       getHistoryList: "cuttingProcess/getHistoryList",
       setMainColorFunc: "subcontracts/setMainColor",
     }),
-    setMainColor(item){
-      if(!item.isMain){
+    setMainColor(item,isSelected){
+      if(!isSelected){
         this.setMainColorFunc(item.id)
       }
     },

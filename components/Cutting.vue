@@ -126,10 +126,11 @@
           color="#7631FF"
           v-ripple
           :value="isSelected"
-          :disabled="item.isMain"
           v-model="item.isMain"
+          :disabled="item.isMain"
           @input="select($event)"
-          @click="setMainColor(item)"
+          @click="setMainColor(item,isSelected)"
+          
         />
       </template>
     </v-data-table>
@@ -559,10 +560,10 @@ export default {
       setMainColorFunc: "cuttingProcess/setMainColor",
 
     }),
-    setMainColor(item) {
-      if (!item.isMain) {
-        console.log(item);
+    setMainColor(item,isSelected){
+      if(!isSelected){
         this.setMainColorFunc(item.id)
+
       }
     },
     returnDialog(item) {
