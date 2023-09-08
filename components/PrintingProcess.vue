@@ -287,7 +287,7 @@ export default {
 
       historyHeaders: [
         {text: 'Date', sortable: false, align: 'start', value: 'date'},
-        {text: 'Done By', sortable: false, align: 'canter', value: 'doneBy'},
+        {text: 'Done By', sortable: false, align: 'center', value: 'doneBy'},
       ],
 
       historyList: [],
@@ -354,7 +354,7 @@ export default {
           })
         })
       this.historyHeaders.push(
-        {text: 'Done By', sortable: false, align: 'canter', value: 'createdBy'},
+        {text: 'Done By', sortable: false, align: 'center', value: 'createdBy'},
       )
 
       const specialList = list.map(function (el) {

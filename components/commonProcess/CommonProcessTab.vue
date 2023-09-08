@@ -40,8 +40,8 @@
       </v-card-title>
       <v-card-text class="mt-4">
         <v-row>
-          <v-col cols="12" lg="3">
-            <div class="label">24</div>
+          <v-col cols="12" lg="3" v-for="(item,idx) in classification_shortcom.sizeDistributions" :key="idx">
+            <div class="label">{{ item.size }}</div>
             <v-text-field
               outlined
               hide-details
@@ -49,50 +49,14 @@
               height="44"
               class="rounded-lg base" color="#7631FF"
               placeholder="Enter branch number"
-              v-model.trim="classificationList['24']"
-            />
-          </v-col>
-          <v-col cols="12" lg="3">
-            <div class="label">26</div>
-            <v-text-field
-              outlined
-              hide-details
-              dense
-              height="44"
-              class="rounded-lg base" color="#7631FF"
-              placeholder="Enter branch number"
-              v-model.trim="classificationList['26']"
-            />
-          </v-col>
-          <v-col cols="12" lg="3">
-            <div class="label">28</div>
-            <v-text-field
-              outlined
-              hide-details
-              dense
-              height="44"
-              class="rounded-lg base" color="#7631FF"
-              placeholder="Enter branch number"
-              v-model.trim="classificationList['28']"
-            />
-          </v-col>
-          <v-col cols="12" lg="3">
-            <div class="label">30</div>
-            <v-text-field
-              outlined
-              hide-details
-              dense
-              height="44"
-              class="rounded-lg base" color="#7631FF"
-              placeholder="Enter branch number"
-              v-model.trim="classificationList['30']"
+              v-model.trim="item.quantity"
             />
           </v-col>
           <v-col cols="12" lg="6">
             <div class="label">Reason</div>
             <v-select
               :items="classificationEnums"
-              v-model.trim="classificationList.reason"
+              v-model.trim="classification_shortcom.reason"
               append-icon="mdi-chevron-down"
               outlined
               hide-details
@@ -105,7 +69,7 @@
           <v-col cols="12" lg="6">
             <div class="label">Comment</div>
             <v-text-field
-              v-model.trim="classificationList.comment"
+              v-model.trim="classification_shortcom.comment"
               outlined
               hide-details
               dense
@@ -132,6 +96,7 @@
           class="rounded-lg text-capitalize font-weight-bold ml-8"
           color="#7631FF" dark
           width="163" height="44"
+          @click="saveShortcom"
         >
           Save
         </v-btn>
@@ -167,10 +132,10 @@
   </v-dialog>
 
 
-  <v-dialog v-model="edit_dialog" width="600">
+  <v-dialog v-model="edit_dialog" width="1200">
     <v-card>
       <v-card-title class="d-flex justify-space-between w-full">
-        <div class="text-capitalize font-weight-bold">Edit Ironing info</div>
+        <div class="text-capitalize font-weight-bold">Edit {{title}} info</div>
         <v-btn icon color="#7631FF" @click="edit_dialog = false">
           <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -178,7 +143,7 @@
       <v-card-text class="mt-4">
         <v-form ref="edit_form" v-model="edit_validate" lazy-validation>
           <v-row>
-            <v-col cols="12" lg="3" v-for="(item,idx) in selectedItem.sizes" :key="idx">
+            <v-col cols="12" lg="3" v-for="(item,idx) in selectedItem.sizeDistributions" :key="idx">
               <div class="label">{{item.size}}</div>
               <v-text-field
                 v-model="item.quantity"
@@ -214,12 +179,10 @@
           save
         </v-btn>
       </v-card-actions>
-      
       <v-divider></v-divider>
-
         <div class="px-4 pb-4">
           <v-data-table
-            :headers="historyHeaders"
+            :headers="[...historyHeaders,{text: 'Actions', sortable: false, align: 'center', value: 'actions',width:'120' },]"
             hide-default-footer
             :items="historyList"
             class="mt-4 rounded-lg"
@@ -227,6 +190,14 @@
           >
           <template #top>
             <div class="title ma-4">History</div>
+          </template>
+          <template #item.actions="{item}">
+            <v-btn icon color="green" @click.stop="editHistoryItem(item)">
+              <v-img src="/edit-active.svg" max-width="22"/>
+            </v-btn>
+            <v-btn icon color="red" @click.stop="deleteHistoryItem(item)">
+              <v-img src="/delete.svg" max-width="27"/>
+            </v-btn>
           </template>
           </v-data-table>
         </div>
@@ -239,10 +210,10 @@
         <v-img src="/error-icon.svg" max-width="40"/>
       </div>
       <v-card-title class="d-flex justify-center">
-        Delete ironing info
+        Delete {{title}} info
       </v-card-title>
       <v-card-text>
-        Are you sure you want to  Delete  ironing info? 
+        Are you sure you want to  delete  {{ title }} info? 
       </v-card-text>
       <v-card-actions class="px-16">
         <v-btn
@@ -261,7 +232,7 @@
           width="140"
           elevation="0"
           dark
-          @click="deleteSewing"
+          @click="deleteFunc"
         >
           Delete
         </v-btn>
@@ -272,125 +243,201 @@
 
 </template>
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   data(){
     return{
       headers:[
         {text: 'Color', align: 'start', value: 'color'},
-        {text: '24', sortable: false, align: 'start', value: '24'},
-        {text: '26', sortable: false, align: 'start', value: '26'},
-        {text: '28', sortable: false, align: 'start', value: '28'},
-        {text: '30', sortable: false, align: 'start', value: '30'},
+        
         {text: 'Produced total', sortable: false, align: 'start', value: 'producedTotal'},
         {text: 'Actions', sortable: false, align: 'start', value: 'actions'},        
       ],
-      items:[
-        {
-          color:"red",
-          sizes:[
-            {
-              size:24,
-              quantity:0,
-            },
-            {
-              size:26,
-              quantity:0,
-            },
-            {
-              size:28,
-              quantity:0,
-            },
-            {
-              size:30,
-              quantity:0,
-            },
-          ],
-        }
-      ],
+      items:[],
+      title:null,
       delete_dialog:false,
       radioGroup:"",
       selectedItem:{},
       edit_dialog:false,
       edit_validate:true,
+      selectedProcessId:null,
 
       
       history_dialog:false,
       classification_dialog:false,
+      classification_shortcom:{},
 
       historyHeaders: [
-        {text: 'Date', sortable: false, align: 'start', value: 'date'},
-        {text: '24', sortable: false, align: '24', value: '24'},
-        {text: '26', sortable: false, align: '26', value: '26'},
-        {text: '28', sortable: false, align: '28', value: '28'},
-        {text: '30', sortable: false, align: '30', value: '30'},
-        {text: 'Done By', sortable: false, align: 'center', value: 'doneBy'},
+        {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
+        
+        {text: 'Done By', sortable: false, align: 'center', value: 'createdBy'},
       ],
 
-      historyList: [
-        {
-          date: '08.01.2023',
-          24: '180',
-          26: '200',
-          28: '300',
-          30: '350',
-          doneBy: 'Shavkatova M.'
-        },
-        {
-          date: '08.01.2023',
-          24: '180',
-          26: '200',
-          28: '300',
-          30: '350',
-          doneBy: 'Shavkatova M.'
-        },
-        {
-          date: '08.01.2023',
-          24: '180',
-          26: '200',
-          28: '300',
-          30: '350',
-          doneBy: 'Shavkatova M.'
-        },
+      historyList: [],
+      classificationEnums: ['DEFECT', 'PHOTO', 'PHOTO_SAMPLE', 'SAMPLE', 'LOST', 'OTHERS'],
 
-      ],
-
-      classificationList: {
-        24: 100,
-        26: 120,
-        28: 140,
-        30: 160,
-        reason: 'Defect',
-        comment: ''
-      },
-      classificationEnums: ['Defect', 'Effect )'],
 
     }
   },
 
-  methods:{
-    getHistory(item) {
-      this.history_dialog = true;
+  computed:{
+    ...mapGetters({
+      ownList:"commonProcess/ownList",
+      historyServerList:"history/historyList",
+      planningProcessId:"commonProcess/planningProcessId",
+
+    }),
+  },
+
+  watch:{
+    ownList(list){
+      this.headers= [
+        {text: 'Color', sortable: false, align: 'start', value: 'color'},  
+      ],
+
+      list[0]?.sizeDistributionList?.forEach((item) => {
+        this.headers.push({
+          text: item.size, sortable: false, align: 'start', value: item.size
+        })
+      })
+
+      this.headers.push(
+        {text: 'Produced total', sortable: false, align: 'start', value: 'totalCutQuantity'},
+        {text: 'Actions', sortable: false, align: 'start', value: 'actions'},
+      )
+
+      const specialList = list.map(function (el) {
+        const value = {};
+        const sizesList = [];
+        el?.sizeDistributionList.forEach((item) => {
+          value[item.size] = item.quantity
+          sizesList.push({size: item.size, quantity: 0})
+        });
+
+        return {
+          ...value,
+          ...el,
+          sizeDistributions: [...sizesList],
+
+        }
+      })
+      this.items = JSON.parse(JSON.stringify(specialList))
     },
 
+    historyServerList(list){
+      this.historyHeaders = [
+        {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
+      ],
+        list[0]?.sizeDistributionList?.forEach((item) => {
+          this.historyHeaders.push({
+            text: item.size, sortable: false, align: 'start', value: item.size
+          })
+        })
+      this.historyHeaders.push(
+        {text: 'Done By', sortable: false, align: 'center', value: 'createdBy'},
+      )
+
+      const specialList = list.map(function (el) {
+        const value = {};
+        const sizesList = [];
+        el?.sizeDistributionList.forEach((item) => {
+          value[item.size] = item.quantity
+          sizesList.push({size: item.size, quantity: item.quantity})
+        });
+        return {
+          ...el,
+          ...value,
+          sizeDistributions: [...sizesList],
+        }
+      })
+      this.historyList = JSON.parse(JSON.stringify(specialList))
+    }
+    
+  },
+
+  methods:{
+    ...mapActions({
+      getOwnList:"commonProcess/getOwnList",
+      updateCommonProcess:"commonProcess/updateCommonProcess",
+      deleteCommonProcess:"commonProcess/deleteCommonProcess",
+      getHistoryList:"history/getHistoryList",
+      deleteHistory:"history/deleteHistoryItem",
+      editHistory:"history/editHistoryItem",
+      createShortcomingsList:"commonCalculationsShortcomings/createShortcomingsList",
+    }),
+    getHistory(item) {
+      this.history_dialog = true;
+      this.getHistoryList(item.id)
+    },
+    editHistoryItem(item){
+      this.selectedItem={...item}
+      this.selectedItem.status="editHistory"
+    },
+    deleteHistoryItem(item){
+      this.deleteHistory({id:item.id,processId:this.selectedProcessId})
+    },
+
+    
     getClassification(item) {
       this.classification_dialog = true;
+      this.classification_shortcom={...item}
+    },
+    saveShortcom(){
+      const data={
+        description:this.classification_shortcom.comment,
+        detailsId:this.classification_shortcom.id,
+        reason:this.classification_shortcom.reason,
+        sizeDistributions:[],
+      }
+      this.classification_shortcom?.sizeDistributions.forEach((item) => {
+        if (item.quantity !== 0 && item.quantity) {
+          data.sizeDistributions.push(item)
+        }
+      })
+      this.createShortcomingsList({data,id:this.planningProcessId})
+      this.classification_dialog=false
     },
 
     editItem(item){
       this.edit_dialog=true
       this.selectedItem={...item}
+      this.selectedItem.status="editProcess"
+      this.selectedProcessId=item.id
+      this.getHistoryList(item.id)
     },
-    deleteItem(){
-      this.delete_dialog=true
-    },
-
     save(){
-
+      if(this.selectedItem.status==="editProcess"){
+        const data={
+          id:this.selectedItem.id,
+          sizeDistributions:[...this.selectedItem.sizeDistributions]
+        }
+        this.updateCommonProcess(data)
+      }
+      if(this.selectedItem.status==="editHistory"){
+        const data={
+          id:this.selectedItem.id,
+          sizeDistributionList:[...this.selectedItem.sizeDistributions]
+        }
+        this.editHistory(data)
+      }
+      this.edit_dialog=false
     },
-    deleteSewing(){
 
+    deleteItem(item){
+      this.delete_dialog=true
+      this.selectedSubcontract={...item}
     },
-  }
+    deleteFunc(){
+      this.deleteCommonProcess(this.selectedSubcontract.id)
+    },
+    
+  },
+
+  mounted(){
+    this.title=this.$route.path.split("/")[2]
+    this.getOwnList()
+  },
   
 }
 </script>

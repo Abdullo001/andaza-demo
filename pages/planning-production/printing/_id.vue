@@ -312,20 +312,31 @@
       </v-card-text>
     </v-card>
     <v-row class="mt-2" v-if="tab !== 2">
-      <v-col>
+      <v-col cols="6">
         <CalculationShortcomings/>
       </v-col>
-      <v-col>
+      <v-col cols="6">
         <OrderQuantities/>
       </v-col>
     </v-row>
+    <div class="text-right mt-5 mb-8">
+      <v-btn
+        outlined
+        color="#7631FF"
+        class="rounded-lg text-capitalize font-weight-bold"
+        width="200"
+        height="44"
+        style="border-width: 2px"
+      >
+        Finish Process
+      </v-btn>
+    </div>
   </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from "vuex";
 import PrintingProcess from "@/components/PrintingProcess.vue"
-import ProductionPlanningComponent from "@/components/Production/Planning.vue";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
 import CalculationShortcomings from "@/components/commonProcess/CalculationsShortcomings.vue";
@@ -340,7 +351,6 @@ export default {
     CalculationShortcomings,
     ShowBtnComponent,
     Breadcrumbs,
-    ProductionPlanningComponent,
     PrintingProcess,
     PrintingSubcontract,
     PassingToNextProcess
@@ -447,6 +457,9 @@ export default {
       if(val===0){
         this.getShortcomingsList(this.planningProcessId)
       }
+      if(val===2){
+        this.getPassingList(this.planningProcessId)
+      }
     }
   },
   methods: {
@@ -461,6 +474,7 @@ export default {
       getProcessingList: 'production/planning/getProcessingList',
       getShortcomingsList:'commonCalculationsShortcomings/getShortcomingsList',
       getSubcontractShortcomingsList:'commonCalculationsShortcomings/getSubcontractShortcomingsList',
+      getPassingList:'cuttingToNextProcess/getPassingList',
     }),
     clickBtn() {
       this.show_btn = !this.show_btn
@@ -490,3 +504,18 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.image-box {
+  background: #F8F4FE;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 100%;
+  min-height: 150px;
+}
+.show_active{
+  height: 0;
+  overflow: hidden;
+}
+</style>

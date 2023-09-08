@@ -303,7 +303,7 @@
             <Subcontracts/>
           </v-tab-item>
           <v-tab-item>
-            <PassingToNextProcess/>
+            <CuttingToNextProcess/>
           </v-tab-item>
         </v-tabs-items>
       </v-card-text>
@@ -316,19 +316,30 @@
         <OrderQuantities/>
       </v-col>
     </v-row>
+    <div class="text-right mt-5 mb-8">
+      <v-btn
+        outlined
+        color="#7631FF"
+        class="rounded-lg text-capitalize font-weight-bold"
+        width="200"
+        height="44"
+        style="border-width: 2px"
+      >
+        Finish Process
+      </v-btn>
+    </div>
   </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from "vuex";
-import ProductionPlanningComponent from "@/components/Production/Planning.vue";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import Subcontracts from "@/components/Subcontracts.vue";
 import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
 import CuttingComponent from "@/components/Cutting.vue";
 import CalculationShortcomings from "@/components/CalculationsShoertcomings.vue";
 import OrderQuantities from "@/components/OrderQuantities.vue";
-import PassingToNextProcess from "@/components/PassingToNextProcess.vue";
+import CuttingToNextProcess from "@/components/CuttingToNextProcess.vue";
 
 export default {
   name: 'ProductionOfPlanningPage',
@@ -339,8 +350,7 @@ export default {
     ShowBtnComponent,
     Subcontracts,
     Breadcrumbs,
-    ProductionPlanningComponent,
-    PassingToNextProcess
+    CuttingToNextProcess
   },
   data() {
     return {
@@ -415,7 +425,9 @@ export default {
       modelData: 'preFinance/modelData',
       modelInfo: 'production/planning/modelInfo',
       modelImages: 'modelPhoto/modelImages',
-      productionId: 'production/planning/productionId'
+      productionId: 'production/planning/productionId',
+      planningProcessId: 'cuttingProcess/planningProcessId',
+
     })
   },
   watch: {
@@ -444,6 +456,9 @@ export default {
       if(val===0){
         this.getClassificationList()
       }
+      if(val===2){
+        this.getPassingList(this.planningProcessId)
+      }
     }
   },
   methods: {
@@ -456,8 +471,9 @@ export default {
       getColorsList: 'production/planning/getColorsList',
       createProcessPlanning: 'production/planning/createProcessPlanning',
       getProcessingList: 'production/planning/getProcessingList',
-      setClassification: "subcontracts/setClassification",
-      getClassificationList:"cuttingProcess/getClassificationList",
+      setClassification: 'subcontracts/setClassification',
+      getClassificationList:'cuttingProcess/getClassificationList',
+      getPassingList:'cuttingToNextProcess/getPassingList',
 
 
     }),

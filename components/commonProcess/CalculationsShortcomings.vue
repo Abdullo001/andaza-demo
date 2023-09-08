@@ -265,8 +265,6 @@ export default {
     ...mapActions({
       deleteClassification:"commonCalculationsShortcomings/deleteShortcomings",
       updateShortcomings:"commonCalculationsShortcomings/updateShortcomings",
-      updateClassificationSubcontract:"subcontracts/updateClassificationSubcontract",
-      deleteClassificationSubcontracts:"subcontracts/deleteClassificationSubcontracts",
 
     }),
 
@@ -283,6 +281,10 @@ export default {
         quantity: this.selectedItem.quantity,
         reason: this.selectedItem.reason,
       }
+
+      if(this.selectedItem.partner){
+        data.partner=this.selectedItem.partner
+      }
      
       this.updateShortcomings({data,id:this.planningProcessId})
       
@@ -296,11 +298,7 @@ export default {
     },
     deleteFunc(){
       this.delete_dialog=false
-      if(this.selectedItem.partner){
-        this.deleteClassificationSubcontracts(this.selectedItem.id)
-      }else{
-        this.deleteClassification({id:this.selectedItem.id,planningProcessId:this.planningProcessId})
-      }
+      this.deleteClassification({data:{...this.selectedItem},planningProcessId:this.planningProcessId})
     }
   }
 }

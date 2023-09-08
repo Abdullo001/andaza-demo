@@ -242,10 +242,10 @@ export default {
   computed: {
     ...mapGetters({
       planningProcessId: "cuttingProcess/planningProcessId",
-      passingList: "passingToNextProcess/passingList",
+      passingList: "cuttingToNextProcess/passingList",
       productionId: "production/planning/productionId",
       partnerList: "subcontracts/partnerList",
-      historyListServer: "passingToNextProcess/historyProcessableList",
+      historyListServer: "cuttingToNextProcess/historyProcessableList",
 
 
     })
@@ -331,12 +331,12 @@ export default {
 
   methods: {
     ...mapActions({
-      getPassingList: "passingToNextProcess/getPassingList",
-      setUpdatePass: "passingToNextProcess/setUpdatePass",
+      getPassingList: "cuttingToNextProcess/getPassingList",
+      setUpdatePass: "cuttingToNextProcess/setUpdatePass",
       getPartnerList: "subcontracts/getPartnerList",
-      getHistoryList: "passingToNextProcess/getHistoryProcessableList",
-      deleteHistoryProcessable: "passingToNextProcess/deleteHistoryProcessable",
-      setHistoryProcessable: "passingToNextProcess/setHistoryProcessable",
+      getHistoryList: "cuttingToNextProcess/getHistoryProcessableList",
+      deleteHistoryProcessable: "cuttingToNextProcess/deleteHistoryProcessable",
+      setHistoryProcessable: "cuttingToNextProcess/setHistoryProcessable",
 
     }),
     getHistory(item) {
@@ -392,7 +392,7 @@ export default {
   },
 
   mounted() {
-    this.getPassingList(this.planningProcessId)
+    
   }
 }
 </script>
