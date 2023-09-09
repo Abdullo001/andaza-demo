@@ -39,7 +39,7 @@
           v-model="item.isMain"
           :disabled="item.isMain"
           @input="select($event)"
-          @change="setMainColor(item,isSelected)"
+          @click="setMainColor(item,isSelected)"
         />
       </template>
       <template #item.status="{item}">
@@ -59,21 +59,104 @@
       </template>
       <template #item.actions="{ item }">
         <div>
-          <v-btn icon @click="returnDialog(item)">
-            <v-img src="/rotate.svg" max-width="20"/>
-          </v-btn>
-          <v-btn icon @click="getClassification(item)">
-            <v-img src="/t-shirt.svg" max-width="20"/>
-          </v-btn>
-          <v-btn icon @click="getHistory(item)">
-            <v-img src="/history.svg" max-width="20"/>
-          </v-btn>
-          <v-btn icon class="mr-2" @click="editParts(item)">
-            <v-img src="/edit-green.svg" max-width="20"/>
-          </v-btn>
-          <v-btn icon @click="deleteSubcontractOne(item)">
-            <v-img src="/trash-red.svg" max-width="20"/>
-          </v-btn>
+          <v-tooltip
+            top
+            color="#7631FF"
+            class="pointer"
+            v-if="Object.keys(item).length > 2"
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+                color="#7631FF"
+                @click="returnDialog(item)"
+              >
+                <v-img src="/rotate.svg" max-width="22"/>
+              </v-btn>
+            </template>
+            <span class="text-capitalize">return fabric</span>
+          </v-tooltip>
+          <v-tooltip
+            top
+            color="#7631FF"
+            class="pointer"
+            v-if="Object.keys(item).length > 2"
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+                color="#7631FF"
+                @click="getClassification(item)"
+              >
+                <v-img src="/t-shirt.svg" max-width="22"/>
+              </v-btn>
+            </template>
+            <span class="text-capitalize">classification</span>
+          </v-tooltip>
+
+          <v-tooltip
+            top
+            color="#7631FF"
+            class="pointer"
+            v-if="Object.keys(item).length > 2"
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+                color="#7631FF"
+                @click="getHistory(item)"
+              >
+                <v-img src="/history.svg" max-width="22"/>
+              </v-btn>
+            </template>
+            <span class="text-capitalize">History</span>
+          </v-tooltip>
+
+          <v-tooltip
+            top
+            color="green"
+            class="pointer"
+            v-if="Object.keys(item).length > 2"
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+                color="green"
+                @click="editParts(item)"
+              >
+                <v-img src="/edit-active.svg" max-width="22"/>
+              </v-btn>
+            </template>
+            <span class="text-capitalize">edit</span>
+          </v-tooltip>
+
+          <v-tooltip
+            top
+            color="red"
+            class="pointer"
+            v-if="Object.keys(item).length > 2"
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+                color="red"
+                @click="deleteSubcontractOne(item)"
+              >
+                <v-img src="/delete.svg" max-width="22"/>
+              </v-btn>
+            </template>
+            <span class="text-capitalize">delete</span>
+          </v-tooltip>
         </div>
       </template>
       <template #expanded-item="{headers, item}">
@@ -83,8 +166,8 @@
               <v-row>
                 <v-col>
                   <div class="body-1 mb-3">
-                    Used fabric:
-                    <span class="font-weight-bold ml-2"> {{item.usedFabricQuantity}}</span>
+                    Total price:
+                    <span class="font-weight-bold ml-2"> {{item.totalPrice}}</span>
                   </div>
                   <div class="body-1 mb-3">
                     sent date:
@@ -92,10 +175,6 @@
                   </div>
                 </v-col>
                 <v-col>
-                  <div class="body-1 mb-3">
-                    Total price:
-                    <span class="font-weight-bold ml-2"> {{item.totalPrice}}</span>
-                  </div>
                   <div class="body-1 mb-3">
                     Deadline:
                     <span class="font-weight-bold ml-2">05.03.2023</span>
@@ -503,7 +582,9 @@ export default {
       this.headers= [
         {text: "Sip №", sortable: false, align: "start", value: "sipNumber"},
         {text: "Batch №", sortable: false, align: "start", value: "batchNumber"},
+        {text: "Fabric specification", sortable: false, align: "start", value: "fabricSpecification",width:"150"},
         {text: "Given fabric quantity f/c.", sortable: false, value: "givenFabricQuantity",width:"150"},
+        {text: "Used fabric", sortable: false, align: "start", value: "usedFabricQuantity",width:"80"},
         {text: "Color", sortable: false, value: "color"}, 
       ],
 
@@ -582,6 +663,7 @@ export default {
       setMainColorFunc: "subcontracts/setMainColor",
     }),
     setMainColor(item,isSelected){
+      console.log(isSelected)
       if(!isSelected){
         this.setMainColorFunc(item.id)
       }

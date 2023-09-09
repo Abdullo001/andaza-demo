@@ -10,19 +10,85 @@
       </template>
       
       <template #item.actions="{item}">
-        <v-btn icon @click="getClassification(item)">
-          <v-img src="/t-shirt.svg" max-width="20"/>
-        </v-btn>
-        <v-btn icon @click="getHistory(item)">
-          <v-img src="/history.svg" max-width="20"/>
-        </v-btn>
+        <v-tooltip
+          top
+          color="#7631FF"
+          class="pointer"
+          v-if="Object.keys(item).length > 2"
+        >
+          <template #activator="{ on, attrs }">
+            <v-btn
+              icon
+              v-bind="attrs"
+              v-on="on"
+              color="#7631FF"
+              @click="getClassification(item)"
+            >
+              <v-img src="/t-shirt.svg" max-width="22"/>
+            </v-btn>
+          </template>
+          <span class="text-capitalize">classification</span>
+        </v-tooltip>
 
-        <v-btn icon color="green" @click.stop="editItem(item)">
-          <v-img src="/edit-active.svg" max-width="22"/>
-        </v-btn>
-        <v-btn icon color="red" @click.stop="deleteItem(item)">
-          <v-img src="/delete.svg" max-width="27"/>
-        </v-btn>
+        <v-tooltip
+          top
+          color="#7631FF"
+          class="pointer"
+          v-if="Object.keys(item).length > 2"
+        >
+          <template #activator="{ on, attrs }">
+            <v-btn
+              icon
+              v-bind="attrs"
+              v-on="on"
+              color="#7631FF"
+              @click="getHistory(item)"
+            >
+              <v-img src="/history.svg" max-width="22"/>
+            </v-btn>
+          </template>
+          <span class="text-capitalize">History</span>
+        </v-tooltip>
+
+        <v-tooltip
+          top
+          color="green"
+          class="pointer"
+          v-if="Object.keys(item).length > 2"
+        >
+          <template #activator="{ on, attrs }">
+            <v-btn
+              icon
+              v-bind="attrs"
+              v-on="on"
+              color="green"
+              @click="editItem(item)"
+            >
+              <v-img src="/edit-active.svg" max-width="22"/>
+            </v-btn>
+          </template>
+          <span class="text-capitalize">edit</span>
+        </v-tooltip>
+
+        <v-tooltip
+          top
+          color="red"
+          class="pointer"
+          v-if="Object.keys(item).length > 2"
+        >
+          <template #activator="{ on, attrs }">
+            <v-btn
+              icon
+              v-bind="attrs"
+              v-on="on"
+              color="red"
+              @click="deleteItem(item)"
+            >
+              <v-img src="/delete.svg" max-width="22"/>
+            </v-btn>
+          </template>
+          <span class="text-capitalize">delete</span>
+        </v-tooltip>
       </template>
     </v-data-table>
 
