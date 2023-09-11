@@ -445,7 +445,6 @@ export default {
         {text: 'Given fabric quantity for cut.', sortable: false, align: 'start', value: 'givenFabricQuantity'},
         {text: 'Used fabric', sortable: false, align: 'start', value: 'usedFabricQuantity'},
         {text: 'Color', sortable: false, align: 'start', value: 'color'},
-
       ],
       items: [],
       returned_fabric: {
