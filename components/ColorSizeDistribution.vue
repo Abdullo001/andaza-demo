@@ -85,47 +85,85 @@
           <v-form lazy-validation v-model="new_validate" ref="new_form">
             <v-row class="mb-4 d-flex justify-space-between">
               <v-col
-                cols="6"
                 v-for="(item, idx) in newSizeDistirbution.modelBodyParts"
+                :cols="item.bodyPartId!==0?'12':'6'"
                 :key="idx"
               >
-                <div v-if="item.bodyPartId!==0">
-                  <div class="label">{{ item.bodyPart }}</div>
-                  <v-select
-                    v-model="item.colorId "
-                    :items="colorsList"
-                    :rules="[formRules.required]"
-                    append-icon="mdi-chevron-down"
-                    :placeholder="item.bodyPart"
-                    outlined
-                    item-text="name"
-                    item-value="id"
-                    single-line
-                    hide-details
-                    height="44"
-                    class="rounded-lg base"
-                    color="#7631FF"
-                    dense
-                  />
-                </div>
-
-                <div v-else>
-                  <div class="label">{{ item.bodyPart }}</div>
-                  <v-text-field
-                  :rules="[formRules.required]"
-                  :placeholder="item.bodyPart"
-                  v-model="item.colorCode"
-                  single-line
-                  outlined
-                  hide-details
-                  height="44"
-                  validate-on-blur
-                  dense
-                  class="rounded-lg base"
-                  color="#7631FF"
-                  background-color="#F8F4FE"
-                />
-                </div>
+                <v-row>
+                  <v-col cols="6" v-if="item.bodyPartId!==0">
+                    <div >
+                      <div class="label">{{ item.bodyPart }}</div>
+                      <v-select
+                        v-model="item.colorId"
+                        :items="colorsList"
+                        :rules="[formRules.required]"
+                        append-icon="mdi-chevron-down"
+                        :placeholder="item.bodyPart"
+                        outlined
+                        item-text="name"
+                        item-value="id"
+                        single-line
+                        hide-details
+                        height="44"
+                        class="rounded-lg base"
+                        color="#7631FF"
+                        dense
+                      />
+                    </div>
+                  </v-col>
+                  <v-col cols="12" v-else>
+                    <div >
+                      <div class="label">{{ item.bodyPart }}</div>
+                      <v-text-field
+                      :rules="[formRules.required]"
+                      :placeholder="item.bodyPart"
+                      v-model="item.colorCode"
+                      single-line
+                      outlined
+                      hide-details
+                      height="44"
+                      validate-on-blur
+                      dense
+                      class="rounded-lg base"
+                      color="#7631FF"
+                      background-color="#F8F4FE"
+                    />
+                    </div>
+                  </v-col>
+                  <v-col cols="6" v-if="item.bodyPartId!==0">
+                    <div >
+                      <div class="label">Panton code</div>
+                      <div class="d-flex align-center">
+                        <v-text-field
+                          v-model="item.pantoneCode"
+                          placeholder="0"
+                          outlined
+                          hide-details
+                          height="44"
+                          class="rounded-lg base rounded-l-lg rounded-r-0"
+                          validate-on-blur
+                          dense
+                          color="#7631FF"
+                        />
+                        <v-select
+                          :items="enums"
+                          v-model="item.pantoneType"
+                          style="max-width: 100px"
+                          dense
+                          outlined
+                          hide-details
+                          height="44"
+                          class="rounded-lg base rounded-r-lg rounded-l-0"
+                          validate-on-blur
+                          placeholder=""
+                          append-icon="mdi-chevron-down"
+                          color="#7631FF"
+                        />
+                      </div>
+                    </div>
+                    
+                  </v-col>
+                </v-row>
               </v-col>
             </v-row>
 
@@ -189,46 +227,86 @@
         <v-card-text>
           <v-form lazy-validation v-model="new_validate" ref="edit_form">
             <v-row class="mb-4 d-flex justify-space-between">
-              <v-col
-              cols="6"
+            <v-col
               v-for="(item, idx) in oneSizeDistirbution?.modelBodyParts?.slice()?.reverse()"
+              :cols="!item.colorCode?'12':'6'"
               :key="idx"
             >
-              <div v-if="Object.keys(item).length===4">
-                <div class="label">{{ item.bodyPart }}</div>
-                <v-select
-                  v-model="item.colorId "
-                  :items="colorsList"
-                  append-icon="mdi-chevron-down"
-                  :placeholder="item.bodyPart"
-                  outlined
-                  item-text="name"
-                  item-value="id"
-                  single-line
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  color="#7631FF"
-                  dense
-                />
-              </div>
-
-              <div v-else>
-                <div class="label">{{ item.bodyPart }}</div>
-                <v-text-field
-                :placeholder="item.bodyPart"
-                v-model="item.colorCode"
-                single-line
-                outlined
-                hide-details
-                height="44"
-                validate-on-blur
-                dense
-                class="rounded-lg base"
-                color="#7631FF"
-                background-color="#F8F4FE"
-              />
-              </div>
+              <v-row>
+                <v-col cols="6" v-if="!item.colorCode">
+                  <div >
+                    <div class="label">{{ item.bodyPart }}</div>
+                    <v-select
+                      v-model="item.colorId"
+                      :items="colorsList"
+                      :rules="[formRules.required]"
+                      append-icon="mdi-chevron-down"
+                      :placeholder="item.bodyPart"
+                      outlined
+                      item-text="name"
+                      item-value="id"
+                      single-line
+                      hide-details
+                      height="44"
+                      class="rounded-lg base"
+                      color="#7631FF"
+                      dense
+                    />
+                  </div>
+                </v-col>
+                <v-col cols="12" v-else>
+                  <div >
+                    <div class="label">{{ item.bodyPart }}</div>
+                    <v-text-field
+                    :rules="[formRules.required]"
+                    :placeholder="item.bodyPart"
+                    v-model="item.colorCode"
+                    single-line
+                    outlined
+                    hide-details
+                    height="44"
+                    validate-on-blur
+                    dense
+                    class="rounded-lg base"
+                    color="#7631FF"
+                    background-color="#F8F4FE"
+                  />
+                  </div>
+                </v-col>
+                <v-col cols="6" v-if="!item.colorCode">
+                  <div >
+                    <div class="label">Panton code</div>
+                    <div class="d-flex align-center">
+                      <v-text-field
+                        v-model="item.pantoneCode"
+                        placeholder="0"
+                        outlined
+                        hide-details
+                        height="44"
+                        class="rounded-lg base rounded-l-lg rounded-r-0"
+                        validate-on-blur
+                        dense
+                        color="#7631FF"
+                      />
+                      <v-select
+                        :items="enums"
+                        v-model="item.pantoneType"
+                        style="max-width: 100px"
+                        dense
+                        outlined
+                        hide-details
+                        height="44"
+                        class="rounded-lg base rounded-r-lg rounded-l-0"
+                        validate-on-blur
+                        placeholder=""
+                        append-icon="mdi-chevron-down"
+                        color="#7631FF"
+                      />
+                    </div>
+                  </div>
+                  
+                </v-col>
+              </v-row>
             </v-col>
             </v-row>
 
@@ -344,6 +422,7 @@ export default {
         {text: "Total with overproduction", sortable: false, value: "totalWithOverproductionPercent"},
         {text: "Actions", sortable: false, align: "center", value: "actions"},
       ],
+      enums:["TPX", "TCX", "TPG", "C","MELANGE"],
       headerSizes: [],
       headerBodyPart: [],
       headers: [],
@@ -467,7 +546,7 @@ export default {
         const value = {};
         el.bodyPartsCodes.forEach((item) => {
           if(item.color){
-            value[item.bodyPart]=item.color
+            value[item.bodyPart]=item.colorSpecification
           }else{
             value[item.bodyPart]=item.colorCode
           }
@@ -505,7 +584,7 @@ export default {
 
         }
       })
-      this.orderSizeList=[...specialList]
+      this.orderSizeList=JSON.parse(JSON.stringify(specialList))
 
       this.totalSizes.sizesList=[...totalSizes]
       this.totalSizes.total=totalObj
@@ -564,7 +643,6 @@ export default {
             item.isMain=true
           }
         })
-
         if(this.$route.params.id!=="add-order"){
           await this.createSizeDistirbutionFunc({
             ...this.newSizeDistirbution,

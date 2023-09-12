@@ -77,6 +77,20 @@
           class="mt-n2"
           rounded
           dark
+          readonly
+        />
+      </template>
+      <template #item.orderedQuantity="{item}">
+        <v-text-field
+          outlined
+          hide-details
+          height="32"
+          class="rounded-lg base my-2" dense
+          :disabled="item.status==='ORDERED'"
+          :rules="[formRules.required]"
+          validate-on-blur
+          color="#7631FF"
+          v-model="item.orderedQuantity"
         />
       </template>
     </v-data-table>
@@ -123,7 +137,7 @@ export default {
           sortable: false,
           width: "200",
         },
-        { text: "Status", value: "status", sortable: false },
+        { text: "Status", value: "status", sortable: false, width:200 },
         { text: "Producing", value: "producingQuantity", sortable: false },
         { text: "M/U", value: "producingQuantityMUnit", sortable: false },
         { text: "Quantity for 1pc", value: "quantityOnePc", sortable: false },
@@ -134,6 +148,7 @@ export default {
           value: "pricePerUnit",
           sortable: false,
         },
+        { text: "Ordering quantity", value: "orderedQuantity", sortable: false, width:150 },
         { text: "Total price", value: "totalAccessory", sortable: false },
       ],
       details: {
@@ -198,18 +213,22 @@ export default {
       const id = this.$route.params.id;
       const valid = this.$refs.valid.validate();
       if (valid) {
-        const planningChartIds = []
+        const planningOrderRequests = []
         this.allPlannerOrder.forEach((item) => {
           if(item.isOrdered){
-            planningChartIds.push(item.planningChartId)
+            planningOrderRequests.push({
+              chartId:item.planningChartId,
+              orderedQuantity:item.orderedQuantity,
+            })
           }
         });
+        
         const data = {
           deliveryTime: this.details.deliveryTime,
           partnerId: this.details.partnerName.id,
-          planningChartIds,
-          warehouseId: this.details.warehouseCode.id,
+          planningOrderRequests,
         };
+        console.log(data);
         this.createPlanningOrder({ data,id });
       }
     },

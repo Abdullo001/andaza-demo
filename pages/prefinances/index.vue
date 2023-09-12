@@ -151,7 +151,7 @@ export default {
         {text: this.$t('prefinances.table.prefinanceNumber'), align: 'start', sortable: false, value: 'preFinanceNumber'},
         {text: this.$t('prefinances.table.modelN'), value: 'modelNumber'},
         {text: this.$t('prefinances.table.partner'), value: 'partner'},
-        {text: this.$t('prefinances.table.price'), value: 'priceWithDiscount'},
+        {text: this.$t('prefinances.table.price'), value: 'soldPrice'},
         {text: this.$t('prefinances.table.currency'), value: 'primaryCurrency'},
         {text: this.$t('prefinances.table.status'), value: 'status', width: 200},
         {text: this.$t('prefinances.table.actions'), value: 'actions', align: 'center'},

@@ -77,7 +77,7 @@
           @click="getRow(item)"
         >
           <v-data-table
-            :items="item.accessoryOrders"
+            :items="item.accessoryWarehouses"
             :headers="accessoriesHeader"
             hide-default-footer
             item-key="name"
@@ -132,7 +132,7 @@ export default {
       this.$router.push(`/accessory-warehouse/add-accessory-warehouse`);
     },
     getRow(item) {
-      const data={orderNumber:item.orderNumber,modelNumber:item.modelNumber,modelId:item.modelId}
+      const data={orderNumber:item.orderNumber,modelNumber:item.modelNumber,modelId:item.modelId,createdAt:item.createdAt,createdBy:item.createdBy}
       this.$store.commit('accessoryWarehouse/setEditDates', data);
       this.$router.push(`/accessory-warehouse/${item.orderId}`);
 
