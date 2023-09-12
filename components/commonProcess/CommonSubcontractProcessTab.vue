@@ -14,6 +14,22 @@
       :expanded.sync="expanded"
       @item-expanded="loadDetails"
     >
+      <template #item.status="{item}">
+        <v-select
+          @click.stop
+          @change="changeStatus(item)"
+          :background-color="statusColor.subcontractColor(item.status)"
+          :items="status_enums"
+          append-icon="mdi-chevron-down"
+          v-model="item.status"
+          hide-details
+          class="mt-n2"
+          item-color="green"
+          rounded
+          dark
+        />
+      </template>
+    
       <template #item.actions="{item}">
         <v-tooltip
           top
@@ -410,7 +426,7 @@ export default {
       classification_dialog:false,
       classification_shortcom:{},
       classificationEnums: ['DEFECT', 'PHOTO', 'PHOTO_SAMPLE', 'SAMPLE', 'LOST', 'OTHERS'],
-
+      status_enums: ["RECEIVED", "SENT"],
 
       printingHeader:[
         {text: 'Color', sortable: false, align: 'start', value: 'color'},
