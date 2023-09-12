@@ -444,6 +444,188 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-dialog v-model="history_dialog" max-width="800">
+      <v-card flat>
+        <v-card-title>
+          <div class="title">History</div>
+          <v-spacer/>
+          <v-btn
+            icon
+            @click="history_dialog=false"
+            color="#7631FF"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text>
+          <v-data-table
+            :headers="historyHeaders"
+            :items="historyList"
+            hide-default-footer
+            class="mt-4 rounded-lg"
+            style="border: 1px solid #E9EAEB"
+          >
+          </v-data-table>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="workshop_dialog" width="450">
+      <v-card>
+        <v-card-title class="d-flex justify-space-between w-full">
+          <div class="text-capitalize font-weight-bold">Accessory giving to own workshop</div>
+          <v-btn icon color="#7631FF" @click="workshop_dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+
+        <v-card-text class="mt-4">
+          <v-form ref="workshop_form" v-model="workshop_validate" lazy-validation>
+            <v-row>
+              <v-col cols="12">
+                <v-radio-group
+                  row
+                  v-model.trim="selectedItem.process"
+                  class="mb-4"
+                >
+                  <v-radio
+                    :aria-disabled="selectedItem.status==='edit_history'"
+                    color="#7631FF"
+                    label="Sewing"
+                    value="SEWING"
+                  ></v-radio>
+                  <v-radio
+                    color="#7631FF"
+                    label="Packaging"
+                    value="PACKAGING"
+                  ></v-radio>
+                </v-radio-group>
+              </v-col>
+              <v-col cols="12">
+                <div class="label">Quantity</div>
+                <v-text-field
+                :rules="[formRules.required]"
+                v-model="selectedItem.quantity"
+                outlined
+                hide-details
+                dense
+                class="rounded-lg base "
+                placeholder="Enter giving quantity"
+                color="#7631FF"
+              />
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="d-flex justify-center pb-8">
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            outlined color="#7631FF"
+            width="130"
+            @click="workshop_dialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-btn
+            class="rounded-lg text-capitalize ml-4 font-weight-bold"
+            color="#7631FF" dark
+            width="130"
+            @click="saveWorkshop"
+          >
+            save
+          </v-btn>
+
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="subcontract_dialog" width="450">
+      <v-card>
+        <v-card-title class="d-flex justify-space-between w-full">
+          <div class="text-capitalize font-weight-bold">Accessory giving to own workshop</div>
+          <v-btn icon color="#7631FF" @click="subcontract_dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+
+        <v-card-text class="mt-4">
+          <v-form ref="workshop_form" v-model="workshop_validate" lazy-validation>
+            <v-row>
+              <v-col cols="12">
+                <v-radio-group
+                  row
+                  v-model.trim="subcontractor.process"
+                  class="mb-4"
+                >
+                  <v-radio
+                    color="#7631FF"
+                    label="Sewing"
+                    value="SEWING"
+                  ></v-radio>
+                  <v-radio
+                    color="#7631FF"
+                    label="Packaging"
+                    value="PACKAGING"
+                  ></v-radio>
+                </v-radio-group>
+              </v-col>
+              <v-col cols="6" >
+                <div class="label">Partner</div>
+                <v-select
+                  append-icon="mdi-chevron-down"
+                  v-model="subcontractor.partnerId"
+                  :items="partnerList"
+                  :rules="[formRules.required]"
+                  item-text="name"
+                  item-value="id"
+                  hide-details
+                  color="#7631FF"
+                  class=" base rounded-lg"
+                  rounded
+                  outlined
+                  dense
+                  placeholder="Select partner"
+                />
+              </v-col>
+              <v-col cols="6">
+                <div class="label">Quantity</div>
+                <v-text-field
+                :rules="[formRules.required]"
+                v-model="subcontractor.quantity"
+                outlined
+                hide-details
+                dense
+                class="rounded-lg base "
+                placeholder="Enter giving quantity"
+                color="#7631FF"
+              />
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="d-flex justify-center pb-8">
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            outlined color="#7631FF"
+            width="130"
+            @click="subcontract_dialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-btn
+            class="rounded-lg text-capitalize ml-4 font-weight-bold"
+            color="#7631FF" dark
+            width="130"
+            @click="saveSubcontract"
+          >
+            save
+          </v-btn>
+
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    
   </div>
 </template>
 <script>
@@ -466,6 +648,7 @@ export default {
       spend_dialog:"",
       accessoryName:"",
       spend_validate:true,
+      history_dialog:false,
       filters:{
         orderId:null,
         modelId:null,
@@ -518,9 +701,26 @@ export default {
         {text: "Actions", value: "actions", sortable: false},
 
       ],
+      selectedItem:{},
 
       accessoryList:[],
+      workshop_validate:true,
+      workshop_dialog:false,
+      subcontract_dialog:false,
+      subcontractor:{},
+
+      historyHeaders:[
+        {text: "Date", value: "createdAt", sortable: false},
+        {text: "Quantity", value: "quantity", sortable: false},
+        {text: "M/U", value: "measurementUnit", sortable: false},
+        {text: "Done by ", value: "createdBy", sortable: false},
+      ],
+      historyList:[],
     }
+  },
+
+  created(){
+    this.getPartnerList()
   },
 
   computed:{
@@ -532,6 +732,8 @@ export default {
       accessoriesDetailList:"accessoryWarehouse/accessoriesDetailList",
       accessoriesSpendList:"accessoryWarehouse/accessoriesSpendList",
       editDates:"accessoryWarehouse/editDates",
+      historyServerList:"accessoryWarehouse/historyList",
+      partnerList:"subcontracts/partnerList",
     })
   },
 
@@ -585,9 +787,13 @@ export default {
     },
 
     accessoriesDetailList(val){
-      
       this.accessoryList=JSON.parse(JSON.stringify(val))
+    },
+
+    historyServerList(list){
+      this.historyList = JSON.parse(JSON.stringify(list))
     }
+    
   },
 
   methods:{
@@ -602,6 +808,11 @@ export default {
       spendAccessory:"accessoryWarehouse/spendAccessory",
       getOrdersListSpend:"accessoryWarehouse/getOrdersListSpend",
       getModelsListSpend:"accessoryWarehouse/getModelsListSpend",
+      giveOwn:"accessoryWarehouse/giveOwn",
+      getHistoryList:"accessoryWarehouse/getHistoryList",
+      giveSubcontractor:"accessoryWarehouse/giveSubcontractor",
+      getPartnerList:"subcontracts/getPartnerList",
+
     }),
 
     search(){
@@ -652,17 +863,32 @@ export default {
       }
       this.delete_dialog=false
     },
-    getHistory(){
-
+    getHistory(item){
+      this.history_dialog=true
+      this.getHistoryList(item.warehouseId)
     },
-    workshopFunc(){
-
+    workshopFunc(item){
+      this.workshop_dialog=true
+      this.selectedItem={...item}
     },
-    subcontractorFunc(){
-
+    saveWorkshop(){
+      const data={
+        process:this.selectedItem.process,
+        quantity:this.selectedItem.quantity,
+        warehouseId:this.selectedItem.warehouseId,
+        
+      }
+      this.giveOwn({data,modelId:this.filters.modelId?.id,orderId:this.filters.orderId?.id})
+    },
+    subcontractorFunc(item){
+      this.subcontractor=item.warehouseId
+      this.subcontract_dialog=true
     },
 
-
+    saveSubcontract(){
+      const data={...this.subcontractor}
+      this.giveSubcontractor({data,modelId:this.filters.modelId?.id,orderId:this.filters.orderId?.id})
+    },
 
   },
 
