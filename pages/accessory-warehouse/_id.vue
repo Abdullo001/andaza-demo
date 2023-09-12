@@ -163,10 +163,85 @@
 
       <template #item.spending="{item}">
         <div class="d-flex ">
-          <v-btn icon color="#7631FF" @click="spendFunc(item)">
-            <v-img src="/spend-icon.svg" max-width="22"/>
-          </v-btn>
+          <v-tooltip
+            top
+            color="#7631FF"
+            class="pointer"
+            v-if="Object.keys(item).length > 2"
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+                color="#7631FF"
+                @click="spendFunc(item)"
+              >
+                <v-img src="/spend-icon.svg" max-width="22"/>
+              </v-btn>
+            </template>
+            <span class="text-capitalize">Spend</span>
+          </v-tooltip>
 
+          <v-tooltip
+            top
+            color="#7631FF"
+            class="pointer"
+            v-if="Object.keys(item).length > 2"
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+                color="#7631FF"
+                @click="getHistory(item)"
+              >
+              <v-img src="/history.svg" max-width="20"/>
+              </v-btn>
+            </template>
+            <span class="text-capitalize">History</span>
+          </v-tooltip>
+
+          <v-tooltip
+            top
+            color="#7631FF"
+            class="pointer"
+            v-if="Object.keys(item).length > 2"
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+                color="#7631FF"
+                @click="workshopFunc(item)"
+              >
+                <v-img src="/cut-icon.svg" max-width="22"/>
+              </v-btn>
+            </template>
+            <span class="text-capitalize">Workshop</span>
+          </v-tooltip>
+
+          <v-tooltip
+            top
+            color="#7631FF"
+            class="pointer"
+            v-if="Object.keys(item).length > 2"
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+                color="#7631FF"
+                @click="subcontractorFunc(item)"
+              >
+                <v-img src="/bag-icon.svg" max-width="22"/>
+              </v-btn>
+            </template>
+            <span class="text-capitalize">subcontractor</span>
+          </v-tooltip>
         </div>
       </template>
 
@@ -469,6 +544,8 @@ export default {
         const id = this.$route.params.id
         this.orderNumber=val.orderNumber
         this.modelNumber=val.modelNumber
+        this.filters.createdAt=val.createdAt
+      this.filters.createdBy=val.createdBy
         this.filters.orderId={id:id,orderNumber:val.orderNumber}
         this.filters.modelId={id:val.modelId,modelNumber:val.modelNumber}
         if(id!=="add-accessory-warehouse"){
@@ -508,9 +585,8 @@ export default {
     },
 
     accessoriesDetailList(val){
-      this.filters.createdAt=val.createdAt
-      this.filters.createdBy=val.createdBy
-      this.accessoryList=JSON.parse(JSON.stringify(val.accessoryOrders))
+      
+      this.accessoryList=JSON.parse(JSON.stringify(val))
     }
   },
 
@@ -534,7 +610,7 @@ export default {
 
     setDeliviredQuantity(item){
       const data={
-        accessoryOrderId:item.planningOrderId,
+        warehouseId:item.warehouseId,
         deliveredQuantity:item.deliveredQuantity
       }
       this.setDelivered({data,modelId:this.filters.modelId?.id,orderId:this.filters.orderId?.id})
@@ -575,7 +651,17 @@ export default {
         this.deleteAccessory({planningOrderId:this.selectedItem,modelId:this.filters.modelId.id,orderId:this.filters.orderId.id})
       }
       this.delete_dialog=false
-    }
+    },
+    getHistory(){
+
+    },
+    workshopFunc(){
+
+    },
+    subcontractorFunc(){
+
+    },
+
 
 
   },

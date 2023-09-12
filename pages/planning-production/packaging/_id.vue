@@ -506,3 +506,10 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+.show_active {
+  height: 0;
+  overflow: hidden;
+}
+</style>

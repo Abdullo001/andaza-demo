@@ -14,19 +14,102 @@
       :expanded.sync="expanded"
       @item-expanded="loadDetails"
     >
+      <template #item.status="{item}">
+        <v-select
+          @click.stop
+          @change="changeStatus(item)"
+          :background-color="statusColor.subcontractColor(item.status)"
+          :items="status_enums"
+          append-icon="mdi-chevron-down"
+          v-model="item.status"
+          hide-details
+          class="mt-n2"
+          item-color="green"
+          rounded
+          dark
+        />
+      </template>
+    
       <template #item.actions="{item}">
-        <v-btn icon @click="getClassification(item)">
-          <v-img src="/t-shirt.svg" max-width="20"/>
-        </v-btn>
-        <v-btn icon @click="getHistory(item)">
-          <v-img src="/history.svg" max-width="20"/>
-        </v-btn>
-        <v-btn icon color="green" @click.stop="editPrintingRow(item)">
-          <v-img src="/edit-active.svg" max-width="22"/>
-        </v-btn>
-        <v-btn icon color="red" @click.stop="deletePrintingRow(item)">
-          <v-img src="/delete.svg" max-width="27"/>
-        </v-btn>
+        <v-tooltip
+          top
+          color="#7631FF"
+          class="pointer"
+          v-if="Object.keys(item).length > 2"
+        >
+          <template #activator="{ on, attrs }">
+            <v-btn
+              icon
+              v-bind="attrs"
+              v-on="on"
+              color="#7631FF"
+              @click="getClassification(item)"
+            >
+              <v-img src="/t-shirt.svg" max-width="22"/>
+            </v-btn>
+          </template>
+          <span class="text-capitalize">classification</span>
+        </v-tooltip>
+
+        <v-tooltip
+          top
+          color="#7631FF"
+          class="pointer"
+          v-if="Object.keys(item).length > 2"
+        >
+          <template #activator="{ on, attrs }">
+            <v-btn
+              icon
+              v-bind="attrs"
+              v-on="on"
+              color="#7631FF"
+              @click="getHistory(item)"
+            >
+              <v-img src="/history.svg" max-width="22"/>
+            </v-btn>
+          </template>
+          <span class="text-capitalize">History</span>
+        </v-tooltip>
+
+        <v-tooltip
+          top
+          color="green"
+          class="pointer"
+          v-if="Object.keys(item).length > 2"
+        >
+          <template #activator="{ on, attrs }">
+            <v-btn
+              icon
+              v-bind="attrs"
+              v-on="on"
+              color="green"
+              @click="editPrintingRow(item)"
+            >
+              <v-img src="/edit-active.svg" max-width="22"/>
+            </v-btn>
+          </template>
+          <span class="text-capitalize">edit</span>
+        </v-tooltip>
+
+        <v-tooltip
+          top
+          color="red"
+          class="pointer"
+          v-if="Object.keys(item).length > 2"
+        >
+          <template #activator="{ on, attrs }">
+            <v-btn
+              icon
+              v-bind="attrs"
+              v-on="on"
+              color="red"
+              @click="deletePrintingRow(item)"
+            >
+              <v-img src="/delete.svg" max-width="22"/>
+            </v-btn>
+          </template>
+          <span class="text-capitalize">delete</span>
+        </v-tooltip>
       </template>
 
       <template #expanded-item="{headers, item}">
@@ -343,7 +426,7 @@ export default {
       classification_dialog:false,
       classification_shortcom:{},
       classificationEnums: ['DEFECT', 'PHOTO', 'PHOTO_SAMPLE', 'SAMPLE', 'LOST', 'OTHERS'],
-
+      status_enums: ["RECEIVED", "SENT"],
 
       printingHeader:[
         {text: 'Color', sortable: false, align: 'start', value: 'color'},

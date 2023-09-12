@@ -59,26 +59,15 @@ export const mutations = {
   },
 };
 export const actions = {
-  getPreFinancesList({commit}, {size, page, preFinanceNumber, modelNumber = "", partner = ""}) {
+  getPreFinancesList({commit}, {size, page, preFinanceNumber, modelNumber , partner }) {
     const body = {
-      filters: [
-        {
-          key: "preFinanceNumber",
-          operator: "LIKE",
-          propertyType: "STRING",
-          value: preFinanceNumber,
-        },
-      ],
-      sorts: [],
+      calculationNumber:preFinanceNumber,
+      client:partner,
+      modelNumber:modelNumber,
       size,
       page,
     };
-    partner = partner === null ? "" : partner;
-    modelNumber = modelNumber === null ? "" : modelNumber;
-    body.filters = body.filters.filter(
-      (item) => item.value !== "" && item.value !== null
-    );
-    this.$axios.$put(`/api/v1/pre-finances/list?modelNumber=${modelNumber}&partner=${partner}`, body)
+    this.$axios.$put(`/api/v1/pre-finances/list`, body)
       .then((res) => {
         commit("changeLoading", false);
         commit("setRefinances", res.data);
