@@ -97,6 +97,7 @@ export const actions = {
       modelId: data.modelId,
       orderNumber: data.orderNumber,
       priority: data.priority,
+      overproductionPercent: data.overproductionPercent,
     };
     this.$axios
       .post("/api/v1/orders/create", order)
@@ -178,6 +179,7 @@ export const actions = {
       modelId: data.modelId,
       orderNumber: data.orderNumber,
       priority: data.priority,
+      overproductionPercent:data.overproductionPercent,
     };
     await this.$axios
       .put("/api/v1/orders/update", order)
@@ -187,6 +189,11 @@ export const actions = {
           id: res.data.data.id,
           modelId: res.data.data.modelId,
         });
+        dispatch(
+          "sizeDistribution/getSizeDistirbutionValue",
+          { orderId: res.data.data.id, modelId: res.data.data.modelId },
+          { root: true }
+        );
       })
       .catch((res) => {
         console.log(res);
