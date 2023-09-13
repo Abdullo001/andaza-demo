@@ -222,6 +222,18 @@ export const actions = {
     })
   },
 
+  giveSubcontractor({dispatch},{data,orderId,modelId}){
+    this.$axios.put(`/api/v1/accessory-warehouse/give-subcontractor-accessory`,data)
+    .then((res)=>{
+      dispatch("searchAccessory",{orderId,modelId})
+      this.$toast.success(res.data.message);
+    })
+    .catch(({response})=>{
+      this.$toast.error(response.data.message);
+      console.log(res);
+    })
+  },
+
   getHistoryList({commit},id){
     this.$axios.get(`/api/v1/accessory-warehouse-operation/list?warehouseId=${id}`)
     .then((res)=>{
@@ -231,7 +243,5 @@ export const actions = {
     .catch((res)=>{
       console.log(res);
     })
-  }
-
-
+  },
 }

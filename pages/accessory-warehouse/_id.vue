@@ -471,7 +471,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="workshop_dialog" width="450">
+    <v-dialog v-model="workshop_dialog" width="500">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Accessory giving to own workshop</div>
@@ -539,7 +539,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="subcontract_dialog" width="450">
+    <v-dialog v-model="subcontract_dialog" width="500">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Accessory giving to own workshop</div>
@@ -549,7 +549,7 @@
         </v-card-title>
 
         <v-card-text class="mt-4">
-          <v-form ref="workshop_form" v-model="workshop_validate" lazy-validation>
+          <v-form ref="subcontractor_form" v-model="workshop_validate" lazy-validation>
             <v-row>
               <v-col cols="12">
                 <v-radio-group
@@ -707,7 +707,9 @@ export default {
       workshop_validate:true,
       workshop_dialog:false,
       subcontract_dialog:false,
-      subcontractor:{},
+      subcontractor:{
+        partnerId:null,
+      },
 
       historyHeaders:[
         {text: "Date", value: "createdAt", sortable: false},
@@ -871,23 +873,27 @@ export default {
       this.workshop_dialog=true
       this.selectedItem={...item}
     },
-    saveWorkshop(){
+    async saveWorkshop(){
       const data={
         process:this.selectedItem.process,
         quantity:this.selectedItem.quantity,
         warehouseId:this.selectedItem.warehouseId,
-        
       }
-      this.giveOwn({data,modelId:this.filters.modelId?.id,orderId:this.filters.orderId?.id})
+      await this.giveOwn({data,modelId:this.filters.modelId?.id,orderId:this.filters.orderId?.id})
+      this.workshop_dialog=false
+
+      await this.$refs.workshop_form.reset()
     },
     subcontractorFunc(item){
-      this.subcontractor=item.warehouseId
+      this.subcontractor.warehouseId=item.warehouseId
       this.subcontract_dialog=true
     },
 
-    saveSubcontract(){
+    async saveSubcontract(){
       const data={...this.subcontractor}
-      this.giveSubcontractor({data,modelId:this.filters.modelId?.id,orderId:this.filters.orderId?.id})
+      await this.giveSubcontractor({data,modelId:this.filters.modelId?.id,orderId:this.filters.orderId?.id})
+      this.subcontract_dialog=false
+      await this.$refs.subcontractor_form.reset()
     },
 
   },
