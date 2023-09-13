@@ -254,8 +254,6 @@ export const actions = {
       .then((res) => {
         dispatch("getAllDetails", state.preFinanceId);
         this.$toast.success(res.data.message, {theme: "toasted-primary"});
-
-
       })
       .catch((response) => {
         console.log(response);
@@ -280,4 +278,15 @@ export const actions = {
       })
       .catch(({response}) => console.log(response));
   },
+
+  modelToPrefinance({commit},id){
+    this.$axios.get(`/api/v1/pre-finances/get-by-model?modelId=${id}`)
+    .then((res)=>{
+      this.$router.push(`/prefinances/${res.data.data.id}`)
+    })
+    .catch(({res})=>{
+      console.log(res);
+      this.$toast.error(res.data.message)
+    })
+  }
 };

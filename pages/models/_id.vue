@@ -454,14 +454,14 @@ export default {
       getPartnerList: 'models/getPartnerList',
       createModel: 'models/createModel',
       updateModel: 'models/updateModel',
-      getCompositionList: 'models/getCompositionList'
+      getCompositionList: 'models/getCompositionList',
+      modelToPrefinance: 'preFinance/modelToPrefinance'
     }),
     clickBtn(){
       this.show_btn = !this.show_btn
     },
     redirectPrefinance() {
-      this.$store.commit('preFinance/setModelNumber', this.model.number);
-      this.$router.push(this.localePath('/prefinances/creating'));
+      this.modelToPrefinance(this.$route.params.id)
     },
     async createNewModel() {
       await this.createModel(this.model);

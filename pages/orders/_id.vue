@@ -114,6 +114,21 @@
               </div>
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
+              <div class="label">Over-production</div>
+              <v-text-field
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base mb-4"
+                placeholder="Enter over production"
+                validate-on-blur
+                dense
+                color="#7631FF"
+                suffix="%"
+                v-model="order.overproductionPercent"
+              />
+            </v-col>
+            <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Price with discount</div>
               <div class="d-flex align-center">
                 <v-text-field
@@ -458,6 +473,7 @@ export default {
         priceWithDiscount: null,
         priceWithDiscountCurrency: "USD",
         orderDate:"",
+        overproductionPercent:null,
 
         totalPrice: null,
         deadline: "",
@@ -522,6 +538,7 @@ export default {
       order.headOfDepartment = item.headOfProductionDepartment
       order.client = item.client
       order.orderDate=item.orderDate
+      order.overproductionPercent=item.overproductionPercent
       this.$store.commit('orders/setModelId', item.modelId);
     },
     usersList(list) {
