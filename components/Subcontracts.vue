@@ -37,9 +37,9 @@
           v-ripple
           :value="isSelected"
           v-model="item.isMain"
-          :disabled="item.isMain"
+          :disabled="item.isOnCutting"
           @input="select($event)"
-          @click="setMainColor(item,isSelected)"
+          @click="setMainColor(item)"
         />
       </template>
       <template #item.status="{item}">
@@ -663,8 +663,7 @@ export default {
       setMainColorFunc: "subcontracts/setMainColor",
     }),
     setMainColor(item,isSelected){
-      console.log(isSelected)
-      if(!isSelected){
+      if(!item.isOnCutting){
         this.setMainColorFunc(item.id)
       }
     },

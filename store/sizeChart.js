@@ -30,7 +30,7 @@ export const actions = {
     }
     this.$axios.$put(`/api/v1/size-charts/list?modelId=${id}`, body)
       .then(res => {
-        commit('setChartSizes', res.data.content);
+        commit('setChartSizes', res.data);
       })
       .catch(({response}) => console.log(response))
   },

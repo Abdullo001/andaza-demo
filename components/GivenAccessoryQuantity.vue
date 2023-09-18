@@ -245,7 +245,7 @@ export default {
           value: 'actions'
         },      
       ]
-      if(val[0].partner){
+      if(val[0]?.partner){
         this.headers.splice(3,0,
           {
             text: 'Partner',

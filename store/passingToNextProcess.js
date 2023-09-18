@@ -1,6 +1,7 @@
 export const state=()=>({
   passingList:[],
   historyProcessableList:[],
+  nextProcessList:[],
 
 })
 
@@ -8,6 +9,7 @@ export const state=()=>({
 export const getters={
   passingList: state=>state.passingList,
   historyProcessableList: state=>state.historyProcessableList,
+  nextProcessList: state=>state.nextProcessList,
 
 }
 
@@ -18,12 +20,15 @@ export const mutations={
   setHistoryProcessableList(state,item){
     state.historyProcessableList=item
   },
+  setNextProcessList(state,item){
+    state.nextProcessList=item
+  },
 
 }
 
 export const actions={
   getPassingList({commit},id){
-    this.$axios.get(`/api/v1/processable-entity/common-pass-next-process?planningProcessId=${id}`)
+    this.$axios.get(`/api/v1/processable-entity/common-pass-next-process?planningProcessId=${id}&operationType=FIRST_CLASS`)
     .then((res)=>{
       commit("setPassingList",res.data.data)
     })
@@ -75,6 +80,16 @@ export const actions={
       console.log(res);
       this.$toast.error(res.data.message)
 
+    })
+  },
+
+  getNextProcessList({commit},id){
+    this.$axios.get(`/api/v1/process-planning/next-processes?id=${id}`)
+    .then((res)=>{
+      commit("setNextProcessList",res.data.data)
+    })
+    .catch((res)=>{
+      console.log(res);
     })
   }
 }

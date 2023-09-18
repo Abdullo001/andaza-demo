@@ -321,7 +321,7 @@
             <Subcontractor class="mb-10"/>
             <v-row class="pa-0 ma-0">
               <v-col class="pl-0">
-                <Calculations/>
+                <Classification/>
               </v-col>
               <v-col class="pr-0">
                 <OrderQuantities/>
@@ -358,15 +358,14 @@ import {mapActions, mapGetters} from "vuex";
 export default {
   name: 'ProductionOfPlanningPage',
   components: {
-    Classification: () => import('@/components/QualityControl/Classification.vue'),
     Alteration: () => import('@/components/QualityControl/Alteration.vue'),
     QuantitiesTwo: () => import('@/components/QualityControl/QuantitiesTwo.vue'),
-    OrderQuantities: () => import('@/components/QualityControl/OrderQuantities.vue'),
-    Calculations: () => import('@/components/QualityControl/Calculations.vue'),
+    OrderQuantities: () => import('@/components/commonProcess/OrderQuantities.vue'),
+    Classification: () => import('@/components/commonProcess/CalculationsShortcomings.vue'),
     ShowBtnComponent: () => import('@/components/ShowComponentBtn/ShowBtn.vue'),
-    QuantitiesOne: () => import('@/components/QualityControl/QuantitiesOne.vue'),
+    QuantitiesOne: () => import('@/components/commonProcess/CommonProcessTab.vue'),
     Breadcrumbs: () => import('@/components/Breadcrumbs.vue'),
-    Subcontractor: () => import('@/components/QualityControl/Subcontractor.vue'),
+    Subcontractor: () => import('@/components/commonProcess/CommonSubcontractProcessTab.vue'),
     NextProcess: () => import('@/components/QualityControl/NextProcess.vue')
   },
   data() {
@@ -442,7 +441,9 @@ export default {
       modelData: 'preFinance/modelData',
       modelInfo: 'production/planning/modelInfo',
       modelImages: 'modelPhoto/modelImages',
-      productionId: 'production/planning/productionId'
+      productionId: 'production/planning/productionId',
+      planningProcessId:'commonProcess/planningProcessId',
+
     })
   },
   watch: {
@@ -462,6 +463,17 @@ export default {
     },
     modelImages(val) {
       this.model_images = JSON.parse(JSON.stringify(val))
+    },
+    tab(val){
+      if(val===1){
+        this.getSubcontractShortcomingsList(this.planningProcessId)
+      }
+      if(val===0){
+        this.getShortcomingsList(this.planningProcessId)
+      }
+      if(val===2){
+        this.getPassingList(this.planningProcessId)
+      }
     }
   },
   methods: {
@@ -473,7 +485,10 @@ export default {
       getWorkshopList: 'production/planning/getWorkshopList',
       getColorsList: 'production/planning/getColorsList',
       createProcessPlanning: 'production/planning/createProcessPlanning',
-      getProcessingList: 'production/planning/getProcessingList'
+      getProcessingList: 'production/planning/getProcessingList',
+      getShortcomingsList:'commonCalculationsShortcomings/getShortcomingsList',
+      getSubcontractShortcomingsList:'commonCalculationsShortcomings/getSubcontractShortcomingsList',
+      getPassingList:'cuttingToNextProcess/getPassingList',
     }),
     clickBtn() {
       this.show_btn = !this.show_btn

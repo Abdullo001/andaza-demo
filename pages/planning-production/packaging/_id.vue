@@ -456,8 +456,10 @@ export default {
     tab(val){
       if(val===1){
         this.getSubcontractShortcomingsList(this.planningProcessId)
+        this.getAccessorySubcontractList(this.planningProcessId)
       }
       if(val===0){
+        this.getAccessoryOwnList(this.planningProcessId)
         this.getShortcomingsList(this.planningProcessId)
       }
       if(val===2){
@@ -478,6 +480,8 @@ export default {
       getShortcomingsList:'commonCalculationsShortcomings/getShortcomingsList',
       getSubcontractShortcomingsList:'commonCalculationsShortcomings/getSubcontractShortcomingsList',
       getPassingList:'cuttingToNextProcess/getPassingList',
+      getAccessoryOwnList:'givenAccessoryQuantity/getAccessoryOwnList',
+      getAccessorySubcontractList:'givenAccessoryQuantity/getAccessorySubcontractList',
     }),
     clickBtn(){
       this.show_btn = !this.show_btn

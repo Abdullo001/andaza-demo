@@ -90,7 +90,9 @@
           <span class="text-capitalize">delete</span>
         </v-tooltip>
       </template>
+
     </v-data-table>
+
     <v-dialog v-model="classification_dialog" max-width="600">
       <v-card flat>
         <v-card-title>
@@ -195,6 +197,7 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+
     <v-dialog v-model="delete_dialog" max-width="500">
       <v-card class="pa-4 text-center">
         <div class="d-flex justify-center mb-2">
@@ -230,6 +233,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
     <v-dialog v-model="edit_dialog" width="1200">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
@@ -243,7 +247,7 @@
         <v-card-text class="mt-4">
           <v-form ref="edit_form" v-model="edit_validate" lazy-validation>
             <v-row>
-              <v-col cols="12" lg="3" v-for="(item,idx) in sizeDistributions" :key="idx">
+              <v-col cols="12" lg="3" v-for="(item,idx) in selectedItem.sizeDistributions" :key="idx">
                 <div class="label">{{ item.size }}</div>
                 <v-text-field
                   outlined
@@ -312,19 +316,11 @@ export default {
     return {
       headers: [
         {text: 'Color', align: 'start', sortable: false, value: 'color'},
-        {text: '24', align: 'start', sortable: false, value: '24'},
-        {text: '26', align: 'start', sortable: false, value: '26'},
-        {text: '28', align: 'start', sortable: false, value: '28'},
-        {text: '30', align: 'start', sortable: false, value: '30'},
+        
         {text: 'Total', align: 'start', sortable: false, value: 'total'},
         {text: 'Actions', align: 'end', sortable: false, value: 'actions'},
       ],
-      checkedList: [
-        {id: 1, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', total: '2105'},
-        {id: 2, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', total: '2105'},
-        {id: 3, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', total: '2105'},
-        {id: 4, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', total: '2105'},
-      ],
+      checkedList: [],
       classification_dialog: false,
       sizeDistributions: [
         {size: 24, quantity: 24},
@@ -341,74 +337,167 @@ export default {
       delete_dialog: false,
       historyHeaders: [
         {text: "Date", sortable: false, align: 'start', value: 'date'},
-        {text: "26", sortable: false, align: 'center', value: '26'},
-        {text: "28", sortable: false, align: 'center', value: '28'},
-        {text: "30", sortable: false, align: 'center', value: '30'},
-        {text: "34", sortable: false, align: 'center', value: '34'},
+        
         {text: "Done by ", sortable: false, align: 'center', value: 'doneBy'},
       ],
-      historyList: [
-        {
-          id: 1,
-          date: '07.03.2024',
-          26: "26",
-          28: "28",
-          30: "30",
-          34: "34",
-          doneBy: 'Shavkatova M.'
-        },
-        {
-          id: 2,
-          date: '07.03.2024',
-          26: "26",
-          28: "28",
-          30: "30",
-          34: "34",
-          doneBy: 'Shavkatova M.'
-        },
-        {
-          id: 3,
-          date: '07.03.2024',
-          26: "26",
-          28: "28",
-          30: "30",
-          34: "34",
-          doneBy: 'Shavkatova M.'
-        },
-      ],
+      historyList: [],
       edit_dialog: false,
       edit_validate: true,
+      selectedItem:{},
     }
+  },
+  computed:{
+    ...mapGetters({
+      secondClassList:"commonProcess/secondClassList",
+      historySecondList:"history/historySecondList",
+      planningProcessId:"commonProcess/planningProcessId",
+
+    }),
+  },
+
+  watch:{
+    secondClassList(list){
+      this.headers= [
+        {text: 'Color', sortable: false, align: 'start', value: 'color'},  
+      ],
+
+      list[0]?.sizeDistributionList?.forEach((item) => {
+        this.headers.push({
+          text: item.size, sortable: false, align: 'start', value: item.size
+        })
+      })
+
+      this.headers.push(
+        {text: 'Produced total', sortable: false, align: 'start', value: 'totalCutQuantity'},
+        {text: 'Actions', sortable: false, align: 'start', value: 'actions'},
+      )
+
+      const specialList = list.map(function (el) {
+        const value = {};
+        const sizesList = [];
+        el?.sizeDistributionList.forEach((item) => {
+          value[item.size] = item.quantity
+          sizesList.push({size: item.size, quantity: 0})
+        });
+
+        return {
+          ...value,
+          ...el,
+          sizeDistributions: [...sizesList],
+
+        }
+      })
+      this.checkedList = JSON.parse(JSON.stringify(specialList))
+    },
+
+    historySecondList(list){
+      this.historyHeaders = [
+        {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
+      ],
+        list[0]?.sizeDistributionList?.forEach((item) => {
+          this.historyHeaders.push({
+            text: item.size, sortable: false, align: 'start', value: item.size
+          })
+        })
+      this.historyHeaders.push(
+        {text: 'Done By', sortable: false, align: 'center', value: 'createdBy'},
+      )
+
+      const specialList = list.map(function (el) {
+        const value = {};
+        const sizesList = [];
+        el?.sizeDistributionList.forEach((item) => {
+          value[item.size] = item.quantity
+          sizesList.push({size: item.size, quantity: item.quantity})
+        });
+        return {
+          ...el,
+          ...value,
+          sizeDistributions: [...sizesList],
+        }
+      })
+      this.historyList = JSON.parse(JSON.stringify(specialList))
+    }
+    
   },
   methods: {
     ...mapActions({
-      getOwnList: "commonProcess/getOwnList"
+      getSecondClassList:"commonProcess/getSecondClassList",
+      getHistorySecondList:"history/getHistorySecondList",
+      updateSecondClassProcess:"commonProcess/updateSecondClassProcess",
+      deleteSecondProcessProcess:"commonProcess/deleteSecondProcessProcess",
+      editHistorySecondClassItem:"commonProcess/editHistorySecondClassItem",
+
     }),
-    getClassification(item) {
-      this.classification_dialog = !this.classification_dialog;
-    },
+    // getClassification(item) {
+    //   this.classification_dialog = true;
+    //   this.classification_shortcom={...item}
+    // },
+    // saveClassification(){
+    //   const data={
+    //     description:this.classification_shortcom.comment,
+    //     detailsId:this.classification_shortcom.id,
+    //     reason:this.classification_shortcom.reason,
+    //     sizeDistributions:[],
+    //   }
+    //   this.classification_shortcom?.sizeDistributions.forEach((item) => {
+    //     if (item.quantity !== 0 && item.quantity) {
+    //       data.sizeDistributions.push(item)
+    //     }
+    //   })
+    //   this.createShortcomingsList({data,id:this.planningProcessId})
+    //   this.classification_dialog=false
+    // },
     getHistory(item) {
-      this.history_dialog = !this.history_dialog;
+      this.history_dialog = true;
+      this.getHistorySecondList(item.id)
     },
-    editItem() {
-      this.edit_dialog = !this.edit_dialog;
+    editHistoryItem(item){
+      this.selectedItem={...item}
+      this.selectedItem.status="editHistory"
+    },
+    deleteHistoryItem(item){
+      this.deleteHistory({id:item.id,processId:this.selectedProcessId})
+    },
+    editItem(item){
+      this.edit_dialog=true
+      this.selectedItem={...item}
+      this.selectedItem.status="editProcess"
+      this.selectedProcessId=item.id
+      this.getHistorySecondList(item.id)
+    },
+    saveChanges(){
+      if(this.selectedItem.status==="editProcess"){
+        const data={
+          id:this.selectedItem.id,
+          operationType:"SECOND_CLASS",
+          sizeDistributions:[...this.selectedItem.sizeDistributions]
+        }
+        this.updateSecondClassProcess(data)
+      }
+      if(this.selectedItem.status==="editHistory"){
+        const data={
+          id:this.selectedItem.id,
+          sizeDistributionList:[...this.selectedItem.sizeDistributions]
+        }
+        this.editHistorySecondClassItem(data)
+      }
+      this.edit_dialog=false
     },
     deleteItem(item) {
       this.delete_dialog = true;
+      this.selectedItem={...item}
     },
     deleteConfirm() {
+      this.deleteSecondProcessProcess(this.selectedItem.id)
     },
     saveClassification() {
     },
-    saveChanges() {
-    },
-    editHistoryItem(item) {
-    },
-    deleteHistoryItem(item) {}
+    getClassification(){},
+    
   },
   async mounted() {
-    const id = this.$route.params.id;
-    await this.getOwnList(id);
+    this.getSecondClassList()
   }
 }
 </script>

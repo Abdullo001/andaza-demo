@@ -422,8 +422,8 @@ export default {
       radio_item: ["TPX", "TCX", "TPG"],
       edit_validate: true,
       validate: true,
-      itemPrePage: 0,
-      current_page: 10,
+      itemPrePage: 10,
+      current_page: 0,
       edit_colors: {
         id: "",
         colorCodeHex: "",

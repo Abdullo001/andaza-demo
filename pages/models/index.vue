@@ -64,11 +64,14 @@
       class="mt-4 rounded-lg pt-4"
       :headers="headers"
       :items="allModels"
-      :items-per-page="10"
+      :items-per-page="itemPrePage"
       :footer-props="{
           itemsPerPageOptions: [10, 20, 50, 100],
       }"
       @click:row="(item) => viewDetails(item)"
+      :server-items-length="totalElements"
+      @update:page="page"
+      @update:items-per-page="size"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -130,6 +133,8 @@ export default {
     return {
       new_dialog: false,
       filter_form: true,
+      itemPrePage: 10,
+      current_page: 0,
       filters: {
         modelNumber: '',
         partner: '',
@@ -152,7 +157,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      modelsList: 'models/modelsList'
+      modelsList: 'models/modelsList',
+      totalElements: 'models/totalElements',
     }),
   },
   watch: {
@@ -167,6 +173,16 @@ export default {
       getModelsList: 'models/getModelsList',
       changeStatusModel: 'models/changeStatusModel'
     }),
+    async page(value) {
+      this.current_page = value - 1;
+      await this.getModelsList({page: this.current_page, size: this.itemPrePage, modelNumber: '', partner: '', status: ''})
+
+    },
+    async size(value) {
+      this.itemPrePage = value;
+      await this.getModelsList({page: 0, size: this.itemPrePage, modelNumber: '', partner: '', status: ''})
+
+    },
     async changeStatus(item) {
       await this.changeStatusModel(
         {id: item.id, status: item.status})
@@ -192,7 +208,7 @@ export default {
   },
   async mounted() {
     this.$store.commit('setPageTitle', this.$t('listsModels.dialog.lists'));
-    await this.getModelsList({page: 0, size: 50, modelNumber: '', partner: '', status: ''})
+    await this.getModelsList({page: 0, size: 10, modelNumber: '', partner: '', status: ''})
   }
 }
 </script>
