@@ -127,7 +127,7 @@
           v-ripple
           :value="isSelected"
           v-model="item.isMain"
-          :disabled="item.isMain"
+          :disabled="item.isOnCutting"
           @input="select($event)"
           @click="setMainColor(item,isSelected)"
           
@@ -560,7 +560,7 @@ export default {
 
     }),
     setMainColor(item,isSelected){
-      if(!isSelected){
+      if(!item.isOnCutting){
         this.setMainColorFunc(item.id)
 
       }

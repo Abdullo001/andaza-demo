@@ -101,7 +101,7 @@
         <v-card-text class="mt-4">
           <v-form ref="edit_form" v-model="edit_validate" lazy-validation>
             <v-row>
-              <v-col cols="12" lg="3" v-for="(item,idx) in sizeDistributions" :key="idx">
+              <v-col cols="12" lg="3" v-for="(item,idx) in selectedItem.sizeDistributions" :key="idx">
                 <div class="label">{{ item.size }}</div>
                 <v-text-field
                   outlined
@@ -177,15 +177,11 @@ export default {
         {text: 'Total', align: 'start', sortable: false, value: 'total'},
         {text: 'Actions', align: 'end', sortable: false, value: 'actions'},
       ],
-      checkedList: [
-        {id: 1, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', total: '2105'},
-        {id: 2, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', total: '2105'},
-        {id: 3, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', total: '2105'},
-        {id: 4, color: 'Grey 8996 TPX', 24: '24', 26: '26', 28: '28', 30: '30', total: '2105'},
-      ],
+      checkedList: [],
       edit_dialog: false,
       delete_dialog: false,
       edit_validate: true,
+      selectedItem:{},
       sizeDistributions: [
         {size: 24, quantity: 24},
         {size: 26, quantity: 26},
@@ -194,56 +190,125 @@ export default {
       ],
       historyHeaders: [
         {text: "Date", sortable: false, align: 'start', value: 'date'},
-        {text: "26", sortable: false, align: 'center', value: '26'},
-        {text: "28", sortable: false, align: 'center', value: '28'},
-        {text: "30", sortable: false, align: 'center', value: '30'},
-        {text: "34", sortable: false, align: 'center', value: '34'},
+        
         {text: "Done by ", sortable: false, align: 'center', value: 'doneBy'},
       ],
-      historyList: [
-        {
-          id: 1,
-          date: '07.03.2024',
-          26: "26",
-          28: "28",
-          30: "30",
-          34: "34",
-          doneBy: 'Shavkatova M.'
-        },
-        {
-          id: 2,
-          date: '07.03.2024',
-          26: "26",
-          28: "28",
-          30: "30",
-          34: "34",
-          doneBy: 'Shavkatova M.'
-        },
-        {
-          id: 3,
-          date: '07.03.2024',
-          26: "26",
-          28: "28",
-          30: "30",
-          34: "34",
-          doneBy: 'Shavkatova M.'
-        },
-      ],
+      historyList: [],
     }
+  },
+  computed:{
+    ...mapGetters({
+      sentToAlterationList:"commonProcess/sentToAlterationList",
+      historySentToAlterationList:"history/historySentToAlterationList",
+      planningProcessId:"commonProcess/planningProcessId",
+
+    }),
+  },
+
+  watch:{
+    sentToAlterationList(list){
+      this.headers= [
+        {text: 'Color', sortable: false, align: 'start', value: 'color'},  
+      ],
+
+      list[0]?.sizeDistributionList?.forEach((item) => {
+        this.headers.push({
+          text: item.size, sortable: false, align: 'start', value: item.size
+        })
+      })
+
+      this.headers.push(
+        {text: 'Produced total', sortable: false, align: 'start', value: 'totalCutQuantity'},
+        {text: 'Actions', sortable: false, align: 'start', value: 'actions'},
+      )
+
+      const specialList = list.map(function (el) {
+        const value = {};
+        const sizesList = [];
+        el?.sizeDistributionList.forEach((item) => {
+          value[item.size] = item.quantity
+          sizesList.push({size: item.size, quantity: 0})
+        });
+
+        return {
+          ...value,
+          ...el,
+          sizeDistributions: [...sizesList],
+
+        }
+      })
+      this.checkedList = JSON.parse(JSON.stringify(specialList))
+    },
+
+    historySentToAlterationList(list){
+      this.historyHeaders = [
+        {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
+      ],
+        list[0]?.sizeDistributionList?.forEach((item) => {
+          this.historyHeaders.push({
+            text: item.size, sortable: false, align: 'start', value: item.size
+          })
+        })
+      this.historyHeaders.push(
+        {text: 'Done By', sortable: false, align: 'center', value: 'createdBy'},
+      )
+
+      const specialList = list.map(function (el) {
+        const value = {};
+        const sizesList = [];
+        el?.sizeDistributionList.forEach((item) => {
+          value[item.size] = item.quantity
+          sizesList.push({size: item.size, quantity: item.quantity})
+        });
+        return {
+          ...el,
+          ...value,
+          sizeDistributions: [...sizesList],
+        }
+      })
+      this.historyList = JSON.parse(JSON.stringify(specialList))
+    }
+    
   },
   methods: {
     ...mapActions({
-      getOwnList: "commonProcess/getOwnList"
+      getSentToAlterationList: "commonProcess/getSentToAlterationList",
+      updateSentToAlterationProcess: "commonProcess/updateSentToAlterationProcess",
+      getHistorySentToAlterationList: "history/getHistorySentToAlterationList",
+      deleteSentToAlterationProcess: "commonProcess/deleteSentToAlterationProcess",
+
     }),
-    editItem() {
-      this.edit_dialog = !this.edit_dialog;
+    editItem(item){
+      this.edit_dialog=true
+      this.selectedItem={...item}
+      this.selectedItem.status="editProcess"
+      this.selectedProcessId=item.id
+      this.getHistorySentToAlterationList(item.id)
+    },
+    saveChanges(){
+      if(this.selectedItem.status==="editProcess"){
+        const data={
+          id:this.selectedItem.id,
+          operationType:"SENT_TO_ALTERATION",
+          sizeDistributions:[...this.selectedItem.sizeDistributions]
+        }
+        this.updateSentToAlterationProcess(data)
+      }
+      if(this.selectedItem.status==="editHistory"){
+        const data={
+          id:this.selectedItem.id,
+          sizeDistributionList:[...this.selectedItem.sizeDistributions]
+        }
+        this.editHistorySecondClassItem(data)
+      }
+      this.edit_dialog=false
     },
     deleteItem(item) {
       this.delete_dialog = true;
+      this.selectedItem={...item}
     },
     deleteConfirm() {
-    },
-    saveChanges() {
+      this.deleteSentToAlterationProcess(this.selectedItem.id)
     },
     editHistoryItem(item) {
     },
@@ -251,7 +316,7 @@ export default {
   },
   async mounted() {
     const id = this.$route.params.id;
-    await this.getOwnList(id);
+    await this.getSentToAlterationList();
   }
 }
 </script>

@@ -104,7 +104,9 @@
               <v-col cols="12" lg="6" >
                 <div class="label"  >Select the next process</div>
                 <v-select
-                  :items="process_list"
+                  :items="nextProcessList"
+                  item-text="process"
+                  item-value="process"
                   v-model.trim="selectedItem.process"
                   :disabled="selectedItem.status==='edit_history'"
                   append-icon="mdi-chevron-down"
@@ -246,8 +248,7 @@ export default {
       productionId: "production/planning/productionId",
       partnerList: "subcontracts/partnerList",
       historyListServer: "passingToNextProcess/historyProcessableList",
-
-
+      nextProcessList: "passingToNextProcess/nextProcessList",
     })
   },
 
@@ -337,6 +338,7 @@ export default {
       getHistoryList: "passingToNextProcess/getHistoryProcessableList",
       deleteHistoryProcessable: "passingToNextProcess/deleteHistoryProcessable",
       setHistoryProcessable: "passingToNextProcess/setHistoryProcessable",
+      getNextProcessList: "passingToNextProcess/getNextProcessList",
 
     }),
     getHistory(item) {
@@ -393,6 +395,7 @@ export default {
 
   mounted() {
     this.getPassingList(this.planningProcessId)
+    this.getNextProcessList(this.planningProcessId)
   }
 }
 </script>
