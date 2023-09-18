@@ -9,6 +9,7 @@ export const state = () => ({
 
 export const getters = {
   modelsList: state => state.modelsList.content,
+  totalElements: state => state.modelsList.totalElements,
   oneModel: state => state.oneModel,
   modelGroups: state => state.modelGroups.content,
   partner_enums: state => state.partner_enums.content,
@@ -40,26 +41,15 @@ export const mutations = {
 export const actions = {
   async getModelsList({commit}, {page, size, modelNumber, partner, status}) {
     const body = {
-      filters: [
-        {
-          key: 'modelNumber',
-          operator: 'LIKE',
-          propertyType: 'STRING',
-          value: modelNumber
-        },
-        {
-          key: 'status',
-          operator: 'EQUAL',
-          propertyType: 'STATUS',
-          value: status
-        },
-      ],
-      sorts: [],
-      page, size
+      client:partner,
+      modelNumber:modelNumber,
+      page, 
+      size,
+      status
+
     }
-    body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
     partner = partner === null ? '' : partner
-    await this.$axios.$put(`/api/v1/models/list?partner=${partner}&status=${status}`, body)
+    await this.$axios.$put(`/api/v1/models/list`, body)
       .then(res => {
         commit('setModels', res.data)
       })

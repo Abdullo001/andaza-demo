@@ -280,7 +280,6 @@ export default {
   watch: {
     new_chart: {
       handler(val) {
-        // console.log(val);
       }, deep: true
     },
     headers(val) {

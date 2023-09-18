@@ -577,6 +577,7 @@ export default {
           id:this.selectedSubcontract.id,
           pricePerWork:this.selectedSubcontract.pricePerWork,
           sentDate:this.selectedSubcontract.sentDate,
+          operationType:"FIRST_CLASS",
           sizeDistributions:[...this.selectedSubcontract.sizeDistributions],
         }
         this.updateCommonProcess(data)

@@ -14,6 +14,24 @@
           </v-chip>
         </div>
         <v-spacer/>
+        <v-btn
+          class="rounded-lg text-capitalize font-weight-bold mr-4"
+          color="#7631FF"
+          width="140"
+          elevation="0"  
+          outlined
+        >
+          Models
+        </v-btn>
+        <v-btn
+          class="rounded-lg text-capitalize font-weight-bold"
+          color="#7631FF"
+          width="140"
+          elevation="0"
+          outlined
+        >
+          Orders
+        </v-btn>
       </v-card-title>
       <v-divider/>
       <v-card-text class="pb-0">
@@ -525,6 +543,14 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer/>
+             <v-btn
+              color="#7631FF"
+              class="text-capitalize rounded-lg"
+              outlined
+              min-width="130"
+            >
+              Download PDF
+            </v-btn>
             <v-btn
               color="#7631FF"
               class="text-capitalize rounded-lg"
@@ -538,6 +564,7 @@
                   : $t("prefinances.child.save")
               }}
             </v-btn>
+           
           </v-card-actions>
         </v-card>
       </v-col>

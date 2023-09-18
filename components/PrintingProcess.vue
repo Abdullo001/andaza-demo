@@ -495,6 +495,7 @@ export default {
       if(this.selectedItem.status==="editProcess"){
         const data={
           id:this.selectedItem.id,
+          operationType:"FIRST_CLASS",
           sizeDistributions:[...this.selectedItem.sizeDistributions]
         }
         this.updateCommonProcess(data)
