@@ -1,6 +1,7 @@
 <template>
   <div>
     <Breadcrumbs :maps="map_links"/>
+
     <v-card elevation="0" class="mt-2 rounded-lg">
       <v-card-title>
         <div class="text-capitalize">
@@ -18,7 +19,7 @@
           class="rounded-lg text-capitalize font-weight-bold mr-4"
           color="#7631FF"
           width="140"
-          elevation="0"  
+          elevation="0"
           outlined
         >
           Models
@@ -357,7 +358,6 @@
                         v-on="on"
                         color="green"
                         @click="editRow(item, index)"
-
                       >
                         <v-img src="/edit-active.svg" max-width="22"/>
                       </v-btn>
@@ -395,7 +395,6 @@
               </template>
             </v-data-table>
           </v-tab-item>
-          <!--          TODO:  Documents tabs table  -->
           <v-tab-item>
             <v-data-table
               :headers="documentsHeaders"
@@ -444,9 +443,8 @@
     <v-row>
       <v-col cols="12" lg="5" class="mb-4">
         <v-card class="mt-4 rounded-lg" elevation="0" height="100%">
-          <v-card-title>{{
-              $t("prefinances.child.photosModels")
-            }}
+          <v-card-title>
+            {{ $t("prefinances.child.photosModels") }}
           </v-card-title>
           <v-divider/>
           <v-card-text class="mt-4">
@@ -564,7 +562,7 @@
                   : $t("prefinances.child.save")
               }}
             </v-btn>
-           
+
           </v-card-actions>
         </v-card>
       </v-col>
@@ -807,10 +805,9 @@
         <div class="d-flex justify-center mb-2">
           <v-img src="/error-icon.svg" max-width="40"/>
         </div>
-        <v-card-title class="d-flex justify-center"
-        >Delete detail row
-        </v-card-title
-        >
+        <v-card-title class="d-flex justify-center">
+          Delete detail row
+        </v-card-title>
         <v-card-text> Are you sure you want to Delete detail row?</v-card-text>
         <v-card-actions class="px-16">
           <v-btn
