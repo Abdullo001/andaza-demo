@@ -606,7 +606,9 @@ export default {
       data.append("id",id)
       data.append("printTypeId",printTypeId)
       data.append("sentDate",sendDate)
-      data.append("file",filePath)
+      if(typeof filePath!=="string"){
+        data.append("file",filePath)
+      }
       await this.updatePrints({data,id:modelId});
       this.printing_dialog = false;
     }
