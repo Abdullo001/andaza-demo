@@ -1194,6 +1194,9 @@ export default {
     },
   },
   watch: {
+    modelSearch(val){
+      this.getModelName(val);
+    },
     onePreFinance(val) {
       if (Object.keys(val).length) {
         const data = JSON.parse(JSON.stringify(val));
@@ -1250,7 +1253,7 @@ export default {
       if (!(elem === "null" || typeof elem === "object")) {
         this.getModelName(elem);
       }
-      const {modelNumber, name, partner, id} = this.addPreFinances.modelNumber;
+      const {modelNumber, name, partner, id} = this.addPreFinances?.modelNumber;
       if ((Object.keys(this.addPreFinances.modelNumber).length > 3 && modelNumber) || name || partner !== undefined) {
         this.addPreFinances.partner = partner;
         this.addPreFinances.id = id;
