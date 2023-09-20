@@ -79,26 +79,15 @@ export const actions = {
   },
   async getModelName({commit}, name) {
     const body = {
-      filters: [
-        {
-          key: "modelNumber",
-          operator: "LIKE",
-          propertyType: "STRING",
-          value: name,
-        },
-        {
-          key: "status",
-          operator: "EQUAL",
-          propertyType: "STATUS",
-          value: "ACTIVE",
-        },
-      ],
-      sorts: [],
-      page: 0,
-      size: 10,
-    };
+      client:'',
+      modelNumber:name,
+      page:0, 
+      size:10,
+      status:"ACTIVE"
+    }
+    
     await this.$axios
-      .$put(`/api/v1/models/list?partner=`, body)
+      .$put(`/api/v1/models/list`, body)
       .then((res) => {
         commit("setModelName", res.data.content);
 
