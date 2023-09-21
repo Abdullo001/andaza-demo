@@ -237,7 +237,6 @@ export const actions = {
   getHistoryList({commit},id){
     this.$axios.get(`/api/v1/accessory-warehouse-operation/list?warehouseId=${id}`)
     .then((res)=>{
-      console.log(res);
       commit("setHistory",res.data.data)
     })
     .catch((res)=>{

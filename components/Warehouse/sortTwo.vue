@@ -56,7 +56,7 @@
 </template>
 
 <script>
-
+import {mapActions, mapGetters} from "vuex";
 export default {
   name: 'SortTwo',
   data() {
@@ -81,6 +81,16 @@ export default {
       ]
     }
   },
+  methods:{
+    ...mapActions({
+      getWarehouseListEachSort:"readyGarmentWarehouse/getWarehouseListEachSort",
+    })
+  },
+
+  mounted(){
+    const id=this.$route.params.id
+    this.getWarehouseListEachSort({warehouseId:id,operationType:"SECOND_CLASS"})
+  }
 
 }
 </script>

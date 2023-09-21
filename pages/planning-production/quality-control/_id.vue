@@ -327,7 +327,14 @@
                 <OrderQuantities/>
               </v-col>
             </v-row>
-            <v-spacer/>
+            
+          </v-tab-item>
+          <v-tab-item>
+            <NextProcess/>
+            <NextProcessSecondClass/>
+          </v-tab-item>
+        </v-tabs-items>
+        <v-spacer/>
             <div class="mt-4 mr-4 mb-10 d-flex justify-end">
               <v-btn
                 outlined
@@ -340,11 +347,6 @@
                 Finish Process
               </v-btn>
             </div>
-          </v-tab-item>
-          <v-tab-item>
-            <NextProcess/>
-          </v-tab-item>
-        </v-tabs-items>
       </v-card-text>
     </v-card>
     <!--    Small tables -->
@@ -366,7 +368,8 @@ export default {
     QuantitiesOne: () => import('@/components/commonProcess/CommonProcessTab.vue'),
     Breadcrumbs: () => import('@/components/Breadcrumbs.vue'),
     Subcontractor: () => import('@/components/commonProcess/CommonSubcontractProcessTab.vue'),
-    NextProcess: () => import('@/components/QualityControl/NextProcess.vue')
+    NextProcess: () => import('@/components/PassingToNextProcess.vue'),
+    NextProcessSecondClass: () => import('@/components/QualityControl/NextProcessSecondClass.vue')
   },
   data() {
     return {
@@ -473,6 +476,8 @@ export default {
       }
       if(val===2){
         this.getPassingList(this.planningProcessId)
+        this.getPassingSecondList(this.planningProcessId)
+
       }
     }
   },
@@ -488,7 +493,9 @@ export default {
       getProcessingList: 'production/planning/getProcessingList',
       getShortcomingsList:'commonCalculationsShortcomings/getShortcomingsList',
       getSubcontractShortcomingsList:'commonCalculationsShortcomings/getSubcontractShortcomingsList',
-      getPassingList:'cuttingToNextProcess/getPassingList',
+      getPassingList:'passingToNextProcess/getPassingList',
+      getPassingSecondList: 'nextProcessSecondClass/getSecondList',
+
     }),
     clickBtn() {
       this.show_btn = !this.show_btn

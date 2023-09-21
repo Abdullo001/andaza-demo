@@ -91,5 +91,18 @@ export const actions={
     .catch((res)=>{
       console.log(res);
     })
+  },
+
+  setReadyGarmentWarehouse({dispatch},data){
+    this.$axios.put(`/api/v1/processable-entity/give-ready-garment`,data)
+    .then((res)=>{
+      // dispatch("getSecondList",id)
+      this.$toast.success(res.data.message)
+    })
+    .catch((res)=>{
+      console.log(res);
+      this.$toast.error(res.data.message)
+    })
+    
   }
 }
