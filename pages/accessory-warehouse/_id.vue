@@ -462,6 +462,7 @@
           <v-data-table
             :headers="historyHeaders"
             :items="historyList"
+            :items-per-page="-1"
             hide-default-footer
             class="mt-4 rounded-lg"
             style="border: 1px solid #E9EAEB"

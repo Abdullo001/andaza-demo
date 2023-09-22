@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: 'SortOne',
@@ -80,6 +81,27 @@ export default {
       ]
     }
   },
+  computed:{
+    ...mapGetters({
+      firstClassList:"readyGarmentWarehouse/firstClassList",
+    })
+  },
+
+  watch:{
+    firstClassList(val){
+    }
+  },
+
+  methods:{
+    ...mapActions({
+      getWarehouseListEachSort:"readyGarmentWarehouse/getWarehouseListEachSort",
+    })
+  },
+
+  mounted(){
+    const id=this.$route.params.id
+    this.getWarehouseListEachSort({warehouseId:id,operationType:"FIRST_CLASS"})
+  }
 
 }
 </script>

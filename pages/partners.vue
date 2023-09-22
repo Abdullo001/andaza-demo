@@ -626,7 +626,7 @@
                   :return-object="true"
                   color="#7631FF"
                   dense
-                  placeholder="Enter model number"
+                  placeholder="Enter country"
                   prepend-icon=""
                 >
                   <template #append>
@@ -1024,7 +1024,7 @@ export default {
     async update() {
       const edit_validate = this.$refs.edit_form.validate();
       if (this.edit_partner.name) {
-        const {
+        let {
           address,
           contractDate,
           contractNumber,
@@ -1034,9 +1034,15 @@ export default {
           status,
           partnerTypeId,
           countryId,
+          country,
           brandNames,
           cooperationTypeId
         } = this.edit_partner;
+        if(typeof country!=='string'){
+          countryId=country.id
+          console.log(countryId);
+        }
+        console.log(this.edit_partner);
         const formData = new FormData();
         formData.append("id", id);
         formData.append("typeId", partnerTypeId);
@@ -1054,8 +1060,6 @@ export default {
         formData.append("brandNames", brandNames);
         if(countryId){
           formData.append("countryId",countryId);
-        }else{
-          formData.append("countryId", "");
         }
         if (cooperationTypeId) {
           formData.append("cooperationTypeId", cooperationTypeId);

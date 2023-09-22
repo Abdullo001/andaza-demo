@@ -155,26 +155,6 @@
       </v-card>
     </v-dialog>
 
-    <div class="d-flex">
-      <v-spacer/>
-      <v-btn
-        class="text-capitalize font-weight-bold rounded-lg mr-4"
-        color="#7631FF"
-        width="237"
-        outlined
-        style="border-width: 2px;"
-      >
-        Cancel the last passing
-      </v-btn>
-      <v-btn
-        class="text-capitalize rounded-lg"
-        color="#7631FF"
-        width="205"
-        dark
-      >
-        Generate
-      </v-btn>
-    </div>
   </div>
 </template>
 
