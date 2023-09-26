@@ -107,6 +107,22 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">Brand name</div>
+            <v-select
+              v-model="model.brandName"
+              :items="brandList"
+              outlined
+              hide-details
+              class="rounded-lg base mb-4"
+              height="44"
+              dense
+              append-icon="mdi-chevron-down"
+              style="max-width: 400px"
+              placeholder="Select brand name"
+              color="#7631FF"
+            />
+          </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{$t('listsModels.child.season')}}</div>
             <v-select
               v-model="model.season"
@@ -232,7 +248,7 @@
               </template>
             </v-text-field>
           </v-col>
-          <v-col cols="12" lg="6" md="6" sm="6" class="d-flex justify-end align-center">
+          <v-col cols="12"  class="d-flex justify-end align-center">
             <v-spacer/>
             <v-btn
               v-if="modelStatus === 'Add'"
@@ -426,7 +442,8 @@ export default {
       oneModel: 'models/oneModel',
       modelGroups: 'models/modelGroups',
       partner_enums: 'models/partner_enums',
-      compositionList: 'models/compositionList'
+      compositionList: 'models/compositionList',
+      brandList: 'models/brandList'
     }),
   },
   watch: {
@@ -445,7 +462,12 @@ export default {
       model.partnerId = val.partnerId
       model.createdTime = val.createdAt;
       model.updateTime = val.updatedAt;
+    },
+    "model.partnerId"(val){
+      console.log(val);
+      this.getBrandList(val)
     }
+
   },
   methods: {
     ...mapActions({
@@ -455,6 +477,7 @@ export default {
       createModel: 'models/createModel',
       updateModel: 'models/updateModel',
       getCompositionList: 'models/getCompositionList',
+      getBrandList: 'models/getBrandList',
       modelToPrefinance: 'preFinance/modelToPrefinance'
     }),
     clickBtn(){
