@@ -504,17 +504,17 @@ export default {
         this.newModelIdId = id;
       },
     },
-    sizes(list) {
-      this.size_list_value = JSON.parse(JSON.stringify(list));
-      this.headerSizes = [];
-      list.forEach((item) => {
-        const res = {text: item, sortable: false, value: item};
-        const val={size:item,quantity:null}
-        this.newSizeDistirbution.sizeDistributions.push(val)
-        this.headerSizes.push(res);
-      });
-      this.headers = [...this.headerSizes, ...this.templeHeaders];
-    },
+    // sizes(list) {
+    //   this.size_list_value = JSON.parse(JSON.stringify(list));
+    //   this.headerSizes = [];
+    //   list.forEach((item) => {
+    //     const res = {text: item, sortable: false, value: item};
+    //     const val={size:item,quantity:null}
+    //     this.newSizeDistirbution.sizeDistributions.push(val)
+    //     this.headerSizes.push(res);
+    //   });
+    //   this.headers = [...this.headerSizes, ...this.templeHeaders];
+    // },
     bodyParts(items) {
       this.headerBodyPart = [];
       for (let item in items) {
@@ -530,7 +530,7 @@ export default {
         this.headerBodyPart.push(res);
       }
 
-      this.headers = [...this.headerBodyPart, ...this.headers];
+      this.headers = [...this.headerBodyPart,];
     },
 
 
@@ -540,6 +540,14 @@ export default {
       let totalObj=0
       let totalSizes=[]
       let totalPriceWithDiscount=0
+      this.headerSizes = [];
+      for (const [key, value] of Object.entries(list[0]?.sizeDistributions)) {
+        const res = {text: key, sortable: false, value: key};
+        const val={size:key,quantity:null}
+        this.newSizeDistirbution.sizeDistributions.push(val)
+        this.headerSizes.push(res);
+      }
+      this.headers = [...this.headers,...this.headerSizes, ...this.templeHeaders];
 
       const specialList=list.map(function(el){
 
