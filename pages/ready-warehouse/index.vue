@@ -73,14 +73,7 @@
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex w-full align-center justify-space-between">
             <div>Ready garment warehouse</div>
-            <v-btn
-              color="#7631FF"
-              dark class="text-capitalize rounded-lg"
-              @click="addModel"
-            >
-              <v-icon>mdi-plus</v-icon>
-              Add arrived accessory
-            </v-btn>
+            
           </v-toolbar-title>
         </v-toolbar>
       </template>
@@ -103,6 +96,7 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: 'ModelMainPage',
@@ -125,74 +119,41 @@ export default {
         {text: 'Deadline',  sortable: false, value: 'deadline'},
         {text: 'Status', sortable: false,  value: 'status', width: 200},
       ],
-      allModels: [
-        {
-          id: 1,
-          orderNumber: 'FTSK-000188',
-          modelNumber: 'ML 002',
-          clientName: 'Arttex LLC',
-          modelName: 'Girl Jeans',
-          orderQuantity: '902 pcs',
-          producedQuantity: '542 pcs',
-          deadline: '23.03.2024',
-          status: 'Shipped'
-        },
-        {
-          id: 2,
-          orderNumber: 'FTSK-000188',
-          modelNumber: 'ML 002',
-          clientName: 'Arttex LLC',
-          modelName: 'Girl Jeans',
-          orderQuantity: '902 pcs',
-          producedQuantity: '542 pcs',
-          deadline: '23.03.2024',
-          status: 'Pending'
-        },
-        {
-          id: 3,
-          orderNumber: 'FTSK-000188',
-          modelNumber: 'ML 002',
-          clientName: 'Arttex LLC',
-          modelName: 'Girl Jeans',
-          orderQuantity: '902 pcs',
-          producedQuantity: '542 pcs',
-          deadline: '23.03.2024',
-          status: 'Field'
-        },
-        {
-          id: 4,
-          orderNumber: 'FTSK-000188',
-          modelNumber: 'ML 002',
-          clientName: 'Arttex LLC',
-          modelName: 'Girl Jeans',
-          orderQuantity: '902 pcs',
-          producedQuantity: '542 pcs',
-          deadline: '23.03.2024',
-          status: 'Shipped'
-        },
-
-      ],
-      statusEnum: ['Shipped', 'Pending', 'Field']
+      allModels: [],
+      statusEnum: ["SHIPPED", "PENDING", "FIELD"]
+    }
+  },
+  computed:{
+    ...mapGetters({
+      warehouseList:"readyGarmentWarehouse/warehouseList",
+    })
+  },
+  watch:{
+    warehouseList(list){
+      this.allModels=JSON.parse(JSON.stringify(list))
     }
   },
   methods: {
+    ...mapActions({
+      getWarehouseList: "readyGarmentWarehouse/getWarehouseList"
+    }),
     statusColors(color) {
       switch (color) {
-        case 'Shipped':
+        case 'SHIPPED':
           return '#10BF41';
-        case 'Pending':
+        case 'PENDING':
           return '#FFC915';
-        case  'Field':
+        case  'FIELD':
           return 'red'
       }
     },
     itemColors(color) {
       switch (color) {
-        case 'Shipped':
+        case 'SHIPPED':
           return 'green';
-        case 'Pending':
+        case 'PENDING':
           return 'amber';
-        case  'Field':
+        case  'FIELD':
           return 'red'
       }
     },
@@ -211,6 +172,7 @@ export default {
   },
   async mounted() {
     this.$store.commit('setPageTitle', 'Warehouse');
+    this.getWarehouseList({client:"",modelNumber:"",orderNumber:"",page:0,size:10})
   }
 }
 </script>

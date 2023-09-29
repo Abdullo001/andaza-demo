@@ -297,12 +297,20 @@ export default {
         show_active: this.show_btn
       }
     },
-    ...mapGetters({}),
+    ...mapGetters({
+      warehouseDetail:"readyGarmentWarehouse/warehouseDetail",
+    }),
   },
-  watch: {},
+  watch: {
+    warehouseDetail(item){
+      this.accessoryDetail=JSON.parse(JSON.stringify(item))
+    }
+  },
 
   methods: {
-    ...mapActions({}),
+    ...mapActions({
+      getWarehouseDetail:"readyGarmentWarehouse/getWarehouseDetail",
+    }),
     clickBtn() {
       this.show_btn = !this.show_btn
     },
@@ -330,6 +338,8 @@ export default {
   },
 
   mounted() {
+    const id=this.$route.params.id
+    this.getWarehouseDetail(id)
   },
 };
 </script>
