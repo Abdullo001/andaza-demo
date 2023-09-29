@@ -402,6 +402,13 @@
               </v-card-text>
             </v-card>
           </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <OrdersModelPrints/>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
         </v-tabs-items>
       </v-tabs>
     </v-card>
@@ -409,12 +416,13 @@
 </template>
 
 <script>
-import Breadcrumbs from "../../components/Breadcrumbs.vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import DetailInfo from "../../components/DetailInfo.vue";
-import OrderDocuments from "../../components/OrderDocuments.vue";
-import ShowBtnComponent from "../../components/ShowComponentBtn/ShowBtn.vue";
-import ColorSizeDistribution from "../../components/ColorSizeDistribution.vue";
+import Breadcrumbs from "@/components/Breadcrumbs.vue";
+import DetailInfo from "@/components/DetailInfo.vue";
+import OrderDocuments from "@/components/OrderDocuments.vue";
+import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
+import ColorSizeDistribution from "@/components/ColorSizeDistribution.vue";
+import OrdersModelPrints from "@/components/OrdersModelPrints.vue";
 
 export default {
   name: 'OrdersChildPage',
@@ -424,6 +432,7 @@ export default {
     OrderDocuments,
     DetailInfo,
     Breadcrumbs,
+    OrdersModelPrints,
   },
   data() {
     return {
@@ -442,6 +451,7 @@ export default {
         "Color/Size distirbution",
         "Detail info",
         "Documents",
+        "Model prints",
       ],
       map_links: [
         {
