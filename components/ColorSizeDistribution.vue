@@ -449,6 +449,7 @@ export default {
         totalPriceWithDiscount:null
       },
       modelId: this.$route.query.modelId,
+      sizeList:[],
     };
   },
 
@@ -490,6 +491,7 @@ export default {
         this.orderSizeList.push(this.item);
       }
     },
+    
 
     newOrderIdServer: {
       deep: true,
@@ -506,6 +508,7 @@ export default {
     },
     bodyParts(items) {
       this.headerBodyPart = [];
+      this.headers=[];
       for (let item in items) {
         const res = {text: item, sortable: false, value: item};
         let val={}
@@ -519,7 +522,10 @@ export default {
         this.headerBodyPart.push(res);
       }
 
-      this.headers = [...this.headerBodyPart,];
+    },
+    sizes(list) {
+      this.sizeList=JSON.parse(JSON.stringify(list))
+      
     },
 
 
@@ -530,13 +536,30 @@ export default {
       let totalSizes=[]
       let totalPriceWithDiscount=0
       this.headerSizes = [];
-      for (const [key, value] of Object.entries(list[0]?.sizeDistributions)) {
-        const res = {text: key, sortable: false, value: key};
-        const val={size:key,quantity:null}
-        this.newSizeDistirbution.sizeDistributions.push(val)
-        this.headerSizes.push(res);
+      this.headers=[]
+      if(list.length!==0){
+        this.newSizeDistirbution.sizeDistributions=[]
+        for (const [key, value] of Object.entries(list[0]?.sizeDistributions)) {
+          const res = {text: key, sortable: false, value: key};
+          const val={size:key,quantity:null}
+          this.newSizeDistirbution.sizeDistributions.push(val)
+          this.headerSizes.push(res);
+        }
+        console.log(this.headers);
+        this.headers = [...this.headerBodyPart,...this.headerSizes, ...this.templeHeaders];
+      }else{
+        const list = [...this.sizeList]
+        this.newSizeDistirbution.sizeDistributions=[]
+        this.headerSizes = [];
+        console.log(this.size_list_value);
+        list.forEach((item) => {
+          const res = {text: item, sortable: false, value: item};
+          const val={size:item,quantity:null}
+          this.newSizeDistirbution.sizeDistributions.push(val)
+          this.headerSizes.push(res);
+        });
+        this.headers = [...this.headerBodyPart,...this.headerSizes, ...this.templeHeaders];
       }
-      this.headers = [...this.headers,...this.headerSizes, ...this.templeHeaders];
 
       const specialList=list.map(function(el){
 
@@ -586,7 +609,9 @@ export default {
       this.totalSizes.sizesList=[...totalSizes]
       this.totalSizes.total=totalObj
       this.totalSizes.totalPriceWithDiscount=totalPriceWithDiscount
-    }
+    },
+
+    
   },
   methods: {
     ...mapActions({
