@@ -248,7 +248,7 @@ export default {
       });
     },
     async size(value) {
-      this.itemPrePage = value;
+      this.itemPerPage = value;
       await this.getFabricList({
         page: 0,
         size: this.itemPerPage,
