@@ -37,10 +37,12 @@ export const mutations = {
   }
 };
 export const actions = {
-  async getFabricList({commit}, {page, size}) {
+  async getFabricList({commit}, {page, size, data}) {
     const body = {
-      filters: [],
-      sorts: [],
+      orderNumber:data.orderNumber,
+      modelNumber:data.modelNumber,
+      clientName:data.clientName?.name,
+      creatorId:data.creatorId?.id,
       page,
       size
     }
