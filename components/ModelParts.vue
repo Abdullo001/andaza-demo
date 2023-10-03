@@ -49,7 +49,7 @@
         <v-card-text class="mt-4">
           <v-row>
             <v-col cols="12" lg="6">
-              <div class="label">Part name</div>
+              <!-- <div class="label">Part name</div>
               <v-select
                 v-model="newModelParts.bodyPartId"
                 :items="partNames"
@@ -63,7 +63,30 @@
                 dense
                 color="#7631FF"
                 append-icon="mdi-chevron-down"
-              />
+              /> -->
+              <div class="label">Part name</div>
+                <v-combobox
+                  v-model="newModelParts.bodyPartId"
+                  :items="partNames"
+                  :search-input.sync="partSearch"
+                  item-text="partName"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base d-flex align-center justify-center"
+                  :return-object="true"
+                  color="#7631FF"
+                  dense
+                  placeholder="Enter body part"
+                  prepend-icon=""
+                >
+                  <template #append>
+                    <v-icon class="d-inline-block" color="#7631FF">
+                      mdi-magnify
+                    </v-icon>
+                  </template>
+                </v-combobox>
             </v-col>
             <v-col cols="12" lg="6">
               <div class="label">Yarn numbers</div>
@@ -227,6 +250,7 @@ export default {
         {text: 'Actions', sortable: false, align: 'center', value: 'actions'},
       ],
       partsDialog: false,
+      partSearch:"",
       newModelParts: {
         bodyPartId: null,
         canvasTypeId: null,
@@ -244,7 +268,7 @@ export default {
     }
   },
   created() {
-    this.getPartName();
+    this.getPartName("");
     this.getYarnNumbers();
     this.getCanvasType();
     this.getYarnType();
@@ -276,6 +300,15 @@ export default {
     },
     oneModelParts(val) {
       this.newModelParts = {...val}
+      this.partSearch=val.bodyPart
+      this.newModelParts.bodyPartId={partName:val.bodyPart,id:val.bodyPartId}
+    },
+    partSearch(val){
+      if(!!val&&val!==null){
+        this.getPartName(val)
+      }else{
+        this.getPartName("")
+      }
     }
   },
 

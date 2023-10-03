@@ -105,10 +105,8 @@ export const actions = {
     }
     await this.$axios.$put('/api/v1/body-parts/list', body)
       .then(res => {
-        if (res.message === "Successfully") {
-          commit('setBodyParts', res.data)
-          commit("setLoading", false)
-        }
+        commit('setBodyParts', res.data)
+        commit("setLoading", false)
       })
       .catch(({response}) => {
         console.log(response)

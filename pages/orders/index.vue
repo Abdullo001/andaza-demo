@@ -239,7 +239,7 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch("orders/getModelGroup");
+    this.getModelGroup({name:""})
     this.getUsersList();
     this.getClient();
   },
@@ -274,6 +274,7 @@ export default {
       filterOrderList: "orders/filterOrderList",
       getUsersList: "orders/getUsersList",
       getClient: "orders/getClient",
+      getModelGroup: "orders/getModelGroup",
     }),
     async page(value) {
       this.current_page = value - 1;

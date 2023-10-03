@@ -545,13 +545,11 @@ export default {
           this.newSizeDistirbution.sizeDistributions.push(val)
           this.headerSizes.push(res);
         }
-        console.log(this.headers);
         this.headers = [...this.headerBodyPart,...this.headerSizes, ...this.templeHeaders];
       }else{
         const list = [...this.sizeList]
         this.newSizeDistirbution.sizeDistributions=[]
         this.headerSizes = [];
-        console.log(this.size_list_value);
         list.forEach((item) => {
           const res = {text: item, sortable: false, value: item};
           const val={size:item,quantity:null}
