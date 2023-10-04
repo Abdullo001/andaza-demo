@@ -711,14 +711,14 @@ export default {
       })
     },
     editDialog(val){
-      if(!val){
-        for (let file = 0; file <= 3; file++) {
-          if (this.files[file].file) {
-            this.files[file].file=""
-            // this.files[file]?.id="";
-          }
-        }
-      }
+    //   if(!val){
+    //     for (let file = 0; file <= 3; file++) {
+    //       if (this.files[file].file) {
+    //         this.files[file].file=""
+    //         // this.files[file]?.id="";
+    //       }
+    //     }
+    //   }
     }
   },
 
@@ -880,10 +880,10 @@ export default {
       formData.append("description",description)
       formData.append("id",id)
       for (let file = 0; file <= 3; file++) {
-        if (images[file]?.filePath) {
+        if (!files[file]?.id && !!files[file]?.file) {
+          formData.append('files', files[file].file)
         }
       }
-      formData.append('files', JSON.stringify(images))
       for (let file = 0; file <= 3; file++) {
         if(typeof fileRequests[file].file!=='string'){
           if (fileRequests[file].file) {
