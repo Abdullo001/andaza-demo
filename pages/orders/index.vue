@@ -3,84 +3,83 @@
     <v-card elevation="0" class="rounded-lg">
       <v-card-text>
         <v-form lazy-validation v-model="filter_form" ref="filters">
-          <div class=" d-flex align-center justify-space-between flex-fill mb-4">
-            
-              <v-text-field
-                v-model="filters.orderNumber"
-                placeholder="Order number"
-                outlined
-                height="44"
-                validate-on-blur
-                dense
-                hide-details
-                class="rounded-lg filter mr-2"
-              />
-              <v-text-field
-                v-model="filters.modelNumber"
-                placeholder="Model number"
-                outlined
-                height="44"
-                validate-on-blur
-                dense
-                hide-details
-                class="rounded-lg filter mr-2"
-              />
-              <v-select
-                :items="modelGroups"
-                v-model="filters.modelGroup"
-                placeholder="Model Group"
-                dense
-                outlined
-                height="44"
-                hide-details
-                validate-on-blur
-                class="rounded-lg filter mr-2"
-                append-icon="mdi-chevron-down"
-              />
-              <v-combobox
-                v-model="filters.creatorId"
-                :items="users"
-                :search-input.sync="creatorSearch"
-                item-text="name"
-                item-value="id"
-                validate-on-blur 
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg filter d-flex align-center justify-center mr-2"
-                :return-object="true"
-                dense
-                placeholder="Creator name"
-                prepend-icon=""
-              >
-                <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
-                    mdi-magnify
-                  </v-icon>
-                </template>
-             </v-combobox>
-              <v-combobox
-                v-model="filters.clientName"
-                :items="clientList"
-                :search-input.sync="clientSearch"
-                item-text="name"
-                item-value="id"
-                validate-on-blur 
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg filter d-flex align-center justify-center "
-                :return-object="true"
-                dense
-                placeholder="Client name"
-                prepend-icon=""
-              >
-                <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
-                    mdi-magnify
-                  </v-icon>
-                </template>
-             </v-combobox>
+          <div class="d-flex align-center justify-space-between flex-fill mb-4">
+            <v-text-field
+              v-model="filters.orderNumber"
+              placeholder="Order number"
+              outlined
+              height="44"
+              validate-on-blur
+              dense
+              hide-details
+              class="rounded-lg filter mr-2"
+            />
+            <v-text-field
+              v-model="filters.modelNumber"
+              placeholder="Model number"
+              outlined
+              height="44"
+              validate-on-blur
+              dense
+              hide-details
+              class="rounded-lg filter mr-2"
+            />
+            <v-select
+              :items="modelGroups"
+              v-model="filters.modelGroup"
+              placeholder="Model Group"
+              dense
+              outlined
+              height="44"
+              hide-details
+              validate-on-blur
+              class="rounded-lg filter mr-2"
+              append-icon="mdi-chevron-down"
+            />
+            <v-combobox
+              v-model="filters.creatorId"
+              :items="users"
+              :search-input.sync="creatorSearch"
+              item-text="name"
+              item-value="id"
+              validate-on-blur
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg filter d-flex align-center justify-center mr-2"
+              :return-object="true"
+              dense
+              placeholder="Creator name"
+              prepend-icon=""
+            >
+              <template #append>
+                <v-icon class="d-inline-block" color="#7631FF">
+                  mdi-magnify
+                </v-icon>
+              </template>
+            </v-combobox>
+            <v-combobox
+              v-model="filters.clientName"
+              :items="clientList"
+              :search-input.sync="clientSearch"
+              item-text="name"
+              item-value="id"
+              validate-on-blur
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg filter d-flex align-center justify-center"
+              :return-object="true"
+              dense
+              placeholder="Client name"
+              prepend-icon=""
+            >
+              <template #append>
+                <v-icon class="d-inline-block" color="#7631FF">
+                  mdi-magnify
+                </v-icon>
+              </template>
+            </v-combobox>
           </div>
           <div class="d-flex justify-center">
             <v-btn
@@ -128,15 +127,25 @@
             class="d-flex w-full align-center justify-space-between"
           >
             <div>Orders</div>
-            <v-btn
-              color="#7631FF"
-              dark
-              class="text-capitalize rounded-lg"
-              @click="addOrder"
-            >
-              <v-icon>mdi-plus</v-icon>
-              add Order
-            </v-btn>
+            <div>
+              <v-btn
+                color="#7631FF"
+                outlined
+                class="text-capitalize rounded-lg"
+                @click="$router.push(`/order-pdf-generation`)"
+              >
+                Placed orders form
+              </v-btn>
+              <v-btn
+                color="#7631FF"
+                dark
+                class="text-capitalize rounded-lg"
+                @click="addOrder"
+              >
+                <v-icon>mdi-plus</v-icon>
+                add Order
+              </v-btn>
+            </div>
           </v-toolbar-title>
         </v-toolbar>
       </template>
@@ -174,7 +183,7 @@
                       v-bind="attrs"
                       v-on="on"
                     >
-                      <v-img src="/copy.svg" width="15" class="ml-2 pointer"/>
+                      <v-img src="/copy.svg" width="15" class="ml-2 pointer" />
                     </div>
                   </template>
                   <span>Copy</span>
@@ -186,10 +195,12 @@
       </template>
       <template #item.action="{ item }">
         <v-tooltip top color="#7631FF">
-          <template v-slot:activator="{on, attrs}">
+          <template v-slot:activator="{ on, attrs }">
             <v-btn
-              icon color="#7631FF"
-              v-on="on" v-bind="attrs"
+              icon
+              color="#7631FF"
+              v-on="on"
+              v-bind="attrs"
               @click="viewDetails(item)"
             >
               <v-icon>mdi-chevron-right</v-icon>
@@ -203,19 +214,19 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
-  name: 'OrdersPage',
+  name: "OrdersPage",
   data() {
     return {
       itemPrePage: 10,
       current_page: 0,
       new_dialog: false,
       filter_form: true,
-      creatorSearch:"",
-      clientSearch:"",
-      users:[],
+      creatorSearch: "",
+      clientSearch: "",
+      users: [],
       filters: {
         orderNumber: "",
         modelNumber: "",
@@ -226,20 +237,25 @@ export default {
       status_enums: ["FINISHED", "CANCELED", "PENDING", "IN_PROCESS"],
       modelGroup_enums: [],
       headers: [
-        {text: "Order number", align: "start", sortable: false, value: "orderNumber"},
-        {text: "Model", value: "model", width: 200},
-        {text: "Client Name", value: "client"},
-        {text: "Created by", value: "createdBy"},
-        {text: "Created at", value: "createdAt"},
-        {text: "Status", value: "status", width: 215},
-        {text: "Deadline", value: "deadLine"},
-        {text: "Actions", value: "action", sortable: false},
+        {
+          text: "Order number",
+          align: "start",
+          sortable: false,
+          value: "orderNumber",
+        },
+        { text: "Model", value: "model", width: 200 },
+        { text: "Client Name", value: "client" },
+        { text: "Created by", value: "createdBy" },
+        { text: "Created at", value: "createdAt" },
+        { text: "Status", value: "status", width: 215 },
+        { text: "Deadline", value: "deadLine" },
+        { text: "Actions", value: "action", sortable: false },
       ],
-      list:[],
+      list: [],
     };
   },
   created() {
-    this.$store.dispatch("orders/getModelGroup");
+    this.getModelGroup({ name: "" });
     this.getUsersList();
     this.getClient();
   },
@@ -251,12 +267,11 @@ export default {
       totalElements: "orders/totalElements",
       usersList: "orders/usersList",
       clientList: "orders/clientList",
-
     }),
   },
-  watch:{
-    ordersList(val){
-      this.list=JSON.parse(JSON.stringify(val))
+  watch: {
+    ordersList(val) {
+      this.list = JSON.parse(JSON.stringify(val));
     },
     usersList(list) {
       list.map((item) => {
@@ -274,47 +289,51 @@ export default {
       filterOrderList: "orders/filterOrderList",
       getUsersList: "orders/getUsersList",
       getClient: "orders/getClient",
+      getModelGroup: "orders/getModelGroup",
     }),
     async page(value) {
       this.current_page = value - 1;
-      await this.getOrdersList({page: this.current_page, size: this.itemPrePage});
+      await this.getOrdersList({
+        page: this.current_page,
+        size: this.itemPrePage,
+      });
     },
     async size(value) {
       this.itemPrePage = value;
-      await this.getOrdersList({page: 0, size: this.itemPrePage});
+      await this.getOrdersList({ page: 0, size: this.itemPrePage });
     },
     async resetFilter() {
       this.$refs.filters.reset();
-        await this.getOrdersList({page: 0, size: 10});
+      await this.getOrdersList({ page: 0, size: 10 });
     },
     async filterOrder() {
-      await this.filterOrderList({page: 0, size: 10, data: this.filters});
+      await this.filterOrderList({ page: 0, size: 10, data: this.filters });
     },
     async changeStatus(item) {
-      await this.changeStatusOrder({id: item.id, status: item.status});
+      await this.changeStatusOrder({ id: item.id, status: item.status });
     },
     addOrder() {
       this.$router.push(`/orders/add-order`);
     },
     async viewDetails(item) {
       await this.$router.push(`/orders/${item.id}?modelId=${item.modelId}`);
-      await this.$store.commit("orders/setModelId", item.modelId)
+      await this.$store.commit("orders/setModelId", item.modelId);
     },
     getCopyKey(item) {
-      navigator.clipboard.writeText(item)
+      navigator.clipboard.writeText(item);
       this.$toasted.success(`Copied ${item}`, {
         action: {
-          text: '',
+          text: "",
           onClick: (e, toastObject) => {
             toastObject.goAway(0);
-          }
-        }
-      })
+          },
+        },
+      });
     },
   },
   async mounted() {
     this.$store.commit("setPageTitle", "Orders");
-    await this.getOrdersList({page: 0, size: 10, modelGroup: "",});
+    await this.getOrdersList({ page: 0, size: 10, modelGroup: "" });
   },
 };
 </script>

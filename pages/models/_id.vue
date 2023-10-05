@@ -464,7 +464,6 @@ export default {
       model.updateTime = val.updatedAt;
     },
     "model.partnerId"(val){
-      console.log(val);
       this.getBrandList(val)
     }
 

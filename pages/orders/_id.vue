@@ -391,6 +391,20 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text>
+                <OrdersModelPrints/>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <OrderContract/>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
                 <DetailInfo/>
               </v-card-text>
             </v-card>
@@ -402,13 +416,7 @@
               </v-card-text>
             </v-card>
           </v-tab-item>
-          <v-tab-item>
-            <v-card flat>
-              <v-card-text>
-                <OrdersModelPrints/>
-              </v-card-text>
-            </v-card>
-          </v-tab-item>
+          
         </v-tabs-items>
       </v-tabs>
     </v-card>
@@ -423,6 +431,7 @@ import OrderDocuments from "@/components/OrderDocuments.vue";
 import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
 import ColorSizeDistribution from "@/components/ColorSizeDistribution.vue";
 import OrdersModelPrints from "@/components/OrdersModelPrints.vue";
+import OrderContract from "@/components/OrderContract.vue";
 
 export default {
   name: 'OrdersChildPage',
@@ -433,6 +442,7 @@ export default {
     DetailInfo,
     Breadcrumbs,
     OrdersModelPrints,
+    OrderContract,
   },
   data() {
     return {
@@ -449,9 +459,10 @@ export default {
       priority_enums: ["LOW", "MEDIUM", "HIGH"],
       items: [
         "Color/Size distirbution",
+        "Model prints",
+        "Contract",
         "Detail info",
         "Documents",
-        "Model prints",
       ],
       map_links: [
         {

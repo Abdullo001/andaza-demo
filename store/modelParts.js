@@ -42,13 +42,22 @@ export const mutations = {
   },
 };
 export const actions = {
-  getPartName({commit}) {
+  getPartName({commit},name) {
     const body = {
-      filters: [],
+      filters: [
+        {
+          key: 'partName',
+          operator: 'LIKE',
+          propertyType: 'STRING',
+          value: name
+        },
+        
+      ],
       sorts: [],
       page: 0,
-      size: 20
+      size: 10,
     }
+    body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
     this.$axios.$put('/api/v1/body-parts/list', body)
       .then(res => {
         commit('setPartName', res.data.content);
@@ -82,6 +91,7 @@ export const actions = {
     delete data.createdBy;
     delete data.createAt;
     delete data.partComposition;
+    data.bodyPartId=data.bodyPartId.id
 
     await this.$axios.$post(`/api/v1/model-parts/create`, data)
       .then(res => {
@@ -92,7 +102,7 @@ export const actions = {
   },
   async updateModelParts({dispatch}, data) {
     const body = {
-      bodyPartId: data.bodyPartId,
+      bodyPartId: data.bodyPartId.id,
       canvasTypeId: data.canvasTypeId,
       compositionId: data.compositionId,
       density: data.density,

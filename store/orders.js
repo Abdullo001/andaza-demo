@@ -247,9 +247,16 @@ export const actions = {
         console.log(response);
       });
   },
-  async getModelGroup({ commit }) {
+  async getModelGroup({ commit },{name}) {
     const body = {
-      filter: [],
+      filter: [
+        {
+          key:"name",
+          operator:"LIKE",
+          propertyType:"STRING",
+          value:name,
+        }
+      ],
       sorts: [],
       page: 0,
       size: 50,
