@@ -49,21 +49,6 @@
         <v-card-text class="mt-4">
           <v-row>
             <v-col cols="12" lg="6">
-              <!-- <div class="label">Part name</div>
-              <v-select
-                v-model="newModelParts.bodyPartId"
-                :items="partNames"
-                item-text="partName"
-                item-value="id"
-                placeholder="Enter part name"
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg base"
-                dense
-                color="#7631FF"
-                append-icon="mdi-chevron-down"
-              /> -->
               <div class="label">Part name</div>
                 <v-combobox
                   v-model="newModelParts.bodyPartId"

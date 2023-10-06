@@ -332,13 +332,12 @@ export default {
         [new Uint8Array([...val].map((char) => char.charCodeAt(0)))],
         { type: "application/pdf" }
       );
-      const objectUrl = URL.createObjectURL(blob);
+      const objectUrl = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.setAttribute("target", "_blank");
       a.setAttribute("href", objectUrl);
       a.click();
       this.pdfServe=objectUrl
-      URL.revokeObjectURL(objectUrl);
       this.isLoad = false;
     },
     usersList(list) {
