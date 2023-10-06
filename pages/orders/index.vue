@@ -131,7 +131,15 @@
               <v-btn
                 color="#7631FF"
                 outlined
-                class="text-capitalize rounded-lg"
+                class="text-capitalize rounded-lg mr-2"
+                @click="$router.push(`/print-pdf-generation`)"
+              >
+                Prints form
+              </v-btn>
+              <v-btn
+                color="#7631FF"
+                outlined
+                class="text-capitalize rounded-lg mr-2"
                 @click="$router.push(`/order-pdf-generation`)"
               >
                 Placed orders form
