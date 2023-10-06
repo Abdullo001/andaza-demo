@@ -326,7 +326,6 @@
                 background-color="#F8F4FE"
                 readonly
                 disabled
-
               >
                 <template #append>
                   <v-img src="/date-icon.svg"/>
@@ -398,7 +397,7 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <OrderContract/>
+
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -416,7 +415,6 @@
               </v-card-text>
             </v-card>
           </v-tab-item>
-          
         </v-tabs-items>
       </v-tabs>
     </v-card>
@@ -424,14 +422,13 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import DetailInfo from "@/components/DetailInfo.vue";
 import OrderDocuments from "@/components/OrderDocuments.vue";
 import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
 import ColorSizeDistribution from "@/components/ColorSizeDistribution.vue";
 import OrdersModelPrints from "@/components/OrdersModelPrints.vue";
-import OrderContract from "@/components/OrderContract.vue";
 
 export default {
   name: 'OrdersChildPage',
@@ -442,7 +439,6 @@ export default {
     DetailInfo,
     Breadcrumbs,
     OrdersModelPrints,
-    OrderContract,
   },
   data() {
     return {
