@@ -3,7 +3,7 @@
     <v-card elevation="0" class="rounded-lg">
       <v-card-title>
         <div>
-          Placed orders
+          Prints
         </div>
         <v-spacer/>
       </v-card-title>
@@ -322,12 +322,12 @@ export default {
       brandList: "models/brandList",
       countryList: "partners/countryList",
       usersList: "orders/usersList",
-      pdfList: "generatePdf/pdfList",
+      printPdfList: "generatePdf/printPdfList",
     }),
   },
 
   watch: {
-    pdfList(val) {
+    printPdfList(val) {
       const blob = new Blob(
         [new Uint8Array([...val].map((char) => char.charCodeAt(0)))],
         { type: "application/pdf" }
@@ -397,7 +397,7 @@ export default {
       getBrandList: "models/getBrandList",
       getCountryList: "partners/getCountryList",
       getUsersList: "orders/getUsersList",
-      getPdfList: "generatePdf/getPdfList",
+      getPrintPdfList: "generatePdf/getPrintPdfList",
     }),
 
     resetFilter() {
@@ -422,7 +422,7 @@ export default {
           : "",
         toDate: !!this.filters.toDate ? this.filters.toDate : null,
       };
-      this.getPdfList(data);
+      this.getPrintPdfList(data);
       this.isLoad = true;
     },
   },
