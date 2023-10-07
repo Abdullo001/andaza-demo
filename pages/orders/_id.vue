@@ -397,7 +397,7 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-
+                <OrderContract/>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -429,6 +429,7 @@ import OrderDocuments from "@/components/OrderDocuments.vue";
 import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
 import ColorSizeDistribution from "@/components/ColorSizeDistribution.vue";
 import OrdersModelPrints from "@/components/OrdersModelPrints.vue";
+import OrderContract from "@/components/OrderContract.vue";
 
 export default {
   name: 'OrdersChildPage',
@@ -439,6 +440,7 @@ export default {
     DetailInfo,
     Breadcrumbs,
     OrdersModelPrints,
+    OrderContract
   },
   data() {
     return {
