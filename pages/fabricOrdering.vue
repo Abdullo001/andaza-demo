@@ -243,7 +243,7 @@ export default {
         {text:"Color",value:"color",sortable:false},
         {text:"Status",value:"status",sortable:false},
         {text:"Supplier",value:"supplier",sortable:false},
-        {text:"Actual fabric total",value:"actualTotalTotal",sortable:false},
+        {text:"Actual fabric total",value:"actualTotalFabric",sortable:false},
         {text:"Total price",value:"totalPrice",sortable:false,width:200},
         {text:"Fabric deadline",value:"fabricDeadline",sortable:false},
       ],
