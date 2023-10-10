@@ -149,7 +149,7 @@ export default {
           sortable: false,
         },
         { text: "Ordering quantity", value: "orderedQuantity", sortable: false, width:150 },
-        { text: "Total price", value: "totalAccessory", sortable: false },
+        { text: "Total price", value: "totalPrice", sortable: false },
       ],
       details: {
         partnerName: "",
