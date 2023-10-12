@@ -174,7 +174,6 @@ export const actions = {
         .then((res) => {
           if (res.data.message === "Successfully") {
             commit("setAccessorData", res.data.data);
-            console.log(res)
           }
         })
         .catch(({ response }) => {

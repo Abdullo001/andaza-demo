@@ -8,7 +8,7 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="w-full d-flex">
-            <div class="title">Model prints</div>
+            <div class="title">Contracts</div>
             <v-spacer />
             <v-btn
               class="rounded-lg text-capitalize"
@@ -18,7 +18,7 @@
               @click="newDialog = true"
               dark
             >
-              Add print
+              Add contract
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -39,7 +39,7 @@
     <v-dialog max-width="600" v-model="newDialog">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between mb-6">
-          <div class="title text-capitalize">add model print</div>
+          <div class="title text-capitalize">add contract</div>
           <v-btn icon color="#7631FF" @click="newDialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -221,12 +221,12 @@ export default {
           align: "center",
           value: "client",
         },
-        { text: "Contract/SA No.", sortable: false, align: "center", value: "contract" },
+        { text: "Contract/SA No.", sortable: false, align: "center", value: "contractNumber" },
         { text: "Contract/SA date", sortable: false, align: "center", value: "contractDate" },
         { text: "Deadline", sortable: false, align: "center", value: "deadline" },
-        { text: "Sum of Contract", sortable: false, align: "center", value: "contract" },
-        { text: "Client country", sortable: false, align: "center", value: "contract" },
-        { text: "Delivery condition", sortable: false, align: "center", value: "contract" },
+        { text: "Sum of Contract", sortable: false, align: "center", value: "sum" },
+        { text: "Client country", sortable: false, align: "center", value: "clientCountry" },
+        { text: "Delivery condition", sortable: false, align: "center", value: "condition" },
         { text: "Actions", sortable: false, align: "center", value: "actions" },
       ],
       items: [],
@@ -297,7 +297,9 @@ export default {
     },
 
     openEditDialog(item) {},
-    currentPrint(item) {},
+    currentPrint(item) {
+      
+    },
   },
 
   mounted(){
