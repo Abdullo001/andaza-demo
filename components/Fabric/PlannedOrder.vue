@@ -91,7 +91,7 @@ export default {
         { text: 'Total price', value: 'totalPrice', sortable: false },
 
       ],
-      status_enums: ["ORDERED", "CANCELLED", "PENDING"],
+      status_enums: ["ORDERED", "CANCELLED", "PENDING","FABRIC_GENERATED"],
       details: {
         partnerName: '',
         warehouseCode: '',
