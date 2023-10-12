@@ -33,7 +33,7 @@
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">Model number</div>
-            <v-combobox
+            <!-- <v-combobox
               :items="modelData"
               v-model="accessoryDetail.modelNumber"
               placeholder="Search by model number"
@@ -48,6 +48,26 @@
               :search-input.sync="search"
               color="#7631FF"
               append-icon=""
+            >
+              <template #append>
+                <v-icon color="#7631FF">mdi-magnify</v-icon>
+              </template>
+            </v-combobox> -->
+            <v-combobox
+              v-model="accessoryDetail.modelNumber"
+              :items="modelData"
+              :search-input.sync="modelSearch"
+              item-text="modelNumber"
+              item-value="modelNumber"
+              outlined
+              height="44"
+              class="rounded-lg base"
+              hide-details
+              :return-object="true"
+              color="#7631FF"
+              dense
+              :placeholder="$t('prefinances.child.enterModelNumber')"
+              append-icon="mdi-chevron-down"
             >
               <template #append>
                 <v-icon color="#7631FF">mdi-magnify</v-icon>
@@ -388,7 +408,7 @@ export default {
         createdTimeOfOrder: "",
       },
       handleDiffirence: null,
-
+      modelSearch:"",
       title: "Add",
       search: "",
       accessory_tab: null,
@@ -424,6 +444,10 @@ export default {
     };
   },
 
+  created(){
+    this.getModelName("")
+  },
+
   computed: {
     showObject(){
       return{
@@ -431,13 +455,17 @@ export default {
       }
     },
     ...mapGetters({
-      modelData: "accessory/modelData",
+      modelList: "orders/modelList",
+      modelData: "preFinance/modelData",
       accessoryData: "accessory/accessoryData",
       modelImages: "modelPhoto/modelImages",
       OneData: "accessory/oneData",
     }),
   },
   watch: {
+    modelSearch(val){
+      this.getModelName(val);
+    },
     search(elem) {
       if (!(typeof elem === null || typeof elem === "object")) {
         this.getModelName(elem);
@@ -467,8 +495,8 @@ export default {
 
   methods: {
     ...mapActions({
+      getModelName: "preFinance/getModelName",
       getModelOrderInfo: "accessory/getModelOrderInfo",
-      getModelName: "accessory/getModelName",
       getImages: "modelPhoto/getImages",
       createPlanningAccessory: "accessory/createPlanningAccessory",
       updatePlanningAccessory: "accessory/updatePlanningAccessory",

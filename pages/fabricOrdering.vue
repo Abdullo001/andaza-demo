@@ -139,7 +139,7 @@
   <v-data-table
     :items="generatedList"
     :headers="genHeaders"
-    :items-per-page="10"
+    :items-per-page="100"
     class="elevation-0"
     hide-default-footer
   >
