@@ -237,7 +237,7 @@
             <v-col cols="12" lg="3">
               <div class="label">Accessory status</div>
               <v-select
-                :items="fabric_status"
+                :items="accessory_status"
                 v-model="filters.accessoryStatus"
                 placeholder="Accessory status"
                 dense
@@ -309,7 +309,8 @@ export default {
 
       },
       gander_enums: ["MALE", "FEMALE", "BOY", "GIRL", "UNISEX"],
-      fabric_status:["NOT_PLANNED","PLANNED", "ORDERED"],
+      fabric_status:["NOT_PLANNED","PLANNED","GENERATED_FABRIC", "ORDERED"],
+      accessory_status:["NOT_PLANNED","PLANNED", "ORDERED"],
       isLoad: false,
 
       orderNumSearch: "",
