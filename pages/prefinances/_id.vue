@@ -1213,7 +1213,7 @@ export default {
           this.calculation[3].editable = val?.generalExpensePercent;
           this.calculation[4].editable = val?.extraExpensePercent;
           this.calculation[6].editable = val?.targetProfitPercent;
-          this.calculation[7].firstCurrency = val?.targetProfitPercent;
+          this.calculation[7].firstCurrency = val?.clientTargetPrice;
           this.calculation[9].editable = val?.discountPercent;
           this.calculation[13].firstCurrency = val?.soldPrice;
         }

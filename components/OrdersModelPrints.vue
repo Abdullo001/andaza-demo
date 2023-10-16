@@ -907,7 +907,7 @@ export default {
 
   mounted(){
     const id=this.$route.query.modelId
-    this.getPrintType({page: 0, size: 10})
+    this.getPrintType({page: 0, size: 100})
     this.getMainColorsList(id)
     this.getModelPrintList(id)
   }
