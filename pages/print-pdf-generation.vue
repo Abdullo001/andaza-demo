@@ -62,29 +62,29 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Model group</div>
+              <div class="label">Subcontractor</div>
               <v-combobox
-                v-model="filters.modelGroup"
-                :items="modelGroups"
-                :search-input.sync="modelGroupSearch"
-                item-text="name"
-                item-value="name"
-                validate-on-blur
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg filter d-flex align-center justify-center mr-2"
-                :return-object="true"
-                dense
-                placeholder="Model group"
-                prepend-icon=""
-              >
-                <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
-                    mdi-magnify
-                  </v-icon>
-                </template>
-              </v-combobox>
+                  v-model="filters.subcontractor"
+                  :items="partnerLists"
+                  :search-input.sync="partnerName"
+                  item-text="name"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  color="#7631FF"
+                  dense
+                  height="44"
+                  validate-on-blur
+                  class="rounded-lg filter d-flex align-center justify-center mr-2"
+                  :return-object="true"
+                  placeholder="Enter subcontractor "
+                  append-icon="mdi-chevron-down"
+                  :rules="[formRules.required]"
+                  >
+                  <template #append>
+                    <v-icon color="#7631FF">mdi-magnify</v-icon>
+                  </template>
+                 </v-combobox>
             </v-col>
             <v-col cols="12" lg="3">
               <div class="label">Gender</div>
@@ -170,29 +170,21 @@
               </div>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Country</div>
-              <v-combobox
-                v-model="filters.country"
-                :items="countryList"
-                :search-input.sync="countryIdSearch"
-                item-text="name"
-                item-value="id"
-                validate-on-blur
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg filter d-flex align-center justify-center mr-2"
-                :return-object="true"
-                dense
-                placeholder="Country"
-                prepend-icon=""
-              >
-                <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
-                    mdi-magnify
-                  </v-icon>
-                </template>
-              </v-combobox>
+              <div class="label text-capitalize mb-2"> print type</div> 
+                <v-select
+                  outlined
+                  :items="printTypeEnums"
+                  v-model="filters.printType"
+                  single-line
+                  placeholder="Print Type"
+                  item-value="name"
+                  item-text="name"
+                  dense append-icon="mdi-chevron-down"
+                  color="#7631FF"
+                  class="rounded-lg "
+                  height="44"
+                  hide-details
+                />    
             </v-col>
             <v-col cols="12" lg="3">
               <div class="label">Creator</div>
@@ -273,8 +265,11 @@ export default {
         toDate: "",
         gender: "",
         creatorId: "",
+        subcontractor:"",
+        printType:"",
 
       },
+      partnerName:"",
       gander_enums: ["MALE", "FEMALE", "BOY", "GIRL", "UNISEX"],
       isLoad: false,
 
@@ -311,6 +306,8 @@ export default {
     this.getClient();
     this.getCountryList({ name: this.countryIdSearch });
     this.getUsersList();
+    this.getPartnerName("")
+    this.getPrintType({page: 0, size: 100})
   },
 
   computed: {
@@ -323,6 +320,9 @@ export default {
       countryList: "partners/countryList",
       usersList: "orders/usersList",
       printPdfList: "generatePdf/printPdfList",
+      partnerLists: "fabricOrdering/partnerLists",
+      printTypeEnums: "printing/printTypeEnums",
+
     }),
   },
 
@@ -347,6 +347,9 @@ export default {
           name: `${item.firstName} ${item.lastName}`,
         });
       });
+    },
+    partnerName(val){
+      this.getPartnerName(val)
     },
     orderNumSearch(val) {
       if (!!val) {
@@ -398,6 +401,9 @@ export default {
       getCountryList: "partners/getCountryList",
       getUsersList: "orders/getUsersList",
       getPrintPdfList: "generatePdf/getPrintPdfList",
+      getPartnerName: "fabricOrdering/getPartnerName",
+      getPrintType: "printing/getPrintType",
+      
     }),
 
     resetFilter() {
@@ -409,11 +415,11 @@ export default {
         clientName: !!this.filters.clientName?.name
           ? this.filters.clientName?.name
           : "",
-        country: !!this.filters.country?.name ? this.filters.country?.name : "",
         creatorId: this.filters.creatorId?.id ? this.filters.creatorId?.id : 0,
         fromDate: !!this.filters.fromDate ? this.filters.fromDate : null,
         gender: this.filters.gender,
-        modelGroup: this.filters.modelGroup,
+        subcontractor: !!this.filters.subcontractor?.name?this.filters.subcontractor?.name:"",
+        printType:this.filters.printType,
         modelNumber: this.filters.modelNumber?.modelNumber
           ? this.filters.modelNumber?.modelNumber
           : "",

@@ -219,6 +219,36 @@
                 </template>
               </v-combobox>
             </v-col>
+            <v-col cols="12" lg="3">
+              <div class="label">Fabric status</div>
+              <v-select
+                :items="fabric_status"
+                v-model="filters.fabricStatus"
+                placeholder="Fabric status"
+                dense
+                outlined
+                height="44"
+                hide-details
+                validate-on-blur
+                class="rounded-lg filter mr-2"
+                append-icon="mdi-chevron-down"
+              />
+            </v-col>
+            <v-col cols="12" lg="3">
+              <div class="label">Accessory status</div>
+              <v-select
+                :items="fabric_status"
+                v-model="filters.accessoryStatus"
+                placeholder="Accessory status"
+                dense
+                outlined
+                height="44"
+                hide-details
+                validate-on-blur
+                class="rounded-lg filter mr-2"
+                append-icon="mdi-chevron-down"
+              />
+            </v-col>
           </v-row>
           <div class="d-flex justify-center">
             <v-btn
@@ -273,9 +303,13 @@ export default {
         toDate: "",
         gender: "",
         creatorId: "",
+        accessoryStatus:"",
+        fabricStatus:"",
+
 
       },
       gander_enums: ["MALE", "FEMALE", "BOY", "GIRL", "UNISEX"],
+      fabric_status:["NOT_PLANNED","PLANNED", "ORDERED"],
       isLoad: false,
 
       orderNumSearch: "",
@@ -413,6 +447,8 @@ export default {
         creatorId: this.filters.creatorId?.id ? this.filters.creatorId?.id : 0,
         fromDate: !!this.filters.fromDate ? this.filters.fromDate : null,
         gender: this.filters.gender,
+        accessoryStatus: this.filters.accessoryStatus,
+        fabricStatus: this.filters.fabricStatus,
         modelGroup: this.filters.modelGroup,
         modelNumber: this.filters.modelNumber?.modelNumber
           ? this.filters.modelNumber?.modelNumber

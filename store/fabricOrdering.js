@@ -58,6 +58,7 @@ export const actions={
       size: 10
     }
 
+    body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
     this.$axios.$put('/api/v1/partner/list', body)
       .then(res => {
         commit('setPartners', res.data.content);

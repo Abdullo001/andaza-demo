@@ -99,6 +99,8 @@ export default (context, inject) => {
                 return '#FF4E4F'
               case 'PENDING':
                 return 'amber'
+              case 'FABRIC_GENERATED':
+                return '#6df291'
             }
           },
 
