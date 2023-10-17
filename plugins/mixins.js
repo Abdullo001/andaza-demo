@@ -104,6 +104,19 @@ export default (context, inject) => {
             }
           },
 
+          fabricModelStatus(color){
+            switch(color){
+              case 'NOT_PLANNED':
+                return '#FF4E4F'
+              case 'PLANNED':
+                return 'amber'
+              case 'GENERATED_FABRIC':
+                return '#6df291'
+              case 'ORDERED':
+                return '#10BF41'
+            }
+          },
+
           resultColor(color) {
             switch (color) {
               case 'OK':

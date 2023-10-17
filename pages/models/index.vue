@@ -120,6 +120,16 @@
           {{ item.licenceRequired ? 'Yes' : 'No' }}
         </v-chip>
       </template>
+      <template #item.fabricStatus="{ item }">
+        <v-chip :color="statusColor.fabricModelStatus(item.fabricStatus)" dark>
+          {{ item.fabricStatus }}
+        </v-chip>
+      </template>
+      <template #item.accessoryStatus="{ item }">
+        <v-chip :color="statusColor.fabricModelStatus(item.accessoryStatus)" dark>
+          {{ item.accessoryStatus }}
+        </v-chip>
+      </template>
     </v-data-table>
   </div>
 </template>
@@ -149,6 +159,8 @@ export default {
         {text: this.$t('listsModels.table.composition'), value: 'composition'},
         {text: this.$t('listsModels.table.modelGroup'), value: 'modelGroup'},
         {text: this.$t('listsModels.table.license'), value: 'licenceRequired'},
+        {text: "Fabric status", value: 'fabricStatus'},
+        {text: "Accessory status", value: 'accessoryStatus'},
         {text: this.$t('listsModels.table.status'), value: 'status', width: 200},
         {text: this.$t('listsModels.table.actions'), value: 'actions'},
       ],

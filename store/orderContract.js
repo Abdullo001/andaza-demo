@@ -35,5 +35,28 @@ export const actions={
       console.log(res);
       this.$toast.error(res.data.message)
     })
+  },
+
+  getOneContract({commit},id){
+    this.$axios.get(`/api/v1/order-contracts/get?id=${id}`)
+    .then((res)=>{
+      console.log(res);
+    })
+    .catch((res)=>{
+      console.log(res);
+    })
+  },
+
+
+  deleteContract({dispatch},{id,orderId}){
+    this.$axios.delete(`/api/v1/order-contracts/delete?id=${id}`)
+    .then((res)=>{
+      dispatch("getContractList",orderId)
+      this.$toast.success(res.data.message)
+    })
+    .catch(({res})=>{
+      console.log(res);
+      this.$toast.error(res.data.message)
+    })
   }
 }
