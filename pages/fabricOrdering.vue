@@ -4,6 +4,10 @@
     :items="sampleList"
     :headers="headers"
     :items-per-page="100"
+    item-key="plannedFabricOrderId"
+    show-select
+    :single-select="singleSelect"
+    v-model="selected"
     class="elevation-0"
     hide-default-footer
     >
@@ -19,27 +23,28 @@
           <v-row class=" mb-4 align-end justify-space-beetwen">
             <v-col cols="12" lg="4"  >
               <div class="label"> Order number <span style="color:red">*</span></div>
-              <v-combobox   
-              :search-input.sync="orderNumber"
-              :items="ordersList"
-              v-model="orderId"
-              item-text="orderNumber"
-              item-value="id"
-              outlined
-              hide-details
-              height="44"
-              class="rounded-lg base"
-              :return-object="true"
-              color="#7631FF"
-              dense
-              placeholder="Enter order number"
-              :rules="[formRules.required]"
-              validate-on-blur
-            >
-              <template #append>
-                <v-icon color="#7631FF">mdi-magnify</v-icon>
-              </template>
-            </v-combobox>
+              <v-combobox
+                v-model="orderId"
+                :items="ordersList"
+                :search-input.sync="orderNumSearch"
+                item-text="orderNumber"
+                item-value="orderNumber"
+                validate-on-blur
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base  d-flex align-center justify-center mr-2"
+                :return-object="true"
+                dense
+                placeholder="Order name"
+                prepend-icon=""
+              >
+                <template #append>
+                  <v-icon class="d-inline-block" color="#7631FF">
+                    mdi-magnify
+                  </v-icon>
+                </template>
+              </v-combobox>
             </v-col>
             <v-col cols="12" lg="8" class="d-flex">
               <v-spacer/>
@@ -103,22 +108,25 @@
       </div>
     </template>
 
-    <template #item.isOrdered="{item}">
+    <template #[`header.data-table-select`]="{ props, on,items }">
       <v-simple-checkbox
-        v-if="!item.isOrdered"
-        v-model="item.checked"
-        :disabled="item.isOrdered"
-        :value="item.isOrdered"
+        :value="props.value || props.indeterminate"
+        v-on="on"
+        :indeterminate="props.indeterminate"
         color="#7631FF"
-      ></v-simple-checkbox>
-      <v-simple-checkbox
-        v-else
-        v-model="item.isOrdered"
-        :disabled="item.isOrdered"
-        :value="item.isOrdered"
-        color="#7631FF"
-      ></v-simple-checkbox>
+        @input="selectItems(props)"
+      />
     </template>
+    <template #item.data-table-select="{isSelected, select,item}">
+      <v-simple-checkbox
+        color="#7631FF"
+        v-ripple
+        :value="item.isChecked"
+        :disabled="item.isOrdered"
+        @input="enterSelect(item)"
+      />
+    </template>
+    
 
     
   </v-data-table>
@@ -143,53 +151,53 @@
     class="elevation-0"
     hide-default-footer
   >
-  <template #top>
-    <v-toolbar elevation="0">
-      <v-toolbar-title class="d-flex justify-space-between w-full">
-        <div class="text-h6">Generated Orders</div>
-      </v-toolbar-title>
+    <template #top>
+      <v-toolbar elevation="0">
+        <v-toolbar-title class="d-flex justify-space-between w-full">
+          <div class="text-h6">Generated Orders</div>
+        </v-toolbar-title>
 
-    </v-toolbar>
+      </v-toolbar>
+    </template>
+
+    <template #item.isOrder="{item}">
+      <v-simple-checkbox
+        v-model="item.isOrdered"
+        :disabled="item.status==='ORDERED'"
+        color="#7631FF"
+      ></v-simple-checkbox>
+    </template>
+
+    <template #item.totalPrice="{item}">
+
+      <v-text-field
+        @keyup="(e)=>setTotalPriceFunc(e,item)"
+        outlined
+        hide-details
+        height="32"
+        class="rounded-lg base my-2" dense
+        :disabled="item.status==='ORDERED'"
+        :rules="[formRules.required]"
+        validate-on-blur
+        color="#7631FF"
+        v-model="item.totalPrice"
+      />
+
   </template>
 
-  <template #item.isOrder="{item}">
-    <v-simple-checkbox
-      v-model="item.isOrdered"
-      :disabled="item.status==='ORDERED'"
-      color="#7631FF"
-    ></v-simple-checkbox>
-  </template>
-
-  <template #item.totalPrice="{item}">
-
-    <v-text-field
-      @keyup="(e)=>setTotalPriceFunc(e,item)"
-      outlined
-      hide-details
-      height="32"
-      class="rounded-lg base my-2" dense
-      :disabled="item.status==='ORDERED'"
-      :rules="[formRules.required]"
-      validate-on-blur
-      color="#7631FF"
-      v-model="item.totalPrice"
-    />
-
-</template>
-
-  <template #item.status="{item}">
-    <v-select
-      :background-color="statusColor.fabricOrderedStatus(item.status)"
-      :items="status_enums"
-      append-icon="mdi-chevron-down"
-      v-model="item.status"
-      hide-details
-      class="mt-n2"
-      rounded
-      dark
-      @change="changeStatusFunc(item)"
-    />
-  </template>
+    <template #item.status="{item}">
+      <v-select
+        :background-color="statusColor.fabricOrderedStatus(item.status)"
+        :items="status_enums"
+        append-icon="mdi-chevron-down"
+        v-model="item.status"
+        hide-details
+        class="mt-n2"
+        rounded
+        dark
+        @change="changeStatusFunc(item)"
+      />
+    </template>
 
   </v-data-table>
   <div class="d-flex my-6 ">
@@ -223,8 +231,9 @@ export default {
 
   data(){
     return{
+      selected:[],
+      singleSelect:false,
       headers:[
-        {text:"",value:"isOrdered",sortable:false},
         {text:"Model №",value:"modelNumber",sortable:false},
         {text:"Fabric specification",value:"specification",sortable:false},
         {text:"Density gr/m2",value:"density",sortable:false},
@@ -248,6 +257,7 @@ export default {
         {text:"Fabric deadline",value:"fabricDeadline",sortable:false},
       ],
       new_valid:true,
+      orderNumSearch:"",
       orderNumber:"",
       partnerName:"",
       partnerId:null,
@@ -259,9 +269,22 @@ export default {
     }
   },
 
+  created(){
+    this.filterOrderList({
+      page: 0,
+      size: 10,
+      data: {
+        modelNumber: "",
+        orderNumber: this.orderNumSearch,
+        creatorId: "",
+        clientName: "",
+      },
+    });
+  },
+
   computed:{
     ...mapGetters({
-      ordersList:"orders/ordersList",
+      ordersList: "orders/ordersList",
       sampleFabricOrdering:"fabricOrdering/sampleFabricOrdering",
       partnerLists: "fabricOrdering/partnerLists",
       generatedFabricOrdering: "fabricOrdering/generatedFabricOrdering",
@@ -279,13 +302,32 @@ export default {
       this.generatedList=JSON.parse(JSON.stringify(val))
     },
     sampleFabricOrdering(val){
-      this.sampleList=JSON.parse(JSON.stringify(val))
+      const specialList=[]
+      val.forEach((item)=>{
+        specialList.push({...item,isChecked:item.isOrdered})
+      })
+      this.sampleList=JSON.parse(JSON.stringify(specialList))
+    },
+    orderNumSearch(val) {
+      if (!!val) {
+        this.filterOrderList({
+          page: 0,
+          size: 10,
+          data: {
+            modelNumber: "",
+            orderNumber: val,
+            creatorId: "",
+            clientName: "",
+          },
+        });
+      }
     }
   },
 
 
   methods:{
     ...mapActions({
+      filterOrderList: "orders/filterOrderList",
       getOrdersList:"orders/getOrdersList",
       getSampleFabricOrdering:"fabricOrdering/getSampleFabricOrdering",
       getPartnerName: 'fabricOrdering/getPartnerName',
@@ -306,6 +348,19 @@ export default {
         }
         this.setTotalPrice({data,id:this.orderId.id})
       }
+    },
+
+    enterSelect(item){
+      item.isChecked=!item.isChecked
+    },
+
+    selectItems(event){
+
+      this.sampleList.forEach((item)=>{
+        if(!item.isOrdered){
+          item.isChecked=!event.value
+        }
+      })
     },
 
     changeStatusFunc(item){
@@ -334,7 +389,7 @@ export default {
       if(validate){
         const plannedFabricOrderIds = []
         this.sampleList.forEach((item)=>{
-          if(item.checked){
+          if(item.isChecked){
             plannedFabricOrderIds.push(item.plannedFabricOrderId)
           }
         })
@@ -370,7 +425,6 @@ export default {
   },
 
   mounted(){
-    this.getOrdersList({page:0,size:100})
     this.getPartnerName("")
   }
 }
