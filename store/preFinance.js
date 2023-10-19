@@ -8,7 +8,8 @@ export const state = () => ({
   detailsList: [{totalPrice: 0}],
   loading: true,
   onePreFinance: {},
-  selectedModelNumber: ''
+  selectedModelNumber: '',
+  prefinancePdf:'',
 })
 export const getters = {
   preFinancesContent: state => state.preFinances.content,
@@ -23,7 +24,8 @@ export const getters = {
   loading: state => state.loading,
   totalElements: state => state.preFinances.totalElements,
   onePreFinance: state => state.onePreFinance,
-  selectedModelNumber: state => state.selectedModelNumber
+  selectedModelNumber: state => state.selectedModelNumber,
+  prefinancePdf: state => state.prefinancePdf,
 }
 
 export const mutations = {
@@ -56,6 +58,9 @@ export const mutations = {
   },
   setOnePreFinance(state, item) {
     state.onePreFinance = item;
+  },
+  setPrefinancePdf(state, item) {
+    state.prefinancePdf = item;
   },
 };
 export const actions = {
@@ -272,6 +277,18 @@ export const actions = {
     this.$axios.get(`/api/v1/pre-finances/get-by-model?modelId=${id}`)
     .then((res)=>{
       this.$router.push(`/prefinances/${res.data.data.id}`)
+    })
+    .catch(({res})=>{
+      console.log(res);
+      this.$toast.error(res.data.message)
+    })
+  },
+
+  getPrefinanceGeneratePdf({commit},data){
+    this.$axios.put(`/api/v1/pre-finances/generate-calculation-form`,data)
+    .then((res)=>{
+      const binaryCode=atob(res.data)
+      commit("setPrefinancePdf",binaryCode)
     })
     .catch(({res})=>{
       console.log(res);
