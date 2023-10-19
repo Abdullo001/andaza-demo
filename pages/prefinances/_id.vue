@@ -548,8 +548,9 @@
               class="text-capitalize rounded-lg"
               outlined
               min-width="130"
+              @click="generatePdf"
             >
-              Download PDF
+              Generate PDF
             </v-btn>
             <v-btn
               color="#7631FF"
@@ -836,6 +837,13 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-overlay v-model="isLoad" class="align-center justify-center">
+      <v-progress-circular
+        color="#7631FF"
+        indeterminate
+        size="80"
+      ></v-progress-circular>
+    </v-overlay>
   </div>
 </template>
 
@@ -850,6 +858,7 @@ export default {
   components: {ShowBtnComponent, Breadcrumbs, DefaultLayout},
   data() {
     return {
+      isLoad:false,
       show_btn: true,
       hide_calc: true,
       new_details: false,
@@ -1181,6 +1190,7 @@ export default {
       documentsList: "documents/documentsList",
       onePreFinance: "preFinance/onePreFinance",
       selectedModelNumber: "preFinance/selectedModelNumber",
+      prefinancePdf: "preFinance/prefinancePdf",
     }),
     title() {
       const id = this.$route.params.id;
@@ -1194,6 +1204,19 @@ export default {
     },
   },
   watch: {
+    prefinancePdf(val){
+      const blob = new Blob(
+        [new Uint8Array([...val].map((char) => char.charCodeAt(0)))],
+        { type: "application/pdf" }
+      );
+      const objectUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.setAttribute("target", "_blank");
+      a.setAttribute("href", objectUrl);
+      a.click();
+      // this.pdfServe=objectUrl
+      this.isLoad = false;
+    },
     modelSearch(val){
       this.getModelName(val);
     },
@@ -1207,6 +1230,9 @@ export default {
         this.calculation[0].firstCurrency = this.detailsList[0].totalPrice;
         this.calculation[0].secondCurrency = (this.detailsList[0].totalPrice * val?.secondaryRate).toFixed(2);
         this.calculation[0].tertiaryCurrency = (this.detailsList[0].totalPrice * val?.tertiaryRate).toFixed(2);
+        this.headers[2].text=data.primaryCurrency
+        this.headers[3].text=data.secondaryCurrency
+        this.headers[4].text=data.tertiaryCurrency
         if (val?.overProductionPercent >= 0) {
           this.calculation[1].editable = val?.overProductionPercent;
           this.calculation[2].editable = val?.lossPercent;
@@ -1396,7 +1422,78 @@ export default {
       deleteDetails: "preFinance/deleteDetails",
       updateDetails: "preFinance/updateDetails",
       updatePreFinance: "preFinance/updatePreFinance",
+      getPrefinanceGeneratePdf:"preFinance/getPrefinanceGeneratePdf"
     }),
+    generatePdf(){
+      this.isLoad = true;
+      const id=this.$route.params.id
+      const data={
+        preFinanceId:id,
+        actualProfitValue:this.calculation[11].editable,
+        actualProfit:{
+          primaryCurrencyValue:this.calculation[11].firstCurrency,
+          secondaryCurrencyValue:this.calculation[11].secondCurrency,
+          tertiaryCurrencyValue:this.calculation[11].tertiaryCurrency,
+        },
+        actualProfitAmount:{
+          primaryCurrencyValue:this.calculation[12].firstCurrency,
+          secondaryCurrencyValue:this.calculation[12].secondCurrency,
+          tertiaryCurrencyValue:this.calculation[12].tertiaryCurrency,
+        },
+        clientTargetPrice:{
+          primaryCurrencyValue:this.calculation[7].firstCurrency,
+          secondaryCurrencyValue:this.calculation[7].secondCurrency,
+          tertiaryCurrencyValue:this.calculation[7].tertiaryCurrency,
+        },
+        costPrice:{
+          primaryCurrencyValue:this.calculation[5].firstCurrency,
+          secondaryCurrencyValue:this.calculation[5].secondCurrency,
+          tertiaryCurrencyValue:this.calculation[5].tertiaryCurrency,
+        },
+        costSubtotal:{
+          primaryCurrencyValue:this.calculation[0].firstCurrency,
+          secondaryCurrencyValue:this.calculation[0].secondCurrency,
+          tertiaryCurrencyValue:this.calculation[0].tertiaryCurrency,
+        },
+        discount:{
+          primaryCurrencyValue:this.calculation[9].firstCurrency,
+          secondaryCurrencyValue:this.calculation[9].secondCurrency,
+          tertiaryCurrencyValue:this.calculation[9].tertiaryCurrency,
+        },
+        generalExpenses:{
+          primaryCurrencyValue:this.calculation[3].firstCurrency,
+          secondaryCurrencyValue:this.calculation[3].secondCurrency,
+          tertiaryCurrencyValue:this.calculation[3].tertiaryCurrency,
+        },
+        givenPrice:{
+          primaryCurrencyValue:this.calculation[8].firstCurrency,
+          secondaryCurrencyValue:this.calculation[8].secondCurrency,
+          tertiaryCurrencyValue:this.calculation[8].tertiaryCurrency,
+        },
+        overProduction:{
+          primaryCurrencyValue:this.calculation[1].firstCurrency,
+          secondaryCurrencyValue:this.calculation[1].secondCurrency,
+          tertiaryCurrencyValue:this.calculation[1].tertiaryCurrency,
+        },
+        priceWithDiscount:{
+          primaryCurrencyValue:this.calculation[10].firstCurrency,
+          secondaryCurrencyValue:this.calculation[10].secondCurrency,
+          tertiaryCurrencyValue:this.calculation[10].tertiaryCurrency,
+        },
+        soldPrice:{
+          primaryCurrencyValue:this.calculation[13].firstCurrency,
+          secondaryCurrencyValue:this.calculation[13].secondCurrency,
+          tertiaryCurrencyValue:this.calculation[13].tertiaryCurrency,
+        },
+        targetProfit:{
+          primaryCurrencyValue:this.calculation[6].firstCurrency,
+          secondaryCurrencyValue:this.calculation[6].secondCurrency,
+          tertiaryCurrencyValue:this.calculation[6].tertiaryCurrency,
+        },
+      }
+      this.getPrefinanceGeneratePdf(data)
+
+    },
     clickBtn() {
       this.show_btn = !this.show_btn
     },
