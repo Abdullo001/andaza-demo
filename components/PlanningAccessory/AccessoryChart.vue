@@ -349,7 +349,7 @@
                   outlined
                   hide-details
                   class="rounded-lg base"
-                  placeholder="Enter Canvas type"
+                  placeholder="Enter description"
                   dense
                   color="#7631FF"
                 />
@@ -518,6 +518,7 @@ export default {
           productionQuantity:this.edit_accessory_chart.productionQuantity,
           quantity: this.edit_accessory_chart.quantity,
           wastage: this.edit_accessory_chart.wastage,
+          specification:this.edit_accessory_chart.specification
         };
         await this.updateChartAccessory(items);
         this.edit_dialog = false;
