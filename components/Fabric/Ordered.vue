@@ -3,7 +3,7 @@
     <v-data-table
       :headers="headers"
       :items="fabricOrdersList"
-      :items-per-page="10"
+      :items-per-page="100"
       class="elevation-0"
       hide-default-footer
     ></v-data-table>
