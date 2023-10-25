@@ -2,7 +2,7 @@
   <div>
     <v-data-table
       :headers="headers"
-      :items="accessoryAllData"
+      :items="items"
       :items-per-page="10"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100],
@@ -457,9 +457,17 @@ export default {
         { text: "Description", value: "description" },
         { text: "Actions", value: "actions", align: "center", sortable: false , width: 150},
       ],
+      items:[],
+      accessoryId:null,
     };
   },
   watch: {
+    newId(val){
+      this.accessoryId=val
+    },
+    accessoryAllData(val){
+      this.items=JSON.parse(JSON.stringify(val))
+    },
     "create_accessory_chart.accessoryId"(val) {
       this.create_accessory_chart.specification = val;
       this.getAccessoryComposition(val)
@@ -476,6 +484,7 @@ export default {
       nameData: "accessoryChart/nameData",
       accessoryAllData: "accessoryChart/accessoryAllData",
       specificationData: "accessoryChart/specificationData",
+      newId: "accessory/newId",
     }),
     checkId() {
       const param = this.$route.params.id;
@@ -528,7 +537,7 @@ export default {
       const validate = this.$refs.new_form.validate();
       if (validate) {
 
-          this.create_accessory_chart.accessoryPlanningId =this.$route.params.id;
+          this.create_accessory_chart.accessoryPlanningId =this.$route.params.id!=='create'?this.$route.params.id:this.accessoryId;
           await this.createChartAccessory(this.create_accessory_chart);
           this.new_dialog = false;
           this.$refs.new_form.reset();

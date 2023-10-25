@@ -472,7 +472,7 @@ export default {
       }
     },
     async "accessoryDetail.modelNumber"(val) {
-      if (typeof val !== null || !!Object.keys(val).length) {
+      if (typeof val !== null && !!Object.keys(val).length && typeof val ==='object') {
         const id = val?.id;
         await this.getModelOrderInfo(id);
         if (id !== null && id !== undefined) {
