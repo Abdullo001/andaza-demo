@@ -81,7 +81,10 @@
     class="mt-4 rounded-lg pt-4"
     :headers="headers"
     :items="accessoryList"
-    :items-per-page="10"
+    :server-items-length="totalElements"
+    :items-per-page="itemPrePage"
+    @update:page="page"
+    @update:items-per-page="size"
     :footer-props="{
       itemsPerPageOptions: [10, 20, 50, 100],
     }"
@@ -174,6 +177,16 @@ export default {
       getAccessoryList: "accessory/getAccessoryList",
       sortAccessory: "accessory/sortAccessory",
     }),
+    async page(value) {
+      this.current_page = value - 1;
+      
+      this.getAccessoryList({page: this.current_page, size: this.itemPrePage});
+    },
+    async size(value) {
+      this.itemPrePage = value;
+      this.getAccessoryList({page: 0, size: this.itemPrePage});
+
+    },
     async filterBtn() {
       const items = {...this.filters};
       await this.filterExpenseGroup(items);

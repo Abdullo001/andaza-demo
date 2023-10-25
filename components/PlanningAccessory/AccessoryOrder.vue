@@ -3,7 +3,7 @@
     <v-data-table
       :headers="headers"
       :items="allPlannerOrder"
-      :items-per-page="10"
+      :items-per-page="100"
       class="elevation-0"
       hide-default-footer
     >
@@ -210,7 +210,7 @@ export default {
       getDocuments: "documents/getDocuments",
     }),
     savePlanningOrder() {
-      const id = this.$route.params.id;
+      const id = this.$route.params.id!=='create'?this.$route.params.id:this.$store.getters["accessory/newId"];
       const valid = this.$refs.valid.validate();
       if (valid) {
         const planningOrderRequests = []
@@ -228,13 +228,12 @@ export default {
           partnerId: this.details.partnerName.id,
           planningOrderRequests,
         };
-        console.log(data);
         this.createPlanningOrder({ data,id });
       }
     },
 
     changeStatusFunc(item){
-      const id = this.$route.params.id;
+      const id = this.$route.params.id!=='create'?this.$route.params.id:this.$store.getters["accessory/newId"];
       this.changeStatus({id:item.planningChartId,status:item.status,planningId:id})
     }
   },
@@ -243,7 +242,7 @@ export default {
     if (id !== "create") {
       this.getPlannedOrderList(id);
     } else {
-      this.getPlannedOrderList(id =this.$store.getters["accessory/newId"]);
+      this.getPlannedOrderList(this.$store.getters["accessory/newId"]);
     }
   },
 };
