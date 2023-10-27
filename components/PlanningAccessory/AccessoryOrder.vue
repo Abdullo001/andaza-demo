@@ -131,6 +131,7 @@ export default {
         { text: "Order №", value: "orderNumber", sortable: false },
         { text: "Model №", value: "modelNumber", sortable: false },
         { text: "Client", value: "client", sortable: false },
+        { text: "Supplier name", value: "supplierName", sortable: false },
         {
           text: "Access name and specification",
           value: "accessNameAndSpecification",
@@ -215,7 +216,7 @@ export default {
       if (valid) {
         const planningOrderRequests = []
         this.allPlannerOrder.forEach((item) => {
-          if(item.isOrdered){
+          if(item.isOrdered&&item.status!=='ORDERED'){
             planningOrderRequests.push({
               chartId:item.planningChartId,
               orderedQuantity:item.orderedQuantity,

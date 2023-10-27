@@ -29,6 +29,15 @@
         </v-toolbar>
         <v-divider />
       </template>
+      <template #item.accessoryPhoto="{item}">
+        <v-img 
+        :src="item?.filePath" 
+        class="mr-2"
+        width="40" 
+        height="40" 
+        @click="showImage(item.filePath)"
+      />
+      </template>
       <template #item.actions="{ item }">
         <div>
           <v-btn icon color="green" @click.stop="editItem(item)">
@@ -187,6 +196,47 @@
                   dense
                   color="#7631FF"
                 />
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6">
+                <div class="big__image overflow-hidden relative " >
+                  <input
+                    ref="uploaderFirst"
+                    class="d-none"
+                    type="file"
+                    @change="(e)=>firstFileChanged(e)"
+                    accept="image/*"
+                  />
+
+                  <div class="update__icon" v-if="!!files[0].file">
+                    <v-btn color="green" icon @click="getFile('first')">
+                      <v-img src="/upload-green.svg" max-width="22"/>
+                    </v-btn>
+                    <v-btn color="green" icon @click="deleteFile('first')">
+                      <v-img src="/trash-red.svg" max-width="22"/>
+                    </v-btn>
+                  </div>
+
+                  <v-img
+                    :src="images[0].photo"
+                    lazy-src="/model-image.jpg"
+                    v-if="!!files[0].file" width="100%"
+                    @click="showImage(images[0].photo)"
+                  />
+
+                  <div class="default__box" v-else>
+                    <v-img src="/default-image.svg" width="70"/>
+                    <v-btn text color="#5570F1" class="rounded-lg mt-6 my-4" @click="getFile('first')">
+                      <v-img src="/upload.svg" class="mr-2"/>
+                      <div class="text-capitalize upload-text">Upload Image</div>
+                    </v-btn>
+                    <div class="default__text">
+                      <p>Upload a cover image for your product.</p>
+                    </div>
+                  </div>
+
+                </div>
               </v-col>
             </v-row>
           </v-form>
@@ -355,6 +405,47 @@
                 />
               </v-col>
             </v-row>
+            <v-row>
+              <v-col cols="6">
+                <div class="big__image overflow-hidden relative " >
+                  <input
+                    ref="uploaderFirst"
+                    class="d-none"
+                    type="file"
+                    @change="(e)=>firstFileChanged(e)"
+                    accept="image/*"
+                  />
+
+                  <div class="update__icon" v-if="!!files[0].file||!!images[0].photo">
+                    <v-btn color="green" icon @click="getFile('first')">
+                      <v-img src="/upload-green.svg" max-width="22"/>
+                    </v-btn>
+                    <v-btn color="green" icon @click="deleteFile('first')">
+                      <v-img src="/trash-red.svg" max-width="22"/>
+                    </v-btn>
+                  </div>
+
+                  <v-img
+                    :src="images[0].photo"
+                    lazy-src="/model-image.jpg"
+                    v-if="!!files[0].file || !!images[0].photo" width="100%"
+                    @click="showImage(images[0].photo)"
+                  />
+
+                  <div class="default__box" v-else>
+                    <v-img src="/default-image.svg" width="70"/>
+                    <v-btn text color="#5570F1" class="rounded-lg mt-6 my-4" @click="getFile('first')">
+                      <v-img src="/upload.svg" class="mr-2"/>
+                      <div class="text-capitalize upload-text">Upload Image</div>
+                    </v-btn>
+                    <div class="default__text">
+                      <p>Upload a cover image for your product.</p>
+                    </div>
+                  </div>
+
+                </div>
+              </v-col>
+            </v-row>
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
@@ -414,6 +505,20 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-dialog max-width="590" v-model="image_dialog">
+      <v-card >
+        <v-card-title class="d-flex">
+          <v-spacer/>
+          <v-btn icon color="#7631FF" large @click="image_dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text>
+          <v-img :src="currentImage" height="500" class="mb-4" contain/>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -449,6 +554,7 @@ export default {
         { text: "Specification", value: "specification" },
         { text: "Price P/U", value: "pricePerUnit" },
         { text: "Currency", value: "pricePerUnitCurrency" },
+        { text: "Accessory photo", value: "accessoryPhoto" },
         { text: "Quantity", value: "quantity" },
         { text: "M/U", value: "quantityUnitName" },
         { text: "Wastage", value: "wastage" },
@@ -459,6 +565,20 @@ export default {
       ],
       items:[],
       accessoryId:null,
+      files:[
+        {file:null,id:null},
+        {file:null,id:null},
+        {file:null,id:null},
+        {file:null,id:null},
+      ],
+      images:[
+        {photo:""},
+        {photo:""},
+        {photo:""},
+        {photo:""},
+      ],
+      currentImage:"",
+      image_dialog:false,
     };
   },
   watch: {
@@ -504,6 +624,49 @@ export default {
       getChartAllData: "accessoryChart/getChartAllData",
       getAccessoryComposition: "accessoryChart/getAccessoryComposition",
     }),
+    firstFileChanged(e) {
+      this.files[0].file = e.target.files[0];
+      this.images[0].photo = URL.createObjectURL(this.files[0].file);
+      if(!!this.files[0].id){
+        this.fileRequests[0].file=e.target.files[0]
+        this.fileRequests[0].id=this.files[0].id
+      }
+    },
+    getFile(count) {
+      switch (count) {
+        case 'first':
+          return this.$refs.uploaderFirst.click();
+        case 'second':
+          return this.$refs.uploaderSecond.click();
+        case 'third':
+          return this.$refs.uploaderThird.click();
+        case 'fourth':
+          return this.$refs.uploaderFourth.click();
+      }
+    },
+    deleteFile(count) {
+      switch (count) {
+        case 'first':
+          this.files[0].file = null;
+          break;
+        case 'second':
+          this.files[1].file = null;
+          break;
+        case 'third':
+          this.files[2].file = null;
+
+          break;
+        case 'fourth':
+          this.files[3].file = null;
+          this.deleteImages({id:this.files[3].id,modelId:this.$route.params.id})
+          break;
+      }
+    },
+    showImage(photo) {
+      this.currentImage = photo;
+      this.image_dialog = true;
+    },
+
     async deleteChart() {
       const items = this.delete_acceccory_chart;
       await this.deleteChartAccessory({
@@ -514,31 +677,66 @@ export default {
     },
     async update() {
       const edit_validate = this.$refs.edit_form.validate();
+      const {
+        specification,
+        accessoryId,
+        pricePerUnitCurrency,
+        pricePerUnit,
+        description,
+        quantity,
+        id,
+        color,
+        productionQuantity,
+        wastage,
+      }=this.edit_accessory_chart
+      let accessoryPlanningId=this.$route.params.id!=='create'?this.$route.params.id:this.accessoryId
       if (edit_validate) {
-        const items = {
-          accessoryId: this.edit_accessory_chart.accessoryId,
-          accessoryPlanningId: this.edit_accessory_chart.accessoryPlanningId,
-          accessoryPricePerCurrency:
-            this.edit_accessory_chart.pricePerUnitCurrency,
-          accessoryPricePerUnit:
-            this.edit_accessory_chart.pricePerUnit,
-          description: this.edit_accessory_chart.description,
-          id: this.edit_accessory_chart.id,
-          productionQuantity:this.edit_accessory_chart.productionQuantity,
-          quantity: this.edit_accessory_chart.quantity,
-          wastage: this.edit_accessory_chart.wastage,
-          specification:this.edit_accessory_chart.specification
-        };
-        await this.updateChartAccessory(items);
+        const formData= new FormData()
+        formData.append("specification",specification),
+        formData.append("accessoryId",accessoryId),
+        formData.append("accessoryPlanningId",this.$route.params.id!=='create'?this.$route.params.id:this.accessoryId),
+        formData.append("accessoryPricePerCurrency",pricePerUnitCurrency),
+        formData.append("id",id),
+        formData.append("accessoryPricePerUnit",pricePerUnit),
+        formData.append("description",description),
+        formData.append("quantity",quantity)
+        if(!!this.files[0]?.file){
+          formData.append("file",this.files[0]?.file)
+        }
+        formData.append("wastage",wastage),
+        formData.append("productionQuantity",productionQuantity),
+        await this.updateChartAccessory({data:formData,id:accessoryPlanningId});
         this.edit_dialog = false;
       }
     },
     async create() {
       const validate = this.$refs.new_form.validate();
+      const {
+        specification,
+        accessoryId,
+        accessoryPricePerCurrency,
+        accessoryPricePerUnit,
+        description,
+        quantity,
+        color,
+        productionQuantity,
+        wastage,
+      }=this.create_accessory_chart
+      let accessoryPlanningId=this.$route.params.id!=='create'?this.$route.params.id:this.accessoryId
       if (validate) {
+        const formData= new FormData()
+        formData.append("specification",specification),
+        formData.append("accessoryId",accessoryId),
+        formData.append("accessoryPlanningId",this.$route.params.id!=='create'?this.$route.params.id:this.accessoryId),
+        formData.append("accessoryPricePerCurrency",accessoryPricePerCurrency),
+        formData.append("accessoryPricePerUnit",accessoryPricePerUnit),
+        formData.append("description",description),
+        formData.append("quantity",quantity),
+        formData.append("file",this.files[0]?.file),
+        formData.append("wastage",wastage),
+        formData.append("productionQuantity",productionQuantity),
 
-          this.create_accessory_chart.accessoryPlanningId =this.$route.params.id!=='create'?this.$route.params.id:this.accessoryId;
-          await this.createChartAccessory(this.create_accessory_chart);
+          await this.createChartAccessory({data:formData,id:accessoryPlanningId});
           this.new_dialog = false;
           this.$refs.new_form.reset();
 
@@ -546,6 +744,10 @@ export default {
     },
     editItem(item) {
       this.edit_accessory_chart = { ...item };
+      this.images[0].photo=""
+      if(!!item.filePath){
+        this.images[0].photo=item.filePath
+      }
       this.edit_dialog = true;
     },
     getDeleteItem(item) {
@@ -564,4 +766,102 @@ export default {
 };
 </script>
 
-<style lang="sass"></style>
+<style lang="scss" scoped>
+.image {
+  width: 100%;
+  height: 100%;
+  object-position: center;
+  object-fit: cover;
+}
+
+.card-image {
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  height: 100%;
+
+}
+
+.update__icon {
+  border-radius: 16px;
+  position: absolute !important;
+  z-index: 10 !important;
+  top: 16px;
+  right: 10px;
+  background-color: #fff;
+  padding: 5px;
+
+  &.small {
+    padding: 0 2px;
+  }
+}
+
+.relative {
+  position: relative !important;
+  width: 100%;
+}
+
+.upload-text {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  color: #5570F1;
+}
+
+.big__image {
+  background: #F4F5FA;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 12px;
+  border: 1px solid #E1E2E9;
+}
+
+.default__box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.default__text {
+  > p {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #8B8D97;
+    margin-bottom: 7px;
+
+    > span {
+      color: #000;
+    }
+  }
+}
+
+.cards {
+  display: flex;
+  width: 100%;
+  gap: 20px;
+}
+
+.card__item {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: #F4F5FA;
+  width: 250px;
+  height: 170px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  border: 1px solid #E1E2E9;
+}
+
+.upload-text-child {
+  font-size: 14px;
+}
+</style>
