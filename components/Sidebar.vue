@@ -272,6 +272,12 @@ export default {
             has_child: false,
           },
           {
+            icon: ['forms-icon.svg', "forms-icon.svg"],
+            title: 'Forms',
+            to: this.localePath('/forms'),
+            has_child: false,
+          },
+          {
             icon: ['report.svg', "report-active.svg"],
             title: this.$t('sidebar.report'),
             to: this.localePath('/report'),
