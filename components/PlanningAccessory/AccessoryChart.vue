@@ -731,8 +731,10 @@ export default {
         formData.append("accessoryPricePerCurrency",accessoryPricePerCurrency),
         formData.append("accessoryPricePerUnit",accessoryPricePerUnit),
         formData.append("description",description),
-        formData.append("quantity",quantity),
-        formData.append("file",this.files[0]?.file),
+        formData.append("quantity",quantity)
+        if(!!this.files[0]?.file){
+          formData.append("file",this.files[0]?.file)
+        }
         formData.append("wastage",wastage),
         formData.append("productionQuantity",productionQuantity),
 
