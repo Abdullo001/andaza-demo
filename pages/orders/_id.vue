@@ -5,61 +5,61 @@
       <v-card-title>
         <div>
           Orders
-          <v-chip color="#10BF41" dark class="font-weight-bold ml-5">{{ orderStatus }}</v-chip>
+          <v-chip class="font-weight-bold ml-5" color="#10BF41" dark>{{ orderStatus }}</v-chip>
         </div>
         <v-spacer/>
       </v-card-title>
       <v-divider/>
       <v-card-text class="mt-4">
-        <v-form lazy-validation v-model="new_validate" ref="order_detail">
+        <v-form ref="order_detail" v-model="new_validate" lazy-validation>
           <v-row>
             <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Order number</div>
               <v-text-field
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg base mb-4"
                 v-model="order.orderNumber"
+                class="rounded-lg base mb-4"
+                color="#7631FF"
+                dense
+                height="44"
+                hide-details
+                outlined
                 placeholder="Enter order number"
                 validate-on-blur
-                dense
-                color="#7631FF"
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Client name</div>
               <v-text-field
-                outlined
-                hide-details
+                v-model="order.client"
+                class="rounded-lg base mb-4"
+                color="#7631FF"
+                dense
                 disabled
                 height="44"
-                class="rounded-lg base mb-4"
-                v-model="order.client"
+                hide-details
+                outlined
                 placeholder=" client name"
                 validate-on-blur
-                dense
-                color="#7631FF"
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Model number</div>
               <v-combobox
                 v-model="order.modelNumber"
-                @change="(e) => setModelName(e)"
                 :items="modelList"
+                :return-object="true"
                 :search-input.sync="modelIdSearch"
+                class="rounded-lg base d-flex align-center justify-center mb-4"
+                color="#7631FF"
+                dense
+                height="44"
+                hide-details
                 item-text="modelNumber"
                 item-value="id"
                 outlined
-                hide-details
-                height="44"
-                class="rounded-lg base d-flex align-center justify-center mb-4"
-                :return-object="true"
-                color="#7631FF"
-                dense
                 placeholder="Enter model number"
                 prepend-icon=""
+                @change="(e) => setModelName(e)"
               >
                 <template #append>
                   <v-icon class="d-inline-block" color="#7631FF">
@@ -72,15 +72,15 @@
               <div class="label">Model name</div>
               <v-text-field
                 v-model="order.modelName"
-                placeholder="Enter"
-                outlined
-                hide-details
-                height="44"
                 class="rounded-lg base mb-4"
-                validate-on-blur
-                dense
                 color="#7631FF"
+                dense
                 disabled
+                height="44"
+                hide-details
+                outlined
+                placeholder="Enter"
+                validate-on-blur
               />
             </v-col>
           </v-row>
@@ -91,19 +91,19 @@
                 <v-combobox
                   v-model="order.headOfDepartment"
                   :items="users"
+                  :return-object="true"
                   :search-input.sync="HODSearch"
-                  style="margin-bottom:22px"
+                  class="rounded-lg base d-flex align-center justify-center"
+                  color="#7631FF"
+                  dense
+                  height="44"
+                  hide-details
                   item-text="name"
                   item-value="id"
                   outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base d-flex align-center justify-center"
-                  :return-object="true"
-                  color="#7631FF"
-                  dense
                   placeholder="Enter responsible person"
                   prepend-icon=""
+                  style="margin-bottom:22px"
                 >
                   <template #append>
                     <v-icon class="d-inline-block" color="#7631FF">
@@ -116,16 +116,16 @@
             <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Over-production</div>
               <v-text-field
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg base mb-4"
-                placeholder="Enter over production"
-                validate-on-blur
-                dense
-                color="#7631FF"
-                suffix="%"
                 v-model="order.overproductionPercent"
+                class="rounded-lg base mb-4"
+                color="#7631FF"
+                dense
+                height="44"
+                hide-details
+                outlined
+                placeholder="Enter over production"
+                suffix="%"
+                validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
@@ -133,27 +133,27 @@
               <div class="d-flex align-center">
                 <v-text-field
                   v-model="order.priceWithDiscount"
-                  placeholder="0.00"
-                  outlined
-                  hide-details
-                  height="44"
                   class="rounded-lg base rounded-l-lg rounded-r-0"
-                  validate-on-blur
-                  dense
                   color="#7631FF"
+                  dense
+                  height="44"
+                  hide-details
+                  outlined
+                  placeholder="0.00"
+                  validate-on-blur
                 />
                 <v-select
-                  :items="currency_enums"
                   v-model="order.priceWithDiscountCurrency"
-                  style="max-width: 100px"
-                  dense
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base rounded-r-lg rounded-l-0"
-                  validate-on-blur
+                  :items="currency_enums"
                   append-icon="mdi-chevron-down"
+                  class="rounded-lg base rounded-r-lg rounded-l-0"
                   color="#7631FF"
+                  dense
+                  height="44"
+                  hide-details
+                  outlined
+                  style="max-width: 100px"
+                  validate-on-blur
                 />
               </div>
             </v-col>
@@ -161,30 +161,30 @@
               <div class="label">Total</div>
               <div class="d-flex align-center">
                 <v-text-field
-                v-model="order.totalPrice"
-                readonly
-                placeholder="0.00"
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg base rounded-l-lg rounded-r-0"
-                validate-on-blur
-                dense
-                color="#7631FF"
-              />
-              <v-select
-                :items="currency_enums"
-                v-model="order.priceWithDiscountCurrency"
-                style="max-width: 100px"
-                dense
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg base rounded-r-lg rounded-l-0"
-                validate-on-blur
-                append-icon="mdi-chevron-down"
-                color="#7631FF"
-              />
+                  v-model="order.totalPrice"
+                  class="rounded-lg base rounded-l-lg rounded-r-0"
+                  color="#7631FF"
+                  dense
+                  height="44"
+                  hide-details
+                  outlined
+                  placeholder="0.00"
+                  readonly
+                  validate-on-blur
+                />
+                <v-select
+                  v-model="order.priceWithDiscountCurrency"
+                  :items="currency_enums"
+                  append-icon="mdi-chevron-down"
+                  class="rounded-lg base rounded-r-lg rounded-l-0"
+                  color="#7631FF"
+                  dense
+                  height="44"
+                  hide-details
+                  outlined
+                  style="max-width: 100px"
+                  validate-on-blur
+                />
               </div>
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
@@ -192,12 +192,12 @@
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="order.orderDate"
-                  type="datetime"
-                  style="width: 100%; height: 100%"
-                  placeholder="dd.MM.yyyy HH:mm:ss"
                   :picker-options="pickerShortcuts"
-                  value-format="dd.MM.yyyy HH:mm:ss"
                   class="base_picker"
+                  placeholder="dd.MM.yyyy HH:mm:ss"
+                  style="width: 100%; height: 100%"
+                  type="datetime"
+                  value-format="dd.MM.yyyy HH:mm:ss"
                 >
                 </el-date-picker>
               </div>
@@ -207,12 +207,12 @@
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="order.deadline"
-                  type="datetime"
-                  style="width: 100%; height: 100%"
-                  placeholder="dd.MM.yyyy HH:mm:ss"
                   :picker-options="pickerShortcuts"
-                  value-format="dd.MM.yyyy HH:mm:ss"
                   class="base_picker"
+                  placeholder="dd.MM.yyyy HH:mm:ss"
+                  style="width: 100%; height: 100%"
+                  type="datetime"
+                  value-format="dd.MM.yyyy HH:mm:ss"
                 >
                 </el-date-picker>
               </div>
@@ -220,51 +220,51 @@
             <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Order priority</div>
               <v-select
+                v-model="order.priority"
                 :background-color="statusColor.priorityColor(order.priority)"
                 :items="priority_enums"
                 append-icon="mdi-chevron-down"
-                v-model="order.priority"
-                dense
-                outlined
-                hide-details
-                height="44"
                 class="rounded-lg base"
-                validate-on-blur
-                placeholder="Select order priority"
                 dark
+                dense
+                height="44"
+                hide-details
+                outlined
+                placeholder="Select order priority"
+                validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Description</div>
               <v-textarea
                 v-model="order.description"
+                auto-grow
+                class="rounded-lg base"
+                color="#7631FF"
+                dense
+                height="44"
+                hide-details
+                outlined
                 placeholder="Enter description"
                 rows="1"
-                height="44"
-                outlined
-                auto-grow
-                hide-details
-                class="rounded-lg base"
                 validate-on-blur
-                dense
-                color="#7631FF"
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Creator</div>
               <v-text-field
                 v-model="order.creator"
-                placeholder="Enter creator"
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg base mb-4"
-                validate-on-blur
-                dense
-                color="#7631FF"
                 background-color="#F8F4FE"
-                readonly
+                class="rounded-lg base mb-4"
+                color="#7631FF"
+                dense
                 disabled
+                height="44"
+                hide-details
+                outlined
+                placeholder="Enter creator"
+                readonly
+                validate-on-blur
               />
             </v-col>
 
@@ -272,85 +272,85 @@
               <div class="label">Created time</div>
               <v-text-field
                 v-model="order.createdTime"
-                placeholder="Created at"
-                outlined
-                hide-details
-                height="44"
+                background-color="#F8F4FE"
                 class="rounded-lg base mb-4"
-                validate-on-blur
-                dense
                 color="#7631FF"
-                background-color="#F8F4FE"
-                readonly
+                dense
                 disabled
-
-              >
-                <template #append>
-                  <v-img src="/date-icon.svg"/>
-                </template>
-              </v-text-field>
-              </v-col>
-
-              <v-col cols="12" lg="3" md="3" sm="6">
-                <div class="label">Modified person</div>
-                <v-text-field
-                  v-model="order.modifiedPerson"
-                  placeholder="Enter Modified person"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  validate-on-blur
-                  dense
-                  color="#7631FF"
-                  background-color="#F8F4FE"
-                  readonly
-                  disabled
-
-                />
-              </v-col>
-
-
-              <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Updated time</div>
-              <v-text-field
-                v-model="order.updatedTime"
-                placeholder="Update at"
-                outlined
-                hide-details
                 height="44"
-                class="rounded-lg base"
-                validate-on-blur
-                dense
-                color="#7631FF"
-                background-color="#F8F4FE"
+                hide-details
+                outlined
+                placeholder="Created at"
                 readonly
-                disabled
+                validate-on-blur
+
               >
                 <template #append>
                   <v-img src="/date-icon.svg"/>
                 </template>
               </v-text-field>
             </v-col>
-            <v-col cols="12" class="d-flex justify-end align-end">
+
+            <v-col cols="12" lg="3" md="3" sm="6">
+              <div class="label">Modified person</div>
+              <v-text-field
+                v-model="order.modifiedPerson"
+                background-color="#F8F4FE"
+                class="rounded-lg base"
+                color="#7631FF"
+                dense
+                disabled
+                height="44"
+                hide-details
+                outlined
+                placeholder="Enter Modified person"
+                readonly
+                validate-on-blur
+
+              />
+            </v-col>
+
+
+            <v-col cols="12" lg="3" md="3" sm="6">
+              <div class="label">Updated time</div>
+              <v-text-field
+                v-model="order.updatedTime"
+                background-color="#F8F4FE"
+                class="rounded-lg base"
+                color="#7631FF"
+                dense
+                disabled
+                height="44"
+                hide-details
+                outlined
+                placeholder="Update at"
+                readonly
+                validate-on-blur
+              >
+                <template #append>
+                  <v-img src="/date-icon.svg"/>
+                </template>
+              </v-text-field>
+            </v-col>
+            <v-col class="d-flex justify-end align-end" cols="12">
               <v-btn
                 v-if="orderStatus === 'Add'"
-                color="#7631FF"
                 class="text-capitalize rounded-lg"
-                width="130"
-                height="44"
+                color="#7631FF"
                 dark
+                height="44"
+                width="130"
                 @click="createdNewOrder"
               >
                 Save
               </v-btn>
               <v-btn
                 v-else
-                color="#7631FF"
                 class="text-capitalize rounded-lg"
-                width="130"
-                height="44"
+                color="#7631FF"
                 dark
+                height="44"
+                width="130"
                 @click="updateOrderFunc"
               >
                 Update
@@ -361,10 +361,10 @@
       </v-card-text>
       <v-card-actions class="pb-6 pr-4">
         <v-spacer/>
-          <ShowBtnComponent
-            :click-btn="clickBtn"
-            :show_btn_value="show_btn"
-          />
+        <ShowBtnComponent
+          :click-btn="clickBtn"
+          :show_btn_value="show_btn"
+        />
         <v-spacer/>
       </v-card-actions>
     </v-card>
@@ -372,10 +372,10 @@
       <v-tabs v-model="tab">
         <v-tabs-slider color="#7631FF"/>
         <v-tab
-          class="text-capitalize primary-color"
           v-for="item in items"
           :key="item"
           active-class="active-tab"
+          class="text-capitalize primary-color"
         >
           {{ item }}
         </v-tab>
@@ -422,7 +422,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import DetailInfo from "@/components/DetailInfo.vue";
 import OrderDocuments from "@/components/OrderDocuments.vue";
@@ -452,7 +452,7 @@ export default {
       orderStatus: "Add",
       HODSearch: "",
       clientIdSearch: "",
-      new_validate:true,
+      new_validate: true,
       modelIdSearch: "",
       priority_enums: ["LOW", "MEDIUM", "HIGH"],
       items: [
@@ -491,8 +491,8 @@ export default {
         modelName: "",
         priceWithDiscount: null,
         priceWithDiscountCurrency: "USD",
-        orderDate:"",
-        overproductionPercent:null,
+        orderDate: "",
+        overproductionPercent: null,
 
         totalPrice: null,
         deadline: "",
@@ -519,8 +519,8 @@ export default {
     this.getModelId();
   },
   computed: {
-    showObject(){
-      return{
+    showObject() {
+      return {
         show_active: this.show_btn
       }
     },
@@ -550,14 +550,14 @@ export default {
       order.updatedTime = item.updatedAt;
       order.headOfDepartmentId = item.headOfProductionDepartmentId;
       order.priceWithDiscount = item.priceWithDiscountUSD;
-      order.totalPrice=item.totalPriceUSD
+      order.totalPrice = item.totalPriceUSD
       order.priceWithDiscountCurrency = "USD";
       order.modelId = item.modelId;
       order.priority = item.priority;
       order.headOfDepartment = item.headOfProductionDepartment
       order.client = item.client
-      order.orderDate=item.orderDate
-      order.overproductionPercent=item.overproductionPercent
+      order.orderDate = item.orderDate
+      order.overproductionPercent = item.overproductionPercent
       this.$store.commit('orders/setModelId', item.modelId);
     },
     usersList(list) {
@@ -573,43 +573,41 @@ export default {
       this.selectedModelInfo = {...item};
       this.order.priceWithDiscount = item.priceWithDiscountUSD;
       this.order.priceWithDiscountCurrency = 'USD';
-      this.order.client=item.client
-      this.order.clientId=item.clientId
+      this.order.client = item.client
+      this.order.clientId = item.clientId
     },
     "order.priceWithDiscountCurrency"(val) {
-      const id =this.$route.params
+      const id = this.$route.params
 
-      if(id.id==="add-order"){
-
+      if (id.id === "add-order") {
         switch (val) {
-        case 'USD':
-          return this.order.priceWithDiscount = this.infoToOrder.priceWithDiscountUSD;
-        case 'RUB':
-          return this.order.priceWithDiscount = this.infoToOrder.priceWithDiscountRUB;
-        case 'UZS':
-          return this.order.priceWithDiscount = this.infoToOrder.priceWithDiscountUZS;
+          case 'USD':
+            return this.order.priceWithDiscount = this.infoToOrder.priceWithDiscountUSD;
+          case 'RUB':
+            return this.order.priceWithDiscount = this.infoToOrder.priceWithDiscountRUB;
+          case 'UZS':
+            return this.order.priceWithDiscount = this.infoToOrder.priceWithDiscountUZS;
         }
-
       } else {
         switch (val) {
-        case 'USD':
-          return (
-            this.order.priceWithDiscount = this.orderDetail.priceWithDiscountUSD,
-            this.order.totalPrice = this.orderDetail.totalPriceUSD
+          case 'USD':
+            return (
+              this.order.priceWithDiscount = this.orderDetail.priceWithDiscountUSD,
+                this.order.totalPrice = this.orderDetail.totalPriceUSD
 
-          );
+            );
 
-        case 'RUB':
-          return (
-            this.order.priceWithDiscount = this.orderDetail.priceWithDiscountRUB,
-            this.order.totalPrice = this.orderDetail.totalPriceRUB
-          );
-        case 'UZS':
-          return (
-            this.order.priceWithDiscount = this.orderDetail.priceWithDiscountUZS,
-            this.order.totalPrice = this.orderDetail.totalPriceUZS
+          case 'RUB':
+            return (
+              this.order.priceWithDiscount = this.orderDetail.priceWithDiscountRUB,
+                this.order.totalPrice = this.orderDetail.totalPriceRUB
+            );
+          case 'UZS':
+            return (
+              this.order.priceWithDiscount = this.orderDetail.priceWithDiscountUZS,
+                this.order.totalPrice = this.orderDetail.totalPriceUZS
 
-          );
+            );
         }
 
       }
@@ -625,7 +623,7 @@ export default {
       updateOrder: "orders/updateOrder",
       getGivePrice: "orders/getGivePrice",
     }),
-    clickBtn(){
+    clickBtn() {
       this.show_btn = !this.show_btn
     },
     async updateOrderFunc() {
@@ -636,15 +634,15 @@ export default {
       await this.createdOrder(this.order);
     },
     setModelName(item) {
-      if(item !== 'null' || !!item) {
+      if (item !== 'null' || !!item) {
         this.order.modelName = item.name;
-        this.order.client=item.client
+        this.order.client = item.client
         this.getGivePrice({id: item.id});
       }
     },
-    clear(){
+    clear() {
       this.$refs.order_detail.reset();
-      this.order.deadline="";
+      this.order.deadline = "";
     },
 
   },
@@ -690,7 +688,8 @@ export default {
     }
   }
 }
-.show_active{
+
+.show_active {
   height: 0;
   overflow: hidden;
 }
