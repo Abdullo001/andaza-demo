@@ -21,13 +21,14 @@ export default {
   css: [],
 
   plugins: [
+    {src: '~/plugins/chart.js', mode: 'client'},
     {src: "~/plugins/axios.js"},
     {src: "~/plugins/mixins.js"},
     {src: "~/plugins/v-mask.js"},
     {src: "./plugins/element-io.js"}
   ],
 
-  components: false,
+  components: true,
 
   buildModules: [
     '@nuxtjs/vuetify',
