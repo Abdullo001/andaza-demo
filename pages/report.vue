@@ -71,6 +71,26 @@
           </v-card-text>
         </v-card>
       </v-col>
+      <v-col cols="12" lg="4">
+        <v-card elevation="0" rounded="lg">
+          <v-card-title class="d-flex align-center justify-space-between">
+            <div>Prefinance creators</div>
+          </v-card-title>
+          <v-card-text>
+            <div>
+              <DoughnutChart
+                :chart-options="doughnut_options"
+                :chart-data="doughnut"
+                chart-id="Doughnut-char"
+                :label="doughnut.labels"
+                :width="doughnut_options.width"
+                :height="doughnut_options.height"
+              />
+            </div>
+            <Doughnut :chart-data="chartData"/>
+          </v-card-text>
+        </v-card>
+      </v-col>
     </v-row>
   </div>
 </template>
@@ -79,6 +99,13 @@
 export default {
   data() {
     return {
+      chartData: [
+        { label: 'Category 1', value: 25, backgroundColor: 'red' },
+        { label: 'Category 2', value: 40, backgroundColor: 'blue' },
+        { label: 'Category 3', value: 20, backgroundColor: 'green' },
+        { label: 'Category 4', value: 15, backgroundColor: 'orange' },
+      ],
+
       years: [2023, 2022, 2021],
       filters: {
         year: 2023,
@@ -98,12 +125,31 @@ export default {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Avg', 'Sep', 'Okt', 'Nov', 'Dec'],
         datasets: [
           {
-            label: ['Clients'],
-            backgroundColor: ['#7631FF', '#7631FF','#7631FF','#7631FF','#7631FF','#7631FF','#7631FF','#7631FF','#7631FF','#7631FF','#7631FF','#7631FF',],
+            label: ['Prefinance'],
+            backgroundColor: '#7631FF',
             data: [60, 54, 32, 25, 65, 50, 65, 44, 51, 38, 35, 66, 0]
           },
         ],
-      }
+      },
+      doughnut: {
+        labels: ['Yenalieva Diana', 'Mamatkulova Zarina', 'Abdullayeva Maftuna'],
+        datasets: [
+          {
+            backgroundColor: [
+              'rgb(255, 99, 132)',
+              'rgb(255, 159, 64)',
+              'rgb(255, 205, 86)',
+            ],
+            data: [60, 54, 32]
+          },
+        ],
+      },
+      doughnut_options: {
+        maintainAspectRatio: false,
+        responsive: true,
+        width: 400,
+        height: 369
+      },
     }
   },
 }
