@@ -29,8 +29,12 @@ export default {
         datasets: [
           {
             label: 'Quality of models',
-            backgroundColor: '#7631FF',
-            data: ['40', '39', '30', '40', '39', '50', '40', '40', '39', '55', '40', '39', 0]
+            borderColor: '#7631FF',
+            backgroundColor: 'transparent',
+            pointRadius: 6,
+            pointHoverRadius: 8,
+            pointBackgroundColor: '#fff',
+            data: ['10', '25', '30', '40', '39', '50', '40', '40', '39', '55', '40', '39', 0]
           },
         ],
       },
