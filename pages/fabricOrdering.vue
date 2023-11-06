@@ -304,7 +304,7 @@ export default {
     sampleFabricOrdering(val){
       const specialList=[]
       val.forEach((item)=>{
-        specialList.push({...item,isChecked:item.isOrdered})
+        specialList.push({...item,isChecked:JSON.parse(JSON.stringify(item.isOrdered))})
       })
       this.sampleList=JSON.parse(JSON.stringify(specialList))
     },
@@ -389,7 +389,7 @@ export default {
       if(validate){
         const plannedFabricOrderIds = []
         this.sampleList.forEach((item)=>{
-          if(item.isChecked){
+          if(!item.isOrdered&&!!item.isChecked){
             plannedFabricOrderIds.push(item.plannedFabricOrderId)
           }
         })
