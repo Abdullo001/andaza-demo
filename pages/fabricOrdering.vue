@@ -390,7 +390,6 @@ export default {
         const plannedFabricOrderIds = []
         this.sampleList.forEach((item)=>{
           if(!item.isOrdered&&!!item.isChecked){
-            console.log(item);
             plannedFabricOrderIds.push(item.plannedFabricOrderId)
           }
         })
