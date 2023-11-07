@@ -104,6 +104,17 @@ export default (context, inject) => {
             }
           },
 
+          sampleStatusColor(color) {
+            switch (color) {
+              case "OK":
+                return "#10BF41";
+              case "EMPTY":
+                return "#FF4E4F";
+              case "IN_PROCESS":
+                return "amber";
+            }
+          },
+
           fabricModelStatus(color){
             switch(color){
               case 'NOT_PLANNED':

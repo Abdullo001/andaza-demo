@@ -272,7 +272,7 @@ export default {
             has_child: false,
           },
           {
-            icon: ['forms-icon.svg', "forms-icon.svg"],
+            icon: ['forms-icon.svg', "forms-icon-active.svg"],
             title: 'Forms',
             to: this.localePath('/forms'),
             has_child: false,
