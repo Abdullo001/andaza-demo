@@ -247,9 +247,9 @@ export default {
       headers: [
         {
           text: "Order number",
+          value: "orderNumber",
           align: "start",
           sortable: false,
-          value: "orderNumber",
         },
         { text: "Model", value: "model", width: 200 },
         { text: "Client Name", value: "client" },

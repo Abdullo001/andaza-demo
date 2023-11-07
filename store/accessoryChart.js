@@ -136,6 +136,5 @@ export const actions = {
       .catch((res)=>{
         console.log(res)
       })
-
   }
 }
