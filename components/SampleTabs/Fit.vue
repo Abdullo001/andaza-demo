@@ -259,16 +259,16 @@ export default {
           value: "color",
         },
         {
-          text: "Fabric supplier name",
-          align: "center",
-          sortable: false,
-          value: "supplier",
-        },
-        {
           text: "FIT sent date",
           align: "center",
           sortable: false,
           value: "sendDate",
+        },
+        {
+          text: "FIT received date",
+          align: "center",
+          sortable: false,
+          value: "receivedDate",
         },
         { text: "Result", align: "center", sortable: false, value: "result" },
         { text: "Reason", align: "center", sortable: false, value: "reason" },
@@ -331,7 +331,6 @@ export default {
     },
     viewDetails(item) {
       this.chartData={...item}
-      this.chartData.supplierId={name:item.supplier,id:item?.supplierId}
       this.new_dialog=true
       this.actionStatus="edit"
     },

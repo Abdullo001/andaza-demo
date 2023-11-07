@@ -14,7 +14,7 @@
           <v-toolbar-title
             class="d-flex w-full align-center justify-space-between"
           >
-            <div>STRIKE</div>
+            <div>PHOTO SAMPLE</div>
             <v-btn
               color="#7631FF"
               dark
@@ -67,7 +67,7 @@
     <v-dialog v-model="new_dialog" max-width="572">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
-          <div>STRIKE info</div>
+          <div>PHOTO SAMPLE info</div>
           <v-btn @click="new_dialog = false" icon>
             <v-icon color="#7631FF">mdi-close</v-icon>
           </v-btn>
@@ -94,7 +94,7 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">STRIKE Sent date</div>
+                <div class="label">PHOTO SAMPLE Sent date</div>
                 <div style="height: 40px !important">
                   <el-date-picker
                     v-model="chartData.sendDate"
@@ -108,47 +108,16 @@
                   </el-date-picker>
                 </div>
               </v-col>
-              <v-col cols="12" lg="6">
-                <div class="label">STRIKE received date</div>
-                <div style="height: 40px !important">
-                  <el-date-picker
-                    v-model="chartData.receivedDate"
-                    type="datetime"
-                    style="width: 100%; height: 100%"
-                    placeholder="dd.MM.yyyy HH:mm:ss"
-                    :picker-options="pickerShortcuts"
-                    value-format="dd.MM.yyyy HH:mm:ss"
-                    class="base_picker"
-                  >
-                  </el-date-picker>
-                </div>
-              </v-col>
-              <v-col cols="12" lg="6">
-                <div class="label">Result</div>
-                <v-select
-                  v-model="chartData.result"
-                  :items="result_items"
-                  :rules="[formRules.required]"
-                  append-icon="mdi-chevron-down"
-                  placeholder="Select result"
-                  outlined
-                  single-line
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  color="#7631FF"
-                  dense
-                />
-              </v-col>
-              <v-col cols="12" lg="12">
-                <div class="label">Reason</div>
+              
+              <v-col cols="12" lg="3" v-for="(item,idx) in chartData.sizeDistribution" :key="idx">
+                <div class="label">{{item.size}}</div>
                 <v-text-field
-                  v-model="chartData.reason"
+                  v-model="item.quantity"
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  placeholder="Enter reason"
+                  placeholder="Enter quantity"
                   validate-on-blur
                   dense
                   color="#7631FF"
@@ -235,7 +204,7 @@
 import { mapActions,mapGetters } from 'vuex';
 
 export default {
-  name: "StrikeComponent",
+  name: "PhotoSampleComponent",
   data() {
     return {
       partnerName:"",
@@ -245,10 +214,9 @@ export default {
       new_dialog: false,
       chartData:{
         color:"",
-        result:"",
         sendDate:"",
-        reason:"",
         note:"",
+        sizeDistribution:[],
       },
       headers: [
         { text: "NO.", align: "center", sortable: false, value: "ordinalNumber" },
@@ -259,19 +227,11 @@ export default {
           value: "color",
         },
         {
-          text: "STRIKE sent date",
+          text: "PHOTO SAMPLE sent date",
           align: "center",
           sortable: false,
           value: "sendDate",
         },
-        {
-          text: "STRIKE received date",
-          align: "center",
-          sortable: false,
-          value: "receivedDate",
-        },
-        { text: "Result", align: "center", sortable: false, value: "result" },
-        { text: "Reason", align: "center", sortable: false, value: "reason" },
         { text: "Note", align: "center", sortable: false, value: "note" },
         { text: "Actions", align: "center", sortable: false, value: "actions" },
       ],
@@ -287,6 +247,7 @@ export default {
       partnerLists: "fabricOrdering/partnerLists",
       colorList: "accessorySamples/colorList",
       mainColorsList: "samplesTabs/mainColorsList",
+      modelSizesList: "samplesTabs/modelSizesList",
       oneSample:"accessorySamples/oneSample",
 
 
@@ -294,8 +255,50 @@ export default {
   },
 
   watch:{
-    chartList(val){
-      this.currentList=JSON.parse(JSON.stringify(val))
+    modelSizesList(list){
+      this.headers=[
+        { text: "NO.", align: "center", sortable: false, value: "ordinalNumber" },
+        {
+          text: "Body part color",
+          align: "center",
+          sortable: false,
+          value: "color",
+        },
+        {
+          text: "PHOTO SAMPLE sent date",
+          align: "center",
+          sortable: false,
+          value: "sendDate",
+        },
+      ]
+      list.forEach((item)=>{
+        this.chartData.sizeDistribution.push({quantity:"",size:item})
+        this.headers.push(
+          { text: item, align: "center", sortable: false, value: item },
+        )
+      })
+      this.headers.push(
+        { text: "Note", align: "center", sortable: false, value: "note" },
+        { text: "Actions", align: "center", sortable: false, value: "actions" },
+      )
+    },
+    chartList(list){
+      const specialList=list.map((item)=>{
+        const valueSizes = {};
+
+        for (let el in item.sizeDistributions) {
+          valueSizes[item.sizeDistributions[el].size]=item.sizeDistributions[el].quantity
+        }
+        return{
+          ...item,
+          ...valueSizes,
+          sizeDistribution:[...item.sizeDistributions],
+          
+        }
+      })
+      this.currentList=JSON.parse(JSON.stringify(specialList))
+
+
     },
     partnerName(val) {
       if(!!val && val !== '') {
@@ -312,6 +315,7 @@ export default {
       deleteChartRow:"samplesTabs/deleteChartRow",
       getPartnerName: "fabricOrdering/getPartnerName",
       getMainColors: "samplesTabs/getMainColors",
+      getSizesList: "samplesTabs/getSizesList",
 
     }),
     selectColor(color){
@@ -344,26 +348,45 @@ export default {
       this.delete_dialog=false
 
     },
-    saveFqs(){
-      const data={...this.chartData}
+    async saveFqs(){
+      const data={}
+      const {
+        color,
+        sendDate,
+        note,
+        sizeDistribution,
+        id,
+      }=this.chartData
+      data.color=color
+      data.sendDate=sendDate
+      data.note=note
+      sizeDistribution.map((item)=>{
+        return{
+          size:item.size,
+          quantity:item.quantity===''&&item.quantity===null?0:item.quantity,
+        }
+      })
+      data.sizeDistribution=sizeDistribution
+      
       data.samplePlanningId=this.oneSample?.id
-      data.purpose="STRIKE"
+      data.purpose="PHOTO_SAMPLE"
       if(this.actionStatus==="new"){
-        this.createChartRow(data)
+        await this.createChartRow(data)
       }
       if(this.actionStatus==="edit"){
-        this.updateChartRow(data)
+        data.id=id
+        await this.updateChartRow(data)
       }
       this.new_dialog=false
       this.chartData.sendDate=""
       this.chartData.receivedDate=""
-      this.$refs.new_form.reset()
 
     },
   },
 
   mounted(){
     this.getMainColors(this.oneSample.modelId)
+    this.getSizesList(this.oneSample.modelId)
     this.getPartnerName("")
   }
 };

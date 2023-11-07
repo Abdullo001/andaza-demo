@@ -251,6 +251,34 @@
               </v-card-text>
             </v-card>
           </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <PpsComponent/>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <PhotoSampleComponent/>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <ShipmentSampleComponent/>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <CertificateSampleComponent/>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
         </v-tabs-items>
       </v-tabs>
     </v-card>
@@ -263,6 +291,10 @@ import LdComponent from '@/components/SampleTabs/Ld.vue';
 import FitComponent from '@/components/SampleTabs/Fit.vue';
 import StrikeComponent from '@/components/SampleTabs/Strike.vue';
 import BulkComponent from '@/components/SampleTabs/Bulk.vue';
+import PpsComponent from '@/components/SampleTabs/Pps.vue';
+import PhotoSampleComponent from '@/components/SampleTabs/PhotoSample.vue';
+import ShipmentSampleComponent from '@/components/SampleTabs/ShipmentSample.vue';
+import CertificateSampleComponent from '@/components/SampleTabs/CertificateSample.vue';
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
 
 
@@ -274,6 +306,10 @@ export default {
     FitComponent,
     StrikeComponent,
     BulkComponent,
+    PpsComponent,
+    PhotoSampleComponent,
+    ShipmentSampleComponent,
+    CertificateSampleComponent,
     Breadcrumbs,
   },
   data(){
@@ -359,7 +395,6 @@ export default {
 
     "sampleDetail.modelNumber"(val){
       if(!!val){
-        console.log(val);
         this.getModelOrderInfo(val?.id)
       }
       
