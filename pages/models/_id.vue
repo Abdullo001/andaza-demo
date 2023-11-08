@@ -90,21 +90,29 @@
         <v-row :class="showObject">
           <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{$t('listsModels.child.partner')}}</div>
-            <v-select
-              v-model="model.partnerId"
-              :items="partner_enums"
-              item-value="id"
-              item-text="name"
-              outlined
-              hide-details
-              class="rounded-lg base mb-4"
-              height="44"
-              dense
-              append-icon="mdi-chevron-down"
-              style="max-width: 400px"
-              :placeholder="$t('listsModels.child.selectClient')"
-              color="#7631FF"
-            />
+            
+            <v-combobox
+                  v-model="model.partnerId"
+                  :items="partner_enums"
+                  :search-input.sync="partnerName"
+                  item-text="name"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :return-object="true"
+                  color="#7631FF"
+                  dense
+                  placeholder="Enter partner name"
+                  append-icon="mdi-chevron-down"
+                  :rules="[formRules.required]"
+                  validate-on-blur
+                  >
+                  <template #append>
+                    <v-icon color="#7631FF">mdi-magnify</v-icon>
+                  </template>
+                 </v-combobox>
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">Brand name</div>
@@ -371,6 +379,7 @@ export default {
   data() {
     return {
       show_btn: true,
+      partnerName:'',
       items: [
         this.$t('listsModels.child.modelParts'),
         this.$t('listsModels.child.sizeChart'),
@@ -441,12 +450,17 @@ export default {
     ...mapGetters({
       oneModel: 'models/oneModel',
       modelGroups: 'models/modelGroups',
-      partner_enums: 'models/partner_enums',
+      partner_enums: 'fabricOrdering/partnerLists',
       compositionList: 'models/compositionList',
       brandList: 'models/brandList'
     }),
   },
   watch: {
+    partnerName(val) {
+      if(!!val && val !== '') {
+      this.getPartnerName(val);
+      }
+    },
     oneModel(val) {
       const model = this.model;
       model.number = val.modelNumber;
@@ -459,12 +473,14 @@ export default {
       model.description = val.description;
       model.creator = val.createdBy;
       model.modifiedPerson = val.updatedBy;
-      model.partnerId = val.partnerId
+      model.partnerId ={id:val.partnerId,name:val.partner}
       model.createdTime = val.createdAt;
       model.updateTime = val.updatedAt;
     },
     "model.partnerId"(val){
-      this.getBrandList(val)
+      if(!!val){
+        this.getBrandList(val?.id)
+      }
     }
 
   },
@@ -477,7 +493,9 @@ export default {
       updateModel: 'models/updateModel',
       getCompositionList: 'models/getCompositionList',
       getBrandList: 'models/getBrandList',
-      modelToPrefinance: 'preFinance/modelToPrefinance'
+      modelToPrefinance: 'preFinance/modelToPrefinance',
+      getPartnerName: 'fabricOrdering/getPartnerName',
+
     }),
     clickBtn(){
       this.show_btn = !this.show_btn
@@ -486,11 +504,14 @@ export default {
       this.modelToPrefinance(this.$route.params.id)
     },
     async createNewModel() {
-      await this.createModel(this.model);
+      const data = {...this.model};
+      data.partnerId=this.model.partnerId?.id
+      await this.createModel(data);
     },
     async updateModels() {
       const id = this.$route.params.id;
       const data = {...this.model};
+      data.partnerId=this.model.partnerId?.id
 
       await this.updateModel(
         {
