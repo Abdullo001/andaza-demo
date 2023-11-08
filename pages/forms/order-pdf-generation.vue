@@ -342,7 +342,7 @@ export default {
       partner: "",
       status: "ACTIVE",
     }),
-      this.getModelGroup({ name: this.modelGroupSearch });
+    this.getModelGroup({ name: this.modelGroupSearch });
     this.getClient();
     this.getCountryList({ name: this.countryIdSearch });
     this.getUsersList();

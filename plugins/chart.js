@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { Bar, Doughnut, Line, Pie, mixins } from 'vue-chartjs'
+import {Bar, Doughnut, HorizontalBar, Line, mixins, Pie} from 'vue-chartjs'
 
 const registerComponent = function (name, originalComponent) {
   Vue.component(name, {
@@ -8,11 +8,13 @@ const registerComponent = function (name, originalComponent) {
     props: {
       chartData: {
         type: Object,
-        default: () => {},
+        default: () => {
+        },
       },
       chartOptions: {
         type: Object,
-        default: () => {},
+        default: () => {
+        },
       },
       width: {
         type: Number,
@@ -24,12 +26,18 @@ const registerComponent = function (name, originalComponent) {
       },
     },
     mounted() {
-      this.renderChart(this.chartData, this.chartOptions)
+      this.renderChart(
+        this.chartData,
+        this.chartOptions,
+        this.width,
+        this.height
+      )
     },
   })
 }
 
 registerComponent('BarChart', Bar)
+registerComponent('HorizontalBarChart', HorizontalBar)
 registerComponent('DoughnutChart', Doughnut)
 registerComponent('LineChart', Line)
 registerComponent('PieChart', Pie)
