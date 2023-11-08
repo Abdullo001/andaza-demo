@@ -14,7 +14,7 @@
           <v-toolbar-title
             class="d-flex w-full align-center justify-space-between"
           >
-            <div>STRIKE</div>
+            <div>PPS</div>
             <v-btn
               color="#7631FF"
               dark
@@ -67,7 +67,7 @@
     <v-dialog v-model="new_dialog" max-width="572">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
-          <div>STRIKE info</div>
+          <div>PPS info</div>
           <v-btn @click="new_dialog = false" icon>
             <v-icon color="#7631FF">mdi-close</v-icon>
           </v-btn>
@@ -94,7 +94,7 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">STRIKE Sent date</div>
+                <div class="label">PPS Sent date</div>
                 <div style="height: 40px !important">
                   <el-date-picker
                     v-model="chartData.sendDate"
@@ -109,7 +109,7 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">STRIKE received date</div>
+                <div class="label">PPS received date</div>
                 <div style="height: 40px !important">
                   <el-date-picker
                     v-model="chartData.receivedDate"
@@ -235,7 +235,7 @@
 import { mapActions,mapGetters } from 'vuex';
 
 export default {
-  name: "StrikeComponent",
+  name: "PpsComponent",
   data() {
     return {
       partnerName:"",
@@ -259,13 +259,13 @@ export default {
           value: "color",
         },
         {
-          text: "STRIKE sent date",
+          text: "PPS sent date",
           align: "center",
           sortable: false,
           value: "sendDate",
         },
         {
-          text: "STRIKE received date",
+          text: "PPS received date",
           align: "center",
           sortable: false,
           value: "receivedDate",
@@ -347,7 +347,7 @@ export default {
     saveFqs(){
       const data={...this.chartData}
       data.samplePlanningId=this.oneSample?.id
-      data.purpose="STRIKE"
+      data.purpose="PPS"
       if(this.actionStatus==="new"){
         this.createChartRow(data)
       }
