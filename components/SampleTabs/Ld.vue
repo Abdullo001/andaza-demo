@@ -167,7 +167,7 @@
                   dense
                 />
               </v-col>
-              <v-col cols="12" lg="6">
+              <v-col cols="12" lg="6" v-if="chartData.result==='OK'">
                 <div class="label">Option</div>
                 <v-text-field
                   v-model="chartData.option"
@@ -181,7 +181,7 @@
                   color="#7631FF"
                 />
               </v-col>
-              <v-col cols="12" lg="12">
+              <v-col cols="12" lg="12" v-if="chartData.result==='REMAKE'">
                 <div class="label">Reason</div>
                 <v-text-field
                   v-model="chartData.reason"

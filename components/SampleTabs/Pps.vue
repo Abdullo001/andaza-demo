@@ -77,7 +77,7 @@
           <v-form lazy-validation v-model="new_validate" ref="new_form">
             <v-row class="mb-4">
               <v-col cols="12" lg="6">
-                <div class="label">Body part color</div>
+                <div class="label">Main color</div>
                 <v-select
                   v-model="chartData.color"
                   :items="mainColorsList"
@@ -109,7 +109,7 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">PPS received date</div>
+                <div class="label">Comment received date</div>
                 <div style="height: 40px !important">
                   <el-date-picker
                     v-model="chartData.receivedDate"
@@ -140,7 +140,7 @@
                   dense
                 />
               </v-col>
-              <v-col cols="12" lg="12">
+              <v-col cols="12" lg="12" v-if="chartData.result==='REMAKE'">
                 <div class="label">Reason</div>
                 <v-text-field
                   v-model="chartData.reason"
