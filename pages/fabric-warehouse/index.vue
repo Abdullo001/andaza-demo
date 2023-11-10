@@ -907,15 +907,15 @@ export default {
     },
 
     addArrivedFabric() {
+      if(this.title==="Edit"){
+        this.$refs.new_form.reset();
+      }
       this.title = "New";
       this.new_dialog = true;
-      this.$refs.new_form.reset();
     },
 
     async saveArrivedFabric() {
       const data = { ...this.arrivedFabric };
-      // console.log(this.arrivedFabric);
-      // data.fabricOrderId=this.addArrivedFabric.fabricOrderId?.fabricOrderId
       await this.createFabricWarehouse(data);
       await this.$refs.new_form.reset();
       this.new_dialog = false;
