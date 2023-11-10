@@ -121,7 +121,7 @@
                  </v-combobox>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Order date</div>
+                <div class="label">FQS sent date</div>
                 <div style="height: 40px !important">
                   <el-date-picker
                     v-model="chartData.sendDate"
@@ -152,7 +152,7 @@
                   dense
                 />
               </v-col>
-              <v-col cols="12" lg="12">
+              <v-col cols="12" lg="12" v-if="chartData.result==='REMAKE'">
                 <div class="label">Reason</div>
                 <v-text-field
                   v-model="chartData.reason"
