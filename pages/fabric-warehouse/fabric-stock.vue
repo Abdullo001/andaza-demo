@@ -30,7 +30,7 @@
               label="Supplier name"
               outlined
               class="rounded-lg filter"
-              v-model.trim="filters.partnerName"
+              v-model.trim="filters.supplierName"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -217,7 +217,7 @@
                 <v-combobox
                   v-model="arrivedFabricStock.supplierId"
                   :rules="[formRules.required]"
-                  :search-input.sync="partnerName"
+                  :search-input.sync="supplierName"
                   :items="partnerLists"
                   item-text="name"
                   item-value="id"
@@ -397,20 +397,30 @@
           >
             <v-row>
               <v-col cols="12">
-                <div class="label">Model №</div>
-                <v-select
-                  append-icon="mdi-chevron-down"
+                <div class="label">Model number</div>
+                <v-combobox
                   v-model="workshop.modelNumber"
+                  :items="modelsList"
+                  :search-input.sync="modelNumSearch"
                   :rules="[formRules.required]"
-                  :items="modelNumbers"
-                  hide-details
-                  color="#7631FF"
-                  class="base rounded-lg"
-                  rounded
+                  item-text="modelNumber"
+                  item-value="modelNumber"
+                  validate-on-blur
                   outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg filter d-flex align-center justify-center mr-2"
+                  :return-object="true"
                   dense
-                  placeholder="Select Model №"
-                />
+                  placeholder="Model number"
+                  prepend-icon=""
+                >
+                  <template #append>
+                    <v-icon class="d-inline-block" color="#7631FF">
+                      mdi-magnify
+                    </v-icon>
+                  </template>
+                </v-combobox>
               </v-col>
 
               <v-col cols="12">
@@ -419,9 +429,9 @@
                   append-icon="mdi-chevron-down"
                   v-model="workshop.sipNumber"
                   :rules="[formRules.required]"
-                  :items="sipNumbers"
+                  :items="processDetails"
                   item-text="sipNumber"
-                  item-value="fabricOrderiId"
+                  item-value="id"
                   hide-details
                   color="#7631FF"
                   class="base rounded-lg"
@@ -491,6 +501,52 @@
           >
             <v-row>
               <v-col cols="12">
+                <div class="label">Model number</div>
+                <v-combobox
+                  v-model="subcontractor.modelNumber"
+                  :items="modelsList"
+                  :search-input.sync="modelNumSearch"
+                  :rules="[formRules.required]"
+                  item-text="modelNumber"
+                  item-value="modelNumber"
+                  validate-on-blur
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg filter d-flex align-center justify-center mr-2"
+                  :return-object="true"
+                  dense
+                  placeholder="Model number"
+                  prepend-icon=""
+                >
+                  <template #append>
+                    <v-icon class="d-inline-block" color="#7631FF">
+                      mdi-magnify
+                    </v-icon>
+                  </template>
+                </v-combobox>
+              </v-col>
+
+              <v-col cols="12">
+                <div class="label">Sip №</div>
+                <v-select
+                  append-icon="mdi-chevron-down"
+                  v-model="subcontractor.sipNumber"
+                  :items="processDetails"
+                  :rules="[formRules.required]"
+                  hide-details
+                  item-text="sipNumber"
+                  item-value="id"
+                  color="#7631FF"
+                  class="base rounded-lg"
+                  rounded
+                  outlined
+                  dense
+                  placeholder="Select Sip №"
+                />
+              </v-col>
+
+              <v-col cols="12">
                 <div class="label">Partner</div>
                 <v-select
                   append-icon="mdi-chevron-down"
@@ -506,23 +562,6 @@
                   outlined
                   dense
                   placeholder="Select partner"
-                />
-              </v-col>
-
-              <v-col cols="12">
-                <div class="label">Model №</div>
-                <v-select
-                  append-icon="mdi-chevron-down"
-                  v-model="subcontractor.modelNumber"
-                  :items="modelNumbers"
-                  :rules="[formRules.required]"
-                  hide-details
-                  color="#7631FF"
-                  class="base rounded-lg"
-                  rounded
-                  outlined
-                  dense
-                  placeholder="Select Model №"
                 />
               </v-col>
 
@@ -641,7 +680,7 @@ export default {
 
       valid_search: "",
       new_validate: true,
-      partnerName: "",
+      supplierName: "",
       workshop_validate: true,
       enums: ["TPX", "TCX", "TPG", "C", "MELANGE"],
       priceEnums: ["USD", "UZS", "RUB"],
@@ -657,17 +696,13 @@ export default {
       arrivedFabricStock: {},
 
       workshop: {
-        modelNumber: null,
-        sipNumber: null,
         id: null,
         quantity: null,
-        partnerId: null,
         warehouseId: null,
       },
 
       subcontractor: {
-        modelNumber: null,
-        sipNumber: null,
+        id: null,
         partnerId: null,
         warehouseId: null,
         quantity: null,
@@ -679,6 +714,7 @@ export default {
         supplierName: null,
       },
 
+      modelNumSearch: "",
       deletedId: null,
       modelNumbers: [],
       current_list: [],
@@ -687,15 +723,32 @@ export default {
 
   computed: {
     ...mapGetters({
-      fabricStockList: "fabricWarehouse/fabricStockList",
-      sipNumbers: "fabricWarehouse/sipNumbers",
-      toSipNumbers: "fabricWarehouse/toSipNumbers",
+      fabricStockList: "fabricStock/fabricStockList",
       colorsList: "accessoryChart/colorsList",
-      partnerLists: "fabricOrdering/partnerLists",
+      partnerLists: "fabricStock/partnerLists",
+      partnerList: "fabricStock/partnerList",
+      modelsList: "models/modelsList",
+      processDetails: "fabricStock/processDetails",
     }),
   },
 
   watch: {
+    "workshop.modelNumber"(val) {
+      this.getFabricProcessDetails({ id: val?.id, isForSubcontractor: false });
+    },
+    "subcontractor.modelNumber"(val) {
+      this.getFabricProcessDetails({ id: val?.id, isForSubcontractor: true });
+    },
+    "workshop.sipNumber"(id) {
+      this.workshop.warehouseId = id;
+    },
+    "subcontractor.sipNumber"(id) {
+      this.getPartnerListFunc(id);
+      this.subcontractor.warehouseId = id;
+    },
+    "subcontractor.partnerId"(id) {
+      this.subcontractor.partnerId = id;
+    },
     fabricStockList(val) {
       this.current_list = JSON.parse(JSON.stringify(val));
     },
@@ -704,30 +757,46 @@ export default {
         this.getPartnerName(val);
       }
     },
+    modelNumSearch(val) {
+      if (!!val) {
+        this.getModelsList({
+          page: 0,
+          size: 10,
+          modelNumber: val,
+          partner: "",
+          status: "ACTIVE",
+        });
+      }
+    },
   },
 
   created() {
-    this.getSipNumbers();
-    this.getToSipNumbers();
     this.getPartnerList();
     this.getColorsList();
     this.getPartnerName();
+    this.getModelsList({
+      page: 0,
+      size: 10,
+      modelNumber: this.modelNumSearch,
+      partner: "",
+      status: "ACTIVE",
+    });
   },
 
   methods: {
     ...mapActions({
-      getFabricStockList: "fabricWarehouse/getFabricStockList",
-      createFabricStock: "fabricWarehouse/createFabricStock",
-      getSipNumbers: "fabricWarehouse/getSipNumbers",
-      updateFabricStock: "fabricWarehouse/updateFabricStock",
-      deleteFabricStock: "fabricWarehouse/deleteFabricStock",
-      getToSipNumbers: "fabricWarehouse/getToSipNumbers",
-      setFabricStockToWorkshop: "fabricWarehouse/setFabricStockToWorkshop",
-      setFabricStockToSubcontract:
-        "fabricWarehouse/setFabricStockToSubcontract",
+      getFabricStockList: "fabricStock/getFabricStockList",
+      createFabricStock: "fabricStock/createFabricStock",
+      updateFabricStock: "fabricStock/updateFabricStock",
+      deleteFabricStock: "fabricStock/deleteFabricStock",
+      setFabricStockToWorkshop: "fabricStock/setFabricStockToWorkshop",
+      setFabricStockToSubcontract: "fabricStock/setFabricStockToSubcontract",
       getPartnerList: "subcontracts/getPartnerList",
       getColorsList: "accessoryChart/getColorsList",
-      getPartnerName: "fabricOrdering/getPartnerName",
+      getPartnerName: "fabricStock/getPartnerName",
+      getPartnerListFunc: "fabricStock/getPartnerList",
+      getModelsList: "models/getModelsList",
+      getFabricProcessDetails: "fabricStock/getFabricProcessDetails",
     }),
     loadDetails({ item }) {
       // current opened || choose object ^
@@ -749,6 +818,10 @@ export default {
     editItem(item) {
       this.title = "Edit";
       this.arrivedFabricStock = { ...item };
+      this.arrivedFabricStock.supplierId = {
+        id: item.id,
+        name: item.supplierName,
+      };
       this.new_dialog = true;
     },
 
@@ -758,7 +831,7 @@ export default {
         modelNumber: this.arrivedFabricStock.modelNumber,
         pantonType: this.arrivedFabricStock.pantonType,
         pricePerUnitCurrency: this.arrivedFabricStock.pricePerUnitCurrency,
-        supplierId: this.arrivedFabricStock.supplierId,
+        supplierId: this.arrivedFabricStock.supplierId.id,
         sipNumber: this.arrivedFabricStock.sipNumber,
         orderNumber: this.arrivedFabricStock.orderNumber,
         fabricSpecification: this.arrivedFabricStock.fabricSpecification,
@@ -784,38 +857,36 @@ export default {
     },
 
     workshopFunc(item) {
-      console.log(item);
       this.workshop_dialog = true;
-      this.workshop.warehouseId = item.id;
-      this.id = item.id;
-      this.modelNumbers = [...item.modelNumber.split("/")];
-      this.sipNumbers = [...item.sipNumber.split("/")];
-      this.partnerId = item.supplierId;
+      this.workshop.id = item.id;
     },
 
     async saveWorkshop() {
       this.workshop_dialog = false;
       const data = {
-        partnerId: this.partnerId,
-        id: this.id,
+        id: this.workshop.id,
         quantity: this.workshop.quantity,
         warehouseId: this.workshop.warehouseId,
       };
       this.setFabricStockToWorkshop(data);
-
       await this.$refs.workshop_form.reset();
     },
 
     async saveSubcontractor() {
       this.subcontractor_dialog = false;
-      const data = {};
+      const data = {
+        id: this.subcontractor.id,
+        quantity: this.subcontractor.quantity,
+        partnerId: this.subcontractor.partnerId,
+        warehouseId: this.subcontractor.warehouseId,
+      };
       this.setFabricStockToSubcontract(data);
       await this.$refs.subcontractor_form.reset();
     },
 
     async subcontractorFunc(item) {
       this.subcontractor_dialog = true;
-      this.subcontractor.warehouseId = item.id;
+      this.subcontractor.id = item.id;
       this.modelNumbers = [...item.modelNumber.split("/")];
     },
 
@@ -840,7 +911,7 @@ export default {
     this.getFabricStockList({
       sipNumber: "",
       modelNumber: "",
-      partnerName: "",
+      supplierName: "",
     });
   },
 };

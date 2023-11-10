@@ -77,7 +77,7 @@
           <v-form lazy-validation v-model="new_validate" ref="new_form">
             <v-row class="mb-4">
               <v-col cols="12" lg="6">
-                <div class="label">Body part color</div>
+                <div class="label">Main color</div>
                 <v-select
                   v-model="chartData.color"
                   :items="colorList"
@@ -181,7 +181,7 @@
                   color="#7631FF"
                 />
               </v-col>
-              <v-col cols="12" lg="12">
+              <v-col cols="12" lg="12" v-if="chartData.result==='REMAKE'">
                 <div class="label">Reason</div>
                 <v-text-field
                   v-model="chartData.reason"
