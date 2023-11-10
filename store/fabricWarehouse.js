@@ -106,6 +106,8 @@ export const actions = {
   },
 
   createFabricWarehouse({ dispatch }, data) {
+    data.fabricOrderId=data.fabricOrderId?.fabricOrderId
+    console.log(data);
     this.$axios
       .post(`/api/v1/fabric-warehouse/create`, data)
       .then((res) => {
@@ -135,9 +137,17 @@ export const actions = {
     });
   },
 
-  getSipNumbers({ commit }) {
-    this.$axios
-      .get(`/api/v1/fabric-order/sip-numbers`)
+  getSipNumbers({ commit },sipNumber) {
+    const data={
+      sipNumber:sipNumber,
+      modelNumber: "",
+      orderNumber: "",
+      page: 0,
+      size: 20,
+      status: "",
+      supplierName: ""
+    }
+    this.$axios.put(`/api/v1/fabric-order/list`,data)
       .then((res) => {
         commit("setSipNumbers", res.data.data);
       })
@@ -310,4 +320,5 @@ export const actions = {
         this.$toast.error(response.data.message);
       });
   },
+  
 };
