@@ -284,7 +284,7 @@
                     :items="enums"
                     style="max-width: 100px"
                     dense
-                    v-model="arrivedFabricStock.pantonType"
+                    v-model="arrivedFabricStock.pantoneType"
                     outlined
                     hide-details
                     height="44"
@@ -818,6 +818,12 @@ export default {
     editItem(item) {
       this.title = "Edit";
       this.arrivedFabricStock = { ...item };
+      this.arrivedFabricStock.pantoneType = item.pantoneType;
+      this.arrivedFabricStock.remainingQuantity =
+        item.remainingQuantity.split(" ")[0];
+      this.arrivedFabricStock.pricePerUnitCurrency =
+        item.pricePerUnit.split(" ")[1];
+      this.arrivedFabricStock.pricePerUnit = item.pricePerUnit.split(" ")[0];
       this.arrivedFabricStock.supplierId = {
         id: item.id,
         name: item.supplierName,
@@ -829,7 +835,7 @@ export default {
       const data = {
         batchNumber: this.arrivedFabricStock.batchNumber,
         modelNumber: this.arrivedFabricStock.modelNumber,
-        pantonType: this.arrivedFabricStock.pantonType,
+        pantoneType: this.arrivedFabricStock.pantoneType,
         pricePerUnitCurrency: this.arrivedFabricStock.pricePerUnitCurrency,
         supplierId: this.arrivedFabricStock.supplierId.id,
         sipNumber: this.arrivedFabricStock.sipNumber,
@@ -837,8 +843,7 @@ export default {
         fabricSpecification: this.arrivedFabricStock.fabricSpecification,
         colorId: this.arrivedFabricStock.colorId,
         pantoneCode: this.arrivedFabricStock.pantoneCode,
-        remainingQuantity:
-          this.arrivedFabricStock.remainingQuantity.split(" ")[0],
+        remainingQuantity: this.arrivedFabricStock.remainingQuantity,
         pricePerUnit: this.arrivedFabricStock.pricePerUnit.split(" ")[0],
         id: this.arrivedFabricStock.id,
       };
