@@ -71,11 +71,11 @@
             <div>Accessory warehouse</div>
             <v-btn
               color="#7631FF"
-              dark
+              outlined
               class="text-capitalize rounded-lg mr-2"
               @click="$router.push(`/accessory-warehouse/accessory-stock`)"
             >
-              + Add Accessory Stock
+              Accessory Stock
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
