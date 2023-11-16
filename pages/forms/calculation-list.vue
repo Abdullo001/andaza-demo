@@ -3,7 +3,7 @@
     <v-card elevation="0" class="rounded-lg">
       <v-card-title>
         <div>
-          Placed orders
+          Calculations list 
         </div>
         <v-spacer/>
       </v-card-title>
@@ -11,96 +11,8 @@
       <v-card-text>
         <v-form lazy-validation v-model="filter_form" ref="filters">
           <v-row class="mb-5">
-            <v-col cols="12" lg="3">
-              <div class="label">Order number</div>
-              <v-combobox
-                v-model="filters.orderNumber"
-                :items="ordersList"
-                :search-input.sync="orderNumSearch"
-                item-text="orderNumber"
-                item-value="orderNumber"
-                validate-on-blur
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg filter d-flex align-center justify-center mr-2"
-                :return-object="true"
-                dense
-                placeholder="Order name"
-                prepend-icon=""
-              >
-                <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
-                    mdi-magnify
-                  </v-icon>
-                </template>
-              </v-combobox>
-            </v-col>
-            <v-col cols="12" lg="3">
-              <div class="label">Model number</div>
-              <v-combobox
-                v-model="filters.modelNumber"
-                :items="modelsList"
-                :search-input.sync="modelNumSearch"
-                item-text="modelNumber"
-                item-value="modelNumber"
-                validate-on-blur
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg filter d-flex align-center justify-center mr-2"
-                :return-object="true"
-                dense
-                placeholder="Model name"
-                prepend-icon=""
-              >
-                <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
-                    mdi-magnify
-                  </v-icon>
-                </template>
-              </v-combobox>
-            </v-col>
-            <v-col cols="12" lg="3">
-              <div class="label">Model group</div>
-              <v-combobox
-                v-model="filters.modelGroup"
-                :items="modelGroups"
-                :search-input.sync="modelGroupSearch"
-                item-text="name"
-                item-value="name"
-                validate-on-blur
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg filter d-flex align-center justify-center mr-2"
-                :return-object="true"
-                dense
-                placeholder="Model group"
-                prepend-icon=""
-              >
-                <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
-                    mdi-magnify
-                  </v-icon>
-                </template>
-              </v-combobox>
-            </v-col>
-            <v-col cols="12" lg="3">
-              <div class="label">Gender</div>
-              <v-select
-                :items="gander_enums"
-                v-model="filters.gender"
-                placeholder="Gender type"
-                dense
-                outlined
-                height="44"
-                hide-details
-                validate-on-blur
-                class="rounded-lg filter mr-2"
-                append-icon="mdi-chevron-down"
-              />
-            </v-col>
+           
+            
             <v-col cols="12" lg="3">
               <div class="label">Client name</div>
               <v-combobox
@@ -127,11 +39,11 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Brand name</div>
+              <div class="label">Gender</div>
               <v-select
-                :items="brandList"
-                v-model="filters.brandName"
-                placeholder="Brand name"
+                :items="gander_enums"
+                v-model="filters.gender"
+                placeholder="Gender type"
                 dense
                 outlined
                 height="44"
@@ -142,7 +54,7 @@
               />
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Created from date</div>
+              <div class="label">From date</div>
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="filters.fromDate"
@@ -156,7 +68,7 @@
               </div>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Created to date</div>
+              <div class="label">To date</div>
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="filters.toDate"
@@ -167,19 +79,6 @@
                   value-format="dd.MM.yyyy HH:mm:ss"
                 >
                 </el-date-picker>
-              </div>
-            </v-col>
-            <v-col cols="12" lg="3">
-              <div class="label">Shipping date</div>
-              <div style="height: 40px !important">
-                <el-date-picker
-                v-model="filters.shippingDate"
-                type="month"
-                style="width: 100%; height: 100%"
-                placeholder="Pick a month"
-                value-format="MM.yyyy"
-
-              />
               </div>
             </v-col>
             <v-col cols="12" lg="3">
@@ -208,7 +107,24 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Creator</div>
+              <div class="label">Season</div>
+              <v-select
+                :items="season_enums"
+                v-model="filters.season"
+                placeholder="Season"
+                item-text="text"
+                item-value="key"
+                dense
+                outlined
+                height="44"
+                hide-details
+                validate-on-blur
+                class="rounded-lg filter mr-2"
+                append-icon="mdi-chevron-down"
+              />
+            </v-col>
+            <v-col cols="12" lg="3">
+              <div class="label">Created by</div>
               <v-combobox
                 v-model="filters.creatorId"
                 :items="users"
@@ -231,36 +147,6 @@
                   </v-icon>
                 </template>
               </v-combobox>
-            </v-col>
-            <v-col cols="12" lg="3">
-              <div class="label">Fabric status</div>
-              <v-select
-                :items="fabric_status"
-                v-model="filters.fabricStatus"
-                placeholder="Fabric status"
-                dense
-                outlined
-                height="44"
-                hide-details
-                validate-on-blur
-                class="rounded-lg filter mr-2"
-                append-icon="mdi-chevron-down"
-              />
-            </v-col>
-            <v-col cols="12" lg="3">
-              <div class="label">Accessory status</div>
-              <v-select
-                :items="accessory_status"
-                v-model="filters.accessoryStatus"
-                placeholder="Accessory status"
-                dense
-                outlined
-                height="44"
-                hide-details
-                validate-on-blur
-                class="rounded-lg filter mr-2"
-                append-icon="mdi-chevron-down"
-              />
             </v-col>
           </v-row>
           <div class="d-flex justify-center">
@@ -306,31 +192,29 @@ export default {
     return {
       filter_form: true,
       filters: {
-        orderNumber: "",
-        modelNumber: "",
-        modelGroup: "",
+        
         clientName: "",
         country: "",
-        brandName: "",
+        season: "",
         fromDate: "",
         toDate: "",
         gender: "",
         creatorId: "",
-        accessoryStatus:"",
-        fabricStatus:"",
+        
 
 
       },
+      season_enums: [
+        {key: 'SS', text: ' Spring/Summer'},
+        {key: 'AW', text: 'Autumn/Winter'}
+      ],
       gander_enums: ["MALE", "FEMALE", "BOY", "GIRL", "UNISEX"],
       fabric_status:["NOT_PLANNED","PLANNED","GENERATED_FABRIC", "ORDERED"],
       accessory_status:["NOT_PLANNED","PLANNED", "ORDERED"],
       isLoad: false,
 
-      orderNumSearch: "",
-      modelNumSearch: "",
-      modelGroupSearch: "",
+      
       clientSearch: "",
-      brandNameSearch: "",
       countryIdSearch: "",
       creatorSearch: "",
       users: [],
@@ -338,24 +222,8 @@ export default {
     };
   },
   created() {
-    this.filterOrderList({
-      page: 0,
-      size: 10,
-      data: {
-        modelNumber: "",
-        orderNumber: this.orderNumSearch,
-        creatorId: "",
-        clientName: "",
-      },
-    });
-    this.getModelsList({
-      page: 0,
-      size: 10,
-      modelNumber: this.modelNumSearch,
-      partner: "",
-      status: "ACTIVE",
-    }),
-    this.getModelGroup({ name: this.modelGroupSearch });
+    
+    
     this.getClient();
     this.getCountryList({ name: this.countryIdSearch });
     this.getUsersList();
@@ -363,14 +231,11 @@ export default {
 
   computed: {
     ...mapGetters({
-      ordersList: "orders/ordersList",
-      modelsList: "models/modelsList",
-      modelGroups: "orders/modelGroups",
+     
       clientList: "orders/clientList",
-      brandList: "models/brandList",
       countryList: "partners/countryList",
       usersList: "orders/usersList",
-      pdfList: "generatePdf/pdfList",
+      pdfList: "generatePdf/calculationsPdfList",
     }),
   },
 
@@ -396,36 +261,7 @@ export default {
         });
       });
     },
-    orderNumSearch(val) {
-      if (!!val) {
-        this.filterOrderList({
-          page: 0,
-          size: 10,
-          data: {
-            modelNumber: "",
-            orderNumber: val,
-            creatorId: "",
-            clientName: "",
-          },
-        });
-      }
-    },
-    modelNumSearch(val) {
-      if (!!val) {
-        this.getModelsList({
-          page: 0,
-          size: 10,
-          modelNumber: val,
-          partner: "",
-          status: "ACTIVE",
-        });
-      }
-    },
-    modelGroupSearch(val) {
-      if (!!val) {
-        this.getModelGroup({ name: val });
-      }
-    },
+    
     "filters.clientName"(val) {
       if (typeof val === "object" && !!val) {
         this.getBrandList(val?.id);
@@ -438,14 +274,11 @@ export default {
 
   methods: {
     ...mapActions({
-      filterOrderList: "orders/filterOrderList",
-      getModelsList: "models/getModelsList",
-      getModelGroup: "orders/getModelGroup",
+      
       getClient: "orders/getClient",
-      getBrandList: "models/getBrandList",
       getCountryList: "partners/getCountryList",
       getUsersList: "orders/getUsersList",
-      getPdfList: "generatePdf/getPdfList",
+      getPdfList: "generatePdf/getCalculationsPdfList",
     }),
 
     resetFilter() {
@@ -453,24 +286,14 @@ export default {
     },
     filter() {
       const data = {
-        brandName: this.filters.brandName,
         clientName: !!this.filters.clientName?.name
           ? this.filters.clientName?.name
           : "",
         country: !!this.filters.country?.name ? this.filters.country?.name : "",
         creatorId: this.filters.creatorId?.id ? this.filters.creatorId?.id : 0,
         fromDate: !!this.filters.fromDate ? this.filters.fromDate : null,
-        shippingDate: !!this.filters.shippingDate ? this.filters.shippingDate : null,
         gender: this.filters.gender,
-        accessoryStatus: this.filters.accessoryStatus,
-        fabricStatus: this.filters.fabricStatus,
-        modelGroup: this.filters.modelGroup,
-        modelNumber: this.filters.modelNumber?.modelNumber
-          ? this.filters.modelNumber?.modelNumber
-          : "",
-        orderNumber: this.filters.orderNumber?.orderNumber
-          ? this.filters.orderNumber?.orderNumber
-          : "",
+        season: this.filters.season,
         toDate: !!this.filters.toDate ? this.filters.toDate : null,
       };
       this.getPdfList(data);

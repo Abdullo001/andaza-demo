@@ -58,7 +58,7 @@ export default {
         {
           title: "Calculations list",
           subtitle: "Calculation form for one model",
-          to: "/",
+          to: "/forms/calculation-list",
         },
         {
           title: "Placed orders",
@@ -73,7 +73,7 @@ export default {
         {
           title: "Ordered fabrics",
           subtitle: "Prints list related all models",
-          to: "/forms/print-pdf-generation",
+          to: "/forms/ordered-fabric-form",
         },
         {
           title: "Received fabrics",

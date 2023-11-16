@@ -7,7 +7,7 @@
             <v-col cols="12" lg="2" md="2">
               <v-text-field
                 v-model.trim="filters.orderNumber"
-                label="Model №"
+                label="Order №"
                 outlined validate-on-blur
                 dense hide-details
                 class="rounded-lg filter"
@@ -160,8 +160,12 @@ export default {
     changeStatus(item) {
     },
     resetFilter() {
+      this.$refs.filters.reset()
+      this.getWarehouseList({...this.filters,page:0,size:10})
+
     },
     filterModel() {
+      this.getWarehouseList({...this.filters,page:0,size:10})
     },
     viewDetails(item) {
       this.$router.push(this.localePath(`/ready-warehouse/${item.id}`))

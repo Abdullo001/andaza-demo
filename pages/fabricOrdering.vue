@@ -168,6 +168,22 @@
       ></v-simple-checkbox>
     </template>
 
+    <template #item.queue="{item}">
+
+      <v-text-field
+        @keyup.enter="setQueueFunc(item)"
+        outlined
+        hide-details
+        height="32"
+        class="rounded-lg base my-2" dense
+        :disabled="item.status==='ORDERED'"
+        :rules="[formRules.required]"
+        validate-on-blur
+        color="#7631FF"
+        v-model="item.queue"
+      />
+
+  </template>
     <template #item.totalPrice="{item}">
 
       <v-text-field
@@ -248,6 +264,7 @@ export default {
         {text:"",value:"isOrder",sortable:false},
         {text:"Sip №",value:"sipNumber",sortable:false},
         {text:"Model №",value:"modelNumbers",sortable:false},
+        {text:"Queue",value:"queue",sortable:false,width:150},
         {text:"Fabric specification",value:"fabricSpecification",sortable:false},
         {text:"Color",value:"color",sortable:false},
         {text:"Status",value:"status",sortable:false},
@@ -337,6 +354,7 @@ export default {
       setTotalPrice: 'fabricOrdering/setTotalPrice',
       changeStatus: 'fabricOrdering/changeStatus',
       returnOrders: 'fabricOrdering/returnOrders',
+      setQueue: 'fabricOrdering/setQueue',
 
     }),
 
@@ -348,6 +366,14 @@ export default {
         }
         this.setTotalPrice({data,id:this.orderId.id})
       }
+    },
+    setQueueFunc(item){
+      const data={
+        fabricOrderId:item.fabricOrderId,
+        queue:item.queue,
+      }
+      this.setQueue({...data,orderId:this.orderId.id})
+      
     },
 
     enterSelect(item){
