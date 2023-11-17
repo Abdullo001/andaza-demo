@@ -122,6 +122,17 @@ export const actions={
       this.$toast.error(res.message)
       console.log(res);
     })
+  },
+  setQueue({dispatch},data){
+    this.$axios.put(`/api/v1/fabric-order/set-queue`,data)
+    .then((res)=>{
+      dispatch("getGeneratedFabricOrdering",data.orderId)
+      this.$toast.success(res.data.message)
+    })
+    .catch(({res})=>{
+      console.log(res);
+      this.$toast.error(res.data.message)
+    })
   }
   
 }

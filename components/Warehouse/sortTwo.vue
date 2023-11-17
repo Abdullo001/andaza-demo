@@ -27,6 +27,7 @@
               v-bind="attrs"
               v-on="on"
               color="#7631FF"
+              @click="showHistory(item)"
             >
               <v-img src="/history.svg" max-width="21"/>
             </v-btn>
@@ -52,6 +53,32 @@
         </v-tooltip>
       </template>
     </v-data-table>
+
+    <v-dialog v-model="history_dialog" max-width="700">
+      <v-card flat>
+        <v-card-title>
+          <div class="title">History</div>
+          <v-spacer/>
+          <v-btn
+            icon
+            @click="history_dialog=false"
+            color="#7631FF"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text>
+          <v-data-table
+            :headers="historyHeaders"
+            hide-default-footer
+            :items="historyList"
+            class="mt-4 rounded-lg"
+            style="border: 1px solid #E9EAEB"
+          >
+          </v-data-table>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -73,18 +100,101 @@ export default {
         {text: 'Comment', align: 'start', sortable: false, value: 'comment'},
         {text: 'Actions', align: 'end', sortable: false, value: 'actions'},
       ],
-      items: [
-        {id: 1, mainColors: 'Purple', 24: '24', 26: '26', 28: '28', 30: '30', total: '2105', realPrice: '5.8', soldPrice: '21 400 USD', comment: 'Product comment'},
-        {id: 2, mainColors: 'Purple', 24: '24', 26: '26', 28: '28', 30: '30', total: '2105', realPrice: '5.8', soldPrice: '21 400 USD', comment: 'Product comment'},
-        {id: 3, mainColors: 'Purple', 24: '24', 26: '26', 28: '28', 30: '30', total: '2105', realPrice: '5.8', soldPrice: '21 400 USD', comment: 'Product comment'},
-        {id: 4, mainColors: 'Purple', 24: '24', 26: '26', 28: '28', 30: '30', total: '2105', realPrice: '5.8', soldPrice: '21 400 USD', comment: 'Product comment'},
-      ]
+      history_dialog:'',
+      historyHeaders:[
+        {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
+        
+        {text: 'Done By', sortable: false, align: 'center', value: 'createdBy'},
+      ],
+      historyList:[],
+      items: []
     }
   },
+
+  computed:{
+    ...mapGetters({
+      secondClassList:"readyGarmentWarehouse/secondClassList",
+      historyServerList:"readyGarmentWarehouse/historyList",
+    })
+  },
+
+  watch:{
+    secondClassList(list){
+      this.headers= [
+          {text: 'Color', sortable: false, align: 'start', value: 'colorSpecification'},  
+        ],
+
+      list[0]?.sizeDistributionList?.forEach((item) => {
+          this.headers.push({
+            text: item.size, sortable: false, align: 'start', value: item.size
+          })
+        })
+
+        this.headers.push(
+          {text: 'Produced total', sortable: false, align: 'start', value: 'total'},
+          {text: 'Price', sortable: false, align: 'start', value: 'price'},
+          {text: 'Total price', sortable: false, align: 'start', value: 'totalPrice'},
+          {text: 'Actions', sortable: false, align: 'start', value: 'actions'},
+        )
+
+        const specialList = list.map(function (el) {
+          const value = {};
+          const sizesList = [];
+          el?.sizeDistributionList.forEach((item) => {
+            value[item.size] = item.quantity
+            sizesList.push({size: item.size, quantity: 0})
+          });
+
+          return {
+            ...value,
+            ...el,
+            sizeDistributions: [...sizesList],
+
+          }
+        })
+        this.items = JSON.parse(JSON.stringify(specialList))
+    },
+    historyServerList(list){
+      this.historyHeaders = [
+        {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
+      ],
+        list[0]?.sizeDistributionList?.forEach((item) => {
+          this.historyHeaders.push({
+            text: item.size, sortable: false, align: 'start', value: item.size
+          })
+        })
+        this.historyHeaders.push(
+        {text: 'Total', sortable: false, align: 'center', value: 'total'},
+        {text: 'Done By', sortable: false, align: 'center', value: 'createdBy'},
+      )
+
+      const specialList = list.map(function (el) {
+        const value = {};
+        const sizesList = [];
+        el?.sizeDistributionList.forEach((item) => {
+          value[item.size] = item.quantity
+          sizesList.push({size: item.size, quantity: item.quantity})
+        });
+        return {
+          ...el,
+          ...value,
+          sizeDistributions: [...sizesList],
+        }
+      })
+      this.historyList = JSON.parse(JSON.stringify(specialList))
+    },
+  },
+
   methods:{
     ...mapActions({
       getWarehouseListEachSort:"readyGarmentWarehouse/getWarehouseListEachSort",
-    })
+      getWarehouseHistoryList:"readyGarmentWarehouse/getWarehouseHistoryList",
+    }),
+    showHistory(item){
+      const id =this.$route.params.id
+      this.getWarehouseHistoryList({warehouseId:id,operationType:"SECOND_CLASS",color:item.colorSpecification})
+      this.history_dialog=true
+    }
   },
 
   mounted(){

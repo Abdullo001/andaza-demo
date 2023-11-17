@@ -3,6 +3,7 @@ export const state=()=>({
   warehouseDetail:{},
   firstClassList:[],
   secondClassList:[],
+  historyList:[],
 })
 
 export const getters={
@@ -10,6 +11,7 @@ export const getters={
   warehouseDetail: state=>state.warehouseDetail,
   firstClassList: state=>state.firstClassList,
   secondClassList: state=>state.secondClassList,
+  historyList: state=>state.historyList,
 }
 
 export const mutations={
@@ -25,12 +27,15 @@ export const mutations={
   setSecondClassList(state,item){
     state.secondClassList=item
   },
+  setHistoryList(state,item){
+    state.historyList=item
+  },
 }
 
 export const actions={
-  getWarehouseList({commit},{client,modelNumber,orderNumber,page,size}){
+  getWarehouseList({commit},{clientName,modelNumber,orderNumber,page,size}){
     const body={
-      client,
+      client:clientName,
       modelNumber,
       orderNumber,
       page,
@@ -65,6 +70,16 @@ export const actions={
       if(operationType==='SECOND_CLASS'){
         commit("setSecondClassList",res.data.data)
       }
+    })
+    .catch((res)=>{
+      console.log(res);
+    })
+  },
+
+  getWarehouseHistoryList({commit},{warehouseId,operationType,color}){
+    this.$axios.get(`/api/v1/ready-garment-operation/thin-list?warehouseId=${warehouseId}&operationType=${operationType}&color=${color}`,)
+    .then((res)=>{
+      commit("setHistoryList",res.data.data)
     })
     .catch((res)=>{
       console.log(res);

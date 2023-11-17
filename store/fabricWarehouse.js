@@ -30,33 +30,13 @@ export const mutations = {
 export const actions = {
   getFabricWarehouseList({ commit }, { sipNumber, batchNumber, orderNumber }) {
     const body = {
-      filters: [
-        {
-          key: "sipNumber",
-          operator: "LIKE",
-          propertyType: "STRING",
-          value: sipNumber,
-        },
-        {
-          key: "batchNumber",
-          operator: "LIKE",
-          propertyType: "STRING",
-          value: batchNumber,
-        },
-        {
-          key: "orderNumber",
-          operator: "LIKE",
-          propertyType: "STRING",
-          value: orderNumber,
-        },
-      ],
-      sorts: [],
+      sipNumber:sipNumber,
+      batchNumber:batchNumber,
+      orderNumber:orderNumber,
       page: 0,
       size: 50,
     };
-    body.filters = body.filters.filter(
-      (item) => item.value !== "" && item.value !== null
-    );
+    
     this.$axios
       .put(`/api/v1/fabric-warehouse/list`, body)
       .then((res) => {
