@@ -32,7 +32,7 @@ export const mutations = {
 };
 
 export const actions = {
-  getAccessoryStockList( { commit }, { accessoryName, modelNumber, supplierName } ) {
+  async getAccessoryStockList( { commit }, { accessoryName, modelNumber, supplierName } ) {
     const body = {
       modelNumber: modelNumber,
       accessoryName: accessoryName,
@@ -40,7 +40,7 @@ export const actions = {
       page: 0,
       size: 50,
     };
-    this.$axios
+    await this.$axios
       .put( `/api/v1/accessory-stock/list`, body )
       .then( ( res ) => {
         commit( "setAccessoryStockList", res.data.data );
@@ -50,33 +50,43 @@ export const actions = {
       } );
   },
 
-  createAccessoryStock( { dispatch }, data ) {
-    this.$axios.post( `/api/v1/accessory-stock/create`, data ).then( ( res ) => {
-      this.$toast.success( res.data.message );
-      dispatch( "getAccessoryStockList", {
-        accessoryName: "",
-        modelNumber: "",
-        supplierName: "",
-      } ).catch( ( res ) => {
-        this.$toast.error( res.data.message );
-      } );
-    } );
-  },
-
-  getPartnerList( { commit }, id ) {
-    this.$axios
-      .get( `/api/v1/fabric-stocks/details-partners?warehouseId=${id}` )
-      .then( ( res ) => {
-        console.log( res.data.data );
-        commit( "setPartnerList", res.data.data );
+  async createAccessoryStock( { dispatch }, { data } ) {
+    const config = {
+      headers: { "Content-Type": "multipart/form-data" }
+    }
+    console.log( data );
+    await this.$axios.$post( '/api/v1/accessory-stock/create', data, config )
+      .then( res => {
+        dispatch( "getAccessoryStockList" );
+        this.$toast.success( res.message );
       } )
-      .catch( ( res ) => {
-        console.log( res );
-      } );
+      .catch( ( response ) => {
+        console.log( response )
+        this.$toast.error( response.data.message )
+      } )
   },
 
-  updateAccessoryStock( { dispatch }, data ) {
+  getPartnerName( { commit }, name ) {
+    const body = {
+      filters: [],
+      sorts: [],
+      page: 0,
+      size: 10,
+    };
+
+    body.filters = body.filters.filter(
+      ( item ) => item.value !== "" && item.value !== null
+    );
     this.$axios
+      .$put( "/api/v1/partner/list", body )
+      .then( ( res ) => {
+        commit( "setPartners", res.data.content );
+      } )
+      .catch( ( { response } ) => console.log( response ) );
+  },
+
+  async updateAccessoryStock( { dispatch }, { data } ) {
+    await this.$axios
       .put( `/api/v1/accessory-stock/update`, data )
       .then( ( res ) => {
         this.$toast.success( res.data.message );
@@ -107,25 +117,6 @@ export const actions = {
         console.log( res );
         this.$toast.error( res.data.message );
       } );
-  },
-
-  getPartnerName( { commit }, name ) {
-    const body = {
-      filters: [],
-      sorts: [],
-      page: 0,
-      size: 10,
-    };
-
-    body.filters = body.filters.filter(
-      ( item ) => item.value !== "" && item.value !== null
-    );
-    this.$axios
-      .$put( "/api/v1/partner/list", body )
-      .then( ( res ) => {
-        commit( "setPartners", res.data.content );
-      } )
-      .catch( ( { response } ) => console.log( response ) );
   },
 
   async getFabricProcessDetails( { commit }, { id, isForSubcontractor } ) {
