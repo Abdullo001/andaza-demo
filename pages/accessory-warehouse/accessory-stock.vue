@@ -46,8 +46,17 @@
           </v-toolbar-title>
         </v-toolbar>
       </template>
-      <template #item.production="{ item }">
-        <div class="d-flex">
+      <template #item.accessoryPhoto="{item}">
+        <v-img 
+        :src="item?.filePath" 
+        class="mr-2"
+        width="40" 
+        height="40" 
+        @click="showImage(item.filePath)"
+      />
+      </template>
+      <template #item.actions="{ item }">
+          <div class="d-flex">
           <v-tooltip top color="#7631FF" class="pointer" v-if="Object.keys(item).length > 2">
             <template #activator="{ on, attrs }">
               <v-btn icon v-bind="attrs" v-on="on" color="#7631FF" @click="workshopFunc(item)">
@@ -56,7 +65,6 @@
             </template>
             <span class="text-capitalize">Workshop</span>
           </v-tooltip>
-
           <v-tooltip top color="#7631FF" class="pointer" v-if="Object.keys(item).length > 2">
             <template #activator="{ on, attrs }">
               <v-btn icon v-bind="attrs" v-on="on" color="#7631FF" @click="subcontractorFunc(item)">
@@ -65,10 +73,26 @@
             </template>
             <span class="text-capitalize">subcontractor</span>
           </v-tooltip>
-        </div>
-      </template>
-      <template #item.actions="{ item }">
-        <div class="d-flex">
+          <v-tooltip top color="#7631FF">
+            <template #activator="{ on, attrs }" >
+              <v-btn
+                icon
+                class="ml-2"
+                :href="item.documentPath"
+                :download="`Document.${item.extension}`"
+                :disabled="!item.documentPath"
+                v-on="on"
+                target="_blank"
+                v-bind="attrs"
+                @click.stop
+              >
+                <v-img src="/download.svg" 
+                :style="{ filter: item.documentPath ? 'none' : 'grayscale(100%) opacity(0.5)' }"
+                max-width="24" />
+              </v-btn>
+            </template>
+            <span>Download</span>
+          </v-tooltip>
           <v-btn icon color="green" @click="editItem(item)">
             <v-img src="/edit-active.svg" max-width="22" />
           </v-btn>
@@ -78,7 +102,6 @@
         </div>
       </template>
     </v-data-table>
-
     <v-dialog v-model="new_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
@@ -95,7 +118,6 @@
               <v-col cols="12" lg="6">
                 <div class="label">Order №</div>
                 <v-text-field 
-                :rules="[formRules.required]" 
                 v-model="arrivedAccessoryStock.orderNumber" 
                 outlined
                 hide-details 
@@ -107,7 +129,6 @@
               <v-col cols="12" lg="6">
                 <div class="label">Model №</div>
                 <v-text-field 
-                :rules="[formRules.required]" 
                 v-model="arrivedAccessoryStock.modelNumber" 
                 outlined
                 hide-details 
@@ -157,48 +178,180 @@
               </v-col>
               <v-col cols="12" lg="6">
                 <div class="label">Accessory specification</div>
-                <v-text-field :rules="[formRules.required]" v-model="arrivedAccessoryStock.specification" outlined
-                  hide-details dense class="rounded-lg base" placeholder="Enter accessory specification"
-                  color="#7631FF" />
+                <v-text-field 
+                :rules="[formRules.required]" 
+                v-model="arrivedAccessoryStock.specification" 
+                outlined
+                hide-details 
+                dense 
+                class="rounded-lg base" 
+                placeholder="Enter accessory specification"
+                color="#7631FF" />
               </v-col>
               <v-col cols="12" lg="6">
                 <div class="label">Remaining quantity</div>
                 <div class="d-flex align-center">
-                  <v-text-field height="44" class="rounded-lg base rounded-l-lg rounded-r-0" color="#7631FF"
-                    v-model="arrivedAccessoryStock.remainingQuantity" outlined hide-details dense
-                    placeholder="Enter Remaining q-ty" />
-                  <v-select :items="measurementUnitList" item-text="name" item-value="id" style="max-width: 100px" dense
-                    v-model="arrivedAccessoryStock.measurementUnitId" outlined hide-details height="44"
-                    class="rounded-lg base rounded-r-lg rounded-l-0" validate-on-blur placeholder=""
-                    append-icon="mdi-chevron-down" color="#7631FF" place />
+                  <v-text-field 
+                  height="44" 
+                  class="rounded-lg base rounded-l-lg rounded-r-0" 
+                  color="#7631FF"
+                  v-model="arrivedAccessoryStock.remainingQuantity" 
+                  outlined 
+                  hide-details 
+                  dense
+                  placeholder="Enter Remaining q-ty" />
+                  <v-select 
+                  :items="measurementUnitList" 
+                  item-text="name" 
+                  item-value="id" 
+                  style="max-width: 100px" 
+                  dense
+                  v-model="arrivedAccessoryStock.measurementUnitId" 
+                  outlined 
+                  hide-details 
+                  height="44"
+                  class="rounded-lg base rounded-r-lg rounded-l-0" 
+                  validate-on-blur 
+                  placeholder="M/U"
+                  append-icon="mdi-chevron-down" color="#7631FF" place />
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
                 <div class="label">Price per unit</div>
                 <div class="d-flex align-center">
-                  <v-text-field height="44" class="rounded-lg base rounded-l-lg rounded-r-0" color="#7631FF"
-                    v-model="arrivedAccessoryStock.pricePerUnit" outlined hide-details dense
-                    placeholder="Enter Price P/U" />
-                  <v-select :items="priceEnums" style="max-width: 100px" dense
-                    v-model="arrivedAccessoryStock.pricePerUnitCurrency" outlined hide-details height="44"
-                    class="rounded-lg base rounded-r-lg rounded-l-0" validate-on-blur placeholder=""
-                    append-icon="mdi-chevron-down" color="#7631FF" place />
+                  <v-text-field 
+                  height="44" 
+                  class="rounded-lg base rounded-l-lg rounded-r-0" 
+                  color="#7631FF"
+                  v-model="arrivedAccessoryStock.pricePerUnit" 
+                  outlined 
+                  hide-details 
+                  dense
+                  placeholder="Enter Price P/U" />
+                  <v-select 
+                  :items="priceEnums" 
+                  style="max-width: 100px" 
+                  dense
+                  v-model="arrivedAccessoryStock.pricePerUnitCurrency" 
+                  outlined 
+                  hide-details 
+                  height="44"
+                  class="rounded-lg base rounded-r-lg rounded-l-0" 
+                  validate-on-blur 
+                  placeholder="P/U"
+                  append-icon="mdi-chevron-down" color="#7631FF" place />
+                </div>
+              </v-col>
+              <v-col cols="12">
+                <div class="text-body-1 font-weight-medium mb-3">
+                  {{ $t("partners.dialog.uploadContract") }}
+                </div>
+                <v-card style="border: #a5a7ad dashed 1px" elevation="0">
+                  <v-card-title>
+                    <input
+                      ref="uploader"
+                      class="d-none"
+                      type="file"
+                      @change="onChangeFile"
+                    />
+                    <v-btn
+                      @click="clickImportFile"
+                      elevation="0"
+                      style="background-color: #f1ebfe; color: #7631ff"
+                      :disabled="docList.length !== 0"
+                      class="font-weight-bold mr-3 text-capitalize"
+                    >
+                      {{ $t("partners.dialog.uploadFiles") }}
+                    </v-btn>
+                  </v-card-title>
+                  <v-card-text>
+                    <div v-for="(item, idx) in docList" :key="`imade_${idx}`">
+                      <div class="d-flex justify-space-between align-center">
+                        <p class="font-weight-bold">
+                          <v-icon class="mr-3" color="green">
+                            mdi-check
+                          </v-icon>
+                          {{ item.name }}
+                        </p>
+                        <p>
+                          <v-btn icon @click="removeImage(item.size)">
+                            <v-icon> mdi-close</v-icon>
+                          </v-btn>
+                        </p>
+                      </div>
+                      <v-divider />
+                    </div>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6">
+                <div class="big__image overflow-hidden relative " >
+                  <input
+                    ref="uploaderFirst"
+                    class="d-none"
+                    type="file"
+                    @change="(e)=>firstFileChanged(e)"
+                    accept="image/*"
+                  />
+
+                  <div class="update__icon" v-if="!!files[0].file">
+                    <v-btn color="green" icon @click="getFile('first')">
+                      <v-img src="/upload-green.svg" max-width="22"/>
+                    </v-btn>
+                    <v-btn color="green" icon @click="deleteFile('first')">
+                      <v-img src="/trash-red.svg" max-width="22"/>
+                    </v-btn>
+                  </div>
+
+                  <v-img
+                    :src="images[0].photo"
+                    lazy-src="/model-image.jpg"
+                    v-if="!!files[0].file" width="100%"
+                    @click="showImage(images[0].photo)"
+                  />
+
+                  <div class="default__box" v-else>
+                    <v-img src="/default-image.svg" width="70"/>
+                    <v-btn text color="#5570F1" class="rounded-lg mt-6 my-4" @click="getFile('first')">
+                      <v-img src="/upload.svg" class="mr-2"/>
+                      <div class="text-capitalize upload-text">Upload Image</div>
+                    </v-btn>
+                    <div class="default__text">
+                      <p>Upload a cover image for your product.</p>
+                    </div>
+                  </div>
+
                 </div>
               </v-col>
             </v-row>
-          </v-form>
+            </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
-          <v-btn class="rounded-lg text-capitalize font-weight-bold" outlined color="#7631FF" width="163"
-            @click="new_dialog = false">
+          <v-btn 
+          class="rounded-lg text-capitalize font-weight-bold" 
+          outlined 
+          color="#7631FF" 
+          width="163"
+          @click="new_dialog = false">
             cancel
           </v-btn>
-          <v-btn v-if="title === 'New'" class="rounded-lg text-capitalize ml-4 font-weight-bold" color="#7631FF" dark
-            width="163" @click="saveArrivedAccessoryStock">
+          <v-btn 
+          v-if="title === 'New'" 
+          class="rounded-lg text-capitalize ml-4 font-weight-bold" 
+          color="#7631FF" 
+          dark
+          width="163" 
+          @click="saveArrivedAccessoryStock">
             save
           </v-btn>
-          <v-btn v-else class="rounded-lg text-capitalize ml-4 font-weight-bold" color="#7631FF" dark width="163"
-            @click="editArrivedAccessoryStock">
+          <v-btn 
+          v-else 
+          class="rounded-lg text-capitalize ml-4 font-weight-bold" 
+          color="#7631FF" 
+          dark width="163"
+          @click="editArrivedAccessoryStock">
             Edit
           </v-btn>
         </v-card-actions>
@@ -281,7 +434,7 @@
             cancel
           </v-btn>
           <v-btn class="rounded-lg text-capitalize ml-4 font-weight-bold" color="#7631FF" dark width="130"
-            @click="saveWorkshop">
+            @click="workshopSureFunc">
             save
           </v-btn>
         </v-card-actions>
@@ -305,7 +458,7 @@
               <v-col cols="12">
                 <div class="label">Model number</div>
                 <v-combobox
-                  v-model="workshop.modelNumber"
+                  v-model="subcontractor.modelNumber"
                   :items="modelsList"
                   :search-input.sync="modelNumSearch"
                   :rules="[formRules.required]"
@@ -392,7 +545,7 @@
             cancel
           </v-btn>
           <v-btn class="rounded-lg text-capitalize ml-4 font-weight-bold" color="#7631FF" dark width="130"
-            @click="saveSubcontractor">
+            @click="subcontractorSureFunc">
             save
           </v-btn>
         </v-card-actions>
@@ -421,6 +574,89 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="workshopSure_dialog" max-width="450">
+      <v-card class="pa-4 text-center">
+        <div class="d-flex justify-center mb-2">
+          <v-img src="/error-icon.svg" max-width="40" />
+        </div>
+        <v-card-title class="d-flex justify-center font-weight-bold"
+          >Are you sure ?</v-card-title
+        >
+        <v-card-text>
+         You want to giving the current accessory to this model ?
+        </v-card-text>
+        <v-card-actions class="px-16">
+          <v-btn
+            outlined
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#864EFF"
+            width="120"
+            @click.stop="workshopSure_dialog = false"
+          >
+            Cancel
+          </v-btn>
+          <v-spacer />
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#864EFF"
+            width="120"
+            elevation="0"
+            dark
+            @click="saveWorkshop"
+          >
+            Giving
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="subcontractorSure_dialog" max-width="450">
+      <v-card class="pa-4 text-center">
+        <div class="d-flex justify-center mb-2">
+          <v-img src="/error-icon.svg" max-width="40" />
+        </div>
+        <v-card-title class="d-flex justify-center font-weight-bold"
+          >Are you sure ?</v-card-title
+        >
+        <v-card-text>
+         You want to giving the current accessory to this model ?
+        </v-card-text>
+        <v-card-actions class="px-16">
+          <v-btn
+            outlined
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#864EFF"
+            width="120"
+            @click.stop="subcontractorSure_dialog = false"
+          >
+            Cancel
+          </v-btn>
+          <v-spacer />
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#864EFF"
+            width="120"
+            elevation="0"
+            dark
+            @click="saveSubcontractor"
+          >
+            Giving
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog max-width="590" v-model="image_dialog">
+      <v-card >
+        <v-card-title class="d-flex">
+          <v-spacer/>
+          <v-btn icon color="#7631FF" large @click="image_dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text>
+          <v-img :src="currentImage" height="500" class="mb-4" contain/>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -433,46 +669,52 @@ export default {
         { text: "Order №", value: "orderNumber", sortable: false },
         { text: "Model №", value: "modelNumber", sortable: false },
         { text: "Accessory name", value: "accessoryName", sortable: false },
-        {
-          text: "Accessory specification",
-          value: "specification",
-          sortable: false,
-          width: 200,
-        },
+        { text: "Accessory specification", value: "specification", sortable: false, width: 200 },        
+        { text: "Accessory photo", value: "accessoryPhoto" },
         { text: "Supplier name", value: "supplierName", sortable: false },
         { text: "Remaining q-ty", value: "remainingQuantity", sortable: false },
         { text: "M/U", value: "measurementUnit", sortable: false },
-        {
-          text: "Price P/U",
-          value: "pricePerUnit",
-          sortable: false,
-          align: "center",
-        },
+        { text: "Price P/U", value: "pricePerUnit", sortable: false, align: "center" },
         { text: "Total price", value: "totalPrice", sortable: false },
-        {
-          text: "Production",
-          value: "production",
-          sortable: false,
-          align: "center",
-        },
         { text: "Action", value: "actions", sortable: false, align: "center" },
       ],
 
+      files:[
+        {file:null,id:null},
+        {file:null,id:null},
+        {file:null,id:null},
+        {file:null,id:null},
+      ],
+
+      images:[
+        {photo:""},
+        {photo:""},
+        {photo:""},
+        {photo:""},
+      ],
+
+      enums: [ "TPX", "TCX", "TPG", "C", "MELANGE" ],
+      priceEnums: [ "USD", "UZS", "RUB" ],
+      processes: [ "SEWING", "PACKAGING" ],
+      currentImage:"",
       valid_search: "",
       title: "",
       partnerName: "",
       new_validate: true,
       workshop_validate: true,
-      enums: [ "TPX", "TCX", "TPG", "C", "MELANGE" ],
-      priceEnums: [ "USD", "UZS", "RUB" ],
-      processes: [ "SEWING", "PACKAGING" ],
       subcontractor_validate: true,
-      spend_validate: true,
+      image_dialog:false,
       new_dialog: false,
+      workshopSure_dialog: false,
+      subcontractorSure_dialog: false,
       delete_dialog: false,
       workshop_dialog: false,
       subcontractor_dialog: false,
-      arrivedAccessoryStock: {},
+      arrivedAccessoryStock: {
+        modelNumber: "",
+        orderNumber: "",
+      },
+
       workshop: {
         givingQuantity: null,
         id: null,
@@ -495,6 +737,7 @@ export default {
       },
 
       deletedId: null,
+      docList: [],
       modelNumbers: [],
       modelNumSearch: "",
       current_list: [],
@@ -525,7 +768,7 @@ export default {
     "workshop.modelNumber"(val) {
       this.workshop.modelId = val?.id;
     },
-    "workshop.modelNumber"(val) {
+    "subcontractor.modelNumber"(val) {
       this.subcontractor.modelId = val?.id;
     },
     modelNumSearch(val) {
@@ -566,8 +809,68 @@ export default {
       getModelsList: "models/getModelsList",
       getMeasurementUnit: "shippingInfo/getMeasurementUnit",
     } ),
+
+    firstFileChanged(e) {
+      this.files[0].file = e.target.files[0];
+      this.images[0].photo = URL.createObjectURL(this.files[0].file);
+      if(!!this.files[0].id){
+        this.fileRequests[0].file=e.target.files[0]
+        this.fileRequests[0].id=this.files[0].id
+      }
+    },
+
+    getFile(count) {
+      switch (count) {
+        case 'first':
+          return this.$refs.uploaderFirst.click();
+        case 'second':
+          return this.$refs.uploaderSecond.click();
+        case 'third':
+          return this.$refs.uploaderThird.click();
+        case 'fourth':
+          return this.$refs.uploaderFourth.click();
+      }
+    },
+
+    deleteFile(count) {
+      switch (count) {
+        case 'first':
+          this.files[0].file = null;
+          break;
+        case 'second':
+          this.files[1].file = null;
+          break;
+        case 'third':
+          this.files[2].file = null;
+
+          break;
+        case 'fourth':
+          this.files[3].file = null;
+          this.deleteImages({id:this.files[3].id,modelId:this.$route.params.id})
+          break;
+      }
+    },
+
+    showImage(photo) {
+      this.currentImage = photo;
+      this.image_dialog = true;
+    },
+
     loadDetails( { item } ) {
       // current opened || choose object ^
+    },
+
+    onChangeFile(e) {
+      const file = e.target.files[0];
+      this.docList.push(file);
+    },
+
+    clickImportFile() {
+      this.$refs.uploader.click();
+    },
+
+    removeImage(e) {
+      this.docList = this.docList.filter((item) => item.size !== e);
     },
 
     addArrivedAccessoryStock() {
@@ -576,46 +879,103 @@ export default {
     },
 
     async saveArrivedAccessoryStock() {
-      const data = { ...this.arrivedAccessoryStock };
-      data.supplierId = this.arrivedAccessoryStock.supplierId.id;
-      await this.createAccessoryStock( data );
-      await this.$refs.new_form.reset();
+    if(this.title === "New") {
+      const validate = this.$refs.new_form.validate();
+      const {
+        specification,
+        accessoryName,
+        modelNumber,
+        orderNumber,
+        pricePerUnit,
+        pricePerUnitCurrency,
+        measurementUnitId,
+        remainingQuantity,
+        supplierId,
+      } = this.arrivedAccessoryStock
+      if (validate) {
+        const file=this.docList[0]
+        const formData= new FormData()
+        formData.append("accessoryName", accessoryName),
+        formData.append("measurementUnitId", measurementUnitId),
+        formData.append("modelNumber", modelNumber),
+        formData.append("orderNumber", orderNumber),
+        formData.append("pricePerUnit", pricePerUnit),
+        formData.append("pricePerUnitCurrency", pricePerUnitCurrency),
+        formData.append("remainingQuantity", remainingQuantity),
+        formData.append("specification", specification),
+        formData.append("supplierId", supplierId.id)
+        if(!!this.files[0]?.file){
+          formData.append("file",this.files[0]?.file)
+        }
+        if(!!file){
+          formData.append("document", file)
+        }
+        await this.createAccessoryStock({ data: formData });
+        await this.$refs.new_form.reset();
+      }
       this.new_dialog = false;
+    }
     },
 
     editItem( item ) {
       this.title = "Edit";
       this.arrivedAccessoryStock = { ...item };
+      this.images[0].photo=""
+      if(!!item.filePath){
+        this.images[0].photo=item.filePath
+      }
+      if(!!item.filePath){
+          this.files[0].file = item.filePath
+      }
       this.arrivedAccessoryStock.measurementUnitId = item.measurementUnitId;
-      this.arrivedAccessoryStock.pricePerUnitCurrency =
-        item.pricePerUnit.split( " " )[ 1 ];
+      this.arrivedAccessoryStock.pricePerUnitCurrency = item.pricePerUnit.split( " " )[ 1 ];
       this.arrivedAccessoryStock.pricePerUnit = item.pricePerUnit.split( " " )[ 0 ];
       this.arrivedAccessoryStock.supplierId = {
         id: item.supplierId,
         name: item.supplierName,
       };
-      console.log( this.arrivedAccessoryStock );
-      console.log( item );
       this.new_dialog = true;
     },
 
-    editArrivedAccessoryStock() {
-      const data = {
-        modelNumber: this.arrivedAccessoryStock.modelNumber,
-        pricePerUnitCurrency: this.arrivedAccessoryStock.pricePerUnitCurrency,
-        supplierId: this.arrivedAccessoryStock.supplierId.id,
-        accessoryName: this.arrivedAccessoryStock.accessoryName,
-        orderNumber: this.arrivedAccessoryStock.orderNumber,
-        measurementUnitId: this.arrivedAccessoryStock.measurementUnitId,
-        specification: this.arrivedAccessoryStock.specification,
-        measurementUnit:
-          this.arrivedAccessoryStock.measurementUnit.split( " " )[ 0 ],
-        remainingQuantity: this.arrivedAccessoryStock.remainingQuantity,
-        pricePerUnit: this.arrivedAccessoryStock.pricePerUnit.split( " " )[ 0 ],
-        id: this.arrivedAccessoryStock.id,
-      };
-      this.updateAccessoryStock( data );
+    async editArrivedAccessoryStock() {
+      if (this.title === "Edit") {
+      const edit_validate = this.$refs.new_form.validate();
+      const {
+        specification,
+        accessoryName,
+        modelNumber,
+        orderNumber,
+        id,
+        pricePerUnit,
+        pricePerUnitCurrency,
+        measurementUnitId,
+        remainingQuantity,
+        supplierId,
+      } = this.arrivedAccessoryStock
+      if (edit_validate) {
+        const file=this?.docList[0]
+        const formData= new FormData()
+        formData.append("accessoryName", accessoryName),
+        formData.append("measurementUnitId", measurementUnitId),
+        formData.append("modelNumber", modelNumber),
+        formData.append("orderNumber", orderNumber),
+        formData.append("pricePerUnit", pricePerUnit),
+        formData.append("pricePerUnitCurrency", pricePerUnitCurrency)
+        formData.append("id", id),
+        formData.append("pricePerUnitCurrency", pricePerUnitCurrency)
+        if(!!this.files[0]?.file){
+          formData.append("file", this.files[0]?.file)
+        }
+        if(!!file){
+          formData.append("document", file) 
+        }
+        formData.append("remainingQuantity", remainingQuantity),
+        formData.append("specification", specification),
+        formData.append("supplierId", supplierId.id),
+        await this.updateAccessoryStock( { data: formData } );
+      }
       this.new_dialog = false;
+      }
     },
 
     getDeleteItem( item ) {
@@ -637,7 +997,7 @@ export default {
     },
 
     async saveWorkshop() {
-      this.workshop_dialog = false;
+      this.workshopSure_dialog = false;
       const data = {
         id: this.workshop.id,
         modelId: this.workshop.modelId,
@@ -648,8 +1008,21 @@ export default {
       await this.$refs.workshop_form.reset();
     },
 
+    workshopSureFunc() {
+      this.workshopSure_dialog = true;
+      this.workshop_dialog = false;
+    },
+
+    async subcontractorFunc( item ) {
+      this.subcontractor_dialog = true;
+      this.subcontractor.id = item.id;
+      this.subcontractor.process = item.process;
+      this.subcontractor.givingQuantity = item.givingQuantity;
+      this.modelNumbers = [ ...item.modelNumber.split( "/" ) ];
+    },
+
     async saveSubcontractor() {
-      this.subcontractor_dialog = false;
+      this.subcontractorSure_dialog = false;
       const data = {
         givingQuantity: this.subcontractor.givingQuantity,
         id: this.subcontractor.id,
@@ -661,12 +1034,9 @@ export default {
       await this.$refs.subcontractor_form.reset();
     },
 
-    async subcontractorFunc( item ) {
-      this.subcontractor_dialog = true;
-      this.subcontractor.id = item.id;
-      this.subcontractor.process = item.process;
-      this.subcontractor.givingQuantity = item.givingQuantity;
-      this.modelNumbers = [ ...item.modelNumber.split( "/" ) ];
+    subcontractorSureFunc(){
+      this.subcontractorSure_dialog = true;
+      this.subcontractor_dialog = false;
     },
 
     filterData() {
@@ -695,4 +1065,67 @@ export default {
   },
 };
 </script>
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.image {
+  width: 100%;
+  height: 100%;
+  object-position: center;
+  object-fit: cover;
+}
+.update__icon {
+  border-radius: 16px;
+  position: absolute !important;
+  z-index: 10 !important;
+  top: 16px;
+  right: 10px;
+  background-color: #fff;
+  padding: 5px;
+  &.small {
+    padding: 0 2px;
+  }
+}
+.relative {
+  position: relative !important;
+  width: 100%;
+}
+.upload-text {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  color: #5570F1;
+}
+
+.downloadIconDisable {
+  fill: red
+}
+.big__image {
+  background: #F4F5FA;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 12px;
+  border: 1px solid #E1E2E9;
+}
+.default__box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.default__text {
+  > p {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #8B8D97;
+    margin-bottom: 7px;
+    > span {
+      color: #000;
+    }
+  }
+}
+</style>

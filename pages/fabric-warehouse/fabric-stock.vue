@@ -162,7 +162,6 @@
               <v-col cols="12" lg="6">
                 <div class="label">ART №</div>
                 <v-text-field
-                  :rules="[formRules.required]"
                   v-model="arrivedFabricStock.sipNumber"
                   outlined
                   hide-details
@@ -175,7 +174,6 @@
               <v-col cols="12" lg="6">
                 <div class="label">Batch №</div>
                 <v-text-field
-                  :rules="[formRules.required]"
                   v-model="arrivedFabricStock.batchNumber"
                   outlined
                   hide-details
@@ -188,7 +186,6 @@
               <v-col cols="12" lg="6">
                 <div class="label">Order №</div>
                 <v-text-field
-                  :rules="[formRules.required]"
                   v-model="arrivedFabricStock.orderNumber"
                   outlined
                   hide-details
@@ -201,7 +198,6 @@
               <v-col cols="12" lg="6">
                 <div class="label">Model №</div>
                 <v-text-field
-                  :rules="[formRules.required]"
                   v-model="arrivedFabricStock.modelNumber"
                   outlined
                   hide-details
@@ -474,7 +470,7 @@
             color="#7631FF"
             dark
             width="130"
-            @click="saveWorkshop"
+            @click="workshopSureFunc"
           >
             save
           </v-btn>
@@ -597,7 +593,7 @@
             color="#7631FF"
             dark
             width="130"
-            @click="saveSubcontractor"
+            @click="subcontractorSureFunc"
           >
             save
           </v-btn>
@@ -640,6 +636,99 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-dialog v-model="workshopSure_dialog" max-width="450">
+      <v-card class="pa-4 text-center">
+        <div class="d-flex justify-center mb-2">
+          <v-img src="/error-icon.svg" max-width="40" />
+        </div>
+        <v-card-title class="d-flex justify-center font-weight-bold"
+          >Are you sure ?</v-card-title
+        >
+        <v-card-text>
+          Giving the current fabric to
+        </v-card-text>
+        <v-card-text>
+          <div>
+           <span class="font-weight-bold"> Fabric specification:</span>
+            {{ selectedProcess.fabricSpecification }}
+          </div> 
+        </v-card-text>
+        <v-card-text>
+          <div>
+            <span class="font-weight-bold" >Color:</span> {{ selectedProcess.color }}
+          </div>
+        </v-card-text>
+        <v-card-actions class="px-16">
+          <v-btn
+            outlined
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#864EFF"
+            width="120"
+            @click.stop="workshopSure_dialog = false"
+          >
+            Cancel
+          </v-btn>
+          <v-spacer />
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#864EFF"
+            width="120"
+            elevation="0"
+            dark
+            @click="saveWorkshop"
+          >
+            Giving
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="subcontractorSure_dialog" max-width="450">
+      <v-card class="pa-4 text-center">
+        <div class="d-flex justify-center mb-2">
+          <v-img src="/error-icon.svg" max-width="40" />
+        </div>
+        <v-card-title class="d-flex justify-center font-weight-bold"
+          >Are you sure ?</v-card-title
+        >
+        <v-card-text>
+          Giving the current fabric to
+        </v-card-text>
+        <v-card-text>
+          <div>
+           <span class="font-weight-bold"> Fabric specification:</span>
+            {{ selectedProcess.fabricSpecification }}
+          </div> 
+        </v-card-text>
+        <v-card-text>
+          <div>
+            <span class="font-weight-bold" >Color:</span> {{ selectedProcess.color }}
+          </div>
+        </v-card-text>
+        <v-card-actions class="px-16">
+          <v-btn
+            outlined
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#864EFF"
+            width="120"
+            @click.stop="subcontractorSure_dialog = false"
+          >
+            Cancel
+          </v-btn>
+          <v-spacer />
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#864EFF"
+            width="120"
+            elevation="0"
+            dark
+            @click="saveSubcontractor"
+          >
+            Giving
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -654,47 +743,30 @@ export default {
         { text: "Order №", value: "orderNumber", sortable: false },
         { text: "Model №", value: "modelNumber", sortable: false },
         { text: "Supplier name", value: "supplierName", sortable: false },
-        {
-          text: "Fabric specification",
-          value: "fabricSpecification",
-          sortable: false,
-          width: 200,
-        },
+        { text: "Fabric specification", value: "fabricSpecification", sortable: false, width: 200 },
         { text: "Color", value: "color", sortable: false },
         { text: "Remaining q-ty", value: "remainingQuantity", sortable: false },
-        {
-          text: "Price P/U",
-          value: "pricePerUnit",
-          sortable: false,
-          align: "center",
-        },
+        { text: "Price P/U", value: "pricePerUnit", sortable: false, align: "center" },
         { text: "Total price", value: "totalPrice", sortable: false },
-        {
-          text: "Production",
-          value: "production",
-          sortable: false,
-          align: "center",
-        },
+        { text: "Production", value: "production", sortable: false, align: "center" },
         { text: "Action", value: "actions", sortable: false, align: "center" },
       ],
-
-      valid_search: "",
-      new_validate: true,
-      supplierName: "",
-      workshop_validate: true,
       enums: ["TPX", "TCX", "TPG", "C", "MELANGE"],
       priceEnums: ["USD", "UZS", "RUB"],
-      pantonType: "TPX",
-      pricePerUnitCurrency: "USD",
+      valid_search: "",
+      supplierName: "",
+      new_validate: true,
+      workshop_validate: true,
       subcontractor_validate: true,
-      spend_validate: true,
       new_dialog: false,
       delete_dialog: false,
       workshop_dialog: false,
       subcontractor_dialog: false,
+      workshopSure_dialog: false,
+      subcontractorSure_dialog: false,
       title: "",
       arrivedFabricStock: {},
-
+      selectedProcess:{},
       workshop: {
         id: null,
         quantity: null,
@@ -867,7 +939,7 @@ export default {
     },
 
     async saveWorkshop() {
-      this.workshop_dialog = false;
+      this.workshopSure_dialog = false;
       const data = {
         id: this.workshop.id,
         quantity: this.workshop.quantity,
@@ -877,8 +949,18 @@ export default {
       await this.$refs.workshop_form.reset();
     },
 
+    workshopSureFunc() {
+      this.workshop_dialog = false;
+      this.workshopSure_dialog = true;
+      this.processDetails.forEach((item)=>{
+        if(item.id===this.workshop.warehouseId){
+          this.selectedProcess={...item}
+        }
+      })
+    },
+
     async saveSubcontractor() {
-      this.subcontractor_dialog = false;
+      this.subcontractorSure_dialog = false;
       const data = {
         id: this.subcontractor.id,
         quantity: this.subcontractor.quantity,
@@ -895,6 +977,16 @@ export default {
       this.modelNumbers = [...item.modelNumber.split("/")];
     },
 
+    subcontractorSureFunc(){
+      this.subcontractor_dialog = false;
+      this.subcontractorSure_dialog = true;
+      this.processDetails.forEach((item)=>{
+        if(item.id===this.subcontractor.warehouseId){
+          this.selectedProcess={...item}
+        }
+      })
+    },  
+
     filterData() {
       this.getFabricStockList({
         sipNumber: this.filters.sipNumber,
@@ -902,6 +994,7 @@ export default {
         supplierName: this.filters.supplierName,
       });
     },
+
     async resetFilters() {
       await this.getFabricStockList({
         sipNumber: "",

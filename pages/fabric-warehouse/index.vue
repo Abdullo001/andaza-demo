@@ -73,6 +73,9 @@
         itemsPerPageOptions: [10, 20, 50, 100],
       }"
       show-expand
+      @update:page="page"
+      @update:items-per-page="size"
+      :server-items-length="totalElements"
       :single-expand="singleExpand"
       :expanded.sync="expanded"
       @item-expanded="loadDetails"
@@ -291,20 +294,6 @@
             <v-row>
               <v-col cols="12" lg="6">
                 <div class="label">Sip №</div>
-                <!-- <v-select
-                  append-icon="mdi-chevron-down"
-                  v-model="arrivedFabric.fabricOrderId"
-                  :rules="[formRules.required]"
-                  :items="sipNumbers"
-                  item-text="sipNumber"
-                  item-value="fabricOrderId"
-                  hide-details
-                  class="base rounded-lg"
-                  rounded
-                  outlined
-                  dense
-                  placeholder="Select Sip №"
-                /> -->
                 <v-combobox
                   v-model="arrivedFabric.fabricOrderId"
                   :items="sipNumbers"
@@ -858,6 +847,8 @@ export default {
 
       deletedId: null,
       modelNumbers: [],
+      itemPrePage: 10,
+      current_page: 0,
 
       current_list: [],
     };
@@ -868,6 +859,7 @@ export default {
       fabricWarehouseList: "fabricWarehouse/fabricWarehouseList",
       sipNumbers: "fabricWarehouse/sipNumbers",
       toSipNumbers: "fabricWarehouse/toSipNumbers",
+      totalElements: "fabricWarehouse/totalElements",
       partnerList: "subcontracts/partnerList",
     }),
   },
@@ -904,6 +896,26 @@ export default {
     }),
     loadDetails({ item }) {
       // current opened || choose object ^
+    },
+    async page(value) {
+      this.current_page = value - 1;
+      await this.getFabricWarehouseList({
+        sipNumber: this.filters.sipNumber,
+        batchNumber: this.filters.batchNumber,
+        orderNumber: this.filters.orderNumber,
+        page:this.current_page,
+        size:this.itemPrePage,
+      });
+    },
+    async size(value) {
+      this.itemPrePage = value;
+      await this.getFabricWarehouseList({
+        sipNumber: this.filters.sipNumber,
+        batchNumber: this.filters.batchNumber,
+        orderNumber: this.filters.orderNumber,
+        page:this.current_page,
+        size:this.itemPrePage,
+      });
     },
 
     addArrivedFabric() {
@@ -1015,6 +1027,8 @@ export default {
         sipNumber: this.filters.sipNumber,
         batchNumber: this.filters.batchNumber,
         orderNumber: this.filters.orderNumber,
+        page:this.current_page,
+        size:this.itemPrePage,
       });
     },
     async resetFilters() {
@@ -1022,6 +1036,8 @@ export default {
         sipNumber: "",
         batchNumber: "",
         orderNumber: "",
+        page:this.current_page,
+        size:this.itemPrePage,
       });
       await this.$refs.filter_form.reset();
     },
@@ -1032,6 +1048,8 @@ export default {
       sipNumber: "",
       batchNumber: "",
       orderNumber: "",
+      page:0,
+      size:10,
     });
   },
 };
