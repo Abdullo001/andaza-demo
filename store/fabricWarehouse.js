@@ -7,6 +7,7 @@ export const state = () => ({
 
 export const getters = {
   fabricWarehouseList: (state) => state.fabricWarehouseList.content,
+  totalElements: (state) => state.fabricWarehouseList.totalElements,
   fabricStockList: (state) => state.fabricStockList.content,
   sipNumbers: (state) => state.sipNumbers,
   toSipNumbers: (state) => state.toSipNumbers,
@@ -28,13 +29,13 @@ export const mutations = {
 };
 
 export const actions = {
-  getFabricWarehouseList({ commit }, { sipNumber, batchNumber, orderNumber }) {
+  getFabricWarehouseList({ commit }, { sipNumber, batchNumber, orderNumber,page,size }) {
     const body = {
       sipNumber:sipNumber,
       batchNumber:batchNumber,
       orderNumber:orderNumber,
-      page: 0,
-      size: 50,
+      page,
+      size,
     };
     
     this.$axios
@@ -96,6 +97,8 @@ export const actions = {
           sipNumber: "",
           batchNumber: "",
           orderNumber: "",
+          page:0,
+          size:10,
         });
       })
       .catch((res) => {
@@ -145,6 +148,8 @@ export const actions = {
           sipNumber: "",
           batchNumber: "",
           orderNumber: "",
+          page:0,
+          size:10,
         });
       })
       .catch((res) => {
@@ -179,6 +184,8 @@ export const actions = {
           sipNumber: "",
           batchNumber: "",
           orderNumber: "",
+          page:0,
+          size:10,
         });
       })
       .catch((res) => {
@@ -223,6 +230,8 @@ export const actions = {
           sipNumber: "",
           batchNumber: "",
           orderNumber: "",
+          page:0,
+          size:10,
         });
       })
       .catch(({ response }) => {
@@ -241,6 +250,8 @@ export const actions = {
           sipNumber: "",
           batchNumber: "",
           orderNumber: "",
+          page:0,
+          size:10,
         });
       })
       .catch(({ response }) => {
@@ -276,6 +287,8 @@ export const actions = {
           sipNumber: "",
           batchNumber: "",
           orderNumber: "",
+          page:0,
+          size:10,
         });
       })
       .catch(({ response }) => {
