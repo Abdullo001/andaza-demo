@@ -114,7 +114,7 @@ export const actions = {
       filters: [],
       sorts: [],
       page: 0,
-      size: 10,
+      size: 100,
     };
 
     body.filters = body.filters.filter(

@@ -34,19 +34,20 @@ export const mutations = {
 export const actions = {
   async getAccessoryStockList( { commit }, { accessoryName, modelNumber, supplierName } ) {
     const body = {
-      modelNumber: modelNumber,
       accessoryName: accessoryName,
-      supplierName: supplierName,
+      modelNumber: modelNumber,
       page: 0,
       size: 50,
+      supplierName: supplierName,
     };
     await this.$axios
       .put( `/api/v1/accessory-stock/list`, body )
       .then( ( res ) => {
+        console.log( res );
         commit( "setAccessoryStockList", res.data.data );
       } )
       .catch( ( res ) => {
-        console.log( res );
+        console.log( "Get", res );
       } );
   },
 
@@ -54,7 +55,6 @@ export const actions = {
     const config = {
       headers: { "Content-Type": "multipart/form-data" }
     }
-    console.log( data );
     await this.$axios.$post( '/api/v1/accessory-stock/create', data, config )
       .then( res => {
         dispatch( "getAccessoryStockList" );
@@ -71,7 +71,7 @@ export const actions = {
       filters: [],
       sorts: [],
       page: 0,
-      size: 10,
+      size: 100,
     };
 
     body.filters = body.filters.filter(
