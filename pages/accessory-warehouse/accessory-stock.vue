@@ -731,9 +731,9 @@ export default {
       },
 
       filters: {
-        accessoryName: null,
-        modelNumber: null,
-        supplierName: null,
+        accessoryName: "",
+        modelNumber: "",
+        supplierName: "",
       },
 
       deletedId: null,
@@ -960,7 +960,7 @@ export default {
         formData.append("modelNumber", modelNumber),
         formData.append("orderNumber", orderNumber),
         formData.append("pricePerUnit", pricePerUnit),
-        formData.append("pricePerUnitCurrency", pricePerUnitCurrency)
+        formData.append("pricePerUnitCurrency", pricePerUnitCurrency),
         formData.append("id", id),
         formData.append("pricePerUnitCurrency", pricePerUnitCurrency)
         if(!!this.files[0]?.file){
