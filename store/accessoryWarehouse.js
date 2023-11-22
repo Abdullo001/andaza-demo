@@ -51,10 +51,10 @@ export const mutations = {
   },
 }
 export const actions = {
-  async getAccessoryWarehouseList({commit}, {page, size}) {
+  async getAccessoryWarehouseList({commit}, {page, size,modelNumber,orderNumber}) {
     const body = {
-      filters: [],
-      sorts: [],
+      modelNumber,
+      orderNumber,
       page, size
     }
     await this.$axios.$put('/api/v1/accessory-warehouse/list', body)

@@ -226,6 +226,12 @@ export default {
           value: 'name'
         },
         {
+          text: 'Specification',
+          sortable: false,
+          align: 'start',
+          value: 'specification'
+        },
+        {
           text: 'Given quantity',
           sortable: false,
           align: 'start',
