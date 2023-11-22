@@ -370,6 +370,10 @@ export default {
                 to: this.localePath('/print-type'),
               },
               {
+                title: this.$t('sidebar.boxSize'),
+                to: this.localePath('/box-size'),
+              },
+              {
                 title: this.$t('sidebar.process'),
                 to: this.localePath('/catalog-process'),
               },

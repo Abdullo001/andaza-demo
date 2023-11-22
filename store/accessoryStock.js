@@ -70,8 +70,8 @@ export const actions = {
     const body = {
       filters: [],
       sorts: [],
-      page: 0,
       size: 100,
+      page: 0,
     };
 
     body.filters = body.filters.filter(
