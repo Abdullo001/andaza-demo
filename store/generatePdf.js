@@ -3,6 +3,7 @@ export const state = () => ({
   printPdfList: [],
   calculationsPdfList: [],
   orderedFabricPdfList: [],
+  orderedPdfList: [],
 });
 
 export const getters = {
@@ -10,6 +11,7 @@ export const getters = {
   printPdfList: (state) => state.printPdfList,
   calculationsPdfList: (state) => state.calculationsPdfList,
   orderedFabricPdfList: (state) => state.orderedFabricPdfList,
+  orderedPdfList: (state) => state.orderedPdfList,
 };
 
 export const mutations = {
@@ -24,6 +26,9 @@ export const mutations = {
   },
   setOrderedFabricPdfList(state, item) {
     state.orderedFabricPdfList = item;
+  },
+  setOrderedPdfList(state, item) {
+    state.orderedPdfList = item;
   },
 };
 
@@ -63,6 +68,16 @@ export const actions = {
       .then((res) => {
         const binaryCode = atob(res.data);
         commit("setOrderedFabricPdfList", binaryCode);
+      })
+      .catch((res) => {
+        console.log(res);
+      });
+  },
+  getOrderedPdfList({ commit }, data) {
+    this.$axios.put(`/api/v1/fabric-order/ordered-fabric-form`, data)
+      .then((res) => {
+        const binaryCode = atob(res.data);
+        commit("setOrderedPdfList", binaryCode);
       })
       .catch((res) => {
         console.log(res);

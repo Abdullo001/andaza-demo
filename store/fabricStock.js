@@ -113,8 +113,8 @@ export const actions = {
     const body = {
       filters: [],
       sorts: [],
+      size: 100,
       page: 0,
-      size: 10,
     };
 
     body.filters = body.filters.filter(
