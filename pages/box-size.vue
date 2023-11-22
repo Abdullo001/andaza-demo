@@ -153,7 +153,7 @@
                   class="base rounded-lg"
                   v-model="create_boxSize.cbm"
                   dense
-                  disable
+                  disabled
                   color="#7631FF"
                 />
               </v-col>
@@ -229,6 +229,7 @@
                   class="base rounded-lg"
                   v-model="edit_boxSize.cbm"
                   dense
+                  disabled
                   color="#7631FF"
                 />
               </v-col>
@@ -380,11 +381,15 @@ export default {
   watch: {
     'create_boxSize.size'(val){
       let res = val?.split("*");
-      this.create_boxSize.cbm = res?.reduce((acc, currentValue) => acc * currentValue, 1);
+      let result = res?.reduce((acc, currentValue) => acc * currentValue, 1);
+      result = parseFloat(result.toFixed(2));
+      this.create_boxSize.cbm = result
     },
     'edit_boxSize.size'(val){
       let res = val?.split("*");
-      this.edit_boxSize.cbm = res?.reduce((acc, currentValue) => acc * currentValue, 1);
+      let result = res?.reduce((acc, currentValue) => acc * currentValue, 1);
+      result = parseFloat(result.toFixed(2));
+      this.edit_boxSize.cbm = result
     },
   },
   async created() {
