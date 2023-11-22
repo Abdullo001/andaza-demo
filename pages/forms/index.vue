@@ -29,7 +29,7 @@
                 @click="$router.push(`${item.to}`)"
               >
                 <v-card-title class="d-flex align-center justify-center">
-                  <div style="color: #7631ff" class=" text-h5">
+                  <div style="color: #7631ff" class=" text-center">
                     {{ item.title }}
                   </div>
                 </v-card-title>
@@ -81,9 +81,9 @@ export default {
           to: "/forms/print-pdf-generation",
         },
         {
-          title: "Ordered fabrics amount",
+          title: "Suppliers form of ordered fabrics",
           subtitle: "Status list related to production",
-          to: "/forms/print-pdf-generation",
+          to: "/forms/suppliers-fabric-form",
         },
         {
           title: "Ordered accessories",
