@@ -370,7 +370,7 @@ export default {
       brandList: "models/brandList",
       countryList: "partners/countryList",
       usersList: "orders/usersList",
-      pdfList: "generatePdf/orderedFabricPdfList",
+      pdfList: "generatePdf/pdfList",
     }),
   },
 
