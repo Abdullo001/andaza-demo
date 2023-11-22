@@ -3,7 +3,7 @@
     <v-card elevation="0" class="rounded-lg">
       <v-card-title>
         <div>
-          Calculations list 
+          Ordered fabric form
         </div>
         <v-spacer/>
       </v-card-title>
@@ -11,16 +11,144 @@
       <v-card-text>
         <v-form lazy-validation v-model="filter_form" ref="filters">
           <v-row class="mb-5">
-           
-            
             <v-col cols="12" lg="3">
-              <div class="label">Supplier name <span style="color:red">*</span></div>
+              <div class="label">Order number</div>
               <v-combobox
-                v-model="filters.supplier"
+                v-model="filters.orderNumber"
+                :items="ordersList"
+                :search-input.sync="orderNumSearch"
+                item-text="orderNumber"
+                item-value="orderNumber"
+                validate-on-blur
+                outlined
+                hide-details
+                color="#7631FF"
+                height="44"
+                class="rounded-lg filter d-flex align-center justify-center mr-2"
+                :return-object="true"
+                dense
+                placeholder="Order name"
+                prepend-icon=""
+              >
+                <template #append>
+                  <v-icon class="d-inline-block" color="#7631FF">
+                    mdi-magnify
+                  </v-icon>
+                </template>
+              </v-combobox>
+            </v-col>
+            <v-col cols="12" lg="3">
+              <div class="label">Model number</div>
+              <v-combobox
+                v-model="filters.modelNumber"
+                :items="modelsList"
+                :search-input.sync="modelNumSearch"
+                item-text="modelNumber"
+                item-value="modelNumber"
+                validate-on-blur
+                outlined
+                color="#7631FF"
+                hide-details
+                height="44"
+                class="rounded-lg filter d-flex align-center justify-center mr-2"
+                :return-object="true"
+                dense
+                placeholder="Model name"
+                prepend-icon=""
+              >
+                <template #append>
+                  <v-icon class="d-inline-block" color="#7631FF">
+                    mdi-magnify
+                  </v-icon>
+                </template>
+              </v-combobox>
+            </v-col>
+            <v-col cols="12" lg="3">
+              <div class="label">Approved by<span style="color:red">*</span></div>
+              <v-combobox
+                v-model="filters.approvedBy"
+                :items="users"
+                :search-input.sync="approvedSearch"
+                item-text="name"
+                item-value="name"
+                validate-on-blur
+                outlined
+                color="#7631FF"
+                hide-details
+                height="44"
+                class="rounded-lg filter d-flex align-center justify-center mr-2"
+                :return-object="true"
+                dense
+                placeholder="Creator name"
+                prepend-icon=""
+              >
+                <template #append>
+                  <v-icon class="d-inline-block" color="#7631FF">
+                    mdi-magnify
+                  </v-icon>
+                </template>
+              </v-combobox>
+            </v-col>
+            <v-col cols="12" lg="3">
+              <div class="label">Creator<span style="color:red">*</span></div>
+              <v-combobox
+                v-model="filters.creator"
+                :items="users"
+                :search-input.sync="creatorSearch"
+                item-text="name"
+                item-value="name"
+                validate-on-blur
+                outlined
+                color="#7631FF"
+                hide-details
+                height="44"
+                class="rounded-lg filter d-flex align-center justify-center mr-2"
+                :return-object="true"
+                dense
+                placeholder="Creator name"
+                prepend-icon=""
+              >
+                <template #append>
+                  <v-icon class="d-inline-block" color="#7631FF">
+                    mdi-magnify
+                  </v-icon>
+                </template>
+              </v-combobox>
+            </v-col>
+            <v-col cols="12" lg="3">
+              <div class="label">Sip №</div>
+              <v-combobox
+                v-model="filters.sipNumber"
+                :items="sipNumbers"
+                :search-input.sync="sipNumberSearch"
+                item-text="sipNumber"
+                item-value="sipNumber"
+                validate-on-blur
+                outlined
+                hide-details
+                color="#7631FF"
+                height="44"
+                class="rounded-lg filter  "
+                :return-object="true"
+                dense
+                placeholder="Sip number"
+                prepend-icon=""
+              >
+                <template #append>
+                  <v-icon class="d-inline-block" color="#7631FF">
+                    mdi-magnify
+                  </v-icon>
+                </template>
+              </v-combobox>
+            </v-col>
+            <v-col cols="12" lg="3">
+              <div class="label">Supplier name<span style="color:red">*</span></div>
+              <v-combobox
+                v-model="filters.supplierName"
                 :items="partnerLists"
                 :search-input.sync="partnerName"
                 item-text="name"
-                item-value="id"
+                item-value="name"
                 outlined
                 hide-details
                 height="44"
@@ -29,7 +157,6 @@
                 color="#7631FF"
                 dense
                 placeholder="Enter partner name"
-                append-icon="mdi-chevron-down"
                 :rules="[formRules.required]"
                 validate-on-blur
                 >
@@ -38,51 +165,6 @@
                 </template>
                </v-combobox>
             </v-col>
-            
-            <v-col cols="12" lg="3">
-              <div class="label">From date</div>
-              <div style="height: 40px !important">
-                <el-date-picker
-                  v-model="filters.fromDate"
-                  type="date"
-                  style="width: 100%; height: 100%"
-                  placeholder="dd.MM.yyyy"
-                  :picker-options="pickerShortcuts"
-                  value-format="dd.MM.yyyy HH:mm:ss"
-                >
-                </el-date-picker>
-              </div>
-            </v-col>
-            <v-col cols="12" lg="3">
-              <div class="label">To date</div>
-              <div style="height: 40px !important">
-                <el-date-picker
-                  v-model="filters.toDate"
-                  type="date"
-                  style="width: 100%; height: 100%"
-                  placeholder="dd.MM.yyyy"
-                  :picker-options="pickerShortcuts"
-                  value-format="dd.MM.yyyy HH:mm:ss"
-                >
-                </el-date-picker>
-              </div>
-            </v-col>
-            <v-col cols="12" lg="3">
-              <div class="label">Status</div>
-              <v-select
-                :items="status_enums"
-                v-model="filters.status"
-                placeholder="Status"
-                dense
-                outlined
-                height="44"
-                hide-details
-                validate-on-blur
-                class="rounded-lg filter mr-2"
-                append-icon="mdi-chevron-down"
-              />
-            </v-col>
-           
           </v-row>
           <div class="d-flex justify-center">
             <v-btn
@@ -127,61 +209,61 @@ export default {
     return {
       filter_form: true,
       filters: {
-        
-        clientName: "",
-        country: "",
-        season: "",
-        fromDate: "",
-        toDate: "",
-        gender: "",
-        creatorId: "",
-        status:"",
-        
-
-
+        approvedBy:"",
+        orderNumber: "",
+        modelNumber: "",
+        supplierName:"",
+        creator: "",
+        sipNumber:"",
       },
-      season_enums: [
-        {key: 'SS', text: ' Spring/Summer'},
-        {key: 'AW', text: 'Autumn/Winter'}
-      ],
-      status_enums: ['ORDERED','RECEIVED'],
-      gander_enums: ["MALE", "FEMALE", "BOY", "GIRL", "UNISEX"],
-      fabric_status:["NOT_PLANNED","PLANNED","GENERATED_FABRIC", "ORDERED"],
-      accessory_status:["NOT_PLANNED","PLANNED", "ORDERED"],
       isLoad: false,
 
-      partnerName:"",
-      clientSearch: "",
-      countryIdSearch: "",
+      approvedSearch:"",
+      sipNumberSearch:"",
+      orderNumSearch: "",
+      modelNumSearch: "",
       creatorSearch: "",
       users: [],
       pdfServe: "",
+      partnerName:"",
     };
   },
   created() {
+    this.filterOrderList({
+      page: 0,
+      size: 10,
+      data: {
+        modelNumber: "",
+        orderNumber: this.orderNumSearch,
+        creatorId: "",
+        clientName: "",
+      },
+    });
+    this.getModelsList({
+      page: 0,
+      size: 10,
+      modelNumber: this.modelNumSearch,
+      partner: "",
+      status: "ACTIVE",
+    }),
     
-    
-    this.getClient();
-    this.getCountryList({ name: this.countryIdSearch });
     this.getUsersList();
+    this.getPartnerName("");
+    this.getSipNumbers("");
   },
 
   computed: {
     ...mapGetters({
-      partnerLists: "fabricOrdering/partnerLists",
-      clientList: "orders/clientList",
-      countryList: "partners/countryList",
+      ordersList: "orders/ordersList",
+      modelsList: "models/modelsList",
       usersList: "orders/usersList",
-      pdfList: "generatePdf/orderedFabricPdfList",
+      pdfList: "generatePdf/orderedPdfList",
+      partnerLists: "fabricOrdering/partnerLists",
+      sipNumbers: "fabricWarehouse/sipNumbers",
     }),
   },
 
   watch: {
-    partnerName(val) {
-      if(!!val && val !== '') {
-      this.getPartnerName(val);
-      }
-    },
     pdfList(val) {
       const blob = new Blob(
         [new Uint8Array([...val].map((char) => char.charCodeAt(0)))],
@@ -195,6 +277,11 @@ export default {
       this.pdfServe=objectUrl
       this.isLoad = false;
     },
+    sipNumberSearch(val){
+      if(!!val){
+        this.getSipNumbers(val);
+      }
+    },
     usersList(list) {
       list.map((item) => {
         this.users.push({
@@ -203,46 +290,72 @@ export default {
         });
       });
     },
-    
-    "filters.clientName"(val) {
-      if (typeof val === "object" && !!val) {
-        this.getBrandList(val?.id);
+    partnerName(val) {
+      if(!!val && val !== '') {
+      this.getPartnerName(val);
       }
     },
-    countryIdSearch(val) {
-      this.getCountryList({ name: val });
+    orderNumSearch(val) {
+      if (!!val) {
+        this.filterOrderList({
+          page: 0,
+          size: 10,
+          data: {
+            modelNumber: "",
+            orderNumber: val,
+            creatorId: "",
+            clientName: "",
+          },
+        });
+      }
+    },
+    modelNumSearch(val) {
+      if (!!val) {
+        this.getModelsList({
+          page: 0,
+          size: 10,
+          modelNumber: val,
+          partner: "",
+          status: "ACTIVE",
+        });
+      }
     },
   },
 
   methods: {
     ...mapActions({
-      
+      filterOrderList: "orders/filterOrderList",
+      getModelsList: "models/getModelsList",
+      getModelGroup: "orders/getModelGroup",
       getClient: "orders/getClient",
+      getBrandList: "models/getBrandList",
       getCountryList: "partners/getCountryList",
       getUsersList: "orders/getUsersList",
-      getPdfList: "generatePdf/getOrderedFabricPdfList",
+      getPdfList: "generatePdf/getOrderedPdfList",
       getPartnerName: "fabricOrdering/getPartnerName",
-
+      getSipNumbers: "fabricWarehouse/getSipNumbers",
     }),
 
     resetFilter() {
-      this.filters.fromDate=''
-      this.filters.toDate=''
       this.$refs.filters.reset();
     },
     filter() {
       const data = {
-        supplier: !!this.filters.supplier?.name
-          ? this.filters.supplier?.name
+        supplierName: !!this.filters.supplierName?.name
+          ? this.filters.supplierName?.name
           : "",
-        fromDate: !!this.filters.fromDate ? this.filters.fromDate : null,
-        toDate: !!this.filters.toDate ? this.filters.toDate : null,
-        status: this.filters.status,
+        approvedBy: !!this.filters.approvedBy?.name?this.filters.approvedBy?.name:"",
+        sipNumber: !!this.filters.sipNumber?.sipNumber?this.filters.sipNumber?.sipNumber:"",
+        creator: !!this.filters.creator?.name?this.filters.creator?.name:"" ,
+        modelNumber: this.filters.modelNumber?.modelNumber
+          ? this.filters.modelNumber?.modelNumber
+          : "",
+        orderNumber: this.filters.orderNumber?.orderNumber
+          ? this.filters.orderNumber?.orderNumber
+          : "",
       };
-      if(!!this.filters.supplier){
-        this.getPdfList(data);
-        this.isLoad = true;
-      }
+      this.getPdfList(data);
+      this.isLoad = true;
     },
   },
 };
