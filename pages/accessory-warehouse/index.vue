@@ -8,7 +8,7 @@
               label="Order number"
               outlined
               class="rounded-lg filter"
-              v-model.trim="filters.orderId"
+              v-model.trim="filters.orderNumber"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -19,7 +19,7 @@
               label="Model number"
               outlined
               class="rounded-lg filter"
-              v-model.trim="filters.modelId"
+              v-model.trim="filters.modelNumber"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -62,6 +62,8 @@
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100],
       }"
+      @update:page="page"
+      @update:items-per-page="size"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -104,10 +106,12 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
+      itemPrePage: 10,
+      current_page: 0,
       valid_search: "",
       filters: {
-        orderId: null,
-        modelId: null,
+        orderNumber: null,
+        modelNumber: null,
       },
       headers: [
         {
@@ -185,7 +189,7 @@ export default {
     };
   },
   created() {
-    this.getAccessoryWarehouseList({ page: 0, size: 10 });
+    this.getAccessoryWarehouseList({ page: 0, size: 10 ,modelNumber:'',orderNumber:''});
   },
   computed: {
     ...mapGetters({
@@ -196,6 +200,15 @@ export default {
     ...mapActions({
       getAccessoryWarehouseList: "accessoryWarehouse/getAccessoryWarehouseList",
     }),
+    async page(value) {
+      this.current_page = value - 1;
+      await this.getAccessoryWarehouseList({ page: this.current_page, size: this.itemPrePage ,...this.filters});
+
+    },
+    async size(value) {
+      this.itemPrePage = value;
+      await this.getAccessoryWarehouseList({ page: 0, size: this.itemPrePage ,...this.filters});
+    },
     addArrivedAccessory() {
       this.$router.push(`/accessory-warehouse/add-accessory-warehouse`);
     },
@@ -211,8 +224,13 @@ export default {
       this.$router.push(`/accessory-warehouse/${item.orderId}`);
     },
 
-    resetFilters() {},
-    filterData() {},
+    resetFilters() {
+      this.getAccessoryWarehouseList({ page: 0, size: 10 ,modelNumber:'',orderNumber:''});
+      this.$refs.filter_form.reset()
+    },
+    filterData() {
+      this.getAccessoryWarehouseList({page:0,size:10,modelNumber:this.filters.modelNumber,orderNumber:this.filters.orderNumber})
+    },
     loadDetails({ item }) {
       // current opened || choose object ^
     },

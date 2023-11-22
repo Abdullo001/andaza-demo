@@ -177,7 +177,7 @@
                 type="month"
                 style="width: 100%; height: 100%"
                 placeholder="Pick a month"
-                value-format="MM.yyyy"
+                value-format="MM-yyyy"
 
               />
               </div>
@@ -370,7 +370,7 @@ export default {
       brandList: "models/brandList",
       countryList: "partners/countryList",
       usersList: "orders/usersList",
-      pdfList: "generatePdf/pdfList",
+      pdfList: "generatePdf/orderedFabricPdfList",
     }),
   },
 
@@ -450,6 +450,9 @@ export default {
 
     resetFilter() {
       this.$refs.filters.reset();
+      this.filters.fromDate=''
+      this.filters.shippingDate=''
+      this.filters.toDate=''
     },
     filter() {
       const data = {
