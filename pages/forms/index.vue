@@ -130,7 +130,7 @@ export default {
           title: "Daily/Monthly production q-ty",
           subtitle: "Daily/monthly/annual production quantity information ",
           status:"PRODUCTION",
-          to: "/forms/print-pdf-generation",
+          to: "/forms/daily-production",
         },
         {
           title: "Cuttings list of subcontractor",

@@ -7,6 +7,7 @@ export const state = () => ({
   recievedFabricPdfList:[],
   orderedAccessoryPdfList:[],
   recievedAccessoryPdfList:[],
+  dailyProductionPdfList:[],
 });
 
 export const getters = {
@@ -18,6 +19,7 @@ export const getters = {
   recievedFabricPdfList: (state) => state.recievedFabricPdfList,
   orderedAccessoryPdfList: (state) => state.orderedAccessoryPdfList,
   recievedAccessoryPdfList: (state) => state.recievedAccessoryPdfList,
+  dailyProductionPdfList: (state) => state.dailyProductionPdfList,
 };
 
 export const mutations = {
@@ -44,6 +46,9 @@ export const mutations = {
   },
   setRecievedAccessoryPdfList(state, item) {
     state.recievedAccessoryPdfList = item;
+  },
+  setDailyProductionPdfList(state, item) {
+    state.dailyProductionPdfList = item;
   },
 };
 
@@ -108,7 +113,7 @@ export const actions = {
         console.log(res);
       });
   },
-  getRecievedFabricPdfList({ commit }, data) {
+  getOrderedAccessoryList({ commit }, data) {
     this.$axios.put(`/api/v1/accessory-planning-chart/ordered-accessory-form`, data)
       .then((res) => {
         const binaryCode = atob(res.data);
@@ -118,11 +123,21 @@ export const actions = {
         console.log(res);
       });
   },
-  getRecievedFabricPdfList({ commit }, data) {
+  getRecievedAccessoryPdfList({ commit }, data) {
     this.$axios.put(`/api/v1/accessory-planning-chart/received-accessory-form`, data)
       .then((res) => {
         const binaryCode = atob(res.data);
-        commit("recievedAccessoryPdfList", binaryCode);
+        commit("setRecievedAccessoryPdfList", binaryCode);
+      })
+      .catch((res) => {
+        console.log(res);
+      });
+  },
+  getDailyProductionPdfList({ commit }, data) {
+    this.$axios.put(`/api/v1/production/production-quantity-pdf?dateTime=${data.dateTime}`)
+      .then((res) => {
+        const binaryCode = atob(res.data);
+        commit("setDailyProductionPdfList", binaryCode);
       })
       .catch((res) => {
         console.log(res);
