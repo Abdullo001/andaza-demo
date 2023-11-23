@@ -24,7 +24,8 @@
               <v-card
                 :elevation="hover ? 10 : 2"
                 :class="{ 'on-hover': hover }"
-                height="130"
+                v-if="item.status==filter||filter==='ALL'"
+                height="150"
                 style="cursor: pointer"
                 @click="$router.push(`${item.to}`)"
               >
@@ -33,7 +34,7 @@
                     {{ item.title }}
                   </div>
                 </v-card-title>
-                <v-card-text class="d-flex align-center justify-center">
+                <v-card-text class="">
                   <div style="text-align:center">{{item.subtitle}}</div>
                 </v-card-text>
               </v-card>
@@ -51,87 +52,125 @@ export default {
       filter: "ALL",
       buttons: [
         {
-          title: "Calculation form",
-          subtitle: "Calculation form for one model",
-          to: "/forms/calculation-form",
-        },
-        {
           title: "Calculations list",
-          subtitle: "Calculation form for one model",
+          subtitle: "Calculation form for all model",
           to: "/forms/calculation-list",
+          status:"MANAGEMENT"
         },
         {
           title: "Placed orders",
           subtitle: "All important informations related to actual orders",
           to: "/forms/order-pdf-generation",
+          status:"MANAGEMENT"
+
         },
         {
           title: "Prints",
-          subtitle: "Prints list related all models",
+          subtitle: "Prints list related to all models",
           to: "/forms/print-pdf-generation",
+          status:"MANAGEMENT"
+
         },
         {
           title: "Ordered fabrics",
-          subtitle: "Prints list related all models",
+          subtitle: "Ordered fabrics list to one supplier",
           to: "/forms/ordered-fabric-form",
+          status:"MANAGEMENT"
+
         },
         {
           title: "Received fabrics",
-          subtitle: "Production list related to all current models",
-          to: "/forms/print-pdf-generation",
+          subtitle: "Received fabrics list from one supplier",
+          to: "/forms/recieved-fabric-form",
+          status:"MANAGEMENT"
         },
         {
-          title: "Suppliers form of ordered fabrics",
-          subtitle: "Status list related to production",
+          title: "Ordered fabrics amount ",
+          subtitle: "All ordered fabrics amount of the current models",
           to: "/forms/suppliers-fabric-form",
+          status:"MANAGEMENT"
         },
         {
           title: "Ordered accessories",
-          subtitle: "List of ordered fabrics and full information related to current models fabric",
+          subtitle: "All ordered accessories list of the current models",
+          status:"MANAGEMENT",
+          to: "/forms/ordered-accessory-form",
+        },
+        {
+          title: "Received accessories",
+          subtitle: "All received accessories list of the current models",
+          status:"MANAGEMENT",
+          to: "/forms/recieved-accessory-form",
+        },
+        {
+          title: "Cutting form",
+          subtitle: "Cutting information form related to one model",
+          status:"PRODUCTION",
           to: "/forms/print-pdf-generation",
         },
         {
-          title: "Prints",
-          subtitle: "Prints list related all models",
+          title: "Sewing form",
+          subtitle: "Sewing information form related to one model",
+          status:"PRODUCTION",
           to: "/forms/print-pdf-generation",
         },
         {
-          title: "Prints",
-          subtitle: "Prints list related all models",
+          title: "Production list",
+          subtitle: "Production information related to all models of one client",
+          status:"PRODUCTION",
           to: "/forms/print-pdf-generation",
         },
         {
-          title: "Prints",
-          subtitle: "Prints list related all models",
+          title: "Production status",
+          subtitle: "Production information with status related to all models of one client ",
+          status:"PRODUCTION",
           to: "/forms/print-pdf-generation",
         },
         {
-          title: "Prints",
-          subtitle: "Prints list related all models",
+          title: "Daily/Monthly production q-ty",
+          subtitle: "Daily/monthly/annual production quantity information ",
+          status:"PRODUCTION",
           to: "/forms/print-pdf-generation",
         },
         {
-          title: "Prints",
-          subtitle: "Prints list related all models",
+          title: "Cuttings list of subcontractor",
+          subtitle: "Cutting information list related to all models of one subcontractor",
+          status:"PRODUCTION",
           to: "/forms/print-pdf-generation",
         },
         {
-          title: "Prints",
-          subtitle: "Prints list related all models",
+          title: "Printings list of subcontractor",
+          subtitle: "Printing information list related to all models of one subcontractor",
+          status:"PRODUCTION",
           to: "/forms/print-pdf-generation",
         },
         {
-          title: "Prints",
-          subtitle: "Prints list related all models",
+          title: "Inconming from printing subcontractor",
+          subtitle: "Cutting information list related to one model of one subcontractor",
+          status:"PRODUCTION",
           to: "/forms/print-pdf-generation",
         },
         {
-          title: "Prints",
-          subtitle: "Prints list related all models",
+          title: "Sewing list of subcontractor",
+          subtitle: "Cutting information list related to one model of one subcontractor",
+          status:"PRODUCTION",
+          to: "/forms/print-pdf-generation",
+        },
+        {
+          title: "Inconming from sewing subcontractor",
+          subtitle: "Cutting information list related to one model of one subcontractor",
+          status:"PRODUCTION",
           to: "/forms/print-pdf-generation",
         },
       ],
+      filteredButtons:[],
     };
+  },
+  watch:{
+    
+  },
+  methods:{
+    
   },
   mounted() {
     this.$store.commit("setPageTitle", "Forms");
