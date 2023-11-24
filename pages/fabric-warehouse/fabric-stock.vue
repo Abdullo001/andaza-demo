@@ -392,7 +392,7 @@
             lazy-validation
           >
             <v-row>
-              <v-col cols="12">
+              <v-col cols="8">
                 <div class="label">Model number</div>
                 <v-combobox
                   v-model="workshop.modelNumber"
@@ -419,11 +419,22 @@
                 </v-combobox>
               </v-col>
 
+              <v-col cols="4">
+                <div class="label">As a new row</div>
+                <v-checkbox
+                  v-model="workshop.isNew"
+                  outlined
+                  hide-details
+                  color="#7631FF"
+                />
+              </v-col>
+
               <v-col cols="12">
                 <div class="label">Sip №</div>
                 <v-select
                   append-icon="mdi-chevron-down"
                   v-model="workshop.sipNumber"
+                  :disabled="workshop.isNew"
                   :rules="[formRules.required]"
                   :items="processDetails"
                   item-text="sipNumber"
@@ -465,7 +476,20 @@
           >
             cancel
           </v-btn>
+
           <v-btn
+            v-if="workshop.isNew"
+            class="rounded-lg text-capitalize ml-4 font-weight-bold"
+            color="#7631FF"
+            dark
+            width="130"
+            @click="saveWorkshop"
+          >
+            save
+          </v-btn>
+
+          <v-btn
+            v-else
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF"
             dark
@@ -521,6 +545,16 @@
                     </v-icon>
                   </template>
                 </v-combobox>
+
+              </v-col>
+              <v-col cols="12">
+                <v-checkbox
+                  v-model="subcontractor.isNew"
+                  outlined
+                  label="As a new row"
+                  hide-details
+                  color="#7631FF"
+                />
               </v-col>
 
               <v-col cols="12">
@@ -536,6 +570,7 @@
                   color="#7631FF"
                   class="base rounded-lg"
                   rounded
+                  :disabled="subcontractor.isNew"
                   outlined
                   dense
                   placeholder="Select Sip №"
@@ -544,7 +579,31 @@
 
               <v-col cols="12">
                 <div class="label">Partner</div>
+                <v-combobox
+                  v-if="subcontractor.isNew"
+                  v-model="subcontractor.partnerId"
+                  :rules="[formRules.required]"
+                  :search-input.sync="supplierName"
+                  :items="partnerLists"
+                  item-text="name"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :return-object="true"
+                  color="#7631FF"
+                  dense
+                  placeholder="Enter partner name"
+                  append-icon="mdi-chevron-down"
+                  validate-on-blur
+                >
+                  <template #append>
+                    <v-icon color="#7631FF">mdi-magnify</v-icon>
+                  </template>
+                </v-combobox>
                 <v-select
+                  v-else
                   append-icon="mdi-chevron-down"
                   v-model="subcontractor.partnerId"
                   :items="partnerList"
@@ -555,9 +614,10 @@
                   color="#7631FF"
                   class="base rounded-lg"
                   rounded
+                  :disabled="subcontractor.isNew"
                   outlined
                   dense
-                  placeholder="Select partner"
+                  placeholder="Select partner name"
                 />
               </v-col>
 
@@ -589,6 +649,18 @@
             cancel
           </v-btn>
           <v-btn
+            v-if="subcontractor.isNew"
+            class="rounded-lg text-capitalize ml-4 font-weight-bold"
+            color="#7631FF"
+            dark
+            width="130"
+            @click="saveSubcontractor"
+          >
+            save
+          </v-btn>
+
+          <v-btn
+            v-else
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#7631FF"
             dark
@@ -652,7 +724,7 @@
           <div>
            <span class="font-weight-bold"> Fabric specification:</span>
             {{ selectedProcess.fabricSpecification }}
-          </div> 
+          </div>
         </v-card-text>
         <v-card-text>
           <div>
@@ -698,7 +770,7 @@
           <div>
            <span class="font-weight-bold"> Fabric specification:</span>
             {{ selectedProcess.fabricSpecification }}
-          </div> 
+          </div>
         </v-card-text>
         <v-card-text>
           <div>
@@ -767,17 +839,31 @@ export default {
       title: "",
       arrivedFabricStock: {},
       selectedProcess:{},
+      workshopProccessId: null,
+      subcontractorProcessId: null,
       workshop: {
         id: null,
+        batchNumber: "",
+        sipNumber: "",
+        color: null,
+        fabricSpecification: null,
+        modelId: null,
+        processDetailId: null,
         quantity: null,
-        warehouseId: null,
+        isNew: false
       },
 
       subcontractor: {
-        id: null,
+        id: 0,
+        batchNumber: "",
+        color: null,
+        fabricSpecification: null,
+        isNew: false,
+        modelId: null,
         partnerId: null,
-        warehouseId: null,
+        processDetailId: null,
         quantity: null,
+        sipNumber: ""
       },
 
       filters: {
@@ -806,17 +892,26 @@ export default {
 
   watch: {
     "workshop.modelNumber"(val) {
-      this.getFabricProcessDetails({ id: val?.id, isForSubcontractor: false });
+      if (val && val.id) {
+        this.workshopProccessId = val.id;
+        this.workshop.modelId = this.workshopProccessId;
+        this.getFabricProcessDetails({ id: this.workshopProccessId, isForSubcontractor: false });
+      }
     },
     "subcontractor.modelNumber"(val) {
-      this.getFabricProcessDetails({ id: val?.id, isForSubcontractor: true });
+      if (val && val.id) {
+        this.subcontractor.modelId = val.id;
+        this.getFabricProcessDetails({ id: val.id, isForSubcontractor: true });
+      }
     },
     "workshop.sipNumber"(id) {
-      this.workshop.warehouseId = id;
+      this.workshop.processDetailId = id;
     },
     "subcontractor.sipNumber"(id) {
-      this.getPartnerListFunc(id);
-      this.subcontractor.warehouseId = id;
+      if (typeof this.subcontractor.sipNumber === "number") {
+        this.getPartnerListFunc(id);
+      }
+      this.subcontractor.processDetailId = id;
     },
     "subcontractor.partnerId"(id) {
       this.subcontractor.partnerId = id;
@@ -935,57 +1030,80 @@ export default {
 
     workshopFunc(item) {
       this.workshop_dialog = true;
+      this.workshop.color = item.color;
+      this.workshop.fabricSpecification = item.fabricSpecification;
+      this.workshop.sipNumber = item.sipNumber
+      this.workshop.batchNumber = item.batchNumber
       this.workshop.id = item.id;
-    },
-
-    async saveWorkshop() {
-      this.workshopSure_dialog = false;
-      const data = {
-        id: this.workshop.id,
-        quantity: this.workshop.quantity,
-        warehouseId: this.workshop.warehouseId,
-      };
-      this.setFabricStockToWorkshop(data);
-      await this.$refs.workshop_form.reset();
     },
 
     workshopSureFunc() {
       this.workshop_dialog = false;
       this.workshopSure_dialog = true;
       this.processDetails.forEach((item)=>{
-        if(item.id===this.workshop.warehouseId){
+        if(item.id===this.workshop.processDetailId){
           this.selectedProcess={...item}
         }
       })
     },
 
-    async saveSubcontractor() {
-      this.subcontractorSure_dialog = false;
+    async saveWorkshop() {
+      this.workshop.isNew ? this.workshop_dialog = false : this.workshopSure_dialog = false;
       const data = {
-        id: this.subcontractor.id,
-        quantity: this.subcontractor.quantity,
-        partnerId: this.subcontractor.partnerId,
-        warehouseId: this.subcontractor.warehouseId,
-      };
-      this.setFabricStockToSubcontract(data);
-      await this.$refs.subcontractor_form.reset();
+        id: this.workshop.id,
+        quantity: this.workshop.quantity,
+        batchNumber: this.workshop.isNew ? this.workshop.batchNumber : undefined,
+        sipNumber: this.workshop.isNew ? this.workshop.sipNumber : undefined,
+        color: this.workshop.isNew ? this.workshop.color : undefined,
+        fabricSpecification: this.workshop.isNew ? this.workshop.fabricSpecification : undefined,
+        processDetailId: !this.workshop.isNew ? this.workshop.processDetailId : undefined,
+        modelId: this.workshop.isNew ? this.workshop.modelId : undefined,
+        isNew: this.workshop.isNew ? this.workshop.isNew : this.workshop.isNew = false,
+      }
+      this.setFabricStockToWorkshop(data);
+      await this.$refs.workshop_form.reset();
     },
 
     async subcontractorFunc(item) {
       this.subcontractor_dialog = true;
+      this.subcontractor.color = item.color;
+      this.subcontractor.fabricSpecification = item.fabricSpecification;
+      this.subcontractor.sipNumber = item.sipNumber;
+      this.subcontractor.batchNumber = item.batchNumber;
       this.subcontractor.id = item.id;
-      this.modelNumbers = [...item.modelNumber.split("/")];
     },
 
     subcontractorSureFunc(){
       this.subcontractor_dialog = false;
       this.subcontractorSure_dialog = true;
       this.processDetails.forEach((item)=>{
-        if(item.id===this.subcontractor.warehouseId){
+        if(item.id===this.subcontractor.processDetailId){
           this.selectedProcess={...item}
         }
       })
-    },  
+    },
+
+    async saveSubcontractor() {
+      this.subcontractor.isNew ? this.subcontractor_dialog = false : this.subcontractorSure_dialog = false;
+      const data = {
+        id: this.subcontractor.id,
+        quantity: this.subcontractor.quantity,
+        batchNumber: this.subcontractor.isNew ? this.subcontractor.batchNumber : undefined,
+        sipNumber: this.subcontractor.isNew ? this.subcontractor.sipNumber : undefined,
+        color: this.subcontractor.isNew ? this.subcontractor.color : undefined,
+        fabricSpecification: this.subcontractor.isNew ? this.subcontractor.fabricSpecification : undefined,
+        processDetailId: !this.subcontractor.isNew ? this.subcontractor.processDetailId : undefined,
+        partnerId:  this.subcontractor.partnerId,
+        modelId: this.subcontractor.isNew ? this.subcontractor.modelId : undefined,
+        isNew: this.subcontractor.isNew ? this.subcontractor.isNew : this.subcontractor.isNew = false,
+      };
+      if(typeof this.subcontractor.partnerId==='object'){
+        data.partnerId=  this.subcontractor.partnerId?.id
+
+      }
+      await this.setFabricStockToSubcontract(data);
+      await this.$refs.subcontractor_form.reset();
+    },
 
     filterData() {
       this.getFabricStockList({

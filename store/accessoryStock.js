@@ -1,7 +1,6 @@
 export const state = () => ( {
   accessoryStockList: [],
   partnerList: [],
-  processDetails: [],
   partnerLists: [],
 } );
 
@@ -9,7 +8,6 @@ export const getters = {
   accessoryStockList: ( state ) => state.accessoryStockList.content,
   partnerList: ( state ) => state.partnerList,
   partnerLists: ( state ) => state.partnerLists,
-  processDetails: ( state ) => state.processDetails,
 };
 
 export const mutations = {
@@ -24,11 +22,6 @@ export const mutations = {
   setPartners( state, partner ) {
     state.partnerLists = partner;
   },
-
-  setProcessDetails( state, item ) {
-    state.processDetails = item;
-  },
-
 };
 
 export const actions = {
@@ -117,17 +110,6 @@ export const actions = {
         console.log( res );
         this.$toast.error( res.data.message );
       } );
-  },
-
-  async getFabricProcessDetails( { commit }, { id, isForSubcontractor } ) {
-    try {
-      const response = await this.$axios.get( `/api/v1/fabric-stocks/process-details?modelId=${id}&isForSubcontractor=${isForSubcontractor}` );
-      commit( "setProcessDetails", response.data.data );
-    } catch ( error ) {
-      if ( error.response && error.response.data ) {
-        this.$toast.error( error.response.data.message );
-      }
-    }
   },
 
   setAccessoryStockToWorkshop( { dispatch }, data ) {

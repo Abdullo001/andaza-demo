@@ -382,7 +382,7 @@ export default {
     'create_boxSize.size'(val){
       let res = val?.split("*");
       let result = res?.reduce((acc, currentValue) => acc * currentValue, 1);
-      result = parseFloat(result.toFixed(2));
+      result = parseFloat(result.toFixed(3));
       this.create_boxSize.cbm = result
     },
     'edit_boxSize.size'(val){
