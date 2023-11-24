@@ -1,6 +1,5 @@
 export const state = () => ({
   fabricWarehouseList: [],
-  fabricStockList: [],
   sipNumbers: [],
   toSipNumbers: [],
 });
@@ -8,7 +7,6 @@ export const state = () => ({
 export const getters = {
   fabricWarehouseList: (state) => state.fabricWarehouseList.content,
   totalElements: (state) => state.fabricWarehouseList.totalElements,
-  fabricStockList: (state) => state.fabricStockList.content,
   sipNumbers: (state) => state.sipNumbers,
   toSipNumbers: (state) => state.toSipNumbers,
 };
@@ -16,9 +14,6 @@ export const getters = {
 export const mutations = {
   setFabricWarehouseList(state, item) {
     state.fabricWarehouseList = item;
-  },
-  setFabricStockList(state, item) {
-    state.fabricStockList = item;
   },
   setSipNumbers(state, item) {
     state.sipNumbers = item;
@@ -37,49 +32,11 @@ export const actions = {
       page,
       size,
     };
-    
+
     this.$axios
       .put(`/api/v1/fabric-warehouse/list`, body)
       .then((res) => {
         commit("setFabricWarehouseList", res.data.data);
-      })
-      .catch((res) => {
-        console.log(res);
-      });
-  },
-  getFabricStockList({ commit }, { sipNumber, modelNumber, supplierName }) {
-    const body = {
-      filters: [
-        {
-          key: "sipNumber",
-          operator: "LIKE",
-          propertyType: "STRING",
-          value: sipNumber,
-        },
-        {
-          key: "modelNumber",
-          operator: "LIKE",
-          propertyType: "STRING",
-          value: modelNumber,
-        },
-        {
-          key: "supplierName",
-          operator: "LIKE",
-          propertyType: "STRING",
-          value: supplierName,
-        },
-      ],
-      sorts: [],
-      page: 0,
-      size: 50,
-    };
-    body.filters = body.filters.filter(
-      (item) => item.value !== "" && item.value !== null
-    );
-    this.$axios
-      .put(`/api/v1/fabric-stocks/list`, body)
-      .then((res) => {
-        commit("setFabricStockList", res.data.data);
       })
       .catch((res) => {
         console.log(res);
@@ -105,19 +62,6 @@ export const actions = {
         this.$toast.error(res.data.message);
         console.log(res);
       });
-  },
-
-  createFabricStock({ dispatch }, data) {
-    this.$axios.post(`/api/v1/fabric-stocks/create`, data).then((res) => {
-      this.$toast.success(res.data.message);
-      dispatch("getFabricStockList", {
-        sipNumber: "",
-        modelNumber: "",
-        supplierName: "",
-      }).catch((res) => {
-        this.$toast.error(res.data.message);
-      });
-    });
   },
 
   getSipNumbers({ commit },sipNumber) {
@@ -158,23 +102,6 @@ export const actions = {
       });
   },
 
-  updateFabricStock({ dispatch }, data) {
-    this.$axios
-      .put(`/api/v1/fabric-stocks/update`, data)
-      .then((res) => {
-        this.$toast.success(res.data.message);
-        dispatch("getFabricStockList", {
-          sipNumber: "",
-          modelNumber: "",
-          supplierName: "",
-        });
-      })
-      .catch((res) => {
-        console.log(res);
-        this.$toast.error(res.data.message);
-      });
-  },
-
   deleteFabricWarehouse({ dispatch }, id) {
     this.$axios
       .delete(`/api/v1/fabric-warehouse/delete?id=${id}`)
@@ -186,22 +113,6 @@ export const actions = {
           orderNumber: "",
           page:0,
           size:10,
-        });
-      })
-      .catch((res) => {
-        console.log(res);
-        this.$toast.error(res.data.message);
-      });
-  },
-  deleteFabricStock({ dispatch }, id) {
-    this.$axios
-      .delete(`/api/v1/fabric-stocks/delete?id=${id}`)
-      .then((res) => {
-        this.$toast.success(res.data.message);
-        dispatch("getFabricStockList", {
-          sipNumber: "",
-          modelNumber: "",
-          supplierName: "",
         });
       })
       .catch((res) => {
@@ -259,23 +170,6 @@ export const actions = {
         this.$toast.error(response.data.message);
       });
   },
-  setFabricStockToWorkshop({ dispatch }, data) {
-    this.$axios
-      .put(`/api/v1/fabric-stocks/give-own`, data)
-      .then((res) => {
-        console.log(res);
-        this.$toast.success(res.data.message);
-        dispatch("getFabricStockList", {
-          sipNumber: "",
-          modelNumber: "",
-          supplierName: "",
-        });
-      })
-      .catch(({ response }) => {
-        console.log(response);
-        this.$toast.error(response.data.message);
-      });
-  },
 
   setFabricToSubcontract({ dispatch }, data) {
     this.$axios
@@ -296,22 +190,5 @@ export const actions = {
         this.$toast.error(response.data.message);
       });
   },
-  setFabricStockToSubcontract({ dispatch }, data) {
-    this.$axios
-      .put(`/api/v1/fabric-stocks/give-subcontractor`, data)
-      .then((res) => {
-        console.log(res);
-        this.$toast.success(res.data.message);
-        dispatch("getFabricStockList", {
-          sipNumber: "",
-          modelNumber: "",
-          supplierName: "",
-        });
-      })
-      .catch(({ response }) => {
-        console.log(response);
-        this.$toast.error(response.data.message);
-      });
-  },
-  
+
 };
