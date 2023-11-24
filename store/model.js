@@ -103,10 +103,8 @@ export const actions = {
   async createModelData({dispatch}, data) {
     await this.$axios.$post("/api/v1/model-groups/create", data)
       .then(res => {
-        if (res.message === "Successfully") {
-          dispatch('getAllModelData', {page: 0, size: 10});
-          this.$toast.success(res.message);
-        }
+        dispatch('getAllModelData', {page: 0, size: 10});
+        this.$toast.success(res.message); 
       })
       .catch(({response}) => {
         console.log(response);

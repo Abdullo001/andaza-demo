@@ -57,6 +57,19 @@
           dark
         />
       </template>
+      <template #item.wasteFabric="{item}">
+        <v-text-field
+          @keyup.enter="setWasteFabricFunc(item)"
+          outlined
+          hide-details
+          height="32"
+          class="rounded-lg base my-2" dense
+          :rules="[formRules.required]"
+          validate-on-blur
+          color="#7631FF"
+          v-model="item.wasteFabric"
+        />
+      </template>
       <template #item.actions="{ item }">
         <div>
           <v-tooltip
@@ -598,6 +611,7 @@ export default {
         {text: "Partner", sortable: false, value: "partnerName"},
         {text: "Price per work", sortable: false, value: "pricePerWork",width:"100"},
         {text: "Status", sortable: false, value: "status",width:"200"},
+        {text: "Waste fabric", sortable: false, value: "wasteFabric",width:"150"},
         {text: "Action", sortable: false, value: "actions",width:"250"},
         {text: '', value: 'data-table-expand'},
       )
@@ -661,7 +675,16 @@ export default {
       changeStatusFunc: "subcontracts/changeStatus",
       getHistoryList: "cuttingProcess/getHistoryList",
       setMainColorFunc: "subcontracts/setMainColor",
+      setWasteFabric: "subcontracts/setWasteFabric",
+
     }),
+    setWasteFabricFunc(item){
+      const data={
+        id:item.id,
+        wasteFabric:item.wasteFabric
+      }
+      this.setWasteFabric(data)
+    },
     setMainColor(item,isSelected){
       if(!item.isOnCutting){
         this.setMainColorFunc(item.id)

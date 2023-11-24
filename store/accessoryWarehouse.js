@@ -57,7 +57,7 @@ export const actions = {
       orderNumber,
       page, size
     }
-    await this.$axios.$put('/api/v1/accessory-warehouse/list', body)
+    await this.$axios.$put(`/api/v1/accessory-warehouse/list`,body )
       .then(res => {
         commit('setAccessoryList', res.data);
       }).catch(({response}) => console.log(response));

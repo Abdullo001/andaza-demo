@@ -227,5 +227,16 @@ export const actions = {
       this.$toast.error(res.data.message)
       console.log(res);
     })
+  },
+  setWasteFabric({dispatch,state},data){
+    this.$axios.put(`/api/v1/process-details/set-waste-fabric`,data)
+    .then((res)=>{
+      dispatch("getSubcontractsList")
+      this.$toast.success(res.data.message)
+    })
+    .catch(({res})=>{
+      console.log(res);
+      this.$toast.error(res.data.message)
+    })
   }
 };

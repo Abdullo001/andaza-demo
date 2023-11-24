@@ -12,6 +12,19 @@
       <template #top>
         <div class="title ma-4">Cutting</div>
       </template>
+      <template #item.wasteFabric="{item}">
+        <v-text-field
+          @keyup.enter="setWasteFabricFunc(item)"
+          outlined
+          hide-details
+          height="32"
+          class="rounded-lg base my-2" dense
+          :rules="[formRules.required]"
+          validate-on-blur
+          color="#7631FF"
+          v-model="item.wasteFabric"
+        />
+      </template>
       <template #item.actions="{item}">
         <v-tooltip
           top
@@ -494,6 +507,7 @@ export default {
       this.headers = [
         ...this.headers,
         {text: 'Produced total', sortable: false, align: 'start', value: 'totalCutQuantity'},
+        {text: 'Waste fabric', sortable: false, align: 'center', value: 'wasteFabric', width: "150"},
         {text: 'Actions', sortable: false, align: 'center', value: 'actions', width: "250"},
       ]
 
@@ -557,8 +571,15 @@ export default {
       getClassificationList: "cuttingProcess/getClassificationList",
       createClassification: "cuttingProcess/createClassification",
       setMainColorFunc: "cuttingProcess/setMainColor",
-
+      setWasteFabric: "cuttingProcess/setWasteFabric",
     }),
+    setWasteFabricFunc(item){
+      const data={
+        id:item.id,
+        wasteFabric:item.wasteFabric
+      }
+      this.setWasteFabric(data)
+    },
     setMainColor(item,isSelected){
       if(!item.isOnCutting){
         this.setMainColorFunc(item.id)
