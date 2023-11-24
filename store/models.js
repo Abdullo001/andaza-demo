@@ -117,7 +117,8 @@ export const actions = {
       name: data.name,
       partnerId: data.partnerId,
       season: data.season,
-      status: "ACTIVE"
+      status: "ACTIVE",
+      brandName:data.brandName,
     }
     this.$axios.$post('/api/v1/models/create', model)
       .then(res => {

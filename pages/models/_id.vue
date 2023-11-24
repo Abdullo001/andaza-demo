@@ -419,6 +419,7 @@ export default {
         compositionId: '',
         season: '',
         licence: null,
+        brandName:'',
         gender: '',
         description: '',
         creator: '',
@@ -476,6 +477,7 @@ export default {
       model.partnerId ={id:val.partnerId,name:val.partner}
       model.createdTime = val.createdAt;
       model.updateTime = val.updatedAt;
+      model.brandName = val.brandName;
     },
     "model.partnerId"(val){
       if(!!val){

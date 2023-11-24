@@ -184,22 +184,7 @@
       />
 
   </template>
-    <template #item.totalPrice="{item}">
-
-      <v-text-field
-        @keyup="(e)=>setTotalPriceFunc(e,item)"
-        outlined
-        hide-details
-        height="32"
-        class="rounded-lg base my-2" dense
-        :disabled="item.status==='ORDERED'"
-        :rules="[formRules.required]"
-        validate-on-blur
-        color="#7631FF"
-        v-model="item.totalPrice"
-      />
-
-  </template>
+    
 
     <template #item.status="{item}">
       <v-select
