@@ -1032,8 +1032,16 @@ export default {
       this.workshop_dialog = true;
       this.workshop.color = item.color;
       this.workshop.fabricSpecification = item.fabricSpecification;
-      this.workshop.sipNumber = item.sipNumber
-      this.workshop.batchNumber = item.batchNumber
+      if(item.sipNumber) {
+        this.workshop.sipNumber = item.sipNumber
+      }else {
+        this.workshop.sipNumber = ''
+      }
+      if(item.batchNumber) {
+        this.workshop.batchNumber = item.batchNumber
+      }else {
+        this.workshop.batchNumber = ''
+      }
       this.workshop.id = item.id;
     },
 
@@ -1068,8 +1076,16 @@ export default {
       this.subcontractor_dialog = true;
       this.subcontractor.color = item.color;
       this.subcontractor.fabricSpecification = item.fabricSpecification;
-      this.subcontractor.sipNumber = item.sipNumber;
-      this.subcontractor.batchNumber = item.batchNumber;
+      if(item.sipNumber) {
+        this.subcontractor.sipNumber = item.sipNumber
+      }else {
+        this.subcontractor.sipNumber = ''
+      }
+      if(item.batchNumber) {
+        this.subcontractor.batchNumber = item.batchNumber
+      }else {
+        this.subcontractor.batchNumber = ''
+      }
       this.subcontractor.id = item.id;
     },
 
