@@ -132,6 +132,7 @@ export const actions = {
     try {
       const response = await this.$axios.get( `/api/v1/fabric-stocks/process-details?modelId=${id}&isForSubcontractor=${isForSubcontractor}` );
       commit( "setProcessDetails", response.data.data );
+      console.log(response)
     } catch ( error ) {
       if ( error.response && error.response.data ) {
         this.$toast.error( error.response.data.message );
