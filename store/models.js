@@ -139,7 +139,8 @@ export const actions = {
       partnerId: data.partnerId,
       season: data.season,
       id: id,
-      status: "ACTIVE"
+      status: "ACTIVE",
+      brandName:data.brandName,
     }
     this.$axios.$put('/api/v1/models/update', model)
       .then(res => {
