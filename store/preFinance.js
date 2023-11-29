@@ -86,11 +86,11 @@ export const actions = {
     const body = {
       client:'',
       modelNumber:name,
-      page:0, 
+      page:0,
       size:10,
       status:"ACTIVE"
     }
-    
+
     await this.$axios
       .$put(`/api/v1/models/list`, body)
       .then((res) => {
@@ -116,6 +116,7 @@ export const actions = {
     const body = {
       modelId: data.id,
       primaryCurrency: data.primaryCurrency,
+      orderedQuantity: data.orderedQuantity,
       secondaryCurrency: data.secondaryCurrency,
       tertiaryCurrency: data.tertiaryCurrency,
       primaryRate: data.primaryRate,
