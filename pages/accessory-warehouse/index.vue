@@ -62,6 +62,7 @@
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100],
       }"
+      @click:row="(item) => getRow(item)"
       @update:page="page"
       @update:items-per-page="size"
     >
@@ -82,7 +83,7 @@
           </v-toolbar-title>
         </v-toolbar>
       </template>
-      <template #item.data-table-expand="{ headers, item }">
+      <!-- <template #item.data-table-expand="{ headers, item }">
         <td
           :colspan="accessoriesHeader.length"
           class="ma-0 pa-0 pointer"
@@ -96,7 +97,7 @@
           >
           </v-data-table>
         </td>
-      </template>
+      </template> -->
     </v-data-table>
   </div>
 </template>
@@ -118,21 +119,27 @@ export default {
           text: "Order №",
           value: "orderNumber",
           sortable: false,
-          width: 120,
-          class: "header-color",
         },
         {
           text: "Model №",
           value: "modelNumber",
           sortable: false,
-          width: 120,
-          class: "header-color",
         },
+        {
+          text: "Planned By",
+          value: "plannedBy",
+          sortable: false,
+        },
+        {
+          text: "Planned at",
+          value: "plannedAt",
+          sortable: false,
+        },
+        
         {
           text: "",
           value: "data-table-expand",
           sortable: false,
-          class: "header-color",
         },
       ],
       accessoriesHeader: [
@@ -217,8 +224,8 @@ export default {
         orderNumber: item.orderNumber,
         modelNumber: item.modelNumber,
         modelId: item.modelId,
-        createdAt: item.createdAt,
-        createdBy: item.createdBy,
+        plannedAt: item.plannedAt,
+        plannedBy: item.plannedBy,
       };
       this.$store.commit("accessoryWarehouse/setEditDates", data);
       this.$router.push(`/accessory-warehouse/${item.orderId}`);

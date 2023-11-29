@@ -69,9 +69,9 @@
               </v-combobox>
           </v-col>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">Created at</div>
+            <div class="label">Planned at</div>
               <v-text-field
-                placeholder="Created at"
+                placeholder="Planned at"
                 outlined
                 hide-details
                 height="44"
@@ -82,7 +82,7 @@
                 background-color="#F8F4FE"
                 readonly
                 disabled
-                v-model="filters.createdAt"
+                v-model="filters.plannedAt"
 
               >
                 <template #append>
@@ -91,7 +91,7 @@
               </v-text-field>
           </v-col>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">Creator by</div>
+            <div class="label">Planned by</div>
             <v-text-field
               placeholder="creator"
               outlined
@@ -104,7 +104,7 @@
               background-color="#F8F4FE"
               readonly
               disabled
-              v-model="filters.createdBy"
+              v-model="filters.plannedBy"
 
             />
           </v-col>
@@ -749,8 +749,8 @@ export default {
         const id = this.$route.params.id
         this.orderNumber=val.orderNumber
         this.modelNumber=val.modelNumber
-        this.filters.createdAt=val.createdAt
-      this.filters.createdBy=val.createdBy
+        this.filters.plannedAt=val.plannedAt
+      this.filters.plannedBy=val.plannedBy
         this.filters.orderId={id:id,orderNumber:val.orderNumber}
         this.filters.modelId={id:val.modelId,modelNumber:val.modelNumber}
         if(id!=="add-accessory-warehouse"){
