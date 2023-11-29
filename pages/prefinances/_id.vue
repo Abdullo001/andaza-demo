@@ -18,7 +18,7 @@
           class="rounded-lg text-capitalize font-weight-bold mr-4"
           color="#7631FF"
           width="140"
-          elevation="0"  
+          elevation="0"
           outlined
         >
           Models
@@ -155,8 +155,20 @@
               append-icon="mdi-chevron-down"
             />
           </v-col>
-          <v-col cols="12" lg="3" md="3" sm="6">
 
+          <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">Planned order quantity</div>
+            <v-text-field
+              v-model="addPreFinances.orderedQuantity"
+              outlined
+              class="rounded-lg base"
+              hide-details
+              height="44"
+              color="#7631FF"
+              dense
+              placeholder="Enter the planned order quantity"
+              append-icon=""
+            />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t("prefinances.child.primaryRare") }}</div>
@@ -565,7 +577,7 @@
                   : $t("prefinances.child.save")
               }}
             </v-btn>
-           
+
           </v-card-actions>
         </v-card>
       </v-col>
@@ -913,6 +925,7 @@ export default {
         preFinanceNumber: "",
         modelNumber: "",
         partnerId: "",
+        orderedQuantity: "",
         partner: "",
         primaryCurrency: "",
         tertiaryCurrency: "",
@@ -1257,6 +1270,7 @@ export default {
 
       if (this.$route.params.id === "creating") {
         const data = {...val[0]};
+        console.log(data)
         this.addPreFinances = {
           id: data.id,
           modelNames: data.name,
@@ -1501,6 +1515,7 @@ export default {
       const calcVal = this.calculation.filter(
         (el) => el.status === false || el.usd_disabled === false
       );
+      console.log(this.addPreFinances)
       calcVal.priceWithDiscountUSD = this.calculation[10].firstCurrency;
       calcVal.priceWithDiscountUZS = this.calculation[10].secondCurrency;
       calcVal.priceWithDiscountRUB = this.calculation[10].tertiaryCurrency;
@@ -1529,10 +1544,11 @@ export default {
     async createNewPreFinance() {
       const params = this.$route.params.id;
       if (params === "create"){
+        console.log(this.addPreFinances)
         await this.createPreFinance(this.addPreFinances);
       } else {
-        const { description, id, modelId, primaryCurrency, primaryRate, secondaryCurrency, secondaryRate,  tertiaryCurrency, tertiaryRate  } = this.addPreFinances;
-        const item = { description, id, modelId, primaryCurrency, primaryRate, secondaryCurrency, secondaryRate,  tertiaryCurrency, tertiaryRate  }
+        const { description, id, modelId, primaryCurrency, orderedQuantity, primaryRate, secondaryCurrency, secondaryRate,  tertiaryCurrency, tertiaryRate  } = this.addPreFinances;
+        const item = { description, id, modelId, primaryCurrency, orderedQuantity, primaryRate, secondaryCurrency, secondaryRate,  tertiaryCurrency, tertiaryRate  }
         await this.updatePreFinance(item);
       }
     },
