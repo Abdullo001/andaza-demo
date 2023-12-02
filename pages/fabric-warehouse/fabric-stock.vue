@@ -392,7 +392,7 @@
             lazy-validation
           >
             <v-row>
-              <v-col cols="8">
+              <v-col cols="12">
                 <div class="label">Model number</div>
                 <v-combobox
                   v-model="workshop.modelNumber"
@@ -419,7 +419,7 @@
                 </v-combobox>
               </v-col>
 
-              <v-col cols="4">
+              <v-col cols="12">
                 <div class="label">As a new row</div>
                 <v-checkbox
                   v-model="workshop.isNew"
