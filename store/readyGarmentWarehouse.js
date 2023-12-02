@@ -4,19 +4,24 @@ export const state=()=>({
   firstClassList:[],
   secondClassList:[],
   historyList:[],
+  giveShipping: [],
 })
 
 export const getters={
+  giveShipping: state => state.giveShipping,
   warehouseList: state=>state.warehouseList.content,
   warehouseDetail: state=>state.warehouseDetail,
   firstClassList: state=>state.firstClassList,
   secondClassList: state=>state.secondClassList,
-  historyList: state=>state.historyList,
+  historyList: state=>state.historyList
 }
 
 export const mutations={
   setWarehouseList(state,item){
     state.warehouseList=item
+  },
+  setGiveShipping(state, item){
+   state.giveShipping = item
   },
   setWarehouseDetail(state,item){
     state.warehouseDetail=item
@@ -50,7 +55,7 @@ export const actions={
       console.log(res);
     })
   },
-  
+
   getWarehouseDetail({commit},id){
     this.$axios.get(`/api/v1/ready-garment-warehouse/get-one?id=${id}`)
     .then((res)=>{
@@ -84,5 +89,15 @@ export const actions={
     .catch((res)=>{
       console.log(res);
     })
-  }
+  },
+   putGiveShipping({commit}, data) {
+    this.$axios.$put(`/api/v1/ready-garment-operation/give-shipping`, data)
+      .then(res => {
+        this.$toast.success(res.message)
+        commit('setGiveShipping', res.data.content)
+      })
+      .catch(({response}) => {
+        this.$toast.error(response.message)
+      })
+  },
 }
