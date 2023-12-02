@@ -45,6 +45,7 @@
               v-bind="attrs"
               v-on="on"
               color="#7631FF"
+              @click="shippingBtn(item)"
             >
               <v-img src="/car.svg" max-width="21"/>
             </v-btn>
@@ -79,18 +80,99 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-
+    <v-dialog v-model="shipping_dialog" width="1200">
+      <v-card>
+        <v-card-title class="d-flex justify-space-between w-full">
+          <div class="text-capitalize font-weight-bold">Shipping list</div>
+          <v-btn icon color="#7631FF" @click="shipping_dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text class="mt-4">
+          <v-form ref="edit_form" v-model="shipping_validate" lazy-validation>
+            <v-row>
+              <v-col cols="12" lg="3" v-for="(item, idx) in selectedItem.sizeDistributions" :key="`_cutting_${idx}`">
+                <div class="label">{{ item.size }}</div>
+                <v-text-field
+                  v-model="item.quantity"
+                  placeholder="0"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base "
+                  validate-on-blur
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" lg="3" md="3" sm="6">
+                <div class="label">Shipping name</div>
+                <v-combobox
+                  v-model="shippingItem.shippingId"
+                  :rules="[formRules.required]"
+                  :search-input.sync="shippingName"
+                  :items="shippingNameList"
+                  item-text="clientName"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :return-object="true"
+                  color="#7631FF"
+                  dense
+                  placeholder="Enter partner name"
+                  append-icon="mdi-chevron-down"
+                  validate-on-blur
+                >
+                  <template #append>
+                    <v-icon color="#7631FF">mdi-magnify</v-icon>
+                  </template>
+                </v-combobox>
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="d-flex justify-center pb-8">
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            outlined color="#7631FF"
+            width="130"
+            @click="shipping_dialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-btn
+            class="rounded-lg text-capitalize ml-4 font-weight-bold"
+            color="#7631FF" dark
+            width="130"
+            @click="save"
+          >
+            save
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+import shipping from "@/pages/shipping/index.vue";
 
 export default {
   name: 'SortOne',
   data() {
     return {
       history_dialog:'',
+      shipping_validate: true,
+      shippingName: "",
+      selectedItem: {
+        shippingId: null,
+        warehouseId: null,
+      },
       headers: [
         {text: 'Main colors', align: 'start', sortable: false, value: 'mainColors'},
         {text: 'Total', align: 'start', sortable: false, value: 'total'},
@@ -100,27 +182,52 @@ export default {
       ],
       historyHeaders:[
         {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
-        
+
         {text: 'Done By', sortable: false, align: 'center', value: 'createdBy'},
       ],
       historyList:[],
 
-      items: []
+      items: [],
+      shippingItem: {
+        shippingId: null,
+      },
+      shipping_dialog: false,
     }
   },
   computed:{
     ...mapGetters({
       firstClassList:"readyGarmentWarehouse/firstClassList",
       historyServerList:"readyGarmentWarehouse/historyList",
+      shippingNameList: "shipping/shippingNameList",
+      giveShipping: "readyGarmentWarehouse/giveShipping",
     })
   },
 
+  created() {
+    this.getShippingNameList({
+      page: 0,
+      size: 100,
+      clientName: this.shippingName,
+    });
+  },
+
   watch:{
+    "shippingItem.shippingId"(val){
+      this.selectedItem.shippingId = val?.id;
+    },
+    shippingName(val) {
+      if (!!val) {
+        this.getShippingNameList({
+          page: 0,
+          size: 100,
+          clientName: val,
+        });
+      }
+    },
     firstClassList(list){
       list.forEach((item)=>{
-        console.log(item);
         this.headers= [
-          {text: 'Color', sortable: false, align: 'start', value: 'colorSpecification'},  
+          {text: 'Color', sortable: false, align: 'start', value: 'colorSpecification'},
         ],
 
       list[0]?.sizeDistributionList?.forEach((item) => {
@@ -168,7 +275,6 @@ export default {
         {text: 'Done By', sortable: false, align: 'center', value: 'createdBy'},
 
       )
-
       const specialList = list.map(function (el) {
         const value = {};
         const sizesList = [];
@@ -190,11 +296,31 @@ export default {
     ...mapActions({
       getWarehouseListEachSort:"readyGarmentWarehouse/getWarehouseListEachSort",
       getWarehouseHistoryList:"readyGarmentWarehouse/getWarehouseHistoryList",
+      getShippingNameList: "shipping/getShippingNameList",
+      putGiveShipping: "readyGarmentWarehouse/putGiveShipping"
     }),
     showHistory(item){
       const id =this.$route.params.id
       this.getWarehouseHistoryList({warehouseId:id,operationType:"FIRST_CLASS",color:item.colorSpecification})
       this.history_dialog=true
+    },
+    shippingBtn(item) {
+      this.shipping_dialog = true;
+      this.selectedItem = {...item};
+      this.selectedItem.status="editProcess";
+    },
+    save(){
+      if(this.selectedItem.status==="editProcess"){
+        let data = {
+          colorSpecification: this.selectedItem.colorSpecification,
+          warehouseId: this.$route.params?.id,
+          sizeDistributions: [...this.selectedItem.sizeDistributions],
+          shippingId: this.selectedItem.shippingId,
+        }
+        this.putGiveShipping(data);
+        this.shipping_dialog = false;
+        this.shippingName = ''
+      }
     }
   },
 

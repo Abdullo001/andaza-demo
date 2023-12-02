@@ -119,8 +119,12 @@
         <span>Details</span>
       </v-tooltip>
     </template>
+      <template #item.status="{ item }">
+        <v-chip :color="statusColor.shippingStatusColor(item.status)" dark>
+          {{ item.status }}
+        </v-chip>
+      </template>
     </v-data-table>
-
 
   </div>
 
@@ -137,7 +141,6 @@ export default {
       headers:[
         {text: "Invoice No.", value: "invoiceNumber", sortable: false, align: "start"},
         {text: "Client name",   value: "clientName"},
-        {text: "Brand name",  value: "brandName"},
         {text: "Invoice Amount",  value: "invoiceAmount"},
         {text: "Net weight, kg",  value: "nettoWeight"},
         {text: "Gross weight, kg",  value: "grossWeight"},
@@ -169,16 +172,6 @@ export default {
     shippingList(val){
       this.current_list = JSON.parse(JSON.stringify(val))
     },
-    "filters.invoiceNumber"(val){
-      console.log("invoiceNum:",val)
-    },
-    "filters.clientName"(val){
-      console.log("clientName:",val)
-    },
-    "filters.shippingDate"(val){
-      console.log("shippingDate:",val)
-    }
-
   },
 
   methods:{
@@ -197,7 +190,7 @@ export default {
 
     async page(value) {
       this.current_page = value - 1;
-      await this.getFabricWarehouseList({
+      await this.getShippingList({
         clientName: this.filters.clientName,
         invoiceNumber: this.filters.invoiceNumber,
         shippingDate: this.filters.shippingDate,
@@ -207,7 +200,7 @@ export default {
     },
     async size(value) {
       this.itemPrePage = value;
-      await this.getFabricWarehouseList({
+      await this.getShippingList({
         clientName: this.filters.   clientName,
         invoiceNumber: this.filters.invoiceNumber,
         shippingDate: this.filters.shippingDate,

@@ -103,6 +103,14 @@ export default (context, inject) => {
                 return '#6df291'
             }
           },
+          shippingStatusColor(color){
+            switch (color) {
+              case 'IN_PROGRESS':
+                return '#ECF017'
+              case 'SHIPPED':
+                return '#27C124'
+            }
+          },
 
           sampleStatusColor(color) {
             switch (color) {

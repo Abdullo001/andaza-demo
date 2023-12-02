@@ -20,12 +20,6 @@
             </v-btn>
           </v-col>
         </v-row>
-<!--        <div>-->
-<!--          -->
-<!--        </div>-->
-<!--        <div>-->
-<!--          -->
-<!--        </div>-->
       </v-card-title>
       <v-divider/>
       <v-card-text class="mt-4">
@@ -50,7 +44,7 @@
                       <div class="label">Invoice date</div>
                       <div style="height: 40px !important">
                           <el-date-picker
-                              :disabled="eventEditBtn"
+                            :disabled="eventEditBtn"
                               v-model="shipping.invoiceDate"
                               :picker-options="pickerShortcuts"
                               class="base_picker"
@@ -252,7 +246,7 @@
                   <v-col cols="12" lg="3" md="3" sm="6">
                       <div class="label">Receiver address</div>
                       <v-text-field
-                          :disabled="eventEditBtn"
+                        :disabled="eventEditBtn"
                           class="rounded-lg base mb-4"
                           color="#7631FF"
                           dense
@@ -369,7 +363,7 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <Invoice/>
+                <ShippingModels/>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -397,14 +391,14 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import Breadcrumbs from '../../components/Breadcrumbs.vue';
-import Invoice from '../../components/Shipping/Invoice.vue';
+import ShippingModels from '../../components/Shipping/ShippingModels.vue';
 import PackingList from '../../components/Shipping/PackingList.vue';
 import RemainingQuantity from '../../components/Shipping/RemainingQuantity.vue';
 import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
 
 export default {
 
-  components:{ShowBtnComponent, Breadcrumbs, Invoice, PackingList, RemainingQuantity },
+  components:{ShowBtnComponent, Breadcrumbs, ShippingModels, PackingList, RemainingQuantity },
 
   data() {
     return {
@@ -421,9 +415,9 @@ export default {
       receiverName: "",
       manufacturerName: "",
       countryIdSearch: "",
-      eventEditBtn: true,
+      eventEditBtn: false,
       items:[
-        "Invoice",
+        "ShippingModels",
         "Packing list",
         "Remaining quantity for dom.market"
       ],
@@ -466,7 +460,8 @@ export default {
       oneShipping: "shipping/oneShipping",
       shippingList: "shipping/shippingList",
       partnerLists: "shipping/partnerLists",
-      countryList: "partners/countryList"
+      countryList: "partners/countryList",
+      shippingOperationList: "shipping/shippingOperationList"
     }),
     showObject() {
       return {
@@ -486,15 +481,10 @@ export default {
       createShipping: "shipping/createShipping",
       updateShipping: "shipping/updateShipping",
       getPartnerName: "shipping/getPartnerName",
-      getCountryList: "partners/getCountryList"
+      getCountryList: "partners/getCountryList",
+      getShippingOperationList: "shipping/getShippingOperationList",
     }),
       async createdNewShipping() {
-        this.shipping.buyerId = this.shipping.buyerId?.id;
-        this.shipping.sellerId = this.shipping.sellerId?.id;
-        this.shipping.senderId = this.shipping.senderId?.id;
-        this.shipping.receiverId = this.shipping.receiverId?.id;
-        this.shipping.manufacturerId = this.shipping.manufacturerId?.id;
-        this.shipping.countryId = this.shipping.countryId?.id;
         await this.createShipping(this.shipping);
       },
       async updateShippingFunc() {
@@ -513,6 +503,7 @@ export default {
       this.getCountryList({ name: val });
     },
     oneShipping(item) {
+      this.eventEditBtn = true;
       const shipping = this.shipping;
       shipping.id = item.id;
       shipping.buyerId = {id: item.buyerId, address: item.buyerAddress, name: item.buyerName, contractDate: item.contractDate, contractNumber: item.contractNumber};
@@ -525,14 +516,6 @@ export default {
       shipping.countryId = {id: item.countryId, name: item.countryName};
       this.$store.commit('shipping/setShippingId', item.buyerId);
     },
-    shippingList(list) {
-      list.map((item) => {
-        this.users.push({
-          id: item.id,
-          name: `${item.firstName} ${item.lastName}`,
-        });
-      });
-    }
   },
   async mounted(){
     const id = this.$route.params.id;
@@ -540,6 +523,7 @@ export default {
       await this.getOneShipping(id);
       this.shippingStatus = 'Edit'
     } else this.shippingStatus = 'Add'
+    await this.getShippingOperationList(id);
   }
 }
 </script>
@@ -563,4 +547,10 @@ export default {
   height: 0;
   overflow: hidden;
 }
+.v-tabs {
+  .v-card__text {
+    padding: 14px 0;
+  }
+}
+
 </style>
