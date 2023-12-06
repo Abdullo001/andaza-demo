@@ -2,7 +2,7 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   head: {
-    title: 'ATP - textile',
+    title: 'Andaza',
     htmlAttrs: {
       lang: 'en'
     },
@@ -13,7 +13,7 @@ export default {
       {name: 'format-detection', content: 'telephone=no'}
     ],
     link: [
-      {rel: 'icon', type: 'image/svg', href: '/logo.svg'}
+      {rel: 'icon', type: 'image/svg', href: '/andaza-a.svg'}
     ]
   },
   script: [],
@@ -49,30 +49,30 @@ export default {
   ],
   pwa: {
     manifest: {
-      name: 'ATP',
-      short_name: 'ATP',
+      name: 'A',
+      short_name: 'A',
       lang: 'en',
       display: 'standalone',
-      description: 'Automatization of Textile Production',
+      description: ' Andaza',
       useWebmanifestExtension: false,
       icons: [
         {
-          src: '/logo-144x144.png',
+          src: '/andaza-144x144.png',
           sizes: '144x144',
           type: 'image/png'
         },
         {
-          src: '/logo-64x64.png',
+          src: '/andaza-64x64.png',
           sizes: '64x64',
           type: 'image/png'
         },
         {
-          src: '/logo-32x32.png',
+          src: '/andaza-32x32.png',
           sizes: '32x32',
           type: 'image/png'
         },
         {
-          src: '/logo-16x16.png',
+          src: '/andaza-16x16.png',
           sizes: '16x16',
           type: 'image/png'
         }
