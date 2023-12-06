@@ -49,8 +49,8 @@ export default {
   ],
   pwa: {
     manifest: {
-      name: 'A',
-      short_name: 'A',
+      name: 'Andaza',
+      short_name: 'Andaza',
       lang: 'en',
       display: 'standalone',
       description: ' Andaza',
