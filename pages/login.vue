@@ -9,7 +9,7 @@
       <v-col class="d-flex justify-center align-center" cols="12" lg="6" md="6" sm="12">
         <div class="login__main">
           <div class="login__logo">
-            <img src="/logo.svg" alt="logo">
+            <img src="/andaza.svg" alt="logo" width="300">
           </div>
           <div class="login__description mb-8">Authentication</div>
           <div class="label">Username</div>
