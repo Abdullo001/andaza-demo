@@ -2,17 +2,15 @@ export const state = () => ( {
   shippingList: [],
   oneShipping: {},
   partnerLists: [],
-  shippingNameList: [],
-  shippingOperationList: [],
+  shippingInvoiceList: [],
 } );
 
 export const getters = {
   shippingList: ( state ) => state.shippingList.content,
-  shippingNameList: (state) => state.shippingNameList,
+  shippingInvoiceList: (state) => state.shippingInvoiceList,
   totalElements: (state) => state.shippingList.totalElements,
   oneShipping: (state) => state.oneShipping,
   partnerLists: (state) => state.partnerLists,
-  shippingOperationList: state => state.shippingOperationList,
 };
 
 export const mutations = {
@@ -28,26 +26,23 @@ export const mutations = {
   setPartners(state, partner) {
     state.partnerLists = partner;
   },
-  setShippingNameList(state, item) {
-    state.shippingNameList = item
+  setShippingInvoiceList(state, item) {
+    state.shippingInvoiceList = item
   },
-  setShippingOperationList(state, item) {
-    state.shippingOperationList = item
-  }
 };
 
 export const actions = {
-  async getShippingNameList({commit}, {page, size, clientName, invoiceNumber, status}) {
+  async getShippingInvoiceList({commit}, {page, size, invoiceNumber}) {
     const body = {
-      invoiceNumber: '',
-      clientName: clientName,
+      invoiceNumber: invoiceNumber,
+      clientName: '',
       shippingDate: '',
       page,
       size,
     }
     await this.$axios.$put(`/api/v1/shipping/list`, body)
       .then(res => {
-        commit('setShippingNameList', res.data.content)
+        commit('setShippingInvoiceList', res.data.content)
       })
       .catch(({response}) => {
         console.log(response);
@@ -119,15 +114,6 @@ export const actions = {
     await this.$axios.$get(`/api/v1/shipping/get?id=${id}`)
       .then(res => {
         commit('setOneShipping', res.data);
-      })
-      .catch(({response}) => {
-        console.log(response);
-      })
-  },
-  async getShippingOperationList({commit}, id) {
-    await this.$axios.$get(`/api/v1/shipping-operation/list?shippingId=${id}`)
-      .then(res => {
-        commit('setShippingOperationList', res.data);
       })
       .catch(({response}) => {
         console.log(response);

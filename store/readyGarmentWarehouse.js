@@ -90,10 +90,11 @@ export const actions={
       console.log(res);
     })
   },
-   putGiveShipping({commit}, data) {
+   putGiveShipping({commit, dispatch}, {data, warehouseId, operationType}) {
     this.$axios.$put(`/api/v1/ready-garment-operation/give-shipping`, data)
       .then(res => {
         this.$toast.success(res.message)
+        dispatch("getWarehouseListEachSort", {warehouseId, operationType})
         commit('setGiveShipping', res.data.content)
       })
       .catch(({response}) => {

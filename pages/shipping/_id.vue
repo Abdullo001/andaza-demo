@@ -482,7 +482,7 @@ export default {
       updateShipping: "shipping/updateShipping",
       getPartnerName: "shipping/getPartnerName",
       getCountryList: "partners/getCountryList",
-      getShippingOperationList: "shipping/getShippingOperationList",
+      getShippingOperationList: "shippingModels/getShippingOperationList",
     }),
       async createdNewShipping() {
         await this.createShipping(this.shipping);
@@ -522,8 +522,8 @@ export default {
     if (id !== 'add-shipping') {
       await this.getOneShipping(id);
       this.shippingStatus = 'Edit'
+      await this.getShippingOperationList(id);
     } else this.shippingStatus = 'Add'
-    await this.getShippingOperationList(id);
   }
 }
 </script>
