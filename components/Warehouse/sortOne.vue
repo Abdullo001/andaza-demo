@@ -112,9 +112,9 @@
                 <v-combobox
                   v-model="shippingItem.shippingId"
                   :rules="[formRules.required]"
-                  :search-input.sync="shippingName"
-                  :items="shippingNameList"
-                  item-text="clientName"
+                  :search-input.sync="shippingInvoice"
+                  :items="shippingInvoiceList"
+                  item-text="invoiceNumber"
                   item-value="id"
                   outlined
                   hide-details
@@ -168,7 +168,7 @@ export default {
     return {
       history_dialog:'',
       shipping_validate: true,
-      shippingName: "",
+      shippingInvoice: "",
       selectedItem: {
         shippingId: null,
         warehouseId: null,
@@ -198,16 +198,16 @@ export default {
     ...mapGetters({
       firstClassList:"readyGarmentWarehouse/firstClassList",
       historyServerList:"readyGarmentWarehouse/historyList",
-      shippingNameList: "shipping/shippingNameList",
+      shippingInvoiceList: "shipping/shippingInvoiceList",
       giveShipping: "readyGarmentWarehouse/giveShipping",
     })
   },
 
   created() {
-    this.getShippingNameList({
+    this.getShippingInvoiceList({
       page: 0,
       size: 100,
-      clientName: this.shippingName,
+      invoiceNumber: this.shippingInvoice,
     });
   },
 
@@ -215,12 +215,12 @@ export default {
     "shippingItem.shippingId"(val){
       this.selectedItem.shippingId = val?.id;
     },
-    shippingName(val) {
+    shippingInvoice(val) {
       if (!!val) {
-        this.getShippingNameList({
+        this.getShippingInvoiceList({
           page: 0,
           size: 100,
-          clientName: val,
+          invoiceNumber: val,
         });
       }
     },
@@ -242,7 +242,7 @@ export default {
           {text: 'Total price', sortable: false, align: 'start', value: 'totalPrice'},
           {text: 'Actions', sortable: false, align: 'start', value: 'actions'},
         )
-
+        console.log(list)
         const specialList = list.map(function (el) {
           const value = {};
           const sizesList = [];
@@ -296,7 +296,7 @@ export default {
     ...mapActions({
       getWarehouseListEachSort:"readyGarmentWarehouse/getWarehouseListEachSort",
       getWarehouseHistoryList:"readyGarmentWarehouse/getWarehouseHistoryList",
-      getShippingNameList: "shipping/getShippingNameList",
+      getShippingInvoiceList: "shipping/getShippingInvoiceList",
       putGiveShipping: "readyGarmentWarehouse/putGiveShipping"
     }),
     showHistory(item){
@@ -310,16 +310,17 @@ export default {
       this.selectedItem.status="editProcess";
     },
     save(){
+      const id=this.$route.params.id
       if(this.selectedItem.status==="editProcess"){
         let data = {
           colorSpecification: this.selectedItem.colorSpecification,
-          warehouseId: this.$route.params?.id,
+          warehouseId: id,
           sizeDistributions: [...this.selectedItem.sizeDistributions],
           shippingId: this.selectedItem.shippingId,
         }
-        this.putGiveShipping(data);
+        this.putGiveShipping({data, warehouseId: id, operationType: "FIRST_CLASS"});
         this.shipping_dialog = false;
-        this.shippingName = ''
+        this.shippingInvoice = ''
       }
     }
   },

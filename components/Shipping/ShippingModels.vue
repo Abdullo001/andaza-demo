@@ -8,7 +8,7 @@
 
       </v-toolbar-title>
     </v-toolbar>
-    <template v-for="group in groupedShippingOperationList">
+    <template  v-for="group in groupedShippingOperationList">
       <table cellspacing="0">
         <thead>
         <tr class="text-center">
@@ -20,11 +20,12 @@
           <th>Total</th>
           <th>Price per pc</th>
           <th>Total amount</th>
+          <th>Action</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody >
         <template v-for="item in group" >
-          <tr class="text-center">
+          <tr :key="item.id" class="text-center">
             <td>{{ item.orderNumber }}</td>
             <td>{{ item.modelNumber }}</td>
             <td>{{ item.modelName }}</td>
@@ -33,11 +34,80 @@
             <td>{{ item.total }}</td>
             <td>{{ item.pricePerPc }}</td>
             <td>{{ item.totalAmount }}</td>
+            <td>
+              <v-tooltip
+                top
+                color="#7631FF"
+                class="pointer"
+                v-if="Object.keys(item).length > 2"
+              >
+                <template #activator="{ on, attrs }">
+                  <v-btn
+                    icon
+                    v-bind="attrs"
+                    v-on="on"
+                    color="#7631FF"
+                    @click="returnDialog(item)"
+                  >
+                    <v-img src="/rotate.svg" max-width="22"/>
+                  </v-btn>
+                </template>
+                <span class="text-capitalize">return fabric</span>
+              </v-tooltip>
+            </td>
           </tr>
         </template>
         </tbody>
       </table>
     </template>
+    <v-dialog v-model="return_dialog" width="600">
+      <v-card>
+        <v-card-title class="d-flex justify-space-between w-full">
+          <div class="text-capitalize font-weight-bold">Returning works to warehouse</div>
+          <v-btn icon color="#7631FF" @click="return_dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text class="mt-4">
+          <v-form ref="edit_form" v-model="return_validate" lazy-validation>
+            <v-row>
+              <v-col cols="12" lg="3" v-for="(item, idx) in selectedItem.sizeDistribution" :key="`_cutting_${idx}`">
+                <div class="label">{{ item.size }}</div>
+                <v-text-field
+                  v-model="item.quantity"
+                  placeholder="0"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base "
+                  validate-on-blur
+                  dense
+                  color="#7631FF"
+                />
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="d-flex justify-center pb-8">
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            outlined color="#7631FF"
+            width="130"
+            @click="return_dialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-btn
+            class="rounded-lg text-capitalize ml-4 font-weight-bold"
+            color="#7631FF" dark
+            width="130"
+            @click="save"
+          >
+            save
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -45,16 +115,21 @@ import {mapActions, mapGetters} from "vuex";
 export default {
   data() {
     return {
+      return_dialog: false,
+      return_validate: true,
+      selectedItem: {
+
+      },
     }
   },
   created() {
-
   },
   watch: {
   },
   computed: {
     ...mapGetters({
-      shippingOperationList: "shipping/shippingOperationList",
+      shippingOperationList: "shippingModels/shippingOperationList",
+      returnReadyGarment: "shippingModels/returnReadyGarment"
     }),
     groupedShippingOperationList() {
       const groupedData = {};
@@ -70,11 +145,29 @@ export default {
   },
   methods: {
     ...mapActions({
-      getShippingOperationList: "shipping/getShippingOperationList",
-    })
+      getShippingOperationList: "shippingModels/getShippingOperationList",
+      returnReadyGarmentRow: "shippingModels/returnReadyGarmentRow"
+    }),
+    returnDialog(item) {
+      this.return_dialog = true;
+      this.selectedItem = {...item};
+      const sizesList = [];
+      item.sizeDistribution.map(function (el) {
+        sizesList.push({size: el.size, quantity: 0})
+      })
+      this.selectedItem.sizeDistribution = [...sizesList]
+    },
+    save(){
+        const shippingId = this.$route.params.id;
+        let data = {
+          id: this.selectedItem.id,
+          sizeDistributions: [...this.selectedItem.sizeDistribution],
+        }
+        this.returnReadyGarmentRow({data, id: shippingId});
+        this.return_dialog = false;
+      }
   },
   mounted() {
-
   }
 
 }
