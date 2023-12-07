@@ -2,7 +2,7 @@
   <div>
     <v-card elevation="0" class="rounded-lg">
       <v-card-text>
-        <v-form>
+        <v-form v-model="filter_form">
           <v-row>
             <v-col cols="12" lg="2" md="2">
               <v-text-field
@@ -137,7 +137,7 @@ export default {
   data(){
     return{
       title: "",
-
+      filter_form: true,
       headers:[
         {text: "Invoice No.", value: "invoiceNumber", sortable: false, align: "start"},
         {text: "Client name",   value: "clientName"},
@@ -147,7 +147,6 @@ export default {
         {text: "Shipped date",  value: "shippedDate"},
         {text: "Status",  value: "status"},
         {text: "Action",sortable:false,  value: "action"},
-
       ],
       expanded: [],
       filters: {
@@ -180,8 +179,7 @@ export default {
       createShipping: "shipping/createShipping",
     }),
     async viewDetails(item){
-      await this.$router?.push(`/shipping/${item.id}`);
-
+      await this.$router.push(`/shipping/${item.id}`);
     },
 
     loadDetails({ item }) {
@@ -224,13 +222,14 @@ export default {
     },
     async resetFilters() {
       await this.getShippingList({
-        clientName: "",
-        invoiceNumber: "",
-        shippingDate: "",
         page:this.current_page,
         size:this.itemPrePage,
       });
-      await this.$refs.filter_form.reset();
+      this.filters = {
+        clientName: "",
+        invoiceNumber: "",
+        shippingDate: "",
+      }
     },
   },
 

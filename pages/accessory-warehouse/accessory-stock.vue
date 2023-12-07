@@ -47,11 +47,11 @@
         </v-toolbar>
       </template>
       <template #item.accessoryPhoto="{item}">
-        <v-img 
-        :src="item?.filePath" 
+        <v-img
+        :src="item?.filePath"
         class="mr-2"
-        width="40" 
-        height="40" 
+        width="40"
+        height="40"
         @click="showImage(item.filePath)"
       />
       </template>
@@ -86,7 +86,7 @@
                 v-bind="attrs"
                 @click.stop
               >
-                <v-img src="/download.svg" 
+                <v-img src="/download.svg"
                 :style="{ filter: item.documentPath ? 'none' : 'grayscale(100%) opacity(0.5)' }"
                 max-width="24" />
               </v-btn>
@@ -117,58 +117,57 @@
             <v-row>
               <v-col cols="12" lg="6">
                 <div class="label">Order №</div>
-                <v-text-field 
-                v-model="arrivedAccessoryStock.orderNumber" 
+                <v-text-field
+                v-model="arrivedAccessoryStock.orderNumber"
                 outlined
-                hide-details 
-                dense 
-                class="rounded-lg base" 
-                placeholder="Enter Order №" 
+                hide-details
+                dense
+                class="rounded-lg base"
+                placeholder="Enter Order №"
                 color="#7631FF" />
               </v-col>
               <v-col cols="12" lg="6">
                 <div class="label">Model №</div>
-                <v-text-field 
-                v-model="arrivedAccessoryStock.modelNumber" 
+                <v-text-field
+                v-model="arrivedAccessoryStock.modelNumber"
                 outlined
-                hide-details 
-                class="rounded-lg base" 
-                height="44" 
-                dense 
-                color="#7631FF" 
+                hide-details
+                class="rounded-lg base"
+                height="44"
+                dense
+                color="#7631FF"
                 placeholder="Enter Model №" />
               </v-col>
               <v-col cols="12" lg="6">
                 <div class="label">Accessory name</div>
-                <v-text-field 
-                :rules="[formRules.required]" 
-                v-model="arrivedAccessoryStock.accessoryName" 
+                <v-text-field
+                :rules="[formRules.required]"
+                v-model="arrivedAccessoryStock.accessoryName"
                 outlined
-                hide-details 
-                class="rounded-lg base" 
-                height="44" 
-                dense 
+                hide-details
+                class="rounded-lg base"
+                height="44"
+                dense
                 color="#7631FF"
                 placeholder="Enter accessory name" />
               </v-col>
               <v-col cols="12" lg="6">
                 <div class="label">Supplier name</div>
-                <v-combobox 
-                v-model="arrivedAccessoryStock.supplierId" 
-                :rules="[formRules.required]"
-                :search-input.sync="partnerName" 
-                :items="partnerLists" 
-                item-text="name" 
-                item-value="id" 
+                <v-combobox
+                v-model="arrivedAccessoryStock.supplierId"
+                :search-input.sync="partnerName"
+                :items="partnerLists"
+                item-text="name"
+                item-value="id"
                 outlined
-                hide-details 
-                height="44" 
-                class="rounded-lg base" 
-                :return-object="true" 
-                color="#7631FF" 
+                hide-details
+                height="44"
+                class="rounded-lg base"
+                :return-object="true"
+                color="#7631FF"
                 dense
-                placeholder="Enter partner name" 
-                append-icon="mdi-chevron-down" 
+                placeholder="Enter partner name"
+                append-icon="mdi-chevron-down"
                 validate-on-blur
                 >
                   <template #append>
@@ -178,40 +177,40 @@
               </v-col>
               <v-col cols="12" lg="6">
                 <div class="label">Accessory specification</div>
-                <v-text-field 
-                :rules="[formRules.required]" 
-                v-model="arrivedAccessoryStock.specification" 
+                <v-text-field
+                :rules="[formRules.required]"
+                v-model="arrivedAccessoryStock.specification"
                 outlined
-                hide-details 
-                dense 
-                class="rounded-lg base" 
+                hide-details
+                dense
+                class="rounded-lg base"
                 placeholder="Enter accessory specification"
                 color="#7631FF" />
               </v-col>
               <v-col cols="12" lg="6">
                 <div class="label">Remaining quantity</div>
                 <div class="d-flex align-center">
-                  <v-text-field 
-                  height="44" 
-                  class="rounded-lg base rounded-l-lg rounded-r-0" 
+                  <v-text-field
+                  height="44"
+                  class="rounded-lg base rounded-l-lg rounded-r-0"
                   color="#7631FF"
-                  v-model="arrivedAccessoryStock.remainingQuantity" 
-                  outlined 
-                  hide-details 
+                  v-model="arrivedAccessoryStock.remainingQuantity"
+                  outlined
+                  hide-details
                   dense
                   placeholder="Enter Remaining q-ty" />
-                  <v-select 
-                  :items="measurementUnitList" 
-                  item-text="name" 
-                  item-value="id" 
-                  style="max-width: 100px" 
+                  <v-select
+                  :items="measurementUnitList"
+                  item-text="name"
+                  item-value="id"
+                  style="max-width: 100px"
                   dense
-                  v-model="arrivedAccessoryStock.measurementUnitId" 
-                  outlined 
-                  hide-details 
+                  v-model="arrivedAccessoryStock.measurementUnitId"
+                  outlined
+                  hide-details
                   height="44"
-                  class="rounded-lg base rounded-r-lg rounded-l-0" 
-                  validate-on-blur 
+                  class="rounded-lg base rounded-r-lg rounded-l-0"
+                  validate-on-blur
                   placeholder="M/U"
                   append-icon="mdi-chevron-down" color="#7631FF" place />
                 </div>
@@ -219,25 +218,25 @@
               <v-col cols="12" lg="6">
                 <div class="label">Price per unit</div>
                 <div class="d-flex align-center">
-                  <v-text-field 
-                  height="44" 
-                  class="rounded-lg base rounded-l-lg rounded-r-0" 
+                  <v-text-field
+                  height="44"
+                  class="rounded-lg base rounded-l-lg rounded-r-0"
                   color="#7631FF"
-                  v-model="arrivedAccessoryStock.pricePerUnit" 
-                  outlined 
-                  hide-details 
+                  v-model="arrivedAccessoryStock.pricePerUnit"
+                  outlined
+                  hide-details
                   dense
                   placeholder="Enter Price P/U" />
-                  <v-select 
-                  :items="priceEnums" 
-                  style="max-width: 100px" 
+                  <v-select
+                  :items="priceEnums"
+                  style="max-width: 100px"
                   dense
-                  v-model="arrivedAccessoryStock.pricePerUnitCurrency" 
-                  outlined 
-                  hide-details 
+                  v-model="arrivedAccessoryStock.pricePerUnitCurrency"
+                  outlined
+                  hide-details
                   height="44"
-                  class="rounded-lg base rounded-r-lg rounded-l-0" 
-                  validate-on-blur 
+                  class="rounded-lg base rounded-r-lg rounded-l-0"
+                  validate-on-blur
                   placeholder="P/U"
                   append-icon="mdi-chevron-down" color="#7631FF" place />
                 </div>
@@ -329,27 +328,27 @@
             </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
-          <v-btn 
-          class="rounded-lg text-capitalize font-weight-bold" 
-          outlined 
-          color="#7631FF" 
+          <v-btn
+          class="rounded-lg text-capitalize font-weight-bold"
+          outlined
+          color="#7631FF"
           width="163"
           @click="new_dialog = false">
             cancel
           </v-btn>
-          <v-btn 
-          v-if="title === 'New'" 
-          class="rounded-lg text-capitalize ml-4 font-weight-bold" 
-          color="#7631FF" 
+          <v-btn
+          v-if="title === 'New'"
+          class="rounded-lg text-capitalize ml-4 font-weight-bold"
+          color="#7631FF"
           dark
-          width="163" 
+          width="163"
           @click="saveArrivedAccessoryStock">
             save
           </v-btn>
-          <v-btn 
-          v-else 
-          class="rounded-lg text-capitalize ml-4 font-weight-bold" 
-          color="#7631FF" 
+          <v-btn
+          v-else
+          class="rounded-lg text-capitalize ml-4 font-weight-bold"
+          color="#7631FF"
           dark width="163"
           @click="editArrivedAccessoryStock">
             Edit
@@ -401,27 +400,27 @@
 
               <v-col cols="12">
                 <div class="label">Process</div>
-                <v-select 
-                append-icon="mdi-chevron-down" 
-                v-model="workshop.process" 
+                <v-select
+                append-icon="mdi-chevron-down"
+                v-model="workshop.process"
                 :rules="[formRules.required]"
-                :items="processes" 
-                hide-details color="#7631FF" 
-                class="base rounded-lg" 
-                rounded 
-                outlined 
+                :items="processes"
+                hide-details color="#7631FF"
+                class="base rounded-lg"
+                rounded
+                outlined
                 dense
                 placeholder="Select Model №" />
               </v-col>
 
               <v-col cols="12">
                 <div class="label">Giving fabric quantity</div>
-                <v-text-field 
-                :rules="[formRules.required]" 
-                v-model="workshop.givingQuantity" 
+                <v-text-field
+                :rules="[formRules.required]"
+                v-model="workshop.givingQuantity"
                 outlined hide-details dense
-                class="rounded-lg base" 
-                placeholder="Enter giving fabric quantity" 
+                class="rounded-lg base"
+                placeholder="Enter giving fabric quantity"
                 color="#7631FF"
                 :suffix="workshop.measurement" />
               </v-col>
@@ -484,15 +483,15 @@
 
               <v-col cols="12">
                 <div class="label">Process</div>
-                <v-select 
-                append-icon="mdi-chevron-down" 
-                v-model="subcontractor.process" 
+                <v-select
+                append-icon="mdi-chevron-down"
+                v-model="subcontractor.process"
                 :rules="[formRules.required]"
-                :items="processes" 
-                hide-details color="#7631FF" 
-                class="base rounded-lg" 
-                rounded 
-                outlined 
+                :items="processes"
+                hide-details color="#7631FF"
+                class="base rounded-lg"
+                rounded
+                outlined
                 dense
                 placeholder="Select Process" />
               </v-col>
@@ -525,14 +524,14 @@
 
               <v-col cols="12">
                 <div class="label">Giving fabric quantity</div>
-                <v-text-field 
-                :rules="[formRules.required]" 
-                v-model="subcontractor.givingQuantity" 
-                outlined 
-                hide-details 
+                <v-text-field
+                :rules="[formRules.required]"
+                v-model="subcontractor.givingQuantity"
+                outlined
+                hide-details
                 dense
-                class="rounded-lg base" 
-                placeholder="Enter giving fabric quantity" 
+                class="rounded-lg base"
+                placeholder="Enter giving fabric quantity"
                 color="#7631FF"
                 :suffix="subcontractor.measurement" />
               </v-col>
@@ -669,7 +668,7 @@ export default {
         { text: "Order №", value: "orderNumber", sortable: false },
         { text: "Model №", value: "modelNumber", sortable: false },
         { text: "Accessory name", value: "accessoryName", sortable: false },
-        { text: "Accessory specification", value: "specification", sortable: false, width: 200 },        
+        { text: "Accessory specification", value: "specification", sortable: false, width: 200 },
         { text: "Accessory photo", value: "accessoryPhoto" },
         { text: "Supplier name", value: "supplierName", sortable: false },
         { text: "Remaining q-ty", value: "remainingQuantity", sortable: false },
@@ -903,7 +902,7 @@ export default {
         formData.append("pricePerUnitCurrency", pricePerUnitCurrency),
         formData.append("remainingQuantity", remainingQuantity),
         formData.append("specification", specification),
-        formData.append("supplierId", supplierId.id)
+        formData.append("supplierId", supplierId?.id)
         if(!!this.files[0]?.file){
           formData.append("file",this.files[0]?.file)
         }
@@ -967,7 +966,7 @@ export default {
           formData.append("file", this.files[0]?.file)
         }
         if(!!file){
-          formData.append("document", file) 
+          formData.append("document", file)
         }
         formData.append("remainingQuantity", remainingQuantity),
         formData.append("specification", specification),

@@ -21,7 +21,7 @@
                   style="width: 100%; height: 100%"
                   placeholder="dd.MM.yyyy"
                   :picker-options="pickerShortcuts"
-                  value-format="dd.MM.yyyy"
+                  value-format="dd-MM-yyyy"
                 >
                 </el-date-picker>
               </div>
@@ -36,7 +36,7 @@
                   style="width: 100%; height: 100%"
                   placeholder="MM.yyyy"
                   :picker-options="pickerShortcuts"
-                  value-format="MM.yyyy"
+                  value-format="MM-yyyy"
                 >
                 </el-date-picker>
               </div>

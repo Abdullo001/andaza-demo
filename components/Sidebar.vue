@@ -9,8 +9,7 @@
       width="310"
     >
       <nuxt-link to="/" class="d-flex align-center ma-8">
-        <v-img src="/logo.svg" max-width="100"/>
-        <div class="navbar-text">Automatization of Textile Production</div>
+        <v-img src="/andaza.svg" max-width="200"/>
       </nuxt-link>
 
       <v-list class="rounded-lg mx-4" flat>
