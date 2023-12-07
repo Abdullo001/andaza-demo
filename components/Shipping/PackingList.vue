@@ -309,10 +309,8 @@ export default {
         for (let item in el.sizeWeightDistributions){
           const size=el.sizeWeightDistributions[item]
           !!netWeight[size.size]?netWeight[size.size]=netWeight[size.size]:netWeight[size.size]=0
-          console.log(netWeight)
           netWeight[size.size] = parseFloat((size.value * valueSizes[size.size]).toFixed(3));
           totalNetWeight+=netWeight[size.size]
-          console.log(totalNetWeight)
         }
         grossWeight = (el.weightPerBox*totalBoxQuantity+totalNetWeight).toFixed(2)
         return {
@@ -325,7 +323,6 @@ export default {
           grossWeight: grossWeight,
         };
       });
-      console.log(specialList)
       this.allList=JSON.parse(JSON.stringify(specialList));
     },
   },
@@ -345,7 +342,6 @@ export default {
     editItem(item) {
       this.new_dialog = true;
       this.selectedPackingList = {...item};
-      console.log(this.selectedPackingList);
       this.selectedPackingList.id = item.id;
       let sizesList = [];
       let sizees = [];
@@ -376,7 +372,6 @@ export default {
       this.new_dialog = false
     },
     setQueueFunc(item){
-      console.log(item)
       const shippingId=this.$route.params.id
       const data = {
         boxQuantity: item.boxQuantity,
