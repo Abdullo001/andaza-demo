@@ -64,7 +64,7 @@
         </div>
           <v-btn
             text
-            color="#397CFD"
+            color="#544B99"
             class="logout text-none mt-16"
             @click="dialog=true"
           >
@@ -94,7 +94,7 @@
           </v-btn>
 
           <v-btn
-            color="#7631FF"
+            color="#544B99"
             text
             @click="logOutApp"
             class="text-none"
@@ -128,7 +128,7 @@
           prepend-inner-icon="mdi-magnify"
           @click:prepend-inner="getSearch"
           class="mr-6 rounded-lg"
-          color="#7631FF"
+          color="#544B99"
           style="min-width: 350px"
         >
           <template #prepend-inner>
@@ -150,7 +150,7 @@
           <div class="language__selected">
             <img :src="`/${$i18n.locale}.svg`" alt="flag">
             <span class="ml-2 mr-1 text-capitalize">{{ $i18n.locale }}</span>
-            <v-icon color="#7631FF">mdi-chevron-down</v-icon>
+            <v-icon color="#544B99">mdi-chevron-down</v-icon>
           </div>
 
           <div :class="`language__list ${active ? 'active' : null}`">

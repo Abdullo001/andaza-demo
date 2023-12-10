@@ -30,13 +30,13 @@
                 height="44"
                 class="rounded-lg base d-flex align-center justify-center mb-4"
                 :return-object="true"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 placeholder="Enter order number"
                 prepend-icon=""
               >
                 <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
+                  <v-icon class="d-inline-block" color="#544B99">
                     mdi-magnify
                   </v-icon>
                 </template>
@@ -56,13 +56,13 @@
                 height="44"
                 class="rounded-lg base d-flex align-center justify-center mb-4"
                 :return-object="true"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 placeholder="Enter model number"
                 prepend-icon=""
               >
                 <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
+                  <v-icon class="d-inline-block" color="#544B99">
                     mdi-magnify
                   </v-icon>
                 </template>
@@ -78,7 +78,7 @@
                 class="rounded-lg base mb-4"
                 validate-on-blur
                 dense
-                color="#7631FF"
+                color="#544B99"
                 background-color="#F8F4FE"
                 readonly
                 disabled
@@ -100,7 +100,7 @@
               class="rounded-lg base mb-4"
               validate-on-blur
               dense
-              color="#7631FF"
+              color="#544B99"
               background-color="#F8F4FE"
               readonly
               disabled
@@ -116,7 +116,7 @@
           <v-btn
               height="44"
               width="133"
-              color="#7631FF"
+              color="#544B99"
               :dark="stateStatus!=='Edit'"
               class="text-capitalize rounded-lg font-weight-bold"
               @click="search"
@@ -147,14 +147,13 @@
           :rules="[formRules.required]"
           @keydown.enter="setDeliviredQuantity(item)"
           validate-on-blur
-          color="#7631FF"
+          color="#544B99"
           v-model="item.deliveredQuantity"
         />
       </template>
 
       <template #item.actions="{item}">
         <div class="d-flex ">
-
           <v-btn icon color="red" @click="getDeleteItem(item)">
             <v-img src="/delete.svg" max-width="27"/>
           </v-btn>
@@ -165,7 +164,7 @@
         <div class="d-flex ">
           <v-tooltip
             top
-            color="#7631FF"
+            color="#544B99"
             class="pointer"
             v-if="Object.keys(item).length > 2"
           >
@@ -174,7 +173,7 @@
                 icon
                 v-bind="attrs"
                 v-on="on"
-                color="#7631FF"
+                color="#544B99"
                 @click="spendFunc(item)"
               >
                 <v-img src="/spend-icon.svg" max-width="22"/>
@@ -185,7 +184,7 @@
 
           <v-tooltip
             top
-            color="#7631FF"
+            color="#544B99"
             class="pointer"
             v-if="Object.keys(item).length > 2"
           >
@@ -194,7 +193,7 @@
                 icon
                 v-bind="attrs"
                 v-on="on"
-                color="#7631FF"
+                color="#544B99"
                 @click="getHistory(item)"
               >
               <v-img src="/history.svg" max-width="20"/>
@@ -205,7 +204,7 @@
 
           <v-tooltip
             top
-            color="#7631FF"
+            color="#544B99"
             class="pointer"
             v-if="Object.keys(item).length > 2"
           >
@@ -214,7 +213,7 @@
                 icon
                 v-bind="attrs"
                 v-on="on"
-                color="#7631FF"
+                color="#544B99"
                 @click="workshopFunc(item)"
               >
                 <v-img src="/cut-icon.svg" max-width="22"/>
@@ -225,7 +224,7 @@
 
           <v-tooltip
             top
-            color="#7631FF"
+            color="#544B99"
             class="pointer"
             v-if="Object.keys(item).length > 2"
           >
@@ -234,7 +233,7 @@
                 icon
                 v-bind="attrs"
                 v-on="on"
-                color="#7631FF"
+                color="#544B99"
                 @click="subcontractorFunc(item)"
               >
                 <v-img src="/bag-icon.svg" max-width="22"/>
@@ -242,6 +241,13 @@
             </template>
             <span class="text-capitalize">subcontractor</span>
           </v-tooltip>
+          <v-btn
+            icon
+            color="#544B99"
+            @click="giveSureStock(item)"
+          >
+            <v-img src="/stock-icon.svg" max-width="22" />
+          </v-btn>
         </div>
       </template>
 
@@ -250,7 +256,7 @@
       <v-spacer />
       <v-btn
         class="text-capitalize rounded-lg font-weight-bold"
-        color="#7631FF"
+        color="#544B99"
         dark
         height="44"
         width="133"
@@ -298,7 +304,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Spending fabric</div>
-          <v-btn icon color="#7631FF" @click="spend_dialog = false">
+          <v-btn icon color="#544B99" @click="spend_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -319,13 +325,13 @@
                     height="44"
                     class="rounded-lg base d-flex align-center justify-center mb-4"
                     :return-object="true"
-                    color="#7631FF"
+                    color="#544B99"
                     dense
                     placeholder="Enter order number"
                     prepend-icon=""
                   >
                     <template #append>
-                      <v-icon class="d-inline-block" color="#7631FF">
+                      <v-icon class="d-inline-block" color="#544B99">
                         mdi-magnify
                       </v-icon>
                     </template>
@@ -344,13 +350,13 @@
                     height="44"
                     class="rounded-lg base d-flex align-center justify-center mb-4"
                     :return-object="true"
-                    color="#7631FF"
+                    color="#544B99"
                     dense
                     placeholder="Enter model number"
                     prepend-icon=""
                   >
                     <template #append>
-                      <v-icon class="d-inline-block" color="#7631FF">
+                      <v-icon class="d-inline-block" color="#544B99">
                         mdi-magnify
                       </v-icon>
                     </template>
@@ -369,13 +375,13 @@
                     height="44"
                     class="rounded-lg base d-flex align-center justify-center mb-4"
                     :return-object="true"
-                    color="#7631FF"
+                    color="#544B99"
                     dense
                     placeholder="Enter accessory"
                     prepend-icon=""
                   >
                     <template #append>
-                      <v-icon class="d-inline-block" color="#7631FF">
+                      <v-icon class="d-inline-block" color="#544B99">
                         mdi-magnify
                       </v-icon>
                     </template>
@@ -394,13 +400,13 @@
                     height="44"
                     class="rounded-lg base d-flex align-center justify-center mb-4"
                     :return-object="true"
-                    color="#7631FF"
+                    color="#544B99"
                     dense
                     placeholder="Enter accessory"
                     prepend-icon=""
                   >
                     <template #append>
-                      <v-icon class="d-inline-block" color="#7631FF">
+                      <v-icon class="d-inline-block" color="#544B99">
                         mdi-magnify
                       </v-icon>
                     </template>
@@ -416,7 +422,7 @@
                 :rules="[formRules.required]"
                 validate-on-blur
                 placeholder="Enter spending quantity"
-                color="#7631FF"
+                color="#544B99"
                 v-model="spend.spendingQuantity"
               />
               </v-col>
@@ -426,7 +432,7 @@
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="130"
             @click="spend_dialog = false"
           >
@@ -434,7 +440,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="130"
             @click="saveSpending"
           >
@@ -453,7 +459,7 @@
           <v-btn
             icon
             @click="history_dialog=false"
-            color="#7631FF"
+            color="#544B99"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -476,7 +482,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Accessory giving to own workshop</div>
-          <v-btn icon color="#7631FF" @click="workshop_dialog = false">
+          <v-btn icon color="#544B99" @click="workshop_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -492,12 +498,12 @@
                 >
                   <v-radio
                     :aria-disabled="selectedItem.status==='edit_history'"
-                    color="#7631FF"
+                    color="#544B99"
                     label="Sewing"
                     value="SEWING"
                   ></v-radio>
                   <v-radio
-                    color="#7631FF"
+                    color="#544B99"
                     label="Packaging"
                     value="PACKAGING"
                   ></v-radio>
@@ -513,7 +519,7 @@
                 dense
                 class="rounded-lg base "
                 placeholder="Enter giving quantity"
-                color="#7631FF"
+                color="#544B99"
               />
               </v-col>
             </v-row>
@@ -522,7 +528,7 @@
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="130"
             @click="workshop_dialog = false"
           >
@@ -530,7 +536,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="130"
             @click="saveWorkshop"
           >
@@ -544,7 +550,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Accessory giving to own workshop</div>
-          <v-btn icon color="#7631FF" @click="subcontract_dialog = false">
+          <v-btn icon color="#544B99" @click="subcontract_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -559,12 +565,12 @@
                   class="mb-4"
                 >
                   <v-radio
-                    color="#7631FF"
+                    color="#544B99"
                     label="Sewing"
                     value="SEWING"
                   ></v-radio>
                   <v-radio
-                    color="#7631FF"
+                    color="#544B99"
                     label="Packaging"
                     value="PACKAGING"
                   ></v-radio>
@@ -580,7 +586,7 @@
                   item-text="name"
                   item-value="id"
                   hide-details
-                  color="#7631FF"
+                  color="#544B99"
                   class=" base rounded-lg"
                   rounded
                   outlined
@@ -598,7 +604,7 @@
                 dense
                 class="rounded-lg base "
                 placeholder="Enter giving quantity"
-                color="#7631FF"
+                color="#544B99"
               />
               </v-col>
             </v-row>
@@ -607,7 +613,7 @@
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="130"
             @click="subcontract_dialog = false"
           >
@@ -615,7 +621,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="130"
             @click="saveSubcontract"
           >
@@ -625,8 +631,42 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="giveSure_dialog" max-width="450">
+      <v-card class="pa-4 text-center">
+        <div class="d-flex justify-center mb-2">
+          <v-img src="/error-icon.svg" max-width="40" />
+        </div>
+        <v-card-title class="d-flex justify-center font-weight-bold"
+        >Are you sure ?</v-card-title
+        >
+        <v-card-text>
+          You want to giving the current accessory to accessory stock ?
+        </v-card-text>
+        <v-card-actions class="px-16">
+          <v-btn
+            outlined
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#544B99"
+            width="135"
+            @click.stop="giveSure_dialog = false"
+          >
+            Cancel
+          </v-btn>
+          <v-spacer />
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#544B99"
+            width="135"
+            elevation="0"
+            dark
+            @click="giveStock"
+          >
+            Giving to stock
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
-    
   </div>
 </template>
 <script>
@@ -650,6 +690,7 @@ export default {
       accessoryName:"",
       spend_validate:true,
       history_dialog:false,
+      giveSure_dialog: false,
       filters:{
         orderId:null,
         modelId:null,
@@ -703,7 +744,7 @@ export default {
 
       ],
       selectedItem:{},
-
+      selectedWarehouseId: null,
       accessoryList:[],
       workshop_validate:true,
       workshop_dialog:false,
@@ -796,7 +837,7 @@ export default {
     historyServerList(list){
       this.historyList = JSON.parse(JSON.stringify(list))
     }
-    
+
   },
 
   methods:{
@@ -815,7 +856,7 @@ export default {
       getHistoryList:"accessoryWarehouse/getHistoryList",
       giveSubcontractor:"accessoryWarehouse/giveSubcontractor",
       getPartnerList:"subcontracts/getPartnerList",
-
+      giveToAccessoryStock: "accessoryWarehouse/giveToAccessoryStock",
     }),
 
     search(){
@@ -837,6 +878,19 @@ export default {
     spendFunc(item){
       this.spend_dialog=true
       this.spend.idFrom=item.planningOrderId
+    },
+
+    giveStock(){
+      this.giveSure_dialog = false;
+      let orderId = this.filters.orderId.id;
+      let modelId = this.filters.modelId.id;
+      let warehouseId = this.selectedWarehouseId;
+      this.giveToAccessoryStock({warehouseId,orderId, modelId})
+    },
+
+    giveSureStock(item) {
+      this.selectedWarehouseId = item.warehouseId;
+      this.giveSure_dialog = true;
     },
 
     async saveSpending(){

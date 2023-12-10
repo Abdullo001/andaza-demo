@@ -54,7 +54,7 @@
                 <v-btn
                   width="140"
                   outlined
-                  color="#397CFD"
+                  color="#544B99"
                   elevation="0"
                   @click="resetBtn"
                   class="text-capitalize mr-4 border-primary rounded-lg font-weight-bold"
@@ -63,7 +63,7 @@
                 </v-btn>
                 <v-btn
                   width="140"
-                  color="#397CFD"
+                  color="#544B99"
                   dark
                   elevation="0"
                   @click="filterBtn"
@@ -96,7 +96,7 @@
             class="d-flex w-full align-center justify-space-between"
           >
             <div>Accessory</div>
-            <v-btn color="#7631FF" dark class="text-capitalize rounded-lg" @click="addOrder">
+            <v-btn color="#544B99" dark class="text-capitalize rounded-lg" @click="addOrder">
               <v-icon>mdi-plus</v-icon>
               Accessory
             </v-btn>
@@ -104,10 +104,10 @@
         </v-toolbar>
       </template>
       <template #item.actions="{item}">
-        <v-tooltip top color="#7631FF">
+        <v-tooltip top color="#544B99">
           <template v-slot:activator="{on, attrs}">
             <v-btn
-              icon color="#7631FF"
+              icon color="#544B99"
               v-on="on" v-bind="attrs"
               @click="$router.push(`/accessory/${item.id}`)"
             >
@@ -179,7 +179,7 @@ export default {
     }),
     async page(value) {
       this.current_page = value - 1;
-      
+
       this.getAccessoryList({page: this.current_page, size: this.itemPrePage});
     },
     async size(value) {
@@ -200,7 +200,7 @@ export default {
       };
       await this.getAccessoryList({page: 0, size: 20});
     },
-   
+
     addOrder() {
       this.$router.push(`/accessory/create`);
     },

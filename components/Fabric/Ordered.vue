@@ -57,7 +57,7 @@ export default {
     if(param !== 'create') {
       this.getFabricOrdered(param)
     }
-  } 
+  }
 }
 </script>
 

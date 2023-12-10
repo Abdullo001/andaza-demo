@@ -30,7 +30,7 @@ export default {
         datasets: [
           {
             backgroundColor: [
-              '#7631FF',
+              '#544B99',
               'rgb(255, 99, 132)',
               'rgb(255, 205, 86)',
               '#10BF41'

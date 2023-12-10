@@ -61,7 +61,7 @@
           <v-spacer/>
           <v-btn
             class="text-capitalize rounded-lg mt-3"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="130"
             height="44"

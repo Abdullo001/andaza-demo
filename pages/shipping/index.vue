@@ -47,7 +47,7 @@
                 <v-btn
                   width="140"
                   outlined
-                  color="#397CFD"
+                  color="#544B99"
                   elevation="0"
                   class="text-capitalize mr-4 border-primary rounded-lg font-weight-bold"
                   @click.stop="resetFilters"
@@ -56,7 +56,7 @@
                 </v-btn>
                 <v-btn
                   width="140"
-                  color="#397CFD"
+                  color="#544B99"
                   dark
                   elevation="0"
                   class="text-capitalize rounded-lg font-weight-bold"
@@ -92,7 +92,7 @@
           <div>Shipping</div>
 
           <v-btn
-            color="#7631FF"
+            color="#544B99"
             dark
             class="text-capitalize rounded-lg mr-2"
             @click="addShipping"
@@ -106,10 +106,10 @@
     </template>
 
     <template #item.action="{ item }">
-      <v-tooltip top color="#7631FF">
+      <v-tooltip top color="#544B99">
         <template v-slot:activator="{on, attrs}">
           <v-btn
-            icon color="#7631FF"
+            icon color="#544B99"
             v-on="on" v-bind="attrs"
             @click="viewDetails(item)"
           >

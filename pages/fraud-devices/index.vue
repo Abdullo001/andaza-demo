@@ -53,14 +53,14 @@
               <div class="d-flex justify-end">
                 <v-btn
                   width="140" outlined
-                  color="#397CFD" elevation="0"
+                  color="#544B99" elevation="0"
                   class="text-capitalize mr-4 rounded-lg font-weight-bold"
                   @click.stop="resetSearch"
                 >
                   {{ $t('fraudDevices.dialog.reset') }}
                 </v-btn>
                 <v-btn
-                  width="140" color="#397CFD" dark
+                  width="140" color="#544B99" dark
                   elevation="0"
                   class="text-capitalize rounded-lg font-weight-bold"
                   @click="filterDevices"
@@ -108,7 +108,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Edit device</div>
-          <v-btn icon color="#7631FF" @click="edit_dialog = false">
+          <v-btn icon color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -124,7 +124,7 @@
                   class="rounded-lg base"
                   hide-details
                   placeholder="Enter Device ID"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="6">
@@ -136,7 +136,7 @@
                   class="rounded-lg base"
                   hide-details
                   placeholder="Enter Device №"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="6">
@@ -148,7 +148,7 @@
                   class="rounded-lg base"
                   hide-details
                   placeholder="Enter Blocked by"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="6">
@@ -161,7 +161,7 @@
                   hide-details
                   label="Status"
                   placeholder="Select Status"
-                  color="#7631FF"
+                  color="#544B99"
                   append-icon="mdi-chevron-down"
                 />
               </v-col>
@@ -174,7 +174,7 @@
                   class="rounded-lg base"
                   hide-details
                   disabled
-                  color="#7631FF"
+                  color="#544B99"
                   placeholder="Enter blocked date time"
                 >
                   <template #append>
@@ -192,7 +192,7 @@
                   hide-details
                   disabled
                   placeholder="Enter unblocked date time"
-                  color="#7631FF"
+                  color="#544B99"
                 >
                   <template #append>
                     <v-img src="/date-icon.svg"/>
@@ -208,7 +208,7 @@
                   class="rounded-lg base"
                   hide-details
                   placeholder="Enter Blocked by"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="6">
@@ -221,7 +221,7 @@
                   hide-details
                   append-icon="mdi-chevron-down"
                   placeholder="Select Device type"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -230,7 +230,7 @@
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="163"
             @click="edit_dialog = false"
           >
@@ -238,7 +238,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="163"
           >
             {{ $t('update') }}

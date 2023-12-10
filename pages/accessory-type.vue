@@ -63,14 +63,14 @@
             <div class="d-flex justify-end">
               <v-btn
                 width="140" outlined
-                color="#397CFD" elevation="0"
+                color="#544B99" elevation="0"
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
                 Reset
               </v-btn>
               <v-btn
-                width="140" color="#397CFD" dark
+                width="140" color="#544B99" dark
                 elevation="0"
                 class="text-capitalize rounded-lg"
                 @click="filterData"
@@ -99,7 +99,7 @@
         <v-toolbar elevation="0" class="rounded-lg">
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium text-capitalize">Accessory Type</div>
-            <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="new_dialog = true">
+            <v-btn color="#544B99" class="rounded-lg text-capitalize" dark @click="new_dialog = true">
               <v-icon>mdi-plus</v-icon>
               Add Accessory Type
             </v-btn>
@@ -125,7 +125,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Add Accessory type</div>
-          <v-btn icon color="#7631FF" @click="new_dialog = false">
+          <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -139,7 +139,7 @@
                   :rules="[formRules.required]"
                   label="Accessory type name"
                   placeholder="Enter Accessory type name"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12">
@@ -150,7 +150,7 @@
                   filled
                   label="Description"
                   placeholder="Enter Description"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -159,7 +159,7 @@
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="163"
             @click="new_dialog = false"
           >
@@ -167,7 +167,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="163"
             @click="save"
           >
@@ -180,7 +180,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Edit Accessory type</div>
-          <v-btn icon color="#7631FF" @click="edit_dialog = false">
+          <v-btn icon color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -193,7 +193,7 @@
                   filled
                   label="Accessory type name"
                   placeholder="Enter Accessory type name"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12">
@@ -202,7 +202,7 @@
                   filled
                   label="Description"
                   placeholder="Enter Description"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -211,7 +211,7 @@
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="163"
             @click="edit_dialog = false"
           >
@@ -219,7 +219,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="163"
             @click="update"
           >

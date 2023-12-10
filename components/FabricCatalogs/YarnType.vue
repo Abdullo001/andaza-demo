@@ -20,7 +20,7 @@
               {{ $t("catalogGroups.tabs.yarnType") }}
             </div>
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               class="rounded-lg text-capitalize"
               dark
               @click="new_dialog = true"
@@ -52,7 +52,7 @@
           <div class="text-capitalize font-weight-bold">
             {{ $t("catalogGroups.yarnType.dialogs.create") }}
           </div>
-          <v-btn icon color="#7631FF" @click="new_dialog = false">
+          <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -64,7 +64,7 @@
               :rules="[formRules.required]"
               :label="$t('catalogGroups.tabs.yarnType')"
               :placeholder="$t('catalogGroups.yarnType.dialogs.select')"
-              color="#7631FF"
+              color="#544B99"
             />
             <v-text-field
               v-model="create_yarn_type.specification"
@@ -74,7 +74,7 @@
               :placeholder="
                 $t('catalogGroups.yarnType.dialogs.enterSpecification')
               "
-              color="#7631FF"
+              color="#544B99"
             />
             <v-textarea
               v-model="create_yarn_type.description"
@@ -85,7 +85,7 @@
               :placeholder="
                 $t('catalogGroups.yarnType.dialogs.enterDescription')
               "
-              color="#7631FF"
+              color="#544B99"
             />
           </v-form>
         </v-card-text>
@@ -93,7 +93,7 @@
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             outlined
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click="new_dialog = false"
           >
@@ -101,7 +101,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="save"
@@ -117,7 +117,7 @@
           <div class="text-capitalize font-weight-bold">
             {{ $t("catalogGroups.yarnType.dialogs.edit") }}
           </div>
-          <v-btn icon color="#7631FF" @click="edit_dialog = false">
+          <v-btn icon color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -130,7 +130,7 @@
               :label="$t('catalogGroups.tabs.yarnType')"
               :placeholder="$t('catalogGroups.yarnType.dialogs.select')"
               dense
-              color="#7631FF"
+              color="#544B99"
             />
             <v-text-field
               v-model="edit_yarn_type.specification"
@@ -141,7 +141,7 @@
                 $t('catalogGroups.yarnType.dialogs.enterSpecification')
               "
               dense
-              color="#7631FF"
+              color="#544B99"
             />
             <v-textarea
               v-model="edit_yarn_type.description"
@@ -151,7 +151,7 @@
                 $t('catalogGroups.yarnType.dialogs.enterDescription')
               "
               dense
-              color="#7631FF"
+              color="#544B99"
             />
           </v-form>
         </v-card-text>
@@ -159,7 +159,7 @@
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             outlined
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click="edit_dialog = false"
           >
@@ -167,7 +167,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="update"

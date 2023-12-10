@@ -54,7 +54,7 @@
                 <v-btn
                   width="140"
                   outlined
-                  color="#397CFD"
+                  color="#544B99"
                   elevation="0"
                   @click="resetBtn"
                   class="text-capitalize mr-4 border-primary rounded-lg font-weight-bold"
@@ -63,7 +63,7 @@
                 </v-btn>
                 <v-btn
                   width="140"
-                  color="#397CFD"
+                  color="#544B99"
                   dark
                   elevation="0"
                   @click="filterBtn"
@@ -97,7 +97,7 @@
               {{ $t("catalogGroups.tabs.yarnNumber") }}
             </div>
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               class="rounded-lg text-capitalize"
               dark
               @click="new_dialog = true"
@@ -129,7 +129,7 @@
           <div class="text-capitalize font-weight-bold">
             {{ $t("catalogGroups.yarnNumber.dialogs.create") }}
           </div>
-          <v-btn icon color="#7631FF" @click="new_dialog = false">
+          <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -145,7 +145,7 @@
               dense
               class="rounded-lg base mb-4"
               :placeholder="$t('catalogGroups.yarnNumber.dialogs.select')"
-              color="#7631FF"
+              color="#544B99"
             />
             <div class="label">Yarn type</div>
             <v-radio-group
@@ -154,7 +154,7 @@
               class="mb-4"
             >
               <v-radio
-                color="#7631FF"
+                color="#544B99"
                 v-for="item in radio_item"
                 :key="item"
                 :label="item"
@@ -167,7 +167,7 @@
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             outlined
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click="new_dialog = false"
           >
@@ -175,7 +175,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="save"
@@ -191,7 +191,7 @@
           <div class="text-capitalize font-weight-bold">
             {{ $t("catalogGroups.yarnNumber.dialogs.edit") }}
           </div>
-          <v-btn icon color="#7631FF" @click="edit_dialog = false">
+          <v-btn icon color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -207,7 +207,7 @@
               height="44"
               class="rounded-lg base mb-4"
               :placeholder="$t('catalogGroups.yarnNumber.dialogs.select')"
-              color="#7631FF"
+              color="#544B99"
             />
             <div class="label">Yarn type</div>
             <v-radio-group
@@ -216,7 +216,7 @@
               class="mb-4"
             >
               <v-radio
-                color="#7631FF"
+                color="#544B99"
                 v-for="item in radio_item"
                 :key="item"
                 :label="item"
@@ -229,7 +229,7 @@
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             outlined
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click="edit_dialog = false"
           >
@@ -237,7 +237,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="update"

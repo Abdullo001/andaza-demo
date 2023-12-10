@@ -75,7 +75,7 @@ export default (context, inject) => {
               case 'PENDING':
                 return 'amber'
               case 'IN_PROCESS':
-                return '#397CFD'
+                return '#544B99'
 
             }
           },

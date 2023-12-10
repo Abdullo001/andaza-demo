@@ -18,7 +18,7 @@
               class="rounded-lg base"
               validate-on-blur
               dense
-              color="#7631FF"
+              color="#544B99"
               background-color="#F8F4FE"
             />
 
@@ -49,7 +49,7 @@
               class="rounded-lg base"
               validate-on-blur
               dense
-              color="#7631FF"
+              color="#544B99"
               background-color="#F8F4FE"
             />
           </v-col>
@@ -66,7 +66,7 @@
                 class="rounded-l-lg rounded-r-0 base"
                 validate-on-blur
                 dense
-                color="#7631FF"
+                color="#544B99"
                 background-color="#F8F4FE"
               />
               <v-select
@@ -80,7 +80,7 @@
                 validate-on-blur
                 class="rounded-r-lg rounded-l-0 base"
                 append-icon="mdi-chevron-down"
-                color="#7631FF"
+                color="#544B99"
                 background-color="#F8F4FE"
               />
             </div>
@@ -110,7 +110,7 @@
               validate-on-blur
               class="rounded-lg base"
               append-icon="mdi-chevron-down"
-              color="#7631FF"
+              color="#544B99"
               background-color="#F8F4FE"
             />
           </v-col>
@@ -126,7 +126,7 @@
               validate-on-blur
               dense
               class="rounded-lg base"
-              color="#7631FF"
+              color="#544B99"
               background-color="#F8F4FE"
             />
           </v-col>
@@ -140,7 +140,7 @@
               outlined validate-on-blur
               dense
               class="rounded-lg base"
-              color="#7631FF"
+              color="#544B99"
               background-color="#F8F4FE"
             >
               <template #append>
@@ -162,7 +162,7 @@
                 outlined validate-on-blur
                 dense
                 class="rounded-l-lg rounded-r-0 base"
-                color="#7631FF"
+                color="#544B99"
                 background-color="#F8F4FE"
               />
               <v-select
@@ -175,7 +175,7 @@
                 outlined validate-on-blur
                 class="rounded-r-lg rounded-l-0 base"
                 append-icon="mdi-chevron-down"
-                color="#7631FF"
+                color="#544B99"
                 background-color="#F8F4FE"
               />
             </div>
@@ -191,7 +191,7 @@
                 outlined validate-on-blur
                 dense
                 class="rounded-l-lg rounded-r-0 base"
-                color="#7631FF"
+                color="#544B99"
                 background-color="#F8F4FE"
               />
               <v-select
@@ -204,7 +204,7 @@
                 outlined validate-on-blur
                 class="rounded-r-lg rounded-l-0 base"
                 append-icon="mdi-chevron-down"
-                color="#7631FF"
+                color="#544B99"
                 background-color="#F8F4FE"
               />
             </div>
@@ -223,7 +223,7 @@
               outlined validate-on-blur
               dense
               class="rounded-lg base"
-              color="#7631FF"
+              color="#544B99"
               background-color="#F8F4FE"
             />
           </v-col>
@@ -240,7 +240,7 @@
               hide-details
               height="44"
               class="rounded-lg base"
-              color="#7631FF"
+              color="#544B99"
               background-color="#F8F4FE"
             >
               <template v-slot:selection="{ text }">

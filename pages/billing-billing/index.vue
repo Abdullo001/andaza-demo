@@ -6,7 +6,7 @@
         <v-stepper-step
           :complete="e1 > 1"
           step="1"
-          :color="e1 > 1 ? 'green' : '#7631FF' "
+          :color="e1 > 1 ? 'green' : '#544B99' "
         >
           {{ $t('billingCompany.addBilling.billingInfo') }}
         </v-stepper-step>
@@ -15,7 +15,7 @@
         <v-stepper-step
           :complete="e1 > 2"
           step="2"
-          :color="e1 > 2 ? 'green' : '#7631FF' "
+          :color="e1 > 2 ? 'green' : '#544B99' "
         >
           {{ $t('billingCompany.addBilling.generateLicence') }}
         </v-stepper-step>
@@ -24,7 +24,7 @@
         <v-stepper-step
           step="3"
           :complete="e1 > 3"
-          :color="e1 > 3 ? 'green' : '#7631FF' "
+          :color="e1 > 3 ? 'green' : '#544B99' "
         >
           {{ $t('billingCompany.addBilling.previewInvoicen') }}
         </v-stepper-step>
@@ -33,7 +33,7 @@
         <v-stepper-step
           step="4"
           :complete="e1 > 4"
-          :color="e1 > 4 ? 'green' : '#7631FF' "
+          :color="e1 > 4 ? 'green' : '#544B99' "
         >
           {{ $t('billingCompany.addBilling.printInvoice') }}
         </v-stepper-step>
@@ -51,7 +51,7 @@
           <div class="d-flex align-center justify-center pb-4">
             <v-btn
               outlined
-              color="#7631FF"
+              color="#544B99"
               class="border-indigo mr-4 rounded-lg font-weight-bold"
               min-width="160"
             >
@@ -59,7 +59,7 @@
             </v-btn>
 
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               dark
               @click="e1 = 2"
               class="text-capitalize rounded-lg"
@@ -82,7 +82,7 @@
           <div class="d-flex align-center justify-center pb-4">
             <v-btn
               outlined
-              color="#7631FF"
+              color="#544B99"
               class="border-indigo mr-4 rounded-lg font-weight-bold"
               min-width="160"
               @click="e1 = 1"
@@ -91,7 +91,7 @@
             </v-btn>
 
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               dark
               @click="e1 = 3"
               class="text-capitalize rounded-lg"
@@ -114,7 +114,7 @@
           <div class="d-flex align-center justify-center pb-4">
             <v-btn
               outlined
-              color="#7631FF"
+              color="#544B99"
               class="border-indigo mr-4 rounded-lg font-weight-bold"
               min-width="160"
               @click="e1 = 2"
@@ -123,7 +123,7 @@
             </v-btn>
 
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               dark
               @click="e1 = 4"
               class="text-capitalize rounded-lg"
@@ -146,7 +146,7 @@
           <div class="d-flex align-center justify-center pb-4">
             <v-btn
               outlined
-              color="#7631FF"
+              color="#544B99"
               class="border-indigo mr-4 rounded-lg font-weight-bold"
               min-width="160"
               @click="e1 = 3"
@@ -155,7 +155,7 @@
             </v-btn>
 
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               dark
               @click="e1 = 4"
               class="text-capitalize rounded-lg"

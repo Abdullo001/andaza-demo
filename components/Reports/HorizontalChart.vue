@@ -42,7 +42,7 @@ export default {
         datasets: [
           {
             label: 'Models by genders',
-            backgroundColor: '#7631FF',
+            backgroundColor: '#544B99',
             data: [20, 60, 81, 48, 30, 0]
           },
         ],

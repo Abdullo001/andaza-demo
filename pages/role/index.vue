@@ -69,14 +69,14 @@
             <div class="d-flex justify-center">
               <v-btn
                 width="140" outlined
-                color="#397CFD" elevation="0"
+                color="#544B99" elevation="0"
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
                 {{ $t('permissionRole.dialog.reset') }}
               </v-btn>
               <v-btn
-                width="140" color="#397CFD" dark
+                width="140" color="#544B99" dark
                 elevation="0"
                 class="text-capitalize rounded-lg"
                 @click="filterRole"
@@ -108,7 +108,7 @@
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium">{{  $t('permissionRole.dialog.role') }}</div>
-            <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="new_dialog = !new_dialog">
+            <v-btn color="#544B99" class="rounded-lg text-capitalize" dark @click="new_dialog = !new_dialog">
               <v-icon>mdi-plus</v-icon>
               {{ $t('permissionRole.dialog.role') }}
             </v-btn>
@@ -157,7 +157,7 @@
         <v-card-title class="w-full d-flex justify-space-between">
           <div>{{ $t('permissionRole.dialog.createRole') }}</div>
           <v-btn @click="new_dialog = !new_dialog" icon>
-            <v-icon color="#7631FF">mdi-close</v-icon>
+            <v-icon color="#544B99">mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-card-text>
@@ -172,7 +172,7 @@
                   class="rounded-lg base"
                   dense
                   v-model="new_role.name"
-                  color="#7631FF"
+                  color="#544B99"
                   placeholder="Enter role name"
                   validate-on-blur
                 />
@@ -185,7 +185,7 @@
                   class="rounded-lg base"
                   v-model="new_role.description"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                   placeholder="Enter role description"
                   validate-on-blur
                 />
@@ -197,14 +197,14 @@
           <v-btn
             outlined
             class="text-capitalize rounded-lg font-weight-bold mr-6"
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click="new_dialog = !new_dialog"
           >{{ $t('permissionRole.dialog.cancel') }}
           </v-btn>
           <v-btn
             class="text-capitalize rounded-lg font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="save"
@@ -219,7 +219,7 @@
         <v-card-title class="w-full d-flex justify-space-between">
           <div>{{ $t('permissionRole.dialog.editRole') }}</div>
           <v-btn @click="edit_dialog = !edit_dialog" icon>
-            <v-icon color="#7631FF">mdi-close</v-icon>
+            <v-icon color="#544B99">mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-card-text>
@@ -236,7 +236,7 @@
                   append-icon="mdi-chevron-down"
                   v-model="edit_role.status"
                   :items="statusEnums"
-                  color="#7631FF"
+                  color="#544B99"
                   placeholder="Enter status"
                   validate-on-blur
                 />
@@ -250,7 +250,7 @@
                   class="rounded-lg base"
                   dense
                   v-model="edit_role.name"
-                  color="#7631FF"
+                  color="#544B99"
                   placeholder="Enter role name"
                   validate-on-blur
                 />
@@ -263,7 +263,7 @@
                   class="rounded-lg base"
                   dense
                   v-model="edit_role.description"
-                  color="#7631FF"
+                  color="#544B99"
                   placeholder="Person who sews materials"
                   validate-on-blur
                 />
@@ -275,14 +275,14 @@
           <v-btn
             outlined
             class="text-capitalize rounded-lg font-weight-bold mr-6"
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click="edit_dialog = !edit_dialog"
           >{{ $t('permissionRole.dialog.cancel') }}
           </v-btn>
           <v-btn
             class="text-capitalize rounded-lg font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="putRoleData"

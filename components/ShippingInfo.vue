@@ -28,7 +28,7 @@
             validate-on-blur
             dense
             class="rounded-l-lg rounded-r-0 rounded-lg base"
-            color="#7631FF"
+            color="#544B99"
           />
           <v-select
             :items="measurementUnitList"
@@ -43,7 +43,7 @@
             validate-on-blur
             class="rounded-r-lg rounded-l-0 rounded-lg base"
             append-icon="mdi-chevron-down"
-            color="#7631FF"
+            color="#544B99"
           />
         </div>
       </v-col>
@@ -75,7 +75,7 @@
             validate-on-blur
             dense
             class="rounded-l-lg rounded-r-0 rounded-lg base"
-            color="#7631FF"
+            color="#544B99"
           />
           <v-select
             :items="currency_enums"
@@ -88,7 +88,7 @@
             validate-on-blur
             class="rounded-r-lg rounded-l-0 rounded-lg base"
             append-icon="mdi-chevron-down"
-            color="#7631FF"
+            color="#544B99"
           />
         </div>
       </v-col>
@@ -105,7 +105,7 @@
             validate-on-blur
             dense
             class="rounded-l-lg rounded-r-0 rounded-lg base mb-4"
-            color="#7631FF"
+            color="#544B99"
           />
           <v-select
             :items="measurementUnitList"
@@ -120,7 +120,7 @@
             validate-on-blur
             class="rounded-r-lg rounded-l-0 rounded-lg base mb-4"
             append-icon="mdi-chevron-down"
-            color="#7631FF"
+            color="#544B99"
           />
         </div>
 
@@ -136,7 +136,7 @@
             validate-on-blur
             dense
             class="rounded-l-lg rounded-r-0 rounded-lg base"
-            color="#7631FF"
+            color="#544B99"
             readonly
           />
           <v-select
@@ -150,7 +150,7 @@
             validate-on-blur
             class="rounded-r-lg rounded-l-0 rounded-lg base"
             append-icon="mdi-chevron-down"
-            color="#7631FF"
+            color="#544B99"
             readonly
           />
         </div>
@@ -168,7 +168,7 @@
             validate-on-blur
             dense
             class="rounded-l-lg rounded-r-0 rounded-lg base"
-            color="#7631FF"
+            color="#544B99"
           />
           <v-select
             v-model="shippingInfo.packagingSizeUnityId"
@@ -183,13 +183,13 @@
             class="rounded-r-lg rounded-l-0 rounded-lg base"
             validate-on-blur
             append-icon="mdi-chevron-down"
-            color="#7631FF"
+            color="#544B99"
           />
         </div>
 
         <div class="d-flex justify-end w-full mt-9">
           <v-btn
-            color="#7631FF"
+            color="#544B99"
             class="text-capitalize rounded-lg"
             width="130"
             height="44"
@@ -199,7 +199,7 @@
             >Save</v-btn
           >
           <v-btn
-            color="#7631FF"
+            color="#544B99"
             class="text-capitalize rounded-lg"
             width="130"
             height="44"

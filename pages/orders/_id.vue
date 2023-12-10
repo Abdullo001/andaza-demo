@@ -18,7 +18,7 @@
               <v-text-field
                 v-model="order.orderNumber"
                 class="rounded-lg base mb-4"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 height="44"
                 hide-details
@@ -32,7 +32,7 @@
               <v-text-field
                 v-model="order.client"
                 class="rounded-lg base mb-4"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 disabled
                 height="44"
@@ -50,7 +50,7 @@
                 :return-object="true"
                 :search-input.sync="modelIdSearch"
                 class="rounded-lg base d-flex align-center justify-center mb-4"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 height="44"
                 hide-details
@@ -62,7 +62,7 @@
                 @change="(e) => setModelName(e)"
               >
                 <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
+                  <v-icon class="d-inline-block" color="#544B99">
                     mdi-magnify
                   </v-icon>
                 </template>
@@ -73,7 +73,7 @@
               <v-text-field
                 v-model="order.modelName"
                 class="rounded-lg base mb-4"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 disabled
                 height="44"
@@ -94,7 +94,7 @@
                   :return-object="true"
                   :search-input.sync="HODSearch"
                   class="rounded-lg base d-flex align-center justify-center"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                   height="44"
                   hide-details
@@ -106,7 +106,7 @@
                   style="margin-bottom:22px"
                 >
                   <template #append>
-                    <v-icon class="d-inline-block" color="#7631FF">
+                    <v-icon class="d-inline-block" color="#544B99">
                       mdi-magnify
                     </v-icon>
                   </template>
@@ -118,7 +118,7 @@
               <v-text-field
                 v-model="order.overproductionPercent"
                 class="rounded-lg base mb-4"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 height="44"
                 hide-details
@@ -134,7 +134,7 @@
                 <v-text-field
                   v-model="order.priceWithDiscount"
                   class="rounded-lg base rounded-l-lg rounded-r-0"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                   height="44"
                   hide-details
@@ -147,7 +147,7 @@
                   :items="currency_enums"
                   append-icon="mdi-chevron-down"
                   class="rounded-lg base rounded-r-lg rounded-l-0"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                   height="44"
                   hide-details
@@ -163,7 +163,7 @@
                 <v-text-field
                   v-model="order.totalPrice"
                   class="rounded-lg base rounded-l-lg rounded-r-0"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                   height="44"
                   hide-details
@@ -177,7 +177,7 @@
                   :items="currency_enums"
                   append-icon="mdi-chevron-down"
                   class="rounded-lg base rounded-r-lg rounded-l-0"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                   height="44"
                   hide-details
@@ -240,7 +240,7 @@
                 v-model="order.description"
                 auto-grow
                 class="rounded-lg base"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 height="44"
                 hide-details
@@ -256,7 +256,7 @@
                 v-model="order.creator"
                 background-color="#F8F4FE"
                 class="rounded-lg base mb-4"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 disabled
                 height="44"
@@ -274,7 +274,7 @@
                 v-model="order.createdTime"
                 background-color="#F8F4FE"
                 class="rounded-lg base mb-4"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 disabled
                 height="44"
@@ -297,7 +297,7 @@
                 v-model="order.modifiedPerson"
                 background-color="#F8F4FE"
                 class="rounded-lg base"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 disabled
                 height="44"
@@ -317,7 +317,7 @@
                 v-model="order.updatedTime"
                 background-color="#F8F4FE"
                 class="rounded-lg base"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 disabled
                 height="44"
@@ -336,7 +336,7 @@
               <v-btn
                 v-if="orderStatus === 'Add'"
                 class="text-capitalize rounded-lg"
-                color="#7631FF"
+                color="#544B99"
                 dark
                 height="44"
                 width="130"
@@ -347,7 +347,7 @@
               <v-btn
                 v-else
                 class="text-capitalize rounded-lg"
-                color="#7631FF"
+                color="#544B99"
                 dark
                 height="44"
                 width="130"
@@ -370,7 +370,7 @@
     </v-card>
     <v-card class="mt-6 mb-8" flat>
       <v-tabs v-model="tab">
-        <v-tabs-slider color="#7631FF"/>
+        <v-tabs-slider color="#544B99"/>
         <v-tab
           v-for="item in items"
           :key="item"
@@ -662,7 +662,7 @@ export default {
   font-style: normal;
   font-weight: 500;
   line-height: 20px;
-  color: #7631ff;
+  color: #544b99;
 }
 
 .custom-picker-2 {

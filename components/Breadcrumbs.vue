@@ -22,6 +22,6 @@ export default {
 
 <style lang="scss" scoped>
 .base-color {
-  color: #7631FF;
+  color: #544B99;
 }
 </style>

@@ -55,7 +55,7 @@
               <v-btn
                 width="140"
                 outlined
-                color="#397CFD"
+                color="#544B99"
                 elevation="0"
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
@@ -64,7 +64,7 @@
               </v-btn>
               <v-btn
                 width="140"
-                color="#397CFD"
+                color="#544B99"
                 dark
                 elevation="0"
                 class="text-capitalize rounded-lg"
@@ -95,7 +95,7 @@
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium text-capitalize">Accessory</div>
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               class="rounded-lg text-capitalize"
               dark
               @click="new_dialog = true"
@@ -125,7 +125,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Add Accessory</div>
-          <v-btn icon color="#7631FF" @click="new_dialog = false">
+          <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -143,7 +143,7 @@
                   height="44"
                   class="rounded-lg base"
                   placeholder="Enter Name accessory"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -163,14 +163,14 @@
                   item-value="id"
                   placeholder="Select Measurement unit"
                   append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="7">
                 <div class="label">Add Specification</div>
                 <v-text-field
                   v-model="specification"
-                  color="#7631FF"
+                  color="#544B99"
                   placeholder="Enter specification"
                   outlined
                   hide-details
@@ -183,7 +183,7 @@
               <v-col cols="12" md="5" class="d-flex align-end">
                 <v-btn
                   @click="addSpecification"
-                  color="#7631FF"
+                  color="#544B99"
                   class="rounded-lg text-capitalize"
                   dark
                 >
@@ -208,13 +208,13 @@
                   dense
                   placeholder="Select specification name"
                   single-line
-                  color="#7631FF"
+                  color="#544B99"
                 >
                   <template v-slot:selection="{item, attrs, on}">
                     <v-chip
                       v-bind="attrs"
                       v-on="on"
-                      color="#7631FF"
+                      color="#544B99"
                       dark
                       close
                       @click:close="remove(item)"
@@ -236,7 +236,7 @@
                   dense
                   auto-grow
                   placeholder="Enter Description"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -246,7 +246,7 @@
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             outlined
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click="new_dialog = false"
           >
@@ -254,7 +254,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="save"
@@ -268,7 +268,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Edit Accessory</div>
-          <v-btn icon color="#7631FF" @click="edit_dialog = false">
+          <v-btn icon color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -288,7 +288,7 @@
 
                   placeholder="Enter Name accessory"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -308,14 +308,14 @@
                   placeholder="Select Measurement unit"
                   dense
                   append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="7">
                 <div class="label">Add Specification</div>
                 <v-text-field
                   v-model="editSpecification"
-                  color="#7631FF"
+                  color="#544B99"
                   placeholder="Enter specification"
                   outlined
                   hide-details
@@ -328,7 +328,7 @@
               <v-col cols="12" md="5" class="d-flex align-end">
                 <v-btn
                   @click="editSpecificationFunc"
-                  color="#7631FF"
+                  color="#544B99"
                   class="rounded-lg text-capitalize"
                   dark
                 >
@@ -353,13 +353,13 @@
                   dense
                   placeholder="Select specification name"
                   single-line
-                  color="#7631FF"
+                  color="#544B99"
                 >
                   <template v-slot:selection="{item, attrs, on}">
                     <v-chip
                       v-bind="attrs"
                       v-on="on"
-                      color="#7631FF"
+                      color="#544B99"
                       dark
                       close
                       @click:close="remove(item)"
@@ -381,7 +381,7 @@
                   auto-grow
                   placeholder="Enter Description"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -391,7 +391,7 @@
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             outlined
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click="edit_dialog = false"
           >
@@ -399,7 +399,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="update"

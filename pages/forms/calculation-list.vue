@@ -3,7 +3,7 @@
     <v-card elevation="0" class="rounded-lg">
       <v-card-title>
         <div>
-          Calculations list 
+          Calculations list
         </div>
         <v-spacer/>
       </v-card-title>
@@ -11,8 +11,8 @@
       <v-card-text>
         <v-form lazy-validation v-model="filter_form" ref="filters">
           <v-row class="mb-5">
-           
-            
+
+
             <v-col cols="12" lg="3">
               <div class="label">Client name</div>
               <v-combobox
@@ -32,7 +32,7 @@
                 prepend-icon=""
               >
                 <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
+                  <v-icon class="d-inline-block" color="#544B99">
                     mdi-magnify
                   </v-icon>
                 </template>
@@ -100,7 +100,7 @@
                 prepend-icon=""
               >
                 <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
+                  <v-icon class="d-inline-block" color="#544B99">
                     mdi-magnify
                   </v-icon>
                 </template>
@@ -142,7 +142,7 @@
                 prepend-icon=""
               >
                 <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
+                  <v-icon class="d-inline-block" color="#544B99">
                     mdi-magnify
                   </v-icon>
                 </template>
@@ -153,7 +153,7 @@
             <v-btn
               width="140"
               outlined
-              color="#7631FF"
+              color="#544B99"
               elevation="0"
               class="text-capitalize mr-4 rounded-lg font-weight-bold"
               @click="resetFilter"
@@ -162,7 +162,7 @@
             </v-btn>
             <v-btn
               width="140"
-              color="#7631FF"
+              color="#544B99"
               dark
               elevation="0"
               class="text-capitalize rounded-lg font-weight-bold"
@@ -177,7 +177,7 @@
 
     <v-overlay v-model="isLoad" class="align-center justify-center">
       <v-progress-circular
-        color="#7631FF"
+        color="#544B99"
         indeterminate
         size="80"
       ></v-progress-circular>
@@ -192,7 +192,7 @@ export default {
     return {
       filter_form: true,
       filters: {
-        
+
         clientName: "",
         country: "",
         season: "",
@@ -200,7 +200,7 @@ export default {
         toDate: "",
         gender: "",
         creatorId: "",
-        
+
 
 
       },
@@ -213,7 +213,7 @@ export default {
       accessory_status:["NOT_PLANNED","PLANNED", "ORDERED"],
       isLoad: false,
 
-      
+
       clientSearch: "",
       countryIdSearch: "",
       creatorSearch: "",
@@ -222,8 +222,8 @@ export default {
     };
   },
   created() {
-    
-    
+
+
     this.getClient();
     this.getCountryList({ name: this.countryIdSearch });
     this.getUsersList();
@@ -231,7 +231,7 @@ export default {
 
   computed: {
     ...mapGetters({
-     
+
       clientList: "orders/clientList",
       countryList: "partners/countryList",
       usersList: "orders/usersList",
@@ -261,7 +261,7 @@ export default {
         });
       });
     },
-    
+
     "filters.clientName"(val) {
       if (typeof val === "object" && !!val) {
         this.getBrandList(val?.id);
@@ -274,7 +274,7 @@ export default {
 
   methods: {
     ...mapActions({
-      
+
       getClient: "orders/getClient",
       getCountryList: "partners/getCountryList",
       getUsersList: "orders/getUsersList",

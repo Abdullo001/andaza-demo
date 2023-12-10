@@ -56,7 +56,7 @@
               <v-btn
                 width="140"
                 outlined
-                color="#397CFD"
+                color="#544B99"
                 elevation="0"
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
@@ -65,7 +65,7 @@
               </v-btn>
               <v-btn
                 width="140"
-                color="#397CFD"
+                color="#544B99"
                 dark
                 elevation="0"
                 class="text-capitalize rounded-lg"
@@ -99,7 +99,7 @@
               {{ $t("measurementUnit.dialog.menuName") }}
             </div>
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               class="rounded-lg text-capitalize"
               dark
               @click="new_dialog = true"
@@ -128,7 +128,7 @@
           <div class="text-capitalize font-weight-bold">
             {{ $t("measurementUnit.dialog.enterMainName") }}
           </div>
-          <v-btn icon color="#7631FF" @click="new_dialog = false">
+          <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -146,7 +146,7 @@
                   height="44"
                   :placeholder="$t('measurementUnit.dialog.enterMainName')"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12">
@@ -158,7 +158,7 @@
                   class="rounded-lg base"
                   :placeholder="$t('measurementUnit.dialog.descriptionPlacholder')"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -169,7 +169,7 @@
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             outlined
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click="new_dialog = false"
           >
@@ -177,7 +177,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="save"
@@ -193,7 +193,7 @@
           <div class="text-capitalize font-weight-bold">
             {{ $t("measurementUnit.dialog.editDialog") }}
           </div>
-          <v-btn icon color="#7631FF" @click="edit_dialog = false">
+          <v-btn icon color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -210,7 +210,7 @@
                   height="44"
                   :placeholder="$t('measurementUnit.dialog.enterMainName')"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12">
@@ -222,7 +222,7 @@
                   class="rounded-lg base"
                   :placeholder="$t('measurementUnit.dialog.descriptionPlacholder')"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -232,7 +232,7 @@
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             outlined
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click="edit_dialog = false"
           >
@@ -240,7 +240,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="update"

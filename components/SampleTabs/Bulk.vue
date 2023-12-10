@@ -16,7 +16,7 @@
           >
             <div>BULK</div>
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               dark
               class="text-capitalize rounded-lg"
               @click="addNewChart"
@@ -69,7 +69,7 @@
         <v-card-title class="w-full d-flex justify-space-between">
           <div>BULK info</div>
           <v-btn @click="new_dialog = false" icon>
-            <v-icon color="#7631FF">mdi-close</v-icon>
+            <v-icon color="#544B99">mdi-close</v-icon>
           </v-btn>
         </v-card-title>
 
@@ -91,7 +91,7 @@
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                 />
               </v-col>
@@ -108,7 +108,7 @@
                   height="44"
                   class="rounded-lg base"
                   :return-object="true"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                   placeholder="Enter partner name"
                   append-icon="mdi-chevron-down"
@@ -116,7 +116,7 @@
                   validate-on-blur
                   >
                   <template #append>
-                    <v-icon color="#7631FF">mdi-magnify</v-icon>
+                    <v-icon color="#544B99">mdi-magnify</v-icon>
                   </template>
                  </v-combobox>
               </v-col>
@@ -163,7 +163,7 @@
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                 />
               </v-col>
@@ -178,7 +178,7 @@
                   placeholder="Enter chemical process"
                   validate-on-blur
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="12" v-if="chartData.result==='REMAKE'">
@@ -192,7 +192,7 @@
                   placeholder="Enter reason"
                   validate-on-blur
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="12">
@@ -206,7 +206,7 @@
                   placeholder="Enter note"
                   validate-on-blur
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -216,7 +216,7 @@
           <v-btn
             outlined
             class="text-capitalize rounded-lg font-weight-bold mr-6"
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click="new_dialog = !new_dialog"
           >
@@ -224,7 +224,7 @@
           </v-btn>
           <v-btn
             class="text-capitalize rounded-lg font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="saveFqs"

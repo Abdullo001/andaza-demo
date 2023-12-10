@@ -59,7 +59,7 @@
                   class="rounded-lg base my-2" dense
                   :rules="[formRules.required]"
                   validate-on-blur
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </template>
             </td>
@@ -91,7 +91,7 @@
           <tr>
             <td v-if="idx === 0" colspan="4" ></td>
             <td v-if="idx === 0" :colspan="idx" v-for="totalDistribution in group.totalSizeDistribution">{{totalDistribution}}</td>
-            <th v-if="idx === 0">{{group.totalDisturbution}}</th>
+            <th v-if="idx === 0">{{group.totalDistribution}}</th>
             <th v-if="idx === 0">{{group.totalBoxQuantity}}</th>
             <th v-if="idx === 0" colspan="8"></th>
           </tr>
@@ -110,9 +110,9 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
-            Enter the packing list info
+            {{ this.title ? "Edit" : "Enter" }} the packing list info
           </div>
-          <v-btn icon color="#7631FF" @click="new_dialog = false">
+          <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -130,11 +130,11 @@
                   class="rounded-lg base "
                   validate-on-blur
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
-              <v-col cols="12" md="4">
-                <div class="label">Status</div>
+              <v-col cols="12" md="6">
+                <div class="label">Box size/m</div>
                 <v-select
                   :items="boxSizeList"
                   dense
@@ -147,7 +147,7 @@
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  color="#7631FF"
+                  color="#544B99"
                   validate-on-blur
                 >
                 </v-select>
@@ -162,10 +162,10 @@
                   dense
                   class="rounded-lg base"
                   placeholder="CBM"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
-              <v-col cols="12" lg="6">
+              <v-col cols="12" lg="4">
                 <div class="label">Weight of per box/kg.</div>
                 <v-text-field
                   :rules="[formRules.required]"
@@ -175,7 +175,7 @@
                   dense
                   class="rounded-lg base"
                   placeholder="Enter Weight of per box/KG"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -188,7 +188,7 @@
                   class="rounded-lg base"
                   height="44"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                   placeholder="Enter the Packing list number"
                 />
               </v-col>
@@ -200,7 +200,7 @@
                   type="datetime"
                   placeholder="Packing list date"
                   class="filter_picker"
-                  color="#7631FF"
+                  color="#544B99"
                   :picker-options="pickerShortcuts"
                   value-format="dd.MM.yyyy HH:mm:ss"
                 >
@@ -217,7 +217,7 @@
                   dense
                   v-model="selectedPackingList.marking"
                   auto-grow
-                  color="#7631FF"
+                  color="#544B99"
                   placeholder="Enter role description"
                   validate-on-blur
                 />
@@ -229,7 +229,7 @@
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             outlined
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click="new_dialog = false"
           >
@@ -237,7 +237,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="savePackingList"
@@ -259,6 +259,7 @@ export default {
       new_dialog: false,
       return_validate: true,
       new_validate: true,
+      title: false,
       selectedItem: {},
       cbm: "",
       selectedPackingList: {
@@ -272,6 +273,7 @@ export default {
         weightPerBox: ""
       },
       allList:[],
+      updateSizess: [],
       totalBoxQuantity: "",
       totalGroupTotal: ""
     }
@@ -287,44 +289,53 @@ export default {
         }
       })
     },
-    packingList(list){
-      const specialList = list.map(function (el) {
-        const netWeight={};
-        let totalNetWeight=0;
-        const valueSizes = {};
-        let totalDisturbution=0;
-        let totalBoxQuantity=0;
-        let grossWeight=0
+      packingList(list){
+        const specialList = list.map((el) => {
+          let netWeight={};
+          let totalNetWeight=0;
+          const valueSizes = {};
+          let totalDistribution=0;
+          let totalBoxQuantity=0;
+          let grossWeight=0;
 
-        for (let item in el.itemResponseList) {
-          totalDisturbution+=el.itemResponseList[item].total
-          totalBoxQuantity+=el.itemResponseList[item].boxQuantity
-          for (let id in el.itemResponseList[item].sizeDistributions){
-            const size=el.itemResponseList[item].sizeDistributions[id]
-            !!valueSizes[size.size]?valueSizes[size.size]=valueSizes[size.size]:valueSizes[size.size]=0
-            valueSizes[size.size]=valueSizes[size.size]+size.quantity
+          for (let item in el.itemResponseList) {
+            totalDistribution+=el.itemResponseList[item].total
+            totalBoxQuantity+=el.itemResponseList[item]?.boxQuantity
+            for (let id in el.itemResponseList[item]?.sizeDistributions) {
+              const size=el.itemResponseList[item]?.sizeDistributions[id]
+              !!valueSizes[size.size]
+                ? (valueSizes[size.size]=valueSizes[size.size])
+                : (valueSizes[size.size]=0)
+              valueSizes[size.size]+=size.quantity
+            }
           }
 
-        }
-        for (let item in el.sizeWeightDistributions){
-          const size=el.sizeWeightDistributions[item]
-          !!netWeight[size.size]?netWeight[size.size]=netWeight[size.size]:netWeight[size.size]=0
-          netWeight[size.size] = parseFloat((size.value * valueSizes[size.size]).toFixed(3));
-          totalNetWeight+=netWeight[size.size]
-        }
-        grossWeight = (el.weightPerBox*totalBoxQuantity+totalNetWeight).toFixed(2)
-        return {
-           ...el,
-          totalSizeDistribution:{...valueSizes},
-          netWeight:{...netWeight},
-          totalDisturbution:totalDisturbution,
-          totalBoxQuantity: totalBoxQuantity,
-          totalNetWeight: totalNetWeight ? totalNetWeight.toFixed(3) : "",
-          grossWeight: grossWeight,
-        };
-      });
-      this.allList=JSON.parse(JSON.stringify(specialList));
-    },
+          for (let item in el?.sizeWeightDistributions) {
+            const size = el?.sizeWeightDistributions[item]
+            !!netWeight[size.size]
+              ? netWeight[size.size]=netWeight[size.size]
+              : netWeight[size.size]=0
+            netWeight[size.size] = parseFloat(
+              (size.value * valueSizes[size.size]).toFixed(3)
+            );
+            totalNetWeight += netWeight[size.size];
+          }
+
+          grossWeight = (
+            el.weightPerBox * totalBoxQuantity + totalNetWeight
+          ).toFixed(2);
+          return {
+             ...el,
+            totalSizeDistribution: {...valueSizes},
+            netWeight: {...netWeight},
+            totalDistribution: totalDistribution,
+            totalBoxQuantity: totalBoxQuantity,
+            totalNetWeight: totalNetWeight ? totalNetWeight.toFixed(3) : "",
+            grossWeight: grossWeight,
+          };
+        });
+        this.allList=JSON.parse(JSON.stringify(specialList));
+      },
   },
   computed: {
     ...mapGetters({
@@ -344,16 +355,24 @@ export default {
       this.selectedPackingList = {...item};
       this.selectedPackingList.id = item.id;
       let sizesList = [];
-      let sizees = [];
-      const newArr = item.itemResponseList.map(el => {
-        return [...el.sizeDistributions];
-      });
-      sizesList = [...newArr[0]];
-      sizesList.forEach(el => {
-        sizees.push({size: el.size, value: 0})
-      })
-      return this.selectedItem = {
-        sizeDistributions:  [...sizees]
+      let newSizes = [];
+      if(item.sizeWeightDistributions) {
+        this.title = true;
+        item?.sizeWeightDistributions.map(el => {
+          newSizes.push({size: el.size, value: el.value})
+        });
+      }else {
+        this.title = false;
+        const newArr = item.itemResponseList.map(el => {
+          return [...el.sizeDistributions];
+        });
+        sizesList = [...newArr[0]];
+        sizesList.forEach(el => {
+          newSizes.push({size: el.size, value: 0});
+        })
+      }
+      this.selectedItem = {
+        sizeDistributions:  [...newSizes]
       }
     },
     savePackingList() {

@@ -3,14 +3,14 @@
     <v-card elevation="0">
       <v-card-title>
         <v-radio-group row v-model.trim="filter" class="">
-          <v-radio color="#7631FF" label="All" value="ALL"></v-radio>
+          <v-radio color="#544B99" label="All" value="ALL"></v-radio>
           <v-radio
-            color="#7631FF"
+            color="#544B99"
             label="Management"
             value="MANAGEMENT"
           ></v-radio>
           <v-radio
-            color="#7631FF"
+            color="#544B99"
             label="Production"
             value="PRODUCTION"
           ></v-radio>
@@ -30,7 +30,7 @@
                 @click="$router.push(`${item.to}`)"
               >
                 <v-card-title class="d-flex align-center justify-center">
-                  <div style="color: #7631ff" class=" text-center">
+                  <div style="color: #544b99" class=" text-center">
                     {{ item.title }}
                   </div>
                 </v-card-title>
@@ -167,10 +167,10 @@ export default {
     };
   },
   watch:{
-    
+
   },
   methods:{
-    
+
   },
   mounted() {
     this.$store.commit("setPageTitle", "Forms");

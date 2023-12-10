@@ -3,7 +3,7 @@
     <v-btn
       outlined
       elevation="0"
-      color="#7631FF"
+      color="#544B99"
       class="text-capitalize rounded-lg mr-4 font-weight-bold"
       @click="clickBtn"
     >

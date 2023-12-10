@@ -33,7 +33,7 @@
                 prepend-icon=""
               >
                 <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
+                  <v-icon class="d-inline-block" color="#544B99">
                     mdi-magnify
                   </v-icon>
                 </template>
@@ -58,7 +58,7 @@
                 prepend-icon=""
               >
                 <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
+                  <v-icon class="d-inline-block" color="#544B99">
                     mdi-magnify
                   </v-icon>
                 </template>
@@ -76,7 +76,7 @@
                 placeholder=" client name"
                 validate-on-blur
                 dense
-                color="#7631FF"
+                color="#544B99"
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
@@ -91,7 +91,7 @@
                 placeholder=" Order quantity"
                 validate-on-blur
                 dense
-                color="#7631FF"
+                color="#544B99"
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
@@ -105,7 +105,7 @@
                 class="rounded-lg base mb-4"
                 validate-on-blur
                 dense
-                color="#7631FF"
+                color="#544B99"
                 background-color="#F8F4FE"
                 readonly
                 disabled
@@ -123,7 +123,7 @@
                 class="rounded-lg base mb-4"
                 validate-on-blur
                 dense
-                color="#7631FF"
+                color="#544B99"
                 background-color="#F8F4FE"
                 readonly
                 disabled
@@ -146,7 +146,7 @@
                   class="rounded-lg base"
                   validate-on-blur
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                   background-color="#F8F4FE"
                   readonly
                   disabled
@@ -166,7 +166,7 @@
                 class="rounded-lg base"
                 validate-on-blur
                 dense
-                color="#7631FF"
+                color="#544B99"
                 background-color="#F8F4FE"
                 readonly
                 disabled
@@ -179,7 +179,7 @@
             <v-col cols="12" class="d-flex justify-end align-end">
               <v-btn
                 v-if="$route.params.id==='create-sample'"
-                color="#7631FF"
+                color="#544B99"
                 class="text-capitalize rounded-lg"
                 width="130"
                 height="44"
@@ -190,7 +190,7 @@
               </v-btn>
               <v-btn
                 v-else
-                color="#7631FF"
+                color="#544B99"
                 class="text-capitalize rounded-lg"
                 width="130"
                 height="44"
@@ -206,7 +206,7 @@
     </v-card>
     <v-card class="mt-6 mb-8" flat>
       <v-tabs v-model="tab">
-        <v-tabs-slider color="#7631FF"/>
+        <v-tabs-slider color="#544B99"/>
         <v-tab
           class="text-capitalize primary-color"
           v-for="item in items"
@@ -397,7 +397,7 @@ export default {
       if(!!val){
         this.getModelOrderInfo(val?.id)
       }
-      
+
     },
     tab(val){
         let purpose=""
@@ -417,7 +417,7 @@ export default {
           this.getChartList({purpose,planningId:id})
         }
       },
-    
+
     orderNumSearch(val) {
       if (!!val) {
         this.filterOrderList({
@@ -484,7 +484,7 @@ export default {
       this.getOneSample(id)
     }
   },
-  
+
 }
 </script>
 <style lang="scss" scoped>
@@ -492,7 +492,7 @@ export default {
   font-style: normal;
   font-weight: 500;
   line-height: 20px;
-  color: #7631ff;
+  color: #544b99;
 }
 
 .custom-picker-2 {

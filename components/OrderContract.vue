@@ -1,8 +1,8 @@
 <template >
   <div>
-    <v-data-table 
-      item-key="calculation" 
-      :headers="headers" 
+    <v-data-table
+      item-key="calculation"
+      :headers="headers"
       :items="items"
       >
       <template #top>
@@ -12,7 +12,7 @@
             <v-spacer />
             <v-btn
               class="rounded-lg text-capitalize"
-              color="#7631FF"
+              color="#544B99"
               width="160"
               height="36"
               @click="newDialog = true"
@@ -40,7 +40,7 @@
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between mb-6">
           <div class="title text-capitalize">add contract</div>
-          <v-btn icon color="#7631FF" @click="newDialog = false">
+          <v-btn icon color="#544B99" @click="newDialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -54,7 +54,7 @@
                   single-line
                   placeholder="Contract/SA No"
                   v-model="newContarct.contractNumber"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                   class="rounded-lg base"
                   height="44"
@@ -103,7 +103,7 @@
                     class="rounded-lg base rounded-l-lg rounded-r-0"
                     validate-on-blur
                     dense
-                    color="#7631FF"
+                    color="#544B99"
                   />
                   <v-select
                     :items="currency"
@@ -116,7 +116,7 @@
                     class="rounded-lg base rounded-r-lg rounded-l-0"
                     validate-on-blur
                     append-icon="mdi-chevron-down"
-                    color="#7631FF"
+                    color="#544B99"
                   />
                 </div>
               </v-col>
@@ -130,7 +130,7 @@
                   placeholder="Delivery condition"
                   dense
                   append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                   class="rounded-lg base"
                   height="44"
                   hide-details
@@ -151,7 +151,7 @@
                     <v-btn
                       @click="clickImportFile"
                       elevation="0"
-                      style="background-color: #f1ebfe; color: #7631ff"
+                      style="background-color: #f1ebfe; color: #544b99"
                       :disabled="docList.length !== 0"
                       class="font-weight-bold mr-3 text-capitalize"
                     >
@@ -184,7 +184,7 @@
         <v-card-actions class="d-flex justify-center mt-8">
           <v-btn
             class="rounded-lg font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             width="130"
             outlined
             height="44"
@@ -194,7 +194,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg white--text ml-6"
-            color="#7631FF"
+            color="#544B99"
             width="130"
             height="44"
             @click="save"
@@ -208,7 +208,7 @@
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between mb-6">
           <div class="title text-capitalize">add contract</div>
-          <v-btn icon color="#7631FF" @click="edit_dialog = false">
+          <v-btn icon color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -222,7 +222,7 @@
                   single-line
                   placeholder="Contract/SA No"
                   v-model="selectItem.contractNumber"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                   class="rounded-lg base"
                   height="44"
@@ -271,7 +271,7 @@
                     class="rounded-lg base rounded-l-lg rounded-r-0"
                     validate-on-blur
                     dense
-                    color="#7631FF"
+                    color="#544B99"
                   />
                   <v-select
                     :items="currency"
@@ -284,7 +284,7 @@
                     class="rounded-lg base rounded-r-lg rounded-l-0"
                     validate-on-blur
                     append-icon="mdi-chevron-down"
-                    color="#7631FF"
+                    color="#544B99"
                   />
                 </div>
               </v-col>
@@ -298,7 +298,7 @@
                   placeholder="Delivery condition"
                   dense
                   append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                   class="rounded-lg base"
                   height="44"
                   hide-details
@@ -319,7 +319,7 @@
                     <v-btn
                       @click="clickImportFile"
                       elevation="0"
-                      style="background-color: #f1ebfe; color: #7631ff"
+                      style="background-color: #f1ebfe; color: #544b99"
                       :disabled="docList.length !== 0"
                       class="font-weight-bold mr-3 text-capitalize"
                     >
@@ -352,7 +352,7 @@
         <v-card-actions class="d-flex justify-center mt-8">
           <v-btn
             class="rounded-lg font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             width="130"
             outlined
             height="44"
@@ -362,7 +362,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg white--text ml-6"
-            color="#7631FF"
+            color="#544B99"
             width="130"
             height="44"
             @click="save"
@@ -507,7 +507,7 @@ export default {
     },
 
 
-    
+
     currentPrint(item) {
       this.delete_dialog=true
       this.selectItem={...item}

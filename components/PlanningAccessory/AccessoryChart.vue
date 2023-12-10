@@ -16,7 +16,7 @@
               Accessory planning chart
             </div>
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               class="rounded-lg white--text text-capitalize"
               @click="new_dialog = true"
               :disabled="checkId"
@@ -30,11 +30,11 @@
         <v-divider />
       </template>
       <template #item.accessoryPhoto="{item}">
-        <v-img 
-        :src="item?.filePath" 
+        <v-img
+        :src="item?.filePath"
         class="mr-2"
-        width="40" 
-        height="40" 
+        width="40"
+        height="40"
         @click="showImage(item.filePath)"
       />
       </template>
@@ -54,7 +54,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Add Accessory</div>
-          <v-btn icon color="#7631FF" @click="new_dialog = false">
+          <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -75,7 +75,7 @@
                   placeholder="Select Name"
                   dense
                   append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                   :rules="[formRules.required]"
                 />
               </v-col>
@@ -91,7 +91,7 @@
                   placeholder="Select Specification"
                   dense
                   append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                   :rules="[formRules.required]"
                 />
               </v-col>
@@ -106,7 +106,7 @@
                     class="rounded-lg base rounded-l-lg rounded-r-0"
                     placeholder="0.0"
                     dense
-                    color="#7631FF"
+                    color="#544B99"
                     :rules="[formRules.required]"
                   />
                   <v-select
@@ -119,7 +119,7 @@
                     v-model="create_accessory_chart.accessoryPricePerCurrency"
                     class="rounded-lg base rounded-r-lg rounded-l-0"
                     append-icon="mdi-chevron-down"
-                    color="#7631FF"
+                    color="#544B99"
                     :rules="[formRules.required]"
                   />
                 </div>
@@ -134,7 +134,7 @@
                   class="rounded-lg base"
                   placeholder="Enter Quantity"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                   :rules="[formRules.required]"
                 />
               </v-col>
@@ -153,7 +153,7 @@
                   placeholder="Select Measurement unit"
                   dense
                   append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                   :rules="[formRules.required]"
                 />
               </v-col>
@@ -167,7 +167,7 @@
                   class="rounded-lg base"
                   placeholder="Enter Wastage"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                   :rules="[formRules.required]"
                 />
               </v-col>
@@ -181,7 +181,7 @@
                   class="rounded-lg base"
                   placeholder="Enter production quantity"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                   :rules="[formRules.required]"
                 />
               </v-col>
@@ -194,7 +194,7 @@
                   class="rounded-lg base"
                   placeholder="Enter Canvas type"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -245,7 +245,7 @@
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             outlined
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click="new_dialog = false"
           >
@@ -253,7 +253,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="create"
@@ -267,7 +267,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Edit Accessory</div>
-          <v-btn icon color="#7631FF" @click="edit_dialog = false">
+          <v-btn icon color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -286,7 +286,7 @@
                   placeholder="Select Name"
                   dense
                   append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="6">
@@ -301,7 +301,7 @@
                   placeholder="Select Specification"
                   dense
                   append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="6">
@@ -315,7 +315,7 @@
                     class="rounded-lg base rounded-l-lg rounded-r-0"
                     placeholder="0.0"
                     dense
-                    color="#7631FF"
+                    color="#544B99"
                     :rules="[formRules.required]"
                   />
                   <v-select
@@ -328,7 +328,7 @@
                     v-model="edit_accessory_chart.pricePerUnitCurrency"
                     class="rounded-lg base rounded-r-lg rounded-l-0"
                     append-icon="mdi-chevron-down"
-                    color="#7631FF"
+                    color="#544B99"
                     :rules="[formRules.required]"
                   />
                 </div>
@@ -343,7 +343,7 @@
                   class="rounded-lg base"
                   placeholder="Enter Quantity"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="6">
@@ -361,7 +361,7 @@
                   placeholder="Select Measurement unit"
                   dense
                   append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                   :rules="[formRules.required]"
                 />
               </v-col>
@@ -375,7 +375,7 @@
                   class="rounded-lg base"
                   placeholder="Enter Wastage"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="6">
@@ -388,7 +388,7 @@
                   class="rounded-lg base"
                   placeholder="Enter production quantity"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                   :rules="[formRules.required]"
                 />
               </v-col>
@@ -401,7 +401,7 @@
                   class="rounded-lg base"
                   placeholder="Enter description"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -452,7 +452,7 @@
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             outlined
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click="edit_dialog = false"
           >
@@ -460,7 +460,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="update"
@@ -510,7 +510,7 @@
       <v-card >
         <v-card-title class="d-flex">
           <v-spacer/>
-          <v-btn icon color="#7631FF" large @click="image_dialog = false">
+          <v-btn icon color="#544B99" large @click="image_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -542,7 +542,7 @@ export default {
         wastage: "",
       },
       edit_accessory_chart: {
-        
+
       },
       delete_acceccory_chart: {},
       currency_enums: ["USD", "UZS", "RUB"],

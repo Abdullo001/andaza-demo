@@ -22,7 +22,7 @@
                 validate-on-blur
                 outlined
                 hide-details
-                color="#7631FF"
+                color="#544B99"
                 height="44"
                 class="rounded-lg filter d-flex align-center justify-center mr-2"
                 :return-object="true"
@@ -31,7 +31,7 @@
                 prepend-icon=""
               >
                 <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
+                  <v-icon class="d-inline-block" color="#544B99">
                     mdi-magnify
                   </v-icon>
                 </template>
@@ -47,7 +47,7 @@
                 item-value="modelNumber"
                 validate-on-blur
                 outlined
-                color="#7631FF"
+                color="#544B99"
                 hide-details
                 height="44"
                 class="rounded-lg filter d-flex align-center justify-center mr-2"
@@ -57,7 +57,7 @@
                 prepend-icon=""
               >
                 <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
+                  <v-icon class="d-inline-block" color="#544B99">
                     mdi-magnify
                   </v-icon>
                 </template>
@@ -74,7 +74,7 @@
                 validate-on-blur
                 outlined
                 hide-details
-                color="#7631FF"
+                color="#544B99"
                 height="44"
                 class="rounded-lg filter  "
                 :return-object="true"
@@ -83,7 +83,7 @@
                 prepend-icon=""
               >
                 <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
+                  <v-icon class="d-inline-block" color="#544B99">
                     mdi-magnify
                   </v-icon>
                 </template>
@@ -99,7 +99,7 @@
                 item-value="name"
                 validate-on-blur
                 outlined
-                color="#7631FF"
+                color="#544B99"
                 hide-details
                 height="44"
                 class="rounded-lg filter d-flex align-center justify-center mr-2"
@@ -109,7 +109,7 @@
                 prepend-icon=""
               >
                 <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
+                  <v-icon class="d-inline-block" color="#544B99">
                     mdi-magnify
                   </v-icon>
                 </template>
@@ -125,7 +125,7 @@
                 item-value="name"
                 validate-on-blur
                 outlined
-                color="#7631FF"
+                color="#544B99"
                 hide-details
                 height="44"
                 class="rounded-lg filter d-flex align-center justify-center mr-2"
@@ -135,7 +135,7 @@
                 prepend-icon=""
               >
                 <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
+                  <v-icon class="d-inline-block" color="#544B99">
                     mdi-magnify
                   </v-icon>
                 </template>
@@ -154,14 +154,14 @@
                 height="44"
                 class="rounded-lg filter"
                 :return-object="true"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 placeholder="Enter partner name"
                 :rules="[formRules.required]"
                 validate-on-blur
                 >
                 <template #append>
-                  <v-icon color="#7631FF">mdi-magnify</v-icon>
+                  <v-icon color="#544B99">mdi-magnify</v-icon>
                 </template>
                </v-combobox>
             </v-col>
@@ -170,7 +170,7 @@
             <v-btn
               width="140"
               outlined
-              color="#7631FF"
+              color="#544B99"
               elevation="0"
               class="text-capitalize mr-4 rounded-lg font-weight-bold"
               @click="resetFilter"
@@ -179,7 +179,7 @@
             </v-btn>
             <v-btn
               width="140"
-              color="#7631FF"
+              color="#544B99"
               dark
               elevation="0"
               class="text-capitalize rounded-lg font-weight-bold"
@@ -194,7 +194,7 @@
 
     <v-overlay v-model="isLoad" class="align-center justify-center">
       <v-progress-circular
-        color="#7631FF"
+        color="#544B99"
         indeterminate
         size="80"
       ></v-progress-circular>
@@ -246,7 +246,7 @@ export default {
       partner: "",
       status: "ACTIVE",
     }),
-    
+
     this.getUsersList();
     this.getPartnerName("");
     this.getSipNumbers("");

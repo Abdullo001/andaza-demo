@@ -24,10 +24,10 @@
         </tr>
         </thead>
         <tbody >
-        <template v-for="item in group" >
+        <template v-for="(item, idx) in group" >
           <tr :key="item.id" class="text-center">
-            <td>{{ item.orderNumber }}</td>
-            <td>{{ item.modelNumber }}</td>
+            <td v-if="idx === 0" :rowspan="idx">{{ item.orderNumber }}</td>
+            <td v-if="idx === 0" :rowspan="idx">{{ item.modelNumber }}</td>
             <td>{{ item.modelName }}</td>
             <td>{{ item.color }}</td>
             <td v-for="(size, idx) in item.sizeDistribution" :key="idx">{{ size.quantity }}</td>
@@ -37,7 +37,7 @@
             <td>
               <v-tooltip
                 top
-                color="#7631FF"
+                color="#544B99"
                 class="pointer"
                 v-if="Object.keys(item).length > 2"
               >
@@ -46,7 +46,7 @@
                     icon
                     v-bind="attrs"
                     v-on="on"
-                    color="#7631FF"
+                    color="#544B99"
                     @click="returnDialog(item)"
                   >
                     <v-img src="/rotate.svg" max-width="22"/>
@@ -64,7 +64,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Returning works to warehouse</div>
-          <v-btn icon color="#7631FF" @click="return_dialog = false">
+          <v-btn icon color="#544B99" @click="return_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -82,7 +82,7 @@
                   class="rounded-lg base "
                   validate-on-blur
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -91,7 +91,7 @@
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="130"
             @click="return_dialog = false"
           >
@@ -99,7 +99,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="130"
             @click="save"
           >
@@ -117,14 +117,16 @@ export default {
     return {
       return_dialog: false,
       return_validate: true,
-      selectedItem: {
-
-      },
+      selectedItem: {},
+      allList: [],
     }
   },
   created() {
   },
   watch: {
+    shippingOperationList(list){
+      this.allList = JSON.parse(JSON.stringify(list));
+    },
   },
   computed: {
     ...mapGetters({
@@ -133,7 +135,7 @@ export default {
     }),
     groupedShippingOperationList() {
       const groupedData = {};
-      this.shippingOperationList.forEach((item) => {
+      this.allList.forEach((item) => {
         const key = `${item.modelNumber}-${item.orderNumber}`;
         if (!groupedData[key]) {
           groupedData[key] = [];

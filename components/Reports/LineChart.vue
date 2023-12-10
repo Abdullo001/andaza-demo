@@ -29,7 +29,7 @@ export default {
         datasets: [
           {
             label: 'Quality of models',
-            borderColor: '#7631FF',
+            borderColor: '#544B99',
             backgroundColor: 'transparent',
             pointRadius: 6,
             pointHoverRadius: 8,
