@@ -11,7 +11,7 @@
             <div class="text-h6">Fabric planning chart</div>
             <v-btn
               class="rounded-lg white--text text-capitalize"
-              color="#7631FF"
+              color="#544B99"
               width="150" height="36"
               @click="openDialog"
               :disabled="!(modelId !== '')"
@@ -59,7 +59,7 @@
             {{ dialog_title }} row
           </div>
           <v-spacer/>
-          <v-btn icon color="#7631FF" @click="new_dialog = false">
+          <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -80,7 +80,7 @@
                   dense
                   validate-on-blur
                   append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                   v-model="fabric_planning.modelPartId"
                   :rules="[formRules.required]"
                 />
@@ -94,7 +94,7 @@
                   class="rounded-lg base" dense
                   placeholder="Enter quantity"
                   validate-on-blur
-                  color="#7631FF"
+                  color="#544B99"
                   v-model="fabric_planning.quantity"
                   :rules="[formRules.required]"
                 />
@@ -110,7 +110,7 @@
                   validate-on-blur
                   placeholder="Select width type"
                   append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                   v-model="fabric_planning.widthType"
                 />
               </v-col>
@@ -127,7 +127,7 @@
                   validate-on-blur
                   placeholder="Select measurement unit"
                   append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                   v-model="fabric_planning.quantityUnitId"
                   :rules="[formRules.required]"
                 />
@@ -141,7 +141,7 @@
                   class="rounded-lg base" dense
                   validate-on-blur
                   placeholder="Enter width(cm)"
-                  color="#7631FF"
+                  color="#544B99"
                   v-model="fabric_planning.width"
                   :rules="[formRules.required]"
                 />
@@ -154,7 +154,7 @@
                   height="44"
                   class="rounded-lg base" dense
                   validate-on-blur
-                  color="#7631FF"
+                  color="#544B99"
                   placeholder="Enter density gr/m2"
                   v-model="fabric_planning.density"
                   :rules="[formRules.required]"
@@ -169,7 +169,7 @@
                   class="rounded-lg base" dense
                   validate-on-blur
                   placeholder="Enter comment"
-                  color="#7631FF"
+                  color="#544B99"
                   v-model="fabric_planning.description"
                 />
               </v-col>
@@ -196,9 +196,9 @@
           <v-btn
             outlined
             class="rounded-lg text-capitalize font-weight-bold"
-            style="border: 2px solid #7631FF"
+            style="border: 2px solid #544B99"
             width="163" height="44"
-            color="#7631FF"
+            color="#544B99"
             @click="new_dialog=false"
           >
             Cancel
@@ -206,7 +206,7 @@
           <v-btn
             class="rounded-lg text-capitalize ml-8"
             width="163" height="44"
-            color="#7631FF" dark
+            color="#544B99" dark
             @click="createChart"
           >
             {{ dialog_btn }}
@@ -329,6 +329,7 @@ export default {
     openDialog() {
       this.dialog_title = 'Add';
       this.dialog_btn = 'Add'
+      console.log(this.measurementUnit)
       this.new_dialog = true;
     },
     removeItem() {

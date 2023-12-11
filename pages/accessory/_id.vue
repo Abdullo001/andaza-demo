@@ -27,7 +27,7 @@
               class="rounded-lg base mb-4"
               :return-object="true"
               disabled
-              color="#7631FF"
+              color="#544B99"
             >
             </v-text-field>
           </v-col>
@@ -46,11 +46,11 @@
               dense
               class="rounded-lg base mb-4"
               :search-input.sync="search"
-              color="#7631FF"
+              color="#544B99"
               append-icon=""
             >
               <template #append>
-                <v-icon color="#7631FF">mdi-magnify</v-icon>
+                <v-icon color="#544B99">mdi-magnify</v-icon>
               </template>
             </v-combobox> -->
             <v-combobox
@@ -64,13 +64,13 @@
               class="rounded-lg base"
               hide-details
               :return-object="true"
-              color="#7631FF"
+              color="#544B99"
               dense
               :placeholder="$t('prefinances.child.enterModelNumber')"
               append-icon="mdi-chevron-down"
             >
               <template #append>
-                <v-icon color="#7631FF">mdi-magnify</v-icon>
+                <v-icon color="#544B99">mdi-magnify</v-icon>
               </template>
             </v-combobox>
           </v-col>
@@ -86,7 +86,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -101,7 +101,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
         </v-row>
@@ -118,7 +118,7 @@
               placeholder="Enter client name"
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             >
             </v-text-field>
           </v-col>
@@ -134,7 +134,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -149,7 +149,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             >
               <template #append>
                 <v-img src="/date-icon.svg" />
@@ -168,7 +168,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             >
               <template #append>
                 <v-img src="/date-icon.svg" />
@@ -187,7 +187,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -202,7 +202,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             >
               <template #append>
                 <v-img src="/date-icon.svg" />
@@ -221,7 +221,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -236,7 +236,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             >
               <template #append>
                 <v-img src="/date-icon.svg" />
@@ -255,7 +255,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -270,7 +270,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             >
               <template #append>
                 <v-img src="/date-icon.svg" />
@@ -309,7 +309,7 @@
               dark
               elevation="0"
               class="rounded-lg text-capitalize"
-              color="#7631FF"
+              color="#544B99"
               @click="saveBtn"
               width="130"
               height="44"
@@ -329,8 +329,8 @@
       </v-card-actions>
     </v-card>
     <v-card class="elevation-0 rounded-lg mt-5">
-      <v-tabs color="#7631FF" v-model="accessory_tab">
-        <v-tabs-slider color="#7631FF" />
+      <v-tabs color="#544B99" v-model="accessory_tab">
+        <v-tabs-slider color="#544B99" />
         <v-tab
           class="text-capitalize"
           v-for="item in items"
@@ -356,7 +356,7 @@
       <v-card>
         <v-card-title class="d-flex">
           <v-spacer />
-          <v-btn icon color="#7631FF" large @click="image_dialog = false">
+          <v-btn icon color="#544B99" large @click="image_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>

@@ -19,19 +19,19 @@
       <v-checkbox
         v-model="filters.amount"
         class="ml-11"
-        color="#7631FF"
+        color="#544B99"
         label="Amount"
       />
       <v-checkbox
         v-model="filters.quantity"
         class="ml-11"
-        color="#7631FF"
+        color="#544B99"
         label="Quantity"
       />
       <v-checkbox
         v-model="filters.percentage"
         class="ml-11"
-        color="#7631FF"
+        color="#544B99"
         label="Percentage"
       />
     </v-sheet>
@@ -119,7 +119,7 @@ export default {
   width: 26px;
   height: 15px;
   border-radius: 5px;
-  background: #7631FF;
+  background: #544B99;
   margin-right: 8px;
 
   & + div {

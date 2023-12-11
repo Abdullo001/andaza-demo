@@ -31,14 +31,14 @@
                 height="44"
                 class="rounded-lg base"
                 :return-object="true"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 disabled
                 placeholder="Enter order number"
                 append-icon="mdi-chevron-down"
               >
                 <template #append>
-                  <v-icon color="#7631FF">mdi-magnify</v-icon>
+                  <v-icon color="#544B99">mdi-magnify</v-icon>
                 </template>
               </v-combobox>
             </v-col>
@@ -55,13 +55,13 @@
                 height="44"
                 class="rounded-lg base"
                 :return-object="true"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 placeholder="Enter model number"
                 append-icon="mdi-chevron-down"
               >
                 <template #append>
-                  <v-icon color="#7631FF">mdi-magnify</v-icon>
+                  <v-icon color="#544B99">mdi-magnify</v-icon>
                 </template>
               </v-combobox>
             </v-col>
@@ -72,7 +72,7 @@
                 hide-details
                 height="44"
                 class="rounded-lg base"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 placeholder="Model name"
                 v-model="addFabric.modelName"
@@ -87,7 +87,7 @@
                 hide-details
                 height="44"
                 class="rounded-lg base"
-                color="#7631FF"
+                color="#544B99"
                 dense disabled
                 placeholder="Enter head of production department..."
                 append-icon=""
@@ -103,7 +103,7 @@
                 hide-details
                 height="44"
                 class="rounded-lg base"
-                color="#7631FF"
+                color="#544B99"
                 dense disabled
                 placeholder="Enter client name..."
                 append-icon=""
@@ -117,7 +117,7 @@
                 hide-details
                 height="44"
                 class="rounded-lg base"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 placeholder="0"
                 disabled
@@ -131,7 +131,7 @@
                 hide-details
                 height="44"
                 class="rounded-lg base"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 placeholder="Enter deadline of order"
                 disabled
@@ -149,7 +149,7 @@
                 hide-details
                 height="44"
                 class="rounded-lg base"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 placeholder="Enter Actual shipping date"
                 disabled
@@ -180,7 +180,7 @@
                 hide-details
                 height="44"
                 class="rounded-lg base"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 placeholder="Enter deadline for fabric"
                 disabled
@@ -194,7 +194,7 @@
                 hide-details
                 height="44"
                 class="rounded-lg base"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 placeholder="Enter created time"
                 disabled
@@ -212,7 +212,7 @@
                 hide-details
                 height="44"
                 class="rounded-lg base"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 placeholder="Enter create of model"
                 disabled
@@ -226,7 +226,7 @@
                 hide-details
                 height="44"
                 class="rounded-lg base"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 placeholder="dd.MM.yyyy HH:mm:ss"
                 disabled
@@ -244,7 +244,7 @@
                 hide-details
                 height="44"
                 class="rounded-lg base"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 placeholder="Enter Modified person"
                 disabled
@@ -258,7 +258,7 @@
                 hide-details
                 height="44"
                 class="rounded-lg base"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 placeholder="dd.MM.yyyy HH:mm:ss"
                 disabled
@@ -287,7 +287,7 @@
             </v-col>
             <v-col class="d-flex justify-end">
               <v-btn
-                color="#7631FF"
+                color="#544B99"
                 dark class="text-capitalize rounded-lg font-weight-bold"
                 style="min-width: 130px;"
                 @click="createPlanning"
@@ -312,7 +312,7 @@
         <v-tabs
           v-model="tab"
           background-color="transparent"
-          color="#7631FF"
+          color="#544B99"
         >
           <v-tab
             v-for="item in items"
@@ -363,7 +363,7 @@
       <v-card>
         <v-card-title class="d-flex">
           <v-spacer/>
-          <v-btn icon color="#7631FF" large @click="image_dialog = false">
+          <v-btn icon color="#544B99" large @click="image_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>

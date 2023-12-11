@@ -12,7 +12,7 @@
           <v-spacer/>
           <v-btn
             class="rounded-lg text-capitalize"
-            color="#7631FF"
+            color="#544B99"
             width="160" height="36"
             @click="newDialog = true"
             dark
@@ -24,13 +24,13 @@
     </template>
     <template #item.printPhoto="{item}">
      <div class="d-flex ">
-      <v-img 
-        :src="el.filePath" 
+      <v-img
+        :src="el.filePath"
         class="mr-2"
-        v-for="(el,idx) in item.images" 
-        :key="idx" 
-        width="40" 
-        height="40" 
+        v-for="(el,idx) in item.images"
+        :key="idx"
+        width="40"
+        height="40"
         @click="showImage(el.filePath)"
       />
      </div>
@@ -50,7 +50,7 @@
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between mb-6">
           <div class="title text-capitalize">add model print</div>
-          <v-btn icon color="#7631FF" @click="newDialog=false">
+          <v-btn icon color="#544B99" @click="newDialog=false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -58,7 +58,7 @@
           <v-form ref="new_validate" lazy-validation>
             <v-row>
               <v-col cols="6">
-                <div class="label text-capitalize mb-2"> Main color</div> 
+                <div class="label text-capitalize mb-2"> Main color</div>
                 <v-select
                   outlined
                   :items="mainColorsList"
@@ -68,14 +68,14 @@
                   item-value="id"
                   item-text="color"
                   dense append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                   class="rounded-lg base"
                   height="44"
                   hide-details
-                />    
+                />
               </v-col>
               <v-col cols="6">
-                <div class="label text-capitalize mb-2"> print type</div> 
+                <div class="label text-capitalize mb-2"> print type</div>
                 <v-select
                   outlined
                   :items="printTypeEnums"
@@ -85,20 +85,20 @@
                   item-value="id"
                   item-text="name"
                   dense append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                   class="rounded-lg base"
                   height="44"
                   hide-details
-                />    
+                />
               </v-col>
               <v-col cols="6">
-                <div class="label text-capitalize mb-2"> Color quantity</div> 
+                <div class="label text-capitalize mb-2"> Color quantity</div>
                 <v-text-field
                   outlined
                   single-line
                   placeholder="Color quantity"
                   v-model="newPrints.colorQuantity"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                   class="rounded-lg base"
                   height="44"
@@ -116,7 +116,7 @@
                   item-text="name"
                   v-model="newPrints.partnerId"
                   dense append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                   class="rounded-lg base"
                   height="44"
                   hide-details
@@ -135,7 +135,7 @@
                     class="rounded-lg base rounded-l-lg rounded-r-0"
                     validate-on-blur
                     dense
-                    color="#7631FF"
+                    color="#544B99"
                   />
                   <v-select
                     :items="currency"
@@ -148,7 +148,7 @@
                     class="rounded-lg base rounded-r-lg rounded-l-0"
                     validate-on-blur
                     append-icon="mdi-chevron-down"
-                    color="#7631FF"
+                    color="#544B99"
                   />
                 </div>
               </v-col>
@@ -160,7 +160,7 @@
                   rows="1"
                   outlined
                   single-line
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                   class="rounded-lg base"
                   hide-details
@@ -291,7 +291,7 @@
         <v-card-actions class="d-flex justify-center mt-8">
           <v-btn
               class="rounded-lg font-weight-bold"
-              color="#7631FF"
+              color="#544B99"
               width="130"
               outlined
               height="44"
@@ -301,7 +301,7 @@
             </v-btn>
             <v-btn
               class="rounded-lg white--text ml-6"
-              color="#7631FF"
+              color="#544B99"
               width="130"
               height="44"
               @click="save"
@@ -315,7 +315,7 @@
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between mb-6">
           <div class="title text-capitalize">edit model print</div>
-          <v-btn icon color="#7631FF" @click="editDialog=false">
+          <v-btn icon color="#544B99" @click="editDialog=false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -323,7 +323,7 @@
           <v-form ref="new_validate" lazy-validation>
             <v-row>
               <v-col cols="6">
-                <div class="label text-capitalize mb-2"> Main color</div> 
+                <div class="label text-capitalize mb-2"> Main color</div>
                 <v-select
                   outlined
                   :items="mainColorsList"
@@ -333,14 +333,14 @@
                   item-value="id"
                   item-text="color"
                   dense append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                   class="rounded-lg base"
                   height="44"
                   hide-details
-                />    
+                />
               </v-col>
               <v-col cols="6">
-                <div class="label text-capitalize mb-2"> print type</div> 
+                <div class="label text-capitalize mb-2"> print type</div>
                 <v-select
                   outlined
                   :items="printTypeEnums"
@@ -350,20 +350,20 @@
                   item-value="id"
                   item-text="name"
                   dense append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                   class="rounded-lg base"
                   height="44"
                   hide-details
-                />    
+                />
               </v-col>
               <v-col cols="6">
-                <div class="label text-capitalize mb-2"> Color quantity</div> 
+                <div class="label text-capitalize mb-2"> Color quantity</div>
                 <v-text-field
                   outlined
                   single-line
                   placeholder="Color quantity"
                   v-model="selectedItem.colorQuantity"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                   class="rounded-lg base"
                   height="44"
@@ -381,7 +381,7 @@
                   item-text="name"
                   v-model="selectedItem.partnerId"
                   dense append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                   class="rounded-lg base"
                   height="44"
                   hide-details
@@ -400,7 +400,7 @@
                     class="rounded-lg base rounded-l-lg rounded-r-0"
                     validate-on-blur
                     dense
-                    color="#7631FF"
+                    color="#544B99"
                   />
                   <v-select
                     :items="currency"
@@ -413,7 +413,7 @@
                     class="rounded-lg base rounded-r-lg rounded-l-0"
                     validate-on-blur
                     append-icon="mdi-chevron-down"
-                    color="#7631FF"
+                    color="#544B99"
                   />
                 </div>
               </v-col>
@@ -425,7 +425,7 @@
                   rows="1"
                   outlined
                   single-line
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                   class="rounded-lg base"
                   hide-details
@@ -556,7 +556,7 @@
         <v-card-actions class="d-flex justify-center mt-8">
           <v-btn
               class="rounded-lg font-weight-bold"
-              color="#7631FF"
+              color="#544B99"
               width="130"
               outlined
               height="44"
@@ -566,7 +566,7 @@
             </v-btn>
             <v-btn
               class="rounded-lg white--text ml-6"
-              color="#7631FF"
+              color="#544B99"
               width="130"
               height="44"
               @click="updatePrint"
@@ -580,7 +580,7 @@
       <v-card >
         <v-card-title class="d-flex">
           <v-spacer/>
-          <v-btn icon color="#7631FF" large @click="image_dialog = false">
+          <v-btn icon color="#544B99" large @click="image_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -762,7 +762,7 @@ export default {
         this.fileRequests[2].id=this.files[2].id
       }
     },
-    
+
     getFile(count) {
       switch (count) {
         case 'first':
@@ -838,7 +838,7 @@ export default {
     },
     closeEditDialog(){
       this.editDialog=false
-      
+
     },
 
 
@@ -846,7 +846,7 @@ export default {
       this.selectedItem={...item}
       this.delete_dialog=true
     },
-    
+
     deletePrinting(){
       const modelId=this.$route.query.modelId
       this.deleteModelPrint({id:this.selectedItem.id,modelId})

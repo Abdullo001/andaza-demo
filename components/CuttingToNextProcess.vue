@@ -15,7 +15,7 @@
 
         <v-tooltip
           top
-          color="#7631FF"
+          color="#544B99"
           class="pointer"
           v-if="Object.keys(item).length > 2"
         >
@@ -24,7 +24,7 @@
               icon
               v-bind="attrs"
               v-on="on"
-              color="#7631FF"
+              color="#544B99"
               @click="getHistory(item)"
             >
               <v-img src="/history.svg" max-width="22"/>
@@ -34,7 +34,7 @@
         </v-tooltip>
         <v-tooltip
           top
-          color="#7631FF"
+          color="#544B99"
           class="pointer"
           v-if="Object.keys(item).length > 2"
         >
@@ -43,7 +43,7 @@
               icon
               v-bind="attrs"
               v-on="on"
-              color="#7631FF"
+              color="#544B99"
               @click="editItem(item)"
             >
               <v-img src="/right-icon.svg" max-width="21"/>
@@ -58,7 +58,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Edit Cutting info</div>
-          <v-btn icon color="#7631FF" @click="edit_dialog = false">
+          <v-btn icon color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -76,26 +76,26 @@
                   class="rounded-lg base "
                   validate-on-blur
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
             <v-row>
               <v-col cols="12">
                 <v-radio-group
-                
+
                   row
                   v-model.trim="selectedItem.workshopType"
                   class="mb-4"
                 >
                   <v-radio
                     :aria-disabled="selectedItem.status==='edit_history'"
-                    color="#7631FF"
+                    color="#544B99"
                     label="Own workshop"
                     value="OWN_WORKSHOP"
                   ></v-radio>
                   <v-radio
-                    color="#7631FF"
+                    color="#544B99"
                     label="Subcontractor"
                     value="SUBCONTRACTOR"
                   ></v-radio>
@@ -114,7 +114,7 @@
                   hide-details
                   dense
                   height="44"
-                  class="rounded-lg base" color="#7631FF"
+                  class="rounded-lg base" color="#544B99"
                   placeholder="Select process type"
                 />
               </v-col>
@@ -128,7 +128,7 @@
                   item-text="name"
                   item-value="id"
                   hide-details
-                  color="#7631FF"
+                  color="#544B99"
                   class=" base rounded-lg"
                   rounded
                   outlined
@@ -142,7 +142,7 @@
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="130"
             @click="edit_dialog = false"
           >
@@ -150,7 +150,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="130"
             @click="save"
           >
@@ -191,7 +191,7 @@
           <v-btn
             icon
             @click="history_dialog=false"
-            color="#7631FF"
+            color="#544B99"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -208,7 +208,7 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-    
+
   </div>
 </template>
 
@@ -381,7 +381,7 @@ export default {
 
         this.setHistoryProcessable({processId:this.planningProcessId,data})
       }
-      
+
       this.edit_dialog = false
     },
     editHistoryItem(item){

@@ -111,10 +111,8 @@ export const actions = {
     }
     await this.$axios.$put('/api/v1/expense-group/list', body)
       .then(res => {
-        if (res.message === "Successfully") {
           commit('setExpenseGroup', res.data)
           commit("setLoading", false)
-        }
       })
       .catch(({response}) => {
         console.log(response)

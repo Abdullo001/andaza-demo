@@ -18,7 +18,7 @@
             hide-details
             height="44"
             dense
-            color="#7631FF"
+            color="#544B99"
             placeholder="Enter Username or E-mail"
             class="mb-3 rounded-lg base"
             v-model.trim="login.userName"
@@ -31,7 +31,7 @@
             hide-details
             height="44"
             dense
-            color="#7631FF"
+            color="#544B99"
             placeholder="Enter password"
             class="mb-3 rounded-lg base"
             v-model.trim="login.password"
@@ -51,13 +51,13 @@
           <div class="d-flex justify-space-between align-center mb-5 pointer mb-8">
             <v-checkbox
               label="Remember me"
-              color="#7631FF"
+              color="#544B99"
               class="mt-0"
               hide-details
             />
           </div>
           <v-btn
-            color="#7631FF"
+            color="#544B99"
             class="rounded-lg text-capitalize font-weight-bold"
             block
             dark

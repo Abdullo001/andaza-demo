@@ -15,7 +15,7 @@
       <template #item.actions="{item}">
         <v-tooltip
           top
-          color="#7631FF"
+          color="#544B99"
           class="pointer"
           v-if="Object.keys(item).length > 2"
         >
@@ -24,7 +24,7 @@
               icon
               v-bind="attrs"
               v-on="on"
-              color="#7631FF"
+              color="#544B99"
               @click="getClassification(item)"
             >
               <v-img src="/t-shirt.svg" max-width="22"/>
@@ -34,7 +34,7 @@
         </v-tooltip>
         <v-tooltip
           top
-          color="#7631FF"
+          color="#544B99"
           class="pointer"
           v-if="Object.keys(item).length > 2"
         >
@@ -43,7 +43,7 @@
               icon
               v-bind="attrs"
               v-on="on"
-              color="#7631FF"
+              color="#544B99"
               @click="getHistory(item)"
             >
               <v-img src="/history.svg" max-width="22"/>
@@ -101,7 +101,7 @@
           <v-btn
             icon
             @click="classification_dialog = !classification_dialog"
-            color="#7631FF"
+            color="#544B99"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -115,7 +115,7 @@
                 hide-details
                 dense
                 height="44"
-                class="rounded-lg base" color="#7631FF"
+                class="rounded-lg base" color="#544B99"
                 placeholder="Enter branch number"
                 v-model.trim="item.quantity"
               />
@@ -130,7 +130,7 @@
                 hide-details
                 dense
                 height="44"
-                class="rounded-lg base" color="#7631FF"
+                class="rounded-lg base" color="#544B99"
                 placeholder="Enter branch number"
               />
             </v-col>
@@ -142,7 +142,7 @@
                 hide-details
                 dense
                 height="44"
-                class="rounded-lg base" color="#7631FF"
+                class="rounded-lg base" color="#544B99"
                 placeholder="Enter branch number"
               />
             </v-col>
@@ -153,7 +153,7 @@
           <v-btn
             outlined
             class="rounded-lg text-capitalize font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             width="163" height="44"
             @click="classification_dialog = !classification_dialog"
             style="border-width: 2px"
@@ -162,7 +162,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold ml-8"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="163" height="44"
             @click="saveClassification"
           >
@@ -180,7 +180,7 @@
           <v-btn
             icon
             @click="history_dialog=false"
-            color="#7631FF"
+            color="#544B99"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -240,7 +240,7 @@
           <div class="text-capitalize font-weight-bold">
             Edit Checked products’ quantities (2 sort)
           </div>
-          <v-btn icon color="#7631FF" @click="edit_dialog = false">
+          <v-btn icon color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -254,7 +254,7 @@
                   hide-details
                   dense
                   height="44"
-                  class="rounded-lg base" color="#7631FF"
+                  class="rounded-lg base" color="#544B99"
                   placeholder="Enter branch number"
                   v-model.trim="item.quantity"
                 />
@@ -265,7 +265,7 @@
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="130"
             @click="edit_dialog = false"
           >
@@ -273,7 +273,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="130"
             @click="saveChanges"
           >
@@ -316,7 +316,7 @@ export default {
     return {
       headers: [
         {text: 'Color', align: 'start', sortable: false, value: 'color'},
-        
+
         {text: 'Total', align: 'start', sortable: false, value: 'total'},
         {text: 'Actions', align: 'end', sortable: false, value: 'actions'},
       ],
@@ -337,7 +337,7 @@ export default {
       delete_dialog: false,
       historyHeaders: [
         {text: "Date", sortable: false, align: 'start', value: 'date'},
-        
+
         {text: "Done by ", sortable: false, align: 'center', value: 'doneBy'},
       ],
       historyList: [],
@@ -358,7 +358,7 @@ export default {
   watch:{
     secondClassList(list){
       this.headers= [
-        {text: 'Color', sortable: false, align: 'start', value: 'color'},  
+        {text: 'Color', sortable: false, align: 'start', value: 'color'},
       ],
 
       list[0]?.sizeDistributionList?.forEach((item) => {
@@ -418,7 +418,7 @@ export default {
       })
       this.historyList = JSON.parse(JSON.stringify(specialList))
     }
-    
+
   },
   methods: {
     ...mapActions({
@@ -494,7 +494,7 @@ export default {
     saveClassification() {
     },
     getClassification(){},
-    
+
   },
   async mounted() {
     this.getSecondClassList()

@@ -45,14 +45,14 @@
             <div class="d-flex justify-end">
               <v-btn
                 width="140" outlined
-                color="#397CFD" elevation="0"
+                color="#544B99" elevation="0"
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
                 {{ $t('prefinances.dialog.reset') }}
               </v-btn>
               <v-btn
-                width="140" color="#397CFD" dark
+                width="140" color="#544B99" dark
                 elevation="0"
                 class="text-capitalize rounded-lg"
                 @click="filterData"
@@ -83,7 +83,7 @@
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium">{{ $t('sidebar.calculations') }}</div>
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               class="rounded-lg text-capitalize"
               dark
               @click="$router.push(localePath(`/prefinances/create`))"

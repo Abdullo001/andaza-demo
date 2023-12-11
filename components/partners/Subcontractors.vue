@@ -12,7 +12,7 @@
             elevation="0"
             class="text-capitalize"
             rounded-lg
-            color="#7631FF"
+            color="#544B99"
           >
             <v-icon>
               mdi-plus
@@ -26,7 +26,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">add row</div>
-          <v-btn icon color="#7631FF" @click="new_dialog = false">
+          <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -39,7 +39,7 @@
                   label="Client name"
                   placeholder="Body"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="6">
@@ -48,7 +48,7 @@
                   label="Client address"
                   placeholder="Tashkent city Mirobod district"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="6">
@@ -57,7 +57,7 @@
                   label="E-mail"
                   placeholder="Enter name package shape"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="6">
@@ -67,7 +67,7 @@
                   filled dense
                   validate-on-blur
                   :rules="[formRules.required]"
-                  color="#7631FF"
+                  color="#544B99"
                   v-mask="`(##) ### ## ##`"
                   prefix="+998"
                 />
@@ -78,7 +78,7 @@
                   label="Contract info"
                   placeholder="Enter name package shape"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12">
@@ -86,7 +86,7 @@
                   style="border: 1px dashed #A5A7AD"
                 >
                   <v-card-title>
-                    <v-btn type="file" color="#7631FF" text class="text-capitalize font-weight-bold">
+                    <v-btn type="file" color="#544B99" text class="text-capitalize font-weight-bold">
                       upload files
                     </v-btn>
                     <v-btn text class="text-capitalize" @click="fileClick">
@@ -105,7 +105,7 @@
                   label="Description"
                   placeholder="Enter package shape description"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -114,7 +114,7 @@
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="163"
             @click="new_dialog = false"
           >
@@ -122,7 +122,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="163"
           >
             add
@@ -134,7 +134,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Edit Package shape</div>
-          <v-btn icon color="#7631FF" @click="edit_dialog = false">
+          <v-btn icon color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -145,14 +145,14 @@
               label="Name"
               placeholder="Enter name package shape"
               dense
-              color="#7631FF"
+              color="#544B99"
             />
             <v-textarea
               filled
               label="Description"
               placeholder="Enter package shape description"
               dense
-              color="#7631FF"
+              color="#544B99"
             />
             <v-select
               filled
@@ -163,14 +163,14 @@
               label="Measurement unit ID"
               placeholder="Select Measurement unit ID"
               dense
-              color="#7631FF"
+              color="#544B99"
             />
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="163"
             @click="edit_dialog = false"
           >
@@ -178,7 +178,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="163"
           >
             create

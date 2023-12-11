@@ -12,7 +12,7 @@
           height="44"
           class="rounded-lg mb-4 base"
           dense
-          color="#7631FF"
+          color="#544B99"
           background-color="#F8F4FE"
           disabled
         />
@@ -28,7 +28,7 @@
           height="44"
           class="rounded-lg mb-4 base"
           validate-on-blur
-          color="#7631FF"
+          color="#544B99"
           background-color="#F8F4FE"
           disabled
         />
@@ -45,7 +45,7 @@
           class="rounded-lg mb-4 base"
           validate-on-blur
           dense
-          color="#7631FF"
+          color="#544B99"
           background-color="#F8F4FE"
           disabled
         />
@@ -62,7 +62,7 @@
           validate-on-blur
           dense
           disabled
-          color="#7631FF"
+          color="#544B99"
           background-color="#F8F4FE"
         >
           <template #append>
@@ -84,7 +84,7 @@
           class="rounded-lg mb-4 base"
           validate-on-blur
           dense
-          color="#7631FF"
+          color="#544B99"
           background-color="#F8F4FE"
           disabled
         />
@@ -101,7 +101,7 @@
           height="44"
           class="rounded-lg mb-4 base"
           validate-on-blur
-          color="#7631FF"
+          color="#544B99"
           background-color="#F8F4FE"
           disabled
         />

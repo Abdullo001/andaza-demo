@@ -15,7 +15,7 @@
       <template #item.actions="{item}">
         <v-tooltip
           top
-          color="#7631FF"
+          color="#544B99"
           class="pointer"
           v-if="Object.keys(item).length > 2"
         >
@@ -24,7 +24,7 @@
               icon
               v-bind="attrs"
               v-on="on"
-              color="#7631FF"
+              color="#544B99"
             >
               <v-img src="/t-shirt.svg" max-width="22"/>
             </v-btn>
@@ -33,7 +33,7 @@
         </v-tooltip>
         <v-tooltip
           top
-          color="#7631FF"
+          color="#544B99"
           class="pointer"
           v-if="Object.keys(item).length > 2"
         >
@@ -42,7 +42,7 @@
               icon
               v-bind="attrs"
               v-on="on"
-              color="#7631FF"
+              color="#544B99"
               @click="getHistory(item)"
             >
               <v-img src="/history.svg" max-width="22"/>
@@ -120,7 +120,7 @@
       <template #item.actions="{item}">
         <v-tooltip
           top
-          color="#7631FF"
+          color="#544B99"
           class="pointer"
           v-if="Object.keys(item).length > 2"
         >
@@ -129,7 +129,7 @@
               icon
               v-bind="attrs"
               v-on="on"
-              color="#7631FF"
+              color="#544B99"
             >
               <v-img src="/t-shirt.svg" max-width="22"/>
             </v-btn>
@@ -138,7 +138,7 @@
         </v-tooltip>
         <v-tooltip
           top
-          color="#7631FF"
+          color="#544B99"
           class="pointer"
           v-if="Object.keys(item).length > 2"
         >
@@ -147,7 +147,7 @@
               icon
               v-bind="attrs"
               v-on="on"
-              color="#7631FF"
+              color="#544B99"
               @click="getHistory(item)"
             >
               <v-img src="/history.svg" max-width="22"/>

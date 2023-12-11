@@ -3,7 +3,7 @@
     <v-card elevation="0" class="rounded-lg">
       <v-card-title>
         <div>
-          Suppliers form of ordered fabrics 
+          Suppliers form of ordered fabrics
         </div>
         <v-spacer/>
       </v-card-title>
@@ -24,7 +24,7 @@
                 height="44"
                 class="rounded-lg filter"
                 :return-object="true"
-                color="#7631FF"
+                color="#544B99"
                 dense
                 placeholder="Enter partner name"
                 append-icon="mdi-chevron-down"
@@ -32,7 +32,7 @@
                 validate-on-blur
                 >
                 <template #append>
-                  <v-icon color="#7631FF">mdi-magnify</v-icon>
+                  <v-icon color="#544B99">mdi-magnify</v-icon>
                 </template>
                </v-combobox>
             </v-col>
@@ -79,13 +79,13 @@
                 append-icon="mdi-chevron-down"
               />
             </v-col>
-           
+
           </v-row>
           <div class="d-flex justify-center">
             <v-btn
               width="140"
               outlined
-              color="#7631FF"
+              color="#544B99"
               elevation="0"
               class="text-capitalize mr-4 rounded-lg font-weight-bold"
               @click="resetFilter"
@@ -94,7 +94,7 @@
             </v-btn>
             <v-btn
               width="140"
-              color="#7631FF"
+              color="#544B99"
               dark
               elevation="0"
               class="text-capitalize rounded-lg font-weight-bold"
@@ -109,7 +109,7 @@
 
     <v-overlay v-model="isLoad" class="align-center justify-center">
       <v-progress-circular
-        color="#7631FF"
+        color="#544B99"
         indeterminate
         size="80"
       ></v-progress-circular>
@@ -152,8 +152,8 @@ export default {
     };
   },
   created() {
-    
-    
+
+
     this.getClient();
     this.getCountryList({ name: this.countryIdSearch });
     this.getUsersList();
@@ -196,7 +196,7 @@ export default {
         });
       });
     },
-    
+
     "filters.clientName"(val) {
       if (typeof val === "object" && !!val) {
         this.getBrandList(val?.id);
@@ -209,7 +209,7 @@ export default {
 
   methods: {
     ...mapActions({
-      
+
       getClient: "orders/getClient",
       getCountryList: "partners/getCountryList",
       getUsersList: "orders/getUsersList",

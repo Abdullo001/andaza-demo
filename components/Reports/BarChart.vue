@@ -54,7 +54,7 @@ export default {
         datasets: [
           {
             label: ['Prefinance'],
-            backgroundColor: '#7631FF',
+            backgroundColor: '#544B99',
             data: [60, 54, 32, 25, 65, 50, 65, 44, 51, 38, 35, 66, 0]
           },
         ],

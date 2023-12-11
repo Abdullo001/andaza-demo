@@ -120,6 +120,6 @@ export default {
   font-style: normal;
   font-weight: 500;
   line-height: 20px;
-  color: #7631FF;
+  color: #544B99;
 }
 </style>

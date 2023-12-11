@@ -19,7 +19,7 @@
                 hide-details
                 height="44"
                 class="rounded-lg mr-2 base"
-                color="#7631FF"
+                color="#544B99"
                 background-color="#F8F4FE"
               />
               <v-btn
@@ -27,7 +27,7 @@
                class="rounded-lg text-capitalize font-weight-bold"
                min-width="180"
                elevation="0"
-               style="color: #7631FF;"
+               style="color: #544B99;"
               >
                 Regenerate
               </v-btn>
@@ -46,7 +46,7 @@
               height="44"
               class="rounded-lg base"
               dense
-              color="#7631FF"
+              color="#544B99"
               background-color="#F8F4FE"
             />
           </v-col>
@@ -74,7 +74,7 @@
               height="44"
               class="rounded-lg base"
               dense
-              color="#7631FF"
+              color="#544B99"
               background-color="#F8F4FE"
             />
           </v-col>
@@ -89,7 +89,7 @@
                 height="44"
                 dense
                 class="rounded-lg base rounded-l-lg rounded-r-0"
-                color="#7631FF"
+                color="#544B99"
                 background-color="#F8F4FE"
               />
               <v-select
@@ -102,7 +102,7 @@
                 hide-details
                 height="44"
                 append-icon="mdi-chevron-down"
-                color="#7631FF"
+                color="#544B99"
                 background-color="#F8F4FE"
               />
             </div>
@@ -131,7 +131,7 @@
               height="44"
               class="rounded-lg base"
               append-icon="mdi-chevron-down"
-              color="#7631FF"
+              color="#544B99"
               background-color="#F8F4FE"
             />
           </v-col>
@@ -145,7 +145,7 @@
               height="44"
               class="rounded-lg base"
               dense
-              color="#7631FF"
+              color="#544B99"
               background-color="#F8F4FE"
             />
           </v-col>
@@ -159,7 +159,7 @@
               height="44"
               class="rounded-lg base"
               dense
-              color="#7631FF"
+              color="#544B99"
               background-color="#F8F4FE"
             >
               <template #append>
@@ -181,7 +181,7 @@
                 height="44"
                 dense
                 class="rounded-l-lg rounded-r-0 rounded-lg base"
-                color="#7631FF"
+                color="#544B99"
                 background-color="#F8F4FE"
               />
               <v-select
@@ -194,7 +194,7 @@
                 height="44"
                 class="rounded-r-lg rounded-l-0 rounded-lg base"
                 append-icon="mdi-chevron-down"
-                color="#7631FF"
+                color="#544B99"
                 background-color="#F8F4FE"
               />
             </div>
@@ -210,7 +210,7 @@
                 height="44"
                 dense
                 class="rounded-l-lg rounded-r-0 rounded-lg base"
-                color="#7631FF"
+                color="#544B99"
                 background-color="#F8F4FE"
               />
               <v-select
@@ -223,7 +223,7 @@
                 height="44"
                 class="rounded-r-lg rounded-l-0 rounded-lg base"
                 append-icon="mdi-chevron-down"
-                color="#7631FF"
+                color="#544B99"
                 background-color="#F8F4FE"
               />
             </div>
@@ -242,7 +242,7 @@
               hide-details
               class="rounded-lg base"
               dense
-              color="#7631FF"
+              color="#544B99"
               background-color="#F8F4FE"
             />
           </v-col>
@@ -259,7 +259,7 @@
               height="44"
               class="rounded-lg base"
               prepend-icon=""
-              color="#7631FF"
+              color="#544B99"
               background-color="#F8F4FE"
             >
               <template v-slot:selection="{ text }">

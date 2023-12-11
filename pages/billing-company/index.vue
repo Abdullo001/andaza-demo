@@ -49,14 +49,14 @@
               <div class="d-flex justify-end">
                 <v-btn
                   width="140" outlined
-                  color="#397CFD" elevation="0"
+                  color="#544B99" elevation="0"
                   class="text-capitalize mr-4 border-primary rounded-lg font-weight-bold"
                   @click.stop="resetSearch"
                 >
                   {{ $t('billingCompany.dialog.reset') }}
                 </v-btn>
                 <v-btn
-                  width="140" color="#397CFD" dark
+                  width="140" color="#544B99" dark
                   elevation="0"
                   class="text-capitalize rounded-lg font-weight-bold"
                   @click="filterCompany"
@@ -82,7 +82,7 @@
           <v-toolbar-title class="d-flex w-full align-center justify-space-between">
             <div>{{ $t('billingCompany.dialog.company') }}</div>
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               dark class="text-capitalize rounded-lg"
               @click="new_dialog = !new_dialog"
             >
@@ -126,7 +126,7 @@
       <v-card>
         <v-card-title class="text-capitalize mb-4 d-flex justify-space-between">
           <div>{{ $t('billingCompany.dialog.addCompany') }}</div>
-          <v-btn icon color="#7631FF" @click="new_dialog = !new_dialog">
+          <v-btn icon color="#544B99" @click="new_dialog = !new_dialog">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -145,7 +145,7 @@
                   validate-on-blur
                   v-model="newCompany.companyName"
                   :rules="[formRules.required]"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -160,7 +160,7 @@
                   validate-on-blur
                   v-model="newCompany.ownerFullName"
                   :rules="[formRules.required]"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -175,7 +175,7 @@
                   validate-on-blur
                   v-model="newCompany.email"
                   :rules="[formRules.required, formRules.email]"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -190,7 +190,7 @@
                   validate-on-blur
                   v-model="newCompany.phoneNUmber"
                   :rules="[formRules.required]"
-                  color="#7631FF"
+                  color="#544B99"
                   v-mask="`(##) ### ## ##`"
                   prefix="+998"
                 />
@@ -207,7 +207,7 @@
                   validate-on-blur
                   v-model="newCompany.inn"
                   :rules="[formRules.required]"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -216,7 +216,7 @@
         <v-card-actions class="d-flex align-center justify-center pb-4">
           <v-btn
             outlined
-            color="#7631FF"
+            color="#544B99"
             min-width="163px"
             class="text-capitalize border rounded-lg mr-2 font-weight-bold"
             @click="new_dialog = false"
@@ -224,7 +224,7 @@
             {{ $t('billingCompany.dialog.cancel') }}
           </v-btn>
           <v-btn
-            color="#7631FF"
+            color="#544B99"
             min-width="163px"
             class="text-capitalize rounded-lg"
             dark
@@ -365,7 +365,7 @@ export default {
 .btn-color {
   font-size: 14px;
   line-height: 140%;
-  color: #7631FF;
+  color: #544B99;
 }
 
 tbody > tr {

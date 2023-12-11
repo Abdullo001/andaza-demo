@@ -20,7 +20,7 @@
               {{ $t("catalogGroups.tabs.composition") }}
 
             </div>
-            <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="new_dialog = true">
+            <v-btn color="#544B99" class="rounded-lg text-capitalize" dark @click="new_dialog = true">
               <v-icon>mdi-plus</v-icon>
               {{ $t("catalogGroups.tabs.composition") }}
 
@@ -50,7 +50,7 @@
             {{ $t("catalogGroups.composition.dialogs.create") }}
 
           </div>
-          <v-btn icon color="#7631FF" @click="new_dialog = false">
+          <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -62,7 +62,7 @@
               filled
               :label="$t('catalogGroups.tabs.composition')"
               :placeholder="$t('catalogGroups.composition.dialogs.select')"
-              color="#7631FF"
+              color="#544B99"
             />
             <v-textarea
               v-model="create_composition.description"
@@ -73,14 +73,14 @@
               :placeholder="
                 $t('catalogGroups.composition.dialogs.enterDescription')
               "
-              color="#7631FF"
+              color="#544B99"
             />
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="163"
             @click="new_dialog = false"
           >
@@ -89,7 +89,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="163"
             @click="save"
           >
@@ -106,7 +106,7 @@
             {{ $t("catalogGroups.composition.dialogs.edit") }}
 
           </div>
-          <v-btn icon color="#7631FF" @click="edit_dialog = false">
+          <v-btn icon color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -118,7 +118,7 @@
               filled
               :label="$t('catalogGroups.tabs.composition')"
               :placeholder="$t('catalogGroups.composition.dialogs.select')"
-              color="#7631FF"
+              color="#544B99"
             />
             <v-textarea
               v-model="edit_composition.description"
@@ -129,14 +129,14 @@
               :placeholder="
                 $t('catalogGroups.composition.dialogs.enterDescription')
               "
-              color="#7631FF"
+              color="#544B99"
             />
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="163"
             @click="edit_dialog = false"
           >
@@ -145,7 +145,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="163"
             @click="update"
           >

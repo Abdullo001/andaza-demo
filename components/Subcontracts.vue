@@ -28,12 +28,12 @@
           :value="props.value || props.indeterminate"
           v-on="on"
           :indeterminate="props.indeterminate"
-          color="#7631FF"
+          color="#544B99"
         />
       </template>
       <template #item.data-table-select="{isSelected, select,item}">
         <v-simple-checkbox
-          color="#7631FF"
+          color="#544B99"
           v-ripple
           :value="isSelected"
           v-model="item.isMain"
@@ -66,7 +66,7 @@
           class="rounded-lg base my-2" dense
           :rules="[formRules.required]"
           validate-on-blur
-          color="#7631FF"
+          color="#544B99"
           v-model="item.wasteFabric"
         />
       </template>
@@ -74,7 +74,7 @@
         <div>
           <v-tooltip
             top
-            color="#7631FF"
+            color="#544B99"
             class="pointer"
             v-if="Object.keys(item).length > 2"
           >
@@ -83,7 +83,7 @@
                 icon
                 v-bind="attrs"
                 v-on="on"
-                color="#7631FF"
+                color="#544B99"
                 @click="returnDialog(item)"
               >
                 <v-img src="/rotate.svg" max-width="22"/>
@@ -93,7 +93,7 @@
           </v-tooltip>
           <v-tooltip
             top
-            color="#7631FF"
+            color="#544B99"
             class="pointer"
             v-if="Object.keys(item).length > 2"
           >
@@ -102,7 +102,7 @@
                 icon
                 v-bind="attrs"
                 v-on="on"
-                color="#7631FF"
+                color="#544B99"
                 @click="getClassification(item)"
               >
                 <v-img src="/t-shirt.svg" max-width="22"/>
@@ -113,7 +113,7 @@
 
           <v-tooltip
             top
-            color="#7631FF"
+            color="#544B99"
             class="pointer"
             v-if="Object.keys(item).length > 2"
           >
@@ -122,7 +122,7 @@
                 icon
                 v-bind="attrs"
                 v-on="on"
-                color="#7631FF"
+                color="#544B99"
                 @click="getHistory(item)"
               >
                 <v-img src="/history.svg" max-width="22"/>
@@ -206,7 +206,7 @@
         <v-card-title class="w-full d-flex text-capitalize text-h6 justify-space-between">
           <div>Edit Subcontract</div>
           <v-btn @click="edit_dialog = !edit_dialog" icon>
-            <v-icon color="#7631FF">mdi-close</v-icon>
+            <v-icon color="#544B99">mdi-close</v-icon>
           </v-btn>
         </v-card-title>
 
@@ -224,7 +224,7 @@
                   class="rounded-lg base "
                   validate-on-blur
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                   :suffix="subcontractsDetail.priceCurrency"
                 />
               </v-col>
@@ -259,7 +259,7 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6"></v-col>
-              
+
               <v-col cols="12" lg="3" v-for="(item,idx) in subcontractsDetail.sizeDistributions" :key="idx">
                 <div class="label">{{item.size}}</div>
                 <v-text-field
@@ -271,7 +271,7 @@
                   class="rounded-lg base "
                   validate-on-blur
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -281,7 +281,7 @@
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="130"
             @click="edit_dialog = false"
           >
@@ -289,7 +289,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="130"
             @click="updateSubcontractsView"
           >
@@ -368,7 +368,7 @@
           <v-btn
             icon
             @click="classification_dialog=false"
-            color="#7631FF"
+            color="#544B99"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -382,12 +382,12 @@
                 hide-details
                 dense
                 height="44"
-                class="rounded-lg base" color="#7631FF"
+                class="rounded-lg base" color="#544B99"
                 placeholder="Enter branch number"
                 v-model.trim="item.quantity"
               />
             </v-col>
-            
+
             <v-col cols="12" lg="6">
               <div class="label">Reason</div>
               <v-select
@@ -398,7 +398,7 @@
                 hide-details
                 dense
                 height="44"
-                class="rounded-lg base" color="#7631FF"
+                class="rounded-lg base" color="#544B99"
                 placeholder="Enter branch number"
               />
             </v-col>
@@ -410,7 +410,7 @@
                 hide-details
                 dense
                 height="44"
-                class="rounded-lg base" color="#7631FF"
+                class="rounded-lg base" color="#544B99"
                 placeholder="Enter branch number"
               />
             </v-col>
@@ -421,7 +421,7 @@
           <v-btn
             outlined
             class="rounded-lg text-capitalize font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             width="163" height="44"
             @click="classification_dialog=false"
             style="border-width: 2px"
@@ -430,7 +430,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold ml-8"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="163" height="44"
             @click="saveClassification"
           >
@@ -448,7 +448,7 @@
           <v-spacer/>
           <v-btn
             icon
-            color="#7631FF"
+            color="#544B99"
             @click="return_dialog=false"
           >
             <v-icon>mdi-close</v-icon>
@@ -462,7 +462,7 @@
               hide-details
               dense
               height="44"
-              class="rounded-lg base" color="#7631FF"
+              class="rounded-lg base" color="#544B99"
               placeholder="Enter spin number"
               v-model.trim="returned_fabric.sipNumber"
             />
@@ -474,7 +474,7 @@
               hide-details
               dense
               height="44"
-              class="rounded-lg base" color="#7631FF"
+              class="rounded-lg base" color="#544B99"
               placeholder="Enter branch number"
               v-model.trim="returned_fabric.batchNumber"
             />
@@ -487,7 +487,7 @@
                 hide-details
                 dense
                 height="44"
-                class="rounded-l-lg base" color="#7631FF"
+                class="rounded-l-lg base" color="#544B99"
                 placeholder="Enter returned fabric quantity"
                 v-model.trim="returned_fabric.quantity"
                 :suffix="returned_fabric.measurment"
@@ -499,7 +499,7 @@
           <v-btn
             outlined
             class="rounded-lg text-capitalize font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             width="163" height="44"
             @click="return_dialog=false"
             style="border-width: 2px"
@@ -509,7 +509,7 @@
           <v-spacer/>
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold ml-8"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="163" height="44"
             @click="saveReturnFabric"
           >
@@ -527,7 +527,7 @@
           <v-btn
             icon
             @click="history_dialog=false"
-            color="#7631FF"
+            color="#544B99"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -540,7 +540,7 @@
             class="mt-4 rounded-lg"
             style="border: 1px solid #E9EAEB"
           >
-         
+
           </v-data-table>
         </v-card-text>
       </v-card>
@@ -582,7 +582,7 @@ export default {
       selectedSubcontract: {},
     };
   },
-  
+
   computed: {
     ...mapGetters({
       setSubcontractsList: "subcontracts/subcontractsList",
@@ -598,7 +598,7 @@ export default {
         {text: "Fabric specification", sortable: false, align: "start", value: "fabricSpecification",width:"150"},
         {text: "Given fabric quantity f/c.", sortable: false, value: "givenFabricQuantity",width:"150"},
         {text: "Used fabric", sortable: false, align: "start", value: "usedFabricQuantity",width:"80"},
-        {text: "Color", sortable: false, value: "color"}, 
+        {text: "Color", sortable: false, value: "color"},
       ],
 
       list[0]?.sizeDistributionList?.forEach((item)=>{
@@ -645,7 +645,7 @@ export default {
       })
       this.historyHeaders.push(
         {text: 'Done By', sortable: false, align: 'center', value: 'createdBy'},
-        
+
         )
 
       const specialList=list.map(function(el){
@@ -748,13 +748,13 @@ export default {
           data.sizeDistributions.push(item)
         }
       })
-      
+
       this.createClassification(data)
       this.classification_dialog = false
-      
+
     },
-    
-   
+
+
     async updateSubcontractsView() {
       this.edit_dialog = false;
       const data={
@@ -766,7 +766,7 @@ export default {
       }
       this.setUpdateSizes(data);
     },
-    
+
     deleteSubcontractOne(item) {
       this.selectedSubcontract = item;
       this.delete_dialog = true;
@@ -781,7 +781,7 @@ export default {
   async mounted() {
     const id = this.$route.params.id;
     await this.getSubcontractsList();
-    
+
     this.setClassification()
   },
 };

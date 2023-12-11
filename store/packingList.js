@@ -17,10 +17,8 @@ export const actions = {
     await this.$axios.$get(`/api/v1/packaging-list/list?shippingId=${id}`)
       .then(res => {
         commit('setPackingList', res.data);
-        console.log(res.data)
       })
       .catch(({response}) => {
-        console.log(response);
       })
   },
   async updatePackingList({commit, dispatch}, {data, id}) {
@@ -29,7 +27,6 @@ export const actions = {
         dispatch("getPackingList", id)
         this.$toast.success(res.message, {theme: 'toasted-primary'});
       }).catch(({response}) => {
-      console.log(response);
       this.$toast.error(response.data.message, {theme: 'toasted-primary'})
     })
   },
@@ -39,7 +36,6 @@ export const actions = {
         dispatch("getPackingList",id)
         this.$toast.success(res.message, {theme: 'toasted-primary'});
       }).catch(({response}) => {
-      console.log(response);
       this.$toast.error(response.data.message, {theme: 'toasted-primary'})
     })
   },

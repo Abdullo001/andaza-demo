@@ -142,7 +142,7 @@
         <div class="d-flex justify-center mt-8">
           <v-btn
             class="rounded-lg font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             width="130"
             outlined
             height="44"
@@ -152,7 +152,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg white--text ml-6"
-            color="#7631FF"
+            color="#544B99"
             width="130"
             height="44"
             @click="saveImages"
@@ -165,7 +165,7 @@
       <v-card>
         <v-card-title class="d-flex">
           <v-spacer/>
-          <v-btn icon color="#7631FF" large @click="image_dialog = false">
+          <v-btn icon color="#544B99" large @click="image_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -196,7 +196,7 @@ export default {
         {
           file: null,
           id:null
-        }, 
+        },
         {
           file: null,
           id:null
