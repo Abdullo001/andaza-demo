@@ -18,7 +18,7 @@
       <template #item.actions="{item}">
         <v-tooltip
           top
-          color="#7631FF"
+          color="#544B99"
           class="pointer"
         >
           <template #activator="{ on, attrs }">
@@ -26,7 +26,7 @@
               icon
               v-bind="attrs"
               v-on="on"
-              color="#7631FF"
+              color="#544B99"
               @click="showHistory(item)"
             >
               <v-img src="/history.svg" max-width="21"/>
@@ -36,7 +36,7 @@
         </v-tooltip>
         <v-tooltip
           top
-          color="#7631FF"
+          color="#544B99"
           class="pointer"
         >
           <template #activator="{ on, attrs }">
@@ -44,7 +44,7 @@
               icon
               v-bind="attrs"
               v-on="on"
-              color="#7631FF"
+              color="#544B99"
             >
               <v-img src="/dollar.svg" max-width="21"/>
             </v-btn>
@@ -62,7 +62,7 @@
           <v-btn
             icon
             @click="history_dialog=false"
-            color="#7631FF"
+            color="#544B99"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -103,7 +103,7 @@ export default {
       history_dialog:'',
       historyHeaders:[
         {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
-        
+
         {text: 'Done By', sortable: false, align: 'center', value: 'createdBy'},
       ],
       historyList:[],
@@ -121,7 +121,7 @@ export default {
   watch:{
     secondClassList(list){
       this.headers= [
-          {text: 'Color', sortable: false, align: 'start', value: 'colorSpecification'},  
+          {text: 'Color', sortable: false, align: 'start', value: 'colorSpecification'},
         ],
 
       list[0]?.sizeDistributionList?.forEach((item) => {

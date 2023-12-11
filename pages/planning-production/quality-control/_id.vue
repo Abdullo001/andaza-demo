@@ -24,7 +24,7 @@
               class="rounded-lg base"
               disable-lookup
               :return-object="true"
-              color="#7631FF"
+              color="#544B99"
               dense disabled
               :placeholder="$t('planningProduction.dialog.searchOrderNumber')"
               append-icon=""
@@ -44,13 +44,13 @@
               height="44"
               class="rounded-lg base"
               :return-object="true"
-              color="#7631FF"
+              color="#544B99"
               dense
               :placeholder="$t('planningProduction.dialog.searchModelNumber')"
               append-icon="mdi-chevron-down"
             >
               <template #append>
-                <v-icon color="#7631FF">mdi-magnify</v-icon>
+                <v-icon color="#544B99">mdi-magnify</v-icon>
               </template>
             </v-combobox>
           </v-col>
@@ -201,7 +201,7 @@
               class="rounded-lg base" dense
               v-model="planning.overProductionPercent"
               :placeholder="$t('planningProduction.dialog.enterOverproduction')"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -252,7 +252,7 @@
             <v-btn
               width="130"
               height="40"
-              color="#7631FF"
+              color="#544B99"
               class="font-weight-bold rounded-lg"
               dark @click="savePlanning"
             >
@@ -274,7 +274,7 @@
       <v-card>
         <v-card-title class="d-flex">
           <v-spacer/>
-          <v-btn icon color="#7631FF" large @click="image_dialog = false">
+          <v-btn icon color="#544B99" large @click="image_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -286,7 +286,7 @@
         <v-tabs
           v-model="tab"
           background-color="transparent"
-          color="#7631FF"
+          color="#544B99"
         >
           <v-tab
             v-for="item in items"
@@ -327,7 +327,7 @@
                 <OrderQuantities/>
               </v-col>
             </v-row>
-            
+
           </v-tab-item>
           <v-tab-item>
             <NextProcess/>
@@ -338,7 +338,7 @@
             <div class="mt-4 mr-4 mb-10 d-flex justify-end">
               <v-btn
                 outlined
-                color="#7631FF"
+                color="#544B99"
                 style="border-width: 2px"
                 width="280"
                 height="44"

@@ -42,7 +42,7 @@
               <v-btn
                 width="140"
                 outlined
-                color="#397CFD"
+                color="#544B99"
                 elevation="0"
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
@@ -51,7 +51,7 @@
               </v-btn>
               <v-btn
                 width="140"
-                color="#397CFD"
+                color="#544B99"
                 dark
                 elevation="0"
                 class="text-capitalize rounded-lg"
@@ -80,7 +80,7 @@
           >
             <div>Fabric stock</div>
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               dark
               class="text-capitalize rounded-lg"
               @click="addArrivedFabricStock"
@@ -95,7 +95,7 @@
         <div class="d-flex">
           <v-tooltip
             top
-            color="#7631FF"
+            color="#544B99"
             class="pointer"
             v-if="Object.keys(item).length > 2"
           >
@@ -104,7 +104,7 @@
                 icon
                 v-bind="attrs"
                 v-on="on"
-                color="#7631FF"
+                color="#544B99"
                 @click="workshopFunc(item)"
               >
                 <v-img src="/cut-icon.svg" max-width="22" />
@@ -115,7 +115,7 @@
 
           <v-tooltip
             top
-            color="#7631FF"
+            color="#544B99"
             class="pointer"
             v-if="Object.keys(item).length > 2"
           >
@@ -124,7 +124,7 @@
                 icon
                 v-bind="attrs"
                 v-on="on"
-                color="#7631FF"
+                color="#544B99"
                 @click="subcontractorFunc(item)"
               >
                 <v-img src="/bag-icon.svg" max-width="22" />
@@ -152,7 +152,7 @@
           <div class="text-capitalize font-weight-bold">
             {{ title }} Fabric stock
           </div>
-          <v-btn icon color="#7631FF" @click="new_dialog = false">
+          <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -168,7 +168,7 @@
                   dense
                   class="rounded-lg base"
                   placeholder="Enter ART №"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -180,7 +180,7 @@
                   dense
                   class="rounded-lg base"
                   placeholder="Enter batch №"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -192,7 +192,7 @@
                   dense
                   class="rounded-lg base"
                   placeholder="Enter Order №"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -204,7 +204,7 @@
                   class="rounded-lg base"
                   height="44"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                   placeholder="Enter Model №"
                 />
               </v-col>
@@ -222,14 +222,14 @@
                   height="44"
                   class="rounded-lg base"
                   :return-object="true"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                   placeholder="Enter partner name"
                   append-icon="mdi-chevron-down"
                   validate-on-blur
                 >
                   <template #append>
-                    <v-icon color="#7631FF">mdi-magnify</v-icon>
+                    <v-icon color="#544B99">mdi-magnify</v-icon>
                   </template>
                 </v-combobox>
               </v-col>
@@ -243,7 +243,7 @@
                   dense
                   class="rounded-lg base"
                   placeholder="Enter fabric specification"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -269,7 +269,7 @@
                   <v-text-field
                     height="44"
                     class="rounded-lg base rounded-l-lg rounded-r-0"
-                    color="#7631FF"
+                    color="#544B99"
                     v-model="arrivedFabricStock.pantoneCode"
                     outlined
                     hide-details
@@ -288,7 +288,7 @@
                     validate-on-blur
                     placeholder=""
                     append-icon="mdi-chevron-down"
-                    color="#7631FF"
+                    color="#544B99"
                   />
                 </div>
               </v-col>
@@ -298,7 +298,7 @@
                   <v-text-field
                     height="44"
                     class="rounded-lg base rounded-l-lg"
-                    color="#7631FF"
+                    color="#544B99"
                     v-model="arrivedFabricStock.remainingQuantity"
                     outlined
                     hide-details
@@ -313,7 +313,7 @@
                   <v-text-field
                     height="44"
                     class="rounded-lg base rounded-l-lg rounded-r-0"
-                    color="#7631FF"
+                    color="#544B99"
                     v-model="arrivedFabricStock.pricePerUnit"
                     outlined
                     hide-details
@@ -332,7 +332,7 @@
                     validate-on-blur
                     placeholder=""
                     append-icon="mdi-chevron-down"
-                    color="#7631FF"
+                    color="#544B99"
                     place
                   />
                 </div>
@@ -344,7 +344,7 @@
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             outlined
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click="new_dialog = false"
           >
@@ -353,7 +353,7 @@
           <v-btn
             v-if="title === 'New'"
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="saveArrivedFabricStock"
@@ -363,7 +363,7 @@
           <v-btn
             v-else
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="editArrivedFabricStock"
@@ -380,7 +380,7 @@
           <div class="text-capitalize font-weight-bold">
             Fabric giving to own workshop
           </div>
-          <v-btn icon color="#7631FF" @click="workshop_dialog = false">
+          <v-btn icon color="#544B99" @click="workshop_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -412,7 +412,7 @@
                   prepend-icon=""
                 >
                   <template #append>
-                    <v-icon class="d-inline-block" color="#7631FF">
+                    <v-icon class="d-inline-block" color="#544B99">
                       mdi-magnify
                     </v-icon>
                   </template>
@@ -425,7 +425,7 @@
                   v-model="workshop.isNew"
                   outlined
                   hide-details
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
 
@@ -440,7 +440,7 @@
                   item-text="sipNumber"
                   item-value="id"
                   hide-details
-                  color="#7631FF"
+                  color="#544B99"
                   class="base rounded-lg"
                   rounded
                   outlined
@@ -459,7 +459,7 @@
                   dense
                   class="rounded-lg base"
                   placeholder="Enter giving fabric quantity"
-                  color="#7631FF"
+                  color="#544B99"
                   :suffix="workshop.measurement"
                 />
               </v-col>
@@ -470,7 +470,7 @@
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             outlined
-            color="#7631FF"
+            color="#544B99"
             width="130"
             @click="workshop_dialog = false"
           >
@@ -480,7 +480,7 @@
           <v-btn
             v-if="workshop.isNew"
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="130"
             @click="saveWorkshop"
@@ -491,7 +491,7 @@
           <v-btn
             v-else
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="130"
             @click="workshopSureFunc"
@@ -508,7 +508,7 @@
           <div class="text-capitalize font-weight-bold">
             Fabric giving to Subcontractor
           </div>
-          <v-btn icon color="#7631FF" @click="subcontractor_dialog = false">
+          <v-btn icon color="#544B99" @click="subcontractor_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -540,7 +540,7 @@
                   prepend-icon=""
                 >
                   <template #append>
-                    <v-icon class="d-inline-block" color="#7631FF">
+                    <v-icon class="d-inline-block" color="#544B99">
                       mdi-magnify
                     </v-icon>
                   </template>
@@ -553,7 +553,7 @@
                   outlined
                   label="As a new row"
                   hide-details
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
 
@@ -567,7 +567,7 @@
                   hide-details
                   item-text="sipNumber"
                   item-value="id"
-                  color="#7631FF"
+                  color="#544B99"
                   class="base rounded-lg"
                   rounded
                   :disabled="subcontractor.isNew"
@@ -592,14 +592,14 @@
                   height="44"
                   class="rounded-lg base"
                   :return-object="true"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                   placeholder="Enter partner name"
                   append-icon="mdi-chevron-down"
                   validate-on-blur
                 >
                   <template #append>
-                    <v-icon color="#7631FF">mdi-magnify</v-icon>
+                    <v-icon color="#544B99">mdi-magnify</v-icon>
                   </template>
                 </v-combobox>
                 <v-select
@@ -611,7 +611,7 @@
                   item-text="name"
                   item-value="id"
                   hide-details
-                  color="#7631FF"
+                  color="#544B99"
                   class="base rounded-lg"
                   rounded
                   :disabled="subcontractor.isNew"
@@ -631,7 +631,7 @@
                   dense
                   class="rounded-lg base"
                   placeholder="Enter giving fabric quantity"
-                  color="#7631FF"
+                  color="#544B99"
                   :suffix="subcontractor.measurement"
                 />
               </v-col>
@@ -642,7 +642,7 @@
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             outlined
-            color="#7631FF"
+            color="#544B99"
             width="130"
             @click="subcontractor_dialog = false"
           >
@@ -651,7 +651,7 @@
           <v-btn
             v-if="subcontractor.isNew"
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="130"
             @click="saveSubcontractor"
@@ -662,7 +662,7 @@
           <v-btn
             v-else
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="130"
             @click="subcontractorSureFunc"
@@ -735,7 +735,7 @@
           <v-btn
             outlined
             class="rounded-lg text-capitalize font-weight-bold"
-            color="#864EFF"
+            color="#544B99"
             width="120"
             @click.stop="workshopSure_dialog = false"
           >
@@ -744,7 +744,7 @@
           <v-spacer />
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            color="#864EFF"
+            color="#544B99"
             width="120"
             elevation="0"
             dark
@@ -781,7 +781,7 @@
           <v-btn
             outlined
             class="rounded-lg text-capitalize font-weight-bold"
-            color="#864EFF"
+            color="#544B99"
             width="120"
             @click.stop="subcontractorSure_dialog = false"
           >
@@ -790,7 +790,7 @@
           <v-spacer />
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            color="#864EFF"
+            color="#544B99"
             width="120"
             elevation="0"
             dark

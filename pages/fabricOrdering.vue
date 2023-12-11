@@ -11,7 +11,7 @@
     class="elevation-0"
     hide-default-footer
     >
-    <template #top>      
+    <template #top>
       <div class="mt-1">
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
@@ -40,7 +40,7 @@
                 prepend-icon=""
               >
                 <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
+                  <v-icon class="d-inline-block" color="#544B99">
                     mdi-magnify
                   </v-icon>
                 </template>
@@ -50,7 +50,7 @@
               <v-spacer/>
               <v-btn
                 class="text-capitalize rounded-lg font-weight-bold py-1 px-6"
-                color="#7631FF"
+                color="#544B99"
                 dark
                 height="44"
                 @click="searchModels"
@@ -74,7 +74,7 @@
                   height="44"
                   class="rounded-lg base"
                   :return-object="true"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                   placeholder="Enter partner name"
                   append-icon="mdi-chevron-down"
@@ -82,7 +82,7 @@
                   validate-on-blur
                   >
                   <template #append>
-                    <v-icon color="#7631FF">mdi-magnify</v-icon>
+                    <v-icon color="#544B99">mdi-magnify</v-icon>
                   </template>
                  </v-combobox>
               </v-col>
@@ -113,29 +113,29 @@
         :value="props.value || props.indeterminate"
         v-on="on"
         :indeterminate="props.indeterminate"
-        color="#7631FF"
+        color="#544B99"
         @input="selectItems(props)"
       />
     </template>
     <template #item.data-table-select="{isSelected, select,item}">
       <v-simple-checkbox
-        color="#7631FF"
+        color="#544B99"
         v-ripple
         :value="item.isChecked"
         :disabled="item.isOrdered"
         @input="enterSelect(item)"
       />
     </template>
-    
 
-    
+
+
   </v-data-table>
 
   <div class="d-flex my-6 ">
     <v-spacer/>
     <v-btn
       class="text-capitalize rounded-lg font-weight-bold mr-4 py-1 px-6"
-      color="#7631FF"
+      color="#544B99"
       outlined
       height="44"
       @click="generateFabric"
@@ -164,7 +164,7 @@
       <v-simple-checkbox
         v-model="item.isOrdered"
         :disabled="item.status==='ORDERED'"
-        color="#7631FF"
+        color="#544B99"
       ></v-simple-checkbox>
     </template>
 
@@ -179,12 +179,12 @@
         :disabled="item.status==='ORDERED'"
         :rules="[formRules.required]"
         validate-on-blur
-        color="#7631FF"
+        color="#544B99"
         v-model="item.queue"
       />
 
   </template>
-    
+
 
     <template #item.status="{item}">
       <v-select
@@ -206,7 +206,7 @@
 
     <v-btn
       class="text-capitalize rounded-lg font-weight-bold mr-4 py-1 px-6"
-      color="#7631FF"
+      color="#544B99"
       outlined
       height="44"
       @click="returnFunc"
@@ -215,7 +215,7 @@
     </v-btn>
     <v-btn
       class="text-capitalize rounded-lg font-weight-bold mr-4 py-1 px-6"
-      color="#7631FF"
+      color="#544B99"
       dark
       height="44"
       @click="ordering"
@@ -358,7 +358,7 @@ export default {
         queue:item.queue,
       }
       this.setQueue({...data,orderId:this.orderId.id})
-      
+
     },
 
     enterSelect(item){
@@ -388,7 +388,7 @@ export default {
 
       this.returnOrders({ids,id:this.orderId.id})
     },
-    
+
 
     searchModels(){
       this.getSampleFabricOrdering(this.orderId.id)
@@ -410,13 +410,13 @@ export default {
             plannedFabricOrderIds,
             fabricDeadline: this.deliveryTime,
             orderId:this.orderId.id ,
-            supplierId: this.partnerId.id 
+            supplierId: this.partnerId.id
           }
 
           this.generateFabricOrder(data)
         }
       }
-      
+
     },
 
     ordering(){
@@ -430,7 +430,7 @@ export default {
       const data={
         fabricOrderIds
       }
-      
+
       this.setFabricOrder({data,id:this.orderId.id})
     }
   },
@@ -442,5 +442,5 @@ export default {
 
 </script>
 <style lang="scss" scoped>
-  
+
 </style>

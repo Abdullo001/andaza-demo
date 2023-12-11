@@ -26,7 +26,7 @@
                 class="rounded-lg base"
                 dense
                 v-model="get_one_role.id"
-                color="#7631FF"
+                color="#544B99"
                 placeholder="Enter role id"
                 validate-on-blur
               />
@@ -41,7 +41,7 @@
                 class="rounded-lg base"
                 dense
                 v-model="get_one_role.name"
-                color="#7631FF"
+                color="#544B99"
                 placeholder="Enter role name"
                 validate-on-blur
               />
@@ -58,7 +58,7 @@
                 dense
                 v-model="get_one_role.description"
                 auto-grow
-                color="#7631FF"
+                color="#544B99"
                 placeholder="Enter role description"
                 validate-on-blur
               />
@@ -75,7 +75,7 @@
                 hide-details
                 height="44"
                 class="rounded-lg base"
-                color="#7631FF"
+                color="#544B99"
                 validate-on-blur
               >
               </v-select>
@@ -91,7 +91,7 @@
                 dense
                 disabled
                 v-model="get_one_role.createdAt"
-                color="#7631FF"
+                color="#544B99"
                 placeholder="Enter role name"
                 validate-on-blur
               />
@@ -107,7 +107,7 @@
                 dense
                 disabled
                 v-model="get_one_role.updatedAt"
-                color="#7631FF"
+                color="#544B99"
                 placeholder="Enter role name"
                 validate-on-blur
               />
@@ -118,7 +118,7 @@
       <v-card-actions>
         <v-spacer/>
         <v-btn
-          color="#7631FF"
+          color="#544B99"
           dark
           class="text-capitalize font-weight-medium mx-3 mb-4"
           width="150"
@@ -164,7 +164,7 @@
         <v-card-title class="w-full d-flex justify-space-between">
           <div>Edit user</div>
           <v-btn @click="edit_dialog = !edit_dialog" icon>
-            <v-icon color="#7631FF">mdi-close</v-icon>
+            <v-icon color="#544B99">mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-card-text>
@@ -179,7 +179,7 @@
                   height="44"
                   class="rounded-lg base"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                   :rules="[formRules.required]"
                   validate-on-blur
                 >
@@ -194,7 +194,7 @@
                   height="44"
                   class="rounded-lg base"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                   :rules="[formRules.required]"
                   validate-on-blur
                   append-icon="mdi-chevron-down"
@@ -209,7 +209,7 @@
                   height="44"
                   class="rounded-lg base"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                   placeholder="Enter permission name"
                   :rules="[formRules.required]"
                   validate-on-blur
@@ -223,7 +223,7 @@
                   height="44"
                   class="rounded-lg base"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                   placeholder="Person who sews materials"
                   :rules="[formRules.required]"
                   validate-on-blur
@@ -237,7 +237,7 @@
                   height="44"
                   class="rounded-lg base"
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                   placeholder="Enter permission path"
                   :rules="[formRules.required]"
                   validate-on-blur
@@ -250,14 +250,14 @@
           <v-btn
             outlined
             class="text-capitalize rounded-lg font-weight-bold mr-6"
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click="edit_dialog = !edit_dialog"
           >cancel
           </v-btn>
           <v-btn
             class="text-capitalize rounded-lg font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
           >
@@ -284,7 +284,7 @@
           <v-toolbar elevation="0">
             <v-toolbar-title class="d-flex justify-space-between w-full">
               <div class="font-weight-medium">Permission</div>
-              <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="add_dialog = !add_dialog">
+              <v-btn color="#544B99" class="rounded-lg text-capitalize" dark @click="add_dialog = !add_dialog">
                 <v-icon>mdi-plus</v-icon>
                 Permission
               </v-btn>
@@ -299,7 +299,7 @@
         <v-card-title class="w-full d-flex justify-space-between">
           <div>Edit user</div>
           <v-btn @click="add_dialog = !add_dialog" icon>
-            <v-icon color="#7631FF">mdi-close</v-icon>
+            <v-icon color="#544B99">mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-card-text>
@@ -316,7 +316,7 @@
             deletable-chips
             multiple
             :items="permissionSelect"
-            color="#7631FF"
+            color="#544B99"
           >
           </v-select>
         </v-card-text>
@@ -324,14 +324,14 @@
           <v-btn
             outlined
             class="text-capitalize rounded-lg font-weight-bold mr-6"
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click="add_dialog = !add_dialog"
           >cancel
           </v-btn>
           <v-btn
             class="text-capitalize rounded-lg font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="save"

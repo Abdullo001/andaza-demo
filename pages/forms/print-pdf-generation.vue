@@ -30,7 +30,7 @@
                 prepend-icon=""
               >
                 <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
+                  <v-icon class="d-inline-block" color="#544B99">
                     mdi-magnify
                   </v-icon>
                 </template>
@@ -55,7 +55,7 @@
                 prepend-icon=""
               >
                 <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
+                  <v-icon class="d-inline-block" color="#544B99">
                     mdi-magnify
                   </v-icon>
                 </template>
@@ -71,7 +71,7 @@
                   item-value="id"
                   outlined
                   hide-details
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                   height="44"
                   validate-on-blur
@@ -82,7 +82,7 @@
                   :rules="[formRules.required]"
                   >
                   <template #append>
-                    <v-icon color="#7631FF">mdi-magnify</v-icon>
+                    <v-icon color="#544B99">mdi-magnify</v-icon>
                   </template>
                  </v-combobox>
             </v-col>
@@ -120,7 +120,7 @@
                 prepend-icon=""
               >
                 <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
+                  <v-icon class="d-inline-block" color="#544B99">
                     mdi-magnify
                   </v-icon>
                 </template>
@@ -170,7 +170,7 @@
               </div>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label text-capitalize mb-2"> print type</div> 
+              <div class="label text-capitalize mb-2"> print type</div>
                 <v-select
                   outlined
                   :items="printTypeEnums"
@@ -180,11 +180,11 @@
                   item-value="name"
                   item-text="name"
                   dense append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                   class="rounded-lg "
                   height="44"
                   hide-details
-                />    
+                />
             </v-col>
             <v-col cols="12" lg="3">
               <div class="label">Creator</div>
@@ -205,7 +205,7 @@
                 prepend-icon=""
               >
                 <template #append>
-                  <v-icon class="d-inline-block" color="#7631FF">
+                  <v-icon class="d-inline-block" color="#544B99">
                     mdi-magnify
                   </v-icon>
                 </template>
@@ -216,7 +216,7 @@
             <v-btn
               width="140"
               outlined
-              color="#7631FF"
+              color="#544B99"
               elevation="0"
               class="text-capitalize mr-4 rounded-lg font-weight-bold"
               @click="resetFilter"
@@ -225,7 +225,7 @@
             </v-btn>
             <v-btn
               width="140"
-              color="#7631FF"
+              color="#544B99"
               dark
               elevation="0"
               class="text-capitalize rounded-lg font-weight-bold"
@@ -240,7 +240,7 @@
 
     <v-overlay v-model="isLoad" class="align-center justify-center">
       <v-progress-circular
-        color="#7631FF"
+        color="#544B99"
         indeterminate
         size="80"
       ></v-progress-circular>
@@ -403,7 +403,7 @@ export default {
       getPrintPdfList: "generatePdf/getPrintPdfList",
       getPartnerName: "fabricOrdering/getPartnerName",
       getPrintType: "printing/getPrintType",
-      
+
     }),
 
     resetFilter() {

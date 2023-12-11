@@ -17,7 +17,7 @@
         <v-spacer/>
         <v-btn
           class="rounded-lg text-capitalize font-weight-bold mr-4"
-          color="#7631FF"
+          color="#544B99"
           width="140"
           elevation="0"
           outlined
@@ -26,7 +26,7 @@
         </v-btn>
         <v-btn
           class="rounded-lg text-capitalize font-weight-bold"
-          color="#7631FF"
+          color="#544B99"
           width="140"
           elevation="0"
           outlined
@@ -42,7 +42,7 @@
             <v-text-field
               outlined
               class="rounded-lg base"
-              color="#7631FF"
+              color="#544B99"
               dense
               height="44"
               hide-details
@@ -64,13 +64,13 @@
               class="rounded-lg base"
               hide-details
               :return-object="true"
-              color="#7631FF"
+              color="#544B99"
               dense
               :placeholder="$t('prefinances.child.enterModelNumber')"
               append-icon="mdi-chevron-down"
             >
               <template #append>
-                <v-icon color="#7631FF">mdi-magnify</v-icon>
+                <v-icon color="#544B99">mdi-magnify</v-icon>
               </template>
             </v-combobox>
           </v-col>
@@ -80,7 +80,7 @@
               outlined
               class="rounded-lg base"
               hide-details
-              color="#7631FF"
+              color="#544B99"
               dense
               height="44"
               :placeholder="$t('prefinances.child.enterModelName')"
@@ -96,7 +96,7 @@
               class="rounded-lg base"
               hide-details
               height="44"
-              color="#7631FF"
+              color="#544B99"
               dense
               disabled
               :placeholder="$t('prefinances.child.partnerNamePhone')"
@@ -117,7 +117,7 @@
               height="44"
               class="rounded-lg base"
               hide-details
-              color="#7631FF"
+              color="#544B99"
               dense
               append-icon="mdi-chevron-down"
             />
@@ -135,7 +135,7 @@
               class="rounded-lg base"
               hide-details
               dense
-              color="#7631FF"
+              color="#544B99"
               append-icon="mdi-chevron-down"
             />
           </v-col>
@@ -151,7 +151,7 @@
               height="44"
               class="rounded-lg base"
               hide-details
-              color="#7631FF"
+              color="#544B99"
               dense
               append-icon="mdi-chevron-down"
             />
@@ -165,7 +165,7 @@
               class="rounded-lg base"
               hide-details
               height="44"
-              color="#7631FF"
+              color="#544B99"
               dense
               placeholder="Enter the planned order quantity"
               append-icon=""
@@ -179,7 +179,7 @@
               height="44"
               class="rounded-lg base"
               hide-details
-              color="#7631FF"
+              color="#544B99"
               dense
               placeholder="0"
             />
@@ -192,7 +192,7 @@
               height="44"
               class="rounded-lg base"
               hide-details
-              color="#7631FF"
+              color="#544B99"
               dense
               placeholder="0"
             />
@@ -205,7 +205,7 @@
               height="44"
               class="rounded-lg base"
               hide-details
-              color="#7631FF"
+              color="#544B99"
               dense
               placeholder="0"
             />
@@ -217,7 +217,7 @@
               outlined
               class="rounded-lg base"
               hide-details
-              color="#7631FF"
+              color="#544B99"
               dense
               rows="1"
               auto-grow
@@ -232,7 +232,7 @@
               height="44"
               class="rounded-lg base"
               hide-details
-              color="#7631FF"
+              color="#544B99"
               dense
               :placeholder="$t('prefinances.child.enterOwner')"
               disabled
@@ -246,7 +246,7 @@
               height="44"
               class="rounded-lg base"
               hide-details
-              color="#7631FF"
+              color="#544B99"
               dense
               placeholder="dd.MM.yyyy HH:mm:ss"
               disabled
@@ -266,7 +266,7 @@
               height="44"
               class="rounded-lg base"
               hide-details
-              color="#7631FF"
+              color="#544B99"
               dense
               :placeholder="$t('prefinances.child.enterModifiedPerson')"
               disabled
@@ -282,7 +282,7 @@
               height="44"
               class="rounded-lg base"
               hide-details
-              color="#7631FF"
+              color="#544B99"
               dense
               placeholder="dd.MM.yyyy HH:mm:ss"
               disabled
@@ -294,7 +294,7 @@
           </v-col>
           <v-col cols="12" class="d-flex justify-end align-end">
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               dark
               class="text-capitalize rounded-lg font-weight-bold"
               style="min-width: 130px"
@@ -316,7 +316,7 @@
     </v-card>
     <v-card class="mt-4 rounded-lg" elevation="0">
       <v-card-text>
-        <v-tabs v-model="tab" background-color="transparent" color="#7631FF">
+        <v-tabs v-model="tab" background-color="transparent" color="#544B99">
           <v-tab v-for="item in items" :key="item" class="text-capitalize">
             {{ item }}
           </v-tab>
@@ -342,7 +342,7 @@
                     <div class="text-h6">Details</div>
                     <v-btn
                       class="text-capitalize font-weight-bold rounded-lg"
-                      color="#7631FF"
+                      color="#544B99"
                       min-width="170"
                       :dark="!!preFinanceId"
                       @click="new_details = true"
@@ -427,7 +427,7 @@
                 </v-toolbar>
               </template>
               <template #item.actions="{ item }">
-                <v-tooltip top color="#7631FF">
+                <v-tooltip top color="#544B99">
                   <template #activator="{ on, attrs }">
                     <v-btn
                       icon
@@ -554,7 +554,7 @@
           <v-card-actions>
             <v-spacer/>
              <v-btn
-              color="#7631FF"
+              color="#544B99"
               class="text-capitalize rounded-lg"
               outlined
               min-width="130"
@@ -563,7 +563,7 @@
               Generate PDF
             </v-btn>
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               class="text-capitalize rounded-lg"
               dark
               min-width="130"
@@ -586,7 +586,7 @@
           <div class="text-capitalize">
             {{ $t("prefinances.child.newDetails") }}
           </div>
-          <v-btn icon color="#7631FF" @click="new_details = false">
+          <v-btn icon color="#544B99" @click="new_details = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -611,7 +611,7 @@
                   v-model="details.expenseGroup"
                   validate-on-blur
                   :rules="[formRules.required]"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="4">
@@ -631,7 +631,7 @@
                   :disabled="expense_status"
                   item-value="id"
                   item-text="name"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="4">
@@ -646,7 +646,7 @@
                   v-model="details.quantity"
                   validate-on-blur
                   :rules="[formRules.required]"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="4">
@@ -667,7 +667,7 @@
                   :rules="[formRules.required]"
                   item-text="name"
                   item-value="id"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="4">
@@ -684,7 +684,7 @@
                   v-model="details.pricePerUnit"
                   validate-on-blur
                   :rules="[formRules.required]"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -700,7 +700,7 @@
           >{{ $t("prefinances.child.cancel") }}
           </v-btn>
           <v-btn
-            color="#7631FF"
+            color="#544B99"
             text
             class="text-capitalize font-weight-bold"
             @click="createDetailsNew"
@@ -716,7 +716,7 @@
           <div class="text-capitalize">
             {{ $t("prefinances.child.editDetails") }}
           </div>
-          <v-btn icon color="#7631FF" @click="cancelFunc">
+          <v-btn icon color="#544B99" @click="cancelFunc">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -735,7 +735,7 @@
                   v-model="selectDetail.expenseGroup"
                   validate-on-blur
                   :rules="[formRules.required]"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="4">
@@ -750,7 +750,7 @@
                   :rules="[formRules.required]"
                   item-value="id"
                   item-text="name"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="4">
@@ -761,7 +761,7 @@
                   v-model="selectDetail.quantity"
                   validate-on-blur
                   :rules="[formRules.required]"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="4">
@@ -776,7 +776,7 @@
                   :rules="[formRules.required]"
                   item-text="name"
                   item-value="id"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="4">
@@ -787,7 +787,7 @@
                   v-model="selectDetail.pricePerUnit"
                   validate-on-blur
                   :rules="[formRules.required]"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -803,7 +803,7 @@
           >{{ $t("prefinances.child.cancel") }}
           </v-btn>
           <v-btn
-            color="#7631FF"
+            color="#544B99"
             text
             class="text-capitalize font-weight-bold"
             @click="updateDetailsFunc"
@@ -848,7 +848,7 @@
     </v-dialog>
     <v-overlay v-model="isLoad" class="align-center justify-center">
       <v-progress-circular
-        color="#7631FF"
+        color="#544B99"
         indeterminate
         size="80"
       ></v-progress-circular>

@@ -55,7 +55,7 @@
               <v-btn
                 width="140"
                 outlined
-                color="#397CFD"
+                color="#544B99"
                 elevation="0"
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
@@ -64,7 +64,7 @@
               </v-btn>
               <v-btn
                 width="140"
-                color="#397CFD"
+                color="#544B99"
                 dark
                 elevation="0"
                 class="text-capitalize rounded-lg"
@@ -95,7 +95,7 @@
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium text-capitalize">Size</div>
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               class="rounded-lg text-capitalize"
               dark
               @click="new_dialog = true"
@@ -122,7 +122,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Create Size</div>
-          <v-btn icon color="#7631FF" @click="new_dialog = false">
+          <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -133,7 +133,7 @@
                 <div class="label">Size name</div>
                 <v-text-field
                   v-model="create_size.name"
-                  color="#7631FF"
+                  color="#544B99"
                   placeholder="Enter size name"
                   outlined
                   hide-details
@@ -146,7 +146,7 @@
                 <div class="label">Add Size</div>
                 <v-text-field
                   v-model="add_size.size"
-                  color="#7631FF"
+                  color="#544B99"
                   placeholder="Enter Add size"
                   outlined
                   hide-details
@@ -158,7 +158,7 @@
               <v-col cols="12" md="3" class="d-flex align-end">
                 <v-btn
                   @click="addSize"
-                  color="#7631FF"
+                  color="#544B99"
                   class="rounded-lg text-capitalize"
                   dark
                 >
@@ -182,7 +182,7 @@
                   class="rounded-lg base"
                   dense
                   placeholder="Select size"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -192,7 +192,7 @@
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             outlined
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click="new_dialog = false"
           >
@@ -200,7 +200,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="save"
@@ -214,7 +214,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Edit Size</div>
-          <v-btn icon color="#7631FF" @click="edit_dialog = false">
+          <v-btn icon color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -226,7 +226,7 @@
                 <v-text-field
                 v-model="edit_size.name"
 
-                  color="#7631FF"
+                  color="#544B99"
                   placeholder="Enter size name"
                   outlined
                   hide-details
@@ -240,7 +240,7 @@
                 <div class="label">Add Size</div>
                 <v-text-field
                   v-model="edit_add_size.size"
-                  color="#7631FF"
+                  color="#544B99"
                   placeholder="Enter Add size"
                   outlined
                   hide-details
@@ -252,7 +252,7 @@
               <v-col cols="12" md="3" class="d-flex align-end">
                 <v-btn
                   @click="editAddSize"
-                  color="#7631FF"
+                  color="#544B99"
                   class="rounded-lg text-capitalize"
                   dark
                 >
@@ -276,7 +276,7 @@
                   height="44"
                   class="rounded-lg base"
                   placeholder="Select size"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -286,7 +286,7 @@
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             outlined
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click="edit_dialog = false"
           >
@@ -294,7 +294,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="update"

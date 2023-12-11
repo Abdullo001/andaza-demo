@@ -35,7 +35,7 @@
               </v-btn>
             </div>
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               dark
               class="text-capitalize rounded-lg"
               @click="new_dialog = true"
@@ -89,7 +89,7 @@
         <v-card-title class="w-full d-flex justify-space-between">
           <div>Create color/Size</div>
           <v-btn @click="new_dialog = !new_dialog" icon>
-            <v-icon color="#7631FF">mdi-close</v-icon>
+            <v-icon color="#544B99">mdi-close</v-icon>
           </v-btn>
         </v-card-title>
 
@@ -118,7 +118,7 @@
                         hide-details
                         height="44"
                         class="rounded-lg base"
-                        color="#7631FF"
+                        color="#544B99"
                         dense
                       />
                     </div>
@@ -137,7 +137,7 @@
                         validate-on-blur
                         dense
                         class="rounded-lg base"
-                        color="#7631FF"
+                        color="#544B99"
                         background-color="#F8F4FE"
                       />
                     </div>
@@ -155,7 +155,7 @@
                           class="rounded-lg base rounded-l-lg rounded-r-0"
                           validate-on-blur
                           dense
-                          color="#7631FF"
+                          color="#544B99"
                         />
                         <v-select
                           :items="enums"
@@ -169,7 +169,7 @@
                           validate-on-blur
                           placeholder=""
                           append-icon="mdi-chevron-down"
-                          color="#7631FF"
+                          color="#544B99"
                         />
                       </div>
                     </div>
@@ -195,7 +195,7 @@
                   validate-on-blur
                   dense
                   class="rounded-lg base"
-                  color="#7631FF"
+                  color="#544B99"
                   background-color="#F8F4FE"
                 />
               </v-col>
@@ -205,14 +205,14 @@
               <v-btn
                 outlined
                 class="text-capitalize rounded-lg font-weight-bold mr-6"
-                color="#7631FF"
+                color="#544B99"
                 width="163"
                 @click="new_dialog = !new_dialog"
                 >cancel
               </v-btn>
               <v-btn
                 class="text-capitalize rounded-lg font-weight-bold"
-                color="#7631FF"
+                color="#544B99"
                 dark
                 width="163"
                 @click="createSizeDistirbution"
@@ -230,7 +230,7 @@
         <v-card-title class="w-full d-flex justify-space-between">
           <div>Edit color/Size</div>
           <v-btn @click="edit_dialog = !edit_dialog" icon>
-            <v-icon color="#7631FF">mdi-close</v-icon>
+            <v-icon color="#544B99">mdi-close</v-icon>
           </v-btn>
         </v-card-title>
 
@@ -261,7 +261,7 @@
                         hide-details
                         height="44"
                         class="rounded-lg base"
-                        color="#7631FF"
+                        color="#544B99"
                         dense
                       />
                     </div>
@@ -280,7 +280,7 @@
                         validate-on-blur
                         dense
                         class="rounded-lg base"
-                        color="#7631FF"
+                        color="#544B99"
                         background-color="#F8F4FE"
                       />
                     </div>
@@ -298,7 +298,7 @@
                           class="rounded-lg base rounded-l-lg rounded-r-0"
                           validate-on-blur
                           dense
-                          color="#7631FF"
+                          color="#544B99"
                         />
                         <v-select
                           :items="enums"
@@ -310,9 +310,9 @@
                           height="44"
                           class="rounded-lg base rounded-r-lg rounded-l-0"
                           validate-on-blur
-                          placeholder=""
+                            placeholder=""
                           append-icon="mdi-chevron-down"
-                          color="#7631FF"
+                          color="#544B99"
                         />
                       </div>
                     </div>
@@ -338,7 +338,7 @@
                   validate-on-blur
                   dense
                   class="rounded-lg base"
-                  color="#7631FF"
+                  color="#544B99"
                   background-color="#F8F4FE"
                 />
               </v-col>
@@ -348,14 +348,14 @@
               <v-btn
                 outlined
                 class="text-capitalize rounded-lg font-weight-bold mr-6"
-                color="#7631FF"
+                color="#544B99"
                 width="163"
                 @click="edit_dialog = !edit_dialog"
                 >cancel
               </v-btn>
               <v-btn
                 class="text-capitalize rounded-lg font-weight-bold"
-                color="#7631FF"
+                color="#544B99"
                 dark
                 v-if="this.$route.params.id !== `add-order`"
                 width="163"
@@ -364,7 +364,7 @@
               </v-btn>
               <v-btn
                 class="text-capitalize rounded-lg font-weight-bold"
-                color="#7631FF"
+                color="#544B99"
                 dark
                 v-else
                 width="163"

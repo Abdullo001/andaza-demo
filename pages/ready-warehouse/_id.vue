@@ -27,7 +27,7 @@
               class="rounded-lg base mb-4"
               :return-object="true"
               disabled
-              color="#7631FF"
+              color="#544B99"
             >
             </v-text-field>
           </v-col>
@@ -46,11 +46,11 @@
               dense
               class="rounded-lg base mb-4"
               :search-input.sync="search"
-              color="#7631FF"
+              color="#544B99"
               append-icon=""
             >
               <template #append>
-                <v-icon color="#7631FF">mdi-magnify</v-icon>
+                <v-icon color="#544B99">mdi-magnify</v-icon>
               </template>
             </v-combobox>
           </v-col>
@@ -66,7 +66,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -81,7 +81,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
         </v-row>
@@ -98,7 +98,7 @@
               placeholder="Enter fabric specification"
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             >
             </v-text-field>
           </v-col>
@@ -114,7 +114,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -129,7 +129,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             >
             </v-text-field>
           </v-col>
@@ -145,7 +145,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             >
             </v-text-field>
           </v-col>
@@ -161,7 +161,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -176,7 +176,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             >
             </v-text-field>
           </v-col>
@@ -192,8 +192,8 @@
       </v-card-actions>
     </v-card>
     <v-card class="elevation-0 rounded-lg mt-5">
-      <v-tabs color="#7631FF" v-model="accessory_tab">
-        <v-tabs-slider color="#7631FF"/>
+      <v-tabs color="#544B99" v-model="accessory_tab">
+        <v-tabs-slider color="#544B99"/>
         <v-tab
           class="text-capitalize"
           v-for="item in items"
@@ -217,7 +217,7 @@
       <v-card>
         <v-card-title class="d-flex">
           <v-spacer/>
-          <v-btn icon color="#7631FF" large @click="image_dialog = false">
+          <v-btn icon color="#544B99" large @click="image_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>

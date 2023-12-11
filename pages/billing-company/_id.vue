@@ -129,7 +129,7 @@
             <v-toolbar-title class="w-full d-flex align-center justify-space-between">
               <div class="text-capitalize">billing</div>
               <v-btn
-                color="#7631FF"
+                color="#544B99"
                 class="text-capitalize rounded-lg"
                 dark
                 min-width="170"

@@ -16,7 +16,7 @@
           <div class="title">Production processes for current model</div>
           <v-spacer/>
           <v-btn
-            color="#7631FF" dark
+            color="#544B99" dark
             class="rounded-lg text-capitalize font-weight-bold"
             height="40"
             :disabled="btn_disabled"
@@ -47,7 +47,7 @@
         <v-card-title class="d-flex mb-4">
           <div class="title text-capitalize">{{ title }} {{ $t('planningProduction.planning.process') }}</div>
           <v-spacer/>
-          <v-btn color="#7631FF" icon @click="dialog=false">
+          <v-btn color="#544B99" icon @click="dialog=false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -65,7 +65,7 @@
                   height="44"
                   dense
                   class="rounded-lg base"
-                  color="#7631FF"
+                  color="#544B99"
                   append-icon="mdi-chevron-down"
                   :placeholder="$t('planningProduction.planning.selectWorkingProcess')"
                   v-model="new_process.process"
@@ -92,7 +92,7 @@
                   hide-details
                   height="44"
                   dense
-                  class="rounded-lg base" color="#7631FF"
+                  class="rounded-lg base" color="#544B99"
                   append-icon="mdi-chevron-down"
                   :placeholder="$t('planningProduction.planning.selectWorkshop')"
                   v-model="new_process.workshopType"
@@ -105,7 +105,7 @@
                   hide-details
                   dense
                   height="44"
-                  class="rounded-lg base" color="#7631FF"
+                  class="rounded-lg base" color="#544B99"
                   :placeholder="$t('planningProduction.planning.comment')"
                   v-model="new_process.description"
                 />
@@ -119,7 +119,7 @@
           <v-btn
             outlined
             class="rounded-lg text-capitalize font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             width="163" height="44"
             @click="dialog=false"
           >
@@ -127,7 +127,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold ml-8"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="163" height="44"
             @click="saveProcessing()"
           >

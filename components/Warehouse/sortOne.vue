@@ -18,7 +18,7 @@
       <template #item.actions="{item}">
         <v-tooltip
           top
-          color="#7631FF"
+          color="#544B99"
           class="pointer"
         >
           <template #activator="{ on, attrs }">
@@ -26,7 +26,7 @@
               icon
               v-bind="attrs"
               v-on="on"
-              color="#7631FF"
+              color="#544B99"
               @click="showHistory(item)"
             >
               <v-img src="/history.svg" max-width="21"/>
@@ -36,7 +36,7 @@
         </v-tooltip>
         <v-tooltip
           top
-          color="#7631FF"
+          color="#544B99"
           class="pointer"
         >
           <template #activator="{ on, attrs }">
@@ -44,7 +44,7 @@
               icon
               v-bind="attrs"
               v-on="on"
-              color="#7631FF"
+              color="#544B99"
               @click="shippingBtn(item)"
             >
               <v-img src="/car.svg" max-width="21"/>
@@ -63,7 +63,7 @@
           <v-btn
             icon
             @click="history_dialog=false"
-            color="#7631FF"
+            color="#544B99"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -84,7 +84,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Shipping list</div>
-          <v-btn icon color="#7631FF" @click="shipping_dialog = false">
+          <v-btn icon color="#544B99" @click="shipping_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -102,7 +102,7 @@
                   class="rounded-lg base "
                   validate-on-blur
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -121,14 +121,14 @@
                   height="44"
                   class="rounded-lg base"
                   :return-object="true"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                   placeholder="Enter partner name"
                   append-icon="mdi-chevron-down"
                   validate-on-blur
                 >
                   <template #append>
-                    <v-icon color="#7631FF">mdi-magnify</v-icon>
+                    <v-icon color="#544B99">mdi-magnify</v-icon>
                   </template>
                 </v-combobox>
               </v-col>
@@ -138,7 +138,7 @@
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="130"
             @click="shipping_dialog = false"
           >
@@ -146,7 +146,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="130"
             @click="save"
           >
@@ -242,7 +242,6 @@ export default {
           {text: 'Total price', sortable: false, align: 'start', value: 'totalPrice'},
           {text: 'Actions', sortable: false, align: 'start', value: 'actions'},
         )
-        console.log(list)
         const specialList = list.map(function (el) {
           const value = {};
           const sizesList = [];

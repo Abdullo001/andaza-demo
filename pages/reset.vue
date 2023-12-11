@@ -29,7 +29,7 @@
                 label="E-mail"
                 filled
                 dense
-                color="#7631FF"
+                color="#544B99"
                 placeholder="Enter your e-mail"
                 class="mb-3"
                 v-model="reset.email"
@@ -38,7 +38,7 @@
                 @keydown.enter.stop="sendEmail"
               />
               <v-btn
-                color="#7631FF"
+                color="#544B99"
                 class="rounded-lg text-capitalize"
                 block
                 dark
@@ -56,7 +56,7 @@
               ></v-otp-input>
               <div class="text-base text-right mt-5 mb-7 pointer">Send message again</div>
               <v-btn
-                color="#7631FF"
+                color="#544B99"
                 class="rounded-lg text-capitalize"
                 block
                 dark

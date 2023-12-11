@@ -35,7 +35,7 @@
               clearable
               style="max-width: 400px"
               :disabled="fields_status"
-              color="#7631FF"
+              color="#544B99"
             />
             <div class="label">{{ $t('userManagement.child.lang') }}</div>
             <v-select
@@ -48,7 +48,7 @@
               clearable
               :disabled="fields_status"
               style="max-width: 400px;"
-              color="#7631FF"
+              color="#544B99"
             >
               <template #selection="{item, index}">
                 <v-img :src="item.icon" max-width="22" class="mr-4" contain/>
@@ -80,7 +80,7 @@
               height="44"
               :disabled="fields_status"
               style="max-width: 400px"
-              color="#7631FF"
+              color="#544B99"
             />
             <div class="label">{{ $t('userManagement.child.eMail') }}</div>
             <v-text-field
@@ -91,7 +91,7 @@
               height="44"
               :disabled="fields_status"
               style="max-width: 400px"
-              color="#7631FF"
+              color="#544B99"
             />
             <div class="label">{{ $t('userManagement.child.registeredDate') }}</div>
             <v-text-field
@@ -102,7 +102,7 @@
               height="44"
               disabled
               style="max-width: 400px"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col>
@@ -115,7 +115,7 @@
               height="44"
               :disabled="fields_status"
               style="max-width: 400px"
-              color="#7631FF"
+              color="#544B99"
             />
             <div class="label">{{ $t('userManagement.child.phoneNumber') }}</div>
             <v-text-field
@@ -125,7 +125,7 @@
               dense
               height="44"
               :disabled="fields_status"
-              color="#7631FF"
+              color="#544B99"
               style="max-width: 400px"
             />
             <div class="label">{{ $t('userManagement.child.status') }}</div>
@@ -170,7 +170,7 @@
       <v-card-actions>
         <v-spacer/>
         <v-btn
-          color="#7631FF"
+          color="#544B99"
           dark
           class="text-none font-weight-bold mx-3 mb-4 px-5"
           height="40"
@@ -178,7 +178,7 @@
         >{{ $t('userManagement.child.update') }}
         </v-btn>
         <v-btn
-          color="#7631FF"
+          color="#544B99"
           dark
           class="text-capitalize font-weight-bold mx-3 mb-4 px-5"
           height="40"
@@ -190,7 +190,7 @@
     <div class="loader" v-if="loader">
       <v-progress-circular
         indeterminate
-        color="#7631FF"
+        color="#544B99"
         class="progress"
       />
     </div>
@@ -375,6 +375,6 @@ export default {
 }
 
 .base-color {
-  color: #7631FF;
+  color: #544B99;
 }
 </style>

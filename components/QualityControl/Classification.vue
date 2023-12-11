@@ -61,7 +61,7 @@
           <v-btn
             icon
             @click="classification_dialog = !classification_dialog"
-            color="#7631FF"
+            color="#544B99"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -75,7 +75,7 @@
                 hide-details
                 dense
                 height="44"
-                class="rounded-lg base" color="#7631FF"
+                class="rounded-lg base" color="#544B99"
                 placeholder="Enter branch number"
                 v-model.trim="item.quantity"
               />
@@ -90,7 +90,7 @@
                 hide-details
                 dense
                 height="44"
-                class="rounded-lg base" color="#7631FF"
+                class="rounded-lg base" color="#544B99"
                 placeholder="Enter branch number"
               />
             </v-col>
@@ -102,7 +102,7 @@
                 hide-details
                 dense
                 height="44"
-                class="rounded-lg base" color="#7631FF"
+                class="rounded-lg base" color="#544B99"
                 placeholder="Enter branch number"
               />
             </v-col>
@@ -113,7 +113,7 @@
           <v-btn
             outlined
             class="rounded-lg text-capitalize font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             width="163" height="44"
             @click="classification_dialog = !classification_dialog"
             style="border-width: 2px"
@@ -122,7 +122,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold ml-8"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="163" height="44"
             @click="saveClassification"
           >

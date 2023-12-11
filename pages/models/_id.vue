@@ -11,7 +11,7 @@
           <v-btn
             outlined
             elevation="0"
-            color="#7631FF"
+            color="#544B99"
             class="text-capitalize rounded-lg mr-4 font-weight-bold"
             @click="redirectPrefinance"
           >
@@ -33,7 +33,7 @@
               dense
               style="max-width: 400px"
               :placeholder="$t('listsModels.child.enterModelNumber')"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -47,7 +47,7 @@
               dense
               style="max-width: 400px"
               :placeholder="$t('listsModels.child.modelName')"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -64,7 +64,7 @@
               append-icon="mdi-chevron-down"
               style="max-width: 400px"
               :placeholder="$t('listsModels.child.selectModelGroup')"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -82,7 +82,7 @@
               dense
               style="max-width: 400px"
               :placeholder="$t('listsModels.child.entermodelComposition')"
-              color="#7631FF"
+              color="#544B99"
               append-icon="mdi-chevron-down"
             />
           </v-col>
@@ -90,7 +90,7 @@
         <v-row :class="showObject">
           <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{$t('listsModels.child.partner')}}</div>
-            
+
             <v-combobox
                   v-model="model.partnerId"
                   :items="partner_enums"
@@ -102,7 +102,7 @@
                   height="44"
                   class="rounded-lg base"
                   :return-object="true"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                   placeholder="Enter partner name"
                   append-icon="mdi-chevron-down"
@@ -110,7 +110,7 @@
                   validate-on-blur
                   >
                   <template #append>
-                    <v-icon color="#7631FF">mdi-magnify</v-icon>
+                    <v-icon color="#544B99">mdi-magnify</v-icon>
                   </template>
                  </v-combobox>
           </v-col>
@@ -127,7 +127,7 @@
               append-icon="mdi-chevron-down"
               style="max-width: 400px"
               placeholder="Select brand name"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -145,7 +145,7 @@
               append-icon="mdi-chevron-down"
               style="max-width: 400px"
               :placeholder="$t('listsModels.child.selectSeason')"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -162,7 +162,7 @@
               append-icon="mdi-chevron-down"
               style="max-width: 400px"
               :placeholder="$t('listsModels.child.selectModelGroup')"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -177,7 +177,7 @@
               append-icon="mdi-chevron-down"
               style="max-width: 400px"
               :placeholder="$t('listsModels.child.selectGender')"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="6" md="6" sm="6">
@@ -191,7 +191,7 @@
               class="rounded-lg base"
               dense
               :placeholder="$t('listsModels.child.enterDescription')"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -228,7 +228,7 @@
               hide-details
               class="rounded-lg base mb-4"
               height="44"
-              color="#7631FF"
+              color="#544B99"
               dense
               placeholder="dd.MM.yyyy HH:mm:ss"
               disabled
@@ -246,7 +246,7 @@
               hide-details
               class="rounded-lg base mb-4"
               height="44"
-              color="#7631FF"
+              color="#544B99"
               dense
               placeholder="dd.MM.yyyy HH:mm:ss"
               disabled
@@ -260,7 +260,7 @@
             <v-spacer/>
             <v-btn
               v-if="modelStatus === 'Add'"
-              color="#7631FF"
+              color="#544B99"
               class="text-capitalize rounded-lg"
               width="130"
               height="44"
@@ -270,7 +270,7 @@
             </v-btn>
             <v-btn
               v-else
-              color="#7631FF"
+              color="#544B99"
               class="text-capitalize rounded-lg"
               width="130"
               height="44"
@@ -292,7 +292,7 @@
       <v-tabs
         v-model="tab"
       >
-        <v-tabs-slider color="#7631FF"/>
+        <v-tabs-slider color="#544B99"/>
         <v-tab
           class="text-capitalize"
           v-for="item in items"
@@ -538,7 +538,7 @@ export default {
   font-style: normal;
   font-weight: 500;
   line-height: 20px;
-  color: #7631FF;
+  color: #544B99;
 }
 
 .el-date-editor--datetime {

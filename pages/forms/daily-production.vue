@@ -61,7 +61,7 @@
             <v-btn
               width="140"
               outlined
-              color="#7631FF"
+              color="#544B99"
               elevation="0"
               class="text-capitalize mr-4 rounded-lg font-weight-bold"
               @click="resetFilter"
@@ -70,7 +70,7 @@
             </v-btn>
             <v-btn
               width="140"
-              color="#7631FF"
+              color="#544B99"
               dark
               elevation="0"
               class="text-capitalize rounded-lg font-weight-bold"
@@ -85,7 +85,7 @@
 
     <v-overlay v-model="isLoad" class="align-center justify-center">
       <v-progress-circular
-        color="#7631FF"
+        color="#544B99"
         indeterminate
         size="80"
       ></v-progress-circular>
@@ -106,19 +106,19 @@ export default {
       },
       isLoad: false,
 
-      
+
       modelNumSearch: "",
       pdfServe: "",
       partnerName:"",
     };
   },
   created() {
-    
+
   },
 
   computed: {
     ...mapGetters({
-      
+
       pdfList: "generatePdf/dailyProductionPdfList",
     }),
   },
@@ -137,14 +137,14 @@ export default {
       this.pdfServe=objectUrl
       this.isLoad = false;
     },
-   
+
   },
 
   methods: {
     ...mapActions({
-      
+
       getPdfList: "generatePdf/getDailyProductionPdfList",
-      
+
     }),
 
     resetFilter() {

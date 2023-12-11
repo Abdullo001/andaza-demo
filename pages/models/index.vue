@@ -40,14 +40,14 @@
               <div class="d-flex justify-end">
                 <v-btn
                   width="140" outlined
-                  color="#397CFD" elevation="0"
+                  color="#544B99" elevation="0"
                   class="text-capitalize mr-4 border-primary rounded-lg font-weight-bold"
                   @click.stop="resetFilter"
                 >
                   {{ $t('listsModels.dialog.reset') }}
                 </v-btn>
                 <v-btn
-                  width="140" color="#397CFD" dark
+                  width="140" color="#544B99" dark
                   elevation="0"
                   class="text-capitalize rounded-lg font-weight-bold"
                   @click="filterModel"
@@ -78,7 +78,7 @@
           <v-toolbar-title class="d-flex w-full align-center justify-space-between">
             <div>{{ $t('listsModels.dialog.models') }}</div>
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               dark class="text-capitalize rounded-lg"
               @click="addModel"
             >
@@ -102,10 +102,10 @@
         />
       </template>
       <template #item.actions="{item}">
-        <v-tooltip top color="#7631FF">
+        <v-tooltip top color="#544B99">
           <template v-slot:activator="{on, attrs}">
             <v-btn
-              icon color="#7631FF"
+              icon color="#544B99"
               v-on="on" v-bind="attrs"
               @click="viewDetails(item)"
             >

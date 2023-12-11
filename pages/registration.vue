@@ -16,7 +16,7 @@
             label="Company name"
             filled
             dense
-            color="#7631FF"
+            color="#544B99"
             placeholder="Enter Company name"
             class="mb-3"
             v-model="registration.companyName"
@@ -27,7 +27,7 @@
             label="Username"
             filled
             dense
-            color="#7631FF"
+            color="#544B99"
             placeholder="Enter Username or E-mail"
             class="mb-3"
             v-model="registration.userName"
@@ -38,7 +38,7 @@
             label="Phone number"
             filled
             dense
-            color="#7631FF"
+            color="#544B99"
             v-mask="'(##) ### ## ##'"
             prefix="+998"
             placeholder="(--) --- -- --"
@@ -48,11 +48,11 @@
           />
           <v-checkbox
             label="Remember me"
-            color="#7631FF"
+            color="#544B99"
             class="mt-0"
           />
           <v-btn
-            color="#7631FF"
+            color="#544B99"
             class="rounded-lg text-capitalize"
             block
             dark
@@ -62,7 +62,7 @@
           </div>
           <v-btn
             outlined
-            color="#7631FF"
+            color="#544B99"
             class="rounded-lg text-capitalize"
             block
             to="/login"

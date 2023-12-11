@@ -4,20 +4,20 @@
       item-key="calculation"
       :headers="headers"
       :items="items"
-      disable-pagination   
+      disable-pagination
       hide-default-footer
     >
       <template #top>
         <div class="pa-4 d-flex align-center justify-space-between">
           <div class="title">Given accessories quantity</div>
-          
+
         </div>
       </template>
       <template #item.actions="{item}">
         <div>
           <v-tooltip
             top
-            color="#7631FF"
+            color="#544B99"
             class="pointer"
             v-if="Object.keys(item).length > 2"
           >
@@ -26,7 +26,7 @@
                 icon
                 v-bind="attrs"
                 v-on="on"
-                color="#7631FF"
+                color="#544B99"
                 @click="getHistory(item)"
               >
                 <v-img src="/history.svg" max-width="22"/>
@@ -36,7 +36,7 @@
           </v-tooltip>
           <v-tooltip
             top
-            color="#7631FF"
+            color="#544B99"
             class="pointer"
             v-if="Object.keys(item).length > 2"
           >
@@ -45,7 +45,7 @@
                 icon
                 v-bind="attrs"
                 v-on="on"
-                color="#7631FF"
+                color="#544B99"
                 @click="returnDialog(item)"
               >
                 <v-img src="/rotate.svg" max-width="22"/>
@@ -64,7 +64,7 @@
           <v-spacer/>
           <v-btn
             icon
-            color="#7631FF"
+            color="#544B99"
             @click="return_dialog=false"
           >
             <v-icon>mdi-close</v-icon>
@@ -78,7 +78,7 @@
               hide-details
               dense
               height="44"
-              class="rounded-lg base" color="#7631FF"
+              class="rounded-lg base" color="#544B99"
               placeholder="Enter spin number"
               v-model.trim="selectedItem.name"
               readonly
@@ -92,7 +92,7 @@
                 hide-details
                 dense
                 height="44"
-                class="rounded-l-lg base" color="#7631FF"
+                class="rounded-l-lg base" color="#544B99"
                 placeholder="Enter returned fabric quantity"
                 v-model.trim="selectedItem.returnedQuantity"
                 :suffix="selectedItem.measurementUnit"
@@ -104,7 +104,7 @@
           <v-btn
             outlined
             class="rounded-lg text-capitalize font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             width="163" height="44"
             @click="return_dialog=false"
             style="border-width: 2px"
@@ -114,7 +114,7 @@
           <v-spacer/>
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold ml-8"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="163" height="44"
             @click="saveReturnAccessory"
           >
@@ -132,7 +132,7 @@
           <v-btn
             icon
             @click="history_dialog=false"
-            color="#7631FF"
+            color="#544B99"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -178,14 +178,14 @@ export default {
           align: 'start',
           value: 'givenQuantity'
         },
-        
+
         {
           text: 'Actions',
           sortable: false,
           align: 'start',
           value: 'actions'
         },
-       
+
       ],
       items: [],
       return_dialog:false,
@@ -243,13 +243,13 @@ export default {
           align: 'start',
           value: 'measurementUnit'
         },
-        
+
         {
           text: 'Actions',
           sortable: false,
           align: 'start',
           value: 'actions'
-        },      
+        },
       ]
       if(val[0]?.partner){
         this.headers.splice(3,0,
@@ -264,7 +264,7 @@ export default {
 
       this.items=JSON.parse(JSON.stringify(val))
     },
-    
+
   },
 
   methods:{

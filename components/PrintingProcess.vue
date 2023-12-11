@@ -8,11 +8,11 @@
       <template #top>
         <div class="title ma-4">Printing</div>
       </template>
-      
+
       <template #item.actions="{item}">
         <v-tooltip
           top
-          color="#7631FF"
+          color="#544B99"
           class="pointer"
           v-if="Object.keys(item).length > 2"
         >
@@ -21,7 +21,7 @@
               icon
               v-bind="attrs"
               v-on="on"
-              color="#7631FF"
+              color="#544B99"
               @click="getClassification(item)"
             >
               <v-img src="/t-shirt.svg" max-width="22"/>
@@ -32,7 +32,7 @@
 
         <v-tooltip
           top
-          color="#7631FF"
+          color="#544B99"
           class="pointer"
           v-if="Object.keys(item).length > 2"
         >
@@ -41,7 +41,7 @@
               icon
               v-bind="attrs"
               v-on="on"
-              color="#7631FF"
+              color="#544B99"
               @click="getHistory(item)"
             >
               <v-img src="/history.svg" max-width="22"/>
@@ -100,7 +100,7 @@
           <v-btn
             icon
             @click="classification_dialog=false"
-            color="#7631FF"
+            color="#544B99"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -114,7 +114,7 @@
                 hide-details
                 dense
                 height="44"
-                class="rounded-lg base" color="#7631FF"
+                class="rounded-lg base" color="#544B99"
                 placeholder="Enter branch number"
                 v-model.trim="item.quantity"
               />
@@ -129,7 +129,7 @@
                 hide-details
                 dense
                 height="44"
-                class="rounded-lg base" color="#7631FF"
+                class="rounded-lg base" color="#544B99"
                 placeholder="Enter branch number"
               />
             </v-col>
@@ -141,7 +141,7 @@
                 hide-details
                 dense
                 height="44"
-                class="rounded-lg base" color="#7631FF"
+                class="rounded-lg base" color="#544B99"
                 placeholder="Enter branch number"
               />
             </v-col>
@@ -152,7 +152,7 @@
           <v-btn
             outlined
             class="rounded-lg text-capitalize font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             width="163" height="44"
             @click="classification_dialog=false"
             style="border-width: 2px"
@@ -161,7 +161,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold ml-8"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="163" height="44"
             @click="saveShortcom"
           >
@@ -180,7 +180,7 @@
           <v-btn
             icon
             @click="history_dialog=false"
-            color="#7631FF"
+            color="#544B99"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -202,7 +202,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Edit printing info</div>
-          <v-btn icon color="#7631FF" @click="edit_dialog = false">
+          <v-btn icon color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -223,21 +223,21 @@
                   class="rounded-lg base "
                   validate-on-blur
                   dense
-                  color="#7631FF"   
+                  color="#544B99"
                 />
               </v-col>
-              
-              
-              
+
+
+
             </v-row>
           </v-form>
 
-          
+
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="130"
             @click="edit_dialog = false"
           >
@@ -245,12 +245,12 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="130"
             @click="save"
           >
             save
-          </v-btn> 
+          </v-btn>
         </v-card-actions>
         <v-divider></v-divider>
 
@@ -275,7 +275,7 @@
           </template>
           </v-data-table>
         </div>
-        
+
       </v-card>
     </v-dialog>
 
@@ -288,7 +288,7 @@
           Delete printing info
         </v-card-title>
         <v-card-text>
-          Are you sure you want to  Delete  printing info? 
+          Are you sure you want to  Delete  printing info?
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -318,7 +318,7 @@
 
 
 
-    
+
   </div>
 </template>
 
@@ -329,12 +329,12 @@ export default {
   name: 'CuttingComponent',
   data() {
     return {
-      table:"", 
+      table:"",
       edit_validate:true,
       return_dialog: false,
       headers: [
         {text: 'Color', sortable: false, align: 'start', value: 'color'},
-        
+
         {text: 'Printing total quantity', sortable: false, align: 'start', value: 'printingTotalQuantity'},
         {text: 'Print photo', sortable: false, align: 'start', value: 'printPhoto'},
         {text: 'Comment', sortable: false, align: 'end', value: 'comment'},
@@ -358,7 +358,7 @@ export default {
 
       historyList: [],
 
-      
+
       classificationEnums: ['DEFECT', 'PHOTO', 'PHOTO_SAMPLE', 'SAMPLE', 'LOST', 'OTHERS'],
 
     }
@@ -376,7 +376,7 @@ export default {
   watch:{
     ownList(list){
       this.headers= [
-        {text: 'Color', sortable: false, align: 'start', value: 'color'},  
+        {text: 'Color', sortable: false, align: 'start', value: 'color'},
       ],
 
       list[0]?.sizeDistributionList?.forEach((item) => {
@@ -438,7 +438,7 @@ export default {
       })
       this.historyList = JSON.parse(JSON.stringify(specialList))
     }
-    
+
   },
 
   methods: {
@@ -508,7 +508,7 @@ export default {
         this.editHistory(data)
       }
       this.edit_dialog=false
-      
+
     },
     deletePrinting(){
       this.deleteCommonProcess(this.selectedItem.id)
@@ -523,7 +523,7 @@ export default {
     },
 
 
-    
+
   },
   mounted(){
     this.getOwnList()
@@ -532,5 +532,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  
+
 </style>

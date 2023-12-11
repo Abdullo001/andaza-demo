@@ -116,10 +116,8 @@ export const actions = {
     }
     await this.$axios.$put('/api/v1/package-shape/list', body)
       .then(res => {
-        if (res.message === "Successfully") {
           commit('setPackageShape', res.data)
           commit("setLoading", false)
-        }
       })
       .catch(({response}) => {
         console.log(response)

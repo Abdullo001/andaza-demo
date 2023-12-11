@@ -24,7 +24,7 @@
     </template>
   </v-data-table>
 
-  
+
   <v-dialog v-model="classification_dialog" max-width="600">
     <v-card flat>
       <v-card-title>
@@ -33,7 +33,7 @@
         <v-btn
           icon
           @click="classification_dialog=false"
-          color="#7631FF"
+          color="#544B99"
         >
           <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -47,7 +47,7 @@
               hide-details
               dense
               height="44"
-              class="rounded-lg base" color="#7631FF"
+              class="rounded-lg base" color="#544B99"
               placeholder="Enter branch number"
               v-model.trim="classificationList['24']"
             />
@@ -59,7 +59,7 @@
               hide-details
               dense
               height="44"
-              class="rounded-lg base" color="#7631FF"
+              class="rounded-lg base" color="#544B99"
               placeholder="Enter branch number"
               v-model.trim="classificationList['26']"
             />
@@ -71,7 +71,7 @@
               hide-details
               dense
               height="44"
-              class="rounded-lg base" color="#7631FF"
+              class="rounded-lg base" color="#544B99"
               placeholder="Enter branch number"
               v-model.trim="classificationList['28']"
             />
@@ -83,7 +83,7 @@
               hide-details
               dense
               height="44"
-              class="rounded-lg base" color="#7631FF"
+              class="rounded-lg base" color="#544B99"
               placeholder="Enter branch number"
               v-model.trim="classificationList['30']"
             />
@@ -98,7 +98,7 @@
               hide-details
               dense
               height="44"
-              class="rounded-lg base" color="#7631FF"
+              class="rounded-lg base" color="#544B99"
               placeholder="Enter branch number"
             />
           </v-col>
@@ -110,7 +110,7 @@
               hide-details
               dense
               height="44"
-              class="rounded-lg base" color="#7631FF"
+              class="rounded-lg base" color="#544B99"
               placeholder="Enter branch number"
             />
           </v-col>
@@ -121,7 +121,7 @@
         <v-btn
           outlined
           class="rounded-lg text-capitalize font-weight-bold"
-          color="#7631FF"
+          color="#544B99"
           width="163" height="44"
           @click="classification_dialog=false"
           style="border-width: 2px"
@@ -130,7 +130,7 @@
         </v-btn>
         <v-btn
           class="rounded-lg text-capitalize font-weight-bold ml-8"
-          color="#7631FF" dark
+          color="#544B99" dark
           width="163" height="44"
         >
           Save
@@ -148,7 +148,7 @@
         <v-btn
           icon
           @click="history_dialog=false"
-          color="#7631FF"
+          color="#544B99"
         >
           <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -171,7 +171,7 @@
     <v-card>
       <v-card-title class="d-flex justify-space-between w-full">
         <div class="text-capitalize font-weight-bold">Edit sewing info</div>
-        <v-btn icon color="#7631FF" @click="edit_dialog = false">
+        <v-btn icon color="#544B99" @click="edit_dialog = false">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-card-title>
@@ -189,7 +189,7 @@
                 class="rounded-lg base "
                 validate-on-blur
                 dense
-                color="#7631FF"   
+                color="#544B99"
               />
             </v-col>
           </v-row>
@@ -199,7 +199,7 @@
       <v-card-actions class="d-flex justify-center pb-8">
         <v-btn
           class="rounded-lg text-capitalize font-weight-bold"
-          outlined color="#7631FF"
+          outlined color="#544B99"
           width="130"
           @click="edit_dialog = false"
         >
@@ -207,14 +207,14 @@
         </v-btn>
         <v-btn
           class="rounded-lg text-capitalize ml-4 font-weight-bold"
-          color="#7631FF" dark
+          color="#544B99" dark
           width="130"
           @click="save"
         >
           save
         </v-btn>
       </v-card-actions>
-      
+
       <v-divider></v-divider>
 
         <div class="px-4 pb-4">
@@ -242,7 +242,7 @@
         Delete sewing info
       </v-card-title>
       <v-card-text>
-        Are you sure you want to  Delete  sewing info? 
+        Are you sure you want to  Delete  sewing info?
       </v-card-text>
       <v-card-actions class="px-16">
         <v-btn
@@ -282,7 +282,7 @@ export default {
         {text: '28', sortable: false, align: 'start', value: '28'},
         {text: '30', sortable: false, align: 'start', value: '30'},
         {text: 'Produced total', sortable: false, align: 'start', value: 'producedTotal'},
-        {text: 'Actions', sortable: false, align: 'start', value: 'actions'},        
+        {text: 'Actions', sortable: false, align: 'start', value: 'actions'},
       ],
       items:[
         {
@@ -313,7 +313,7 @@ export default {
       edit_dialog:false,
       edit_validate:true,
 
-      
+
       history_dialog:false,
       classification_dialog:false,
 
@@ -391,9 +391,9 @@ export default {
 
     },
   }
-  
+
 }
 </script>
 <style lang="">
-  
+
 </style>

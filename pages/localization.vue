@@ -17,7 +17,7 @@
               dense
               clearable
               @keyup.enter="filterLocalize"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" class="py-0">
@@ -30,7 +30,7 @@
               dense
               clearable
               @keyup.enter="filterLocalize"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-spacer/>
@@ -38,14 +38,14 @@
             <div class="d-flex justify-end">
               <v-btn
                 width="140" outlined
-                color="#397CFD" elevation="0"
+                color="#544B99" elevation="0"
                 class="text-capitalize mr-4 rounded-lg"
                 @click="resetFilters"
               >
                 {{ $t('localization.dialog.reset') }}
               </v-btn>
               <v-btn
-                width="140" color="#397CFD" dark
+                width="140" color="#544B99" dark
                 elevation="0"
                 class="text-capitalize rounded-lg"
                 @click="filterLocalize"
@@ -78,7 +78,7 @@
             <v-toolbar-title class="d-flex justify-space-between align-center w-full">
               <div>{{ $t('localization.dialog.localization') }}</div>
               <v-btn
-                color="#7631FF" elevation="0"
+                color="#544B99" elevation="0"
                 class="rounded-lg text-capitalize"
                 dark @click="new_dialog = true"
               >
@@ -102,7 +102,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">{{ $t('localization.dialog.addLocalization') }}</div>
-          <v-btn icon color="#7631FF" @click="new_dialog = false">
+          <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -111,7 +111,7 @@
             <div class="label">{{ $t('localization.dialog.key') }}</div>
             <v-text-field
               outlined
-              color="#7631FF"
+              color="#544B99"
               class="rounded-lg base"
               height="44"
               :placeholder="$t('localization.dialog.placeholderKey')"
@@ -124,7 +124,7 @@
               rows="2"
               auto-grow
               outlined
-              color="#7631FF"
+              color="#544B99"
               class="rounded-lg base"
               :placeholder="$t('localization.dialog.messageContent')"
               v-model="new_localization.messageUz"
@@ -136,7 +136,7 @@
               rows="2"
               auto-grow
               outlined
-              color="#7631FF"
+              color="#544B99"
               class="rounded-lg base"
               :placeholder="$t('localization.dialog.messageContent')"
               v-model="new_localization.messageRu"
@@ -148,7 +148,7 @@
               rows="2"
               auto-grow
               outlined
-              color="#7631FF"
+              color="#544B99"
               class="rounded-lg base"
               :placeholder="$t('localization.dialog.messageContent')"
               v-model="new_localization.messageEn"
@@ -160,7 +160,7 @@
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="163"
             @click="new_dialog = false"
           >
@@ -168,7 +168,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="163"
             @click="newLocalization"
           >
@@ -181,7 +181,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">{{ $t('localization.dialog.editLocalization') }}</div>
-          <v-btn icon color="#7631FF" @click="edit_dialog = false">
+          <v-btn icon color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -191,7 +191,7 @@
             <v-text-field
               height="44px"
               outlined
-              color="#7631FF"
+              color="#544B99"
               class="rounded-lg base"
               :placeholder="$t('localization.dialog.key')"
               v-model="edit_localization.key"
@@ -202,7 +202,7 @@
             <v-text-field
               height="44px"
               outlined
-              color="#7631FF"
+              color="#544B99"
               class="rounded-lg base"
               :placeholder="$t('localization.dialog.messageContent')"
               v-model="edit_localization.lang"
@@ -212,7 +212,7 @@
             <div class="label">{{ $t('localization.dialog.message') }}</div>
             <v-textarea
               outlined
-              color="#7631FF"
+              color="#544B99"
               class="rounded-lg base"
               :placeholder="$t('localization.dialog.messageContent')"
               v-model="edit_localization.message"
@@ -224,7 +224,7 @@
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="163"
             @click="edit_dialog = false"
           >
@@ -232,7 +232,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="163"
             @click="saveLocalization"
           >

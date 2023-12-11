@@ -14,7 +14,7 @@
             <v-spacer/>
             <v-btn
               class="rounded-lg text-capitalize"
-              color="#7631FF"
+              color="#544B99"
               width="160" height="36"
               @click="newDialog"
               dark
@@ -42,7 +42,7 @@
         <v-card-title>
           <div class="title">{{ dialogTitle }} model parts</div>
           <v-spacer/>
-          <v-btn icon color="#7631FF" @click="partsDialog=false">
+          <v-btn icon color="#544B99" @click="partsDialog=false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -61,13 +61,13 @@
                   height="44"
                   class="rounded-lg base d-flex align-center justify-center"
                   :return-object="true"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                   placeholder="Enter body part"
                   prepend-icon=""
                 >
                   <template #append>
-                    <v-icon class="d-inline-block" color="#7631FF">
+                    <v-icon class="d-inline-block" color="#544B99">
                       mdi-magnify
                     </v-icon>
                   </template>
@@ -85,7 +85,7 @@
                 hide-details
                 height="44"
                 class="rounded-lg base"  dense
-                color="#7631FF"
+                color="#544B99"
                 append-icon="mdi-chevron-down"
               />
             </v-col>
@@ -101,7 +101,7 @@
                 hide-details
                 height="44"
                 class="rounded-lg base"  dense
-                color="#7631FF"
+                color="#544B99"
                 append-icon="mdi-chevron-down"
               />
             </v-col>
@@ -118,7 +118,7 @@
                 hide-details
                 height="44"
                 class="rounded-lg base"  dense
-                color="#7631FF"
+                color="#544B99"
                 append-icon="mdi-chevron-down"
               />
             </v-col>
@@ -132,7 +132,7 @@
                 height="44"
                 class="rounded-lg base"
                 dense
-                color="#7631FF"
+                color="#544B99"
                 suffix="gr/m2"
               />
             </v-col>
@@ -145,7 +145,7 @@
                 hide-details
                 class="rounded-lg base"
                 dense
-                color="#7631FF"
+                color="#544B99"
               />
             </v-col>
           </v-row>
@@ -154,7 +154,7 @@
           <v-spacer/>
           <v-btn
             class="font-weight-bold text-capitalize rounded-lg border"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="140" height="40"
             @click="partsDialog=false"
           >
@@ -162,7 +162,7 @@
           </v-btn>
           <v-btn
             class="font-weight-bold text-capitalize rounded-lg ml-4"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="140" height="40"
             @click="saveModelParts"
             v-if="dialogTitle === 'Add'"
@@ -172,7 +172,7 @@
           <v-btn
             v-else
             class="font-weight-bold text-capitalize rounded-lg ml-4"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="140" height="40"
             @click="updateParts"
           >

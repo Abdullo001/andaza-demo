@@ -98,7 +98,7 @@ export const actions = {
       console.log(res);
     })
   },
-  
+
 
   searchAccessory({commit},{orderId,modelId}){
     this.$axios.get(`/api/v1/accessory-warehouse/search-orders?orderId=${orderId}&modelId=${modelId}`)
@@ -146,6 +146,16 @@ export const actions = {
       console.log(response);
       this.$toast.error(response.data.message);
 
+    })
+  },
+
+  giveToAccessoryStock({dispatch}, {warehouseId, orderId, modelId}) {
+    this.$axios.post(`/api/v1/accessory-warehouse/create-stock?id=${warehouseId}`).then((res) => {
+      this.$toast.success(res.data.message);
+      dispatch('searchAccessory', {orderId, modelId})
+    }).catch(({response}) => {
+      console.log(response);
+      this.$toast.error(response.data.message);
     })
   },
 

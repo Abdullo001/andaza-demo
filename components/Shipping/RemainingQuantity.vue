@@ -5,11 +5,11 @@
         class="d-flex w-full align-center justify-space-between "
       >
         <div>Remaining quantity for dom.market</div>
-        
+
         <v-btn
-              
+
               elevation="0"
-              color="#7631FF"
+              color="#544B99"
               class="text-capitalize rounded-lg "
               width="130"
               height="44"
@@ -20,10 +20,10 @@
       </v-toolbar-title>
     </v-toolbar>
 
-    <table 
-      border="1px solid #E9EAEB" 
-      cellspacing="0" 
-      
+    <table
+      border="1px solid #E9EAEB"
+      cellspacing="0"
+
     >
       <thead>
         <tr>
@@ -49,10 +49,10 @@
                 />
           </td>
           <td  v-if="idx<=0" :rowspan="tableRow.length">50</td>
-         
+
 
         </tr>
-        
+
       </tbody>
 
       <tfoot>
@@ -65,20 +65,20 @@
                 hide-details
                 placeholder="0.0"
                 flat
-                class="pa-0 ma-0 table-field" 
+                class="pa-0 ma-0 table-field"
                 readonly
                 />
           </td>
-          
+
           <td>
             <v-btn
               outlined
               elevation="0"
-              color="#7631FF"
+              color="#544B99"
               class="text-capitalize rounded-lg font-weight-bold"
               width="130"
               height="44"
-              
+
             >
           Save
         </v-btn>
@@ -122,7 +122,7 @@ export default {
     th,td{
       padding:0 16px;
       color: #1D2433;
-      
+
     }
 
     thead{

@@ -31,7 +31,7 @@
               <v-btn
                 width="140"
                 outlined
-                color="#397CFD"
+                color="#544B99"
                 elevation="0"
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
@@ -40,7 +40,7 @@
               </v-btn>
               <v-btn
                 width="140"
-                color="#397CFD"
+                color="#544B99"
                 dark
                 elevation="0"
                 class="text-capitalize rounded-lg"
@@ -73,7 +73,7 @@
           >
             <div>Accessory warehouse</div>
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               outlined
               class="text-capitalize rounded-lg mr-2"
               @click="$router.push(`/accessory-warehouse/accessory-stock`)"
@@ -135,7 +135,6 @@ export default {
           value: "plannedAt",
           sortable: false,
         },
-        
         {
           text: "",
           value: "data-table-expand",

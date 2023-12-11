@@ -31,7 +31,7 @@
                           :disabled="eventEditBtn"
                           v-model="shipping.invoiceNumber"
                           class="rounded-lg base mb-4"
-                          color="#7631FF"
+                          color="#544B99"
                           dense
                           height="44"
                           hide-details
@@ -71,14 +71,14 @@
                         height="44"
                         class="rounded-lg base"
                         :return-object="true"
-                        color="#7631FF"
+                        color="#544B99"
                         dense
                         placeholder="Enter partner name"
                         append-icon="mdi-chevron-down"
                         validate-on-blur
                       >
                         <template #append>
-                          <v-icon color="#7631FF">mdi-magnify</v-icon>
+                          <v-icon color="#544B99">mdi-magnify</v-icon>
                         </template>
                       </v-combobox>
                 </v-col>
@@ -87,7 +87,7 @@
                   <v-text-field
                     :disabled="eventEditBtn"
                     class="rounded-lg base mb-4"
-                    color="#7631FF"
+                    color="#544B99"
                     dense
                     :value="shipping.buyerId?.address"
                     height="44"
@@ -105,7 +105,7 @@
                   <v-text-field
                     :disabled="eventEditBtn"
                     class="rounded-lg base mb-4"
-                    color="#7631FF"
+                    color="#544B99"
                     dense
                     :value="shipping.buyerId.contractNumber"
                     height="44"
@@ -148,14 +148,14 @@
                         height="44"
                         class="rounded-lg base"
                         :return-object="true"
-                        color="#7631FF"
+                        color="#544B99"
                         dense
                         placeholder="Select the seller name"
                         append-icon="mdi-chevron-down"
                         validate-on-blur
                       >
                       <template #append>
-                        <v-icon color="#7631FF">mdi-magnify</v-icon>
+                        <v-icon color="#544B99">mdi-magnify</v-icon>
                       </template>
                   </v-combobox>
                 </v-col>
@@ -164,7 +164,7 @@
                       <v-text-field
                           :disabled="eventEditBtn"
                           class="rounded-lg base mb-4"
-                          color="#7631FF"
+                          color="#544B99"
                           dense
                           disabled
                           :value="shipping.sellerId?.address"
@@ -190,14 +190,14 @@
                       height="44"
                       class="rounded-lg base"
                       :return-object="true"
-                      color="#7631FF"
+                      color="#544B99"
                       dense
                       placeholder="Select the sender company"
                       append-icon="mdi-chevron-down"
                       validate-on-blur
                     >
                       <template #append>
-                        <v-icon color="#7631FF">mdi-magnify</v-icon>
+                        <v-icon color="#544B99">mdi-magnify</v-icon>
                       </template>
                     </v-combobox>
                   </v-col>
@@ -206,7 +206,7 @@
                       <v-text-field
                           :disabled="eventEditBtn"
                           class="rounded-lg base mb-4"
-                          color="#7631FF"
+                          color="#544B99"
                           dense
                           disabled
                           :value="shipping.senderId?.address"
@@ -232,14 +232,14 @@
                         height="44"
                         class="rounded-lg base"
                         :return-object="true"
-                        color="#7631FF"
+                        color="#544B99"
                         dense
                         placeholder="Select the receiver name"
                         append-icon="mdi-chevron-down"
                         validate-on-blur
                       >
                         <template #append>
-                          <v-icon color="#7631FF">mdi-magnify</v-icon>
+                          <v-icon color="#544B99">mdi-magnify</v-icon>
                         </template>
                       </v-combobox>
                   </v-col>
@@ -248,7 +248,7 @@
                       <v-text-field
                         :disabled="eventEditBtn"
                           class="rounded-lg base mb-4"
-                          color="#7631FF"
+                          color="#544B99"
                           dense
                           disabled
                           :value="shipping.receiverId?.address"
@@ -274,14 +274,14 @@
                         height="44"
                         class="rounded-lg base"
                         :return-object="true"
-                        color="#7631FF"
+                        color="#544B99"
                         dense
                         placeholder="Select the country of origin"
                         append-icon="mdi-chevron-down"
                         validate-on-blur
                       >
                         <template #append>
-                          <v-icon color="#7631FF">mdi-magnify</v-icon>
+                          <v-icon color="#544B99">mdi-magnify</v-icon>
                         </template>
                       </v-combobox>
                 </v-col>
@@ -300,14 +300,14 @@
                       height="44"
                       class="rounded-lg base"
                       :return-object="true"
-                      color="#7631FF"
+                      color="#544B99"
                       dense
                       placeholder="Select the manufacturer name"
                       append-icon="mdi-chevron-down"
                       validate-on-blur
                     >
                       <template #append>
-                        <v-icon color="#7631FF">mdi-magnify</v-icon>
+                        <v-icon color="#544B99">mdi-magnify</v-icon>
                       </template>
                     </v-combobox>
                   </v-col>
@@ -315,7 +315,7 @@
                       <v-btn
                           v-if="shippingStatus === 'Add'"
                           class="text-capitalize rounded-lg"
-                          color="#7631FF"
+                          color="#544B99"
                           dark
                           height="44"
                           width="130"
@@ -326,7 +326,7 @@
                       <v-btn
                         v-else
                         class="text-capitalize rounded-lg"
-                        color="#7631FF"
+                        color="#544B99"
                         dark
                         height="44"
                         width="130"
@@ -350,7 +350,7 @@
 
     <v-card class="mt-6 mb-8" flat>
       <v-tabs v-model="tab">
-        <v-tabs-slider color="#7631FF"/>
+        <v-tabs-slider color="#544B99"/>
         <v-tab
           class="text-capitalize primary-color"
           v-for="item in items"
@@ -541,7 +541,7 @@ export default {
   font-style: normal;
   font-weight: 500;
   line-height: 20px;
-  color: #7631ff;
+  color: #544b99;
 }
 .show_active {
   height: 0;

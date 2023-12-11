@@ -127,7 +127,7 @@
       <v-card-actions>
         <v-spacer/>
         <v-btn
-          color="#7631FF"
+          color="#544B99"
           dark
           class="text-capitalize font-weight-medium mx-3 mb-4"
           width="150"
@@ -236,6 +236,6 @@ export default {
 }
 
 .base-color {
-  color: #7631FF;
+  color: #544B99;
 }
 </style>

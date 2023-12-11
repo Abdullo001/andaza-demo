@@ -26,7 +26,7 @@
                 hide-details
                 class="rounded-lg base"
                 dense
-                color="#7631FF"
+                color="#544B99"
                 placeholder="Enter permission name"
                 :rules="[formRules.required]"
                 validate-on-blur
@@ -42,7 +42,7 @@
                 hide-details
                 class="rounded-lg base"
                 dense
-                color="#7631FF"
+                color="#544B99"
                 placeholder="Enter permission name"
                 :rules="[formRules.required]"
                 validate-on-blur
@@ -60,7 +60,7 @@
                 dense
                 rows="1"
                 auto-grow
-                color="#7631FF"
+                color="#544B99"
                 placeholder="Enter permission description"
                 :rules="[formRules.required]"
                 validate-on-blur
@@ -76,7 +76,7 @@
                 hide-details
                 class="rounded-lg base"
                 dense
-                color="#7631FF"
+                color="#544B99"
                 placeholder="Enter permission path"
                 :rules="[formRules.required]"
                 validate-on-blur
@@ -94,7 +94,7 @@
                 hide-details
                 class="rounded-lg base"
                 append-icon="mdi-chevron-down"
-                color="#7631FF"
+                color="#544B99"
                 validate-on-blur
               >
               </v-select>
