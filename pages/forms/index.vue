@@ -118,7 +118,7 @@ export default {
           title: "Production list",
           subtitle: "Production information related to all models of one client",
           status:"PRODUCTION",
-          to: "/forms/print-pdf-generation",
+          to: "/forms/production-list",
         },
         {
           title: "Production status",
