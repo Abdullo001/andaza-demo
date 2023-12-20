@@ -101,6 +101,8 @@ export default (context, inject) => {
                 return 'amber'
               case 'FABRIC_GENERATED':
                 return '#6df291'
+              case 'RECEIVED':
+                return '#607274'
             }
           },
           shippingStatusColor(color){
