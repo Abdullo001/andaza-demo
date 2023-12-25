@@ -118,7 +118,7 @@ export default {
   name: "AccessoryOrderPages",
   data() {
     return {
-      status_enums: ["ORDERED", "CANCELLED", "PENDING"],
+      status_enums: ["ORDERED","RECEIVED", "CANCELLED", "PENDING"],
 
       headers: [
         { text: "", value: "isOrdered", sortable: false },
