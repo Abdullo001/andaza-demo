@@ -1,5 +1,5 @@
 export const state = () => ({
-    packingList: []
+  packingList: []
 })
 
 export const getters = {
@@ -21,6 +21,14 @@ export const actions = {
       .catch(({response}) => {
       })
   },
+  postGenerateInvoice({dispatch}, {data, id}){
+    this.$axios.$post('/api/v1/invoice/generate-invoice', data).then(res => {
+      dispatch("getPackingList", id)
+      this.$toast.success(res.message, {theme: 'toasted-primary'});
+    }).catch(res => {
+      this.$toast.error(res.data.message, {theme: 'toasted-primary'})
+    })
+  },
   async updatePackingList({commit, dispatch}, {data, id}) {
     this.$axios.$put('/api/v1/packaging-list/update', data)
       .then(res => {
@@ -34,7 +42,7 @@ export const actions = {
     this.$axios.$put('/api/v1/packaging-list-item/set-box-quantity', data)
       .then(res => {
         dispatch("getPackingList",id)
-        this.$toast.success(res.message, {theme: 'toasted-primary'});
+        this.$toast.success(res.message, {theme: 'toasted-primary'})
       }).catch(({response}) => {
       this.$toast.error(response.data.message, {theme: 'toasted-primary'})
     })
