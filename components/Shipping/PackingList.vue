@@ -1,29 +1,37 @@
-<template>
+<template >
   <div>
     <v-toolbar elevation="0">
       <v-toolbar-title
-        class="d-flex w-full "
+        class="d-flex w-full"
       >
         <div>Packing list</div>
-
       </v-toolbar-title>
     </v-toolbar>
-    <template v-for="(group, groupIndex) in allList">
-      <table  cellspacing="0">
-        <thead>
-          <tr  class="text-center" >
+    <template  v-for="(group, groupIndex) in allList">
+      <div class="d-flex" :key="groupIndex" id="products-table">
+        <template class="d-flex align-start">
+          <v-simple-checkbox
+            color="#544B99"
+            v-model="group.isGenerated"
+            :disabled="group.isChecked"
+            @click="isGeneratedFunc(group)"
+          ></v-simple-checkbox>
+        </template>
+        <table cellspacing="0">
+          <thead>
+          <tr class="text-center">
             <th>Order No.</th>
             <th>NO.</th>
             <th>Model No.</th>
             <th>Main color</th>
             <template v-for="(item, idx) in group.itemResponseList">
-              <th v-if="idx === 0" v-for="size in item.sizeDistributions">
-                {{size.size}}
+              <th v-if="idx === 0" v-for="(size, sizeIdx) in item.sizeDistributions" :key="sizeIdx">
+                {{ size.size }}
               </th>
             </template>
             <th>Total</th>
             <th width="100px">Box quantity</th>
-            <th>Box size(m)</th>
+            <th>{{ $t('sidebar.boxSize') }}(m)</th>
             <th>1 Box weight(kg)</th>
             <th>Gross weight(Kg.)</th>
             <th>CBM m3</th>
@@ -32,79 +40,89 @@
             <th>Marking</th>
             <th>Action</th>
           </tr>
-        </thead>
-        <tbody >
-        <template v-for="(item,idx) in group.itemResponseList">
-          <tr>
-            <th v-if="idx === 0" colspan="4">1pc Net weight (Kg.)</th>
-            <td v-if="idx === 0" :colspan="idx" v-for="sizeItem in group.sizeWeightDistributions">{{sizeItem.value}}</td>
-          </tr>
-          <tr class="text-center">
-            <td v-if="idx === 0" :rowspan="idx">{{group.orderNumber}}</td>
-            <td>{{idx + 1}}</td>
-            <td v-if="idx === 0" :rowspan="idx">{{group.modelNumber}}</td>
-            <td>{{item.color}}</td>
-            <td v-for="size in item.sizeDistributions">
-              {{size.quantity}}
-            </td>
-            <th>{{item.total}}</th>
-            <td>
-              <template>
-                <v-text-field
-                  @keyup.enter="setQueueFunc(item)"
-                  outlined
-                  hide-details
-                  style="font-size: 10px"
-                  v-model.number="item.boxQuantity"
-                  class="rounded-lg base my-2" dense
-                  :rules="[formRules.required]"
-                  validate-on-blur
-                  color="#544B99"
-                />
-              </template>
-            </td>
-            <td v-if="idx === 0" :rowspan="idx">
-              <div class="tdBgColor rounded-lg base my-2">
-                {{group.boxSize}}
-              </div>
-            </td>
-            <td v-if="idx === 0" :rowspan="idx">{{group.weightPerBox}}</td>
-            <td v-if="idx === 0" :rowspan="idx">{{group.grossWeight === "NaN" ? 0  : group.grossWeight }}</td>
-            <td v-if="idx === 0" :rowspan="idx">{{group.cbmM3}}</td>
-            <td v-if="idx === 0" :rowspan="idx">{{group.packagingListNumber}}</td>
-            <td v-if="idx === 0" :rowspan="idx">{{group.packagingListDate}}</td>
-            <td v-if="idx === 0" :rowspan="idx">{{group.marking}}</td>
-            <td v-if="idx === 0" :rowspan="idx">
-              <template>
-                <div class="d-flex">
-                  <v-btn icon color="green" @click="editItem(group)">
-                    <v-img src="/edit-active.svg" max-width="22" />
-                  </v-btn>
+          </thead>
+          <tbody>
+          <template v-for="(item,idx) in group.itemResponseList">
+            <tr :key="idx">
+              <th v-if="idx === 0" colspan="4">1pc Net weight (Kg.)</th>
+              <td v-if="idx === 0" :colspan="idx" v-for="(sizeItem, sizeItemIdx) in group.sizeWeightDistributions"
+                  :key="sizeItemIdx">{{ sizeItem.value }}
+              </td>
+            </tr>
+            <tr class="text-center">
+              <td v-if="idx === 0" :rowspan="idx">{{ group.orderNumber }}</td>
+              <td>{{ idx + 1 }}</td>
+              <td v-if="idx === 0" :rowspan="idx">{{ group.modelNumber }}</td>
+              <td>{{ item.color }}</td>
+              <td v-for="(size, sizeIdx) in item.sizeDistributions" :key="sizeIdx">
+                {{ size.quantity }}
+              </td>
+              <th>{{ item.total }}</th>
+              <td>
+                <template>
+                  <v-text-field
+                    @keyup.enter="setQueueFunc(item)"
+                    outlined
+                    hide-details
+                    style="font-size: 10px; width: 60px"
+                    v-model.number="item.boxQuantity"
+                    class="rounded-lg base my-2"
+                    dense
+                    :disabled="group.isChecked"
+                    :rules="[formRules.required]"
+                    validate-on-blur
+                    color="#544B99"
+                  />
+                </template>
+              </td>
+              <td v-if="idx === 0" :rowspan="idx">
+                <div class="tdBgColor rounded-lg base my-2">
+                  {{ group.boxSize }}
                 </div>
-              </template>
-            </td>
-          </tr>
-        </template>
-        </tbody>
-        <tfoot>
-        <template v-for="(item,idx) in group.itemResponseList">
-          <tr>
-            <td v-if="idx === 0" colspan="4" ></td>
-            <td v-if="idx === 0" :colspan="idx" v-for="totalDistribution in group.totalSizeDistribution">{{totalDistribution}}</td>
-            <th v-if="idx === 0">{{group.totalDistribution}}</th>
-            <th v-if="idx === 0">{{group.totalBoxQuantity}}</th>
-            <th v-if="idx === 0" colspan="8"></th>
-          </tr>
-          <tr>
-            <th  v-if="idx === 0" colspan="4">Net weight (Kg.)</th>
-            <th v-if="idx === 0" v-for="totalNetWeight in group.netWeight">{{totalNetWeight}}</th>
-            <th v-if="idx === 0">{{group.totalNetWeight}}</th>
-            <th v-if="idx === 0"></th>
-            <th v-if="idx === 0" colspan="8"></th>
-          </tr>
-        </template>
-        </tfoot>
-      </table>
+              </td>
+              <td v-if="idx === 0" :rowspan="idx">{{ group.weightPerBox }}</td>
+              <td v-if="idx === 0" :rowspan="idx">{{ group.grossWeight === "NaN" ? 0 : group.grossWeight }}</td>
+              <td v-if="idx === 0" :rowspan="idx">{{ group.cbmM3 }}</td>
+              <td v-if="idx === 0" :rowspan="idx">{{ group.packingListNumber }}</td>
+              <td v-if="idx === 0" :rowspan="idx">{{ group.packingListDate }}</td>
+              <td v-if="idx === 0" :rowspan="idx">{{ group.marking }}</td>
+              <td v-if="idx === 0" :rowspan="idx">
+                <template>
+                  <div class="d-flex">
+                    <v-btn :disabled="group.isChecked" icon color="green" @click="editItem(group)">
+                      <v-img src="/edit-active.svg" max-width="22"/>
+                    </v-btn>
+                  </div>
+                </template>
+              </td>
+            </tr>
+          </template>
+          </tbody>
+          <tfoot>
+          <template v-for="(item,idx) in group.itemResponseList">
+            <tr :key="idx">
+              <td v-if="idx === 0" colspan="4"></td>
+              <td v-if="idx === 0" :colspan="idx"
+                  v-for="(totalDistribution, totalDistributionIdx) in group.totalSizeDistribution"
+                  :key="totalDistributionIdx">{{ totalDistribution }}
+              </td>
+              <th v-if="idx === 0">{{ group.totalDistribution }}</th>
+              <th v-if="idx === 0">{{ group.totalBoxQuantity }}</th>
+              <th v-if="idx === 0" colspan="8"></th>
+            </tr>
+            <tr>
+              <th v-if="idx === 0" colspan="4">Net weight (Kg.)</th>
+              <th v-if="idx === 0" v-for="(totalNetWeight, totalNetWeightIdx) in group.netWeight"
+                  :key="totalNetWeightIdx">{{ totalNetWeight }}
+              </th>
+              <th v-if="idx === 0">{{ group.totalNetWeight }}</th>
+              <th v-if="idx === 0"></th>
+              <th v-if="idx === 0" colspan="8"></th>
+            </tr>
+          </template>
+          </tfoot>
+        </table>
+      </div>
     </template>
     <v-dialog v-model="new_dialog" width="580">
       <v-card>
@@ -134,7 +152,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">Box size/m</div>
+                <div class="label">{{ $t('sidebar.boxSize') }}/m</div>
                 <v-select
                   :items="boxSizeList"
                   dense
@@ -233,7 +251,7 @@
             width="163"
             @click="new_dialog = false"
           >
-            cancel
+            {{ $t('cancel') }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -242,16 +260,29 @@
             width="163"
             @click="savePackingList"
           >
-            save
+            {{ $t('save') }}
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <div class="d-flex my-6 ">
+      <v-spacer/>
+      <v-btn
+        class="text-capitalize rounded-lg font-weight-bold mr-4 py-1 px-6"
+        color="#544B99"
+        outlined
+        height="44"
+        @click="generateInvoice"
+      >
+        Generate Invoice
+      </v-btn>
+    </div>
   </div>
 </template>
 <script>
 import {mapActions, mapGetters} from "vuex";
 import colorSizeDistribution from "@/components/ColorSizeDistribution.vue";
+
 export default {
   data() {
     return {
@@ -262,6 +293,10 @@ export default {
       title: false,
       selectedItem: {},
       cbm: "",
+      shippingId: null,
+      generate: false,
+      isGeneratedItem: [],
+      generatedItem: [],
       selectedPackingList: {
         boxSizeId: null,
         grossWeight: "",
@@ -272,70 +307,71 @@ export default {
         sizeWeightDistributions: [],
         weightPerBox: ""
       },
-      allList:[],
+      allList: [],
       updateSizess: [],
       totalBoxQuantity: "",
       totalGroupTotal: ""
     }
   },
   async created() {
-    await this.getBoxSizeList({ page: 0, size: 100 });
+    await this.getBoxSizeList({page: 0, size: 100});
   },
   watch: {
-    "selectedPackingList.boxSizeId"(id){
+    "selectedPackingList.boxSizeId"(id) {
       this.boxSizeList.forEach(el => {
-        if(id === el.id) {
+        if (id === el.id) {
           this.cbm = el.cbm;
         }
       })
     },
-      packingList(list){
-        const specialList = list.map((el) => {
-          let netWeight={};
-          let totalNetWeight=0;
-          const valueSizes = {};
-          let totalDistribution=0;
-          let totalBoxQuantity=0;
-          let grossWeight=0;
+    packingList(list) {
+      const specialList = list.map((el) => {
+        let netWeight = {};
+        let totalNetWeight = 0;
+        const valueSizes = {};
+        let totalDistribution = 0;
+        let totalBoxQuantity = 0;
+        let grossWeight = 0;
 
-          for (let item in el.itemResponseList) {
-            totalDistribution+=el.itemResponseList[item].total
-            totalBoxQuantity+=el.itemResponseList[item]?.boxQuantity
-            for (let id in el.itemResponseList[item]?.sizeDistributions) {
-              const size=el.itemResponseList[item]?.sizeDistributions[id]
-              !!valueSizes[size.size]
-                ? (valueSizes[size.size]=valueSizes[size.size])
-                : (valueSizes[size.size]=0)
-              valueSizes[size.size]+=size.quantity
-            }
+        for (let item in el.itemResponseList) {
+          totalDistribution += el.itemResponseList[item].total
+          totalBoxQuantity += el.itemResponseList[item]?.boxQuantity
+          for (let id in el.itemResponseList[item]?.sizeDistributions) {
+            const size = el.itemResponseList[item]?.sizeDistributions[id]
+            !!valueSizes[size.size]
+              ? (valueSizes[size.size] = valueSizes[size.size])
+              : (valueSizes[size.size] = 0)
+            valueSizes[size.size] += size.quantity
           }
+        }
 
-          for (let item in el?.sizeWeightDistributions) {
-            const size = el?.sizeWeightDistributions[item]
-            !!netWeight[size.size]
-              ? netWeight[size.size]=netWeight[size.size]
-              : netWeight[size.size]=0
-            netWeight[size.size] = parseFloat(
-              (size.value * valueSizes[size.size]).toFixed(3)
-            );
-            totalNetWeight += netWeight[size.size];
-          }
+        for (let item in el?.sizeWeightDistributions) {
+          const size = el?.sizeWeightDistributions[item]
+          !!netWeight[size.size]
+            ? netWeight[size.size] = netWeight[size.size]
+            : netWeight[size.size] = 0
+          netWeight[size.size] = parseFloat(
+            (size.value * valueSizes[size.size]).toFixed(3)
+          );
+          totalNetWeight += netWeight[size.size];
+        }
 
-          grossWeight = (
-            el.weightPerBox * totalBoxQuantity + totalNetWeight
-          ).toFixed(2);
-          return {
-             ...el,
-            totalSizeDistribution: {...valueSizes},
-            netWeight: {...netWeight},
-            totalDistribution: totalDistribution,
-            totalBoxQuantity: totalBoxQuantity,
-            totalNetWeight: totalNetWeight ? totalNetWeight.toFixed(3) : "",
-            grossWeight: grossWeight,
-          };
-        });
-        this.allList=JSON.parse(JSON.stringify(specialList));
-      },
+        grossWeight = (
+          el.weightPerBox * totalBoxQuantity + totalNetWeight
+        ).toFixed(2);
+        return {
+          ...el,
+          isChecked: el.isGenerated,
+          totalSizeDistribution: {...valueSizes},
+          netWeight: {...netWeight},
+          totalDistribution: totalDistribution,
+          totalBoxQuantity: totalBoxQuantity,
+          totalNetWeight: totalNetWeight ? totalNetWeight.toFixed(3) : "",
+          grossWeight: grossWeight,
+        };
+      });
+      this.allList = JSON.parse(JSON.stringify(specialList));
+    },
   },
   computed: {
     ...mapGetters({
@@ -348,20 +384,39 @@ export default {
       getPackingList: "packingList/getPackingList",
       getBoxSizeList: "boxSize/getBoxSizeList",
       updatePackingList: "packingList/updatePackingList",
-      setBoxQuantity: "packingList/setBoxQuantity"
+      setBoxQuantity: "packingList/setBoxQuantity",
+      postGenerateInvoice: "packingList/postGenerateInvoice"
     }),
+    isGeneratedFunc(item) {
+      this.generatedItem.push({
+        grossWeight: item.grossWeight,
+        modelId: item.modelId,
+        netWeight: item.totalNetWeight,
+        orderId: item.orderId,
+        packagingListId: item.id,
+        total: item.totalDistribution,
+        totalBoxQuantity: item.totalBoxQuantity
+      })
+    },
+    generateInvoice() {
+      this.postGenerateInvoice({
+        data: {itemRequestList: [...this.generatedItem], shippingId: this.shippingId},
+        id: this.shippingId
+      })
+    },
     editItem(item) {
       this.new_dialog = true;
       this.selectedPackingList = {...item};
+      console.log(this.allList)
       this.selectedPackingList.id = item.id;
       let sizesList = [];
       let newSizes = [];
-      if(item.sizeWeightDistributions) {
+      if (item.sizeWeightDistributions) {
         this.title = true;
         item?.sizeWeightDistributions.map(el => {
           newSizes.push({size: el.size, value: el.value})
         });
-      }else {
+      } else {
         this.title = false;
         const newArr = item.itemResponseList.map(el => {
           return [...el.sizeDistributions];
@@ -372,11 +427,10 @@ export default {
         })
       }
       this.selectedItem = {
-        sizeDistributions:  [...newSizes]
+        sizeDistributions: [...newSizes]
       }
     },
     savePackingList() {
-      const id=this.$route.params.id
       const data = {
         boxSizeId: this.selectedPackingList.boxSizeId,
         grossWeight: typeof this.selectedPackingList.grossWeight === NaN ? this.selectedPackingList.grossWeight : "",
@@ -387,49 +441,63 @@ export default {
         sizeWeightDistributions: [...this.selectedItem.sizeDistributions],
         weightPerBox: this.selectedPackingList.weightPerBox,
       }
-      this.updatePackingList({data, id});
+      this.updatePackingList({data, id: this.shippingId});
       this.new_dialog = false
     },
-    setQueueFunc(item){
-      const shippingId=this.$route.params.id
+    setQueueFunc(item) {
       const data = {
         boxQuantity: item.boxQuantity,
         id: item.id,
       }
-      this.setBoxQuantity({data,id:shippingId})
+      this.setBoxQuantity({data, id: this.shippingId})
     },
   },
   mounted() {
-    const id = this.$route.params.id;
-    this.getPackingList(id);
+    this.shippingId = this.$route.params.id;
+    this.getPackingList(this.shippingId);
   }
 
 }
 </script>
 <style lang="scss" scoped>
+.table-l {
+  height: 400px;
+  overflow-y: auto;
+}
+
+#products-table {
+  overflow-x: auto;
+}
+
 table, th, td {
   border: 1px solid #EBEBEB;
   border-collapse: collapse;
 }
+
 table {
   tr {
     border: none;
   }
 }
+
 table:nth-child(odd) {
-  margin: 50px 0;
+  margin: 10px 0;
 }
+
 table {
   line-height: 30px;
   font-size: 16px;
   width: 100%;
+
   th, td {
     padding: 0 16px;
     font-size: 10px;
     color: #1D2433;
   }
+
   thead {
-    background-color: #EBEBEB;
+    background-color: #F8F4FE;
+
     th {
       font-weight: 500;
       color: #6B7280
@@ -442,11 +510,21 @@ table {
     //  border: none;
     //}
   }
+
   .p0 {
     padding: 0 !important;
   }
 
 
+}
+
+::-webkit-scrollbar {
+  background-color: #F8F4FE;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #e2d7ee;
+  border-radius: 16px;
 }
 
 </style>

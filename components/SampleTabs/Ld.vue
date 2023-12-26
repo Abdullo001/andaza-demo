@@ -288,6 +288,7 @@ export default {
         color:"",
         supplierId:"",
         result:"",
+        receivedDate: "",
         sendDate:"",
         reason:"",
         note:"",

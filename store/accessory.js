@@ -176,10 +176,13 @@ export const actions = {
         console.log(response);
       });
   },
-  async getAccessoryList({ commit }, { page, size }) {
+  async getAccessoryList({ commit }, { page, size,data }) {
     const body = {
-      filters: [],
-      sorts: [],
+      clientName: data?.clientName,
+      modelNumber: data?.modelNumber,
+      orderNumber: data?.orderNumber,
+      fromDate: data?.fromDate,
+      toDate: data?.toDate,
       page: page,
       size: size,
     };
