@@ -377,7 +377,7 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <RemainingQuantity/>
+                <InvoiceList/>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -393,12 +393,12 @@ import {mapActions, mapGetters} from "vuex";
 import Breadcrumbs from '../../components/Breadcrumbs.vue';
 import ShippingModels from '../../components/Shipping/ShippingModels.vue';
 import PackingList from '../../components/Shipping/PackingList.vue';
-import RemainingQuantity from '../../components/Shipping/RemainingQuantity.vue';
+import InvoiceList from '../../components/Shipping/InvoiceList.vue';
 import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
 
 export default {
 
-  components:{ShowBtnComponent, Breadcrumbs, ShippingModels, PackingList, RemainingQuantity },
+  components:{ShowBtnComponent, Breadcrumbs, ShippingModels, PackingList, InvoiceList },
 
   data() {
     return {
@@ -417,9 +417,9 @@ export default {
       countryIdSearch: "",
       eventEditBtn: false,
       items:[
-        "ShippingModels",
+        "Shipping models",
         "Packing list",
-        "Remaining quantity for dom.market"
+        "Invoice"
       ],
       shipping: {
         id: "",

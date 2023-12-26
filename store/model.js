@@ -114,10 +114,8 @@ export const actions = {
     };
     await this.$axios.$put(`/api/v1/model-groups/list`, body)
       .then(res => {
-        if (res.message === "Successfully") {
           commit('setModelData', res.data);
           commit('setLoading', false);
-        }
       })
       .catch(({response}) => {
         console.log(response);
