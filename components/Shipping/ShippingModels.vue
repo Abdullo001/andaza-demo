@@ -52,7 +52,7 @@
                     <v-img src="/rotate.svg" max-width="22"/>
                   </v-btn>
                 </template>
-                <span class="text-capitalize">return fabric</span>
+                <span class="text-capitalize">return</span>
               </v-tooltip>
             </td>
           </tr>

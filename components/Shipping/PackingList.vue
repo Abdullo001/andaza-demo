@@ -136,8 +136,9 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form ref="new_form" v-model="new_validate" lazy-validation>
+            <div class="label">Net weight per work/kg</div>
             <v-row>
-              <v-col cols="12" lg="2" v-for="(item, idx) in selectedItem.sizeDistributions" :key="`_cutting_${idx}`">
+              <v-col cols="12" lg="3" v-for="(item, idx) in selectedItem.sizeDistributions" :key="`_cutting_${idx}`">
                 <div class="label">{{ item.size }}</div>
                 <v-text-field
                   v-model.number="item.value"
@@ -216,6 +217,7 @@
                   style="width: 100%"
                   v-model="selectedPackingList.packingListDate"
                   type="datetime"
+                  outlined
                   placeholder="Packing list date"
                   class="filter_picker"
                   color="#544B99"

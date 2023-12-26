@@ -108,7 +108,7 @@
             </v-row>
             <v-row>
               <v-col cols="12" lg="3" md="3" sm="6">
-                <div class="label">Shipping name</div>
+                <div class="label">Invoice number</div>
                 <v-combobox
                   v-model="shippingItem.shippingId"
                   :rules="[formRules.required]"
