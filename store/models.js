@@ -1,126 +1,168 @@
 export const state = () => ({
-  loading: true,
-  modelData: [],
+  modelsList: [],
+  oneModel: {},
+  modelGroups: [],
+  partner_enums: [],
+  newModelId: null,
+  compositions: [],
+  brandList:[],
 })
+
 export const getters = {
-  loading: state => state.loading,
-  modelData: state => state.modelData.content,
-  modelTotalElements: state=> state.modelData.totalElements,
+  modelsList: state => state.modelsList.content,
+  totalElements: state => state.modelsList.totalElements,
+  oneModel: state => state.oneModel,
+  modelGroups: state => state.modelGroups.content,
+  partner_enums: state => state.partner_enums.content,
+  newModelId: state => state.newModelId,
+  compositionList: state => state.compositions,
+  brandList: state => state.brandList,
 }
+
 export const mutations = {
-  setLoading(state, loadings) {
-    state.loading = loadings
+  setModels(state, model) {
+    state.modelsList = model
   },
-  setModelData(state, data) {
-    state.modelData = data
+  setOneModel(state, details) {
+    state.oneModel = details
+  },
+  setModelGroups(state, group) {
+    state.modelGroups = group
+  },
+  setPartnerEnums(state, partner) {
+    state.partner_enums = partner
+  },
+  setNewModelId(state, id) {
+    state.newModelId = id
+  },
+  setCompositions(state, item) {
+    state.compositions = item;
+  },
+  setBrandList(state, item) {
+    state.brandList = item;
   },
 }
+
 export const actions = {
-  async sortModelData({commit}, {data, page, size}){
+  async getModelsList({commit}, {page, size, modelNumber, partner, status}) {
     const body = {
-      filters: [],
-      sorts: [
-        {
-          key: data.sortBy,
-          direction: !data.sortDesc ? "DESC" : "ASC",
-        }
-      ],
-      page: page,
-      size: size,
-    };
-    await this.$axios.$put(`/api/v1/model-groups/list`, body)
+      client:partner,
+      modelNumber:modelNumber,
+      page,
+      size,
+      status
+
+    }
+    partner = partner === null ? '' : partner
+    await this.$axios.$put(`/api/v1/models/list`, body)
       .then(res => {
-        commit('setModelData', res.data);
+        commit('setModels', res.data)
       })
       .catch(({response}) => {
         console.log(response);
       })
   },
-  async filterModelData({commit}, data) {
+  async getOneModel({commit}, id) {
+    await this.$axios.$get(`/api/v1/models/get?id=${id}`)
+      .then(res => {
+        commit('setOneModel', res.data);
+      })
+      .catch(({response}) => {
+        console.log(response);
+      })
+  },
+  async getModelGroup({commit}) {
     const body = {
-      filters: [
-        {
-          key: 'id',
-          operator: 'EQUAL',
-          propertyType: 'LONG',
-          value: data.id
-        },
-        {
-          key: 'name',
-          operator: 'LIKE',
-          propertyType: 'STRING',
-          value: data.name
-        },
-        {
-          key: 'createdAt',
-          operator: 'BETWEEN',
-          propertyType: 'DATE',
-          value: data.createdAt,
-          valueTo: data.updatedAt
-        },
-      ],
+      filter: [],
       sorts: [],
       page: 0,
-      size: 10,
+      size: 50
     }
-    body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
     await this.$axios.$put(`/api/v1/model-groups/list`, body)
       .then(res => {
-        commit('setModelData', res.data);
-        commit('setLoading', false);
+        commit('setModelGroups', res.data);
       })
       .catch(({response}) => {
         console.log(response);
-        commit('setLoading', false);
       })
   },
-  async deleteModelData({dispatch}, id) {
-    await this.$axios.$delete(`/api/v1/model-groups/delete?groupId=${id}`)
+  async changeStatusModel({dispatch}, {id, status}) {
+    await this.$axios.$put(`/api/v1/models/change-status?id=${id}&status=${status}`)
       .then(res => {
-        dispatch('getAllModelData', {page: 0, size: 10});
-        this.$toast.success(res.message);
+        this.$toast.success(res.message, {theme: 'toasted-primary'})
       })
-      .catch(({response}) => {
-        console.log(response);
-      })
+      .catch(({response}) => console.log(response))
   },
-  async updateModelData({dispatch}, data) {
-    await this.$axios.$put("/api/v1/model-groups/update", data)
-      .then(res => {
-        dispatch('getAllModelData', {page: 0, size: 10});
-        this.$toast.success(res.message);
-      })
-      .catch(({response}) => {
-        console.log(response);
-      })
-  },
-  async createModelData({dispatch}, data) {
-    await this.$axios.$post("/api/v1/model-groups/create", data)
-      .then(res => {
-        dispatch('getAllModelData', {page: 0, size: 10});
-        this.$toast.success(res.message);
-      })
-      .catch(({response}) => {
-        console.log(response);
-        this.$toast.error(response.data.message);
-      })
-  },
-  async getAllModelData({commit}, {page, size}) {
+  async getPartnerList({commit}) {
     const body = {
       filters: [],
       sorts: [],
-      page: page,
-      size: size,
-    };
-    await this.$axios.$put(`/api/v1/model-groups/list`, body)
+      page: 0,
+      size: 15
+    }
+    await this.$axios.$put('/api/v1/partner/list', body)
       .then(res => {
-        commit('setModelData', res.data);
-        commit('setLoading', false);
+        commit('setPartnerEnums', res.data);
       })
-      .catch(({response}) => {
-        console.log(response);
-        commit('setLoading', false);
+      .catch(({response}) => console.log(response))
+  },
+  async createModel({commit}, data) {
+    const model = {
+      compositionId: data.compositionId,
+      description: data.description,
+      gender: data.gender,
+      groupId: data.group,
+      licenseRequired: data.licence,
+      modelNumber: data.number,
+      name: data.name,
+      partnerId: data.partnerId,
+      season: data.season,
+      status: "ACTIVE",
+      brandName:data.brandName,
+    }
+    this.$axios.$post('/api/v1/models/create', model)
+      .then(res => {
+        commit('setNewModelId', res.data.id);
+        commit('setOneModel', res.data);
+        this.$toast.success(res.message, {theme: 'toasted-primary'});
+      }).catch(({response}) => console.log(response))
+  },
+  async updateModel({commit}, {data, id}) {
+    const model = {
+      compositionId: data.compositionId,
+      description: data.description,
+      gender: data.gender,
+      groupId: data.group,
+      licenseRequired: data.licence,
+      modelNumber: data.number,
+      name: data.name,
+      partnerId: data.partnerId,
+      season: data.season,
+      id: id,
+      status: "ACTIVE",
+      brandName:data.brandName,
+    }
+    this.$axios.$put('/api/v1/models/update', model)
+      .then(res => {
+        this.$toast.success(res.message, {theme: 'toasted-primary'});
+      }).catch(({response}) => {
+      console.log(response);
+      this.$toast.error(response.data.message, {theme: 'toasted-primary'})
+    })
+  },
+  getCompositionList({commit}) {
+    this.$axios.$get('/api/v1/composition/thin-list')
+      .then(res => {
+        commit('setCompositions', res.data);
+      }).catch(({response}) => console.log(response))
+  },
+  getBrandList({commit},id){
+    this.$axios.get(`/api/v1/partner/brand-names?id=${id}`)
+      .then((res)=>{
+        commit("setBrandList",res.data.data)
+      })
+      .catch((res)=>{
+        console.log(res);
       })
   }
 }
-

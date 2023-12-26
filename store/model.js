@@ -66,8 +66,8 @@ export const actions = {
     body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
     await this.$axios.$put(`/api/v1/model-groups/list`, body)
       .then(res => {
-          commit('setModelData', res.data);
-          commit('setLoading', false);
+        commit('setModelData', res.data);
+        commit('setLoading', false);
       })
       .catch(({response}) => {
         console.log(response);
@@ -77,8 +77,8 @@ export const actions = {
   async deleteModelData({dispatch}, id) {
     await this.$axios.$delete(`/api/v1/model-groups/delete?groupId=${id}`)
       .then(res => {
-          dispatch('getAllModelData', {page: 0, size: 10});
-          this.$toast.success(res.message);
+        dispatch('getAllModelData', {page: 0, size: 10});
+        this.$toast.success(res.message);
       })
       .catch(({response}) => {
         console.log(response);
@@ -87,8 +87,8 @@ export const actions = {
   async updateModelData({dispatch}, data) {
     await this.$axios.$put("/api/v1/model-groups/update", data)
       .then(res => {
-          dispatch('getAllModelData', {page: 0, size: 10});
-          this.$toast.success(res.message);
+        dispatch('getAllModelData', {page: 0, size: 10});
+        this.$toast.success(res.message);
       })
       .catch(({response}) => {
         console.log(response);
@@ -114,8 +114,8 @@ export const actions = {
     };
     await this.$axios.$put(`/api/v1/model-groups/list`, body)
       .then(res => {
-          commit('setModelData', res.data);
-          commit('setLoading', false);
+        commit('setModelData', res.data);
+        commit('setLoading', false);
       })
       .catch(({response}) => {
         console.log(response);
