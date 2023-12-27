@@ -354,10 +354,10 @@ export default {
         {text: "No.", value: "totalItem", sortable: false, align: "start"},
         {text: "Order No.",   value: "orderNumber"},
         {text: "Model No./ Artikul No.",  value: "modelNumber"},
-        {text: this.$t('listsModels.child.brandName'),  value: "brandName"},
+        {text: "Brand name",  value: "brandName"},
         {text: this.$t('prefinances.child.modelName'),  value: "modelName"},
         {text: this.$t('sidebar.composition'),  value: "composition"},
-        {text: "Quantity/pcs",  value: "quantity"},
+        {text: "Quantity/pcs",  value: "total"},
         {text: "M/U",sortable:false,  value: "measurementUnit"},
         {text: this.$t('prefinances.child.pricePerUnit'),sortable:false,  value: "pricePerUnit"},
         {text: "Total amount",sortable:false,  value: "totalAmount"},
@@ -365,7 +365,7 @@ export default {
         {text: this.$t('actions'), value: "actions"}
       ],
       invoiceList: [],
-      invoiceListItem: [],
+      invoiceListItem: []
     }
   },
   created() {
@@ -420,7 +420,6 @@ export default {
     editInvoiceItem(item) {
       this.invoiceItem = {...item}
       this.invoiceItem_dialog = true
-      // this.invoiceItem.id = item.id
     },
     async save() {
       const data = {
@@ -433,8 +432,8 @@ export default {
     }
   },
   mounted() {
-    this.shippingId = this.$route.params.id;
-    this.getInvoiceList(this.shippingId);
+    this.shippingId = this.$route.params.id
+    this.getInvoiceList(this.shippingId)
     this.getInvoiceItemList(this.shippingId)
   }
 }
