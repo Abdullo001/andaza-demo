@@ -8,7 +8,7 @@
       </v-toolbar-title>
     </v-toolbar>
     <v-data-table
-      class="mt-4 rounded-lg pt-4"
+      class="mt-4 rounded-lg table pt-4"
       :headers="headers"
       :items="invoiceListItem"
       hide-default-footer
@@ -35,6 +35,21 @@
           </template>
           <span class="text-capitalize">Edit invoice item</span>
         </v-tooltip>
+      </template>
+      <template v-slot:body.append>
+        <tr class="font-weight-bold text-body-1 text-center">
+          <td
+            colspan="6"
+          >
+              Total
+          </td>
+            <td>
+              {{ sumTotal }}
+            </td>
+            <td></td>
+            <td ></td>
+            <td>{{sumAmountTotal}}</td>
+        </tr>
       </template>
     </v-data-table>
     <v-dialog v-model="invoiceItem_dialog" width="400">
@@ -357,15 +372,17 @@ export default {
         {text: "Brand name",  value: "brandName"},
         {text: this.$t('prefinances.child.modelName'),  value: "modelName"},
         {text: this.$t('sidebar.composition'),  value: "composition"},
-        {text: "Quantity/pcs",  value: "total"},
+        {text: "Quantity/pcs",  value: "total", align: "center"},
         {text: "M/U",sortable:false,  value: "measurementUnit"},
         {text: this.$t('prefinances.child.pricePerUnit'),sortable:false,  value: "pricePerUnit"},
-        {text: "Total amount",sortable:false,  value: "totalAmount"},
+        {text: "Total amount",sortable:false,  value: "totalAmount", align: "center"},
         {text: "HS code", value: "hsCode", sortable:false,   },
         {text: this.$t('actions'), value: "actions"}
       ],
       invoiceList: [],
-      invoiceListItem: []
+      invoiceListItem: [],
+      sumTotal: null,
+      sumAmountTotal: null
     }
   },
   created() {
@@ -380,9 +397,11 @@ export default {
         let totalItem = idx + 1
         return {
           ...el,
-          totalItem
+          totalItem,
         }
       })
+      this.sumTotal = list.reduce((acc, el) => acc + el.total, 0)
+      this.sumAmountTotal = list.reduce((acc, el) => acc + el.totalAmount, 0)
       this.invoiceListItem=JSON.parse(JSON.stringify(specialList))
     },
   },
