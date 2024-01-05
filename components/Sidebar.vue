@@ -13,10 +13,10 @@
       </nuxt-link>
 
       <v-list class="rounded-lg mx-4" flat>
-        <div v-for="(nav, idx) in items" :key="idx">
+        <div v-for="(nav, idx) in checkedAndLocalizationSidebarItems" :key="idx">
           <v-list-item
             v-if="!nav.has_child"
-            :to="nav.to"
+            :to="localePath(nav.to)"
             router
             exact
             class="my-2"
@@ -49,7 +49,7 @@
               link
               class="my-2 child-link transparent"
               route
-              :to="child.to"
+              :to="localePath(child.to)"
               active-class="active"
             >
               <template #default="{ active }">
@@ -190,6 +190,7 @@ export default {
       right: true,
       search: '',
       active: false,
+      checkedSidebarItems:[],
     }
   },
   computed: {
@@ -198,43 +199,61 @@ export default {
         return [
           {
             icon: ['models.svg', "models-active.svg"],
-            title: this.$t('sidebar.models'),
+            title: this.$t('sidebar.model'),
             to: this.localePath('/models'),
             has_child: false,
+            name:"MODEL",
+            localization:"model",
           },
           {
             icon: ['calculation.svg', "calculation-active.svg"],
             title: this.$t('sidebar.calculations'),
             to: this.localePath('/prefinances'),
             has_child: false,
+            name:"CALCULATION",
+            localization:"calculations",
           },
           {
             icon: ['orders.svg', "orders-active.svg"],
             title: this.$t('sidebar.orders'),
             to: this.localePath('/orders'),
             has_child: false,
+            name:"ORDER",
+            localization:"orders",
           },
           {
             icon: ['planning.svg', "planning-active.svg"],
             title: this.$t('sidebar.planning'),
             to: this.localePath('/planning'),
             has_child: true,
+            name:"PLANNING",
+            localization:"planning",
             child: [
               {
                 title: this.$t('sidebar.fabric'),
                 to: this.localePath('/fabric'),
+                name:"FABRIC_PLANNING_ORDERING",
+                localization:"fabric",
+                
               },
               {
                 title: this.$t('sidebar.fabricOrdering'),
                 to: this.localePath('/fabricOrdering'),
+                name:"FABRIC_PLANNING_ORDERING",
+                localization:"fabricOrdering",
               },
               {
                 title: this.$t('sidebar.accessory'),
                 to: this.localePath('/accessory'),
+                name:"ACCESSORY_PLANNING",
+                localization:"accessory",
+                
               },
               {
                 title: this.$t('sidebar.samples'),
                 to: this.localePath('/samples'),
+                name:"SAMPLE",
+                localization:"samples",
               },
             ]
           },
@@ -243,18 +262,28 @@ export default {
             title: this.$t('sidebar.warehouse'),
             to: this.localePath('/warehouse'),
             has_child: true,
+            name:"WAREHOUSE",
+            localization:"warehouse",
             child: [
               {
                 title: this.$t('sidebar.fabricWarehouse'),
                 to: this.localePath('/fabric-warehouse'),
+                name:"FABRIC_WAREHOUSE",
+                localization:"fabricWarehouse",
               },
               {
                 title: this.$t('sidebar.accessoryWarehouse'),
                 to: this.localePath('/accessory-warehouse'),
+                name:"ACCESSORY_WAREHOUSE",
+                localization:"accessoryWarehouse",
+
               },
               {
                 title: this.$t('sidebar.finishedProducts'),
                 to: this.localePath('/ready-warehouse'),
+                name:"READY_GARMENT_WAREHOUSE",
+                localization:"finishedProducts",
+
               },
             ]
           },
@@ -263,166 +292,269 @@ export default {
             title: this.$t('sidebar.production'),
             to: this.localePath('/production'),
             has_child: false,
+            name:"PRODUCTION",
+            localization:"production",
           },
           {
             icon: ['shipping.svg', "shipping-active.svg"],
             title: this.$t('sidebar.shipping'),
             to: this.localePath('/shipping'),
             has_child: false,
+            name:"SHIPPING",
+            localization:"shipping",
           },
           {
             icon: ['forms-icon.svg', "forms-icon-active.svg"],
             title: 'Forms',
             to: this.localePath('/forms'),
             has_child: false,
+            name:"FORMS",
+            localization:"forms",
           },
           {
             icon: ['report.svg', "report-active.svg"],
             title: this.$t('sidebar.report'),
             to: this.localePath('/report'),
             has_child: false,
+            name:"REPORT",
+            localization:"report",
           },
           {
             icon: ['billing.svg', "billing-active.svg"],
             title: this.$t('sidebar.billing'),
             to: this.localePath('/billing'),
+            name:"BILLING",
             has_child: true,
+            localization:"billing",
             child: [
               {
                 title: this.$t('sidebar.company'),
                 to: this.localePath('/billing-company'),
+                name:"company",
+                localization:"company",
+
               },
               {
                 title: this.$t('sidebar.billing'),
                 to: this.localePath('/billing-billing'),
+                name:"billing",
+                localization:"billing",
               },
             ]
           },
           {
             icon: ['catalogs.svg', 'catalogs-active.svg'],
-            title: this.$t('sidebar.catalogs'),
+            title: this.$t('sidebar.catalog'),
             to: this.localePath('/partner'),
             has_child: true,
+            name:"CATALOG",
+            localization:"catalog",
             child: [
               {
                 title: this.$t('sidebar.partnersType'),
-                to: this.localePath('/partner',)
+                to: this.localePath('/partner'),
+                localization:"partnersType",
               },
               {
                 title: this.$t('sidebar.modelGroups'),
-                to: this.localePath("/model")
+                to: this.localePath("/model"),
+                localization:"modelGroups",
               },
               {
                 title: this.$t('sidebar.samplePurposes'),
-                to: this.localePath("/sample")
+                to: this.localePath("/sample"),
+                localization:"samplePurposes",
               },
               {
                 title: this.$t('sidebar.bodyParts'),
-                to: this.localePath("/body-parts")
+                to: this.localePath("/body-parts"),
+                localization:"bodyParts",
               },
               {
                 title: this.$t('sidebar.cooperationType'),
-                to: this.localePath("/cooperation-type")
+                to: this.localePath("/cooperation-type"),
+                localization:"cooperationType",
               },
               {
                 title: this.$t('sidebar.expenseGroup'),
-                to: this.localePath("/expense-group")
+                to: this.localePath("/expense-group"),
+                localization:"expenseGroup",
               },
               {
                 title: this.$t('sidebar.measurementUnit'),
-                to: this.localePath("/measurement")
+                to: this.localePath("/measurement"),
+                localization:"measurementUnit",
               },
               {
                 title: this.$t('sidebar.packageShape'),
-                to: this.localePath("/package-shape")
+                to: this.localePath("/package-shape"),
+                localization:"packageShape",
               },
               {
                 title: this.$t('sidebar.partners'),
-                to: this.localePath("/partners")
+                to: this.localePath("/partners"),
+                localization:"partners",
               },
               {
                 title: this.$t('sidebar.sizeTemplate'),
-                to: this.localePath("/size-template")
+                to: this.localePath("/size-template"),
+                localization:"sizeTemplate",
               },
               {
                 title: this.$t('sidebar.colors'),
                 to: this.localePath('/colors'),
+                localization:"colors",
               },
               {
                 title: this.$t('sidebar.accessory'),
                 to: this.localePath('/catalog-accessory'),
+                localization:"accessory",
               },
               {
                 title: this.$t('sidebar.canvasType'),
                 to: this.localePath('/canvas-type'),
+                localization:"canvasType",
               },
               {
                 title: "Yarn numbers",
                 to: this.localePath('/yarn-numbers'),
+                localization:"yarn-numbers",
               },
               {
                 title: this.$t('sidebar.composition'),
                 to: this.localePath('/composition'),
+                localization:"composition",
               },
               {
                 title: this.$t('sidebar.printType'),
                 to: this.localePath('/print-type'),
+                localization:"printType",
               },
               {
                 title: this.$t('sidebar.boxSize'),
                 to: this.localePath('/box-size'),
+                localization:"boxSize",
               },
               {
                 title: this.$t('sidebar.process'),
                 to: this.localePath('/catalog-process'),
+                localization:"process",
               },
             ]
           },
           {
             icon: ['settings.svg', "settings-active.svg"],
-            title: this.$t('sidebar.settings'),
+            title: this.$t('sidebar.setting'),
             to: this.localePath('/billing'),
             has_child: true,
+            name:"SETTING",
+            localization:"setting",
             child: [
               {
                 icon: 'user.svg',
-                title: this.$t('sidebar.userManagement'),
+                title: this.$t('sidebar.usermanagement'),
                 to: this.localePath('/user-management'),
                 has_child: false,
+                name:"usermanagement",
+                localization:"usermanagement",
+
               },
               {
                 icon: 'localization.svg',
                 title: this.$t('sidebar.localization'),
                 to: this.localePath('/localization'),
                 has_child: false,
+                name:"localization",
+                localization:"localization",
+
               },
               {
                 title: this.$t('sidebar.permission'),
                 to: this.localePath('/permission'),
+                name:"permission",
+                localization:"permission",
+
               },
               {
                 title: this.$t('sidebar.role'),
                 to: this.localePath('/role'),
+                name:"role",
+                localization:"role",
               },
               {
                 title: this.$t('sidebar.devices'),
                 to: this.localePath('/fraud-devices'),
+                name:"devices",
+                localization:"devices",
               },
               {
                 title: this.$t('sidebar.users'),
                 to: this.localePath('/fraud-users'),
+                name:"users",
+                localization:"users",
               },
             ]
           },
         ]
       }
     },
+    checkedAndLocalizationSidebarItems:{
+      get(){
+        this.checkedSidebarItems.forEach((item)=>{
+          item.title=this.$t(`sidebar.${item.localization}`)
+          if(item.has_child){
+            item.child.forEach((child)=>{
+              child.title=this.$t(`sidebar.${child.localization}`)
+            })
+          }
+        })
+        return [
+          ...this.checkedSidebarItems
+        ]
+      }
+    },
+    // checkedItems(){
+    //   const afterPermissionList=[]
+    //   const permissionList=JSON.parse(window.localStorage.getItem("permissionList"))||[]
+    //   permissionList.forEach((perName)=>{
+    //     this.items.forEach((item)=>{
+    //       if(!item.has_child){
+            
+    //         if(perName.permissionName===item.name){
+    //           item.title=this.$t('sidebar.settings')
+    //           afterPermissionList.push(item)
+    //         }
+    //       }
+    //       if(item.has_child){
+    //         if(perName.permissionName===item.name){
+    //           item.title=this.$t('sidebar.settings')
+
+    //           afterPermissionList.push(item)
+    //         }else{
+    //           const childChecker=[]
+    //           item.child.forEach((el)=>{
+    //             if(perName.permissionName===el.name){
+    //               childChecker.push(el)
+    //             }
+    //           })
+    //           if(childChecker.length || perName.permissionName===item.name){
+    //             item.child=JSON.parse(JSON.stringify(childChecker))
+    //             afterPermissionList.push(item)
+    //           }
+    //         }  
+    //       }
+    //     })
+    //   })
+    //   console.log(afterPermissionList);
+    //   this.checkedSidebarItems=JSON.parse(JSON.stringify(afterPermissionList))
+    // },
     availableLocales() {
       return this.$i18n.locales.filter(i => i.code !== this.$i18n.locale)
     },
     ...mapGetters({
       pageTitle: 'pageTitle',
-      currentUser: 'currentUser'
+      currentUser: 'currentUser',
+      permissionsList: 'permissionsList',
     })
   },
   methods: {
@@ -442,6 +574,38 @@ export default {
       console.log('hello search')
     },
   },
+  mounted(){
+    const afterPermissionList=[]
+    const permissionList=JSON.parse(window.localStorage.getItem("permissionList"))||[]
+    permissionList.forEach((perName)=>{
+      this.items.forEach((item)=>{
+        if(!item.has_child){
+          if(perName.permissionName===item.name){
+            afterPermissionList.push(item)
+          }
+        }
+        if(item.has_child){
+          if(perName.permissionName===item.name){
+
+            afterPermissionList.push(item)
+          }else{
+            const childChecker=[]
+            item.child.forEach((el)=>{
+              if(perName.permissionName===el.name){
+                childChecker.push(el)
+              }
+            })
+            if(childChecker.length || perName.permissionName===item.name){
+              item.child=JSON.parse(JSON.stringify(childChecker))
+              afterPermissionList.push(item)
+            }
+          }  
+        }
+      })
+    })
+    // console.log(afterPermissionList);
+    this.checkedSidebarItems=JSON.parse(JSON.stringify(afterPermissionList))
+  }
 }
 </script>
 
