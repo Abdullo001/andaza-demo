@@ -96,6 +96,8 @@ export default {
           const token = String(res.data.token)
           this.$auth.setUserToken(token)
           this.$toast.success(res.message, {theme: 'toasted-primary'});
+          this.$store.commit("setPermissionsList",res.data.permissions)
+          window.localStorage.setItem("permissionList",JSON.stringify(res.data.permissions))
           this.$router.push('/user-management');
         })
     }
