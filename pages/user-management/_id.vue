@@ -187,107 +187,6 @@
         </v-btn>
       </v-card-actions>
     </v-card>
-
-    <v-card color="#fff" elevation="0" class="mt-8">
-      <v-card-title class="d-flex justify-space-between">
-        <div>Permissions</div>
-        <v-btn
-          color="#544B99"
-          dark
-          class="text-capitalize rounded-lg"
-          @click="addPermission"
-        >
-          <v-icon>mdi-plus</v-icon>
-            add permissions
-        </v-btn>
-      </v-card-title>
-      <v-divider/>
-      <v-card-text>
-        <v-data-table
-          class="mt-4 rounded-lg"
-          :headers="headers"
-          :items="permisionList"
-          item-key="modelNumber"
-        >
-        <template #item.checker="{item}">
-          <v-simple-checkbox
-            color="#544B99"
-          ></v-simple-checkbox>
-        </template>
-        <template #item.canWrite="{item}">
-          <v-switch v-model="item.canWrite" @click="changeStatus(item)" inset color="#4F46E5"/>
-        </template>
-        <template #item.canRead="{item}">
-          <v-switch v-model="item.canRead" @click="changeStatus(item)" inset color="#4F46E5"/>
-        </template>
-        <template #item.canUpdate="{item}">
-          <v-switch v-model="item.canUpdate" @click="changeStatus(item)" inset color="#4F46E5"/>
-        </template>
-        <template #item.canDelete="{item}">
-          <v-switch v-model="item.canDelete" @click="changeStatus(item)" inset color="#4F46E5"/>
-        </template>
-        </v-data-table>
-      </v-card-text>
-    </v-card>
-    <v-dialog v-model="permission_dialog" width="800">
-      <v-card>
-        <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">
-            New permission
-          </div>
-          <v-btn icon color="#544B99" @click="permission_dialog = false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-card-title>
-        <v-card-text class="mt-4">
-          <v-row>
-            <v-col cols="12">
-              <div class="label">Permission name</div>
-              <v-select
-                append-icon="mdi-chevron-down"
-                v-model="newPermission.permissionName"
-                :rules="[formRules.required]"
-                :items="otherPermissions"
-                hide-details
-                color="#544B99"
-                class="base rounded-lg"
-                rounded
-                outlined
-                dense
-                placeholder="Select permission name"
-              />
-            </v-col>
-            <v-col cols="3">
-              <div class="label">Can write</div>
-              <v-switch v-model="newPermission.canWrite" inset color="#4F46E5"/>
-            </v-col>
-            <v-col cols="3">
-              <div class="label">Can read</div>
-              <v-switch v-model="newPermission.canRead" inset color="#4F46E5"/>
-            </v-col>
-            <v-col cols="3">
-              <div class="label">Can update</div>
-              <v-switch v-model="newPermission.canUpdate" inset color="#4F46E5"/>
-            </v-col>
-            <v-col cols="3">
-              <div class="label">Can delete</div>
-              <v-switch v-model="newPermission.canDelete" inset color="#4F46E5"/>
-            </v-col>
-          </v-row>
-        </v-card-text>
-        <v-card-actions class="d-flex justify-center pb-8">
-          <v-btn
-            class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#544B99"
-            dark
-            width="130"
-            @click="setPermissonFunc"
-          >
-            save
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
     <div class="loader" v-if="loader">
       <v-progress-circular
         indeterminate
@@ -326,44 +225,6 @@ export default {
           icon: false
         },
       ],
-      headers:[
-        { text: "", value: "checker",sortable: false },
-        { text: "Permission name", value: "permissionName", width: 400,sortable: false},
-        { text: "Can write", value: "canWrite",sortable: false  },
-        { text: "Can read ", value: "canRead",sortable: false  },
-        { text: "Can update", value: "canUpdate",sortable: false  },
-        { text: "Can delete", value: "canDelete",sortable: false  },
-
-      ],
-      newPermission:{
-        permissionName:"",
-        canWrite:false,
-        canRead:false,
-        canUpdate:false,
-        canDelete:false,
-      },
-      otherPermissions:
-      [ 
-        "MODEL",
-        "CALCULATION",
-        "ORDER",
-        "FABRIC_PLANNING_ORDERING",
-        "ACCESSORY_PLANNING",
-        "SAMPLE",
-        "FABRIC_WAREHOUSE",
-        "ACCESSORY_WAREHOUSE",
-        "READY_GARMENT_WAREHOUSE",
-        "PRODUCTION",
-        "SHIPPING",
-        "MANAGEMENT_FORM",
-        "PRODUCTION_FORM",
-        "CATALOG",
-        "SETTING",
-        "REPORT" 
-      ],
-      permission_dialog:false,
-      permisionList:[
-      ],
       fields_status: false,
       lang_list: [
         {title: "EN", code: "en", icon: "/en.svg"},
@@ -389,9 +250,7 @@ export default {
     ...mapGetters({
       currentUser: 'users/currentUser',
       userPasswordData: 'users/userPasswordData',
-      loader: 'users/loader',
-      primaryPermissionsList: 'users/permissionsList',
-
+      loader: 'users/loader'
     })
   },
   watch: {
@@ -408,16 +267,12 @@ export default {
         }
       }
       this.one_user.lang = langFull()
-    },
-    primaryPermissionsList(val){
-      this.permisionList=JSON.parse(JSON.stringify(val))
     }
   },
   methods: {
     ...mapActions({
       updateUser: "users/updateUser",
-      resetPassword: 'users/resetPassword',
-      setPermission: 'users/setPermission',
+      resetPassword: 'users/resetPassword'
     }),
     getPassword(password) {
       navigator.clipboard.writeText(password);
@@ -436,34 +291,6 @@ export default {
       if (this.avatar !== undefined) {
         this.one_user.photo = window.URL.createObjectURL(this.avatar);
       }
-    },
-    addPermission(){
-      this.permission_dialog=true
-      this.permisionList.forEach((el)=>{
-        this.otherPermissions=this.otherPermissions.filter(item=>item!==el.permissionName)
-      })
-    },
-    setPermissonFunc(){
-      const data={
-        userId:this.$route.params.id,
-        ...this.newPermission
-      }
-      this.setPermission(data)
-      this.permission_dialog=false
-      this.newPermission={
-        permissionName:"",
-        canWrite:false,
-        canRead:false,
-        canUpdate:false,
-        canDelete:false,
-      }
-    },
-    changeStatus(item){
-      const data={
-        userId:this.$route.params.id,
-        ...item
-      }
-      this.setPermission(data)
     },
     saveChanges() {
       let data = JSON.parse(JSON.stringify(this.one_user))
@@ -488,7 +315,6 @@ export default {
   mounted() {
     const id = this.$route.params.id
     this.$store.dispatch('users/getOneUser', id)
-    this.$store.dispatch('users/getPermissionsList', id)
   }
 }
 </script>

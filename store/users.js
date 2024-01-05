@@ -5,8 +5,7 @@ export const state = () => ({
   loading: true,
   created_user: {},
   reset_password_data: {},
-  loader: false,
-  permissionsList:[],
+  loader: false
 })
 
 export const getters = {
@@ -16,8 +15,7 @@ export const getters = {
   totalElements: state => state.users.totalElements,
   createdUser: state => state.created_user,
   userPasswordData: state => state.reset_password_data,
-  loader: state => state.loader,
-  permissionsList: state => state.permissionsList,
+  loader: state => state.loader
 }
 
 export const mutations = {
@@ -38,9 +36,6 @@ export const mutations = {
   },
   setLoader(state, status) {
     state.loader = status;
-  },
-  setPermissionsList(state,list){
-    state.permissionsList=list
   }
 }
 
@@ -203,26 +198,6 @@ export const actions = {
         commit('setResetData', res.data);
       }).catch(({response}) => {
       console.log(response);
-    })
-  },
-  getPermissionsList({commit},id){
-    this.$axios.get(`/api/v1/user/get-permissions?id=${id}`)
-    .then((res)=>{
-      commit("setPermissionsList",res.data.data)
-    })
-    .catch((response)=>{
-      console.log(response);
-    })
-  },
-  setPermission({dispatch},data){
-    this.$axios.put(`/api/v1/user/set-permission`,data)
-    .then((res)=>{
-      this.$toast.success(res.data.message)
-      dispatch("getPermissionsList",data.userId)
-    })
-    .catch(({response})=>{
-      console.log(response);
-      this.$toast.error(response.data.message)
     })
   }
 }
