@@ -1,9 +1,6 @@
 <template>
   <div class="pb-10">
-    <v-sheet
-      class="mt-5 py-3 px-5 d-flex align-center"
-      rounded="lg"
-    >
+    <v-sheet class="mt-5 py-3 px-5 d-flex align-center" rounded="lg">
       Year
       <v-select
         v-model="filters.year"
@@ -14,7 +11,7 @@
         dense
         hide-details
         solo
-        style="max-width: 100px;"
+        style="max-width: 100px"
       />
       <v-checkbox
         v-model="filters.amount"
@@ -37,61 +34,66 @@
     </v-sheet>
     <v-row class="mt-5">
       <v-col cols="12" lg="4">
-        <BarChartComponent/>
+        <BarChartComponent />
       </v-col>
       <v-col cols="12" lg="4">
-        <DoughnutChartComponent/>
+        <DoughnutChartComponent />
       </v-col>
       <v-col cols="12" lg="4">
-        <LineChartComponent/>
+        <LineChartComponent />
       </v-col>
       <v-col cols="12" lg="4">
-        <HorizontalChartComponent/>
+        <HorizontalChartComponent />
       </v-col>
       <v-col cols="12" lg="4">
-        <CountriesChartComponent/>
+        <CountriesChartComponent />
       </v-col>
       <v-col cols="12" lg="4">
-        <ClientsChartComponent/>
+        <ClientsChartComponent />
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
-
 export default {
   components: {
     BarChartComponent: () => import("@/components/Reports/BarChart.vue"),
-    DoughnutChartComponent: () => import("@/components/Reports/DoughnutChart.vue"),
+    DoughnutChartComponent: () =>
+      import("@/components/Reports/DoughnutChart.vue"),
     LineChartComponent: () => import("@/components/Reports/LineChart.vue"),
-    HorizontalChartComponent: () => import("@/components/Reports/HorizontalChart.vue"),
-    CountriesChartComponent: () => import("@/components/Reports/CountriesChart.vue"),
-    ClientsChartComponent: () => import("@/components/Reports/ClientsChart.vue"),
+    HorizontalChartComponent: () =>
+      import("@/components/Reports/HorizontalChart.vue"),
+    CountriesChartComponent: () =>
+      import("@/components/Reports/CountriesChart.vue"),
+    ClientsChartComponent: () =>
+      import("@/components/Reports/ClientsChart.vue"),
   },
   data() {
     return {
       chartData: [
-        {label: 'Category 1', value: 25, backgroundColor: 'red'},
-        {label: 'Category 2', value: 40, backgroundColor: 'blue'},
-        {label: 'Category 3', value: 20, backgroundColor: 'green'},
-        {label: 'Category 4', value: 15, backgroundColor: 'orange'},
+        { label: "Category 1", value: 25, backgroundColor: "red" },
+        { label: "Category 2", value: 40, backgroundColor: "blue" },
+        { label: "Category 3", value: 20, backgroundColor: "green" },
+        { label: "Category 4", value: 15, backgroundColor: "orange" },
       ],
+
       years: [2023, 2022, 2021],
       filters: {
         year: 2023,
         amount: true,
         quantity: true,
-        percentage: false
+        percentage: false,
       },
-
-    }
+    };
   },
-}
+};
 </script>
 
 <style lang="scss">
-.v-text-field.v-text-field--solo:not(.v-text-field--solo-flat) > .v-input__control > .v-input__slot {
+.v-text-field.v-text-field--solo:not(.v-text-field--solo-flat)
+  > .v-input__control
+  > .v-input__slot {
   box-shadow: none !important;
 }
 
@@ -99,7 +101,7 @@ export default {
   width: 26px;
   height: 15px;
   border-radius: 5px;
-  background: #EEF0FA;
+  background: #eef0fa;
   margin-right: 8px;
 
   & + div {
@@ -119,7 +121,7 @@ export default {
   width: 26px;
   height: 15px;
   border-radius: 5px;
-  background: #544B99;
+  background: #544b99;
   margin-right: 8px;
 
   & + div {
