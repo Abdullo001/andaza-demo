@@ -191,15 +191,7 @@
     <v-card color="#fff" elevation="0" class="mt-8">
       <v-card-title class="d-flex justify-space-between">
         <div>Permissions</div>
-        <v-btn
-          color="#544B99"
-          dark
-          class="text-capitalize rounded-lg"
-          @click="addPermission"
-        >
-          <v-icon>mdi-plus</v-icon>
-            add permissions
-        </v-btn>
+       
       </v-card-title>
       <v-divider/>
       <v-card-text>
@@ -207,24 +199,26 @@
           class="mt-4 rounded-lg"
           :headers="headers"
           :items="permisionList"
-          item-key="modelNumber"
+          :items-per-page="16"
+          hide-default-footer
         >
         <template #item.checker="{item}">
           <v-simple-checkbox
+            v-model="item.isChecked"
             color="#544B99"
           ></v-simple-checkbox>
         </template>
         <template #item.canWrite="{item}">
-          <v-switch v-model="item.canWrite" @click="changeStatus(item)" inset color="#4F46E5"/>
+          <v-switch v-model="item.canWrite" v-if="item.isChecked" @click="changeStatus(item)" inset color="#4F46E5"/>
         </template>
         <template #item.canRead="{item}">
-          <v-switch v-model="item.canRead" @click="changeStatus(item)" inset color="#4F46E5"/>
+          <v-switch v-model="item.canRead" v-if="item.isChecked"  @click="changeStatus(item)" inset color="#4F46E5"/>
         </template>
         <template #item.canUpdate="{item}">
-          <v-switch v-model="item.canUpdate" @click="changeStatus(item)" inset color="#4F46E5"/>
+          <v-switch v-model="item.canUpdate" v-if="item.isChecked"  @click="changeStatus(item)" inset color="#4F46E5"/>
         </template>
         <template #item.canDelete="{item}">
-          <v-switch v-model="item.canDelete" @click="changeStatus(item)" inset color="#4F46E5"/>
+          <v-switch v-model="item.canDelete" v-if="item.isChecked"  @click="changeStatus(item)" inset color="#4F46E5"/>
         </template>
         </v-data-table>
       </v-card-text>
@@ -329,10 +323,10 @@ export default {
       headers:[
         { text: "", value: "checker",sortable: false },
         { text: "Permission name", value: "permissionName", width: 400,sortable: false},
-        { text: "Can write", value: "canWrite",sortable: false  },
-        { text: "Can read ", value: "canRead",sortable: false  },
-        { text: "Can update", value: "canUpdate",sortable: false  },
-        { text: "Can delete", value: "canDelete",sortable: false  },
+        { text: "View ", value: "canRead",sortable: false  },
+        { text: "Create", value: "canWrite",sortable: false  },
+        { text: "Update", value: "canUpdate",sortable: false  },
+        { text: "Delete", value: "canDelete",sortable: false  },
 
       ],
       newPermission:{
@@ -409,8 +403,50 @@ export default {
       }
       this.one_user.lang = langFull()
     },
-    primaryPermissionsList(val){
-      this.permisionList=JSON.parse(JSON.stringify(val))
+    primaryPermissionsList(list){
+      let otherPermissions=
+      [ 
+        "MODEL",
+        "CALCULATION",
+        "ORDER",
+        "FABRIC_PLANNING_ORDERING",
+        "ACCESSORY_PLANNING",
+        "SAMPLE",
+        "FABRIC_WAREHOUSE",
+        "ACCESSORY_WAREHOUSE",
+        "READY_GARMENT_WAREHOUSE",
+        "PRODUCTION",
+        "SHIPPING",
+        "MANAGEMENT_FORM",
+        "PRODUCTION_FORM",
+        "CATALOG",
+        "SETTING",
+        "REPORT" 
+      ]
+      const specialList=list.map((item)=>{
+        
+        return{
+          ...item,
+          isChecked:true,
+        }
+      })
+      list.forEach((el)=>{
+        otherPermissions=otherPermissions.filter(item=>item!==el.permissionName)
+      })
+      const specialListForOther=otherPermissions.map((item)=>{
+        return{
+          permissionName:item,
+          canRead:false,
+          canWrite:false,
+          canUpdate:false,
+          canDelete:false,
+          isChecked:false,
+        }
+      })
+      specialList.push(...specialListForOther)
+      console.log(specialList);
+      this.permisionList=JSON.parse(JSON.stringify(specialList))
+
     }
   },
   methods: {
@@ -438,7 +474,6 @@ export default {
       }
     },
     addPermission(){
-      this.permission_dialog=true
       this.permisionList.forEach((el)=>{
         this.otherPermissions=this.otherPermissions.filter(item=>item!==el.permissionName)
       })
@@ -449,7 +484,6 @@ export default {
         ...this.newPermission
       }
       this.setPermission(data)
-      this.permission_dialog=false
       this.newPermission={
         permissionName:"",
         canWrite:false,
