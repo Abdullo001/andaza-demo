@@ -228,7 +228,8 @@ export default {
             has_child: true,
             name:"PLANNING",
             localization:"planning",
-            child: [
+            child:[],
+            children: [
               {
                 title: this.$t('sidebar.fabric'),
                 to: this.localePath('/fabric'),
@@ -264,7 +265,8 @@ export default {
             has_child: true,
             name:"WAREHOUSE",
             localization:"warehouse",
-            child: [
+            child:[],
+            children: [
               {
                 title: this.$t('sidebar.fabricWarehouse'),
                 to: this.localePath('/fabric-warehouse'),
@@ -326,7 +328,8 @@ export default {
             name:"BILLING",
             has_child: true,
             localization:"billing",
-            child: [
+            child:[],
+            children: [
               {
                 title: this.$t('sidebar.company'),
                 to: this.localePath('/billing-company'),
@@ -349,7 +352,8 @@ export default {
             has_child: true,
             name:"CATALOG",
             localization:"catalog",
-            child: [
+            child:[],
+            children: [
               {
                 title: this.$t('sidebar.partnersType'),
                 to: this.localePath('/partner'),
@@ -449,7 +453,8 @@ export default {
             has_child: true,
             name:"SETTING",
             localization:"setting",
-            child: [
+            child:[],
+            children: [
               {
                 icon: 'user.svg',
                 title: this.$t('sidebar.usermanagement'),
@@ -513,41 +518,6 @@ export default {
         ]
       }
     },
-    // checkedItems(){
-    //   const afterPermissionList=[]
-    //   const permissionList=JSON.parse(window.localStorage.getItem("permissionList"))||[]
-    //   permissionList.forEach((perName)=>{
-    //     this.items.forEach((item)=>{
-    //       if(!item.has_child){
-            
-    //         if(perName.permissionName===item.name){
-    //           item.title=this.$t('sidebar.settings')
-    //           afterPermissionList.push(item)
-    //         }
-    //       }
-    //       if(item.has_child){
-    //         if(perName.permissionName===item.name){
-    //           item.title=this.$t('sidebar.settings')
-
-    //           afterPermissionList.push(item)
-    //         }else{
-    //           const childChecker=[]
-    //           item.child.forEach((el)=>{
-    //             if(perName.permissionName===el.name){
-    //               childChecker.push(el)
-    //             }
-    //           })
-    //           if(childChecker.length || perName.permissionName===item.name){
-    //             item.child=JSON.parse(JSON.stringify(childChecker))
-    //             afterPermissionList.push(item)
-    //           }
-    //         }  
-    //       }
-    //     })
-    //   })
-    //   console.log(afterPermissionList);
-    //   this.checkedSidebarItems=JSON.parse(JSON.stringify(afterPermissionList))
-    // },
     availableLocales() {
       return this.$i18n.locales.filter(i => i.code !== this.$i18n.locale)
     },
@@ -575,7 +545,7 @@ export default {
     },
   },
   mounted(){
-    const afterPermissionList=[]
+    let afterPermissionList=[]
     const permissionList=JSON.parse(window.localStorage.getItem("permissionList"))||[]
     permissionList.forEach((perName)=>{
       this.items.forEach((item)=>{
@@ -586,24 +556,28 @@ export default {
         }
         if(item.has_child){
           if(perName.permissionName===item.name){
-
+            item.child=[...item.children]
             afterPermissionList.push(item)
           }else{
             const childChecker=[]
-            item.child.forEach((el)=>{
-              if(perName.permissionName===el.name){
+
+            item.children.forEach((el)=>{
+
+              if(perName.permissionName==el.name){
                 childChecker.push(el)
               }
             })
-            if(childChecker.length || perName.permissionName===item.name){
-              item.child=JSON.parse(JSON.stringify(childChecker))
+            
+            if(childChecker.length){
+              item.child.push(...childChecker)
               afterPermissionList.push(item)
+              const uniqueElements = new Set(afterPermissionList);
+              afterPermissionList=[...uniqueElements]
             }
           }  
         }
       })
     })
-    // console.log(afterPermissionList);
     this.checkedSidebarItems=JSON.parse(JSON.stringify(afterPermissionList))
   }
 }
