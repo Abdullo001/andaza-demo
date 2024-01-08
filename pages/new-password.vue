@@ -23,7 +23,7 @@
                 label="New password"
                 filled
                 dense
-                color="#7631FF"
+                color="#544B99"
                 placeholder="Enter new password"
                 class="mb-3"
                 v-model="password.new_password"
@@ -44,7 +44,7 @@
                 label="Confirm new password"
                 filled
                 dense
-                color="#7631FF"
+                color="#544B99"
                 placeholder="Confirm new password"
                 class="mb-3"
                 v-model="password.confirm_password"
@@ -62,7 +62,7 @@
                 </template>
               </v-text-field>
               <v-btn
-                color="#7631FF"
+                color="#544B99"
                 class="rounded-lg text-capitalize"
                 block
                 dark

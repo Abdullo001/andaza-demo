@@ -40,14 +40,14 @@
               <div class="d-flex justify-end">
                 <v-btn
                   width="140" outlined
-                  color="#397CFD" elevation="0"
+                  color="#544B99" elevation="0"
                   class="text-capitalize mr-4 border-primary rounded-lg font-weight-bold"
                   @click.stop="resetFilter"
                 >
                   {{ $t('listsModels.dialog.reset') }}
                 </v-btn>
                 <v-btn
-                  width="140" color="#397CFD" dark
+                  width="140" color="#544B99" dark
                   elevation="0"
                   class="text-capitalize rounded-lg font-weight-bold"
                   @click="filterModel"
@@ -64,18 +64,21 @@
       class="mt-4 rounded-lg pt-4"
       :headers="headers"
       :items="allModels"
-      :items-per-page="10"
+      :items-per-page="itemPrePage"
       :footer-props="{
           itemsPerPageOptions: [10, 20, 50, 100],
       }"
       @click:row="(item) => viewDetails(item)"
+      :server-items-length="totalElements"
+      @update:page="page"
+      @update:items-per-page="size"
     >
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex w-full align-center justify-space-between">
             <div>{{ $t('listsModels.dialog.models') }}</div>
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               dark class="text-capitalize rounded-lg"
               @click="addModel"
             >
@@ -99,10 +102,10 @@
         />
       </template>
       <template #item.actions="{item}">
-        <v-tooltip top color="#7631FF">
+        <v-tooltip top color="#544B99">
           <template v-slot:activator="{on, attrs}">
             <v-btn
-              icon color="#7631FF"
+              icon color="#544B99"
               v-on="on" v-bind="attrs"
               @click="viewDetails(item)"
             >
@@ -115,6 +118,16 @@
       <template #item.licenceRequired="{ item }">
         <v-chip :color="statusColor.licenseColor(item.licenceRequired)" dark>
           {{ item.licenceRequired ? 'Yes' : 'No' }}
+        </v-chip>
+      </template>
+      <template #item.fabricStatus="{ item }">
+        <v-chip :color="statusColor.fabricModelStatus(item.fabricStatus)" dark>
+          {{ item.fabricStatus }}
+        </v-chip>
+      </template>
+      <template #item.accessoryStatus="{ item }">
+        <v-chip :color="statusColor.fabricModelStatus(item.accessoryStatus)" dark>
+          {{ item.accessoryStatus }}
         </v-chip>
       </template>
     </v-data-table>
@@ -130,6 +143,8 @@ export default {
     return {
       new_dialog: false,
       filter_form: true,
+      itemPrePage: 10,
+      current_page: 0,
       filters: {
         modelNumber: '',
         partner: '',
@@ -144,6 +159,8 @@ export default {
         {text: this.$t('listsModels.table.composition'), value: 'composition'},
         {text: this.$t('listsModels.table.modelGroup'), value: 'modelGroup'},
         {text: this.$t('listsModels.table.license'), value: 'licenceRequired'},
+        {text: "Fabric status", value: 'fabricStatus'},
+        {text: "Accessory status", value: 'accessoryStatus'},
         {text: this.$t('listsModels.table.status'), value: 'status', width: 200},
         {text: this.$t('listsModels.table.actions'), value: 'actions'},
       ],
@@ -152,7 +169,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      modelsList: 'models/modelsList'
+      modelsList: 'models/modelsList',
+      totalElements: 'models/totalElements',
     }),
   },
   watch: {
@@ -167,6 +185,16 @@ export default {
       getModelsList: 'models/getModelsList',
       changeStatusModel: 'models/changeStatusModel'
     }),
+    async page(value) {
+      this.current_page = value - 1;
+      await this.getModelsList({page: this.current_page, size: this.itemPrePage, modelNumber: '', partner: '', status: ''})
+
+    },
+    async size(value) {
+      this.itemPrePage = value;
+      await this.getModelsList({page: 0, size: this.itemPrePage, modelNumber: '', partner: '', status: ''})
+
+    },
     async changeStatus(item) {
       await this.changeStatusModel(
         {id: item.id, status: item.status})
@@ -192,7 +220,7 @@ export default {
   },
   async mounted() {
     this.$store.commit('setPageTitle', this.$t('listsModels.dialog.lists'));
-    await this.getModelsList({page: 0, size: 50, modelNumber: '', partner: '', status: ''})
+    await this.getModelsList({page: 0, size: 10, modelNumber: '', partner: '', status: ''})
   }
 }
 </script>

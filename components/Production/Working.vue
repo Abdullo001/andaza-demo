@@ -11,7 +11,7 @@
           <v-spacer/>
           <v-btn
             v-if="message !== 200"
-            color="#7631FF" dark
+            color="#544B99" dark
             class="rounded-lg text-capitalize font-weight-bold"
             width="200" height="40"
             @click="openDialog"
@@ -61,7 +61,7 @@
         <v-card-title class="d-flex mb-4">
           <div class="title text-capitalize">{{ $t('workingProcess.working.addWorkingOperations') }}</div>
           <v-spacer/>
-          <v-btn color="#7631FF" icon @click="dialog=false">
+          <v-btn color="#544B99" icon @click="dialog=false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -86,7 +86,7 @@
                   :rules="[ formRules.required ]"
                   validate-on-blur
                   placeholder="0"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -103,7 +103,7 @@
                   :rules="[ formRules.required ]"
                   validate-on-blur
                   placeholder="0"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -118,7 +118,7 @@
                   :rules="[ formRules.required ]"
                   validate-on-blur
                   placeholder="0"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -133,7 +133,7 @@
                   :rules="[ formRules.required ]"
                   validate-on-blur
                   placeholder="0"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -146,7 +146,7 @@
                   dense
                   class="rounded-lg base"
                   auto-grow
-                  color="#7631FF"
+                  color="#544B99"
                   :placeholder="$t('workingProcess.working.selectWorkingProcess')"
                 />
               </v-col>
@@ -163,7 +163,7 @@
                     :rules="[ formRules.required ]"
                     validate-on-blur
                     placeholder="0"
-                    color="#7631FF"
+                    color="#544B99"
                   />
                   <v-select
                     v-model="create_working_operation.weightUnit"
@@ -177,7 +177,7 @@
                     :rules="[ formRules.required ]"
                     validate-on-blur
                     append-icon="mdi-chevron-down"
-                    color="#7631FF"
+                    color="#544B99"
                   />
                 </div>
               </v-col>
@@ -194,7 +194,7 @@
                   :rules="[ formRules.required ]"
                   append-icon="mdi-chevron-down"
                   validate-on-blur
-                  color="#7631FF"
+                  color="#544B99"
                   :placeholder="$t('workingProcess.working.selectFabricColor')"
                 />
               </v-col>
@@ -211,7 +211,7 @@
                   :rules="create_working_operation.isVatTaxEnabled !== 'YES' ? [] : [formRules.required]"
                   :disabled="form_disabled"
                   :placeholder="$t('workingProcess.working.selectVat')"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -228,7 +228,7 @@
                   validate-on-blur
                   append-icon="mdi-chevron-down"
                   :placeholder="$t('workingProcess.working.selectVat')"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -241,7 +241,7 @@
                   height="44"
                   class="rounded-lg base"
                   placeholder="0"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -251,7 +251,7 @@
           <v-btn
             outlined
             class="rounded-lg text-capitalize font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             width="163" height="44"
             @click="dialog = !dialog"
           >
@@ -259,7 +259,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold ml-8"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="163" height="44"
             @click="create"
           >
@@ -273,7 +273,7 @@
         <v-card-title class="d-flex mb-4">
           <div class="title text-capitalize">{{ $t('workingProcess.working.editWorkingOperations') }}</div>
           <v-spacer/>
-          <v-btn color="#7631FF" icon @click="edit_dialog = !edit_dialog">
+          <v-btn color="#544B99" icon @click="edit_dialog = !edit_dialog">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -297,7 +297,7 @@
                   :rules="[ formRules.required ]"
                   validate-on-blur
                   placeholder="0"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -313,7 +313,7 @@
                   :rules="[ formRules.required ]"
                   validate-on-blur
                   placeholder="0"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -327,7 +327,7 @@
                   :rules="[ formRules.required ]"
                   validate-on-blur
                   placeholder="0"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -341,7 +341,7 @@
                   :rules="[ formRules.required ]"
                   validate-on-blur
                   placeholder="0"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -354,7 +354,7 @@
                   height="44"
                   class="rounded-lg base"
                   auto-grow
-                  color="#7631FF"
+                  color="#544B99"
                   :placeholder="$t('workingProcess.working.selectLossReason')"
                 />
               </v-col>
@@ -370,7 +370,7 @@
                     validate-on-blur
                     :rules="[ formRules.required ]"
                     placeholder="0"
-                    color="#7631FF"
+                    color="#544B99"
                   />
                   <v-select
                     v-model="update_working.weightUnit"
@@ -384,7 +384,7 @@
                     :rules="[ formRules.required ]"
                     validate-on-blur
                     append-icon="mdi-chevron-down"
-                    color="#7631FF"
+                    color="#544B99"
                   />
                 </div>
               </v-col>
@@ -400,7 +400,7 @@
                   :rules="[ formRules.required ]"
                   validate-on-blur
                   append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                   :placeholder="$t('workingProcess.working.selectStatus')"
                 />
               </v-col>
@@ -415,7 +415,7 @@
                   :disabled="update_working.isVatTexEnabled!=='YES'"
                   :placeholder="$t('workingProcess.working.selectVat')"
                   :rules="update_working.isVatTexEnabled !== 'YES' ? [] : [formRules.required]"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -430,7 +430,7 @@
                   validate-on-blur
                   append-icon="mdi-chevron-down"
                   :placeholder="$t('workingProcess.working.selectVat')"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -442,7 +442,7 @@
                   height="44"
                   class="rounded-lg base"
                   :placeholder="$t('workingProcess.working.selectComment')"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -452,7 +452,7 @@
           <v-btn
             outlined
             class="rounded-lg text-capitalize font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             width="163" height="44"
             @click="edit_dialog = !edit_dialog"
           >
@@ -460,7 +460,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold ml-8"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="163" height="44"
             @click="update"
           >

@@ -1,6 +1,7 @@
 <template>
   <div>
     <Breadcrumbs :maps="map_links"/>
+
     <v-card elevation="0" class="mt-2 rounded-lg">
       <v-card-title>
         <div class="text-capitalize">
@@ -14,6 +15,24 @@
           </v-chip>
         </div>
         <v-spacer/>
+        <v-btn
+          class="rounded-lg text-capitalize font-weight-bold mr-4"
+          color="#544B99"
+          width="140"
+          elevation="0"
+          outlined
+        >
+          Models
+        </v-btn>
+        <v-btn
+          class="rounded-lg text-capitalize font-weight-bold"
+          color="#544B99"
+          width="140"
+          elevation="0"
+          outlined
+        >
+          Orders
+        </v-btn>
       </v-card-title>
       <v-divider/>
       <v-card-text class="pb-0">
@@ -23,7 +42,7 @@
             <v-text-field
               outlined
               class="rounded-lg base"
-              color="#7631FF"
+              color="#544B99"
               dense
               height="44"
               hide-details
@@ -45,13 +64,13 @@
               class="rounded-lg base"
               hide-details
               :return-object="true"
-              color="#7631FF"
+              color="#544B99"
               dense
               :placeholder="$t('prefinances.child.enterModelNumber')"
               append-icon="mdi-chevron-down"
             >
               <template #append>
-                <v-icon color="#7631FF">mdi-magnify</v-icon>
+                <v-icon color="#544B99">mdi-magnify</v-icon>
               </template>
             </v-combobox>
           </v-col>
@@ -61,7 +80,7 @@
               outlined
               class="rounded-lg base"
               hide-details
-              color="#7631FF"
+              color="#544B99"
               dense
               height="44"
               :placeholder="$t('prefinances.child.enterModelName')"
@@ -77,7 +96,7 @@
               class="rounded-lg base"
               hide-details
               height="44"
-              color="#7631FF"
+              color="#544B99"
               dense
               disabled
               :placeholder="$t('prefinances.child.partnerNamePhone')"
@@ -98,7 +117,7 @@
               height="44"
               class="rounded-lg base"
               hide-details
-              color="#7631FF"
+              color="#544B99"
               dense
               append-icon="mdi-chevron-down"
             />
@@ -116,7 +135,7 @@
               class="rounded-lg base"
               hide-details
               dense
-              color="#7631FF"
+              color="#544B99"
               append-icon="mdi-chevron-down"
             />
           </v-col>
@@ -132,13 +151,25 @@
               height="44"
               class="rounded-lg base"
               hide-details
-              color="#7631FF"
+              color="#544B99"
               dense
               append-icon="mdi-chevron-down"
             />
           </v-col>
-          <v-col cols="12" lg="3" md="3" sm="6">
 
+          <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">Planned order quantity</div>
+            <v-text-field
+              v-model="addPreFinances.orderedQuantity"
+              outlined
+              class="rounded-lg base"
+              hide-details
+              height="44"
+              color="#544B99"
+              dense
+              placeholder="Enter the planned order quantity"
+              append-icon=""
+            />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t("prefinances.child.primaryRare") }}</div>
@@ -148,7 +179,7 @@
               height="44"
               class="rounded-lg base"
               hide-details
-              color="#7631FF"
+              color="#544B99"
               dense
               placeholder="0"
             />
@@ -161,7 +192,7 @@
               height="44"
               class="rounded-lg base"
               hide-details
-              color="#7631FF"
+              color="#544B99"
               dense
               placeholder="0"
             />
@@ -174,7 +205,7 @@
               height="44"
               class="rounded-lg base"
               hide-details
-              color="#7631FF"
+              color="#544B99"
               dense
               placeholder="0"
             />
@@ -186,7 +217,7 @@
               outlined
               class="rounded-lg base"
               hide-details
-              color="#7631FF"
+              color="#544B99"
               dense
               rows="1"
               auto-grow
@@ -201,7 +232,7 @@
               height="44"
               class="rounded-lg base"
               hide-details
-              color="#7631FF"
+              color="#544B99"
               dense
               :placeholder="$t('prefinances.child.enterOwner')"
               disabled
@@ -215,7 +246,7 @@
               height="44"
               class="rounded-lg base"
               hide-details
-              color="#7631FF"
+              color="#544B99"
               dense
               placeholder="dd.MM.yyyy HH:mm:ss"
               disabled
@@ -235,7 +266,7 @@
               height="44"
               class="rounded-lg base"
               hide-details
-              color="#7631FF"
+              color="#544B99"
               dense
               :placeholder="$t('prefinances.child.enterModifiedPerson')"
               disabled
@@ -251,7 +282,7 @@
               height="44"
               class="rounded-lg base"
               hide-details
-              color="#7631FF"
+              color="#544B99"
               dense
               placeholder="dd.MM.yyyy HH:mm:ss"
               disabled
@@ -263,7 +294,7 @@
           </v-col>
           <v-col cols="12" class="d-flex justify-end align-end">
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               dark
               class="text-capitalize rounded-lg font-weight-bold"
               style="min-width: 130px"
@@ -285,7 +316,7 @@
     </v-card>
     <v-card class="mt-4 rounded-lg" elevation="0">
       <v-card-text>
-        <v-tabs v-model="tab" background-color="transparent" color="#7631FF">
+        <v-tabs v-model="tab" background-color="transparent" color="#544B99">
           <v-tab v-for="item in items" :key="item" class="text-capitalize">
             {{ item }}
           </v-tab>
@@ -311,7 +342,7 @@
                     <div class="text-h6">Details</div>
                     <v-btn
                       class="text-capitalize font-weight-bold rounded-lg"
-                      color="#7631FF"
+                      color="#544B99"
                       min-width="170"
                       :dark="!!preFinanceId"
                       @click="new_details = true"
@@ -339,7 +370,6 @@
                         v-on="on"
                         color="green"
                         @click="editRow(item, index)"
-
                       >
                         <v-img src="/edit-active.svg" max-width="22"/>
                       </v-btn>
@@ -377,7 +407,6 @@
               </template>
             </v-data-table>
           </v-tab-item>
-          <!--          TODO:  Documents tabs table  -->
           <v-tab-item>
             <v-data-table
               :headers="documentsHeaders"
@@ -398,7 +427,7 @@
                 </v-toolbar>
               </template>
               <template #item.actions="{ item }">
-                <v-tooltip top color="#7631FF">
+                <v-tooltip top color="#544B99">
                   <template #activator="{ on, attrs }">
                     <v-btn
                       icon
@@ -426,9 +455,8 @@
     <v-row>
       <v-col cols="12" lg="5" class="mb-4">
         <v-card class="mt-4 rounded-lg" elevation="0" height="100%">
-          <v-card-title>{{
-              $t("prefinances.child.photosModels")
-            }}
+          <v-card-title>
+            {{ $t("prefinances.child.photosModels") }}
           </v-card-title>
           <v-divider/>
           <v-card-text class="mt-4">
@@ -525,19 +553,29 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer/>
+             <v-btn
+              color="#544B99"
+              class="text-capitalize rounded-lg"
+              outlined
+              min-width="130"
+              @click="generatePdf"
+            >
+              Generate PDF
+            </v-btn>
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               class="text-capitalize rounded-lg"
               dark
               min-width="130"
               @click="saveCalculation"
             >
               {{
-                $route.params.id === "crate"
+                $route.params.id === "create"
                   ? $t("prefinances.child.create")
                   : $t("prefinances.child.save")
               }}
             </v-btn>
+
           </v-card-actions>
         </v-card>
       </v-col>
@@ -548,7 +586,7 @@
           <div class="text-capitalize">
             {{ $t("prefinances.child.newDetails") }}
           </div>
-          <v-btn icon color="#7631FF" @click="new_details = false">
+          <v-btn icon color="#544B99" @click="new_details = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -573,7 +611,7 @@
                   v-model="details.expenseGroup"
                   validate-on-blur
                   :rules="[formRules.required]"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="4">
@@ -593,7 +631,7 @@
                   :disabled="expense_status"
                   item-value="id"
                   item-text="name"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="4">
@@ -608,7 +646,7 @@
                   v-model="details.quantity"
                   validate-on-blur
                   :rules="[formRules.required]"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="4">
@@ -629,7 +667,7 @@
                   :rules="[formRules.required]"
                   item-text="name"
                   item-value="id"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="4">
@@ -646,7 +684,7 @@
                   v-model="details.pricePerUnit"
                   validate-on-blur
                   :rules="[formRules.required]"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -662,7 +700,7 @@
           >{{ $t("prefinances.child.cancel") }}
           </v-btn>
           <v-btn
-            color="#7631FF"
+            color="#544B99"
             text
             class="text-capitalize font-weight-bold"
             @click="createDetailsNew"
@@ -678,7 +716,7 @@
           <div class="text-capitalize">
             {{ $t("prefinances.child.editDetails") }}
           </div>
-          <v-btn icon color="#7631FF" @click="cancelFunc">
+          <v-btn icon color="#544B99" @click="cancelFunc">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -697,7 +735,7 @@
                   v-model="selectDetail.expenseGroup"
                   validate-on-blur
                   :rules="[formRules.required]"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="4">
@@ -712,7 +750,7 @@
                   :rules="[formRules.required]"
                   item-value="id"
                   item-text="name"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="4">
@@ -723,7 +761,7 @@
                   v-model="selectDetail.quantity"
                   validate-on-blur
                   :rules="[formRules.required]"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="4">
@@ -738,7 +776,7 @@
                   :rules="[formRules.required]"
                   item-text="name"
                   item-value="id"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="4">
@@ -749,7 +787,7 @@
                   v-model="selectDetail.pricePerUnit"
                   validate-on-blur
                   :rules="[formRules.required]"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -765,7 +803,7 @@
           >{{ $t("prefinances.child.cancel") }}
           </v-btn>
           <v-btn
-            color="#7631FF"
+            color="#544B99"
             text
             class="text-capitalize font-weight-bold"
             @click="updateDetailsFunc"
@@ -780,10 +818,9 @@
         <div class="d-flex justify-center mb-2">
           <v-img src="/error-icon.svg" max-width="40"/>
         </div>
-        <v-card-title class="d-flex justify-center"
-        >Delete detail row
-        </v-card-title
-        >
+        <v-card-title class="d-flex justify-center">
+          Delete detail row
+        </v-card-title>
         <v-card-text> Are you sure you want to Delete detail row?</v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -809,6 +846,13 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-overlay v-model="isLoad" class="align-center justify-center">
+      <v-progress-circular
+        color="#544B99"
+        indeterminate
+        size="80"
+      ></v-progress-circular>
+    </v-overlay>
   </div>
 </template>
 
@@ -823,6 +867,7 @@ export default {
   components: {ShowBtnComponent, Breadcrumbs, DefaultLayout},
   data() {
     return {
+      isLoad:false,
       show_btn: true,
       hide_calc: true,
       new_details: false,
@@ -877,6 +922,7 @@ export default {
         preFinanceNumber: "",
         modelNumber: "",
         partnerId: "",
+        orderedQuantity: "",
         partner: "",
         primaryCurrency: "",
         tertiaryCurrency: "",
@@ -1154,6 +1200,7 @@ export default {
       documentsList: "documents/documentsList",
       onePreFinance: "preFinance/onePreFinance",
       selectedModelNumber: "preFinance/selectedModelNumber",
+      prefinancePdf: "preFinance/prefinancePdf",
     }),
     title() {
       const id = this.$route.params.id;
@@ -1167,6 +1214,22 @@ export default {
     },
   },
   watch: {
+    prefinancePdf(val){
+      const blob = new Blob(
+        [new Uint8Array([...val].map((char) => char.charCodeAt(0)))],
+        { type: "application/pdf" }
+      );
+      const objectUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.setAttribute("target", "_blank");
+      a.setAttribute("href", objectUrl);
+      a.click();
+      // this.pdfServe=objectUrl
+      this.isLoad = false;
+    },
+    modelSearch(val){
+      this.getModelName(val);
+    },
     onePreFinance(val) {
       if (Object.keys(val).length) {
         const data = JSON.parse(JSON.stringify(val));
@@ -1177,13 +1240,16 @@ export default {
         this.calculation[0].firstCurrency = this.detailsList[0].totalPrice;
         this.calculation[0].secondCurrency = (this.detailsList[0].totalPrice * val?.secondaryRate).toFixed(2);
         this.calculation[0].tertiaryCurrency = (this.detailsList[0].totalPrice * val?.tertiaryRate).toFixed(2);
+        this.headers[2].text=data.primaryCurrency
+        this.headers[3].text=data.secondaryCurrency
+        this.headers[4].text=data.tertiaryCurrency
         if (val?.overProductionPercent >= 0) {
           this.calculation[1].editable = val?.overProductionPercent;
           this.calculation[2].editable = val?.lossPercent;
           this.calculation[3].editable = val?.generalExpensePercent;
           this.calculation[4].editable = val?.extraExpensePercent;
           this.calculation[6].editable = val?.targetProfitPercent;
-          this.calculation[7].firstCurrency = val?.targetProfitPercent;
+          this.calculation[7].firstCurrency = val?.clientTargetPrice;
           this.calculation[9].editable = val?.discountPercent;
           this.calculation[13].firstCurrency = val?.soldPrice;
         }
@@ -1201,6 +1267,7 @@ export default {
 
       if (this.$route.params.id === "creating") {
         const data = {...val[0]};
+        console.log(data)
         this.addPreFinances = {
           id: data.id,
           modelNames: data.name,
@@ -1223,7 +1290,7 @@ export default {
       if (!(elem === "null" || typeof elem === "object")) {
         this.getModelName(elem);
       }
-      const {modelNumber, name, partner, id} = this.addPreFinances.modelNumber;
+      const {modelNumber, name, partner, id} = this.addPreFinances?.modelNumber;
       if ((Object.keys(this.addPreFinances.modelNumber).length > 3 && modelNumber) || name || partner !== undefined) {
         this.addPreFinances.partner = partner;
         this.addPreFinances.id = id;
@@ -1366,7 +1433,78 @@ export default {
       deleteDetails: "preFinance/deleteDetails",
       updateDetails: "preFinance/updateDetails",
       updatePreFinance: "preFinance/updatePreFinance",
+      getPrefinanceGeneratePdf:"preFinance/getPrefinanceGeneratePdf"
     }),
+    generatePdf(){
+      this.isLoad = true;
+      const id=this.$route.params.id
+      const data={
+        preFinanceId:id,
+        actualProfitValue:this.calculation[11].editable,
+        actualProfit:{
+          primaryCurrencyValue:this.calculation[11].firstCurrency,
+          secondaryCurrencyValue:this.calculation[11].secondCurrency,
+          tertiaryCurrencyValue:this.calculation[11].tertiaryCurrency,
+        },
+        actualProfitAmount:{
+          primaryCurrencyValue:this.calculation[12].firstCurrency,
+          secondaryCurrencyValue:this.calculation[12].secondCurrency,
+          tertiaryCurrencyValue:this.calculation[12].tertiaryCurrency,
+        },
+        clientTargetPrice:{
+          primaryCurrencyValue:this.calculation[7].firstCurrency,
+          secondaryCurrencyValue:this.calculation[7].secondCurrency,
+          tertiaryCurrencyValue:this.calculation[7].tertiaryCurrency,
+        },
+        costPrice:{
+          primaryCurrencyValue:this.calculation[5].firstCurrency,
+          secondaryCurrencyValue:this.calculation[5].secondCurrency,
+          tertiaryCurrencyValue:this.calculation[5].tertiaryCurrency,
+        },
+        costSubtotal:{
+          primaryCurrencyValue:this.calculation[0].firstCurrency,
+          secondaryCurrencyValue:this.calculation[0].secondCurrency,
+          tertiaryCurrencyValue:this.calculation[0].tertiaryCurrency,
+        },
+        discount:{
+          primaryCurrencyValue:this.calculation[9].firstCurrency,
+          secondaryCurrencyValue:this.calculation[9].secondCurrency,
+          tertiaryCurrencyValue:this.calculation[9].tertiaryCurrency,
+        },
+        generalExpenses:{
+          primaryCurrencyValue:this.calculation[3].firstCurrency,
+          secondaryCurrencyValue:this.calculation[3].secondCurrency,
+          tertiaryCurrencyValue:this.calculation[3].tertiaryCurrency,
+        },
+        givenPrice:{
+          primaryCurrencyValue:this.calculation[8].firstCurrency,
+          secondaryCurrencyValue:this.calculation[8].secondCurrency,
+          tertiaryCurrencyValue:this.calculation[8].tertiaryCurrency,
+        },
+        overProduction:{
+          primaryCurrencyValue:this.calculation[1].firstCurrency,
+          secondaryCurrencyValue:this.calculation[1].secondCurrency,
+          tertiaryCurrencyValue:this.calculation[1].tertiaryCurrency,
+        },
+        priceWithDiscount:{
+          primaryCurrencyValue:this.calculation[10].firstCurrency,
+          secondaryCurrencyValue:this.calculation[10].secondCurrency,
+          tertiaryCurrencyValue:this.calculation[10].tertiaryCurrency,
+        },
+        soldPrice:{
+          primaryCurrencyValue:this.calculation[13].firstCurrency,
+          secondaryCurrencyValue:this.calculation[13].secondCurrency,
+          tertiaryCurrencyValue:this.calculation[13].tertiaryCurrency,
+        },
+        targetProfit:{
+          primaryCurrencyValue:this.calculation[6].firstCurrency,
+          secondaryCurrencyValue:this.calculation[6].secondCurrency,
+          tertiaryCurrencyValue:this.calculation[6].tertiaryCurrency,
+        },
+      }
+      this.getPrefinanceGeneratePdf(data)
+
+    },
     clickBtn() {
       this.show_btn = !this.show_btn
     },
@@ -1374,6 +1512,7 @@ export default {
       const calcVal = this.calculation.filter(
         (el) => el.status === false || el.usd_disabled === false
       );
+      console.log(this.addPreFinances)
       calcVal.priceWithDiscountUSD = this.calculation[10].firstCurrency;
       calcVal.priceWithDiscountUZS = this.calculation[10].secondCurrency;
       calcVal.priceWithDiscountRUB = this.calculation[10].tertiaryCurrency;
@@ -1402,10 +1541,11 @@ export default {
     async createNewPreFinance() {
       const params = this.$route.params.id;
       if (params === "create"){
+        console.log(this.addPreFinances)
         await this.createPreFinance(this.addPreFinances);
       } else {
-        const { description, id, modelId, primaryCurrency, primaryRate, secondaryCurrency, secondaryRate,  tertiaryCurrency, tertiaryRate  } = this.addPreFinances;
-        const item = { description, id, modelId, primaryCurrency, primaryRate, secondaryCurrency, secondaryRate,  tertiaryCurrency, tertiaryRate  }
+        const { description, id, modelId, primaryCurrency, orderedQuantity, primaryRate, secondaryCurrency, secondaryRate,  tertiaryCurrency, tertiaryRate  } = this.addPreFinances;
+        const item = { description, id, modelId, primaryCurrency, orderedQuantity, primaryRate, secondaryCurrency, secondaryRate,  tertiaryCurrency, tertiaryRate  }
         await this.updatePreFinance(item);
       }
     },

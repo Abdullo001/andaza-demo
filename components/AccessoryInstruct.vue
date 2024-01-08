@@ -8,7 +8,7 @@
           outlined
           hide-details
           background-color="#F8F4FE"
-          color="#7631FF"
+          color="#544B99"
           rows="8"
           class="rounded-lg base"
         />
@@ -35,7 +35,7 @@
             delete
           </v-btn>
           <v-btn
-            color="#7631FF"
+            color="#544B99"
             class="text-capitalize rounded-lg"
             dark width="130" height="44"
             @click="saveComment"

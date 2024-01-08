@@ -13,7 +13,7 @@
         <v-toolbar elevation="0" class="rounded-lg">
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium text-capitalize">Density</div>
-            <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="new_dialog = true">
+            <v-btn color="#544B99" class="rounded-lg text-capitalize" dark @click="new_dialog = true">
               <v-icon>mdi-plus</v-icon>
               Density
             </v-btn>
@@ -39,7 +39,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Create Density</div>
-          <v-btn icon color="#7631FF" @click="new_dialog = false">
+          <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -50,21 +50,21 @@
               label="Density level"
               placeholder="Select density level"
               dense
-              color="#7631FF"
+              color="#544B99"
             />
             <v-textarea
               filled
               label="Description"
               placeholder="Enter Density description"
               dense
-              color="#7631FF"
+              color="#544B99"
             />
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="163"
             @click="new_dialog = false"
           >
@@ -72,7 +72,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="163"
           >
             create
@@ -84,7 +84,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Edit Density</div>
-          <v-btn icon color="#7631FF" @click="edit_dialog = false">
+          <v-btn icon color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -95,21 +95,21 @@
               label="Density level"
               placeholder="Select Density level"
               dense
-              color="#7631FF"
+              color="#544B99"
             />
             <v-textarea
               filled
               label="Description"
               placeholder="Enter Density"
               dense
-              color="#7631FF"
+              color="#544B99"
             />
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="163"
             @click="edit_dialog = false"
           >
@@ -117,7 +117,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="163"
           >
             create

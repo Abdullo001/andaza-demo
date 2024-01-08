@@ -14,7 +14,7 @@
             <v-spacer />
             <v-btn
               class="rounded-lg text-capitalize"
-              color="#7631FF"
+              color="#544B99"
               width="160"
               height="36"
               @click="newDialog = true"
@@ -49,7 +49,7 @@
             </template>
             <span>Delete</span>
           </v-tooltip>
-          <v-tooltip top color="#7631FF">
+          <v-tooltip top color="#544B99">
             <template #activator="{ on, attrs }">
               <v-btn
                 icon
@@ -72,7 +72,7 @@
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between mb-6">
           <div class="title text-capitalize">add document</div>
-          <v-btn icon color="#7631FF" @click="newDialog = false">
+          <v-btn icon color="#544B99" @click="newDialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -90,7 +90,7 @@
                   show-size
                   prepend-icon=""
                   prepend-inner-icon="mdi-file-document-outline"
-                  color="#7631FF"
+                  color="#544B99"
                   v-model="newDocument.file"
                   validate-on-blur
                   :rules="[formRules.required]"
@@ -103,7 +103,7 @@
                   height="44"
                   dense
                   class="rounded-lg base"
-                  color="#7631FF"
+                  color="#544B99"
                   v-model="newDocument.title"
                   validate-on-blur
                   :rules="[formRules.required]"
@@ -117,7 +117,7 @@
           <v-btn
             class="font-weight-bold text-capitalize rounded-lg border"
             outlined
-            color="#7631FF"
+            color="#544B99"
             width="140"
             height="40"
             @click="newDialog = false"
@@ -126,7 +126,7 @@
           </v-btn>
           <v-btn
             class="font-weight-bold text-capitalize rounded-lg ml-4"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="140"
             height="40"
@@ -177,7 +177,7 @@
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between mb-6">
           <div class="title text-capitalize">edit document</div>
-          <v-btn icon color="#7631FF" @click="edit_dialog = false">
+          <v-btn icon color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -195,7 +195,7 @@
                   show-size
                   prepend-icon=""
                   prepend-inner-icon="mdi-file-document-outline"
-                  color="#7631FF"
+                  color="#544B99"
                   v-model="edit_document.file"
                   validate-on-blur
                 />
@@ -207,7 +207,7 @@
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  color="#7631FF"
+                  color="#544B99"
                   v-model="edit_document.title"
                   validate-on-blur
                   :rules="[formRules.required]"
@@ -221,7 +221,7 @@
           <v-btn
             class="font-weight-bold text-capitalize rounded-lg border"
             outlined
-            color="#7631FF"
+            color="#544B99"
             width="140"
             height="40"
             @click="edit_dialog = false"
@@ -230,7 +230,7 @@
           </v-btn>
           <v-btn
             class="font-weight-bold text-capitalize rounded-lg ml-4"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="140"
             height="40"

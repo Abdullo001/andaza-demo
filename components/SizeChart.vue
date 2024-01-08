@@ -30,7 +30,7 @@
               <template #activator="{ on, attrs }">
                 <v-btn
                   class="rounded-lg text-none white--text"
-                  color="#7631FF"
+                  color="#544B99"
                   height="36"
                   v-bind="attrs"
                   v-on="on"
@@ -60,7 +60,7 @@
             <v-spacer/>
             <v-btn
               class="rounded-lg text-capitalize"
-              color="#7631FF"
+              color="#544B99"
               width="160" height="36"
               @click="newDialog"
               dark
@@ -80,7 +80,7 @@
       <v-card>
         <v-card-title class="d-flex align-center justify-space-between w-full">
           <div class="title">New measurement item</div>
-          <v-btn icon large color="#7631FF" @click="new_dialog = false">
+          <v-btn icon large color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -102,7 +102,7 @@
                   validate-on-blur
                   :placeholder="`Enter  ${el.text}`"
                   v-model="new_chart[el.value]"
-                  color="#7631FF"
+                  color="#544B99"
                   :suffix="el.text === 'Shrinkage'?'%':null"
                 >
                   <template #prepend-inner>
@@ -122,7 +122,7 @@
           <v-spacer/>
           <v-btn
             class="font-weight-bold text-capitalize rounded-lg border"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="140" height="40"
             @click="new_dialog=false"
           >
@@ -130,7 +130,7 @@
           </v-btn>
           <v-btn
             class="font-weight-bold text-capitalize rounded-lg ml-4"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="140" height="40"
             @click="saveChart"
           >
@@ -144,7 +144,7 @@
       <v-card>
         <v-card-title class="d-flex align-center justify-space-between w-full">
           <div class="title">Edit measurement items</div>
-          <v-btn icon large color="#7631FF" @click="edit_dialog = false">
+          <v-btn icon large color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -166,7 +166,7 @@
                   validate-on-blur
                   :placeholder="`Enter ${el.text}`"
                   v-model="edit_chart[el.value]"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -176,7 +176,7 @@
           <v-spacer/>
           <v-btn
             class="font-weight-bold text-capitalize rounded-lg border"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="140" height="40"
             @click="edit_dialog=false"
           >
@@ -184,7 +184,7 @@
           </v-btn>
           <v-btn
             class="font-weight-bold text-capitalize rounded-lg ml-4"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="140" height="40"
             @click="editChart"
           >
@@ -280,7 +280,6 @@ export default {
   watch: {
     new_chart: {
       handler(val) {
-        // console.log(val);
       }, deep: true
     },
     headers(val) {
@@ -330,6 +329,20 @@ export default {
         data.modelId = this.newModelId
       } else {
         data.modelId = id
+      }
+      for (let item in data){
+        if(data[item]==="" || data[item]===null){
+          data[item]=0
+        }
+      }
+      if(data.code==="" || data.code===null || data.code===0){
+        data.code=""
+      }
+      if(data.description==="" || data.description===null || data.description===0){
+        data.description=""
+      }
+      if(data.sizeName==="" || data.sizeName===null || data.sizeName===0){
+        data.sizeName=""
       }
       await this.createSizeChart(data);
       this.new_dialog = false;
@@ -402,7 +415,7 @@ export default {
 }
 
 .v-list-item.primary--text {
-  color: #7631FF !important;
+  color: #544B99 !important;
 
   &:after {
     content: '✔';
@@ -411,7 +424,7 @@ export default {
 }
 
 .v-list-item-group .v-list-item--active {
-  color: #7631FF;
+  color: #544B99;
 }
 .v-text-field--full-width.v-input--dense:not(.v-text-field--solo).v-text-field--outlined .v-input__prepend-outer, .v-text-field--full-width.v-input--dense:not(.v-text-field--solo).v-text-field--outlined .v-input__prepend-inner, .v-text-field--full-width.v-input--dense:not(.v-text-field--solo).v-text-field--outlined .v-input__append-inner, .v-text-field--full-width.v-input--dense:not(.v-text-field--solo).v-text-field--outlined .v-input__append-outer, .v-text-field--enclosed.v-input--dense:not(.v-text-field--solo).v-text-field--outlined .v-input__prepend-outer, .v-text-field--enclosed.v-input--dense:not(.v-text-field--solo).v-text-field--outlined .v-input__prepend-inner, .v-text-field--enclosed.v-input--dense:not(.v-text-field--solo).v-text-field--outlined .v-input__append-inner, .v-text-field--enclosed.v-input--dense:not(.v-text-field--solo).v-text-field--outlined .v-input__append-outer {
   margin-top: 6px;

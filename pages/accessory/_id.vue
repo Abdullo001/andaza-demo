@@ -27,13 +27,13 @@
               class="rounded-lg base mb-4"
               :return-object="true"
               disabled
-              color="#7631FF"
+              color="#544B99"
             >
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">Model number</div>
-            <v-combobox
+            <!-- <v-combobox
               :items="modelData"
               v-model="accessoryDetail.modelNumber"
               placeholder="Search by model number"
@@ -46,11 +46,31 @@
               dense
               class="rounded-lg base mb-4"
               :search-input.sync="search"
-              color="#7631FF"
+              color="#544B99"
               append-icon=""
             >
               <template #append>
-                <v-icon color="#7631FF">mdi-magnify</v-icon>
+                <v-icon color="#544B99">mdi-magnify</v-icon>
+              </template>
+            </v-combobox> -->
+            <v-combobox
+              v-model="accessoryDetail.modelNumber"
+              :items="modelData"
+              :search-input.sync="modelSearch"
+              item-text="modelNumber"
+              item-value="modelNumber"
+              outlined
+              height="44"
+              class="rounded-lg base"
+              hide-details
+              :return-object="true"
+              color="#544B99"
+              dense
+              :placeholder="$t('prefinances.child.enterModelNumber')"
+              append-icon="mdi-chevron-down"
+            >
+              <template #append>
+                <v-icon color="#544B99">mdi-magnify</v-icon>
               </template>
             </v-combobox>
           </v-col>
@@ -66,7 +86,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -81,7 +101,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
         </v-row>
@@ -98,7 +118,7 @@
               placeholder="Enter client name"
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             >
             </v-text-field>
           </v-col>
@@ -114,7 +134,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -129,7 +149,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             >
               <template #append>
                 <v-img src="/date-icon.svg" />
@@ -148,7 +168,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             >
               <template #append>
                 <v-img src="/date-icon.svg" />
@@ -167,7 +187,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -182,7 +202,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             >
               <template #append>
                 <v-img src="/date-icon.svg" />
@@ -201,7 +221,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -216,7 +236,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             >
               <template #append>
                 <v-img src="/date-icon.svg" />
@@ -235,7 +255,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -250,7 +270,7 @@
               dense
               class="rounded-lg base mb-4"
               disabled
-              color="#7631FF"
+              color="#544B99"
             >
               <template #append>
                 <v-img src="/date-icon.svg" />
@@ -289,7 +309,7 @@
               dark
               elevation="0"
               class="rounded-lg text-capitalize"
-              color="#7631FF"
+              color="#544B99"
               @click="saveBtn"
               width="130"
               height="44"
@@ -309,8 +329,8 @@
       </v-card-actions>
     </v-card>
     <v-card class="elevation-0 rounded-lg mt-5">
-      <v-tabs color="#7631FF" v-model="accessory_tab">
-        <v-tabs-slider color="#7631FF" />
+      <v-tabs color="#544B99" v-model="accessory_tab">
+        <v-tabs-slider color="#544B99" />
         <v-tab
           class="text-capitalize"
           v-for="item in items"
@@ -328,9 +348,6 @@
           <AccessoryOrderPages />
         </v-tab-item>
         <v-tab-item>
-          <AccessorySupplyPages />
-        </v-tab-item>
-        <v-tab-item>
           <AccessoryDocumentsPages />
         </v-tab-item>
       </v-tabs-items>
@@ -339,7 +356,7 @@
       <v-card>
         <v-card-title class="d-flex">
           <v-spacer />
-          <v-btn icon color="#7631FF" large @click="image_dialog = false">
+          <v-btn icon color="#544B99" large @click="image_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -354,7 +371,6 @@ import { mapActions, mapGetters } from "vuex";
 import Breadcrumbs from "../../components/Breadcrumbs.vue";
 import AccessoryChartPages from "../../components/PlanningAccessory/AccessoryChart.vue";
 import AccessoryOrderPages from "../../components/PlanningAccessory/AccessoryOrder.vue";
-import AccessorySupplyPages from "../../components/PlanningAccessory/AccessorySupply.vue";
 import AccessoryDocumentsPages from "../../components/PlanningAccessory/AccessorDocuments.vue";
 import ShowBtnComponent from "../../components/ShowComponentBtn/ShowBtn.vue";
 
@@ -362,7 +378,6 @@ export default {
   components: {
     ShowBtnComponent,
     AccessoryDocumentsPages,
-    AccessorySupplyPages,
     AccessoryOrderPages,
     AccessoryChartPages,
     Breadcrumbs,
@@ -393,14 +408,13 @@ export default {
         createdTimeOfOrder: "",
       },
       handleDiffirence: null,
-
+      modelSearch:"",
       title: "Add",
       search: "",
       accessory_tab: null,
       items: [
         "Accessory planning chart",
         "Planned accessory order",
-        "Supply accessory",
         "Documentation",
       ],
       fields_status: true,
@@ -430,6 +444,10 @@ export default {
     };
   },
 
+  created(){
+    this.getModelName("")
+  },
+
   computed: {
     showObject(){
       return{
@@ -437,20 +455,24 @@ export default {
       }
     },
     ...mapGetters({
-      modelData: "accessory/modelData",
+      modelList: "orders/modelList",
+      modelData: "preFinance/modelData",
       accessoryData: "accessory/accessoryData",
       modelImages: "modelPhoto/modelImages",
       OneData: "accessory/oneData",
     }),
   },
   watch: {
+    modelSearch(val){
+      this.getModelName(val);
+    },
     search(elem) {
       if (!(typeof elem === null || typeof elem === "object")) {
         this.getModelName(elem);
       }
     },
     async "accessoryDetail.modelNumber"(val) {
-      if (typeof val !== null || !!Object.keys(val).length) {
+      if (typeof val !== null && !!Object.keys(val).length && typeof val ==='object') {
         const id = val?.id;
         await this.getModelOrderInfo(id);
         if (id !== null && id !== undefined) {
@@ -473,8 +495,8 @@ export default {
 
   methods: {
     ...mapActions({
+      getModelName: "preFinance/getModelName",
       getModelOrderInfo: "accessory/getModelOrderInfo",
-      getModelName: "accessory/getModelName",
       getImages: "modelPhoto/getImages",
       createPlanningAccessory: "accessory/createPlanningAccessory",
       updatePlanningAccessory: "accessory/updatePlanningAccessory",
@@ -510,7 +532,7 @@ export default {
     const param = this.$route.params.id;
     if (param !== "create") {
       this.title = "Edit";
-      this.getOneAccessory({ id: param });
+      await this.getOneAccessory({ id: param });
     }
 
     this.$store.commit("modelPhoto/setModelImages", []);

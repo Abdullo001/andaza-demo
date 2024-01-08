@@ -73,14 +73,14 @@
             <div class="d-flex justify-center">
               <v-btn
                 width="140" outlined
-                color="#397CFD" elevation="0"
+                color="#544B99" elevation="0"
                 class="text-capitalize mr-4 rounded-lg font-weight-bold"
                 @click.stop="resetSearch"
               >
                 {{ $t('userManagement.dialog.reset') }}
               </v-btn>
               <v-btn
-                width="140" color="#397CFD" dark
+                width="140" color="#544B99" dark
                 elevation="0"
                 class="text-capitalize rounded-lg font-weight-bold"
                 @click="filter"
@@ -114,7 +114,7 @@
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium">{{ $t('userManagement.dialog.users') }}</div>
-            <v-btn color="#7631FF" class="rounded-lg" dark @click.stop="new_user = true">
+            <v-btn color="#544B99" class="rounded-lg" dark @click.stop="new_user = true">
               <v-icon>mdi-plus</v-icon>
               {{ $t('userManagement.dialog.user') }}
             </v-btn>
@@ -239,7 +239,7 @@
         <v-card-title class="w-full d-flex justify-space-between">
           <div> {{ $t('userManagement.dialog.addUser') }}</div>
           <v-btn icon @click="resetUserDialog">
-            <v-icon color="#7631FF">mdi-close</v-icon>
+            <v-icon color="#544B99">mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-card-text>
@@ -270,7 +270,7 @@
                   dense
                   outlined
                   class="base rounded-lg"
-                  color="#7631FF"
+                  color="#544B99"
                   hide-details
                   :placeholder="$t('userManagement.dialog.enterUsername')"
                   v-model="user_data.username"
@@ -283,7 +283,7 @@
                 <v-text-field
                   outlined
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                   hide-details
                   class="base rounded-lg"
                   :placeholder="$t('userManagement.dialog.enterFirstName')"
@@ -299,7 +299,7 @@
                   dense
                   clearable
                   class="base rounded-lg"
-                  color="#7631FF"
+                  color="#544B99"
                   hide-details
                   :placeholder="$t('userManagement.dialog.enterLastName')"
                   v-model="user_data.lastname"
@@ -312,7 +312,7 @@
                 <vue-phone-number-input
                   v-model="user_data.phone"
                   @update="phoneNumber"
-                  :color="'#7631FF'"
+                  :color="'#544B99'"
                 />
               </v-col>
 
@@ -323,7 +323,7 @@
                   hide-details
                   outlined
                   class="base rounded-lg"
-                  color="#7631FF"
+                  color="#544B99"
                   :placeholder="$t('userManagement.dialog.entereMail')"
                   v-model="user_data.email"
                   validate-on-blur
@@ -337,7 +337,7 @@
                   class="base rounded-lg"
                   dense
                   hide-details
-                  color="#7631FF"
+                  color="#544B99"
                   :placeholder="$t('userManagement.dialog.selectGender')"
                   v-model="user_data.gender"
                   :rules="[formRules.required]"
@@ -381,14 +381,14 @@
           <v-btn
             outlined
             class="text-capitalize rounded-lg font-weight-bold mr-6"
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click="resetUserDialog"
           >{{ $t('userManagement.dialog.cancel') }}
           </v-btn>
           <v-btn
             class="text-capitalize rounded-lg font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="addUser"
@@ -402,7 +402,7 @@
         <v-card-title class="w-full d-flex justify-space-between">
           <div>{{ $t('userManagement.dialog.editUser') }}</div>
           <v-btn icon @click="edit_user = false">
-            <v-icon color="#7631FF">mdi-close</v-icon>
+            <v-icon color="#544B99">mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-card-text>
@@ -414,7 +414,7 @@
                 filled
                 dense
                 height="44"
-                color="#7631FF"
+                color="#544B99"
                 :placeholder="$t('userManagement.dialog.enterFirstName')"
                 v-model="user_update_data.firstName"
                 :rules="[formRules.required]"
@@ -428,7 +428,7 @@
                 filled
                 dense
                 height="44"
-                color="#7631FF"
+                color="#544B99"
                 :placeholder="$t('userManagement.dialog.enterLastName')"
                 v-model="user_update_data.lastName"
                 :rules="[formRules.required]"
@@ -442,7 +442,7 @@
                 filled
                 dense
                 height="44"
-                color="#7631FF"
+                color="#544B99"
                 v-mask="'+### (##) ### ## ##'"
                 placeholder="(--) --- -- --"
                 v-model.trim="user_update_data.phoneNumber"
@@ -457,7 +457,7 @@
                 filled
                 dense
                 height="44"
-                color="#7631FF"
+                color="#544B99"
                 :placeholder="$t('userManagement.dialog.enterUsername')"
                 v-model="user_update_data.username"
                 :rules="[formRules.required]"
@@ -471,7 +471,7 @@
                 filled
                 dense
                 height="44"
-                color="#7631FF"
+                color="#544B99"
                 :placeholder="$t('userManagement.dialog.entereMail')"
                 class="mb-3"
                 v-model="user_update_data.email"
@@ -496,14 +496,14 @@
           <v-btn
             outlined
             class="text-capitalize rounded-lg font-weight-bold mr-6"
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click.stop="edit_user = false"
           >{{ $t('userManagement.dialog.cancel') }}
           </v-btn>
           <v-btn
             class="text-capitalize rounded-lg font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="changeUserStatus"
@@ -675,13 +675,16 @@ export default {
         endTime: this.search.end_time
       })
     },
-    async addUser() {
+    addUser() {
       const valid = this.$refs.new_user.validate()
       if (valid) {
+        if(this.user_data.photo===null){
+          delete this.user_data.photo
+        }
         const user = {...this.user_data};
         user.lang = user.lang.title;
         user.userPhone =  this.userPhoneNumber;
-        await this.createUser(user);
+        this.createUser(user);
         this.user_data.phone = '';
       }
     },
@@ -774,7 +777,7 @@ export default {
 .btn-color {
   font-size: 14px;
   line-height: 140%;
-  color: #7631FF;
+  color: #544B99;
 }
 
 </style>

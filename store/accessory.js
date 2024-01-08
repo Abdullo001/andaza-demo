@@ -44,22 +44,21 @@ export const actions = {
       .$put(`/api/v1/accessory-planning/update`, data)
       .then((res) => {
         commit("setAccessorData", res.data);
-        dispatch("getOneAccessory",{id:data.id})
+        dispatch("getOneAccessory", { id: data.id });
 
         this.$toast.success(res.data.message);
-
       })
       .catch(({ response }) => {
         console.log(response);
       });
   },
-  async createPlanningAccessory({ commit,dispatch }, data) {
+  async createPlanningAccessory({ commit, dispatch }, data) {
     this.$axios
       .$post(`/api/v1/accessory-planning/create`, data)
       .then((res) => {
         commit("setAccessorData", res.data);
-        dispatch("getOneAccessory",{id:res.data.id})
-        commit("setNewId",res.data.id)
+        dispatch("getOneAccessory", { id: res.data.id });
+        commit("setNewId", res.data.id);
         console.log(res);
         this.$toast.success(res.message);
       })
@@ -148,11 +147,11 @@ export const actions = {
           value: name,
         },
         {
-          key: 'status',
-          operator: 'EQUAL',
-          propertyType: 'STATUS',
-          value: 'ACTIVE'
-        }
+          key: "status",
+          operator: "EQUAL",
+          propertyType: "STATUS",
+          value: "ACTIVE",
+        },
       ],
       sorts: [],
       page: 0,
@@ -168,32 +167,30 @@ export const actions = {
       });
   },
   async getModelOrderInfo({ commit }, id) {
-    if (!!id) {
-      await this.$axios
-        .get(`/api/v1/accessory-planning/model-order-info?modelId=${id}`)
-        .then((res) => {
-          if (res.data.message === "Successfully") {
-            commit("setAccessorData", res.data.data);
-            console.log(res)
-          }
-        })
-        .catch(({ response }) => {
-          console.log(response);
-        });
-    }
+    await this.$axios
+      .get(`/api/v1/accessory-planning/model-order-info?modelId=${id}`)
+      .then((res) => {
+        commit("setAccessorData", res.data.data);
+      })
+      .catch(({ response }) => {
+        console.log(response);
+      });
   },
-  async getAccessoryList({ commit }, { page, size }) {
+  async getAccessoryList({ commit }, { page, size,data }) {
     const body = {
-      filters: [],
-      sorts: [],
+      clientName: data?.clientName,
+      modelNumber: data?.modelNumber,
+      orderNumber: data?.orderNumber,
+      fromDate: data?.fromDate,
+      toDate: data?.toDate,
       page: page,
       size: size,
     };
     await this.$axios
       .$put("/api/v1/accessory-planning/list", body)
       .then((res) => {
-          commit("setAccessoryList", res.data);
-          commit("setLoading", false);
+        commit("setAccessoryList", res.data);
+        commit("setLoading", false);
       })
       .catch(({ response }) => {
         console.log(response);

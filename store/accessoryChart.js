@@ -41,10 +41,10 @@ export const actions = {
         this.$toast.error(response.data.message)
       })
   },
-  async updateChartAccessory({dispatch}, data){
+  async updateChartAccessory({dispatch}, {data,id}){
     await this.$axios.$put('/api/v1/accessory-planning-chart/update', data)
       .then(res => {
-        dispatch("getChartAllData", data.accessoryPlanningId);
+        dispatch("getChartAllData", id);
         this.$toast.success(res.message);
       })
       .catch(({response}) => {
@@ -52,10 +52,13 @@ export const actions = {
         this.$toast.error(response.data.message)
       })
   },
-  async createChartAccessory({dispatch}, data){
-    await this.$axios.$post('/api/v1/accessory-planning-chart/create', data)
+  async createChartAccessory({dispatch}, {data,id}){
+    const config = {
+      headers: {"Content-Type": "multipart/form-data"}
+    }
+    await this.$axios.$post('/api/v1/accessory-planning-chart/create', data,config)
       .then(res => {
-        dispatch("getChartAllData", data.accessoryPlanningId);
+        dispatch("getChartAllData", id);
         this.$toast.success(res.message);
       })
       .catch(({response}) => {
@@ -133,6 +136,5 @@ export const actions = {
       .catch((res)=>{
         console.log(res)
       })
-
   }
 }

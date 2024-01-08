@@ -4,6 +4,7 @@ export const state = () => ({
   measurementUnitList: [],
   subcontractsList: [],
   modelList: {},
+  planningProcessId:null,
 });
 
 export const getters = {
@@ -30,13 +31,15 @@ export const mutations = {
   setModelList(state, item) {
     state.modelList = item;
   },
+  setPlanningProcessId(state, item) {
+    state.planningProcessId = item;
+  },
 };
 
 export const actions = {
-  async getSubcontractsList({ commit }, { modelNumber, modelId = "" }) {
-    modelNumber = modelNumber === null && modelNumber === undefined ? "" : modelNumber;
+  async getSubcontractsList({ commit,state }, ) {
     await this.$axios
-      .get(`/api/v1/subcontracts/get-modelNumber?modelId=${modelId}&modelNumber=${modelNumber}`)
+      .get(`/api/v1/process-details/list-subcontractor?planningProcessId=${state.planningProcessId}`)
       .then((res) => {
         commit("setSubcontractsList", res.data);
       })
@@ -114,37 +117,126 @@ export const actions = {
       });
   },
 
-  async updateSubcontracts({ dispatch },  data ) {
-    const body = {
-      cooperationTypeId: data.cooperationTypeId,
-      description: data.description,
-      dispatchedDate: data.dispatchedDate,
-      id: data.id,
-      measurementUnitId: data.measurementUnitId,
-      modelId: data.modelId,
-      partnerId: data.partnerId,
-      quantity: data.quantity,
-    };
-    await this.$axios
-      .put(`/api/v1/subcontracts/update`, body)
-      .then((res) => {
-        dispatch("getSubcontractsList",{modelNumber:"",modelId:body.modelId})
-        this.$toast.success(res.data.message, { theme: "toasted-primary" });
-      })
-      .catch((res) => {
-        console.log(res);
-        this.$toast.error(res.data.message, { theme: "toasted-primary" });
-      });
+  setUpdateSizes({dispatch,state},data){
+    this.$axios.put(`/api/v1/process-details/update`,data)
+    .then((res)=>{
+      dispatch("getSubcontractsList")
+    })
+    .catch(({res})=>{
+      this.$toast.error(res.data.message)
+      console.log(res);
+    })
   },
 
-  async deleteSubcontractServer({dispatch},{id,modelId}){
-    await this.$axios.delete(`/api/v1/subcontracts/delete?id=${id}`)
+  setClassification({commit,state}){
+    this.$axios.get(`/api/v1/classification/list-subcontractor?planningProcessId=${state.planningProcessId}`)
     .then((res)=>{
-      this.$toast.success(res.data.message);
-      dispatch("getSubcontractsList",{modelNumber:"",modelId:modelId});
+      commit(
+        "cuttingProcess/setClassificationList",
+        res.data.data,
+        { root: true }
+      );
     })
     .catch((res)=>{
       console.log(res);
+    })
+  },
+
+  createClassification({dispatch},data){
+    this.$axios.post(`/api/v1/classification/create`,data)
+    .then((res)=>{
+      this.$toast.success(res.data.message)
+      dispatch("getSubcontractsList")
+      dispatch("setClassification")
+    })
+    .catch(({res})=>{
+      this.$toast.error(res.data.message)
+      console.log(res);
+    })
+  },
+
+  updateClassificationSubcontract({dispatch},data){
+    this.$axios.put(`/api/v1/classification/update`,data)
+    .then((res)=>{
+      this.$toast.success(res.data.message)
+      dispatch("getSubcontractsList")
+      dispatch("setClassification")
+    })
+    .catch(({res})=>{
+      this.$toast.error(res.data.message)
+      console.log(res);
+    })
+  },
+
+  deleteClassificationSubcontracts({dispatch},id){
+    this.$axios.delete(`/api/v1/classification/delete?id=${id}`)
+    .then((res)=>{
+      this.$toast.success(res.data.message)
+      dispatch("getSubcontractsList")
+      dispatch("setClassification")
+    })
+    .catch(({res})=>{
+      this.$toast.error(res.data.message)
+      console.log(res);
+    })
+  },
+
+  saveReturnFabric({dispatch},data){
+    this.$axios.put(`/api/v1/process-details/return-fabric`,data)
+    .then((res)=>{
+      this.$toast.success(res.data.message)
+      dispatch("getSubcontractsList")
+    })
+    .catch(({res})=>{
+      this.$toast.error(res.data.message)
+      console.log(res);
+    })
+  },
+
+  async deleteSubcontractServer({dispatch},{id}){
+    await this.$axios.delete(`/api/v1/process-details/delete?id=${id}`)
+    .then((res)=>{
+      this.$toast.success(res.data.message);
+      dispatch("getSubcontractsList")
+
+    })
+    .catch((res)=>{
+      console.log(res);
+    })
+  },
+
+  changeStatus({dispatch},{id,status}){
+    this.$axios.put(`/api/v1/process-details/change-status?id=${id}&status=${status}`)
+    .then((res)=>{
+      dispatch("getSubcontractsList")
+      this.$toast.success(res.data.message)
+    })
+    .catch(({res})=>{
+      console.log(res);
+      this.$toast.error(res.data.message)
+    })
+  },
+
+  setMainColor({dispatch},id){
+    this.$axios.put(`/api/v1/process-details/set-main?id=${id}`)
+    .then((res)=>{
+      dispatch("getSubcontractsList")
+      this.$toast.success(res.data.message)
+    })
+    .catch(({res})=>{
+      this.$toast.error(res.data.message)
+      console.log(res);
+    })
+  },
+  setWasteFabric({dispatch,state},data){
+    this.$axios.put(`/api/v1/process-details/set-waste-fabric`,data)
+    .then((res)=>{
+      dispatch("getSubcontractsList")
+      this.$toast.success(res.data.message)
+    })
+    .catch(({res})=>{
+      console.log(res);
+      this.$toast.error(res.data.message)
     })
   }
 };

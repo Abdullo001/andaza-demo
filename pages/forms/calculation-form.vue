@@ -1,6 +1,6 @@
 <template >
   <div>
-    finish warehouse
+    hello
   </div>
 </template>
 <script>

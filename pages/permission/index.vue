@@ -74,14 +74,14 @@
             <div class="d-flex justify-center">
               <v-btn
                 width="140" outlined
-                color="#397CFD" elevation="0"
+                color="#544B99" elevation="0"
                 class="text-capitalize mr-4 rounded-lg font-weight-bold"
                 @click.stop="resetSearch"
               >
                 {{ $t('permissionControl.dialog.reset') }}
               </v-btn>
               <v-btn
-                width="140" color="#397CFD" dark
+                width="140" color="#544B99" dark
                 elevation="0"
                 class="text-capitalize rounded-lg font-weight-bold"
                 @click="filterPermission"
@@ -112,7 +112,7 @@
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium">{{ $t('permissionControl.dialog.permission') }}</div>
-            <v-btn color="#7631FF" class="rounded-lg text-capitalize" dark @click="new_dialog = !new_dialog">
+            <v-btn color="#544B99" class="rounded-lg text-capitalize" dark @click="new_dialog = !new_dialog">
               <v-icon>mdi-plus</v-icon>
               {{ $t('permissionControl.dialog.permission') }}
             </v-btn>
@@ -152,7 +152,7 @@
         <v-card-title class="w-full d-flex justify-space-between">
           <div>{{ $t('permissionControl.dialog.newPermission') }}</div>
           <v-btn @click="new_dialog = !new_dialog" icon>
-            <v-icon color="#7631FF">mdi-close</v-icon>
+            <v-icon color="#544B99">mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-card-text>
@@ -167,7 +167,7 @@
                   class="rounded-lg base"
                   dense
                   v-model="new_permissionData.name"
-                  color="#7631FF"
+                  color="#544B99"
                   :placeholder="$t('permissionControl.dialog.enterPermissionName')"
                   :rules="[formRules.required]"
                   validate-on-blur
@@ -181,7 +181,7 @@
                   class="rounded-lg base"
                   dense
                   v-model="new_permissionData.description"
-                  color="#7631FF"
+                  color="#544B99"
                   :placeholder="$t('permissionControl.dialog.enterPermissionDescription')"
                   :rules="[formRules.required]"
                   validate-on-blur
@@ -196,7 +196,7 @@
                   class="rounded-lg base"
                   dense
                   v-model="new_permissionData.path"
-                  color="#7631FF"
+                  color="#544B99"
                   :placeholder="$t('permissionControl.dialog.enterPermissionPath')"
                   :rules="[formRules.required]"
                   validate-on-blur
@@ -209,14 +209,14 @@
           <v-btn
             outlined
             class="text-capitalize rounded-lg font-weight-bold mr-6"
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click="new_dialog = !new_dialog"
           >{{ $t('permissionControl.dialog.cancel') }}
           </v-btn>
           <v-btn
             class="text-capitalize rounded-lg font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="save"
@@ -231,7 +231,7 @@
         <v-card-title class="w-full d-flex justify-space-between">
           <div>{{ $t('permissionControl.dialog.editUser') }}</div>
           <v-btn @click="edit_dialog = !edit_dialog" icon>
-            <v-icon color="#7631FF">mdi-close</v-icon>
+            <v-icon color="#544B99">mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-card-text>
@@ -247,7 +247,7 @@
                   dense
                   disabled
                   v-model="edit_permission.id"
-                  color="#7631FF"
+                  color="#544B99"
                   placeholder="Enter permission name"
                   validate-on-blur
                 />
@@ -262,7 +262,7 @@
                   dense
                   :items="statusEnums"
                   v-model="edit_permission.status"
-                  color="#7631FF"
+                  color="#544B99"
                   append-icon="mdi-chevron-down"
                   :placeholder="$t('permissionControl.dialog.selectStatus')"
                   validate-on-blur
@@ -277,7 +277,7 @@
                   class="rounded-lg base"
                   dense
                   v-model="edit_permission.name"
-                  color="#7631FF"
+                  color="#544B99"
                   :placeholder="$t('permissionControl.dialog.enterPermissionName')"
                   validate-on-blur
                 />
@@ -290,7 +290,7 @@
                   class="rounded-lg base"
                   dense
                   v-model="edit_permission.description"
-                  color="#7631FF"
+                  color="#544B99"
                   :placeholder="$t('permissionControl.dialog.enterPermissionDescription')"
                   validate-on-blur
                 />
@@ -304,7 +304,7 @@
                   class="rounded-lg base"
                   dense
                   v-model="edit_permission.path"
-                  color="#7631FF"
+                  color="#544B99"
                   :placeholder="$t('permissionControl.dialog.enterPermissionPath')"
                   validate-on-blur
                 />
@@ -316,14 +316,14 @@
           <v-btn
             outlined
             class="text-capitalize rounded-lg font-weight-bold mr-6"
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click="edit_dialog = !edit_dialog"
           >{{ $t('permissionControl.dialog.cancel') }}
           </v-btn>
           <v-btn
             class="text-capitalize rounded-lg font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="updatePermission"

@@ -7,6 +7,7 @@ export const state = () => ({
   accessoriesDetailList:{},
   accessoriesSpendList:[],
   editDates:{},
+  historyList:[],
 });
 
 export const getters = {
@@ -17,7 +18,8 @@ export const getters = {
   modelsListSpend: state=>state.modelsListSpend,
   accessoriesDetailList: state=>state.accessoriesDetailList,
   accessoriesSpendList: state=>state.accessoriesSpendList,
-  editDates:state=>state.editDates
+  editDates:state=>state.editDates,
+  historyList:state=>state.historyList
 }
 export const mutations = {
   setAccessoryList(state, item) {
@@ -43,16 +45,19 @@ export const mutations = {
   },
   setEditDates(state,item){
     state.editDates=item
-  }
+  },
+  setHistory(state,item){
+    state.historyList=item
+  },
 }
 export const actions = {
-  async getAccessoryWarehouseList({commit}, {page, size}) {
+  async getAccessoryWarehouseList({commit}, {page, size,modelNumber,orderNumber}) {
     const body = {
-      filters: [],
-      sorts: [],
+      modelNumber,
+      orderNumber,
       page, size
     }
-    await this.$axios.$put('/api/v1/accessory-warehouse/list', body)
+    await this.$axios.$put(`/api/v1/accessory-warehouse/list`,body )
       .then(res => {
         commit('setAccessoryList', res.data);
       }).catch(({response}) => console.log(response));
@@ -93,7 +98,7 @@ export const actions = {
       console.log(res);
     })
   },
-  
+
 
   searchAccessory({commit},{orderId,modelId}){
     this.$axios.get(`/api/v1/accessory-warehouse/search-orders?orderId=${orderId}&modelId=${modelId}`)
@@ -141,6 +146,16 @@ export const actions = {
       console.log(response);
       this.$toast.error(response.data.message);
 
+    })
+  },
+
+  giveToAccessoryStock({dispatch}, {warehouseId, orderId, modelId}) {
+    this.$axios.post(`/api/v1/accessory-warehouse/create-stock?id=${warehouseId}`).then((res) => {
+      this.$toast.success(res.data.message);
+      dispatch('searchAccessory', {orderId, modelId})
+    }).catch(({response}) => {
+      console.log(response);
+      this.$toast.error(response.data.message);
     })
   },
 
@@ -205,5 +220,37 @@ export const actions = {
     })
   },
 
+  giveOwn({dispatch},{data,orderId,modelId}){
+    this.$axios.put(`/api/v1/accessory-warehouse/give-own-accessory`,data)
+    .then((res)=>{
+      dispatch("searchAccessory",{orderId,modelId})
+      this.$toast.success(res.data.message);
+    })
+    .catch(({response})=>{
+      this.$toast.error(response.data.message);
+      console.log(res);
+    })
+  },
 
+  giveSubcontractor({dispatch},{data,orderId,modelId}){
+    this.$axios.put(`/api/v1/accessory-warehouse/give-subcontractor-accessory`,data)
+    .then((res)=>{
+      dispatch("searchAccessory",{orderId,modelId})
+      this.$toast.success(res.data.message);
+    })
+    .catch(({response})=>{
+      this.$toast.error(response.data.message);
+      console.log(res);
+    })
+  },
+
+  getHistoryList({commit},id){
+    this.$axios.get(`/api/v1/accessory-warehouse-operation/list?warehouseId=${id}`)
+    .then((res)=>{
+      commit("setHistory",res.data.data)
+    })
+    .catch((res)=>{
+      console.log(res);
+    })
+  },
 }

@@ -8,7 +8,8 @@ export const state = () => ({
   detailsList: [{totalPrice: 0}],
   loading: true,
   onePreFinance: {},
-  selectedModelNumber: ''
+  selectedModelNumber: '',
+  prefinancePdf:'',
 })
 export const getters = {
   preFinancesContent: state => state.preFinances.content,
@@ -23,7 +24,8 @@ export const getters = {
   loading: state => state.loading,
   totalElements: state => state.preFinances.totalElements,
   onePreFinance: state => state.onePreFinance,
-  selectedModelNumber: state => state.selectedModelNumber
+  selectedModelNumber: state => state.selectedModelNumber,
+  prefinancePdf: state => state.prefinancePdf,
 }
 
 export const mutations = {
@@ -57,28 +59,20 @@ export const mutations = {
   setOnePreFinance(state, item) {
     state.onePreFinance = item;
   },
+  setPrefinancePdf(state, item) {
+    state.prefinancePdf = item;
+  },
 };
 export const actions = {
-  getPreFinancesList({commit}, {size, page, preFinanceNumber, modelNumber = "", partner = ""}) {
+  getPreFinancesList({commit}, {size, page, preFinanceNumber, modelNumber , partner }) {
     const body = {
-      filters: [
-        {
-          key: "preFinanceNumber",
-          operator: "LIKE",
-          propertyType: "STRING",
-          value: preFinanceNumber,
-        },
-      ],
-      sorts: [],
+      calculationNumber:preFinanceNumber,
+      client:partner,
+      modelNumber:modelNumber,
       size,
       page,
     };
-    partner = partner === null ? "" : partner;
-    modelNumber = modelNumber === null ? "" : modelNumber;
-    body.filters = body.filters.filter(
-      (item) => item.value !== "" && item.value !== null
-    );
-    this.$axios.$put(`/api/v1/pre-finances/list?modelNumber=${modelNumber}&partner=${partner}`, body)
+    this.$axios.$put(`/api/v1/pre-finances/list`, body)
       .then((res) => {
         commit("changeLoading", false);
         commit("setRefinances", res.data);
@@ -90,26 +84,15 @@ export const actions = {
   },
   async getModelName({commit}, name) {
     const body = {
-      filters: [
-        {
-          key: "modelNumber",
-          operator: "LIKE",
-          propertyType: "STRING",
-          value: name,
-        },
-        {
-          key: "status",
-          operator: "EQUAL",
-          propertyType: "STATUS",
-          value: "ACTIVE",
-        },
-      ],
-      sorts: [],
-      page: 0,
-      size: 10,
-    };
+      client:'',
+      modelNumber:name,
+      page:0,
+      size:10,
+      status:"ACTIVE"
+    }
+
     await this.$axios
-      .$put(`/api/v1/models/list?partner=`, body)
+      .$put(`/api/v1/models/list`, body)
       .then((res) => {
         commit("setModelName", res.data.content);
 
@@ -133,6 +116,7 @@ export const actions = {
     const body = {
       modelId: data.id,
       primaryCurrency: data.primaryCurrency,
+      orderedQuantity: data.orderedQuantity,
       secondaryCurrency: data.secondaryCurrency,
       tertiaryCurrency: data.tertiaryCurrency,
       primaryRate: data.primaryRate,
@@ -265,8 +249,6 @@ export const actions = {
       .then((res) => {
         dispatch("getAllDetails", state.preFinanceId);
         this.$toast.success(res.data.message, {theme: "toasted-primary"});
-
-
       })
       .catch((response) => {
         console.log(response);
@@ -291,4 +273,27 @@ export const actions = {
       })
       .catch(({response}) => console.log(response));
   },
+
+  modelToPrefinance({commit},id){
+    this.$axios.get(`/api/v1/pre-finances/get-by-model?modelId=${id}`)
+    .then((res)=>{
+      this.$router.push(`/prefinances/${res.data.data.id}`)
+    })
+    .catch(({res})=>{
+      console.log(res);
+      this.$toast.error(res.data.message)
+    })
+  },
+
+  getPrefinanceGeneratePdf({commit},data){
+    this.$axios.put(`/api/v1/pre-finances/generate-calculation-form`,data)
+    .then((res)=>{
+      const binaryCode=atob(res.data)
+      commit("setPrefinancePdf",binaryCode)
+    })
+    .catch(({res})=>{
+      console.log(res);
+      this.$toast.error(res.data.message)
+    })
+  }
 };

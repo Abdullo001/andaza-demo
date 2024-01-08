@@ -60,7 +60,7 @@
               <v-btn
                 width="140"
                 outlined
-                color="#397CFD"
+                color="#544B99"
                 elevation="0"
                 class="text-capitalize mr-4 rounded-lg"
                 @click="resetFilters"
@@ -69,7 +69,7 @@
               </v-btn>
               <v-btn
                 width="140"
-                color="#397CFD"
+                color="#544B99"
                 dark
                 elevation="0"
                 class="text-capitalize rounded-lg"
@@ -102,7 +102,7 @@
               {{ $t("partners.table.mainMenu") }}
             </div>
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               class="rounded-lg text-capitalize"
               dark
               @click="new_dialog = true"
@@ -155,7 +155,7 @@
           <div class="text-capitalize font-weight-bold">
             {{ $t("partners.dialog.addPartner") }}
           </div>
-          <v-btn icon color="#7631FF" @click="new_dialog = false">
+          <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -166,7 +166,7 @@
                 <div class="label">Add Brand name</div>
                 <v-text-field
                   v-model="add_brand.name"
-                  color="#7631FF"
+                  color="#544B99"
                   placeholder="Enter Brand name"
                   outlined
                   hide-details
@@ -179,7 +179,7 @@
               <v-col cols="12" md="5" class="d-flex align-end">
                 <v-btn
                   @click="addBrand"
-                  color="#7631FF"
+                  color="#544B99"
                   class="rounded-lg text-capitalize"
                   dark
                 >
@@ -204,13 +204,13 @@
                   placeholder="Select brand name"
                   label="Select brand name"
                   single-line
-                  color="#7631FF"
+                  color="#544B99"
                 >
                   <template v-slot:selection="{item, attrs, on}">
                     <v-chip
                       v-bind="attrs"
                       v-on="on"
-                      color="#7631FF"
+                      color="#544B99"
                       dark
                       close
                       @click:close="remove(item)"
@@ -231,7 +231,7 @@
                   class="rounded-lg base"
                   dense
                   :placeholder="$t('partners.dialog.pNameText')"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="6">
@@ -248,7 +248,7 @@
                   append-icon="mdi-chevron-down"
                   dense
                   :placeholder="$t('partners.dialog.pTypeText')"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="6">
@@ -256,7 +256,7 @@
                 <vue-phone-number-input
                   v-model="create_partner.phoneNumber"
                   :required="true"
-                  :color="'#7631FF'"
+                  :color="'#544B99'"
                   default-country-code="UZ"
                   @update="newPhoneNumber"
                 />
@@ -273,7 +273,7 @@
                   class="rounded-lg base"
                   dense
                   :placeholder="$t('partners.dialog.emailText')"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="6">
@@ -289,12 +289,12 @@
                   height="44"
                   class="rounded-lg base d-flex align-center justify-center mb-4"
                   :return-object="true"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                   placeholder="Enter model number"
                 >
                   <template #append>
-                    <v-icon class="d-inline-block" color="#7631FF">
+                    <v-icon class="d-inline-block" color="#544B99">
                       mdi-magnify
                     </v-icon>
                   </template>
@@ -310,7 +310,7 @@
                   class="rounded-lg base"
                   dense
                   :placeholder="$t('partners.dialog.addresText')"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="6">
@@ -323,7 +323,7 @@
                   class="rounded-lg base"
                   dense
                   :placeholder="$t('partners.dialog.contractNumberText')"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="6">
@@ -350,7 +350,7 @@
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                 />
               </v-col>
@@ -368,7 +368,7 @@
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                 />
               </v-col>
@@ -387,7 +387,7 @@
                     <v-btn
                       @click="clickImportFile"
                       elevation="0"
-                      style="background-color: #f1ebfe; color: #7631ff"
+                      style="background-color: #f1ebfe; color: #544b99"
                       :disabled="image_list.length !== 0"
                       class="font-weight-bold mr-3 text-capitalize"
                     >
@@ -424,7 +424,7 @@
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             outlined
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click="new_dialog = false"
           >
@@ -435,7 +435,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="save"
@@ -451,7 +451,7 @@
           <div class="text-capitalize font-weight-bold">
             {{ $t("partners.dialog.editPartner") }}
           </div>
-          <v-btn icon color="#7631FF" @click="edit_dialog = false">
+          <v-btn icon color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -462,7 +462,7 @@
                 <div class="label">Add Brand name</div>
                 <v-text-field
                   v-model="edit_brand.name"
-                  color="#7631FF"
+                  color="#544B99"
                   placeholder="Enter Brand name"
                   outlined
                   hide-details
@@ -474,7 +474,7 @@
               <v-col cols="12" md="5" class="d-flex align-end">
                 <v-btn
                   @click="editBrand"
-                  color="#7631FF"
+                  color="#544B99"
                   class="rounded-lg text-capitalize"
                   dark
                 >
@@ -499,7 +499,7 @@
                   class="rounded-lg base"
                   dense
                   placeholder="Select brand name"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="6">
@@ -513,7 +513,7 @@
                   class="rounded-lg base"
                   dense
                   :placeholder="$t('partners.dialog.pNameText')"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="6">
@@ -530,14 +530,14 @@
                   append-icon="mdi-chevron-down"
                   dense
                   :placeholder="$t('partners.dialog.pTypeText')"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="6">
                 <div class="label">{{ $t('partners.dialog.pNumber') }}</div>
                 <vue-phone-number-input
                   v-model="edit_partner.phoneNumber"
-                  :color="'#7631FF'"
+                  :color="'#544B99'"
                   @update="editPhoneNumber"
                 />
               </v-col>
@@ -552,7 +552,7 @@
                   dense
                   :rules="[formRules.required, formRules.email]"
                   :placeholder="$t('partners.dialog.emailText')"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="6">
@@ -566,7 +566,7 @@
                   class="rounded-lg base"
                   dense
                   :placeholder="$t('partners.dialog.addresText')"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="6">
@@ -580,7 +580,7 @@
                   class="rounded-lg base"
                   dense
                   :placeholder="$t('partners.dialog.contractNumberText')"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="6">
@@ -606,7 +606,7 @@
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                 />
               </v-col>
@@ -624,13 +624,13 @@
                   height="44"
                   class="rounded-lg base d-flex align-center justify-center mb-4"
                   :return-object="true"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
-                  placeholder="Enter model number"
+                  placeholder="Enter country"
                   prepend-icon=""
                 >
                   <template #append>
-                    <v-icon class="d-inline-block" color="#7631FF">
+                    <v-icon class="d-inline-block" color="#544B99">
                       mdi-magnify
                     </v-icon>
                   </template>
@@ -641,7 +641,7 @@
                 <div class="label">Cooperation type</div>
                 <v-select
                   :rules="[formRules.required]"
-                  v-model="edit_partner.cooperationType"
+                  v-model="edit_partner.cooperationTypeId"
                   :items="cooperationType"
                   append-icon="mdi-chevron-down"
                   placeholder="Select cooperation type"
@@ -651,7 +651,7 @@
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                 />
               </v-col>
@@ -686,7 +686,7 @@
                     <v-btn
                       @click="clickImportFileEdit"
                       elevation="0"
-                      style="background-color: #f1ebfe; color: #7631ff"
+                      style="background-color: #f1ebfe; color: #544b99"
                       class="font-weight-bold mr-3 text-capitalize"
                     >
                       {{ $t("partners.dialog.uploadFiles") }}
@@ -722,7 +722,7 @@
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             outlined
-            color="#7631FF"
+            color="#544B99"
             width="163"
             @click="edit_dialog = false"
           >
@@ -730,7 +730,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             dark
             width="163"
             @click="update"
@@ -1023,8 +1023,8 @@ export default {
     },
     async update() {
       const edit_validate = this.$refs.edit_form.validate();
-      if (edit_validate && this.editPhone !== '') {
-        const {
+      if (this.edit_partner.name) {
+        let {
           address,
           contractDate,
           contractNumber,
@@ -1033,26 +1033,37 @@ export default {
           name,
           status,
           partnerTypeId,
+          countryId,
+          country,
           brandNames,
-          cooperationType
+          cooperationTypeId
         } = this.edit_partner;
+        if(typeof country!=='string'){
+          countryId=country.id
+          console.log(countryId);
+        }
+        console.log(this.edit_partner);
         const formData = new FormData();
-        formData.append("address", address);
-        formData.append("contractDate", contractDate);
-        formData.append("contractNumber", contractNumber);
-        formData.append("brandNames", brandNames);
-        if (cooperationType) {
-          formData.append("cooperationTypeId", cooperationType);
-        }
-        formData.append("email", email);
         formData.append("id", id);
-        formData.append("name", name);
-        if (this.edit_image_list[0] !== undefined) {
-          formData.append("contractFile", this.edit_image_list[0]);
-        }
-        formData.append("phoneNumber", this.editPhone);
-        formData.append("status", status);
         formData.append("typeId", partnerTypeId);
+        formData.append("address", address?address:"");
+        formData.append("contractDate", contractDate?contractDate:"");
+        if (this.image_list[0] !== undefined) {
+          formData.append("contractFile", this.image_list[0]);
+        }
+        formData.append("email", email?email:"");
+        formData.append("name", name);
+        formData.append("contractNumber", contractNumber?contractNumber:"");
+        formData.append("status", status?status:"");
+        formData.append("phoneNumber", this.newPhone);
+        formData.append("countryCode", this.countryCode);
+        formData.append("brandNames", brandNames);
+        if(countryId){
+          formData.append("countryId",countryId);
+        }
+        if (cooperationTypeId) {
+          formData.append("cooperationTypeId", cooperationTypeId);
+        }
         await this.updatePartnerList(formData);
         this.edit_dialog = false;
         this.edit_image_list = [];

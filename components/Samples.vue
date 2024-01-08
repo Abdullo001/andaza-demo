@@ -24,7 +24,7 @@
             <v-spacer/>
             <v-btn
               class="rounded-lg text-capitalize"
-              color="#7631FF"
+              color="#544B99"
               width="160" height="36"
               @click="new_dialog = true"
               dark
@@ -43,7 +43,7 @@
       <v-card>
         <v-card-title class="d-flex w-full justify-space-between">
           <div class="text-capitalize title">add samples</div>
-          <v-btn icon color="#7631FF" @click="new_dialog = false">
+          <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -64,7 +64,7 @@
                   item-value="id"
                   append-icon="mdi-chevron-down"
                   v-model="new_samples.samplePurposeId"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -76,7 +76,7 @@
                   :picker-options="pickerShortcuts"
                   value-format="dd.MM.yyyy HH:mm:ss"
                   class="base_picker"
-                  style="width: 100%; color: #7631FF; height: 44px !important;"
+                  style="width: 100%; color: #544B99; height: 44px !important;"
                 >
                 </el-date-picker>
               </v-col>
@@ -94,7 +94,7 @@
                   item-value="id"
                   append-icon="mdi-chevron-down"
                   v-model="new_samples.partnerId"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6" class="pt-0">
@@ -109,7 +109,7 @@
                   :items="result_enum"
                   append-icon="mdi-chevron-down"
                   v-model="new_samples.result"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -118,7 +118,7 @@
         <v-card-actions class="d-flex justify-center pb-6">
           <v-btn
             class="font-weight-bold text-capitalize rounded-lg border"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="140" height="40"
             @click="new_dialog = false"
           >
@@ -126,7 +126,7 @@
           </v-btn>
           <v-btn
             class="font-weight-bold text-capitalize rounded-lg ml-4"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="140" height="40"
             @click="saveSamples"
           >
@@ -139,7 +139,7 @@
       <v-card>
         <v-card-title class="d-flex w-full justify-space-between">
           <div class="text-capitalize title">Edit samples</div>
-          <v-btn icon color="#7631FF" @click="edit_dialog = false">
+          <v-btn icon color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -160,7 +160,7 @@
                   item-value="id"
                   append-icon="mdi-chevron-down"
                   v-model="edit_samples.samplePurposeId"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -172,7 +172,7 @@
                   :picker-options="pickerShortcuts"
                   value-format="dd.MM.yyyy HH:mm:ss"
                   class="base_picker"
-                  style="width: 100%; color: #7631FF; height: 44px"
+                  style="width: 100%; color: #544B99; height: 44px"
                 >
                 </el-date-picker>
               </v-col>
@@ -190,7 +190,7 @@
                   item-value="id"
                   append-icon="mdi-chevron-down"
                   v-model="edit_samples.partnerId"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6" class="pt-0">
@@ -205,7 +205,7 @@
                   :items="result_enum"
                   append-icon="mdi-chevron-down"
                   v-model="edit_samples.result"
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -214,7 +214,7 @@
         <v-card-actions class="d-flex justify-center pb-6">
           <v-btn
             class="font-weight-bold text-capitalize rounded-lg border"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="140" height="40"
             @click="edit_dialog = false"
           >
@@ -222,7 +222,7 @@
           </v-btn>
           <v-btn
             class="font-weight-bold text-capitalize rounded-lg ml-4"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="140" height="40"
             @click="saveSamplesChanges"
           >

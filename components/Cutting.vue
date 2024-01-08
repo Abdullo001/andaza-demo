@@ -12,10 +12,23 @@
       <template #top>
         <div class="title ma-4">Cutting</div>
       </template>
+      <template #item.wasteFabric="{item}">
+        <v-text-field
+          @keyup.enter="setWasteFabricFunc(item)"
+          outlined
+          hide-details
+          height="32"
+          class="rounded-lg base my-2" dense
+          :rules="[formRules.required]"
+          validate-on-blur
+          color="#544B99"
+          v-model="item.wasteFabric"
+        />
+      </template>
       <template #item.actions="{item}">
         <v-tooltip
           top
-          color="#7631FF"
+          color="#544B99"
           class="pointer"
           v-if="Object.keys(item).length > 2"
         >
@@ -24,7 +37,7 @@
               icon
               v-bind="attrs"
               v-on="on"
-              color="#7631FF"
+              color="#544B99"
               @click="returnDialog(item)"
             >
               <v-img src="/rotate.svg" max-width="22"/>
@@ -32,12 +45,9 @@
           </template>
           <span class="text-capitalize">return fabric</span>
         </v-tooltip>
-        <!-- <v-btn icon @click="returnDialog(item)">
-          <v-img src="/rotate.svg" max-width="20"/>
-        </v-btn> -->
         <v-tooltip
           top
-          color="#7631FF"
+          color="#544B99"
           class="pointer"
           v-if="Object.keys(item).length > 2"
         >
@@ -46,7 +56,7 @@
               icon
               v-bind="attrs"
               v-on="on"
-              color="#7631FF"
+              color="#544B99"
               @click="getClassification(item)"
             >
               <v-img src="/t-shirt.svg" max-width="22"/>
@@ -57,7 +67,7 @@
 
         <v-tooltip
           top
-          color="#7631FF"
+          color="#544B99"
           class="pointer"
           v-if="Object.keys(item).length > 2"
         >
@@ -66,7 +76,7 @@
               icon
               v-bind="attrs"
               v-on="on"
-              color="#7631FF"
+              color="#544B99"
               @click="getHistory(item)"
             >
               <v-img src="/history.svg" max-width="22"/>
@@ -121,15 +131,19 @@
           :value="props.value || props.indeterminate"
           v-on="on"
           :indeterminate="props.indeterminate"
-          color="#7631FF"
+          color="#544B99"
         />
       </template>
-      <template #item.data-table-select="{isSelected, select}">
+      <template #item.data-table-select="{isSelected, select,item}">
         <v-simple-checkbox
-          color="#7631FF"
+          color="#544B99"
           v-ripple
           :value="isSelected"
+          v-model="item.isMain"
+          :disabled="item.isOnCutting"
           @input="select($event)"
+          @click="setMainColor(item,isSelected)"
+
         />
       </template>
     </v-data-table>
@@ -138,7 +152,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Edit Cutting info</div>
-          <v-btn icon color="#7631FF" @click="edit_dialog = false">
+          <v-btn icon color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -156,7 +170,7 @@
                   class="rounded-lg base "
                   validate-on-blur
                   dense
-                  color="#7631FF"
+                  color="#544B99"
                 />
               </v-col>
             </v-row>
@@ -165,7 +179,7 @@
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="130"
             @click="edit_dialog = false"
           >
@@ -173,7 +187,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="130"
             @click="save"
           >
@@ -246,7 +260,7 @@
           <v-spacer/>
           <v-btn
             icon
-            color="#7631FF"
+            color="#544B99"
             @click="return_dialog=false"
           >
             <v-icon>mdi-close</v-icon>
@@ -260,7 +274,7 @@
               hide-details
               dense
               height="44"
-              class="rounded-lg base" color="#7631FF"
+              class="rounded-lg base" color="#544B99"
               placeholder="Enter spin number"
               v-model.trim="returned_fabric.sipNumber"
             />
@@ -272,7 +286,7 @@
               hide-details
               dense
               height="44"
-              class="rounded-lg base" color="#7631FF"
+              class="rounded-lg base" color="#544B99"
               placeholder="Enter branch number"
               v-model.trim="returned_fabric.batchNumber"
             />
@@ -285,7 +299,7 @@
                 hide-details
                 dense
                 height="44"
-                class="rounded-l-lg base" color="#7631FF"
+                class="rounded-l-lg base" color="#544B99"
                 placeholder="Enter returned fabric quantity"
                 v-model.trim="returned_fabric.quantity"
                 :suffix="returned_fabric.measurment"
@@ -297,7 +311,7 @@
           <v-btn
             outlined
             class="rounded-lg text-capitalize font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             width="163" height="44"
             @click="return_dialog=false"
             style="border-width: 2px"
@@ -307,7 +321,7 @@
           <v-spacer/>
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold ml-8"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="163" height="44"
             @click="saveReturnFabric"
           >
@@ -324,7 +338,7 @@
           <v-btn
             icon
             @click="history_dialog=false"
-            color="#7631FF"
+            color="#544B99"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -337,12 +351,11 @@
             class="mt-4 rounded-lg"
             style="border: 1px solid #E9EAEB"
           >
-
           </v-data-table>
         </v-card-text>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="classification_dialog" max-width="600">
+    <v-dialog v-model="classification_dialog" max-width="800">
       <v-card flat>
         <v-card-title>
           <div class="title">Add classification</div>
@@ -350,7 +363,7 @@
           <v-btn
             icon
             @click="classification_dialog=false"
-            color="#7631FF"
+            color="#544B99"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -364,12 +377,11 @@
                 hide-details
                 dense
                 height="44"
-                class="rounded-lg base" color="#7631FF"
+                class="rounded-lg base" color="#544B99"
                 placeholder="Enter branch number"
                 v-model.trim="item.quantity"
               />
             </v-col>
-
             <v-col cols="12" lg="6">
               <div class="label">Reason</div>
               <v-select
@@ -380,7 +392,7 @@
                 hide-details
                 dense
                 height="44"
-                class="rounded-lg base" color="#7631FF"
+                class="rounded-lg base" color="#544B99"
                 placeholder="Enter branch number"
               />
             </v-col>
@@ -392,7 +404,7 @@
                 hide-details
                 dense
                 height="44"
-                class="rounded-lg base" color="#7631FF"
+                class="rounded-lg base" color="#544B99"
                 placeholder="Enter branch number"
               />
             </v-col>
@@ -403,7 +415,7 @@
           <v-btn
             outlined
             class="rounded-lg text-capitalize font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             width="163" height="44"
             @click="classification_dialog=false"
             style="border-width: 2px"
@@ -412,7 +424,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold ml-8"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="163" height="44"
             @click="saveClassification"
           >
@@ -446,7 +458,6 @@ export default {
         {text: 'Given fabric quantity for cut.', sortable: false, align: 'start', value: 'givenFabricQuantity'},
         {text: 'Used fabric', sortable: false, align: 'start', value: 'usedFabricQuantity'},
         {text: 'Color', sortable: false, align: 'start', value: 'color'},
-
       ],
       items: [],
       returned_fabric: {
@@ -496,6 +507,7 @@ export default {
       this.headers = [
         ...this.headers,
         {text: 'Produced total', sortable: false, align: 'start', value: 'totalCutQuantity'},
+        {text: 'Waste fabric', sortable: false, align: 'center', value: 'wasteFabric', width: "150"},
         {text: 'Actions', sortable: false, align: 'center', value: 'actions', width: "250"},
       ]
 
@@ -520,14 +532,14 @@ export default {
     historyListDate(list) {
       this.historyHeaders = [
         {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
-      ],
-        list[0]?.sizeDistributionList?.forEach((item) => {
-          this.historyHeaders.push({
-            text: item.size, sortable: false, align: 'start', value: item.size
-          })
+      ]
+      list[0]?.sizeDistributionList?.forEach((item) => {
+        this.historyHeaders.push({
+          text: item.size, sortable: false, align: 'start', value: item.size
         })
+      })
       this.historyHeaders.push(
-        {text: 'Done By', sortable: false, align: 'canter', value: 'createdBy'},
+        {text: 'Done By', sortable: false, align: 'center', value: 'createdBy'},
       )
 
       const specialList = list.map(function (el) {
@@ -558,8 +570,22 @@ export default {
       deleteHistoryFunc: "cuttingProcess/deleteHistoryFunc",
       getClassificationList: "cuttingProcess/getClassificationList",
       createClassification: "cuttingProcess/createClassification",
-
+      setMainColorFunc: "cuttingProcess/setMainColor",
+      setWasteFabric: "cuttingProcess/setWasteFabric",
     }),
+    setWasteFabricFunc(item){
+      const data={
+        id:item.id,
+        wasteFabric:item.wasteFabric
+      }
+      this.setWasteFabric(data)
+    },
+    setMainColor(item,isSelected){
+      if(!item.isOnCutting){
+        this.setMainColorFunc(item.id)
+
+      }
+    },
     returnDialog(item) {
       this.return_dialog = true;
       this.returned_fabric = {...item};
@@ -618,11 +644,11 @@ export default {
     },
 
     editHistoryItem(item) {
-      this.selectedItem={
-        id:item.id,
-        sizeDistributions:[...item.sizeDistributionList],
-        status:"historyEdit",
-        cuttingId:this.cuttingId,
+      this.selectedItem = {
+        id: item.id,
+        sizeDistributions: [...item.sizeDistributionList],
+        status: "historyEdit",
+        cuttingId: this.cuttingId,
       }
     },
     deleteHistoryItem(item) {

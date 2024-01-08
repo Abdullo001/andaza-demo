@@ -58,14 +58,14 @@
             <div class="d-flex justify-end">
               <v-btn
                 width="140" outlined
-                color="#397CFD" elevation="0"
+                color="#544B99" elevation="0"
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
                 Reset
               </v-btn>
               <v-btn
-                width="140" color="#397CFD" dark
+                width="140" color="#544B99" dark
                 elevation="0"
                 class="text-capitalize rounded-lg"
                 @click="filterData"
@@ -79,7 +79,7 @@
     </v-card>
     <v-card class="rounded-lg mt-5 elevation-0">
       <v-tabs
-        color="#7631FF"
+        color="#544B99"
         v-model="tab"
       >
         <v-tab
@@ -89,7 +89,7 @@
         >
           {{ item }}
         </v-tab>
-        <v-tabs-slider color="#7631FF"/>
+        <v-tabs-slider color="#544B99"/>
         <v-tabs-items
           v-model="tab"
         >

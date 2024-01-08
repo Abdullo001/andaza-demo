@@ -36,7 +36,9 @@ export default (context, inject) => {
               case 'DISABLED':
                 return '#FF4E4F'
               case 'FINISHED':
-                return 'primary'
+                return 'primary';
+              case '':
+                return 'grey'
             }
           },
           color(color) {
@@ -73,7 +75,7 @@ export default (context, inject) => {
               case 'PENDING':
                 return 'amber'
               case 'IN_PROCESS':
-                return '#397CFD'
+                return '#544B99'
 
             }
           },
@@ -97,6 +99,42 @@ export default (context, inject) => {
                 return '#FF4E4F'
               case 'PENDING':
                 return 'amber'
+              case 'FABRIC_GENERATED':
+                return '#6df291'
+              case 'RECEIVED':
+                return '#607274'
+            }
+          },
+          shippingStatusColor(color){
+            switch (color) {
+              case 'IN_PROGRESS':
+                return '#ECF017'
+              case 'SHIPPED':
+                return '#27C124'
+            }
+          },
+
+          sampleStatusColor(color) {
+            switch (color) {
+              case "OK":
+                return "#10BF41";
+              case "EMPTY":
+                return "#FF4E4F";
+              case "IN_PROCESS":
+                return "amber";
+            }
+          },
+
+          fabricModelStatus(color){
+            switch(color){
+              case 'NOT_PLANNED':
+                return '#FF4E4F'
+              case 'PLANNED':
+                return 'amber'
+              case 'GENERATED_FABRIC':
+                return '#6df291'
+              case 'ORDERED':
+                return '#10BF41'
             }
           },
 
@@ -108,6 +146,16 @@ export default (context, inject) => {
                 return 'amber'
               case 'REMAKE':
                 return '#FF4E4F'
+            }
+          },
+
+          subcontractColor(color) {
+            switch (color) {
+              case 'SENT':
+                return '#FF4E4F'
+                case 'RECEIVED':
+                  return '#10BF41'
+
             }
           },
         }

@@ -3,77 +3,86 @@
     <v-card color="#fff" elevation="0" class="rounded-lg">
       <v-card-text>
         <v-form lazy-validation ref="filters">
-          <v-row>
-            <v-col cols="12" lg="2" md="2">
-              <v-text-field
-                v-model="filters.id"
-                placeholder="ID sample purposes"
-                outlined
-                validate-on-blur
-                dense
-                hide-details
-                class="rounded-lg filter"
-              />
-            </v-col>
-            <v-col cols="12" lg="2" md="2">
-              <v-text-field
-                v-model="filters.name"
-                placeholder="Name"
-                outlined
-                validate-on-blur
-                dense
-                hide-details
-                class="rounded-lg filter"
-              />
-            </v-col>
-            <v-col cols="12" lg="2" md="2" style="max-width: 240px">
+          <div class="d-flex align-center justify-space-between flex-fill mb-4">
+            <v-text-field
+              v-model="filters.orderNumber"
+              placeholder="Order number"
+              outlined
+              height="40"
+              validate-on-blur
+              dense
+              hide-details
+              class="rounded-lg filter mr-2"
+            />
+            <v-text-field
+              v-model="filters.modelNumber"
+              placeholder="Model number"
+              outlined
+              height="40"
+              validate-on-blur
+              dense
+              hide-details
+              class="rounded-lg filter mr-2"
+            />
+            <v-text-field
+              v-model="filters.clientName"
+              placeholder="Client name"
+              outlined
+              height="40"
+              validate-on-blur
+              dense
+              hide-details
+              class="rounded-lg filter mr-2"
+            />
+            <div style="height: 40px !important" class="mr-2">
               <el-date-picker
-                v-model="filters.createdAt"
-                type="datetime"
-                class="rounded-lg d-block filter_picker"
-                placeholder="Created"
+                v-model="filters.fromDate"
+                class="rounded-lg d-block filter_picker "
+                type="date"
+                style="width: 100%; height: 100%"
+                placeholder="From date"
                 :picker-options="pickerShortcuts"
-                value-format="dd.MM.yyyy HH:mm:ss"
+                value-format="dd.MM.yyyy"
               >
               </el-date-picker>
-            </v-col>
-            <v-col cols="12" lg="2" md="2">
+            </div>
+            <div style="height: 40px !important">
               <el-date-picker
-                v-model="filters.updatedAt"
-                type="datetime"
                 class="rounded-lg d-block filter_picker"
-                placeholder="Updated"
+                v-model="filters.toDate"
+                type="date"
+                style="width: 100%; height: 100%"
+                placeholder="To date"
                 :picker-options="pickerShortcuts"
-                value-format="dd.MM.yyyy HH:mm:ss"
+                value-format="dd.MM.yyyy"
               >
               </el-date-picker>
-            </v-col>
-            <v-spacer/>
-            <v-col cols="12" lg="3">
-              <div class="d-flex justify-end">
-                <v-btn
-                  width="140"
-                  outlined
-                  color="#397CFD"
-                  elevation="0"
-                  @click="resetBtn"
-                  class="text-capitalize mr-4 border-primary rounded-lg font-weight-bold"
-                >
-                  Reset
-                </v-btn>
-                <v-btn
-                  width="140"
-                  color="#397CFD"
-                  dark
-                  elevation="0"
-                  @click="filterBtn"
-                  class="text-capitalize rounded-lg font-weight-bold"
-                >
-                  Search
-                </v-btn>
-              </div>
-            </v-col>
-          </v-row>
+            </div>
+          </div>
+            
+          <div class="d-flex justify-center">
+            <v-btn
+              width="140"
+              outlined
+              color="#544B99"
+              elevation="0"
+              class="text-capitalize mr-4 border-primary rounded-lg font-weight-bold"
+              @click="resetFilter"
+            >
+              Reset
+            </v-btn>
+            <v-btn
+              width="140"
+              color="#544B99"
+              dark
+              elevation="0"
+              class="text-capitalize rounded-lg font-weight-bold"
+              @click="filterBtn"
+            >
+              Search
+            </v-btn>
+          </div>
+        
         </v-form>
       </v-card-text>
     </v-card>
@@ -81,7 +90,10 @@
     class="mt-4 rounded-lg pt-4"
     :headers="headers"
     :items="accessoryList"
-    :items-per-page="10"
+    :server-items-length="totalElements"
+    :items-per-page="itemPrePage"
+    @update:page="page"
+    @update:items-per-page="size"
     :footer-props="{
       itemsPerPageOptions: [10, 20, 50, 100],
     }"
@@ -93,7 +105,7 @@
             class="d-flex w-full align-center justify-space-between"
           >
             <div>Accessory</div>
-            <v-btn color="#7631FF" dark class="text-capitalize rounded-lg" @click="addOrder">
+            <v-btn color="#544B99" dark class="text-capitalize rounded-lg" @click="addOrder">
               <v-icon>mdi-plus</v-icon>
               Accessory
             </v-btn>
@@ -101,10 +113,10 @@
         </v-toolbar>
       </template>
       <template #item.actions="{item}">
-        <v-tooltip top color="#7631FF">
+        <v-tooltip top color="#544B99">
           <template v-slot:activator="{on, attrs}">
             <v-btn
-              icon color="#7631FF"
+              icon color="#544B99"
               v-on="on" v-bind="attrs"
               @click="$router.push(`/accessory/${item.id}`)"
             >
@@ -130,15 +142,17 @@ export default {
       itemPrePage: 10,
       options: {},
       filters: {
-        id: "",
-        name: "",
-        createdAt: "",
-        updatedAt: "",
+        orderNumber:"",
+        modelNumber:"",
+        toDate:null,
+        fromDate:null,
+        clientName:"",
       },
       headers: [
         {text: "ID", align: "start", sortable: false, value: "id",},
         {text: "Order №", value: "orderNumber"},
         {text: "Model №", value: "modelNumber"},
+        {text: "Client name", value: "clientName"},
         {text: "Created", value: "createdTimeOfPlanning"},
         {text: "Updated", value: "updatedTimeOfPlanning"},
         {text: "Actions", value: "actions", sortable: false, align: "center"},
@@ -174,9 +188,29 @@ export default {
       getAccessoryList: "accessory/getAccessoryList",
       sortAccessory: "accessory/sortAccessory",
     }),
+    async page(value) {
+      const data = {...this.filters};
+      this.current_page = value - 1;
+
+      this.getAccessoryList({page: this.current_page, size: this.itemPrePage,data});
+    },
+    async size(value) {
+      const data = {...this.filters};
+      this.itemPrePage = value;
+      this.getAccessoryList({page: 0, size: this.itemPrePage,data});
+
+    },
     async filterBtn() {
-      const items = {...this.filters};
-      await this.filterExpenseGroup(items);
+      const data = {...this.filters};
+      await this.getAccessoryList({page: this.current_page, size: this.itemPrePage,data});
+    },
+    resetFilter(){
+      this.getAccessoryList({page: this.current_page, size: this.itemPrePage});
+
+      this.$refs.filters.reset()
+      this.filters.toDate=null
+      this.filters.fromDate=null
+      
     },
     async resetBtn() {
       this.filters = {
@@ -187,7 +221,7 @@ export default {
       };
       await this.getAccessoryList({page: 0, size: 20});
     },
-   
+
     addOrder() {
       this.$router.push(`/accessory/create`);
     },

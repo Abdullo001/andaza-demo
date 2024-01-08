@@ -36,7 +36,7 @@
               dense
               placeholder="Enter Catalogs Group code"
               class="mb-4"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="6">
@@ -47,7 +47,7 @@
               disabled
               placeholder="Enter Catalogs group name"
               class="mb-4"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="6">
@@ -58,7 +58,7 @@
               disabled
               placeholder="Enter Group parts code"
               class="mb-4"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="6">
@@ -69,7 +69,7 @@
               disabled
               placeholder="Enter Group part name"
               class="mb-4"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="6">
@@ -80,7 +80,7 @@
               dense
               placeholder="Enter Creator"
               class="mb-4"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="6">
@@ -91,7 +91,7 @@
               disabled
               placeholder="Select Created date"
               class="mb-4"
-              color="#7631FF"
+              color="#544B99"
             >
               <template #append>
                 <v-img src="/date-icon.svg"/>
@@ -103,7 +103,7 @@
       <v-card-actions class="pb-6 pr-4">
         <v-spacer/>
         <v-btn
-          color="#7631FF"
+          color="#544B99"
           class="text-capitalize rounded-lg"
           width="130"
           height="44"
@@ -115,7 +115,7 @@
     </v-card>
     <v-card class="elevation-0 rounded-lg mt-5">
       <v-tabs
-        color="#7631FF"
+        color="#544B99"
         v-model="tab"
       >
         <v-tab
@@ -125,7 +125,7 @@
         >
           {{ item }}
         </v-tab>
-        <v-tabs-slider color="#7631FF"/>
+        <v-tabs-slider color="#544B99"/>
         <v-tabs-items
           v-model="tab"
         >
@@ -202,7 +202,7 @@ export default {
   font-style: normal;
   font-weight: 500;
   line-height: 20px;
-  color: #7631FF;
+  color: #544B99;
 }
 
 .el-date-editor--datetime {

@@ -19,7 +19,7 @@
               height="44"
               dense
               class="rounded-lg base"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="6">
@@ -32,7 +32,7 @@
               dense
               height="44"
               class="rounded-lg base"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="6">
@@ -46,7 +46,7 @@
               dense
               placeholder="Enter created"
               class="rounded-lg base"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="6">
@@ -59,7 +59,7 @@
               disabled
               placeholder="Enter update"
               class="rounded-lg base"
-              color="#7631FF"
+              color="#544B99"
             >
               <template #append>
                 <v-img src="/date-icon.svg"/>
@@ -71,7 +71,7 @@
       <v-card-actions class="pb-6 pr-4">
         <v-spacer/>
         <v-btn
-          color="#7631FF"
+          color="#544B99"
           class="text-capitalize rounded-lg"
           width="130"
           height="44"
@@ -85,7 +85,7 @@
     <v-card class="elevation-0 rounded-lg mt-5">
       <v-tabs
         v-if="catalogGroupId !== ''"
-        color="#7631FF"
+        color="#544B99"
         v-model="tab"
       >
         <v-tab
@@ -95,7 +95,7 @@
         >
           {{ item }}
         </v-tab>
-        <v-tabs-slider color="#7631FF"/>
+        <v-tabs-slider color="#544B99"/>
         <v-tabs-items
           v-model="tab"
         >

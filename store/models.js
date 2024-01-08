@@ -4,16 +4,19 @@ export const state = () => ({
   modelGroups: [],
   partner_enums: [],
   newModelId: null,
-  compositions: []
+  compositions: [],
+  brandList:[],
 })
 
 export const getters = {
   modelsList: state => state.modelsList.content,
+  totalElements: state => state.modelsList.totalElements,
   oneModel: state => state.oneModel,
   modelGroups: state => state.modelGroups.content,
   partner_enums: state => state.partner_enums.content,
   newModelId: state => state.newModelId,
-  compositionList: state => state.compositions
+  compositionList: state => state.compositions,
+  brandList: state => state.brandList,
 }
 
 export const mutations = {
@@ -34,32 +37,24 @@ export const mutations = {
   },
   setCompositions(state, item) {
     state.compositions = item;
-  }
+  },
+  setBrandList(state, item) {
+    state.brandList = item;
+  },
 }
 
 export const actions = {
   async getModelsList({commit}, {page, size, modelNumber, partner, status}) {
     const body = {
-      filters: [
-        {
-          key: 'modelNumber',
-          operator: 'LIKE',
-          propertyType: 'STRING',
-          value: modelNumber
-        },
-        {
-          key: 'status',
-          operator: 'EQUAL',
-          propertyType: 'STATUS',
-          value: status
-        },
-      ],
-      sorts: [],
-      page, size
+      client:partner,
+      modelNumber:modelNumber,
+      page,
+      size,
+      status
+
     }
-    body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
     partner = partner === null ? '' : partner
-    await this.$axios.$put(`/api/v1/models/list?partner=${partner}&status=${status}`, body)
+    await this.$axios.$put(`/api/v1/models/list`, body)
       .then(res => {
         commit('setModels', res.data)
       })
@@ -122,7 +117,8 @@ export const actions = {
       name: data.name,
       partnerId: data.partnerId,
       season: data.season,
-      status: "ACTIVE"
+      status: "ACTIVE",
+      brandName:data.brandName,
     }
     this.$axios.$post('/api/v1/models/create', model)
       .then(res => {
@@ -143,7 +139,8 @@ export const actions = {
       partnerId: data.partnerId,
       season: data.season,
       id: id,
-      status: "ACTIVE"
+      status: "ACTIVE",
+      brandName:data.brandName,
     }
     this.$axios.$put('/api/v1/models/update', model)
       .then(res => {
@@ -158,5 +155,14 @@ export const actions = {
       .then(res => {
         commit('setCompositions', res.data);
       }).catch(({response}) => console.log(response))
+  },
+  getBrandList({commit},id){
+    this.$axios.get(`/api/v1/partner/brand-names?id=${id}`)
+      .then((res)=>{
+        commit("setBrandList",res.data.data)
+      })
+      .catch((res)=>{
+        console.log(res);
+      })
   }
 }

@@ -9,10 +9,10 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              :label="$t('planningProduction.dialog.planningId')"
+              label="Order number"
               outlined
               class="rounded-lg filter"
-              v-model.trim="filters.id"
+              v-model.trim="filters.orderNumber"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -20,52 +20,50 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              :label="$t('planningProduction.dialog.name')"
+              label="Model number"
               outlined
               class="rounded-lg filter"
-              v-model.trim="filters.name"
+              v-model.trim="filters.modelNumber"
               hide-details
               dense
               @keydown.enter="filterData"
             />
           </v-col>
           <v-col cols="12" lg="2" md="2">
-            <el-date-picker
-              v-model="filters.createdAt"
-              type="datetime"
-              class="filter_picker"
-              :placeholder="$t('planningProduction.dialog.created')"
-              :picker-options="pickerShortcuts"
-              format="dd.MM.yyyy HH:mm:ss"
-              style="width: 100%;"
-            >
-            </el-date-picker>
+            <v-text-field
+              label="Client name"
+              outlined
+              class="rounded-lg filter"
+              v-model.trim="filters.client"
+              hide-details
+              dense
+              @keydown.enter="filterData"
+            />
           </v-col>
           <v-col cols="12" lg="2" md="2">
-            <el-date-picker
-              v-model="filters.updatedAt"
-              type="datetime"
-              class="filter_picker"
-              :placeholder="$t('planningProduction.dialog.update')"
-              :picker-options="pickerShortcuts"
-              format="dd.MM.yyyy HH:mm:ss"
-              style="width: 100%;"
-            >
-            </el-date-picker>
+            <v-text-field
+              label="Status"
+              outlined
+              class="rounded-lg filter"
+              v-model.trim="filters.status"
+              hide-details
+              dense
+              @keydown.enter="filterData"
+            />
           </v-col>
           <v-spacer/>
           <v-col cols="12" lg="4">
             <div class="d-flex justify-end">
               <v-btn
                 width="140" outlined
-                color="#397CFD" elevation="0"
+                color="#544B99" elevation="0"
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
                 {{ $t('planningProduction.dialog.reset') }}
               </v-btn>
               <v-btn
-                width="140" color="#397CFD" dark
+                width="140" color="#544B99" dark
                 elevation="0"
                 class="text-capitalize rounded-lg"
                 @click="filterData"
@@ -96,7 +94,7 @@
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium">{{ $t('planningProduction.dialog.planningProduction') }}</div>
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               class="rounded-lg text-capitalize"
               dark
               @click="$router.push(localePath(`/production/create`))"
@@ -109,10 +107,10 @@
         <v-divider/>
       </template>
       <template #item.actions="{item}">
-        <v-tooltip top color="#7631FF">
+        <v-tooltip top color="#544B99">
           <template v-slot:activator="{on, attrs}">
             <v-btn
-              icon color="#7631FF"
+              icon color="#544B99"
               v-on="on" v-bind="attrs"
               @click="getCurrentRow(item)"
             >
@@ -124,6 +122,7 @@
       </template>
       <template #item.status="{ item }">
         <v-select
+          v-if="item.status"
           @click.stop
           @change="changeStatus(item)"
           :background-color="statusColor.prodColor(item.status)"
@@ -151,15 +150,16 @@ export default {
       options: {},
       valid_search: true,
       filters: {
-        id: '',
-        name: '',
-        createdAt: '',
-        updatedAt: ''
+        modelNumber:'',
+        orderNumber:'',
+        status:'',
+        client:'',
       },
       headers: [
         {text: 'ID', align: 'start', sortable: false, value: 'id'},
         {text: this.$t('planningProduction.table.orderNumber'), value: 'orderNumber'},
         {text: this.$t('planningProduction.table.modelNumber'), value: 'modelNumber'},
+        {text: "Client name", value: 'client'},
         {text: this.$t('planningProduction.table.orderQuantity'), value: 'orderQuantity'},
         {text: this.$t('planningProduction.table.deadlineProd'), value: 'deadline'},
         {text: this.$t('planningProduction.table.quantity'), value: 'productionQuantity'},
@@ -200,26 +200,21 @@ export default {
       this.$router.push(this.localePath(`/production/${row.modelId}`));
       this.$store.commit('production/planning/setProductionId', row.id);
     },
-    
+
     async filterData() {
       await this.getPlanningList({
         page: this.current_page,
         size: this.itemPerPage,
-        id: this.filters.id
+       ...this.filters
       })
     },
     async resetFilters() {
+      this.$refs.filter_form.reset()
       await this.getPlanningList({
         page: this.current_page,
         size: this.itemPerPage,
-        id: ''
+        ...this.filters
       });
-      this.filters = {
-        id: '',
-        name: '',
-        createdAt: '',
-        updatedAt: ''
-      }
     },
     async changeStatus(item) {
       let statusId=null
@@ -231,7 +226,7 @@ export default {
          statusId=3
          break;
         case 'FINISHED':
-         statusId=2 
+         statusId=2
          break;
 
       }
@@ -248,7 +243,7 @@ export default {
       await this.getPlanningList({
         page: this.current_page,
         size: this.itemPerPage,
-        id: this.filters.id
+        ...this.filters
       })
     },
     async getItemSize(val) {
@@ -256,13 +251,15 @@ export default {
       await this.getPlanningList({
         page: this.current_page,
         size: this.itemPerPage,
-        id: this.filters.id
+        ...this.filters
       })
     },
   },
   async mounted() {
-    await this.getPlanningList({page: 0, size: 20, id: ''});
+    await this.getPlanningList({page: 0, size: 20, modelNumber:'',orderNumber:'',client:'',status:''});
     await this.getStatusList()
+    this.$store.commit("setPageTitle", "Production");
+
   }
 }
 </script>

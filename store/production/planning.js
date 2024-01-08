@@ -47,21 +47,15 @@ export const mutations = {
   }
 }
 export const actions = {
-  getPlanningList({commit}, {page = 0, size = 10, id = ''}) {
+  getPlanningList({commit}, {page = 0, size = 10, modelNumber,orderNumber,client,status}) {
     const body = {
-      filters: [
-        {
-          key: 'id',
-          operator: 'EQUAL',
-          propertyType: 'LONG',
-          value: id
-        }
-      ],
-      sorts: [],
-      page, size
+      modelNumber,
+      orderNumber,
+      client,
+      status,
+      page,
+      size,
     }
-
-    body.filters = body.filters.filter(item => item.value !== '');
     this.$axios.$put('/api/v1/production/list', body)
       .then(res => {
         commit('setPlanningList', res.data);

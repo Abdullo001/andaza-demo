@@ -30,7 +30,7 @@
               hide-details
               height="44"
               class="rounded-lg base"
-              color="#7631FF"
+              color="#544B99"
               disabled
               dense
             >
@@ -44,7 +44,7 @@
               hide-details
               height="44"
               class="rounded-lg base"
-              color="#7631FF"
+              color="#544B99"
               dense
               :placeholder="$t('workingProcess.dialog.searchModelNumber')"
             >
@@ -173,7 +173,7 @@
             <v-btn
               width="130"
               height="40"
-              color="#7631FF"
+              color="#544B99"
               class="font-weight-bold rounded-lg"
               dark
               @click="save"
@@ -196,7 +196,7 @@
       <v-card>
         <v-card-title class="d-flex">
           <v-spacer/>
-          <v-btn icon color="#7631FF" large @click="image_dialog = false">
+          <v-btn icon color="#544B99" large @click="image_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>

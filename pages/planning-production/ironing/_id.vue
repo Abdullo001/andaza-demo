@@ -24,7 +24,7 @@
               class="rounded-lg base"
               disable-lookup
               :return-object="true"
-              color="#7631FF"
+              color="#544B99"
               dense disabled
               :placeholder="$t('planningProduction.dialog.searchOrderNumber')"
               append-icon=""
@@ -44,13 +44,13 @@
               height="44"
               class="rounded-lg base"
               :return-object="true"
-              color="#7631FF"
+              color="#544B99"
               dense
               :placeholder="$t('planningProduction.dialog.searchModelNumber')"
               append-icon="mdi-chevron-down"
             >
               <template #append>
-                <v-icon color="#7631FF">mdi-magnify</v-icon>
+                <v-icon color="#544B99">mdi-magnify</v-icon>
               </template>
             </v-combobox>
           </v-col>
@@ -201,7 +201,7 @@
               class="rounded-lg base" dense
               v-model="planning.overProductionPercent"
               :placeholder="$t('planningProduction.dialog.enterOverproduction')"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -250,7 +250,7 @@
             <v-btn
               width="130"
               height="40"
-              color="#7631FF"
+              color="#544B99"
               class="font-weight-bold rounded-lg"
               dark @click="savePlanning"
             >
@@ -272,7 +272,7 @@
       <v-card>
         <v-card-title class="d-flex">
           <v-spacer/>
-          <v-btn icon color="#7631FF" large @click="image_dialog = false">
+          <v-btn icon color="#544B99" large @click="image_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -284,7 +284,7 @@
         <v-tabs
           v-model="tab"
           background-color="transparent"
-          color="#7631FF"
+          color="#544B99"
         >
           <v-tab
             v-for="item in items"
@@ -297,15 +297,18 @@
         <v-divider/>
         <v-tabs-items v-model="tab">
           <v-tab-item>
-            <IroningProcess/>
+            <CommonProcessTab/>
           </v-tab-item>
           <v-tab-item>
-            <SewingSubcontract/>
+            <CommonSubcontractProcessTab/>
+          </v-tab-item>
+          <v-tab-item>
+            <PassingToNextProcess/>
           </v-tab-item>
         </v-tabs-items>
       </v-card-text>
     </v-card>
-    <v-row class="mt-2">
+    <v-row class="mt-2" v-if="tab!==2">
       <v-col>
         <CalculationShortcomings/>
       </v-col>
@@ -317,7 +320,7 @@
     <div class="text-right mt-5 mb-8">
       <v-btn
         outlined
-        color="#7631FF"
+        color="#544B99"
         class="rounded-lg text-capitalize font-weight-bold"
         width="200"
         height="44"
@@ -331,14 +334,15 @@
 
 <script>
 import {mapActions, mapGetters} from "vuex";
-import ProductionPlanningComponent from "@/components/Production/Planning.vue";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
-import CalculationShortcomings from "../../../components/CalculationsShoertcomings.vue";
-import OrderQuantities from "../../../components/OrderQuantities.vue";
-import GivenAccessoryQuantity from "../../../components/GivenAccessoryQuantity.vue";
-import SewingSubcontract from '../../../components/SubcontractsFolder/SewingSubcontract.vue';
-import IroningProcess from "@/components/IroningProcess.vue";
+import CalculationShortcomings from "@/components/commonProcess/CalculationsShortcomings.vue";
+import OrderQuantities from "@/components/commonProcess/OrderQuantities.vue";
+import PassingToNextProcess from "@/components/PassingToNextProcess.vue";
+import CommonProcessTab from "@/components/commonProcess/CommonProcessTab.vue";
+import CommonSubcontractProcessTab from "@/components/commonProcess/CommonSubcontractProcessTab.vue";
+
+
 
 export default {
   name: 'ProductionOfPlanningPage',
@@ -347,16 +351,15 @@ export default {
     CalculationShortcomings,
     ShowBtnComponent,
     Breadcrumbs,
-    ProductionPlanningComponent,
-    GivenAccessoryQuantity,
-    SewingSubcontract,
-    IroningProcess,
+    PassingToNextProcess,
+    CommonProcessTab,
+    CommonSubcontractProcessTab,
 },
   data() {
     return {
       show_btn: true,
       tab: null,
-      items: ["Ironing", "Subcontracts"],
+      items: ["Ironing", "Subcontracts","Passing to next process"],
       title: "Add",
       currentImage: '',
       image_dialog: false,
@@ -425,7 +428,8 @@ export default {
       modelData: 'preFinance/modelData',
       modelInfo: 'production/planning/modelInfo',
       modelImages: 'modelPhoto/modelImages',
-      productionId: 'production/planning/productionId'
+      productionId: 'production/planning/productionId',
+      planningProcessId:'commonProcess/planningProcessId',
     })
   },
   watch: {
@@ -446,6 +450,17 @@ export default {
     modelImages(val){
       const item = JSON.parse(JSON.stringify(val));
       this.model_images = item
+    },
+    tab(val){
+      if(val===1){
+        this.getSubcontractShortcomingsList(this.planningProcessId)
+      }
+      if(val===0){
+        this.getShortcomingsList(this.planningProcessId)
+      }
+      if(val===2){
+        this.getPassingList(this.planningProcessId)
+      }
     }
   },
   methods: {
@@ -457,7 +472,10 @@ export default {
       getWorkshopList: 'production/planning/getWorkshopList',
       getColorsList: 'production/planning/getColorsList',
       createProcessPlanning: 'production/planning/createProcessPlanning',
-      getProcessingList: 'production/planning/getProcessingList'
+      getProcessingList: 'production/planning/getProcessingList',
+      getShortcomingsList:'commonCalculationsShortcomings/getShortcomingsList',
+      getSubcontractShortcomingsList:'commonCalculationsShortcomings/getSubcontractShortcomingsList',
+      getPassingList:'cuttingToNextProcess/getPassingList',
     }),
     clickBtn(){
       this.show_btn = !this.show_btn
@@ -486,3 +504,9 @@ export default {
   }
 }
 </script>
+<style scoped lang="scss">
+.show_active {
+  height: 0;
+  overflow: hidden;
+}
+</style>

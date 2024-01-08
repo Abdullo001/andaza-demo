@@ -26,7 +26,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Edit classification of shortcomings </div>
-          <v-btn icon color="#7631FF" @click="edit_dialog = false">
+          <v-btn icon color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -41,7 +41,7 @@
                   hide-details
                   dense
                   height="44"
-                  class="rounded-lg base" color="#7631FF"
+                  class="rounded-lg base" color="#544B99"
                   placeholder="Enter quatity"
                   v-model.trim="selectedItem.quantity"
                 />
@@ -56,7 +56,7 @@
                   hide-details
                   dense
                   height="44"
-                  class="rounded-lg base" color="#7631FF"
+                  class="rounded-lg base" color="#544B99"
                   placeholder=" "
                 />
               </v-col>
@@ -67,7 +67,7 @@
                   hide-details
                   dense
                   height="44"
-                  class="rounded-lg base" color="#7631FF"
+                  class="rounded-lg base" color="#544B99"
                   placeholder="Enter description"
                   v-model.trim="selectedItem.description"
                 />
@@ -80,7 +80,7 @@
           <v-btn
             outlined
             class="rounded-lg text-capitalize font-weight-bold"
-            color="#7631FF"
+            color="#544B99"
             width="163" height="44"
             @click="edit_dialog=false"
             style="border-width: 2px"
@@ -89,7 +89,7 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold ml-8"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="163" height="44"
             @click="editFunc"
           >
@@ -107,7 +107,7 @@
           <v-img src="/error-icon.svg" max-width="40"/>
         </div>
         <v-card-title class="d-flex justify-center">
-          Delete classification 
+          Delete classification
         </v-card-title>
         <v-card-text>
           Are you sure you want to  Delete  classification for shortcomings?
@@ -184,14 +184,15 @@ export default {
           text: '',
           sortable: false,
           align: 'end',
-          value: 'actions'
+          value: 'actions',
+          width: 120,
         },
       ],
       items: [],
       selectedItem:{},
       classificationEnums: ['DEFECT','PHOTO','PHOTO_SAMPLE','SAMPLE','LOST','OTHERS'],
 
-      
+
     }
   },
 
@@ -203,7 +204,58 @@ export default {
 
   watch:{
     classificationList(val){
+      this.headers=[
+        {
+          text: 'Colors',
+          sortable: false,
+          align: 'start',
+          value: 'color'
+        },
+        {
+          text: 'Size',
+          sortable: false,
+          align: 'start',
+          value: 'size'
+        },
+        {
+          text: 'Quantity',
+          sortable: false,
+          align: 'start',
+          value: 'quantity'
+        },
+        {
+          text: 'Reason',
+          sortable: false,
+          align: 'start',
+          value: 'reason'
+        },
+        {
+          text: 'Comment',
+          sortable: false,
+          align: 'start',
+          value: 'description'
+        },
+        {
+          text: '',
+          sortable: false,
+          align: 'end',
+          value: 'actions',
+          width: 120,
+        },
+      ]
       this.items=JSON.parse(JSON.stringify(val))
+
+      if(val[0]?.partner){
+        this.headers.splice(4,0,
+          {
+            text: 'Partner',
+            sortable: false,
+            align: 'start',
+            value: 'partner'
+          },
+
+        )
+      }
     }
   },
 
@@ -211,6 +263,8 @@ export default {
     ...mapActions({
       deleteClassification:"cuttingProcess/deleteClassification",
       updateClassification:"cuttingProcess/updateClassification",
+      updateClassificationSubcontract:"subcontracts/updateClassificationSubcontract",
+      deleteClassificationSubcontracts:"subcontracts/deleteClassificationSubcontracts",
 
     }),
 
@@ -227,7 +281,11 @@ export default {
         quantity: this.selectedItem.quantity,
         reason: this.selectedItem.reason,
       }
-      this.updateClassification(data)
+      if(this.selectedItem.partner){
+        this.updateClassificationSubcontract(data)
+      }else{
+        this.updateClassification(data)
+      }
       this.edit_dialog=false
 
     },
@@ -238,7 +296,11 @@ export default {
     },
     deleteFunc(){
       this.delete_dialog=false
-      this.deleteClassification(this.selectedItem.id)
+      if(this.selectedItem.partner){
+        this.deleteClassificationSubcontracts(this.selectedItem.id)
+      }else{
+        this.deleteClassification(this.selectedItem.id)
+      }
     }
   }
 }

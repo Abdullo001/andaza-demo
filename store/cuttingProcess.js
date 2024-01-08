@@ -4,7 +4,6 @@ export const state=()=>({
   planningProcessId:null,
   historyList:[],
   classificationList:[],
-
   orderQuantityList:[],
 
 })
@@ -15,6 +14,7 @@ export const getters={
   historyList: state=>state.historyList,
   classificationList: state=>state.classificationList,
   orderQuantityList: state=>state.orderQuantityList,
+  planningProcessId:state=>state.planningProcessId,
 }
 
 export const mutations = {
@@ -51,6 +51,7 @@ export const actions = {
     this.$axios.put(`/api/v1/process-details/update`,data)
     .then((res)=>{
       dispatch("getCuttingList")
+      this.$toast.success(res.data.message)
     })
     .catch(({res})=>{
       this.$toast.error(res.data.message)
@@ -184,6 +185,28 @@ export const actions = {
     .catch((res)=>{
       console.log(res);
     })
- 
+  },
+
+  setMainColor({dispatch},id){
+    this.$axios.put(`/api/v1/process-details/set-main?id=${id}`)
+    .then((res)=>{
+      dispatch("getCuttingList")
+      this.$toast.success(res.data.message)
+    })
+    .catch(({res})=>{
+      this.$toast.error(res.data.message)
+      console.log(res);
+    })
+  },
+  setWasteFabric({dispatch,state},data){
+    this.$axios.put(`/api/v1/process-details/set-waste-fabric`,data)
+    .then((res)=>{
+      dispatch("getCuttingList")
+      this.$toast.success(res.data.message)
+    })
+    .catch(({res})=>{
+      console.log(res);
+      this.$toast.error(res.data.message)
+    })
   }
 }

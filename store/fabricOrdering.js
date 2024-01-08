@@ -58,6 +58,7 @@ export const actions={
       size: 10
     }
 
+    body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
     this.$axios.$put('/api/v1/partner/list', body)
       .then(res => {
         commit('setPartners', res.data.content);
@@ -120,6 +121,17 @@ export const actions={
     .catch((res)=>{
       this.$toast.error(res.message)
       console.log(res);
+    })
+  },
+  setQueue({dispatch},data){
+    this.$axios.put(`/api/v1/fabric-order/set-queue`,data)
+    .then((res)=>{
+      dispatch("getGeneratedFabricOrdering",data.orderId)
+      this.$toast.success(res.data.message)
+    })
+    .catch(({res})=>{
+      console.log(res);
+      this.$toast.error(res.data.message)
     })
   }
   

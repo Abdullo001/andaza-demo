@@ -1,0 +1,50 @@
+export const state = () => ({
+  packingList: []
+})
+
+export const getters = {
+  packingList: state => state.packingList,
+}
+
+export const mutations = {
+  setPackingList(state, item) {
+    state.packingList = item
+  }
+}
+
+export const actions = {
+  async getPackingList({commit}, id) {
+    await this.$axios.$get(`/api/v1/packaging-list/list?shippingId=${id}`)
+      .then(res => {
+        commit('setPackingList', res.data);
+      })
+      .catch(({response}) => {
+      })
+  },
+  postGenerateInvoice({dispatch}, {data, id}){
+    this.$axios.$post('/api/v1/invoice/generate-invoice', data).then(res => {
+      dispatch("getPackingList", id)
+      this.$toast.success(res.message, {theme: 'toasted-primary'});
+    }).catch(res => {
+      this.$toast.error(res.data.message, {theme: 'toasted-primary'})
+    })
+  },
+  async updatePackingList({commit, dispatch}, {data, id}) {
+    this.$axios.$put('/api/v1/packaging-list/update', data)
+      .then(res => {
+        dispatch("getPackingList", id)
+        this.$toast.success(res.message, {theme: 'toasted-primary'});
+      }).catch(({response}) => {
+      this.$toast.error(response.data.message, {theme: 'toasted-primary'})
+    })
+  },
+  async setBoxQuantity({commit,dispatch}, {data, id}) {
+    this.$axios.$put('/api/v1/packaging-list-item/set-box-quantity', data)
+      .then(res => {
+        dispatch("getPackingList",id)
+        this.$toast.success(res.message, {theme: 'toasted-primary'})
+      }).catch(({response}) => {
+      this.$toast.error(response.data.message, {theme: 'toasted-primary'})
+    })
+  },
+}

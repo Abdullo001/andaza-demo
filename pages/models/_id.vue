@@ -11,7 +11,7 @@
           <v-btn
             outlined
             elevation="0"
-            color="#7631FF"
+            color="#544B99"
             class="text-capitalize rounded-lg mr-4 font-weight-bold"
             @click="redirectPrefinance"
           >
@@ -33,7 +33,7 @@
               dense
               style="max-width: 400px"
               :placeholder="$t('listsModels.child.enterModelNumber')"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -47,7 +47,7 @@
               dense
               style="max-width: 400px"
               :placeholder="$t('listsModels.child.modelName')"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -64,7 +64,7 @@
               append-icon="mdi-chevron-down"
               style="max-width: 400px"
               :placeholder="$t('listsModels.child.selectModelGroup')"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -82,7 +82,7 @@
               dense
               style="max-width: 400px"
               :placeholder="$t('listsModels.child.entermodelComposition')"
-              color="#7631FF"
+              color="#544B99"
               append-icon="mdi-chevron-down"
             />
           </v-col>
@@ -90,11 +90,35 @@
         <v-row :class="showObject">
           <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{$t('listsModels.child.partner')}}</div>
+
+            <v-combobox
+                  v-model="model.partnerId"
+                  :items="partner_enums"
+                  :search-input.sync="partnerName"
+                  item-text="name"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :return-object="true"
+                  color="#544B99"
+                  dense
+                  placeholder="Enter partner name"
+                  append-icon="mdi-chevron-down"
+                  :rules="[formRules.required]"
+                  validate-on-blur
+                  >
+                  <template #append>
+                    <v-icon color="#544B99">mdi-magnify</v-icon>
+                  </template>
+                 </v-combobox>
+          </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">Brand name</div>
             <v-select
-              v-model="model.partnerId"
-              :items="partner_enums"
-              item-value="id"
-              item-text="name"
+              v-model="model.brandName"
+              :items="brandList"
               outlined
               hide-details
               class="rounded-lg base mb-4"
@@ -102,8 +126,8 @@
               dense
               append-icon="mdi-chevron-down"
               style="max-width: 400px"
-              :placeholder="$t('listsModels.child.selectClient')"
-              color="#7631FF"
+              placeholder="Select brand name"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -121,7 +145,7 @@
               append-icon="mdi-chevron-down"
               style="max-width: 400px"
               :placeholder="$t('listsModels.child.selectSeason')"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -138,7 +162,7 @@
               append-icon="mdi-chevron-down"
               style="max-width: 400px"
               :placeholder="$t('listsModels.child.selectModelGroup')"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -153,7 +177,7 @@
               append-icon="mdi-chevron-down"
               style="max-width: 400px"
               :placeholder="$t('listsModels.child.selectGender')"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="6" md="6" sm="6">
@@ -167,7 +191,7 @@
               class="rounded-lg base"
               dense
               :placeholder="$t('listsModels.child.enterDescription')"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -204,7 +228,7 @@
               hide-details
               class="rounded-lg base mb-4"
               height="44"
-              color="#7631FF"
+              color="#544B99"
               dense
               placeholder="dd.MM.yyyy HH:mm:ss"
               disabled
@@ -222,7 +246,7 @@
               hide-details
               class="rounded-lg base mb-4"
               height="44"
-              color="#7631FF"
+              color="#544B99"
               dense
               placeholder="dd.MM.yyyy HH:mm:ss"
               disabled
@@ -232,11 +256,11 @@
               </template>
             </v-text-field>
           </v-col>
-          <v-col cols="12" lg="6" md="6" sm="6" class="d-flex justify-end align-center">
+          <v-col cols="12"  class="d-flex justify-end align-center">
             <v-spacer/>
             <v-btn
               v-if="modelStatus === 'Add'"
-              color="#7631FF"
+              color="#544B99"
               class="text-capitalize rounded-lg"
               width="130"
               height="44"
@@ -246,7 +270,7 @@
             </v-btn>
             <v-btn
               v-else
-              color="#7631FF"
+              color="#544B99"
               class="text-capitalize rounded-lg"
               width="130"
               height="44"
@@ -268,7 +292,7 @@
       <v-tabs
         v-model="tab"
       >
-        <v-tabs-slider color="#7631FF"/>
+        <v-tabs-slider color="#544B99"/>
         <v-tab
           class="text-capitalize"
           v-for="item in items"
@@ -355,6 +379,7 @@ export default {
   data() {
     return {
       show_btn: true,
+      partnerName:'',
       items: [
         this.$t('listsModels.child.modelParts'),
         this.$t('listsModels.child.sizeChart'),
@@ -394,6 +419,7 @@ export default {
         compositionId: '',
         season: '',
         licence: null,
+        brandName:'',
         gender: '',
         description: '',
         creator: '',
@@ -425,11 +451,17 @@ export default {
     ...mapGetters({
       oneModel: 'models/oneModel',
       modelGroups: 'models/modelGroups',
-      partner_enums: 'models/partner_enums',
-      compositionList: 'models/compositionList'
+      partner_enums: 'fabricOrdering/partnerLists',
+      compositionList: 'models/compositionList',
+      brandList: 'models/brandList'
     }),
   },
   watch: {
+    partnerName(val) {
+      if(!!val && val !== '') {
+      this.getPartnerName(val);
+      }
+    },
     oneModel(val) {
       const model = this.model;
       model.number = val.modelNumber;
@@ -442,10 +474,17 @@ export default {
       model.description = val.description;
       model.creator = val.createdBy;
       model.modifiedPerson = val.updatedBy;
-      model.partnerId = val.partnerId
+      model.partnerId ={id:val.partnerId,name:val.partner}
       model.createdTime = val.createdAt;
       model.updateTime = val.updatedAt;
+      model.brandName = val.brandName;
+    },
+    "model.partnerId"(val){
+      if(!!val){
+        this.getBrandList(val?.id)
+      }
     }
+
   },
   methods: {
     ...mapActions({
@@ -454,21 +493,27 @@ export default {
       getPartnerList: 'models/getPartnerList',
       createModel: 'models/createModel',
       updateModel: 'models/updateModel',
-      getCompositionList: 'models/getCompositionList'
+      getCompositionList: 'models/getCompositionList',
+      getBrandList: 'models/getBrandList',
+      modelToPrefinance: 'preFinance/modelToPrefinance',
+      getPartnerName: 'fabricOrdering/getPartnerName',
+
     }),
     clickBtn(){
       this.show_btn = !this.show_btn
     },
     redirectPrefinance() {
-      this.$store.commit('preFinance/setModelNumber', this.model.number);
-      this.$router.push(this.localePath('/prefinances/creating'));
+      this.modelToPrefinance(this.$route.params.id)
     },
     async createNewModel() {
-      await this.createModel(this.model);
+      const data = {...this.model};
+      data.partnerId=this.model.partnerId?.id
+      await this.createModel(data);
     },
     async updateModels() {
       const id = this.$route.params.id;
       const data = {...this.model};
+      data.partnerId=this.model.partnerId?.id
 
       await this.updateModel(
         {
@@ -493,7 +538,7 @@ export default {
   font-style: normal;
   font-weight: 500;
   line-height: 20px;
-  color: #7631FF;
+  color: #544B99;
 }
 
 .el-date-editor--datetime {

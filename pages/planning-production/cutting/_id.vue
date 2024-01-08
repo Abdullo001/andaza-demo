@@ -24,7 +24,7 @@
               class="rounded-lg base"
               disable-lookup
               :return-object="true"
-              color="#7631FF"
+              color="#544B99"
               dense disabled
               :placeholder="$t('planningProduction.dialog.searchOrderNumber')"
               append-icon=""
@@ -44,13 +44,13 @@
               height="44"
               class="rounded-lg base"
               :return-object="true"
-              color="#7631FF"
+              color="#544B99"
               dense
               :placeholder="$t('planningProduction.dialog.searchModelNumber')"
               append-icon="mdi-chevron-down"
             >
               <template #append>
-                <v-icon color="#7631FF">mdi-magnify</v-icon>
+                <v-icon color="#544B99">mdi-magnify</v-icon>
               </template>
             </v-combobox>
           </v-col>
@@ -201,7 +201,7 @@
               class="rounded-lg base" dense
               v-model="planning.overProductionPercent"
               :placeholder="$t('planningProduction.dialog.enterOverproduction')"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -250,7 +250,7 @@
             <v-btn
               width="130"
               height="40"
-              color="#7631FF"
+              color="#544B99"
               class="font-weight-bold rounded-lg"
               dark @click="savePlanning"
             >
@@ -272,7 +272,7 @@
       <v-card>
         <v-card-title class="d-flex">
           <v-spacer/>
-          <v-btn icon color="#7631FF" large @click="image_dialog = false">
+          <v-btn icon color="#544B99" large @click="image_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -284,7 +284,7 @@
         <v-tabs
           v-model="tab"
           background-color="transparent"
-          color="#7631FF"
+          color="#544B99"
         >
           <v-tab
             v-for="item in items"
@@ -302,29 +302,44 @@
           <v-tab-item>
             <Subcontracts/>
           </v-tab-item>
+          <v-tab-item>
+            <CuttingToNextProcess/>
+          </v-tab-item>
         </v-tabs-items>
       </v-card-text>
     </v-card>
-    <v-row class="mt-2">
-      <v-col>
+    <v-row class="mt-2" v-if="tab!==2">
+      <v-col cols="6">
         <CalculationShortcomings/>
       </v-col>
-      <v-col>
+      <v-col cols="6">
         <OrderQuantities/>
       </v-col>
     </v-row>
+    <div class="text-right mt-5 mb-8">
+      <v-btn
+        outlined
+        color="#544B99"
+        class="rounded-lg text-capitalize font-weight-bold"
+        width="200"
+        height="44"
+        style="border-width: 2px"
+      >
+        Finish Process
+      </v-btn>
+    </div>
   </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from "vuex";
-import ProductionPlanningComponent from "../../../components/Production/Planning.vue";
-import Breadcrumbs from "../../../components/Breadcrumbs.vue";
-import Subcontracts from "../../../components/Subcontracts.vue";
-import ShowBtnComponent from "../../../components/ShowComponentBtn/ShowBtn.vue";
-import CuttingComponent from '../../../components/Cutting.vue';
-import CalculationShortcomings from "../../../components/CalculationsShoertcomings.vue";
-import OrderQuantities from "../../../components/OrderQuantities.vue";
+import Breadcrumbs from "@/components/Breadcrumbs.vue";
+import Subcontracts from "@/components/Subcontracts.vue";
+import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
+import CuttingComponent from "@/components/Cutting.vue";
+import CalculationShortcomings from "@/components/CalculationsShoertcomings.vue";
+import OrderQuantities from "@/components/OrderQuantities.vue";
+import CuttingToNextProcess from "@/components/CuttingToNextProcess.vue";
 
 export default {
   name: 'ProductionOfPlanningPage',
@@ -335,12 +350,13 @@ export default {
     ShowBtnComponent,
     Subcontracts,
     Breadcrumbs,
-    ProductionPlanningComponent},
+    CuttingToNextProcess
+  },
   data() {
     return {
       show_btn: true,
       tab: null,
-      items: ["Cutting", "Subcontracts"],
+      items: ["Cutting", "Subcontracts","Passing to next process"],
       title: "Add",
       currentImage: '',
       image_dialog: false,
@@ -381,8 +397,14 @@ export default {
         },
         {
           text: this.$t('planningProduction.table.details'),
+          disabled: false,
+          to: this.localePath(`/production/${this.$route.params.id}`),
+          icon: true
+        },
+        {
+          text: "Production porcesses for current model",
           disabled: true,
-          to: this.localePath('/models/7'),
+          to: this.localePath('/production/cutting/7'),
           icon: false
         },
       ],
@@ -403,7 +425,9 @@ export default {
       modelData: 'preFinance/modelData',
       modelInfo: 'production/planning/modelInfo',
       modelImages: 'modelPhoto/modelImages',
-      productionId: 'production/planning/productionId'
+      productionId: 'production/planning/productionId',
+      planningProcessId: 'cuttingProcess/planningProcessId',
+
     })
   },
   watch: {
@@ -424,6 +448,17 @@ export default {
     modelImages(val){
       const item = JSON.parse(JSON.stringify(val));
       this.model_images = item
+    },
+    tab(val){
+      if(val===1){
+        this.setClassification()
+      }
+      if(val===0){
+        this.getClassificationList()
+      }
+      if(val===2){
+        this.getPassingList(this.planningProcessId)
+      }
     }
   },
   methods: {
@@ -435,7 +470,12 @@ export default {
       getWorkshopList: 'production/planning/getWorkshopList',
       getColorsList: 'production/planning/getColorsList',
       createProcessPlanning: 'production/planning/createProcessPlanning',
-      getProcessingList: 'production/planning/getProcessingList'
+      getProcessingList: 'production/planning/getProcessingList',
+      setClassification: 'subcontracts/setClassification',
+      getClassificationList:'cuttingProcess/getClassificationList',
+      getPassingList:'cuttingToNextProcess/getPassingList',
+
+
     }),
     clickBtn(){
       this.show_btn = !this.show_btn

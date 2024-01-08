@@ -3,7 +3,7 @@
     <v-data-table
       :headers="headers"
       :items="allPlannerOrder"
-      :items-per-page="10"
+      :items-per-page="100"
       class="elevation-0"
       hide-default-footer
     >
@@ -31,7 +31,7 @@
           :disabled="item.status==='ORDERED'"
           :rules="[formRules.required]"
           validate-on-blur
-          color="#7631FF"
+          color="#544B99"
           v-model="item.pricePerUnit"
         />
       </template>
@@ -45,7 +45,7 @@
           :disabled="item.status==='ORDERED'"
           :rules="[formRules.required]"
           validate-on-blur
-          color="#7631FF"
+          color="#544B99"
           v-model="item.actualFabricTotal"
         />
       </template>
@@ -55,7 +55,7 @@
       <v-spacer/>
       <v-btn
         class="text-capitalize rounded-lg font-weight-bold mr-4 py-1 px-6"
-        color="#7631FF"
+        color="#544B99"
         outlined
         height="44"
         @click="generateFabricPlanningOrder"
@@ -91,7 +91,7 @@ export default {
         { text: 'Total price', value: 'totalPrice', sortable: false },
 
       ],
-      status_enums: ["ORDERED", "CANCELLED", "PENDING"],
+      status_enums: ["ORDERED", "CANCELLED", "PENDING","FABRIC_GENERATED"],
       details: {
         partnerName: '',
         warehouseCode: '',
@@ -204,7 +204,7 @@ export default {
           actualTotalFabric:arr[0],
         }
         this.setActualTotalFunc({data,id:this.fabricPlanningId})
-      
+
     }
   },
   mounted() {

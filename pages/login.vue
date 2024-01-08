@@ -9,7 +9,7 @@
       <v-col class="d-flex justify-center align-center" cols="12" lg="6" md="6" sm="12">
         <div class="login__main">
           <div class="login__logo">
-            <img src="/logo.svg" alt="logo">
+            <img src="/andaza.svg" alt="logo" width="300">
           </div>
           <div class="login__description mb-8">Authentication</div>
           <div class="label">Username</div>
@@ -18,7 +18,7 @@
             hide-details
             height="44"
             dense
-            color="#7631FF"
+            color="#544B99"
             placeholder="Enter Username or E-mail"
             class="mb-3 rounded-lg base"
             v-model.trim="login.userName"
@@ -31,7 +31,7 @@
             hide-details
             height="44"
             dense
-            color="#7631FF"
+            color="#544B99"
             placeholder="Enter password"
             class="mb-3 rounded-lg base"
             v-model.trim="login.password"
@@ -51,13 +51,13 @@
           <div class="d-flex justify-space-between align-center mb-5 pointer mb-8">
             <v-checkbox
               label="Remember me"
-              color="#7631FF"
+              color="#544B99"
               class="mt-0"
               hide-details
             />
           </div>
           <v-btn
-            color="#7631FF"
+            color="#544B99"
             class="rounded-lg text-capitalize font-weight-bold"
             block
             dark
@@ -72,6 +72,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'IndexPage',
   layout: 'main',
@@ -90,15 +91,14 @@ export default {
         usernameOrEmail: this.login.userName,
         password: this.login.password
       }
-
-      await this.$auth.loginWith('local', {data: data})
+      await this.$axios.$post(`/api/v1/auth/login`, data)
         .then(res => {
-          const token = String(res.data.data.token)
+          const token = String(res.data.token)
           this.$auth.setUserToken(token)
-          this.$toast.success(res.data.message, {theme: 'toasted-primary'})
-        })
-        .catch(({response}) => {
-          this.$toast.error(response.data.message, {theme: 'toasted-primary'})
+          this.$toast.success(res.message, {theme: 'toasted-primary'});
+          this.$store.commit("setPermissionsList",res.data.permissions)
+          window.localStorage.setItem("permissionList",JSON.stringify(res.data.permissions))
+          this.$router.push('/user-management');
         })
     }
   }

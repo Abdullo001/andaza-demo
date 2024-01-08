@@ -2,13 +2,15 @@ export const state = () => ({
   pageTitle: "",
   isAuth: false,
   token: "",
+  permissionsList:[],
   currentUser: {}
 });
 
 export const getters = {
   pageTitle: (state) => state.pageTitle,
   token: (state) => state.token,
-  currentUser: state => state.currentUser
+  currentUser: state => state.currentUser,
+  permissionsList: state => state.permissionsList,
 };
 
 export const mutations = {
@@ -20,7 +22,10 @@ export const mutations = {
   },
   setCurrentUser(state, current) {
     state.currentUser = current;
-  }
+  },
+  setPermissionsList(state, current) {
+    state.permissionsList = current;
+  },
 };
 
 export const actions = {

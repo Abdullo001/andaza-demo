@@ -1,10 +1,8 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
-  target: 'static',
-  // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'ATP - textile',
+    title: 'Andaza',
     htmlAttrs: {
       lang: 'en'
     },
@@ -15,40 +13,34 @@ export default {
       {name: 'format-detection', content: 'telephone=no'}
     ],
     link: [
-      {rel: 'icon', type: 'image/svg', href: '/logo.svg'}
+      {rel: 'icon', type: 'image/svg', href: '/andaza-a.svg'}
     ]
   },
   script: [],
 
-  // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
 
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    {src: '~/plugins/chart.js', mode: 'client'},
     {src: "~/plugins/axios.js"},
     {src: "~/plugins/mixins.js"},
     {src: "~/plugins/v-mask.js"},
     {src: "./plugins/element-io.js"}
   ],
 
-  // Auto import components: https://go.nuxtjs.dev/config-components
-  components: false,
+  components: true,
 
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
     '@nuxtjs/style-resources',
     '@nuxtjs/pwa'
   ],
   styleResources: {
     scss: [
-      '~/assets/abstracts/_global.scss' // use underscore "_" & also file extension ".scss"
+      '~/assets/abstracts/_global.scss'
     ]
   },
-  // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     "@nuxtjs/toast",
     '@nuxtjs/auth-next',
@@ -57,30 +49,30 @@ export default {
   ],
   pwa: {
     manifest: {
-      name: 'ATP',
-      short_name: 'ATP',
+      name: 'Andaza',
+      short_name: 'Andaza',
       lang: 'en',
       display: 'standalone',
-      description: 'Automatization of Textile Production',
+      description: ' Andaza',
       useWebmanifestExtension: false,
       icons: [
         {
-          src: '/logo-144x144.png',
+          src: '/andaza-144x144.png',
           sizes: '144x144',
           type: 'image/png'
         },
         {
-          src: '/logo-64x64.png',
+          src: '/andaza-64x64.png',
           sizes: '64x64',
           type: 'image/png'
         },
         {
-          src: '/logo-32x32.png',
+          src: '/andaza-32x32.png',
           sizes: '32x32',
           type: 'image/png'
         },
         {
-          src: '/logo-16x16.png',
+          src: '/andaza-16x16.png',
           sizes: '16x16',
           type: 'image/png'
         }
@@ -147,7 +139,7 @@ export default {
 
   loading: false,
   axios: {
-    baseURL: 'https://dev-atp.asgardia.uz'
+    baseURL: process.env.APP_ENV === 'PROD' ? 'https://atp.asgardia.uz' : 'https://dev-atp.asgardia.uz'
   },
   auth: {
     strategies: {
@@ -177,7 +169,6 @@ export default {
     middleware: ['auth', 'isAuth']
   },
 
-  // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss', '~/assets/base.scss'],
     theme: {
@@ -196,7 +187,6 @@ export default {
     }
   },
 
-  // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: [
       'defu',

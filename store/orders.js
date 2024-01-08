@@ -97,6 +97,7 @@ export const actions = {
       modelId: data.modelId,
       orderNumber: data.orderNumber,
       priority: data.priority,
+      overproductionPercent: data.overproductionPercent,
     };
     this.$axios
       .post("/api/v1/orders/create", order)
@@ -134,7 +135,7 @@ export const actions = {
       filters: [],
       sorts: [],
       page: 0,
-      size: 50,
+      size: 100,
     };
     await this.$axios
       .put(`/api/v1/user/get-users`, body)
@@ -178,6 +179,7 @@ export const actions = {
       modelId: data.modelId,
       orderNumber: data.orderNumber,
       priority: data.priority,
+      overproductionPercent:data.overproductionPercent,
     };
     await this.$axios
       .put("/api/v1/orders/update", order)
@@ -187,6 +189,11 @@ export const actions = {
           id: res.data.data.id,
           modelId: res.data.data.modelId,
         });
+        dispatch(
+          "sizeDistribution/getSizeDistirbutionValue",
+          { orderId: res.data.data.id, modelId: res.data.data.modelId },
+          { root: true }
+        );
       })
       .catch((res) => {
         console.log(res);
@@ -205,31 +212,16 @@ export const actions = {
   },
   async filterOrderList({ commit }, { page, size, data }) {
     const body = {
-      filters: [
-        {
-          key: "orderNumber",
-          operator: "LIKE",
-          property_type: "STRING",
-          value: data.orderNumber,
-        },
-        {
-          key: "createdAt",
-          operator: "BETWEEN",
-          propertyType: "DATE",
-          value: data.createdAt,
-          valueTo: data.updatedAt,
-        },
-      ],
-      sorts: [],
+      orderNumber:data.orderNumber,
+      modelNumber:data.modelNumber,
+      modelGroup:data.modelGroup,
+      creatorId:data.creatorId?.id,
+      clientName:data.clientName?.name,
       page,
       size,
     };
-    body.filters = body.filters.filter(
-      (item) => item.value !== "" && item.value !== null
-    );
-    const modelGroup = data.modelGroup !== null ? data.modelGroup : "";
     await this.$axios
-      .$put(`/api/v1/orders/list?modelGroup=${modelGroup}`, body)
+      .$put(`/api/v1/orders/list`, body)
       .then((res) => {
         commit("setOrders", res.data);
       })
@@ -238,14 +230,14 @@ export const actions = {
         console.log(response);
       });
   },
-  async getOrdersList({ commit }, { page, size, modelGroup = "" }) {
+  async getOrdersList({ commit }, { page, size,  }) {
     const body = {
       filters: [],
       sorts: [],
       page,
       size,
     };
-    await this.$axios.$put(`/api/v1/orders/list?modelGroup=${modelGroup}`, body)
+    await this.$axios.$put(`/api/v1/orders/list`, body)
       .then((res) => {
         commit("setOrders", res.data);
         commit("setLoading", false);
@@ -255,9 +247,16 @@ export const actions = {
         console.log(response);
       });
   },
-  async getModelGroup({ commit }) {
+  async getModelGroup({ commit },{name}) {
     const body = {
-      filter: [],
+      filter: [
+        {
+          key:"name",
+          operator:"LIKE",
+          propertyType:"STRING",
+          value:name,
+        }
+      ],
       sorts: [],
       page: 0,
       size: 50,

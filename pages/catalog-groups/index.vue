@@ -55,7 +55,7 @@
               <v-btn
                 width="140"
                 outlined
-                color="#397CFD"
+                color="#544B99"
                 elevation="0"
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
@@ -64,7 +64,7 @@
               </v-btn>
               <v-btn
                 width="140"
-                color="#397CFD"
+                color="#544B99"
                 dark
                 elevation="0"
                 class="text-capitalize rounded-lg"
@@ -98,7 +98,7 @@
               {{ $t("catalogGroups.child.menuName") }}
             </div>
             <v-btn
-              color="#7631FF"
+              color="#544B99"
               class="rounded-lg text-capitalize"
               dark
               @click="addCatalogGroup"
@@ -111,11 +111,11 @@
         <v-divider />
       </template>
       <template #item.actions="{ item }">
-        <v-tooltip top color="#7631FF">
+        <v-tooltip top color="#544B99">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
               icon
-              color="#7631FF"
+              color="#544B99"
               v-on="on"
               v-bind="attrs"
               @click="$router.push(`/catalog-groups/${item.id}`)"

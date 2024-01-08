@@ -25,7 +25,7 @@
                     height="44"
                     class="rounded-lg base"
                     :return-object="true"
-                    color="#7631FF"
+                    color="#544B99"
                     dense
                     placeholder="Enter partner name"
                     append-icon="mdi-chevron-down"
@@ -33,7 +33,7 @@
                     validate-on-blur
                   >
                     <template #append>
-                      <v-icon color="#7631FF">mdi-magnify</v-icon>
+                      <v-icon color="#544B99">mdi-magnify</v-icon>
                     </template>
                   </v-combobox>
                 </v-col>
@@ -50,7 +50,7 @@
                     height="44"
                     class="rounded-lg base"
                     :return-object="true"
-                    color="#7631FF"
+                    color="#544B99"
                     dense
                     placeholder="Enter warehouse code"
                     append-icon="mdi-chevron-down"
@@ -58,7 +58,7 @@
                     validate-on-blur
                   >
                     <template #append>
-                      <v-icon color="#7631FF">mdi-magnify</v-icon>
+                      <v-icon color="#544B99">mdi-magnify</v-icon>
                     </template>
                   </v-combobox>
                 </v-col>
@@ -75,7 +75,7 @@
                     height="44"
                     class="rounded-lg base"
                     :return-object="true"
-                    color="#7631FF"
+                    color="#544B99"
                     dense
                     placeholder="Enter warehouse code"
                     append-icon="mdi-chevron-down"
@@ -83,7 +83,7 @@
                     validate-on-blur
                   >
                     <template #append>
-                      <v-icon color="#7631FF">mdi-magnify</v-icon>
+                      <v-icon color="#544B99">mdi-magnify</v-icon>
                     </template>
                   </v-combobox>
                 </v-col>
@@ -110,7 +110,7 @@
       <template #item.isOrdered="{item}">
         <v-simple-checkbox
           v-model="item.isOrdered"
-          color="#7631FF"
+          color="#544B99"
         ></v-simple-checkbox>
       </template>
     </v-data-table>
@@ -119,7 +119,7 @@
       <v-spacer/>
       <v-btn
         class="text-capitalize rounded-lg font-weight-bold"
-        color="#7631FF" dark
+        color="#544B99" dark
         height="44"
         width="133"
         @click="savePlanningOrder"

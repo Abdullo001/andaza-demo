@@ -14,7 +14,7 @@
             <v-spacer/>
             <v-btn
               class="rounded-lg text-capitalize"
-              color="#7631FF"
+              color="#544B99"
               width="160" height="36"
               @click="newDialog"
               dark
@@ -42,7 +42,7 @@
         <v-card-title>
           <div class="title">{{ dialogTitle }} model parts</div>
           <v-spacer/>
-          <v-btn icon color="#7631FF" @click="partsDialog=false">
+          <v-btn icon color="#544B99" @click="partsDialog=false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -50,20 +50,28 @@
           <v-row>
             <v-col cols="12" lg="6">
               <div class="label">Part name</div>
-              <v-select
-                v-model="newModelParts.bodyPartId"
-                :items="partNames"
-                item-text="partName"
-                item-value="id"
-                placeholder="Enter part name"
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg base"
-                dense
-                color="#7631FF"
-                append-icon="mdi-chevron-down"
-              />
+                <v-combobox
+                  v-model="newModelParts.bodyPartId"
+                  :items="partNames"
+                  :search-input.sync="partSearch"
+                  item-text="partName"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base d-flex align-center justify-center"
+                  :return-object="true"
+                  color="#544B99"
+                  dense
+                  placeholder="Enter body part"
+                  prepend-icon=""
+                >
+                  <template #append>
+                    <v-icon class="d-inline-block" color="#544B99">
+                      mdi-magnify
+                    </v-icon>
+                  </template>
+                </v-combobox>
             </v-col>
             <v-col cols="12" lg="6">
               <div class="label">Yarn numbers</div>
@@ -77,7 +85,7 @@
                 hide-details
                 height="44"
                 class="rounded-lg base"  dense
-                color="#7631FF"
+                color="#544B99"
                 append-icon="mdi-chevron-down"
               />
             </v-col>
@@ -93,7 +101,7 @@
                 hide-details
                 height="44"
                 class="rounded-lg base"  dense
-                color="#7631FF"
+                color="#544B99"
                 append-icon="mdi-chevron-down"
               />
             </v-col>
@@ -110,7 +118,7 @@
                 hide-details
                 height="44"
                 class="rounded-lg base"  dense
-                color="#7631FF"
+                color="#544B99"
                 append-icon="mdi-chevron-down"
               />
             </v-col>
@@ -124,7 +132,7 @@
                 height="44"
                 class="rounded-lg base"
                 dense
-                color="#7631FF"
+                color="#544B99"
                 suffix="gr/m2"
               />
             </v-col>
@@ -137,7 +145,7 @@
                 hide-details
                 class="rounded-lg base"
                 dense
-                color="#7631FF"
+                color="#544B99"
               />
             </v-col>
           </v-row>
@@ -146,7 +154,7 @@
           <v-spacer/>
           <v-btn
             class="font-weight-bold text-capitalize rounded-lg border"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="140" height="40"
             @click="partsDialog=false"
           >
@@ -154,7 +162,7 @@
           </v-btn>
           <v-btn
             class="font-weight-bold text-capitalize rounded-lg ml-4"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="140" height="40"
             @click="saveModelParts"
             v-if="dialogTitle === 'Add'"
@@ -164,7 +172,7 @@
           <v-btn
             v-else
             class="font-weight-bold text-capitalize rounded-lg ml-4"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="140" height="40"
             @click="updateParts"
           >
@@ -227,6 +235,7 @@ export default {
         {text: 'Actions', sortable: false, align: 'center', value: 'actions'},
       ],
       partsDialog: false,
+      partSearch:"",
       newModelParts: {
         bodyPartId: null,
         canvasTypeId: null,
@@ -244,7 +253,7 @@ export default {
     }
   },
   created() {
-    this.getPartName();
+    this.getPartName("");
     this.getYarnNumbers();
     this.getCanvasType();
     this.getYarnType();
@@ -276,6 +285,15 @@ export default {
     },
     oneModelParts(val) {
       this.newModelParts = {...val}
+      this.partSearch=val.bodyPart
+      this.newModelParts.bodyPartId={partName:val.bodyPart,id:val.bodyPartId}
+    },
+    partSearch(val){
+      if(!!val&&val!==null){
+        this.getPartName(val)
+      }else{
+        this.getPartName("")
+      }
     }
   },
 

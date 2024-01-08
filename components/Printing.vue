@@ -14,7 +14,7 @@
             <v-spacer/>
             <v-btn
               class="text-capitalize rounded-lg"
-              color="#7631FF"
+              color="#544B99"
               @click="openDialog"
               :disabled="checkModelId"
               :dark="!checkModelId"
@@ -68,7 +68,7 @@
                   item-text="name"
                   v-model="newPrints.printTypeId"
                   dense append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                   class="rounded-lg base"
                   height="44"
                   hide-details
@@ -83,7 +83,7 @@
                   item-text="name"
                   v-model="edit.printTypeId"
                   dense append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                   class="rounded-lg base"
                   height="44"
                   hide-details
@@ -97,7 +97,7 @@
                   single-line
                   placeholder="Color quantity"
                   v-model="newPrints.colorQuantity"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                   class="rounded-lg base"
                   height="44"
@@ -109,7 +109,7 @@
                   single-line
                   placeholder="Color quantity"
                   v-model="edit.colorQuantity"
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                   class="rounded-lg base"
                   height="44"
@@ -128,7 +128,7 @@
                   item-text="name"
                   v-model="newPrints.partnerId"
                   dense append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                   class="rounded-lg base"
                   height="44"
                   hide-details
@@ -143,7 +143,7 @@
                   item-text="name"
                   v-model="edit.partnerId"
                   dense append-icon="mdi-chevron-down"
-                  color="#7631FF"
+                  color="#544B99"
                   class="rounded-lg base"
                   height="44"
                   hide-details
@@ -165,7 +165,7 @@
                     class="rounded-lg base rounded-l-lg rounded-r-0"
                     validate-on-blur
                     dense
-                    color="#7631FF"
+                    color="#544B99"
                   />
                   <v-select
                     :items="currency"
@@ -178,7 +178,7 @@
                     class="rounded-lg base rounded-r-lg rounded-l-0"
                     validate-on-blur
                     append-icon="mdi-chevron-down"
-                    color="#7631FF"
+                    color="#544B99"
                   />
                 </div>
                 <div
@@ -195,7 +195,7 @@
                     class="rounded-lg base rounded-l-lg rounded-r-0"
                     validate-on-blur
                     dense
-                    color="#7631FF"
+                    color="#544B99"
                   />
                   <v-select
                     :items="currency"
@@ -208,7 +208,7 @@
                     class="rounded-lg base rounded-r-lg rounded-l-0"
                     validate-on-blur
                     append-icon="mdi-chevron-down"
-                    color="#7631FF"
+                    color="#544B99"
                   />
                 </div>
               </v-col>
@@ -222,7 +222,7 @@
                   :picker-options="pickerShortcuts"
                   value-format="dd.MM.yyyy HH:mm:ss"
                   class="base_picker"
-                  style="width: 100%; color: #7631FF; height: 44px"
+                  style="width: 100%; color: #544B99; height: 44px"
                 >
                 </el-date-picker>
                 <el-date-picker
@@ -233,7 +233,7 @@
                   :picker-options="pickerShortcuts"
                   value-format="dd.MM.yyyy HH:mm:ss"
                   class="base_picker"
-                  style="width: 100%; color: #7631FF; height: 44px"
+                  style="width: 100%; color: #544B99; height: 44px"
                 >
                 </el-date-picker>
               </v-col>
@@ -246,7 +246,7 @@
                   rows="1"
                   outlined
                   single-line
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                   class="rounded-lg base"
                   hide-details
@@ -258,7 +258,7 @@
                   rows="1"
                   outlined
                   single-line
-                  color="#7631FF"
+                  color="#544B99"
                   dense
                   class="rounded-lg base"
                   hide-details
@@ -350,7 +350,7 @@
         <v-card-actions class="d-flex justify-center pb-4">
           <v-btn
             class="font-weight-bold text-capitalize rounded-lg border"
-            outlined color="#7631FF"
+            outlined color="#544B99"
             width="140" height="40"
             @click="printing_dialog = false"
           >
@@ -359,7 +359,7 @@
           <v-btn
             v-if="dialogTitle === 'Edit'"
             class="font-weight-bold text-capitalize rounded-lg ml-4"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="140" height="40"
             @click="upgradePrints"
           >
@@ -368,7 +368,7 @@
           <v-btn
             v-else
             class="font-weight-bold text-capitalize rounded-lg ml-4"
-            color="#7631FF" dark
+            color="#544B99" dark
             width="140" height="40"
             @click="createNewPrints"
           >
@@ -381,7 +381,7 @@
       <v-card >
         <v-card-title class="d-flex">
           <v-spacer/>
-          <v-btn icon color="#7631FF" large @click="image_dialog = false">
+          <v-btn icon color="#544B99" large @click="image_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -606,7 +606,9 @@ export default {
       data.append("id",id)
       data.append("printTypeId",printTypeId)
       data.append("sentDate",sendDate)
-      data.append("file",filePath)
+      if(typeof filePath!=="string"){
+        data.append("file",filePath)
+      }
       await this.updatePrints({data,id:modelId});
       this.printing_dialog = false;
     }
@@ -629,11 +631,11 @@ export default {
   background-color: #fff !important;
 
   > td.current > div > span {
-    background-color: #7631FF !important;
+    background-color: #544B99 !important;
   }
 
   > td.today > div > span {
-    color: #7631FF !important;
+    color: #544B99 !important;
   }
 
   > td.today.current > div > span {
@@ -642,7 +644,7 @@ export default {
 }
 
 .el-picker-panel__footer > button > span {
-  color: #7631FF !important;
+  color: #544B99 !important;
 }
 
 .el-input__inner {

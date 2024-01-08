@@ -24,7 +24,7 @@
               class="rounded-lg base"
               disable-lookup
               :return-object="true"
-              color="#7631FF"
+              color="#544B99"
               dense disabled
               :placeholder="$t('planningProduction.dialog.searchOrderNumber')"
               append-icon=""
@@ -44,13 +44,13 @@
               height="44"
               class="rounded-lg base"
               :return-object="true"
-              color="#7631FF"
+              color="#544B99"
               dense
               :placeholder="$t('planningProduction.dialog.searchModelNumber')"
               append-icon="mdi-chevron-down"
             >
               <template #append>
-                <v-icon color="#7631FF">mdi-magnify</v-icon>
+                <v-icon color="#544B99">mdi-magnify</v-icon>
               </template>
             </v-combobox>
           </v-col>
@@ -201,7 +201,7 @@
               class="rounded-lg base" dense
               v-model="planning.overProductionPercent"
               :placeholder="$t('planningProduction.dialog.enterOverproduction')"
-              color="#7631FF"
+              color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -229,9 +229,12 @@
             />
           </v-col>
           <v-col cols="12" lg="6" md="6">
-            <div class="label mt-4"  v-if="!!model_images[0]?.filePath">{{ $t('workingProcess.dialog.photosModels') }}</div>
+            <div class="label mt-4" v-if="!!model_images[0]?.filePath">{{
+                $t('workingProcess.dialog.photosModels')
+              }}
+            </div>
             <div class="d-flex flex-wrap px-0">
-              <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4"  v-if="!!model_images[idx]?.filePath">
+              <v-col v-for="(image, idx) in 3" :key="idx" cols="12" lg="4" md="4" v-if="!!model_images[idx]?.filePath">
                 <div class="image-box">
                   <v-img
                     :src="model_images[idx]?.filePath"
@@ -250,7 +253,7 @@
             <v-btn
               width="130"
               height="40"
-              color="#7631FF"
+              color="#544B99"
               class="font-weight-bold rounded-lg"
               dark @click="savePlanning"
             >
@@ -272,7 +275,7 @@
       <v-card>
         <v-card-title class="d-flex">
           <v-spacer/>
-          <v-btn icon color="#7631FF" large @click="image_dialog = false">
+          <v-btn icon color="#544B99" large @click="image_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -284,7 +287,7 @@
         <v-tabs
           v-model="tab"
           background-color="transparent"
-          color="#7631FF"
+          color="#544B99"
         >
           <v-tab
             v-for="item in items"
@@ -302,51 +305,61 @@
           <v-tab-item>
             <PrintingSubcontract/>
           </v-tab-item>
+          <v-tab-item>
+            <PassingToNextProcess/>
+          </v-tab-item>
         </v-tabs-items>
       </v-card-text>
     </v-card>
-    <v-row class="mt-2">
-      <v-col>
+    <v-row class="mt-2" v-if="tab !== 2">
+      <v-col cols="6">
         <CalculationShortcomings/>
       </v-col>
-      <v-col>
+      <v-col cols="6">
         <OrderQuantities/>
       </v-col>
     </v-row>
+    <div class="text-right mt-5 mb-8">
+      <v-btn
+        outlined
+        color="#544B99"
+        class="rounded-lg text-capitalize font-weight-bold"
+        width="200"
+        height="44"
+        style="border-width: 2px"
+      >
+        Finish Process
+      </v-btn>
+    </div>
   </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from "vuex";
 import PrintingProcess from "@/components/PrintingProcess.vue"
-import ProductionPlanningComponent from "@/components/Production/Planning.vue";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
-import Subcontracts from "@/components/Subcontracts.vue";
 import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
-import CuttingComponent from '@/components/Cutting.vue';
-import CalculationShortcomings from "../../../components/CalculationsShoertcomings.vue";
-import OrderQuantities from "../../../components/OrderQuantities.vue";
-import PrintingProcessVue from '../../../components/PrintingProcess.vue';
-import PrintingSubcontract from "../../../components/SubcontractsFolder/PrintingSubcontract.vue";
+import CalculationShortcomings from "@/components/commonProcess/CalculationsShortcomings.vue";
+import OrderQuantities from "@/components/commonProcess/OrderQuantities.vue";
+import PrintingSubcontract from "@/components/SubcontractsFolder/PrintingSubcontract.vue";
+import PassingToNextProcess from "@/components/PassingToNextProcess.vue";
 
 export default {
   name: 'ProductionOfPlanningPage',
   components: {
     OrderQuantities,
     CalculationShortcomings,
-    CuttingComponent,
     ShowBtnComponent,
-    Subcontracts,
     Breadcrumbs,
-    ProductionPlanningComponent,
     PrintingProcess,
-    PrintingSubcontract
-},
+    PrintingSubcontract,
+    PassingToNextProcess
+  },
   data() {
     return {
       show_btn: true,
       tab: null,
-      items: ["Printing", "Subcontracts"],
+      items: ["Printing", "Subcontracts", "Passing to next process"],
       title: "Add",
       currentImage: '',
       image_dialog: false,
@@ -406,8 +419,8 @@ export default {
     this.getColorsList();
   },
   computed: {
-    showObject(){
-      return{
+    showObject() {
+      return {
         show_active: this.show_btn
       }
     },
@@ -415,7 +428,8 @@ export default {
       modelData: 'preFinance/modelData',
       modelInfo: 'production/planning/modelInfo',
       modelImages: 'modelPhoto/modelImages',
-      productionId: 'production/planning/productionId'
+      productionId: 'production/planning/productionId',
+      planningProcessId:'commonProcess/planningProcessId',
     })
   },
   watch: {
@@ -433,9 +447,19 @@ export default {
       this.getImages(val?.modelId);
       this.planning = JSON.parse(JSON.stringify(val))
     },
-    modelImages(val){
-      const item = JSON.parse(JSON.stringify(val));
-      this.model_images = item
+    modelImages(val) {
+      this.model_images = JSON.parse(JSON.stringify(val))
+    },
+    tab(val){
+      if(val===1){
+        this.getSubcontractShortcomingsList(this.planningProcessId)
+      }
+      if(val===0){
+        this.getShortcomingsList(this.planningProcessId)
+      }
+      if(val===2){
+        this.getPassingList(this.planningProcessId)
+      }
     }
   },
   methods: {
@@ -447,9 +471,12 @@ export default {
       getWorkshopList: 'production/planning/getWorkshopList',
       getColorsList: 'production/planning/getColorsList',
       createProcessPlanning: 'production/planning/createProcessPlanning',
-      getProcessingList: 'production/planning/getProcessingList'
+      getProcessingList: 'production/planning/getProcessingList',
+      getShortcomingsList:'commonCalculationsShortcomings/getShortcomingsList',
+      getSubcontractShortcomingsList:'commonCalculationsShortcomings/getSubcontractShortcomingsList',
+      getPassingList:'cuttingToNextProcess/getPassingList',
     }),
-    clickBtn(){
+    clickBtn() {
       this.show_btn = !this.show_btn
     },
     async savePlanning() {
@@ -463,8 +490,8 @@ export default {
   },
   mounted() {
     const param = this.$route.params.id;
-    console.log(this.$route.path.split("/")[2])
     if(param !== 'create') {
+
       this.title = "Edit"
       this.getModelInfo(param);
       this.getProcessingList({
@@ -477,3 +504,18 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.image-box {
+  background: #F8F4FE;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 100%;
+  min-height: 150px;
+}
+.show_active{
+  height: 0;
+  overflow: hidden;
+}
+</style>
