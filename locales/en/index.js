@@ -51,6 +51,7 @@ export default {
     planning: "Planning",
     fabric: "Fabric",
     fabricOrdering: "Fabric ordering",
+    forms:"Forms",
     samples: "Samples",
     fabricWarehouse: "Fabric warehouse",
     accessoryWarehouse: "Accessory warehouse",
