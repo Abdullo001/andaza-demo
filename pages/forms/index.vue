@@ -3,13 +3,15 @@
     <v-card elevation="0">
       <v-card-title>
         <v-radio-group row v-model.trim="filter" class="">
-          <v-radio color="#544B99" label="All" value="ALL"></v-radio>
+          <v-radio readonly color="#544B99" label="All" value="ALL"></v-radio>
           <v-radio
+            readonly
             color="#544B99"
             label="Management"
             value="MANAGEMENT"
           ></v-radio>
           <v-radio
+            readonly
             color="#544B99"
             label="Production"
             value="PRODUCTION"
@@ -174,6 +176,15 @@ export default {
   },
   mounted() {
     this.$store.commit("setPageTitle", "Forms");
+    const permisionList=JSON.parse(localStorage.getItem("permissionList"))
+    permisionList.forEach((item)=>{
+      if(item.permissionName==="MANAGEMENT_FORM"){
+        this.filter="MANAGEMENT"
+      }
+      if(item.permissionName==="PRODUCTION_FORM"){
+        this.filter="PRODUCTION"
+      }
+    })
   },
 };
 </script>
