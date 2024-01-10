@@ -12,6 +12,7 @@
         <v-img src="/andaza.svg" max-width="200"/>
       </nuxt-link>
 
+    <div class="d-flex flex-column justify-space-between pb-2" style="min-height:86vh !important ;">
       <v-list class="rounded-lg mx-4" flat>
         <div v-for="(nav, idx) in checkedAndLocalizationSidebarItems" :key="idx">
           <v-list-item
@@ -62,15 +63,19 @@
             </v-list-item>
           </v-list-group>
         </div>
-          <v-btn
-            text
-            color="#544B99"
-            class="logout text-none mt-16"
-            @click="dialog=true"
-          >
-            Log out
-          </v-btn>
+          
       </v-list>
+      
+        <v-btn
+          text
+          color="#544B99"
+          class="logout text-none mx-4"
+          @click="dialog=true"
+        >
+          Log out
+        </v-btn>
+      
+    </div>
     </v-navigation-drawer>
     <v-dialog
       v-model="dialog"
@@ -577,7 +582,21 @@ export default {
           }  
         }
       })
+      if(perName.permissionName==="MANAGEMENT_FORM"||perName.permissionName==="PRODUCTION_FORM"){
+        afterPermissionList.push({
+            icon: ['forms-icon.svg', "forms-icon-active.svg"],
+            title: 'Forms',
+            to: this.localePath('/forms'),
+            has_child: false,
+            name:"FORMS",
+            localization:"forms",
+        })
+        console.log(perName);
+        const uniqueElements = new Set(afterPermissionList);
+        afterPermissionList=[...uniqueElements]
+      }
     })
+    console.log(afterPermissionList);
     this.checkedSidebarItems=JSON.parse(JSON.stringify(afterPermissionList))
   }
 }

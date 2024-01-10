@@ -40,6 +40,7 @@ export default {
     productCatalogs: "Каталоги продукции",
     catalogGroups: "Каталог Группы",
     partners: "Партнеры",
+    forms:"Формы",
     sizeTemplate: "размера",
     canvasType: "Тип холста",
     colors: "Цвета",
