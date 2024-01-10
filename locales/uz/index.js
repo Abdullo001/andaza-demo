@@ -37,6 +37,7 @@ export default {
     measurementUnit: "O'lchov birligi",
     packageShape: "Qadoq turi",
     fabricCatalogs: "Mato kataloglari",
+    forms:"Formalar",
     productCatalogs: "Mahsulot kataloglari",
     catalogGroups: "Katalog guruhlari",
     partners: "Hamkorlar",
