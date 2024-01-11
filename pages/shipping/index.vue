@@ -199,7 +199,7 @@ export default {
     async size(value) {
       this.itemPrePage = value;
       await this.getShippingList({
-        clientName: this.filters.   clientName,
+        clientName: this.filters.clientName,
         invoiceNumber: this.filters.invoiceNumber,
         shippingDate: this.filters.shippingDate,
         page: this.current_page,

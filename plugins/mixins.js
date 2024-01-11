@@ -105,6 +105,18 @@ export default (context, inject) => {
                 return '#607274'
             }
           },
+          fabricsList(color){
+            switch (color) {
+              case 'ORDERED':
+                return '#397CFD'
+              case 'CANCELLED':
+                return '#FF0C0C'
+              case 'RECEIVED':
+                return '#27C124'
+              case 'PENDING':
+                return '#FFE03C'
+            }
+          },
           shippingStatusColor(color){
             switch (color) {
               case 'IN_PROGRESS':

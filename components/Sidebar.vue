@@ -235,11 +235,11 @@ export default {
                 to: this.localePath('/fabric'),
                 name:"FABRIC_PLANNING_ORDERING",
                 localization:"fabric",
-                
+
               },
               {
                 title: this.$t('sidebar.fabricOrdering'),
-                to: this.localePath('/fabricOrdering'),
+                to: this.localePath('/fabric-ordering'),
                 name:"FABRIC_PLANNING_ORDERING",
                 localization:"fabricOrdering",
               },
@@ -248,7 +248,7 @@ export default {
                 to: this.localePath('/accessory'),
                 name:"ACCESSORY_PLANNING",
                 localization:"accessory",
-                
+
               },
               {
                 title: this.$t('sidebar.samples'),
@@ -567,14 +567,14 @@ export default {
                 childChecker.push(el)
               }
             })
-            
+
             if(childChecker.length){
               item.child.push(...childChecker)
               afterPermissionList.push(item)
               const uniqueElements = new Set(afterPermissionList);
               afterPermissionList=[...uniqueElements]
             }
-          }  
+          }
         }
       })
     })
