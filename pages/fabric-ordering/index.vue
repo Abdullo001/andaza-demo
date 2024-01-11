@@ -444,6 +444,7 @@ export default {
 
   mounted(){
     this.getPartnerName("")
+    this.$store.commit('setPageTitle', 'Fabric Ordering');
   }
 }
 

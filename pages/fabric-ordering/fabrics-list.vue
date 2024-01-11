@@ -305,6 +305,7 @@ export default {
 
   mounted(){
     this.getFabricsList({page: this.current_page, size: this.totalElements})
+    this.$store.commit('setPageTitle', 'Fabrics List');
   }
 }
 
