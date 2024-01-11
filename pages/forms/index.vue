@@ -115,7 +115,7 @@ export default {
           title: "Cutting form",
           subtitle: "Cutting information form related to one model",
           status:"PRODUCTION",
-          to: "/forms/print-pdf-generation",
+          to: "/forms/cutting",
         },
         {
           title: "Sewing form",

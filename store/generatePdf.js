@@ -9,6 +9,7 @@ export const state = () => ({
   recievedAccessoryPdfList:[],
   dailyProductionPdfList:[],
   productionPdfList:[],
+  cuttingPdfList:[],
 });
 
 export const getters = {
@@ -22,6 +23,7 @@ export const getters = {
   recievedAccessoryPdfList: (state) => state.recievedAccessoryPdfList,
   dailyProductionPdfList: (state) => state.dailyProductionPdfList,
   productionPdfList: (state) => state.productionPdfList,
+  cuttingPdfList: (state) => state.cuttingPdfList,
 };
 
 export const mutations = {
@@ -54,6 +56,9 @@ export const mutations = {
   },
   setProductionPdfList(state, item) {
     state.productionPdfList = item;
+  },
+  setCuttingPdfList(state, item) {
+    state.cuttingPdfList = item;
   },
 };
 
@@ -152,8 +157,17 @@ export const actions = {
     this.$axios.put(`/api/v1/production/production-list-form`,data)
       .then((res) => {
         const binaryCode = atob(res.data);
-        console.log(res);
         commit("setProductionPdfList", binaryCode);
+      })
+      .catch((res) => {
+        console.log(res);
+      });
+  },
+  getCuttingPdf({ commit },data) {
+    this.$axios.put(`/api/v1/process-details/generate-cutting-pdf`,data)
+      .then((res) => {
+        const binaryCode = atob(res.data);
+        commit("setCuttingPdfList", binaryCode);
       })
       .catch((res) => {
         console.log(res);
