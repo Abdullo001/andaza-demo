@@ -156,7 +156,14 @@
         <v-toolbar-title class="d-flex justify-space-between w-full">
           <div class="text-h6">Generated Orders</div>
         </v-toolbar-title>
-
+        <v-btn
+          color="#544B99"
+          outlined
+          class="text-capitalize rounded-lg mr-2"
+          @click="$router.push(`/fabric-ordering/fabrics-list`)"
+        >
+          Fabrics List
+        </v-btn>
       </v-toolbar>
     </template>
 
@@ -437,6 +444,7 @@ export default {
 
   mounted(){
     this.getPartnerName("")
+    this.$store.commit('setPageTitle', 'Fabric Ordering');
   }
 }
 

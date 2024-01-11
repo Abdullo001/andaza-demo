@@ -3,7 +3,7 @@
     <v-card elevation="0" class="rounded-lg">
       <v-card-title>
         <div>
-          Production form
+          Cutting form
         </div>
         <v-spacer/>
       </v-card-title>
@@ -11,32 +11,6 @@
       <v-card-text>
         <v-form lazy-validation v-model="filter_form" ref="filters">
           <v-row class="mb-5">
-            <v-col cols="12" lg="3">
-              <div class="label">Order number</div>
-              <v-combobox
-                v-model="filters.orderNumber"
-                :items="ordersList"
-                :search-input.sync="orderNumSearch"
-                item-text="orderNumber"
-                item-value="orderNumber"
-                validate-on-blur
-                outlined
-                hide-details
-                color="#544B99"
-                height="44"
-                class="rounded-lg filter d-flex align-center justify-center mr-2"
-                :return-object="true"
-                dense
-                placeholder="Order name"
-                prepend-icon=""
-              >
-                <template #append>
-                  <v-icon class="d-inline-block" color="#544B99">
-                    mdi-magnify
-                  </v-icon>
-                </template>
-              </v-combobox>
-            </v-col>
             <v-col cols="12" lg="3">
               <div class="label">Model number</div>
               <v-combobox
@@ -53,7 +27,7 @@
                 class="rounded-lg filter d-flex align-center justify-center mr-2"
                 :return-object="true"
                 dense
-                placeholder="Model name"
+                placeholder="Model number"
                 prepend-icon=""
               >
                 <template #append>
@@ -64,50 +38,22 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Client name</div>
-              <v-combobox
-                v-model="filters.clientName"
-                :items="clientList"
-                :search-input.sync="clientSearch"
-                item-text="name"
-                item-value="name"
-                validate-on-blur
+              <div class="label">Body part color</div>
+              <v-select
+                v-model="filters.mainColorCode"
+                :items="colorList"
+                item-text="color"
+                item-value="color"
+                append-icon="mdi-chevron-down"
+                placeholder="Select model color"
                 outlined
+                single-line
                 hide-details
                 height="44"
-                class="rounded-lg filter d-flex align-center justify-center mr-2"
-                :return-object="true"
-                dense
-                placeholder="Client name"
-                prepend-icon=""
-              >
-                <template #append>
-                  <v-icon class="d-inline-block" color="#544B99">
-                    mdi-magnify
-                  </v-icon>
-                </template>
-              </v-combobox>
-            </v-col>
-            <v-col cols="12" lg="3">
-              <div class="label">Shipping date </div>
-              <div style="height: 40px !important">
-                <el-date-picker
-                v-model="filters.shippingDate"
-                type="month"
-                style="width: 100%; height: 100%"
-                class="filter_picker"
-                placeholder="Shipping date"
-                value-format="MM-yyyy"
-
-              />
-              </div>
-            </v-col>
-            <v-col cols="12">
-              <v-checkbox
-                v-model="filters.isPriceEnabled"
+                class="rounded-lg filter"
                 color="#544B99"
-                label="Price Enabled"
-              ></v-checkbox>
+                dense
+              />
             </v-col>
           </v-row>
 
@@ -158,6 +104,7 @@ export default {
       filters: {
         shippingDate:"",
         clientName:"",
+        mainColorCode:"",
         approvedBy:"",
         orderNumber: "",
         modelNumber: "",
@@ -181,27 +128,14 @@ export default {
     };
   },
   created() {
-    this.filterOrderList({
-      page: 0,
-      size: 10,
-      data: {
-        modelNumber: "",
-        orderNumber: this.orderNumSearch,
-        creatorId: "",
-        clientName: "",
-      },
-    });
     this.getModelsList({
       page: 0,
       size: 10,
       modelNumber: this.modelNumSearch,
       partner: "",
       status: "ACTIVE",
-    }),
+    });
 
-    this.getUsersList();
-    this.getPartnerName("");
-    this.getSipNumbers("");
   },
 
   computed: {
@@ -210,9 +144,10 @@ export default {
       modelsList: "models/modelsList",
       usersList: "orders/usersList",
       clientList: "orders/clientList",
-      pdfList: "generatePdf/productionPdfList",
+      pdfList: "generatePdf/cuttingPdfList",
       partnerLists: "fabricOrdering/partnerLists",
       sipNumbers: "fabricWarehouse/sipNumbers",
+      colorList:"samplesTabs/mainColorsList",
     }),
   },
 
@@ -232,20 +167,7 @@ export default {
       this.isLoad = false;
     },
     
-    orderNumSearch(val) {
-      if (!!val) {
-        this.filterOrderList({
-          page: 0,
-          size: 10,
-          data: {
-            modelNumber: "",
-            orderNumber: val,
-            creatorId: "",
-            clientName: "",
-          },
-        });
-      }
-    },
+    
     modelNumSearch(val) {
       if (!!val) {
         this.getModelsList({
@@ -257,6 +179,11 @@ export default {
         });
       }
     },
+    "filters.modelNumber"(val){
+      if(!!val){
+        this.modelColor(val.id)
+      }
+    }
   },
 
   methods: {
@@ -268,9 +195,10 @@ export default {
       getBrandList: "models/getBrandList",
       getCountryList: "partners/getCountryList",
       getUsersList: "orders/getUsersList",
-      getPdfList: "generatePdf/getProductionPdfList",
+      getPdfList: "generatePdf/getCuttingPdf",
       getPartnerName: "fabricOrdering/getPartnerName",
       getSipNumbers: "fabricWarehouse/getSipNumbers",
+      modelColor:"samplesTabs/getMainColors",
     }),
 
     resetFilter() {
@@ -279,20 +207,14 @@ export default {
     },
     filter() {
       const data = {
-        isPriceEnabled:this.filters.isPriceEnabled,
         
-        modelNumber: this.filters.modelNumber?.modelNumber
-          ? this.filters.modelNumber?.modelNumber
+        modelId: this.filters.modelNumber?.id
+          ? this.filters.modelNumber?.id
           : "",
-        orderNumber: this.filters.orderNumber?.orderNumber
-          ? this.filters.orderNumber?.orderNumber
-          : "",
-        clientName: this.filters.clientName?.name
-          ? this.filters.clientName?.name
-          : "",
-        shippingDate: !!this.filters.shippingDate ? this.filters.shippingDate : null,
+          mainColorCode: !!this.filters.mainColorCode ? this.filters.mainColorCode : "",
         
       };
+      // console.log(this.filters.modelNumber);
         this.getPdfList(data);
         this.isLoad = true;
     },
