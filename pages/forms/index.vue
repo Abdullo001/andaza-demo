@@ -3,15 +3,20 @@
     <v-card elevation="0">
       <v-card-title>
         <v-radio-group row v-model.trim="filter" class="">
-          <v-radio readonly color="#544B99" label="All" value="ALL"></v-radio>
+          <v-radio             
+            :readonly="managementStatus||productionStatus"
+            color="#544B99" 
+            label="All" 
+            value="ALL"
+          ></v-radio>
           <v-radio
-            readonly
+            :readonly="managementStatus"
             color="#544B99"
             label="Management"
             value="MANAGEMENT"
           ></v-radio>
           <v-radio
-            readonly
+            :readonly="productionStatus"
             color="#544B99"
             label="Production"
             value="PRODUCTION"
@@ -52,6 +57,8 @@ export default {
   data() {
     return {
       filter: "ALL",
+      productionStatus:true,
+      managementStatus:true,
       buttons: [
         {
           title: "Calculations list",
@@ -180,9 +187,15 @@ export default {
     permisionList.forEach((item)=>{
       if(item.permissionName==="MANAGEMENT_FORM"){
         this.filter="MANAGEMENT"
+        this.managementStatus=false
       }
       if(item.permissionName==="PRODUCTION_FORM"){
         this.filter="PRODUCTION"
+        this.productionStatus=false
+
+      }
+      if(!this.productionStatus&&!this.managementStatus){
+        this.filter="ALL"
       }
     })
   },

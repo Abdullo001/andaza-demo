@@ -583,20 +583,25 @@ export default {
         }
       })
       if(perName.permissionName==="MANAGEMENT_FORM"||perName.permissionName==="PRODUCTION_FORM"){
-        afterPermissionList.push({
+        
+        let has_form=false
+        afterPermissionList.forEach((item)=>{
+          if(item.title==='Forms'){
+            has_form=true
+          }
+        })
+        if(!has_form){
+          afterPermissionList.push({
             icon: ['forms-icon.svg', "forms-icon-active.svg"],
             title: 'Forms',
             to: this.localePath('/forms'),
             has_child: false,
             name:"FORMS",
             localization:"forms",
-        })
-        console.log(perName);
-        const uniqueElements = new Set(afterPermissionList);
-        afterPermissionList=[...uniqueElements]
+          })
+        }
       }
     })
-    console.log(afterPermissionList);
     this.checkedSidebarItems=JSON.parse(JSON.stringify(afterPermissionList))
   }
 }
