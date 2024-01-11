@@ -3,7 +3,7 @@
     <v-card elevation="0" class="rounded-lg">
       <v-card-title>
         <div>
-          Recieved fabric form
+          Production form
         </div>
         <v-spacer/>
       </v-card-title>
@@ -64,38 +64,53 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Fabric Status</div>
-              <v-select
-              :items="fabricStatus"
-              v-model="filters.fabricStatus"
-              placeholder="Select fabric status"
-              dense
-              outlined
-              color="#544B99"
-              height="44"
-              hide-details
-              validate-on-blur
-              class="rounded-lg filter mr-2"
-              append-icon="mdi-chevron-down"
-            />
+              <div class="label">Client name</div>
+              <v-combobox
+                v-model="filters.clientName"
+                :items="clientList"
+                :search-input.sync="clientSearch"
+                item-text="name"
+                item-value="name"
+                validate-on-blur
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg filter d-flex align-center justify-center mr-2"
+                :return-object="true"
+                dense
+                placeholder="Client name"
+                prepend-icon=""
+              >
+                <template #append>
+                  <v-icon class="d-inline-block" color="#544B99">
+                    mdi-magnify
+                  </v-icon>
+                </template>
+              </v-combobox>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Accessory Status</div>
-              <v-select
-              :items="accessoryStatus"
-              v-model="filters.accessoryStatus"
-              placeholder="Select Accessory status"
-              dense
-              outlined
-              color="#544B99"
-              height="44"
-              hide-details
-              validate-on-blur
-              class="rounded-lg filter mr-2"
-              append-icon="mdi-chevron-down"
-            />
+              <div class="label">Shipping date </div>
+              <div style="height: 40px !important">
+                <el-date-picker
+                v-model="filters.shippingDate"
+                type="month"
+                style="width: 100%; height: 100%"
+                class="filter_picker"
+                placeholder="Shipping date"
+                value-format="MM-yyyy"
+
+              />
+              </div>
+            </v-col>
+            <v-col cols="12">
+              <v-checkbox
+                v-model="filters.isPriceEnabled"
+                color="#544B99"
+                label="Price Enabled"
+              ></v-checkbox>
             </v-col>
           </v-row>
+
           <div class="d-flex justify-center">
             <v-btn
               width="140"
@@ -141,6 +156,8 @@ export default {
       fabricStatus:["NOT_PLANNED","PLANNED","GENERATED_FABRIC","ORDERED"],
       accessoryStatus:["NOT_PLANNED","PLANNED","ORDERED"],
       filters: {
+        shippingDate:"",
+        clientName:"",
         approvedBy:"",
         orderNumber: "",
         modelNumber: "",
@@ -149,9 +166,10 @@ export default {
         sipNumber:"",
         fabricStatus:"",
         accessoryStatus:"",
+        isPriceEnabled:false,
       },
       isLoad: false,
-
+      clientSearch: "",
       approvedSearch:"",
       sipNumberSearch:"",
       orderNumSearch: "",
@@ -191,6 +209,7 @@ export default {
       ordersList: "orders/ordersList",
       modelsList: "models/modelsList",
       usersList: "orders/usersList",
+      clientList: "orders/clientList",
       pdfList: "generatePdf/productionPdfList",
       partnerLists: "fabricOrdering/partnerLists",
       sipNumbers: "fabricWarehouse/sipNumbers",
@@ -256,20 +275,26 @@ export default {
 
     resetFilter() {
       this.$refs.filters.reset();
+      this.filters.shippingDate=""
     },
     filter() {
       const data = {
-        accessoryStatus:this.filters.accessoryStatus,
-        fabricStatus:this.filters.fabricStatus,
+        isPriceEnabled:this.filters.isPriceEnabled,
+        
         modelNumber: this.filters.modelNumber?.modelNumber
           ? this.filters.modelNumber?.modelNumber
           : "",
         orderNumber: this.filters.orderNumber?.orderNumber
           ? this.filters.orderNumber?.orderNumber
           : "",
+        clientName: this.filters.clientName?.name
+          ? this.filters.clientName?.name
+          : "",
+        shippingDate: !!this.filters.shippingDate ? this.filters.shippingDate : null,
+        
       };
-      this.getPdfList(data);
-      this.isLoad = true;
+        this.getPdfList(data);
+        this.isLoad = true;
     },
   },
 };
