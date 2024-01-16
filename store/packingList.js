@@ -1,14 +1,19 @@
 export const state = () => ({
-  packingList: []
+  packingList: [],
+  isLoad:false,
 })
 
 export const getters = {
   packingList: state => state.packingList,
+  isLoad: state => state.isLoad,
 }
 
 export const mutations = {
   setPackingList(state, item) {
     state.packingList = item
+  },
+  setIsLoad(state, item) {
+    state.isLoad = item
   }
 }
 
@@ -22,6 +27,7 @@ export const actions = {
       })
   },
   async generatePackagingListPdf({commit},data) {
+    commit("setIsLoad",true)
     await this.$axios.$put('/api/v1/packaging-list/packaging-list-form', data)
       .then(res => {
         const binaryCode = atob(res);
@@ -34,6 +40,7 @@ export const actions = {
         a.setAttribute("target", "_blank");
         a.setAttribute("href", objectUrl);
         a.click();
+        commit("setIsLoad",false)
       }).catch(res => {
         console.log(res)
       })

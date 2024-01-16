@@ -294,6 +294,13 @@
         Generate Invoice
       </v-btn>
     </div>
+    <v-overlay v-model="isLoad" class="align-center justify-center">
+      <v-progress-circular
+        color="#544B99"
+        indeterminate
+        size="80"
+      ></v-progress-circular>
+    </v-overlay>
   </div>
 </template>
 <script>
@@ -394,6 +401,7 @@ export default {
   computed: {
     ...mapGetters({
       packingList: "packingList/packingList",
+      isLoad: "packingList/isLoad",
       boxSizeList: "boxSize/boxSizeList"
     }),
   },
@@ -425,6 +433,7 @@ export default {
         totalPcs: filter[0]?.totalDistribution
       }
       this.generatePackagingListPdf(data)
+      this.isLoad = true
     },
     isGeneratedFunc(item) {
       this.generatedItem.push({

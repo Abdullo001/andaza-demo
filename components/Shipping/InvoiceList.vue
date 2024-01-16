@@ -388,6 +388,13 @@
         Save
       </v-btn>
     </div>
+    <v-overlay v-model="isLoad" class="align-center justify-center">
+      <v-progress-circular
+        color="#544B99"
+        indeterminate
+        size="80"
+      ></v-progress-circular>
+    </v-overlay>
   </div>
 </template>
 <script>
@@ -449,6 +456,7 @@ export default {
       shippingInvoiceList: "shippingInvoice/shippingInvoiceList",
       shippingInvoiceItemList: "shippingInvoice/shippingInvoiceItemList",
       measurementUnitList: "shippingInfo/measurementUnitList",
+      isLoad: "shippingInvoice/isLoad",
     })
   },
   methods: {
@@ -468,6 +476,7 @@ export default {
         totalAmount: this.sumAmountTotal,
       }
       this.generateInvoicePdf(data)
+      this.isLoad = true
     },
     updateInvoice() {
       const data = {

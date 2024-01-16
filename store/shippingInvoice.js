@@ -1,11 +1,13 @@
 export const state = () => ({
   shippingInvoiceList: [],
   shippingInvoiceItemList: [],
+  isLoad: false,
 })
 
 export const getters = {
   shippingInvoiceList: state => state.shippingInvoiceList,
-  shippingInvoiceItemList: state => state.shippingInvoiceItemList
+  shippingInvoiceItemList: state => state.shippingInvoiceItemList,
+  isLoad: state => state.isLoad
 }
 
 export const mutations = {
@@ -14,6 +16,9 @@ export const mutations = {
   },
   setInvoiceItemList(state, item) {
     state.shippingInvoiceItemList = item
+  },
+  setIsLoad(state, load) {
+    state.isLoad = load
   }
 }
 
@@ -25,8 +30,9 @@ export const actions = {
       console.log(res)
     })
   },
-  generateInvoicePdf({commit}, data) {
-    this.$axios.$put('/api/v1/invoice/invoice-form', data).then(res => {
+  async generateInvoicePdf({commit}, data) {
+    commit('setIsLoad', true)
+    await this.$axios.$put('/api/v1/invoice/invoice-form', data).then(res => {
       const binaryCode = atob(res);
       const blob = new Blob(
         [new Uint8Array([...binaryCode].map((char) => char.charCodeAt(0)))],
@@ -37,6 +43,7 @@ export const actions = {
       a.setAttribute("target", "_blank");
       a.setAttribute("href", objectUrl);
       a.click();
+      commit('setIsLoad', false)
     }).catch(res => {
       console.log(res)
     })
