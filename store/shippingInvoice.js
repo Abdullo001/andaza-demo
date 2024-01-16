@@ -25,6 +25,22 @@ export const actions = {
       console.log(res)
     })
   },
+  generateInvoicePdf({commit}, data) {
+    this.$axios.$put('/api/v1/invoice/invoice-form', data).then(res => {
+      const binaryCode = atob(res);
+      const blob = new Blob(
+        [new Uint8Array([...binaryCode].map((char) => char.charCodeAt(0)))],
+        { type: "application/pdf" }
+      );
+      const objectUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.setAttribute("target", "_blank");
+      a.setAttribute("href", objectUrl);
+      a.click();
+    }).catch(res => {
+      console.log(res)
+    })
+  },
   getInvoiceItemList({commit}, id) {
     this.$axios.$get(`/api/v1/invoice-item/list?shippingId=${id}`).then(res => {
       commit('setInvoiceItemList', res.data)

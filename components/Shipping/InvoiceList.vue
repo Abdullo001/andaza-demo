@@ -137,7 +137,6 @@
                 height="44"
                 class="rounded-lg base rounded-l-lg rounded-r-0 mb-4"
                 validate-on-blur
-                placeholder=""
                 append-icon="mdi-chevron-down"
                 color="#544B99"
               />
@@ -149,7 +148,6 @@
                 v-model="invoiceList.deliveryTermsDescription"
                 hide-details
                 dense
-                placeholder="Enter selling price"
               />
             </div>
           </v-col>
@@ -163,7 +161,6 @@
               height="44"
               hide-details
               outlined
-              placeholder="Enter the invoice No."
               validate-on-blur
             />
           </v-col>
@@ -177,7 +174,19 @@
               height="44"
               hide-details
               outlined
-              placeholder="Enter the invoice No."
+              validate-on-blur
+            />
+          </v-col>
+          <v-col cols="12" lg="12" md="3" sm="6">
+            <div class="label">Letter of credit No.</div>
+            <v-text-field
+              class="rounded-lg base mb-4"
+              color="#544B99"
+              v-model="invoiceList.creditNumber"
+              dense
+              height="44"
+              hide-details
+              outlined
               validate-on-blur
             />
           </v-col>
@@ -235,16 +244,17 @@
     <div>
       <div class="label ml-5 font-weight-bold">Bank information</div>
       <v-row>
-        <v-col cols="8">
+        <v-col cols="9">
           <v-form lazy-validation>
             <v-row>
-              <v-col cols="4" sm="12" md="6" lg="4">
-                <v-col cols="12">
+              <v-col cols="8" sm="12" md="6" lg="4">
+                <v-col cols="12" class="mb-5">
+                  <div class="label">Bank name</div>
                   <v-text-field
                     class="rounded-lg base mb-4"
                     color="#544B99"
                     dense
-                    height="44"
+                    height="70"
                     v-model="invoiceList.bankName"
                     hide-details
                     outlined
@@ -252,44 +262,52 @@
                     validate-on-blur
                   />
                 </v-col>
-                <v-col cols="12">
-                  <v-text-field
-                    class="rounded-lg base mb-4"
-                    color="#544B99"
-                    dense
-                    v-model="invoiceList.accountNumberUSD"
-                    height="44"
-                    hide-details
-                    outlined
-                    placeholder="Bank account number (USD)"
-                    validate-on-blur
-                  />
-                </v-col>
+                <v-row class="ml-1" style="margin-top: 30px">
+                  <v-col cols="6">
+                    <div class="label">Bank code</div>
+                    <v-text-field
+                      class="rounded-lg base mb-4"
+                      color="#544B99"
+                      dense
+                      v-model="invoiceList.bankCode"
+                      height="44"
+                      hide-details
+                      outlined
+                      placeholder="Bank code"
+                      validate-on-blur
+                    />
+                  </v-col>
+                  <v-col cols="6">
+                    <div class="label">SWIFT</div>
+                    <v-text-field
+                      class="rounded-lg base mb-4"
+                      color="#544B99"
+                      dense
+                      v-model="invoiceList.swift"
+                      height="44"
+                      hide-details
+                      outlined
+                      placeholder="SWIFT "
+                      validate-on-blur
+                    />
+                  </v-col>
+                </v-row>
               </v-col>
-              <v-col cols="8" sm="12" md="6" lg="8">
+              <v-col cols="4" sm="12" md="6" lg="8">
                 <v-col cols="12">
-                  <v-text-field
-                    class="rounded-lg base mb-4"
-                    color="#544B99"
-                    dense
-                    height="44"
-                    hide-details
+                  <div class="label">Bank address</div>
+                  <v-textarea
+                    rows="1"
+                    auto-grow
                     v-model="invoiceList.bankAddress"
-                    outlined
-                    placeholder="Bank address"
-                    validate-on-blur
-                  />
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field
+                    filled
+                    height="210"
                     class="rounded-lg base mb-4"
+                    placeholder="Bank address"
                     color="#544B99"
                     dense
-                    height="44"
-                    hide-details
                     outlined
-                    v-model="invoiceList.accountNumberRUB"
-                    placeholder="Bank account number (RUB)"
+                    hide-details
                     validate-on-blur
                   />
                 </v-col>
@@ -297,31 +315,48 @@
             </v-row>
           </v-form>
         </v-col>
-        <v-col cols="4">
+        <v-col cols="3">
+          <div class="label pt-4" style="margin-left: 45px">Bank account numbers</div>
           <v-form lazy-validation>
-            <v-col cols="12">
+            <v-col class="d-flex align-center pt-0" cols="12">
+              <div class="label mr-1" style="color: #BEBEBE">USD</div>
               <v-text-field
                 class="rounded-lg base mb-4"
                 color="#544B99"
                 dense
-                v-model="invoiceList.bankCode"
+                v-model="invoiceList.accountNumberUSD"
                 height="44"
                 hide-details
                 outlined
-                placeholder="Bank code"
+                placeholder="Bank account number (USD)"
                 validate-on-blur
               />
             </v-col>
-            <v-col cols="12">
+            <v-col class="d-flex align-center" cols="12">
+              <div class="label mr-1" style="color: #BEBEBE">RUB</div>
               <v-text-field
                 class="rounded-lg base mb-4"
                 color="#544B99"
                 dense
-                v-model="invoiceList.swift"
                 height="44"
                 hide-details
                 outlined
-                placeholder="SWIFT "
+                v-model="invoiceList.accountNumberRUB"
+                placeholder="Bank account number (RUB)"
+                validate-on-blur
+              />
+            </v-col>
+            <v-col class="d-flex align-center" cols="12">
+              <div class="label mr-1" style="color: #BEBEBE">UZS</div>
+              <v-text-field
+                class="rounded-lg base mb-4"
+                color="#544B99"
+                dense
+                height="44"
+                hide-details
+                outlined
+                v-model="invoiceList.accountNumberUZS"
+                placeholder="Bank account number (UZS)"
                 validate-on-blur
               />
             </v-col>
@@ -336,17 +371,21 @@
         color="#544B99"
         outlined
         height="44"
+        width="190"
+        @click="generatePdfInvoice"
+      >
+        PDF Download
+      </v-btn>
+      <v-btn
+        width="140"
+        color="#544B99"
+        dark
+        height="44"
+        elevation="0"
+        class="text-capitalize rounded-lg font-weight-bold"
         @click="updateInvoice"
       >
         Save
-      </v-btn>
-      <v-btn
-        class="text-capitalize rounded-lg font-weight-bold mr-4 py-1 px-6"
-        color="#544B99"
-        outlined
-        height="44"
-      >
-        PDF Download
       </v-btn>
     </div>
   </div>
@@ -418,16 +457,28 @@ export default {
       getInvoiceItemList: "shippingInvoice/getInvoiceItemList",
       updateInvoiceList: "shippingInvoice/updateInvoiceList",
       getMeasurementUnit: "shippingInfo/getMeasurementUnit",
-      updateInvoiceItem: "shippingInvoice/updateInvoiceItem"
+      updateInvoiceItem: "shippingInvoice/updateInvoiceItem",
+      generateInvoicePdf: 'shippingInvoice/generateInvoicePdf'
     }),
+    generatePdfInvoice(){
+      const data = {
+        invoiceId: this.shippingInvoiceList.id,
+        shippingId: Number(this.shippingId),
+        total: this.sumTotal,
+        totalAmount: this.sumAmountTotal,
+      }
+      this.generateInvoicePdf(data)
+    },
     updateInvoice() {
       const data = {
         accountNumberRUB: this.invoiceList.accountNumberRUB,
         accountNumberUSD: this.invoiceList.accountNumberUSD,
+        accountNumberUZS: this.invoiceList.accountNumberUZS,
         bankAddress: this.invoiceList.bankAddress,
         bankCode: this.invoiceList.bankCode,
         bankName: this.invoiceList.bankName,
         deliveryTerms: this.invoiceList.deliveryTerms,
+        creditNumber: this.invoiceList.creditNumber,
         deliveryTermsDescription: this.invoiceList.deliveryTermsDescription,
         id: this.shippingInvoiceList.id,
         packagingType: this.invoiceList.packagingType,

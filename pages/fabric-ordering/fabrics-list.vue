@@ -193,8 +193,7 @@ export default {
       modelNumSearch: "",
       supplierNumSearch: "",
       sipNumberSearch: "",
-      // totalElements: "",
-      status_enums: ["RECEIVED", "CANCELLED", "ORDERED"],
+      status_enums: ["RECEIVED", "CANCELLED", "ORDERED", "PENDING"],
     }
   },
 

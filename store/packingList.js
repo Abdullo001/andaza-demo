@@ -21,6 +21,23 @@ export const actions = {
       .catch(({response}) => {
       })
   },
+  async generatePackagingListPdf({commit},data) {
+    await this.$axios.$put('/api/v1/packaging-list/packaging-list-form', data)
+      .then(res => {
+        const binaryCode = atob(res);
+        const blob = new Blob(
+          [new Uint8Array([...binaryCode].map((char) => char.charCodeAt(0)))],
+          { type: "application/pdf" }
+        );
+        const objectUrl = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.setAttribute("target", "_blank");
+        a.setAttribute("href", objectUrl);
+        a.click();
+      }).catch(res => {
+        console.log(res)
+      })
+  },
   postGenerateInvoice({dispatch}, {data, id}){
     this.$axios.$post('/api/v1/invoice/generate-invoice', data).then(res => {
       dispatch("getPackingList", id)
