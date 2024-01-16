@@ -244,11 +244,11 @@
     <div>
       <div class="label ml-5 font-weight-bold">Bank information</div>
       <v-row>
-        <v-col cols="9">
+        <v-col cols="8">
           <v-form lazy-validation>
             <v-row>
               <v-col cols="8" sm="12" md="6" lg="4">
-                <v-col cols="12" class="mb-5">
+                <v-col cols="12" >
                   <div class="label">Bank name</div>
                   <v-text-field
                     class="rounded-lg base mb-4"
@@ -262,7 +262,7 @@
                     validate-on-blur
                   />
                 </v-col>
-                <v-row class="ml-1" style="margin-top: 30px">
+                <v-row class="ml-1" >
                   <v-col cols="6">
                     <div class="label">Bank code</div>
                     <v-text-field
@@ -301,7 +301,7 @@
                     auto-grow
                     v-model="invoiceList.bankAddress"
                     filled
-                    height="210"
+                    height="170"
                     class="rounded-lg base mb-4"
                     placeholder="Bank address"
                     color="#544B99"
@@ -315,10 +315,10 @@
             </v-row>
           </v-form>
         </v-col>
-        <v-col cols="3">
+        <v-col cols="4">
           <div class="label pt-4" style="margin-left: 45px">Bank account numbers</div>
           <v-form lazy-validation>
-            <v-col class="d-flex align-center pt-0" cols="12">
+            <v-col class="d-flex align-center py-0" cols="12">
               <div class="label mr-1" style="color: #BEBEBE">USD</div>
               <v-text-field
                 class="rounded-lg base mb-4"
@@ -332,7 +332,7 @@
                 validate-on-blur
               />
             </v-col>
-            <v-col class="d-flex align-center" cols="12">
+            <v-col class="d-flex align-center py-0" cols="12">
               <div class="label mr-1" style="color: #BEBEBE">RUB</div>
               <v-text-field
                 class="rounded-lg base mb-4"
@@ -346,7 +346,7 @@
                 validate-on-blur
               />
             </v-col>
-            <v-col class="d-flex align-center" cols="12">
+            <v-col class="d-flex align-center pt-0" cols="12">
               <div class="label mr-1" style="color: #BEBEBE">UZS</div>
               <v-text-field
                 class="rounded-lg base mb-4"
