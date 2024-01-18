@@ -144,7 +144,7 @@ export default {
         {text: "Invoice Amount",  value: "invoiceAmount"},
         {text: "Net weight, kg",  value: "nettoWeight"},
         {text: "Gross weight, kg",  value: "grossWeight"},
-        {text: "Shipped date",  value: "shippedDate"},
+        {text: "Shipped date",  value: "invoiceDate"},
         {text: "Status",  value: "status"},
         {text: "Action",sortable:false,  value: "action"},
       ],
