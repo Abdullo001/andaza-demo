@@ -46,7 +46,7 @@ export const actions = {
         console.log(response)
       })
   },
-  async getCompositionList({commit}, {page, size, id}) {
+  async getCompositionList({commit}, {page, size}) {
     const body = {
       filters: [],
       sorts: [],
