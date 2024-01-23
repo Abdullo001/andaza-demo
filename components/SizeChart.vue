@@ -292,10 +292,9 @@ export default {
       if (this.headers.length <= 10) {
         val[0]?.sizeTemplateSizeValues.forEach((el, idx) => {
           const res = {text: el.name, sortable: false, value: el.name.toUpperCase()};
-          this.headers.splice(4, 0, res);
+          this.headers.splice(idx+4, 0, res)
         });
         let arr = [...this.headers];
-        arr = arr.slice(0, 3).concat(arr.slice(3, -7).reverse()).concat(arr.slice(-7));
         this.headers = arr
       }
       this.allSizeChart = [];
