@@ -79,15 +79,17 @@
     </v-card>
     <v-data-table
       :headers="headers"
+      :items-per-page="itemPrePage"
       :items="composition_list"
       :loading="loading"
       :options.sync="options"
-      :items-per-page="itemPrePage"
       :server-items-length="totalElements"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100],
       }"
       class="mt-4 rounded-lg"
+      @update:page="page"
+      @update:items-per-page="size"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -349,7 +351,7 @@ export default {
 
   },
   async created() {
-    await this.$store.dispatch("composition/getCompositionList", { page: 0, size: 10 });
+    await this.getCompositionList( { page: 0, size: 10 });
   },
   computed: {
     ...mapGetters({
@@ -368,14 +370,14 @@ export default {
     }),
     async size(val) {
       this.itemPrePage = val;
-      await this.$store.dispatch("composition/getCompositionList", {
+      await this.getCompositionList({
         page: 0,
         size: this.itemPrePage,
       });
     },
     async page(val) {
       this.current_page = val - 1;
-      await this.$store.dispatch("composition/getCompositionList", {
+      await this.getCompositionList( {
         page: this.current_page,
         size: this.itemPrePage,
       });
@@ -422,7 +424,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.commit("setPageTitle", this.$t("sidebar.catalogs"));
+    this.$store.commit("setPageTitle", this.$t("sidebar.catalog"));
   },
 };
 </script>
