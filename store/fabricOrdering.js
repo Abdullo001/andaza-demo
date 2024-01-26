@@ -133,6 +133,14 @@ export const actions={
       console.log(res);
       this.$toast.error(res.data.message)
     })
+  },
+
+  updateGeneratedOrders({commit}, {data}) {
+    this.$axios.$put('/api/v1/fabric-order/update', data).then(res => {
+      this.$toast.success(res.message)
+    }).catch(res => {
+      this.$toast.error(res.message)
+    })
   }
-  
+
 }
