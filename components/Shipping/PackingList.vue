@@ -82,7 +82,7 @@
               </td>
               <td v-if="idx === 0" :rowspan="idx">{{ group.weightPerBox }}</td>
               <td v-if="idx === 0" :rowspan="idx">{{ group.grossWeight === "NaN" ? 0 : group.grossWeight }}</td>
-              <td v-if="idx === 0" :rowspan="idx">{{ group.cbmM3 }}</td>
+              <td v-if="idx === 0" :rowspan="idx">{{ group.totalCbm }}</td>
               <td v-if="idx === 0" :rowspan="idx">{{ group.packingListNumber }}</td>
               <td v-if="idx === 0" :rowspan="idx">{{ group.packingListDate }}</td>
               <td v-if="idx === 0" :rowspan="idx">{{ group.marking }}</td>
@@ -351,12 +351,13 @@ export default {
     },
     packingList(list) {
       const specialList = list.map((el) => {
-        let netWeight = {};
-        let totalNetWeight = 0;
-        const valueSizes = {};
-        let totalDistribution = 0;
-        let totalBoxQuantity = 0;
-        let grossWeight = 0;
+        let netWeight = {}
+        let totalNetWeight = 0
+        const valueSizes = {}
+        let totalDistribution = 0
+        let totalCbm = 0
+        let totalBoxQuantity = 0
+        let grossWeight = 0
 
         for (let item in el.itemResponseList) {
           totalDistribution += el.itemResponseList[item].total
@@ -380,9 +381,10 @@ export default {
           );
           totalNetWeight += netWeight[size.size];
         }
+        totalCbm = parseFloat((el.cbmM3 * totalBoxQuantity).toFixed(2))
         grossWeight = (
           el.weightPerBox * totalBoxQuantity + totalNetWeight
-        ).toFixed(2);
+        ).toFixed(2)
         return {
           ...el,
           isChecked: el.isGenerated,
@@ -392,10 +394,10 @@ export default {
           totalBoxQuantity: totalBoxQuantity,
           totalNetWeight: totalNetWeight ? totalNetWeight.toFixed(3) : "",
           grossWeight: grossWeight,
+          totalCbm: totalCbm
         };
       });
       this.allList = JSON.parse(JSON.stringify(specialList));
-      console.log(list)
     },
   },
   computed: {
@@ -425,6 +427,8 @@ export default {
           newNetList.push({size: res[i][0],value: res[i][1]})
       }
       const data = {
+        cbm: group.totalCbm,
+        grossWeight: group.grossWeight,
         packagingListId: group?.id,
         shippingId: Number(this?.shippingId),
         sizeWeightDistributions: [...newNetList],
@@ -433,7 +437,6 @@ export default {
         totalPcs: filter[0]?.totalDistribution
       }
       this.generatePackagingListPdf(data)
-      this.isLoad = true
     },
     isGeneratedFunc(item) {
       this.generatedItem.push({

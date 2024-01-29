@@ -12,8 +12,8 @@ export const mutations = {
   setPackingList(state, item) {
     state.packingList = item
   },
-  setIsLoad(state, item) {
-    state.isLoad = item
+  setIsLoad(state, bool) {
+    state.isLoad = bool
   }
 }
 
@@ -43,6 +43,7 @@ export const actions = {
         commit("setIsLoad",false)
       }).catch(res => {
         console.log(res)
+        commit("setIsLoad",false)
       })
   },
   postGenerateInvoice({dispatch}, {data, id}){
