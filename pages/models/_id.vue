@@ -344,6 +344,13 @@
               </v-card-text>
             </v-card>
           </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text class="pt-0">
+                <InspectionComponent/>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
         </v-tabs-items>
       </v-tabs>
     </v-card>
@@ -360,6 +367,7 @@ import DocumentsComponent from "../../components/Documents.vue";
 import SamplesComponent from "../../components/Samples.vue";
 import ModelPhotoComponent from "../../components/ModelPhoto.vue";
 import InstructionComponent from "../../components/Instruction.vue";
+import InspectionComponent from "@/components/InspectionFile.vue";
 import composition from "@/components/FabricCatalogs/Composition.vue";
 import ShowBtnComponent from "../../components/ShowComponentBtn/ShowBtn.vue";
 
@@ -375,6 +383,7 @@ export default {
     SizeChartComponent,
     ModelPartsComponent,
     Breadcrumbs,
+    InspectionComponent
   },
   data() {
     return {
@@ -387,6 +396,7 @@ export default {
         this.$t('listsModels.child.documents'),
         this.$t('listsModels.child.modelPhoto'),
         this.$t('listsModels.child.instruction'),
+        "Inspection file"
       ],
       tab: null,
       modelStatus: 'Add',

@@ -191,7 +191,7 @@
     <v-card color="#fff" elevation="0" class="mt-8">
       <v-card-title class="d-flex justify-space-between">
         <div>Permissions</div>
-       
+
       </v-card-title>
       <v-divider/>
       <v-card-text>
@@ -338,7 +338,7 @@ export default {
         canDelete:false,
       },
       otherPermissions:
-      [ 
+      [
         "MODEL",
         "CALCULATION",
         "ORDER",
@@ -354,7 +354,7 @@ export default {
         "PRODUCTION_FORM",
         "CATALOG",
         "SETTING",
-        "REPORT" 
+        "REPORT"
       ],
       permission_dialog:false,
       permisionList:[
@@ -406,7 +406,7 @@ export default {
     },
     primaryPermissionsList(list){
       let otherPermissions=
-      [ 
+      [
         "MODEL",
         "CALCULATION",
         "ORDER",
@@ -422,10 +422,10 @@ export default {
         "PRODUCTION_FORM",
         "CATALOG",
         "SETTING",
-        "REPORT" 
+        "REPORT"
       ]
       const specialList=list.map((item)=>{
-        
+
         return{
           ...item,
           isChecked:true,
@@ -530,6 +530,7 @@ export default {
       if (typeof this.avatar === "object") {
         data.photo = this.avatar
       } else data.photo = null
+      console.log(data)
       this.updateUser(data);
     },
     langFlag(lang) {

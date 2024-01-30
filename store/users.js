@@ -179,7 +179,7 @@ export const actions = {
     formData.append('firstName', data.firstName);
     formData.append('lastName', data.lastName);
     formData.append('phoneNumber', data.phoneNumber);
-    data.photo === 'null' ? formData.append('photo', data.photo) : '';
+    data.photo != null ? formData.append('photo', data.photo)  : '';
     formData.append('username', data.username);
     formData.append('email', data.email);
     formData.append('lang', data.lang);
