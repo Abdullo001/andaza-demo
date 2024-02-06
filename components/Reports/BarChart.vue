@@ -3,33 +3,27 @@
     <v-card elevation="0" rounded="lg">
       <v-card-title class="d-flex align-center justify-space-between">
         <div>Prefinance</div>
-        <v-select
-          :items="months"
-          solo
-          append-icon="mdi-chevron-down"
-          hide-details
-          v-model="current_month"
-          style="max-width: 150px"
-        />
       </v-card-title>
       <v-card-text>
         <div class="d-flex align-center mb-1">
           <div class="color1"></div>
-          <div>Created prefinances: <span>590 models</span></div>
+          <div>
+            Created prefinances: <span>{{ totalOrders }} </span>
+          </div>
         </div>
         <div class="d-flex align-center mb-1">
           <div class="color2"></div>
-          <div>Placed orders: <span>590 models</span></div>
+          <div>
+            Placed orders: <span>{{ totalPrefinances }} </span>
+          </div>
         </div>
         <div>
-          <BarChart
-            :chart-options="bar_options"
-            :chart-data="barData"
-            chart-id="bar-char"
-            :label="barData.label"
-            :width="bar_options.width"
-            :height="bar_options.height"
-          />
+          <VueApexChart
+            type="bar"
+            height="350"
+            :options="chartOptions"
+            :series="series"
+          ></VueApexChart>
         </div>
       </v-card-text>
     </v-card>
@@ -37,30 +31,119 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 export default {
-  name: 'BarChartComponent',
+  name: "BarChartComponent",
   data() {
     return {
-      months: ['March', 'December', 'September'],
-      current_month: 'September',
-      bar_options: {
-        maintainAspectRatio: false,
-        responsive: true,
-        width: 400,
-        height: 311
-      },
-      barData: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Avg', 'Sep', 'Okt', 'Nov', 'Dec'],
-        datasets: [
-          {
-            label: ['Prefinance'],
-            backgroundColor: '#544B99',
-            data: [60, 54, 32, 25, 65, 50, 65, 44, 51, 38, 35, 66, 0]
-          },
-        ],
-      },
+      totalOrders: 0,
+      totalPrefinances: 0,
+      preFinanceCount:[],
+      orderCount:[],
 
-    }
+    };
   },
-}
+
+  computed: {
+    ...mapGetters({
+      prefinancesQuantity: "report/prefinancesQuantity",
+    }),
+
+    chartOptions: {
+      get() {
+        return {
+          chart: {
+            type: "bar",
+            height: 350,
+            stacked: true,
+            toolbar: {
+              show: true,
+            },
+            zoom: {
+              enabled: true,
+            },
+          },
+          responsive: [
+            {
+              breakpoint: 480,
+              options: {
+                legend: {
+                  position: "bottom",
+                  offsetX: -10,
+                  offsetY: 0,
+                },
+              },
+            },
+          ],
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              borderRadius: 10,
+              dataLabels: {
+                total: {
+                  enabled: true,
+                  style: {
+                    fontSize: "13px",
+                    fontWeight: 900,
+                  },
+                },
+              },
+            },
+          },
+          xaxis: {
+            categories: [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "May",
+              "Jun",
+              "Jul",
+              "Avg",
+              "Sep",
+              "Okt",
+              "Nov",
+              "Dec",
+            ],
+            title: {
+              text: "Month",
+            },
+          },
+
+          fill: {
+            opacity: 1,
+          },
+        };
+      },
+    },
+
+    series: {
+      get() {
+        return [
+          {
+            name: " Orders",
+            data: this.orderCount,
+          },
+          {
+            name: " Prefinances",
+            data: this.preFinanceCount,
+          },
+        ];
+      },
+    },
+  },
+
+  watch: {
+    prefinancesQuantity(val) {
+      console.log(val);
+      this.totalOrders = val.totalOrderQuantity;
+      this.totalPrefinances = val.totalPreFinanceQuantity;
+      val.quantityItemReports.forEach((el) => {
+        this.orderCount.push(el.orderCount);
+        const calculatePrefinance=el.preFinanceCount-el.orderCount
+        this.preFinanceCount.push(calculatePrefinance);
+      });
+    },
+  },
+};
 </script>

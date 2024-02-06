@@ -2,17 +2,18 @@
   <div class="pb-10">
     <v-sheet class="mt-5 py-3 px-5 d-flex align-center" rounded="lg">
       Year
-      <v-select
+      <div style="height: 40px !important">
+        <el-date-picker
         v-model="filters.year"
-        :items="years"
-        append-icon="mdi-chevron-down"
-        background-color="#F3F4F5"
-        class="elevation-0 ml-2"
-        dense
-        hide-details
-        solo
-        style="max-width: 100px"
+        @change="changeDate"
+        type="year"
+        style="width: 100%; height: 100%"
+        placeholder="Pick a year"
+        value-format="yyyy"
+        :default-value="new Date()"
+        class="ml-2"
       />
+      </div>
       <v-checkbox
         v-model="filters.amount"
         class="ml-11"
@@ -33,15 +34,16 @@
       />
     </v-sheet>
     <v-row class="mt-5">
+      <v-col cols="12"  >
+        <LineChartComponent />
+      </v-col>
       <v-col cols="12" lg="4">
         <BarChartComponent />
       </v-col>
       <v-col cols="12" lg="4">
         <DoughnutChartComponent />
       </v-col>
-      <v-col cols="12" lg="4">
-        <LineChartComponent />
-      </v-col>
+      
       <v-col cols="12" lg="4">
         <HorizontalChartComponent />
       </v-col>
@@ -56,6 +58,7 @@
 </template>
 
 <script>
+import {mapActions,mapGetters} from 'vuex'
 export default {
   components: {
     BarChartComponent: () => import("@/components/Reports/BarChart.vue"),
@@ -80,13 +83,33 @@ export default {
 
       years: [2023, 2022, 2021],
       filters: {
-        year: 2023,
+        year: "",
         amount: true,
         quantity: true,
         percentage: false,
       },
     };
   },
+  computed:{ 
+  },
+
+  methods:{
+    ...mapActions({
+      getOrderQuantity:"report/getOrderQuantity",
+      getPrefinancesQuantity:"report/getPrefinancesQuantity",
+    }),
+    changeDate(item){
+      if(!!this.filters.year){
+        this.getOrderQuantity(this.filters.year)
+        this.getPrefinancesQuantity(this.filters.year)
+      }
+    }
+  },
+  mounted(){
+    const date = new Date().getFullYear()
+    this.getOrderQuantity(date)
+    this.getPrefinancesQuantity(date)
+  }
 };
 </script>
 
