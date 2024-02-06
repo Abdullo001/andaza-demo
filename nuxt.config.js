@@ -22,6 +22,7 @@ export default {
 
   plugins: [
     {src: '~/plugins/chart.js', mode: 'client'},
+    {src: '~/plugins/vue-apexchart.js', mode: 'client'},
     {src: "~/plugins/axios.js"},
     {src: "~/plugins/mixins.js"},
     {src: "~/plugins/v-mask.js"},
