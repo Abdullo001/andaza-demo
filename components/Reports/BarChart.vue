@@ -108,9 +108,13 @@ export default {
               text: "Month",
             },
           },
+          legend: {
+            show: false,
+          },
 
           fill: {
             opacity: 1,
+            colors: ["#544b99", "#eef0fa"],
           },
         };
       },
@@ -134,8 +138,8 @@ export default {
 
   watch: {
     prefinancesQuantity(val) {
-      this.orderCount=[]
-      this.preFinanceCount=[]
+      this.orderCount = [];
+      this.preFinanceCount = [];
       this.totalOrders = val.totalOrderQuantity;
       this.totalPrefinances = val.totalPreFinanceQuantity;
       val.quantityItemReports.forEach((el) => {
