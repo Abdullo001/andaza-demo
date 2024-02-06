@@ -38,9 +38,8 @@ export default {
     return {
       totalOrders: 0,
       totalPrefinances: 0,
-      preFinanceCount:[],
-      orderCount:[],
-
+      preFinanceCount: [],
+      orderCount: [],
     };
   },
 
@@ -135,12 +134,13 @@ export default {
 
   watch: {
     prefinancesQuantity(val) {
-      console.log(val);
+      this.orderCount=[]
+      this.preFinanceCount=[]
       this.totalOrders = val.totalOrderQuantity;
       this.totalPrefinances = val.totalPreFinanceQuantity;
       val.quantityItemReports.forEach((el) => {
         this.orderCount.push(el.orderCount);
-        const calculatePrefinance=el.preFinanceCount-el.orderCount
+        const calculatePrefinance = el.preFinanceCount - el.orderCount;
         this.preFinanceCount.push(calculatePrefinance);
       });
     },
