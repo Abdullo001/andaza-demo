@@ -8,13 +8,13 @@
         <div class="d-flex align-center mb-1">
           <div class="color1"></div>
           <div>
-            Created prefinances: <span>{{ totalOrders }} </span>
+            Created prefinances: <span>{{ totalPrefinances }} </span>
           </div>
         </div>
         <div class="d-flex align-center mb-1">
           <div class="color2"></div>
           <div>
-            Placed orders: <span>{{ totalPrefinances }} </span>
+            Placed orders: <span>{{ totalOrders }} </span>
           </div>
         </div>
         <div>

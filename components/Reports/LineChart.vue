@@ -60,6 +60,9 @@ export default {
           chart: {
             height: 450,
             type: "line",
+            toolbar: {
+              show: true,
+            },
             dropShadow: {
               enabled: true,
               color: "#000",
@@ -68,9 +71,7 @@ export default {
               blur: 10,
               opacity: 0.2,
             },
-            toolbar: {
-              show: false,
-            },
+            
           },
           tooltip: {
             enabled: false,
