@@ -14,24 +14,7 @@
         class="ml-2"
       />
       </div>
-      <v-checkbox
-        v-model="filters.amount"
-        class="ml-11"
-        color="#544B99"
-        label="Amount"
-      />
-      <v-checkbox
-        v-model="filters.quantity"
-        class="ml-11"
-        color="#544B99"
-        label="Quantity"
-      />
-      <v-checkbox
-        v-model="filters.percentage"
-        class="ml-11"
-        color="#544B99"
-        label="Percentage"
-      />
+      
     </v-sheet>
     <v-row class="mt-5">
       <v-col cols="12"  >
