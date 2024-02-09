@@ -2,7 +2,7 @@
   <div>
     <v-card elevation="0" rounded="lg">
       <v-card-title class="d-flex align-center justify-space-between">
-        <div>Quality of Models shipping by months</div>
+        <div>Quantity of Models shipping by months</div>
       </v-card-title>
       <v-card-text>
         <VueApexChart
@@ -25,8 +25,7 @@ export default {
       line_options: {
         plugins: {
           customScale: {
-            grace: "100%", // Percentage of max value
-            // grace: 40 // Flatout extra value to add
+            grace: "100%", 
           },
         },
         tooltips: {
@@ -101,7 +100,7 @@ export default {
           grid: {
             borderColor: "#e7e7e7",
             row: {
-              colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+              colors: ["#f3f3f3", "transparent"], 
               opacity: 0.5,
             },
           },
