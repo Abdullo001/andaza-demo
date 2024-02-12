@@ -1,6 +1,6 @@
 <template>
   <div >
-    <v-card elevation="0" rounded="lg" style="height: 480px;">
+    <v-card elevation="0" rounded="lg" style="min-height: 480px;">
       <v-card-title class="d-flex align-center justify-space-between">
         <div>Models by genders</div>
       </v-card-title>
