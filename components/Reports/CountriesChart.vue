@@ -132,8 +132,8 @@ export default {
       this.creators = [];
       this.items = [];
       val.itemReports.forEach((item) => {
-        this.creators.push(`${item.country}: ${item.orderCount}`);
-        this.items.push(item.orderCount);
+        this.creators.push(`${item.name}: ${item.itemCount}`);
+        this.items.push(item.itemCount);
       });
     },
   },

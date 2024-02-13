@@ -4,6 +4,8 @@ export const state=()=>({
   prefinancesCreator:[],
   genderReport:[],
   countryReport:[],
+  clientReport:[],
+  managerReport:[],
 })
 
 export const getters={
@@ -12,6 +14,8 @@ export const getters={
   prefinancesCreator:(state)=>state.prefinancesCreator,
   genderReport:(state)=>state.genderReport,
   countryReport:(state)=>state.countryReport,
+  clientReport:(state)=>state.clientReport,
+  managerReport:(state)=>state.managerReport,
 }
 
 export const mutations={
@@ -29,6 +33,12 @@ export const mutations={
   },
   setCountryReport(state,item){
     state.countryReport=item
+  },
+  setClientReport(state,item){
+    state.clientReport=item
+  },
+  setManagerReport(state,item){
+    state.managerReport=item
   },
 }
 
@@ -73,6 +83,24 @@ export const actions={
     this.$axios.get(`/api/v1/report/order/country?date=${date}`)
     .then((res)=>{
       commit("setCountryReport",res.data.data)
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+  getReportClinet({commit},date){
+    this.$axios.get(`/api/v1/report/order/client?date=${date}`)
+    .then((res)=>{
+      commit("setClientReport",res.data.data)
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+  getReportManager({commit},date){
+    this.$axios.get(`/api/v1/report/order/manager?date=${date}`)
+    .then((res)=>{
+      commit("setManagerReport",res.data.data)
     })
     .catch((response)=>{
       console.log(response);
