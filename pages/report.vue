@@ -36,6 +36,9 @@
       <v-col cols="12" lg="4">
         <ClientsChartComponent />
       </v-col>
+      <v-col cols="12" lg="4">
+        <OrdersByManager />
+      </v-col>
     </v-row>
   </div>
 </template>
@@ -44,6 +47,7 @@
 import {mapActions,mapGetters} from 'vuex'
 export default {
   components: {
+    OrdersByManager: () => import("@/components/Reports/OrdersByManager.vue"),
     BarChartComponent: () => import("@/components/Reports/BarChart.vue"),
     DoughnutChartComponent: () =>
       import("@/components/Reports/DoughnutChart.vue"),
@@ -80,11 +84,21 @@ export default {
     ...mapActions({
       getOrderQuantity:"report/getOrderQuantity",
       getPrefinancesQuantity:"report/getPrefinancesQuantity",
+      getPrefinancesCreators:"report/getPrefinancesCreators",
+      getReportGender:"report/getReportGender",
+      getReportCountry:"report/getReportCountry",
+      getReportClinet:"report/getReportClinet",
+      getReportManager:"report/getReportManager",
     }),
     changeDate(item){
       if(!!this.filters.year){
         this.getOrderQuantity(this.filters.year)
         this.getPrefinancesQuantity(this.filters.year)
+        this.getPrefinancesCreators(this.filters.year)
+        this.getReportGender(this.filters.year)
+        this.getReportCountry(this.filters.year)
+        this.getReportClinet(this.filters.year)
+        this.getReportManager(this.filters.year)
       }
     }
   },
@@ -92,6 +106,11 @@ export default {
     const date = new Date().getFullYear()
     this.getOrderQuantity(date)
     this.getPrefinancesQuantity(date)
+    this.getPrefinancesCreators(date)
+    this.getReportGender(date)
+    this.getReportClinet(date)
+    this.getReportCountry(date)
+    this.getReportManager(date)
   }
 };
 </script>
