@@ -370,11 +370,6 @@ export default {
                 localization:"modelGroups",
               },
               {
-                title: this.$t('sidebar.samplePurposes'),
-                to: this.localePath("/sample"),
-                localization:"samplePurposes",
-              },
-              {
                 title: this.$t('sidebar.bodyParts'),
                 to: this.localePath("/body-parts"),
                 localization:"bodyParts",
@@ -443,11 +438,6 @@ export default {
                 title: this.$t('sidebar.boxSize'),
                 to: this.localePath('/box-size'),
                 localization:"boxSize",
-              },
-              {
-                title: this.$t('sidebar.process'),
-                to: this.localePath('/catalog-process'),
-                localization:"process",
               },
             ]
           },
