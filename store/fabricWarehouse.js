@@ -7,7 +7,7 @@ export const state = () => ({
 export const getters = {
   fabricWarehouseList: (state) => state.fabricWarehouseList.content,
   totalElements: (state) => state.fabricWarehouseList.totalElements,
-  sipNumbers: (state) => state.sipNumbers,
+  sipNumbers: (state) => state.sipNumbers.content,
   toSipNumbers: (state) => state.toSipNumbers,
 };
 

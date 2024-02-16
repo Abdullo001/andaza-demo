@@ -246,9 +246,9 @@
                     >
                   </div>
                   <div class="body-1 mb-3">
-                    Fabric unit Price:
+                    Actual fabric price:
                     <span class="font-weight-bold ml-2">
-                      {{ item?.fabricUnitPrice }}</span
+                      {{ item?.actualUnitPrice }}</span
                     >
                   </div>
                   <div class="body-1 mb-3">
@@ -269,6 +269,12 @@
                     Created by:
                     <span class="font-weight-bold ml-2">
                       {{ item?.updatedBy }}</span
+                    >
+                  </div>
+                  <div class="body-1 mb-3">
+                    Total price:
+                    <span class="font-weight-bold ml-2">
+                      {{ item?.actualTotalPrice }}</span
                     >
                   </div>
                 </v-col>
@@ -380,6 +386,19 @@
                   dense
                   class="rounded-lg base"
                   placeholder="Enter fact received netto weight"
+                  color="#544B99"
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <div class="label">Actual unit price</div>
+                <v-text-field
+                  :rules="[formRules.required]"
+                  v-model="arrivedFabric.actualUnitPrice"
+                  outlined
+                  hide-details
+                  dense
+                  class="rounded-lg base"
+                  placeholder="Enter actual unit price"
                   color="#544B99"
                 />
               </v-col>
@@ -922,6 +941,7 @@ export default {
       if(this.title==="Edit"){
         this.$refs.new_form.reset();
       }
+      this.arrivedFabric={}
       this.title = "New";
       this.new_dialog = true;
     },
@@ -937,7 +957,7 @@ export default {
       this.title = "Edit";
       this.arrivedFabric = { ...item };
       this.arrivedFabric.fabricOrderId={fabricOrderId: item.fabricOrderId,sipNumber:item.sipNumber}
-      console.log( this.arrivedFabric);
+      // this.arrivedFabric.actualUnitPrice=this.arrivedFabric.actualUnitPrice.split(" ")[0]
       this.new_dialog = true;
     },
 
@@ -952,6 +972,8 @@ export default {
         factReceivedNettoWeight:
           this.arrivedFabric.factReceivedNettoWeight.split(" ")[0],
         id: this.arrivedFabric.id,
+        actualUnitPrice:this.arrivedFabric.actualUnitPrice.split(" ")[0]
+
       };
       this.updateFabricWarehouse(data);
       this.new_dialog = false;
