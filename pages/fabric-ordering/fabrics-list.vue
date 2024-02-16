@@ -28,7 +28,6 @@
                 </template>
               </v-combobox>
             <v-combobox
-
                 v-model="filters.sipNumber"
                 :items="sipNumbers"
                 :search-input.sync="sipNumberSearch"
@@ -247,6 +246,11 @@ export default {
     // fabricsList(items){
     //   this.totalElements = items.length
     // }
+    sipNumberSearch(val) {
+        if(!!val) {
+          this.getSipNumbers("")
+        }
+    },
   },
 
 
