@@ -16,6 +16,11 @@ const registerComponent = function (name, originalComponent) {
         default: () => {
         },
       },
+      chartPlugins: {
+        type: Object,
+        default: () => {
+        },
+      },
       width: {
         type: Number,
         default: 200
@@ -24,6 +29,16 @@ const registerComponent = function (name, originalComponent) {
         type: Number,
         default: 200
       },
+    },
+    watch:{
+      data(){
+        this.renderChart(
+          this.chartData,
+          this.chartOptions,
+          this.width,
+          this.height
+        )
+      }
     },
     mounted() {
       this.renderChart(

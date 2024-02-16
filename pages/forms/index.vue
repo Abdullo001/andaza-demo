@@ -112,6 +112,12 @@ export default {
           to: "/forms/recieved-accessory-form",
         },
         {
+          title: "Inspection files",
+          subtitle: "Inspection files of each model",
+          status:"MANAGEMENT",
+          to: "/forms/inspection-files",
+        },
+        {
           title: "Cutting form",
           subtitle: "Cutting information form related to one model",
           status:"PRODUCTION",
@@ -171,6 +177,7 @@ export default {
           status:"PRODUCTION",
           to: "/forms/print-pdf-generation",
         },
+        
       ],
       filteredButtons:[],
     };

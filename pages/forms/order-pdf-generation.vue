@@ -170,15 +170,28 @@
               </div>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Shipping date</div>
-              <div style="height: 40px !important">
+              <div class="label">Shipping date monthly</div>
+              <div style="height: 40px !important" >
                 <el-date-picker
-                v-model="filters.shippingDate"
+                :disabled="!!filters.shippingDateYearly"
+                v-model="filters.shippingDateMonthly"
                 type="month"
                 style="width: 100%; height: 100%"
                 placeholder="Pick a month"
                 value-format="MM-yyyy"
-
+              />
+              </div>
+            </v-col>
+            <v-col cols="12" lg="3">
+              <div class="label">Shipping date yearly</div>
+              <div style="height: 40px !important">
+                <el-date-picker
+                :disabled="!!filters.shippingDateMonthly"
+                v-model="filters.shippingDateYearly"
+                type="year"
+                style="width: 100%; height: 100%"
+                placeholder="Pick a year"
+                value-format="yyyy"
               />
               </div>
             </v-col>
@@ -262,6 +275,21 @@
                 append-icon="mdi-chevron-down"
               />
             </v-col>
+            <v-col cols="12" lg="3">
+              <div class="label">Model status</div>
+              <v-select
+                :items="status_enums"
+                v-model="filters.modelStatus"
+                placeholder="Model status"
+                dense
+                outlined
+                height="44"
+                hide-details
+                validate-on-blur
+                class="rounded-lg filter mr-2"
+                append-icon="mdi-chevron-down"
+              />
+            </v-col>
           </v-row>
           <div class="d-flex justify-center">
             <v-btn
@@ -305,6 +333,7 @@ export default {
   data() {
     return {
       filter_form: true,
+      status_enums: ['ACTIVE', 'DISABLED', 'PENDING'],
       filters: {
         orderNumber: "",
         modelNumber: "",
@@ -318,7 +347,8 @@ export default {
         creatorId: "",
         accessoryStatus:"",
         fabricStatus:"",
-
+        shippingDateYearly:"",
+        shippingDateMonthly:"",
 
       },
       gander_enums: ["MALE", "FEMALE", "BOY", "GIRL", "UNISEX"],
@@ -451,10 +481,18 @@ export default {
     resetFilter() {
       this.$refs.filters.reset();
       this.filters.fromDate=''
-      this.filters.shippingDate=''
+      this.filters.shippingDateYearly=''
+      this.filters.shippingDateMonthly=''
       this.filters.toDate=''
     },
     filter() {
+      const {shippingDateYearly,shippingDateMonthly} = this.filters
+      let shippingDate=""
+      if(shippingDateYearly!==''){
+        shippingDate=shippingDateYearly
+      }else if(shippingDateMonthly!==''){
+        shippingDate=shippingDateMonthly
+      }
       const data = {
         brandName: this.filters.brandName,
         clientName: !!this.filters.clientName?.name
@@ -463,8 +501,9 @@ export default {
         country: !!this.filters.country?.name ? this.filters.country?.name : "",
         creatorId: this.filters.creatorId?.id ? this.filters.creatorId?.id : 0,
         fromDate: !!this.filters.fromDate ? this.filters.fromDate : null,
-        shippingDate: !!this.filters.shippingDate ? this.filters.shippingDate : null,
+        shippingDate: !!shippingDate ? shippingDate : null,
         gender: this.filters.gender,
+        modelStatus: this.filters.modelStatus,
         accessoryStatus: this.filters.accessoryStatus,
         fabricStatus: this.filters.fabricStatus,
         modelGroup: this.filters.modelGroup,

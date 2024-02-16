@@ -205,6 +205,7 @@
         <template #item.checker="{item}">
           <v-simple-checkbox
             v-model="item.isChecked"
+            @click="checkFunc(item)"
             color="#544B99"
           ></v-simple-checkbox>
         </template>
@@ -444,7 +445,6 @@ export default {
         }
       })
       specialList.push(...specialListForOther)
-      console.log(specialList);
       this.permisionList=JSON.parse(JSON.stringify(specialList))
 
     }
@@ -455,6 +455,30 @@ export default {
       resetPassword: 'users/resetPassword',
       setPermission: 'users/setPermission',
     }),
+    checkFunc(item){
+      let data={}
+      if(item.isChecked){
+        data={
+          userId:this.$route.params.id,
+          permissionName:item.permissionName,
+          canDelete: true,
+          canRead: true,
+          canUpdate:true,
+          canWrite:true, 
+        }
+      }else{
+        data={
+          userId:this.$route.params.id,
+          permissionName:item.permissionName,
+          canDelete: false,
+          canRead: false,
+          canUpdate:false,
+          canWrite:false, 
+        }
+      }
+      
+      this.setPermission(data)
+    },
     getPassword(password) {
       navigator.clipboard.writeText(password);
       this.$toast.success(`Copied to clipboard !`);
