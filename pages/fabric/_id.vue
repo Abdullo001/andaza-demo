@@ -334,9 +334,6 @@
             <FabricPlannedOrder/>
           </v-tab-item>
           <v-tab-item>
-            <FabricSupplyFabric/>
-          </v-tab-item>
-          <v-tab-item>
             <Documents/>
           </v-tab-item>
         </v-tabs-items>
@@ -452,7 +449,6 @@ export default {
         'Fabric planning chart',
         'List of fabrics to be ordered',
         'Planned fabric order',
-        'Supply fabric',
         'Documentation'
       ],
       tab: null,
