@@ -50,7 +50,6 @@ export const actions = {
       modelNumber:modelNumber,
       page,
       size,
-      status
 
     }
     partner = partner === null ? '' : partner
