@@ -76,8 +76,7 @@ export const actions = {
     }
     this.$axios.put(`/api/v1/fabric-order/list`,data)
       .then((res) => {
-        console.log(res)
-        commit("setSipNumbers", res.data.data.content);
+        commit("setSipNumbers", res.data.data);
       })
       .catch((res) => {
         console.log(res);

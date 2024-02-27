@@ -313,7 +313,7 @@
                   class="rounded-lg base d-flex align-center justify-center mr-2"
                   :return-object="true"
                   dense
-                  placeholder="Model name"
+                  placeholder="Sip number"
                   prepend-icon=""
                 >
                   <template #append>
