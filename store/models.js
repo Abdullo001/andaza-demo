@@ -118,6 +118,9 @@ export const actions = {
       season: data.season,
       status: "ACTIVE",
       brandName:data.brandName,
+      canvasTypeId:data.canvasTypeId.id,
+      fabricRework:data.fabricRework,
+      mainFabricDensity:data.mainFabricDensity,
     }
     this.$axios.$post('/api/v1/models/create', model)
       .then(res => {
@@ -140,6 +143,9 @@ export const actions = {
       id: id,
       status: "ACTIVE",
       brandName:data.brandName,
+      canvasTypeId:data.canvasTypeId.id,
+      fabricRework:data.fabricRework,
+      mainFabricDensity:data.mainFabricDensity,
     }
     this.$axios.$put('/api/v1/models/update', model)
       .then(res => {
