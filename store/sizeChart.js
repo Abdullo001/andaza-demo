@@ -39,7 +39,7 @@ export const actions = {
       filters: [],
       sorts: [],
       page: 0,
-      size: 20
+      size: 1000
     }
     this.$axios.$put(`/api/v1/size-template/list`, body)
       .then(res => {
