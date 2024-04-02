@@ -140,7 +140,7 @@ export default {
 
   loading: false,
   axios: {
-    baseURL: process.env.APP_ENV === 'PROD' ? 'https://atp.asgardia.uz' : 'https://dev-atp.asgardia.uz'
+    baseURL: process.env.APP_ENV === 'PROD' ? process.env.BACKEND_URL : 'https://dev-atp.asgardia.uz'
   },
   auth: {
     strategies: {
