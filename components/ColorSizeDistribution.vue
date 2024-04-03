@@ -174,7 +174,26 @@
                       </div>
                     </div>
                   </v-col>
+
+                 
                 </v-row>
+              </v-col>
+            </v-row>
+
+            <v-row>
+              <v-col cols="12" >
+                <div class="label">Artwork (Additional Accessories)</div>
+                <v-text-field
+                      v-model="item.artwork"
+                      placeholder=""
+                      outlined
+                      hide-details
+                      height="44"
+                      class="rounded-lg base "
+                      validate-on-blur
+                      dense
+                      color="#544B99"
+                    />
               </v-col>
             </v-row>
 
@@ -321,6 +340,23 @@
               </v-col>
             </v-row>
 
+            <v-row>
+              <v-col cols="12" >
+                <div class="label">Artwork (Additional Accessories)</div>
+                <v-text-field
+                      v-model="item.artwork"
+                      placeholder=""
+                      outlined
+                      hide-details
+                      height="44"
+                      class="rounded-lg base "
+                      validate-on-blur
+                      dense
+                      color="#544B99"
+                    />
+              </v-col>
+            </v-row>
+
             <v-row class="mb-4 d-flex justify-space-between">
               <v-col
                 cols="3"
@@ -438,6 +474,7 @@ export default {
           sortable: false,
           value: "totalWithOverproductionPercent",
         },
+        { text: "Artwork", sortable: false, align: "center", value: "artwork" },
         { text: "Actions", sortable: false, align: "center", value: "actions" },
       ],
       enums: ["TPX", "TCX", "TPG", "C", "MELANGE"],

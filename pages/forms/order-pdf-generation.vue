@@ -384,7 +384,7 @@ export default {
       modelNumber: this.modelNumSearch,
       partner: "",
       status: "ACTIVE",
-    }),
+    });
     this.getModelGroup({ name: this.modelGroupSearch });
     this.getClient();
     this.getCountryList({ name: this.countryIdSearch });

@@ -290,7 +290,24 @@ export default {
                 to: this.localePath('/ready-warehouse'),
                 name:"READY_GARMENT_WAREHOUSE",
                 localization:"finishedProducts",
-
+              },
+              {
+                title: "Wastes warehouse",
+                to: this.localePath('/wastes-warehouse'),
+                name:"READY_GARMENT_WAREHOUSE",
+                localization:"wastesWarehouse",
+              },
+              {
+                title: "Supply warehouse",
+                to: this.localePath('/supply-warehouse'),
+                name:"READY_GARMENT_WAREHOUSE",
+                localization:"supplyWarehouse",
+              },
+              {
+                title: "Secondary warehouse",
+                to: this.localePath('/secondary-warehouse'),
+                name:"READY_GARMENT_WAREHOUSE",
+                localization:"secondaryWarehouse",
               },
             ]
           },

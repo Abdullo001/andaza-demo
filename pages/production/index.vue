@@ -93,7 +93,8 @@
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium">{{ $t('planningProduction.dialog.planningProduction') }}</div>
-            <v-btn
+            <div>
+              <v-btn
               color="#544B99"
               class="rounded-lg text-capitalize"
               dark
@@ -102,6 +103,15 @@
               <v-icon>mdi-plus</v-icon>
               {{ $t('planningProduction.dialog.planning') }}
             </v-btn>
+              <v-btn
+              color="#544B99"
+              class="rounded-lg text-capitalize"
+              outlined
+              @click="$router.push(localePath(`/production/waybills`))"
+            >
+              Waybills
+            </v-btn>
+            </div>
           </v-toolbar-title>
         </v-toolbar>
         <v-divider/>

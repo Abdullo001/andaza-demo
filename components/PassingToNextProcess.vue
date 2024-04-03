@@ -58,7 +58,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Edit Cutting info</div>
-          <v-btn icon color="#544B99" @click="edit_dialog = false">
+          <v-btn icon color="#544B99" @click="closeDialog">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -81,7 +81,7 @@
               </v-col>
             </v-row>
             <v-row v-if="title!=='packaging'">
-              <v-col cols="12">
+              <v-col cols="8">
                 <v-radio-group
 
                   row
@@ -99,7 +99,18 @@
                     label="Subcontractor"
                     value="SUBCONTRACTOR"
                   ></v-radio>
+                  <v-radio
+                    v-if="passSupplyWarehouse"
+                    color="#544B99"
+                    label="Supply warehouse"
+                    value="SUPPLY_WAREHOUSE"
+                  ></v-radio>
+
                 </v-radio-group>
+              </v-col>
+              <v-col cols="4" class="d-flex align-center">
+                <v-switch inset v-model="autoFilling" color="#4F46E5" />
+                <div class="label mr-5 ">Aut.Filling</div>
               </v-col>
               <v-col cols="12" lg="6" >
                 <div class="label"  >Select the next process</div>
@@ -144,7 +155,7 @@
             class="rounded-lg text-capitalize font-weight-bold"
             outlined color="#544B99"
             width="130"
-            @click="edit_dialog = false"
+            @click="closeDialog"
           >
             cancel
           </v-btn>
@@ -216,8 +227,15 @@ import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: 'QualityControl',
+  props:{
+    passSupplyWarehouse:{
+      type:Boolean,
+      default:false,
+    }
+  },
   data() {
     return {
+      autoFilling:false,
       edit_dialog: false,
       history_dialog:false,
       selectedItem: {},
@@ -253,6 +271,18 @@ export default {
   },
 
   watch: {
+    autoFilling(val){
+      if(val){
+        this.selectedItem.sizeDistributions.forEach((item,idx)=>{
+          item.quantity=this.selectedItem.sizeDistributionList[idx].quantity
+        })
+      }else{
+        this.selectedItem.sizeDistributions.forEach((item,idx)=>{
+          item.quantity=0
+        })
+      }
+      
+    },
     passingList(list) {
       this.headers = [
         {text: 'Color', align: 'start', sortable: false, value: 'color'},
@@ -348,6 +378,7 @@ export default {
     },
     editItem(item) {
       this.edit_dialog = true
+      this.autoFilling = false
       this.selectedItem = {...item}
       this.selectedItem.status="editProcess"
       this.getHistoryList(item.entityId)
@@ -368,13 +399,26 @@ export default {
           this.setReadyGarmentWarehouse(data)
         }
         else{
-          let data = {
-            entityId: this.selectedItem.entityId,
-            process: this.selectedItem.process,
-            sizeDistributionList: [...this.selectedItem.sizeDistributions],
-            productionId: this.productionId,
-            workshopType: this.selectedItem.workshopType,
-            planningProcessId: this.planningProcessId,
+          let data={}
+          if(this.title==="printing"){
+            data = {
+              fromProcess:"PRINTING",
+              entityId: this.selectedItem.entityId,
+              process: this.selectedItem.process,
+              sizeDistributionList: [...this.selectedItem.sizeDistributions],
+              productionId: this.productionId,
+              workshopType: this.selectedItem.workshopType,
+              planningProcessId: this.planningProcessId,
+            }
+          }else{
+            data = {
+              entityId: this.selectedItem.entityId,
+              process: this.selectedItem.process,
+              sizeDistributionList: [...this.selectedItem.sizeDistributions],
+              productionId: this.productionId,
+              workshopType: this.selectedItem.workshopType,
+              planningProcessId: this.planningProcessId,
+            }
           }
 
           if (this.selectedItem.partnerId) {
@@ -398,6 +442,10 @@ export default {
       this.selectedItem = {...item}
       this.selectedItem.status="edit_history"
 
+    },
+    closeDialog(){
+      this.edit_dialog = false
+      this.autoFilling=false
     },
 
     deleteHistoryItem(item){

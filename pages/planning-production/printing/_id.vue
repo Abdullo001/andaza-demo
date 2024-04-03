@@ -306,7 +306,7 @@
             <PrintingSubcontract/>
           </v-tab-item>
           <v-tab-item>
-            <PassingToNextProcess/>
+            <PassingToNextProcess :passSupplyWarehouse="true"/>
           </v-tab-item>
         </v-tabs-items>
       </v-card-text>

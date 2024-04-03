@@ -15,16 +15,19 @@
             <v-btn
               class="rounded-lg text-capitalize"
               color="#544B99"
-              :disabled="inspectionList.length > 0"
               width="160"
               height="36"
-              @click="newDialog = true"
-              :dark="!(inspectionList.length > 0)"
+              @click="openDialog"
+              dark
             >
               Upload document
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
+      </template>
+
+      <template #item.status="{item}">
+        <v-chip :color="inspectionStatus(item.status)" dark class="font-weight-bold ml-5">{{ item.status }}</v-chip>
       </template>
       <template #item.actions="{item}">
         <div>
@@ -59,7 +62,7 @@
         </div>
       </template>
     </v-data-table>
-    <v-dialog max-width="500" v-model="newDialog">
+    <v-dialog max-width="700" v-model="newDialog">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between mb-6">
           <div class="title text-capitalize">upload inspection file</div>
@@ -70,13 +73,14 @@
         <v-card-text>
           <v-form ref="new_validate" lazy-validation>
             <v-row>
-              <v-col cols="12" lg="12">
-                  <div class="text-body-1 font-weight-medium mb-3" v-if="inspectionList.length !== 1">
+              <v-col cols="12" lg="8">
+                  <div class="label" >
                     Upload document
                   </div>
                 <v-file-input
                   outlined
                   hide-details
+                  placeholder="Select document"
                   height="44"
                   class="rounded-lg base mb-4"
                   show-size
@@ -87,6 +91,22 @@
                   v-model="newInspectionFile.file"
                   validate-on-blur
                 />
+                </v-col>
+                <v-col cols="12" lg="4">
+                  <div class="label">Status</div>
+                  <v-select
+                    v-model="newInspectionFile.status"
+                    :items="inspectionStatus"
+                    placeholder="Select status"
+                    outlined
+                    hide-details
+                    height="44"
+                    class="rounded-lg base"  dense
+                    color="#544B99"
+                    append-icon="mdi-chevron-down"
+                  />
+                </v-col>
+                <v-col cols="12" lg="8">
                 <div class="label">Title</div>
                 <v-text-field
                   placeholder="Enter document name"
@@ -100,6 +120,23 @@
                   validate-on-blur
                   :rules="[formRules.required]"
                 />
+                </v-col>
+                <v-col cols="12" lg="4">
+                  <div class="label">Send date</div>
+                  <div style="height: 40px !important">
+                    <el-date-picker
+                      v-model="newInspectionFile.sendDate"
+                      :picker-options="pickerShortcuts"
+                      class="base_picker"
+                      placeholder="dd.MM.yyyy HH:mm:ss"
+                      style="width: 100%; height: 100%"
+                      type="date"
+                      value-format="dd.MM.yyyy HH:mm:ss"
+                    >
+                    </el-date-picker>
+                  </div>
+                </v-col>
+                <v-col cols="12" lg="12">
                 <div class="label">Description</div>
                 <v-text-field
                   placeholder="Enter description"
@@ -128,7 +165,7 @@
           </v-btn>
           <v-btn
             class="font-weight-bold text-capitalize rounded-lg ml-4"
-            color="#544B99" dark
+            color="#544B99" 
             width="140" height="40"
             :disabled="btnDisabled"
             :dark="!btnDisabled"
@@ -140,7 +177,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="edit_dialog" max-width="500">
+    <v-dialog v-model="edit_dialog" max-width="700">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between mb-6">
           <div class="title text-capitalize">edit document</div>
@@ -151,48 +188,83 @@
         <v-card-text>
           <v-form ref="edit_validate" lazy-validation v-model="valid_edit">
             <v-row>
-              <v-col cols="12" lg="12">
-                <div class="label">Upload document</div>
-                <v-file-input
+              <v-col cols="12" lg="8">
+                <div class="label" >
+                  Upload document
+                </div>
+              <v-file-input
+                outlined
+                hide-details
+                placeholder="Select document"
+                height="44"
+                class="rounded-lg base mb-4"
+                show-size
+                dense
+                prepend-icon=""
+                prepend-inner-icon="mdi-file-document-outline"
+                color="#544B99"
+                v-model="newInspectionFile.file"
+                validate-on-blur
+              />
+              </v-col>
+              <v-col cols="12" lg="4">
+                <div class="label">Status</div>
+                <v-select
+                  v-model="newInspectionFile.status"
+                  :items="inspectionStatus"
+                  placeholder="Select status"
                   outlined
                   hide-details
                   height="44"
-                  class="rounded-lg base mb-4"
-                  show-size
-                  dense
-                  prepend-icon=""
-                  prepend-inner-icon="mdi-file-document-outline"
+                  class="rounded-lg base"  dense
                   color="#544B99"
-                  v-model="newInspectionFile.file"
-                  validate-on-blur
-                />
-                <div class="label">Title</div>
-                <v-text-field
-                  placeholder="Enter document name"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  color="#544B99"
-                  dense
-                  v-model="newInspectionFile.title"
-                  validate-on-blur
-                  :rules="[formRules.required]"
-                />
-                <div class="label">Description</div>
-                <v-text-field
-                  placeholder="Enter description"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  color="#544B99"
-                  dense
-                  v-model="newInspectionFile.description"
-                  validate-on-blur
-                  :rules="[formRules.required]"
+                  append-icon="mdi-chevron-down"
                 />
               </v-col>
+              <v-col cols="12" lg="8">
+              <div class="label">Title</div>
+              <v-text-field
+                placeholder="Enter document name"
+                outlined
+                dense
+                hide-details
+                height="44"
+                class="rounded-lg base mb-4"
+                color="#544B99"
+                v-model="newInspectionFile.title"
+                validate-on-blur
+                :rules="[formRules.required]"
+              />
+              </v-col>
+              <v-col cols="12" lg="4">
+                <div class="label">Send date</div>
+                <div style="height: 40px !important">
+                  <el-date-picker
+                    v-model="newInspectionFile.sendDate"
+                    :picker-options="pickerShortcuts"
+                    class="base_picker"
+                    placeholder="dd.MM.yyyy HH:mm:ss"
+                    style="width: 100%; height: 100%"
+                    type="date"
+                    value-format="dd.MM.yyyy HH:mm:ss"
+                  >
+                  </el-date-picker>
+                </div>
+              </v-col>
+              <v-col cols="12" lg="12">
+              <div class="label">Description</div>
+              <v-text-field
+                placeholder="Enter description"
+                outlined
+                dense
+                hide-details
+                height="44"
+                class="rounded-lg base mb-4"
+                color="#544B99"
+                v-model="newInspectionFile.description"
+                validate-on-blur
+              />
+            </v-col>
             </v-row>
           </v-form>
         </v-card-text>
@@ -208,7 +280,7 @@
           </v-btn>
           <v-btn
             class="font-weight-bold text-capitalize rounded-lg ml-4"
-            color="#544B99" dark
+            color="#544B99" 
             width="140" height="40"
             @click="addDocument"
             :dark="!btnDisabled"
@@ -236,6 +308,7 @@ export default {
         modelId: '',
         id: ''
       },
+      inspectionStatus:["N/A","OK"],
       valid_edit: true,
       edit_dialog: false,
       delete_dialog: false,
@@ -245,6 +318,8 @@ export default {
       title: 'add',
       headers: [
         {text: 'Document name', sortable: false, value: 'title'},
+        {text: 'Send date', sortable: false, value: 'sendDate'},
+        {text: 'Status', sortable: false, value: 'status'},
         {text: 'Description', sortable: false, value: 'description'},
         {text: 'Actions', sortable: false, align: 'center', value: 'actions'},
       ],
@@ -264,7 +339,8 @@ export default {
   computed: {
     ...mapGetters({
       inspectionFileList: "inspectionFile/inspectionFileList",
-      newModelId: "models/newModelId"
+      newModelId: "models/newModelId",
+
     })
   },
   watch: {
@@ -279,26 +355,42 @@ export default {
       getInspectionFileList: "inspectionFile/getInspectionFileList",
       uploadInspectionFile: "inspectionFile/uploadInspectionFile",
     }),
+    openDialog(){
+      this.newDialog=true
+      this.newInspectionFile.title=""
+      this.newInspectionFile.description=""
+      this.newInspectionFile.modelId=""
+      this.newInspectionFile.id=""
+      this.newInspectionFile.sendDate=""
+      this.newInspectionFile.status=""
+      
+    },
     editDocument(item) {
       this.title = 'edit'
       this.newInspectionFile.id = item.id
       this.newInspectionFile.title = item.title
       this.newInspectionFile.description = item.description
       this.newInspectionFile.modelId = item.modelId
+      this.newInspectionFile.sendDate = item.sendDate
+      this.newInspectionFile.status = item.status
       this.edit_dialog = true
     },
     async addDocument() {
-      this.newInspectionFile.modelId = this.$route.params.id
+      this.newInspectionFile.modelId = this.$route.params.id!=='add-model'?this.$route.params.id:this.newModelId
       this.btnDisabled = true
         const {
           description,
           title,
           modelId,
+          sendDate,
+          status,
         } = this.newInspectionFile
       const formData= new FormData()
       formData.append("description", description)
       formData.append("title", title)
       formData.append("modelId", modelId)
+      formData.append("sendDate", sendDate)
+      formData.append("status", status)
       if(!!this.newInspectionFile.file){
         formData.append("file", this.newInspectionFile.file)
       }
@@ -313,7 +405,12 @@ export default {
        }else if (this.title === 'edit') {
          this.edit_dialog = false
        }
+      await this.$refs.new_validate.reset()
+      this.newInspectionFile.sendDate=""
+
     },
+
+    
   },
   async mounted() {
     const id = this.$route.params.id;
