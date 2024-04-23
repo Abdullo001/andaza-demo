@@ -200,7 +200,7 @@ export default {
       this.$router.push("/production/waybills/add-waybill");
     },
     viewDetails(item) {
-      this.$router.push(`/supply-warehouse/waybills/${item.id}`)
+      this.$router.push(`/production/waybills/${item.id}`)
     },
     deleteFunc(item) {},
     page(value) {

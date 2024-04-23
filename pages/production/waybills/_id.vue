@@ -111,7 +111,7 @@
             <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">2. Given by</div>
               <v-text-field
-                v-model="waybill.givenByPosition2"
+                v-model="waybill.givenByName2"
                 class="rounded-lg base mb-4"
                 color="#544B99"
                 dense
@@ -125,7 +125,7 @@
             <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Transport number</div>
               <v-text-field
-                v-model="waybill.transportNumber"
+                v-model="waybill.transportationNumber"
                 class="rounded-lg base mb-4"
                 color="#544B99"
                 dense
@@ -181,21 +181,21 @@
             <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Checked by</div>
               <v-text-field
-                v-model="waybill.checkedBy"
+                v-model="waybill.checkedByPosition"
                 class="rounded-lg base mb-4"
                 color="#544B99"
                 dense
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter checked by"
+                placeholder="Enter checked position"
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Name</div>
               <v-text-field
-                v-model="waybill.checkedName"
+                v-model="waybill.checkedByName"
                 class="rounded-lg base mb-4"
                 color="#544B99"
                 dense
@@ -298,19 +298,65 @@
         <v-spacer />
       </v-card-actions>
     </v-card>
+
+    <v-card class="mt-6 mb-8" flat>
+      <v-tabs v-model="tab">
+        <v-tabs-slider color="#544B99"/>
+        <v-tab
+          v-for="item in items"
+          :key="item"
+          active-class="active-tab"
+          class="text-capitalize primary-color"
+        >
+          {{ item }}
+        </v-tab>
+        <v-tabs-items v-model="tab">
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <GenTab :type="`FIRST_CLASS`" :tabName="`1-sort`"/>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <GenTab :type="`SECOND_CLASS`" :tabName="`2-sort`"/>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+        </v-tabs-items>
+
+      </v-tabs>
+
+      <div class="d-flex align-center justify-center mt-16 pb-6">
+        <v-btn
+        class="text-capitalize rounded-lg"
+        color="#544B99"
+        outlined
+        height="44"
+        width="250"
+      >
+        Generate PDF
+      </v-btn>
+      </div>
+    </v-card>
   </div>
 </template>
 <script>
 import { mapActions, mapGetters } from "vuex";
 import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
+import GenTab from '@/components/Waybill/GenTab.vue';
 
 export default {
   components:{
     ShowBtnComponent,
+    GenTab
   },
   data() {
     return {
       show_btn: true,
+      tab:"",
       waybill: {
         waybillNumber: "",
         branchId: "",
@@ -320,6 +366,7 @@ export default {
       new_validate: true,
       branchSearch: "",
       id: null,
+      items:["1-sort","2-sort"]
     };
   },
 
@@ -335,6 +382,8 @@ export default {
     },
     ...mapGetters({
       partnerLists: "fabricOrdering/partnerLists",
+      oneWaybill: "waybill/oneWaybill",
+
     }),
   },
 
@@ -346,6 +395,13 @@ export default {
         this.getPartnerName("");
       }
     },
+
+    oneWaybill(val){
+      this.waybill={...val}
+      this.waybill.waybillNumber=val.number
+      this.waybill.branchId={id:val.partnerId,name:val.partner}
+      this.waybill.waybillDate=val.sendDate
+    }
   },
 
   methods: {
@@ -353,12 +409,14 @@ export default {
       getPartnerName: "fabricOrdering/getPartnerName",
       createWaybillList: "waybill/createWaybillList",
       updateWaybill: "waybill/updateWaybill",
+      getOneWaybill: "waybill/getOneWaybill",
     }),
     clickBtn() {
       this.show_btn = !this.show_btn;
     },
     saveWaybill() {
       const data = {
+        ...this.waybill,
         number: this.waybill.waybillNumber,
         partnerId: this.waybill.branchId.id,
         sendDate: this.waybill.waybillDate,
@@ -368,6 +426,7 @@ export default {
     },
     update() {
       const data = {
+        ...this.waybill,
         number: this.waybill.waybillNumber,
         partnerId: this.waybill.branchId.id,
         sendDate: this.waybill.waybillDate,
@@ -381,6 +440,7 @@ export default {
     const param = this.$route.params.id;
     if (param !== "add-waybill") {
       this.id = param;
+      this.getOneWaybill(param)
     }
   },
 };

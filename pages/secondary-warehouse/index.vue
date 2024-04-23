@@ -149,36 +149,8 @@ export default {
         { text: "Created at", value: "createdAt", sortable: false },
         { text: "Action", value: "action", sortable: false },
       ],
+      current_page:0,
       itemPerPage: 10,
-      items: [
-        {
-          id:1,
-          orderNumber: "ORD001",
-          modelNumber: "MOD001",
-          mainColor: "Blue",
-          sizeName: "Large",
-          secondSortQuantity: 10,
-          overproductionQuantity: 5,
-          sewedBy: "Sewer A",
-          createdBy: "User A",
-          createdAt: "2024-03-01 10:00:00",
-          action: "Edit/Delete", // Example action
-        },
-        {
-          id:2,
-          orderNumber: "ORD002",
-          modelNumber: "MOD002",
-          mainColor: "Red",
-          sizeName: "Medium",
-          secondSortQuantity: 15,
-          overproductionQuantity: 8,
-          sewedBy: "Sewer B",
-          createdBy: "User B",
-          createdAt: "2024-03-01 11:00:00",
-          action: "Edit/Delete", // Example action
-        },
-        // Add more sample items as needed
-      ],
     };
   },
 
@@ -201,9 +173,14 @@ export default {
     viewDetails(item) {
       this.$router.push( `/secondary-warehouse/${item.id}`)
     },
-    page() {},
+    page(value) {
+      this.current_page=value-1
+      this.getItems({page:this.current_page,size:this.itemPerPage,type:"SECONDARY"})
+    },
 
-    size() {},
+    size() {
+      this.getItems({page:0,size:this.itemPerPage,type:"SECONDARY"})
+    },
   },
 
   mounted(){

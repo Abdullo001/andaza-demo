@@ -847,7 +847,7 @@ export default {
     id(val){
       this.getAdditionalList(val)
       this.getWaybillInfos(val)
-      this.getWaybillItems(val)
+      this.getWaybillItems({id:val,type:"FIRST_CLASS"})
     }
   },
 

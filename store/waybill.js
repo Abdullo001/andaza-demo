@@ -5,6 +5,7 @@ export const state = () => ({
   oneWaybill:{},
   newWaybillId:"",
   waybillItems:[],
+  secondWaybillItems:[],
 });
 
 export const getters = {
@@ -15,6 +16,7 @@ export const getters = {
   oneWaybill: (state) => state.oneWaybill,
   newWaybillId: (state) => state.newWaybillId,
   waybillItems: (state) => state.waybillItems,
+  secondWaybillItems: (state) => state.secondWaybillItems,
 };
 
 export const mutations = {
@@ -35,6 +37,9 @@ export const mutations = {
   },
   setWaybillItems(state, item) {
     state.waybillItems = item;
+  },
+  setSecondWaybillItems(state, item) {
+    state.secondWaybillItems = item;
   },
 };
 
@@ -130,11 +135,16 @@ export const actions = {
         console.log(response);
       });
   },
-  getWaybillItems({commit},id){
-    this.$axios.get(`/api/v1/waybill/item/${id}?type=FIRST_CLASS`)
+  getWaybillItems({commit},{id,type}){
+    this.$axios.get(`/api/v1/waybill/item/${id}?type=${type}`)
     .then((res)=>{
-      commit("setWaybillItems",res.data.data)
-      console.log(res);
+      if(type==="FIRST_CLASS"){
+        commit("setWaybillItems",res.data.data)
+      }
+      if(type==="SECOND_CLASS"){
+        commit("setSecondWaybillItems",res.data.data)
+      }
+
     })
     .catch((response)=>{
       console.log(response);
