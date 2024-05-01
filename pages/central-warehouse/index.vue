@@ -25,6 +25,17 @@
               @keydown.enter="filterData"
             />
           </v-col>
+          <v-col cols="12" lg="2" md="2">
+            <v-text-field
+              placeholder="Subcon. name"
+              outlined
+              class="rounded-lg filter"
+              v-model.trim="filters.subcontractorName"
+              hide-details
+              dense
+              @keydown.enter="filterData"
+            />
+          </v-col>
           <v-col cols="12" lg="2">
             <div style="height: 40px !important">
               <el-date-picker
@@ -32,7 +43,7 @@
                 type="datetime"
                 style="width: 100%; height: 100%"
                 class="filter_picker"
-                placeholder="From"
+                placeholder="Created at"
                 :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy HH:mm:ss"
               >
@@ -130,21 +141,10 @@ export default {
       },
 
       headers: [
+        { text: "Waybill No.", value: "waybillNumber", sortable: false },
         { text: "Oreder No.", value: "orderNumber", sortable: false },
         { text: "Model No.", value: "modelNumber", sortable: false },
-        { text: "Main color", value: "mainColor", sortable: false },
-        { text: "Size name", value: "sizeName", sortable: false },
-        {
-          text: "2-sort quantity",
-          value: "secondSortTotal",
-          sortable: false,
-        },
-        {
-          text: "Overprodutions quantity",
-          value: "overproductionTotal",
-          sortable: false,
-        },
-        { text: "Sewed by", value: "sewedBy", sortable: false },
+        { text: "Branch name", value: "sewedBy", sortable: false },
         { text: "Created by", value: "createdBy", sortable: false },
         { text: "Created at", value: "createdAt", sortable: false },
         { text: "Action", value: "action", sortable: false },

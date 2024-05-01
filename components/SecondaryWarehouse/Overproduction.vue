@@ -458,7 +458,7 @@
     <v-dialog max-width="900" v-model="spendDialog">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between mb-6">
-          <div class="title text-capitalize">Edit Overproduction</div>
+          <div class="title text-capitalize">Selling Overproduction</div>
           <v-btn icon color="#544B99" @click="spendDialog=false">
             <v-icon>mdi-close</v-icon>
           </v-btn>

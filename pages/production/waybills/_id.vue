@@ -10,7 +10,7 @@
         <v-form ref="waybill_detail" v-model="new_validate" lazy-validation>
           <v-row>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Waybill No.</div>
+              <div class="label">Internal waybill No.</div>
               <v-text-field
                 v-model="waybill.waybillNumber"
                 class="rounded-lg base mb-4"
@@ -24,33 +24,7 @@
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Branch/subcontractor name</div>
-              <v-combobox
-                v-model="waybill.branchId"
-                :items="partnerLists"
-                :return-object="true"
-                :search-input.sync="branchSearch"
-                class="rounded-lg base d-flex align-center justify-center mb-4"
-                color="#544B99"
-                dense
-                height="44"
-                hide-details
-                item-text="name"
-                item-value="name"
-                outlined
-                placeholder="Enter branch name"
-                prepend-icon=""
-              >
-                <template #append>
-                  <v-icon class="d-inline-block" color="#544B99">
-                    mdi-magnify
-                  </v-icon>
-                </template>
-              </v-combobox>
-            </v-col>
-
-            <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Date of waybill</div>
+              <div class="label">Waybill date</div>
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="waybill.waybillDate"
@@ -64,6 +38,33 @@
                 </el-date-picker>
               </div>
             </v-col>
+            <v-col cols="12" lg="3" md="3" sm="6">
+              <div class="label">Sending from</div>
+              <v-combobox
+                v-model="waybill.branchId"
+                :items="partnerLists"
+                :return-object="true"
+                :search-input.sync="branchSearch"
+                class="rounded-lg base d-flex align-center justify-center mb-4"
+                color="#544B99"
+                dense
+                height="44"
+                hide-details
+                item-text="name"
+                item-value="name"
+                outlined
+                placeholder="Enter sender from"
+                prepend-icon=""
+              >
+                <template #append>
+                  <v-icon class="d-inline-block" color="#544B99">
+                    mdi-magnify
+                  </v-icon>
+                </template>
+              </v-combobox>
+            </v-col>
+
+            
             <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">1. Given by</div>
               <v-text-field
@@ -243,7 +244,7 @@
               </v-text-field>
             </v-col>
 
-            <v-col cols="12" lg="3" md="3" sm="6">
+            <!-- <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Updated time</div>
               <v-text-field
                 v-model="waybill.updatedAt"
@@ -263,7 +264,7 @@
                   <v-img src="/date-icon.svg" />
                 </template>
               </v-text-field>
-            </v-col>
+            </v-col> -->
 
             <v-col class="d-flex justify-end align-end" cols="12">
               <v-btn

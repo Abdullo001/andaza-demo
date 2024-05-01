@@ -675,6 +675,8 @@
             outlined
             color="#544B99"
             width="130"
+            @click="downloadDoc"
+            :loading="loading"
           >
             Download PDF
           </v-btn>
@@ -697,6 +699,7 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
+      loading:false,
       modelNumSearch: "",
       add_validate: true,
       add_dialog: false,
@@ -793,10 +796,23 @@ export default {
       oneWaybill:"waybill/oneWaybill",
       newWaybillId:"waybill/newWaybillId",
       waybillItemsStore:"waybill/waybillItems",
+      pdfList: "waybill/waybillForm",
     }),
   },
 
   watch: {
+    pdfList(val) {
+      this.loading=false
+      const blob = new Blob(
+        [new Uint8Array([...val].map((char) => char.charCodeAt(0)))],
+        { type: "application/pdf" }
+      );
+      const objectUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.setAttribute("target", "_blank");
+      a.setAttribute("href", objectUrl);
+      a.click();
+    },
     additionListStore(list){
       this.additionList=JSON.parse(JSON.stringify(list))
     },
@@ -865,6 +881,8 @@ export default {
       getModelsList: "models/getModelsList",
       modelColor: "accessorySamples/modelColor",
       getMeasurementUnit: "preFinance/getMeasurementUnit",
+      getWaybilForm:"waybill/getWaybilForm",
+
     }),
 
     saveWaybill() {
@@ -878,6 +896,10 @@ export default {
     },
     addAddition() {
       this.add_dialog = true;
+    },
+    downloadDoc() {
+      this.loading=true
+      this.getWaybilForm(this.id)
     },
     save() {
       const data = {

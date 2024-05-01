@@ -130,10 +130,8 @@ export default {
       },
 
       headers: [
-        { text: "Oreder No.", value: "orderNumber", sortable: false },
-        { text: "Model No.", value: "modelNumber", sortable: false },
-        { text: "Main color", value: "mainColor", sortable: false },
-        { text: "Size name", value: "sizeName", sortable: false },
+       
+        { text: "Waybill No.", value: "waybillNumber", sortable: false },
         {
           text: "2-sort quantity",
           value: "secondSortTotal",

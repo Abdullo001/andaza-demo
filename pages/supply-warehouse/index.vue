@@ -184,7 +184,7 @@
           <v-form ref="edit_form" v-model="edit_validate" lazy-validation>
             <v-row>
               <v-col cols="12" lg="6" md="6" sm="6">
-                <div class="label">Price with discount</div>
+                <div class="label">Price per work</div>
                 <div class="d-flex align-center">
                   <v-text-field
                     v-model="selectedItem.price"

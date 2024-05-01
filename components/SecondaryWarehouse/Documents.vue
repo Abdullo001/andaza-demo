@@ -270,6 +270,7 @@ export default {
       headers: [
         {text: 'Type', align: 'start', sortable: false, value: 'type'},
         {text: 'Document name', sortable: false, value: 'title'},
+        {text: 'Description', sortable: false, value: 'description'},
         {text: 'Uploader', sortable: false, value: 'createdBy'},
         {text: 'Date', sortable: false, value: 'uploadedAt'},
         {text: 'Actions', sortable: false, align: 'center', value: 'actions'},

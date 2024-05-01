@@ -92,6 +92,7 @@
       @click:row="(item) => viewDetails(item)"
       @update:page="page"
       @update:items-per-page="size"
+      :loading="loading"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -122,7 +123,7 @@
               color="#544B99"
               v-on="on"
               v-bind="attrs"
-              @click="deleteFunc(item)"
+              @click.stop="downloadDoc(item)"
             >
               <v-img src="/download.svg" max-width="24" />
             </v-btn>
@@ -153,6 +154,7 @@ import {mapActions,mapGetters} from "vuex"
 export default {
   data() {
     return {
+      loading:false,
       valid_search: true,
       filters: {
         modelNumber: "",
@@ -186,12 +188,30 @@ export default {
     ...mapGetters({
       waybillList:"waybill/waybillList",
       totalElements:"waybill/totalElements",
+      pdfList: "waybill/waybillForm",
+
     })
+  },
+
+  watch:{
+    pdfList(val) {
+      this.loading=false
+      const blob = new Blob(
+        [new Uint8Array([...val].map((char) => char.charCodeAt(0)))],
+        { type: "application/pdf" }
+      );
+      const objectUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.setAttribute("target", "_blank");
+      a.setAttribute("href", objectUrl);
+      a.click();
+    },
   },
 
   methods: {
     ...mapActions({
       getWaybillList:"waybill/getWaybillList",
+      getWaybilForm:"waybill/getWaybilForm",
     }),
     resetFilters() {
       this.getWaybillList({page:0,size:10,type:"EXTERNAL"})
@@ -216,7 +236,10 @@ export default {
     viewDetails(item) {
       this.$router.push(`/supply-warehouse/waybills/${item.id}`)
     },
-    deleteFunc(item) {},
+    downloadDoc(item) {
+      this.loading=true
+      this.getWaybilForm(item.id)
+    },
     page(value) {
       this.current_page = value - 1;
       this.getWaybillList({page:this.current_page,size:this.itemPerPage,type:"EXTERNAL"})

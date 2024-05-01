@@ -76,7 +76,7 @@
     <v-dialog v-model="waybillDialog" width="1200">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Edit Cutting info</div>
+          <div class="text-capitalize font-weight-bold">Output of waybill</div>
           <v-btn icon color="#544B99" @click="waybillDialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -199,6 +199,10 @@
                   placeholder="Enter quantity"
                   validate-on-blur
                 />
+              </v-col>
+              <v-col cols="4" class="d-flex align-center">
+                <v-switch inset v-model="autoFilling" color="#4F46E5" />
+                <div class="label mr-5 ">Aut.Filling</div>
               </v-col>
             </v-row>
             <v-row>
@@ -447,8 +451,8 @@ export default {
       checkedList: [],
       historyHeaders:[
         {text: 'To process', sortable: false, align: 'start', value: 'toProcess'},
-        {text: 'Date', sortable: false, align: 'start', value: 'date'},
-        {text: 'Done By', sortable: false, align: 'center', value: 'doneBy'},
+        {text: 'Date', sortable: false, align: 'start', value: 'createdBy'},
+        {text: 'Done By', sortable: false, align: 'center', value: 'createdDate'},
       ],
       historyList:[],
       selectedEntity:null,
@@ -531,8 +535,8 @@ export default {
       })
 
       this.historyHeaders.push(
-        {text: 'Date', sortable: false, align: 'start', value: 'date'},
-        {text: 'Done By', sortable: false, align: 'center', value: 'doneBy'},
+        {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
+        {text: 'Done By', sortable: false, align: 'center', value: 'createdBy'},
       )
 
       const specialList = list.map(function (el) {

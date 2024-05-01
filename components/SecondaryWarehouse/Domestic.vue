@@ -53,6 +53,7 @@ export default {
         {text:"Total price",value:"totalPrice",sortable:false},
         {text:"Buyer",value:"buyer",sortable:false},
         {text:"Sold date",value:"soldDate",sortable:false},
+        {text:"Description",value:"description",sortable:false},
       ],
       items:[],
       id:null,

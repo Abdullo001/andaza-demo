@@ -3,6 +3,7 @@ export const state=()=>({
   secondSortList:[],
   modelSizes:[],
   domesticList:[],
+  garmentList:[],
 })
 
 export const getters={
@@ -10,6 +11,7 @@ export const getters={
   modelSizes:(state)=>state.modelSizes,
   domesticList:(state)=>state.domesticList,
   secondSortList:(state)=>state.secondSortList,
+  garmentList:(state)=>state.garmentList,
 }
 
 export const mutations={
@@ -25,6 +27,9 @@ export const mutations={
   setSecondSortList(state,item){
     state.secondSortList=item
   },
+  setGarmentList(state,item){
+    state.garmentList=item
+  },
 }
 
 export const actions={
@@ -36,6 +41,9 @@ export const actions={
       }
       if(type==="SECOND_SORT"){
         commit("setSecondSortList",res.data.data)
+      }
+      if(type==="READY_GARMENT"){
+        commit("setGarmentList",res.data.data)
       }
 
     })

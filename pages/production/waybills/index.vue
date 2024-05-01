@@ -5,17 +5,6 @@
         <v-row class="mx-0 px-0  mt-4 pa-4 pb-0 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              placeholder="Model №"
-              outlined
-              class="rounded-lg filter"
-              v-model.trim="filters.modelNumber"
-              hide-details
-              dense
-              @keydown.enter="filterData"
-            />
-          </v-col>
-          <v-col cols="12" lg="2" md="2">
-            <v-text-field
               placeholder="Waybill №"
               outlined
               class="rounded-lg filter"
@@ -25,17 +14,18 @@
               @keydown.enter="filterData"
             />
           </v-col>
-          <v-col cols="12" lg="2">
+          <v-col cols="12" lg="2" md="2">
             <v-text-field
-              placeholder="Subcon. name"
+              placeholder="Model №"
               outlined
               class="rounded-lg filter"
-              v-model.trim="filters.partnerName"
+              v-model.trim="filters.modelNumber"
               hide-details
               dense
               @keydown.enter="filterData"
             />
           </v-col>
+          
           <v-col cols="12" lg="2">
             <div class="block">
               <el-date-picker

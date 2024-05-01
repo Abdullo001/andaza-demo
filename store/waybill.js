@@ -6,6 +6,7 @@ export const state = () => ({
   newWaybillId:"",
   waybillItems:[],
   secondWaybillItems:[],
+  waybillForm:null,
 });
 
 export const getters = {
@@ -17,6 +18,7 @@ export const getters = {
   newWaybillId: (state) => state.newWaybillId,
   waybillItems: (state) => state.waybillItems,
   secondWaybillItems: (state) => state.secondWaybillItems,
+  waybillForm: (state) => state.waybillForm,
 };
 
 export const mutations = {
@@ -40,6 +42,9 @@ export const mutations = {
   },
   setSecondWaybillItems(state, item) {
     state.secondWaybillItems = item;
+  },
+  setWaybillForm(state, item) {
+    state.waybillForm = item;
   },
 };
 
@@ -145,6 +150,17 @@ export const actions = {
         commit("setSecondWaybillItems",res.data.data)
       }
 
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+
+  getWaybilForm({commit},id){
+    this.$axios.get(`/api/v1/waybill/form/${id}`)
+    .then((res)=>{
+        const binaryCode = atob(res.data);
+        commit("setWaybillForm", binaryCode);
     })
     .catch((response)=>{
       console.log(response);

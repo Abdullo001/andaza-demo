@@ -258,7 +258,7 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text class="pt-0">
-                <Overproduction/>
+                <ReadyGarment/>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -277,14 +277,14 @@
   </div>
 </template>
 <script>
-import Overproduction from "@/components/SecondaryWarehouse/Overproduction.vue";
+import ReadyGarment from "@/components/SecondaryWarehouse/ReadyGarment.vue";
 import Documents from "@/components/SecondaryWarehouse/Documents.vue";
 import SecondSort from "@/components/SecondaryWarehouse/SecondSort.vue";
 import Domestic from "@/components/SecondaryWarehouse/Domestic.vue";
 import { mapActions, mapGetters } from "vuex";
 export default {
   components:{
-    Overproduction,
+    ReadyGarment,
     Documents,
     SecondSort,
     Domestic,

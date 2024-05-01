@@ -75,7 +75,6 @@
             <div>Ready garment warehouse</div>
             <div>
               <v-btn color="#544B99" dark class="text-capitalize rounded-lg" @click="toCentralWarehouse">
-                <v-icon>mdi-plus</v-icon>
                 Central warehouse
               </v-btn>
             </div>

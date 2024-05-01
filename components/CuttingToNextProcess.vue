@@ -189,7 +189,6 @@
           </template>
           </v-data-table>
         </div>
-        </v-data-table>
       </v-card>
     </v-dialog>
 

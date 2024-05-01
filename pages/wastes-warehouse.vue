@@ -296,7 +296,7 @@
                   color="#544B99"
                 />
               </v-col>
-              <v-col cols="12" lg="6">
+              <v-col cols="12" lg="6" v-if="currentItem.title!=='edit'">
                 <div class="label">Model No.</div>
                 <v-combobox
                   v-model="currentItem.modelNumber"
@@ -565,6 +565,7 @@ export default {
       headers: [
         { text: "No.", value: "id", sortable: false },
         { text: "Name of wastes", value: "name", sortable: false },
+        { text: "Batch number", value: "batchNumber", sortable: false },
         { text: "Model No.", value: "modelNumber", sortable: false },
         { text: "M/U", value: "measurementUnit", sortable: false },
         { text: "Price", value: "price", sortable: false },
@@ -651,6 +652,12 @@ export default {
   },
 
   watch: {
+    dialog(val){
+      if(!val){
+        this.$refs.new_form.reset()
+        this.currentItem.modelNumber=""
+      }
+    },
     wastesList(list){
       this.totalBeginQuantity=0
       this.totalBeginPrice=0
@@ -723,6 +730,8 @@ export default {
     },
     addWastes() {
       this.dialog = true;
+      this.title="Add"
+      this.currentItem.title='add'
     },
     spendFunc(item) {
       this.sellingWastes.id = item.id;
@@ -757,6 +766,7 @@ export default {
         modelNumber: item.modelNUmber,
         partner: "",
       });
+      this.title="Edit"
       this.currentItem.id=item.id
       this.currentItem.title="edit"
       this.currentItem.name=item.name

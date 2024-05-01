@@ -15,11 +15,11 @@
         <v-toolbar-title
           class="d-flex w-full align-center justify-space-between"
         >
-          <div> 2 sort</div>
+          <div> Ready garments</div>
           <div>
             <v-btn color="#544B99" dark class="text-capitalize rounded-lg" @click="addGarment">
               <v-icon>mdi-plus</v-icon>
-              add 2 sort
+              add Garments
             </v-btn>
           </div>
         </v-toolbar-title>
@@ -66,9 +66,8 @@
               v-bind="attrs"
               v-on="on"
               color="#544B99"
-              @click="spendFunc(item)"
             >
-              <v-img src="/spend-icon.svg" max-width="22" />
+              <v-img src="/truck.svg" max-width="22" />
             </v-btn>
           </template>
           <span class="text-capitalize">Spend</span>
@@ -121,7 +120,7 @@
     <v-dialog max-width="900" v-model="newDialog">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between mb-6">
-          <div class="title text-capitalize">add 2 sort</div>
+          <div class="title text-capitalize">add Ready Garment</div>
           <v-btn icon color="#544B99" @click="newDialog=false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -169,7 +168,6 @@
                   validate-on-blur
                 />
               </v-col>
-              
               <v-col cols="12" lg="6">
                 <div class="label">Color</div>
                 <v-select
@@ -218,7 +216,7 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Price</div>
+                <div class="label">Outsource Price</div>
                 <div class="d-flex align-center">
                   <v-text-field
                     v-model="addition.price"
@@ -247,16 +245,16 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Description</div>
+                <div class="label">Box quantity</div>
                 <v-text-field
-                  v-model="addition.description"
+                  v-model="addition.boxQuantity"
                   class="rounded-lg base mb-4"
                   color="#544B99"
                   dense
                   height="44"
                   hide-details
                   outlined
-                  placeholder="Enter name"
+                  placeholder="Enter box quantity"
                   validate-on-blur
                 />
               </v-col>
@@ -304,7 +302,7 @@
     <v-dialog max-width="900" v-model="editDialog">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between mb-6">
-          <div class="title text-capitalize">Edit 2 sort</div>
+          <div class="title text-capitalize">Edit Overproduction</div>
           <v-btn icon color="#544B99" @click="editDialog=false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -430,16 +428,16 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Description</div>
+                <div class="label">Box quantity</div>
                 <v-text-field
-                  v-model="selectedItem.description"
+                  v-model="addition.boxQuantity"
                   class="rounded-lg base mb-4"
                   color="#544B99"
                   dense
                   height="44"
                   hide-details
                   outlined
-                  placeholder="Enter name"
+                  placeholder="Enter box quantity"
                   validate-on-blur
                 />
               </v-col>
@@ -487,7 +485,7 @@
     <v-dialog max-width="900" v-model="spendDialog">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between mb-6">
-          <div class="title text-capitalize">Selling 2 sort</div>
+          <div class="title text-capitalize">Selling Overproduction</div>
           <v-btn icon color="#544B99" @click="spendDialog=false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -665,9 +663,12 @@ export default {
         {text:"M/U",value:"measurementUnit",sortable:false},
         {text:"Sizes",value:"sizes",sortable:false,align:"center",width:300},
         {text:"Total",value:"totalQuantity",sortable:false},
-        {text:"Price",value:"price",sortable:false},
-        {text:"Total price",value:"totalPrice",sortable:false},
-        {text:"Description",value:"description",sortable:false},
+        {text:"Model price",value:"modelPrice",sortable:false},
+        {text:"Model total price",value:"modelTotalPrice",sortable:false},
+        {text:"Outsource price",value:"price",sortable:false},
+        {text:"Outsource total price",value:"totalPrice",sortable:false},
+        {text:"Box quantity",value:"boxQuantity",sortable:false},
+        {text:"Client name",value:"clientName",sortable:false},
         {text:"Action",value:"action",sortable:false},
       ],
       selectForSell:{},
@@ -692,7 +693,7 @@ export default {
     ...mapGetters({
       newId:"generalWarehouse/newId",
       modelSizes:"garment/modelSizes",
-      itemList:"garment/secondSortList",
+      itemList:"garment/garmentList",
       modelsList: "models/modelsList",
       colorList: "accessorySamples/colorList",
       measurementUnitList: "preFinance/measurementUnit",
@@ -737,7 +738,7 @@ export default {
     },
 
     id(val){
-      this.getItemList({warehouseId:val,type:"SECOND_SORT"})
+      this.getItemList({warehouseId:val,type:"READY_GARMENT"})
     },
 
     modelNumSearch(val) {
@@ -785,7 +786,7 @@ export default {
       }
       data.modelId=this.addition.modelNumber.id
       data.warehouseId=this.id
-      data.type= "SECOND_SORT",
+      data.type= "READY_GARMENT",
       this.createItem(data)
 
       this.newDialog=false
@@ -805,7 +806,7 @@ export default {
       }
       data.modelId=this.selectedItem.modelNumber.id
       data.warehouseId=this.id
-      data.type= "SECOND_SORT",
+      data.type= "READY_GARMENT",
       this.updateItem({data,id:this.selectedItem.id})
       this.editDialog=false
     },
@@ -815,7 +816,7 @@ export default {
       this.deleteDialog=true
     },
     delete(){
-      this.deleteItem({type:"SECOND_SORT",warehouseId:this.id,id:this.selectedItem.id})
+      this.deleteItem({type:"READY_GARMENT",warehouseId:this.id,id:this.selectedItem.id})
       this.deleteDialog=false
     },
     spendFunc(item){
@@ -825,7 +826,7 @@ export default {
       })
       this.selectForSell={
         garmentId:item.id,
-        type:"SECOND_SORT",
+        type:"READY_GARMENT",
         warehouseId:this.id,
         sizesNoQuantity:sizesNoQuantity,
         sizeDistributions:item.sizeDistributions

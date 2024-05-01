@@ -56,7 +56,7 @@
     <v-dialog v-model="edit_dialog" width="1200">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Edit Cutting info</div>
+          <div class="text-capitalize font-weight-bold">Output to waybill</div>
           <v-btn icon color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -180,6 +180,11 @@
                   validate-on-blur
                 />
               </v-col>
+
+              <v-col cols="4" class="d-flex align-center">
+                <v-switch inset v-model="autoFilling" color="#4F46E5" />
+                <div class="label mr-5 ">Aut.Filling</div>
+              </v-col>
             </v-row>
             <v-row>
               <v-col
@@ -257,6 +262,7 @@ export default {
   name: "QualityControl",
   data() {
     return {
+      autoFilling:false,
       waybilSearch: "",
       edit_dialog: false,
       selectedItem: {},
@@ -302,6 +308,18 @@ export default {
   },
 
   watch: {
+    autoFilling(val){
+      if(val){
+        this.selectedItem.sizeDistributions.forEach((item,idx)=>{
+          item.quantity=this.selectedItem.sizeDistributionList[idx].quantity
+        })
+      }else{
+        this.selectedItem.sizeDistributions.forEach((item,idx)=>{
+          item.quantity=0
+        })
+      }
+      
+    },
     passingList(list) {
       this.headers = [
         { text: "Color", align: "start", sortable: false, value: "color" },
@@ -418,13 +436,14 @@ export default {
     },
     editItem(item) {
       this.edit_dialog = true;
+      this.autoFilling = false
+
       this.selectedItem = { ...item };
     },
     deleteItem() {},
 
     save() {
       let data = {
-
         boxQuantity: this.selectedItem.boxQuantity,
         currency: this.selectedItem.currency,
         measurementUnitId: this.selectedItem.measurementUnitId,
@@ -439,7 +458,7 @@ export default {
       };
 
       this.productionToWaybill({data,id:this.selectedItem.entityId});
-
+      this.autoFilling = false
       this.edit_dialog = false;
     },
     editHistoryItem(item) {
