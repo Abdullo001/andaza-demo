@@ -62,6 +62,8 @@ export default {
     production: "Production",
     planningOfProduction: "Planning of production",
     workingOperations: "Working operations",
+    yarnNumbers:"Yarn number",
+    composition:"Composition",
   },
   appBar: {
     search: "Search",

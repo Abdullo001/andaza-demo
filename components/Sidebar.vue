@@ -439,7 +439,7 @@ export default {
               {
                 title: "Yarn numbers",
                 to: this.localePath('/yarn-numbers'),
-                localization:"yarn-numbers",
+                localization:"yarnNumbers",
               },
               {
                 title: this.$t('sidebar.composition'),
