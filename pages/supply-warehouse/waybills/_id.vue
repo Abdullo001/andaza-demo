@@ -801,6 +801,11 @@ export default {
   },
 
   watch: {
+    add_dialog(val){
+      if(!val){
+        this.$refs.add_form.reset()
+      }
+    },
     pdfList(val) {
       this.loading=false
       const blob = new Blob(

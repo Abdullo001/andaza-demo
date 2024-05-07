@@ -164,8 +164,8 @@ export default {
 
       headers: [
         { text: "Waybill no.", value: "number", sortable: false },
-        { text: "Order no.", value: "orderNumber", sortable: false },
-        { text: "Model No.", value: "modelNumber", sortable: false },
+        { text: "Order no.", value: "orderNumbers", sortable: false },
+        { text: "Model No.", value: "modelNumbers", sortable: false },
         {
           text: "Branch name",
           value: "partner",
