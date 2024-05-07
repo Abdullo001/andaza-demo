@@ -27,7 +27,7 @@
       </template>
 
       <template #item.status="{item}">
-        <v-chip :color="inspectionStatus(item.status)" dark class="font-weight-bold ml-5">{{ item.status }}</v-chip>
+        <v-chip :color="statusColor.inspectionStatus(item.status)" dark class="font-weight-bold ml-5">{{ item.status }}</v-chip>
       </template>
       <template #item.actions="{item}">
         <div>
@@ -317,10 +317,11 @@ export default {
       btnDisabled: false,
       title: 'add',
       headers: [
-        {text: 'Document name', sortable: false, value: 'title'},
         {text: 'Send date', sortable: false, value: 'sendDate'},
-        {text: 'Status', sortable: false, value: 'status'},
+        {text: 'Title of document', sortable: false, value: 'title'},
         {text: 'Description', sortable: false, value: 'description'},
+        {text: 'Status', sortable: false, value: 'status'},
+        {text: 'Created at', sortable: false, value: 'createdAt'},
         {text: 'Actions', sortable: false, align: 'center', value: 'actions'},
       ],
       type_enums: ['DOC', 'PHOTO'],

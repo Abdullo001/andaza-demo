@@ -28,7 +28,7 @@
           <v-col cols="12" lg="2">
             <div style="height: 40px !important">
               <el-date-picker
-                v-model="filters.from"
+                v-model="filters.fromDate"
                 type="datetime"
                 style="width: 100%; height: 100%"
                 class="filter_picker"
@@ -42,7 +42,7 @@
           <v-col cols="12" lg="2">
             <div style="height: 40px !important">
               <el-date-picker
-                v-model="filters.from"
+                v-model="filters.toDate"
                 type="datetime"
                 style="width: 100%; height: 100%"
                 placeholder="To"
@@ -85,13 +85,14 @@
     <v-data-table
       class="mt-4 rounded-lg pt-4"
       :headers="headers"
-      :items="current_list"
-      :items-per-page="10"
-      hide-default-footer
+      :items="wastesList"
+      :items-per-page="itemPerPage"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100],
       }"
-      :server-items-length="10"
+      :server-items-length="totalElements"
+      @update:page="page"
+      @update:items-per-page="size"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -114,34 +115,34 @@
         </v-toolbar>
       </template>
 
-      <template #item.quantity="{ item }">
+      <template #item.beginPeriodQuantity="{ item }">
         <div style="color: #f2c62c">
-          {{ item.quantity }}
+          {{ item.beginPeriodQuantity }}
         </div>
       </template>
-      <template #item.totalPrice="{ item }">
+      <template #item.beginPeriodTotalPrice="{ item }">
         <div style="color: #f2c62c">
-          {{ item.totalPrice }}
+          {{ item.beginPeriodTotalPrice }}
         </div>
       </template>
-      <template #item.inputQuantity="{ item }">
+      <template #item.totalInputQuantity="{ item }">
         <div style="color: #ff0000">
-          {{ item.inputQuantity }}
+          {{ item.totalInputQuantity }}
         </div>
       </template>
-      <template #item.inputPrice="{ item }">
+      <template #item.totalInputTotalPrice="{ item }">
         <div style="color: #ff0000">
-          {{ item.inputPrice }}
+          {{ item.totalInputTotalPrice }}
         </div>
       </template>
-      <template #item.outputQuantity="{ item }">
+      <template #item.totalOutputQuantity="{ item }">
         <div style="color: #08b137">
-          {{ item.outputQuantity }}
+          {{ item.totalOutputQuantity }}
         </div>
       </template>
-      <template #item.outputPrice="{ item }">
+      <template #item.totalOutputTotalPrice="{ item }">
         <div style="color: #08b137">
-          {{ item.outputPrice }}
+          {{ item.totalOutputTotalPrice }}
         </div>
       </template>
       <template #item.remainingQuantity="{ item }">
@@ -295,7 +296,7 @@
                   color="#544B99"
                 />
               </v-col>
-              <v-col cols="12" lg="6">
+              <v-col cols="12" lg="6" v-if="currentItem.title!=='edit'">
                 <div class="label">Model No.</div>
                 <v-combobox
                   v-model="currentItem.modelNumber"
@@ -474,8 +475,9 @@
               color="#544B99"
               dark
               width="163"
+              @click="sellItem"
             >
-              Create
+              Save
             </v-btn>
           </div>
           <v-divider />
@@ -515,6 +517,15 @@
             :items="historyItems"
             hide-default-footer
           >
+          <template #item.operationType="{ item }">
+            <div style="color: #FF0000"
+            :style="{
+              color:item.operationColor,
+            }"
+            >
+              {{ item.operationType }}
+            </div>
+          </template>
           </v-data-table>
         </v-card-text>
       </v-card>
@@ -537,68 +548,38 @@ export default {
       dialog: false,
       searchModelNumber: "",
       title: "Add",
-      totalBeginQuantity: 100,
-      totalBeginPrice: 100,
-      totalInputQuantity: 100,
-      totalInputPrice: 100,
-      totalOutputQuantity: 100,
-      totalOutputPrice: 100,
-      totalRemainingQuantity: 100,
-      totalRemainingPrice: 100,
+      totalBeginQuantity: 0,
+      totalBeginPrice: 0,
+      totalInputQuantity: 0,
+      totalInputPrice: 0,
+      totalOutputQuantity: 0,
+      totalOutputPrice: 0,
+      totalRemainingQuantity: 0,
+      totalRemainingPrice: 0,
       valid_search: true,
       filters: {},
       currentItem: {},
       current_list: [
-        {
-          id: 1,
-          name: "Waste A",
-          modelNumber: "W001",
-          measurementUnit: "kg",
-          price: 10,
-          currency: "USD",
-          quantity: 100,
-          totalPrice: 1000,
-          inputQuantity: 50,
-          outputQuantity: 30,
-          outputPrice: 300,
-          remainingQuantity: 70,
-          remainingTotalPrice: 700,
-          actions: "Edit/Delete", // Example actions
-        },
-        {
-          id: 2,
-          name: "Waste B",
-          modelNumber: "W002",
-          measurementUnit: "kg",
-          price: 15,
-          currency: "USD",
-          quantity: 200,
-          totalPrice: 3000,
-          inputQuantity: 80,
-          outputQuantity: 50,
-          outputPrice: 750,
-          remainingQuantity: 150,
-          remainingTotalPrice: 2250,
-          actions: "Edit/Delete", // Example actions
-        },
+        
       ],
       headers: [
         { text: "No.", value: "id", sortable: false },
         { text: "Name of wastes", value: "name", sortable: false },
+        { text: "Batch number", value: "batchNumber", sortable: false },
         { text: "Model No.", value: "modelNumber", sortable: false },
         { text: "M/U", value: "measurementUnit", sortable: false },
         { text: "Price", value: "price", sortable: false },
         { text: "Currency", value: "currency", sortable: false },
-        { text: "Begin. of period (qty)", value: "quantity", sortable: false },
+        { text: "Begin. of period (qty)", value: "beginPeriodQuantity", sortable: false },
         {
           text: "Begin.of perion (tot.pr)",
-          value: "totalPrice",
+          value: "beginPeriodTotalPrice",
           sortable: false,
         },
-        { text: "Total input q-ty", value: "inputQuantity", sortable: false },
-        { text: "Total input price", value: "inputPrice", sortable: false },
-        { text: "Total output q-ty", value: "outputQuantity", sortable: false },
-        { text: "Total output price", value: "outputPrice", sortable: false },
+        { text: "Total input q-ty", value: "totalInputQuantity", sortable: false },
+        { text: "Total input price", value: "totalInputTotalPrice", sortable: false },
+        { text: "Total output q-ty", value: "totalOutputQuantity", sortable: false },
+        { text: "Total output price", value: "totalOutputTotalPrice", sortable: false },
         { text: "Remaining q-ty", value: "remainingQuantity", sortable: false },
         {
           text: "Remaining total price",
@@ -626,13 +607,15 @@ export default {
       historyDialog: false,
       historyItems: [],
       historyDialogHeaders: [
-        { text: "Date", value: "date", sortable: false },
-        { text: "Moving", value: "moving", sortable: false },
+        { text: "Date", value: "createdAt", sortable: false },
+        { text: "Moving", value: "operationType", sortable: false },
         { text: "Quantity", value: "quantity", sortable: false },
         { text: "Total price", value: "totalPrice", sortable: false },
       ],
       selectItem: {},
       deleteDialog: false,
+      itemPerPage:10,
+      current_page:0,
     };
   },
 
@@ -650,6 +633,9 @@ export default {
     ...mapGetters({
       measurementUnit: "measurement/measurementUnit",
       modelsList: "models/modelsList",
+      wastesList:"wastesWarehouse/wastesList",
+      historyList:"wastesWarehouse/historyList",
+      totalElements:"wastesWarehouse/totalElements",
     }),
 
     deleteData: {
@@ -666,6 +652,32 @@ export default {
   },
 
   watch: {
+    dialog(val){
+      if(!val){
+        this.$refs.new_form.reset()
+        this.currentItem.modelNumber=""
+      }
+    },
+    wastesList(list){
+      this.totalBeginQuantity=0
+      this.totalBeginPrice=0
+      this.totalInputQuantity=0
+      this.totalInputPrice=0
+      this.totalOutputQuantity=0
+      this.totalOutputPrice=0
+      this.totalRemainingQuantity=0
+      this.totalRemainingPrice=0
+      list.forEach((item)=>{
+        this.totalBeginQuantity+=item.beginPeriodQuantity
+        this.totalBeginPrice+=item.beginPeriodTotalPrice
+        this.totalInputQuantity+=item.totalInputQuantity
+        this.totalInputPrice+=item.totalInputTotalPrice
+        this.totalOutputQuantity+=item.totalOutputQuantity
+        this.totalOutputPrice+=item.totalOutputTotalPrice
+        this.totalRemainingQuantity+=item.remainingQuantity
+        this.totalRemainingPrice+=item.remainingTotalPrice
+      })
+    },
     searchModelNumber(val) {
       this.getModelsList({
         page: 0,
@@ -674,6 +686,17 @@ export default {
         partner: "",
       });
     },
+
+    historyList(list){
+      this.historyItems=JSON.parse(JSON.stringify(list))
+      this.historyItems.forEach((item)=>{
+        if(item.operationType==="INPUT"){
+          item.operationColor="#FF0000"
+        }else if(item.operationType==="OUTPUT"){
+          item.operationColor="#08b137"
+        }
+      })
+    }
   },
 
   methods: {
@@ -682,11 +705,33 @@ export default {
       getModelsList: "models/getModelsList",
       getWastesList: "wastesWarehouse/getWastesList",
       createWaste: "wastesWarehouse/createWaste",
+      getHistoryList: "wastesWarehouse/getHistoryList",
+      updateWaste: "wastesWarehouse/updateWaste",
+      sellWaste: "wastesWarehouse/sellWaste",
     }),
-    resetFilters() {},
-    filterData() {},
+    resetFilters() {
+      this.getWastesList({ page: 0, size: 10 });
+      this.$refs.filter_form.reset()
+      this.filters.toDate=null
+      this.filters.fromDate=null
+    },
+    filterData() {
+      this.getWastesList({ page: 0, size: 10, ...this.filters });
+    },
+    page(value) {
+      this.current_page = value - 1;
+      this.getWastesList({ page: this.current_page, size: this.itemPerPage });
+
+    },
+
+    size() {
+      this.getWastesList({ page: 0, size: this.itemPerPage });
+
+    },
     addWastes() {
       this.dialog = true;
+      this.title="Add"
+      this.currentItem.title='add'
     },
     spendFunc(item) {
       this.sellingWastes.id = item.id;
@@ -694,7 +739,7 @@ export default {
     },
     getHistory(item) {
       this.historyDialog = true;
-      this.selectItem = { ...item };
+      this.getHistoryList(item.id)
     },
     getDeleteItem() {
       this.deleteDialog = true;
@@ -705,8 +750,41 @@ export default {
         modelId:this.currentItem.modelNumber.id
       }
       delete data.modelNumber
-      this.createWaste(data)
+      if(this.currentItem.title!=="edit"){
+        this.createWaste(data)
+      }else{
+        this.updateWaste({data,id:data.id})
+      }
+      this.currentItem={}
       this.dialog=false
+    },
+    editItem(item){
+      this.dialog=true
+      this.getModelsList({
+        page: 0,
+        size: 10,
+        modelNumber: item.modelNUmber,
+        partner: "",
+      });
+      this.title="Edit"
+      this.currentItem.id=item.id
+      this.currentItem.title="edit"
+      this.currentItem.name=item.name
+      this.currentItem.price=item.price
+      this.currentItem.currency=item.currency
+      this.currentItem.measurementUnitId=item.measurementUnitId
+      this.currentItem.quantity=item.beginPeriodQuantity
+      this.currentItem.modelNumber=this.modelsList[0]
+
+
+    },
+    sellItem(){
+      const data={
+        quantity:this.sellingWastes.quantity,
+        description:this.sellingWastes.description,
+      }
+
+      this.sellWaste({data,id:this.sellingWastes.id})
     }
   },
 

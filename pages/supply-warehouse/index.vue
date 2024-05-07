@@ -84,7 +84,7 @@
       :items="items"
       :items-per-page="itemPerPage"
       hide-default-footer
-      :server-items-length="10"
+      :server-items-length="totalElements"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -184,7 +184,7 @@
           <v-form ref="edit_form" v-model="edit_validate" lazy-validation>
             <v-row>
               <v-col cols="12" lg="6" md="6" sm="6">
-                <div class="label">Price with discount</div>
+                <div class="label">Price per work</div>
                 <div class="d-flex align-center">
                   <v-text-field
                     v-model="selectedItem.price"
@@ -500,7 +500,7 @@ export default {
   },
 
   created(){
-    this.getWaybillList({page:0,size:10})
+    this.getWaybillList({page:0,size:10,type:"EXTERNAL"})
     this.getMeasurementUnit()
   },
 
@@ -520,6 +520,7 @@ export default {
     ...mapGetters({
       supplyList: "supply/supplyList",
       historyListStore: "supply/historyList",
+      totalElements: "supply/totalElements",
       waybillList: "waybill/waybillList",
       measurementUnitList: "preFinance/measurementUnit",
     }),
@@ -595,7 +596,7 @@ export default {
 
     waybilSearch(val){
       const item=val??""
-      this.getWaybillList({page:0,size:10,number:item})
+      this.getWaybillList({page:0,size:10,number:item,type:"EXTERNAL"})
     }
   },
 

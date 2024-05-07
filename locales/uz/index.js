@@ -53,6 +53,14 @@ export default {
     production: "Ishlab chiqarish",
     planningOfProduction: "Ishlab chiqarishni rejalashtirish",
     workingOperations: "Ishlash operatsiyalari",
+    fabricOrdering: "Mato buyurtmasi",
+    fabricWarehouse: "Mato ombori",
+    accessoryWarehouse: "Aksessuar Ombori",
+    finishedProducts: "Tayyor mahsulot ombori",
+    wastesWarehouse:"Chiqindilar ombori",
+    supplyWarehouse:"Ta`minot ombori",
+    secondaryWarehouse:"Ikkilamchi ombor",
+
   },
   appBar: {
     search: "Qidirmoq",

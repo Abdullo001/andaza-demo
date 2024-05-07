@@ -9,6 +9,18 @@
         <div class="title ma-4">Printing</div>
       </template>
 
+      <template #item.printPhoto="{item}">
+        <v-img
+          v-for="(file,idx) in item.imagePaths"
+          :key="idx"
+          :src="file"
+          class="mr-2"
+          width="40"
+          height="40"
+          @click="showImage(file)"
+        />
+      </template>
+
       <template #item.actions="{item}">
         <v-tooltip
           top
@@ -211,6 +223,16 @@
             <v-row>
               <v-col cols="12">
                 <div class="label">Photos of printing</div>
+                <v-row>
+                  <v-col cols="3" v-for="(item,idx) in selectedItem.imagePaths" :key="idx">
+                    <v-img
+                    :src="item"
+                    lazy-src="/model-image.jpg" width="100%"
+                    @click="showImage(item)"
+                  />
+                  </v-col>
+                </v-row>
+                  
               </v-col>
               <v-col cols="12" lg="3" v-for="(item,idx) in selectedItem.sizeDistributions" :key="idx">
                 <div class="label">{{item.size}}</div>
@@ -315,7 +337,19 @@
       </v-card>
     </v-dialog>
 
-
+    <v-dialog max-width="590" v-model="image_dialog">
+      <v-card >
+        <v-card-title class="d-flex">
+          <v-spacer/>
+          <v-btn icon color="#544B99" large @click="image_dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text>
+          <v-img :src="currentImage" height="500" class="mb-4" contain/>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
 
 
 
@@ -329,6 +363,8 @@ export default {
   name: 'CuttingComponent',
   data() {
     return {
+      image_dialog:false,
+      currentImage:null,
       table:"",
       edit_validate:true,
       return_dialog: false,
@@ -452,6 +488,10 @@ export default {
       createShortcomingsList:"commonCalculationsShortcomings/createShortcomingsList",
 
     }),
+    showImage(photo) {
+      this.currentImage = photo;
+      this.image_dialog = true;
+    },
     getHistory(item) {
       this.history_dialog = true;
       this.getHistoryList(item.id)

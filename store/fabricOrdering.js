@@ -135,8 +135,9 @@ export const actions={
     })
   },
 
-  updateGeneratedOrders({commit}, {data}) {
+  updateGeneratedOrders({dispatch}, {data,orderId}) {
     this.$axios.$put('/api/v1/fabric-order/update', data).then(res => {
+      dispatch("getGeneratedFabricOrdering",orderId)
       this.$toast.success(res.message)
     }).catch(res => {
       this.$toast.error(res.message)

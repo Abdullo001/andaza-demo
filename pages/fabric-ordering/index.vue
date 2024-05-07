@@ -414,8 +414,6 @@ export default {
         {text:"Peach effect",value:"peachEffectEnabled",sortable:false},
         {text:"Color",value:"color",sortable:false},
         {text:"Actual fabric total",value:"actualFabricTotal",sortable:false},
-        {text:"Price",value:"pricePerUnit",sortable:false},
-        {text:"Total price",value:"totalPrice",sortable:false},
       ],
       genHeaders:[
         {text: "", value:"isOrder",sortable:false},
@@ -698,7 +696,7 @@ export default {
             if(!!this.files[0]?.file){
               formData.append("file",this.files[0]?.file)
             }
-            await this.updateGeneratedOrders({ data: formData })
+            await this.updateGeneratedOrders({ data: formData,orderId:this.orderId?.id })
             await this.$refs.new_form.reset()
           }
           this.edit_dialog = false

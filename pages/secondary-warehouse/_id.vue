@@ -55,7 +55,7 @@
               <div class="label">Sent from</div>
               <v-text-field
                 disabled
-                v-model="waybill.partner"
+                v-model="waybill.sewedBy"
                 class="rounded-lg base mb-4"
                 color="#544B99"
                 dense
@@ -243,16 +243,73 @@
         </v-form>
       </v-card-text>
     </v-card>
+    <v-card class="mt-6 mb-8" flat>
+      <v-tabs v-model="tab">
+        <v-tabs-slider color="#544B99"/>
+        <v-tab
+          v-for="item in items"
+          :key="item"
+          active-class="active-tab"
+          class="text-capitalize primary-color"
+        >
+          {{ item }}
+        </v-tab>
+        <v-tabs-items v-model="tab">
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text class="pt-0">
+                <Overproduction/>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text class="pt-0">
+                <SecondSort/>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text class="pt-0">
+                <Documents/>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text class="pt-0">
+                <Domestic/>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          
+        </v-tabs-items>
+      </v-tabs>
+    </v-card>
+
   </div>
 </template>
 <script>
+import Overproduction from "@/components/SecondaryWarehouse/Overproduction.vue";
+import Documents from "@/components/SecondaryWarehouse/Documents.vue";
+import SecondSort from "@/components/SecondaryWarehouse/SecondSort.vue";
+import Domestic from "@/components/SecondaryWarehouse/Domestic.vue";
 import { mapActions, mapGetters } from "vuex";
 export default {
+  components:{
+    Overproduction,
+    Documents,
+    SecondSort,
+    Domestic,
+  },
   data() {
     return {
+      tab:"",
       new_validate: true,
       waybillSearch: "",
       waybill: {},
+      items: ["Overproductions","2-sort","Documents","Domestic market Sales","Xom matolar"],
     };
   },
 
@@ -263,16 +320,28 @@ export default {
   computed: {
     ...mapGetters({
       waybillList: "waybill/waybillList",
+      item: "generalWarehouse/item",
+      newId: "generalWarehouse/newId",
     }),
   },
 
   watch: {
+    // tab(val){
+    //   const warehouseId=this.$route.params.id!=="add-garment"?this.$route.params.id:this.newId
+    //   if(val===3){
+    //     this.getDomesticList(warehouseId)
+    //   }
+    // },
+    item(val){
+      this.waybill={...val}
+      this.waybill.waybillNumber={number:val.waybillNumber,id:val.waybillId,sendDate:val.waybillDate,partnerAddress:val.fromAddress}
+    },
     waybillSearch(val) {
       this.getWaybillList({ page: 0, size: 10, type: "INTERNAL", number: val });
     },
     "waybill.waybillNumber"(val) {
       this.waybill.waybillDate = val.sendDate;
-      this.waybill.partner = val.partnerAddress;
+      this.waybill.sewedBy = val.partnerAddress;
     },
   },
 
@@ -280,6 +349,10 @@ export default {
     ...mapActions({
       getWaybillList: "waybill/getWaybillList",
       createItem: "generalWarehouse/createItem",
+      getOneItem: "generalWarehouse/getOneItem",
+      updateWarehouse: "generalWarehouse/updateItem",
+      getDomesticList:"garment/getDomesticList"
+      
     }),
     saveItem() {
       const data = {
@@ -292,8 +365,34 @@ export default {
       };
       this.createItem(data);
     },
-    updateItem() {},
+    updateItem() {
+      const data = {
+        checkedByName: this.waybill.checkedByName,
+        checkedByPosition: this.waybill.checkedByPosition,
+        receiverName: this.waybill.receiverByName,
+        receiverPosition: this.waybill.receiverByPosition,
+        type: "SECONDARY",
+        waybillId: this.waybill.waybillNumber.id,
+      };
+      const id = this.$route.params.id
+
+      this.updateWarehouse({data,id})
+    },
   },
+
+  mounted(){
+    const id = this.$route.params.id
+    if(id!=="add-garment"){
+      this.getOneItem(id)
+    }
+  }
 };
 </script>
-<style lang=""></style>
+<style lang="scss" scoped>
+.primary-color{
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  color: #544B99;
+}
+</style>

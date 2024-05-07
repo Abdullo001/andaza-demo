@@ -6,6 +6,13 @@
   }
 }
 
+.active-tab {
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  color: #544b99;
+}
+
 .v-text-field__prefix {
   margin-top: 0 !important;
   transition: all linear .1s;
