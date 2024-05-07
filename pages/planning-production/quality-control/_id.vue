@@ -375,7 +375,7 @@ export default {
     return {
       show_btn: true,
       tab: null,
-      items: ["Quality control", "Subcontractor", "Passing to next process"],
+      items: ["Quality control", "Subcontractor", "Output to waybill"],
       title: "Add",
       currentImage: '',
       image_dialog: false,

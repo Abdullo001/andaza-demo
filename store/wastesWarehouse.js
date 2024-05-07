@@ -1,13 +1,16 @@
 export const state = () => ({
   wastesList: [],
+  historyList:[],
   productionWastesList:[],
   productionHistoryList:[],
 });
 
 export const getters = {
-  wastesList: (state) => state.wastesList,
+  wastesList: (state) => state.wastesList.content,
+  totalElements: (state) => state.wastesList.totalElements,
   productionWastesList: (state) => state.productionWastesList,
   productionHistoryList: (state) => state.productionHistoryList,
+  historyList: (state) => state.historyList,
 };
 
 export const mutations = {
@@ -19,6 +22,9 @@ export const mutations = {
   },
   setProductionHistoryList(state, item) {
     state.productionHistoryList = item;
+  },
+  setHistoryList(state, item) {
+    state.historyList = item;
   },
 };
 
@@ -35,7 +41,7 @@ export const actions = {
     };
     this.$axios.put(`/api/v1/waste-warehouse`,data)
     .then((res)=>{
-      console.log(res);
+      commit("setWastesList",res.data.data)
     })
     .catch((response)=>{
       console.log(response);
@@ -51,6 +57,39 @@ export const actions = {
     .catch(({response})=>{
       this.$toast.error(response.data.message)
       
+    })
+  },
+
+  getHistoryList({commit},id){
+    this.$axios.get(`/api/v1/waste-warehouse/${id}`)
+    .then((res)=>{
+      commit("setHistoryList",res.data.data)
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+
+  updateWaste({dispatch},{data,id}){
+    this.$axios.put(`/api/v1/waste-warehouse/${id}`,data)
+    .then((res)=>{
+      dispatch("getWastesList",{page:0,size:10})
+      this.$toast.success(res.data.message)
+
+    })
+    .catch(({response})=>{
+      this.$toast.error(response.data.message)
+    })
+  },
+
+  sellWaste({dispatch},{data,id}){
+    this.$axios.put(`/api/v1/waste-warehouse/sell/${id}`,data)
+    .then((res)=>{
+      dispatch("getWastesList",{page:0,size:10})
+      this.$toast.success(res.data.message)
+    })
+    .catch(({response})=>{
+      this.$toast.error(response.data.message)
     })
   },
 

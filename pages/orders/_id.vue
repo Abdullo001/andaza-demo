@@ -133,6 +133,7 @@
               <div class="d-flex align-center">
                 <v-text-field
                   v-model="order.priceWithDiscount"
+                  disabled
                   class="rounded-lg base rounded-l-lg rounded-r-0"
                   color="#544B99"
                   dense
@@ -144,6 +145,7 @@
                 />
                 <v-select
                   v-model="order.priceWithDiscountCurrency"
+                  disabled
                   :items="currency_enums"
                   append-icon="mdi-chevron-down"
                   class="rounded-lg base rounded-r-lg rounded-l-0"
@@ -161,6 +163,7 @@
               <div class="label">Total</div>
               <div class="d-flex align-center">
                 <v-text-field
+                  disabled
                   v-model="order.totalPrice"
                   class="rounded-lg base rounded-l-lg rounded-r-0"
                   color="#544B99"
@@ -173,6 +176,7 @@
                   validate-on-blur
                 />
                 <v-select
+                  disabled
                   v-model="order.priceWithDiscountCurrency"
                   :items="currency_enums"
                   append-icon="mdi-chevron-down"
