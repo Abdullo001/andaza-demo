@@ -196,6 +196,8 @@ export default {
       search: '',
       active: false,
       checkedSidebarItems:[],
+      listenersStarted: false,
+      idToken: "",
     }
   },
   computed: {
@@ -510,6 +512,12 @@ export default {
                 name:"users",
                 localization:"users",
               },
+              {
+                title: this.$t('sidebar.notification'),
+                to: this.localePath('/notification'),
+                name:"notification",
+                localization:"notification",
+              },
             ]
           },
         ]
@@ -541,7 +549,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      logOut: 'logOut'
+      logOut: 'logOut',
+      setFcmToken: 'setFcmToken',
     }),
     logOutApp() {
       this.$auth.logout();
@@ -555,6 +564,49 @@ export default {
     getSearch() {
       console.log('hello search')
     },
+
+    async startListeners() {
+      
+      await this.requestPermission();
+      await this.getIdToken();
+      
+      await this.startOnMessageListener();
+      this.listenersStarted = true;
+    },
+    startOnMessageListener() {
+      try {
+        this.$fire.messaging.onMessage((payload) => {
+          console.info("Message received : ", payload);
+          console.log(payload.notification.body);
+        });
+      } catch (e) {
+        console.error("Error : ", e);
+      }
+    },
+    
+    async requestPermission() {
+      try {
+        const permission = await Notification.requestPermission();
+        console.log("GIVEN notify perms");
+        console.log(permission);
+      } catch (e) {
+        console.error("Error : ", e);
+      }
+    },
+    async getIdToken() {
+      try {
+        const token = await this.$fire.messaging.getToken();
+        if (!token) {
+          console.log("No token received, check service worker and permissions");
+          return;
+        }
+        console.log("FCM Token:", token);
+        this.setFcmToken({ token, userId: this.currentUser.id })
+        // this.$store.dispatch('setFcmToken', { token, userId: this.currentUser.id });
+      } catch (e) {
+        console.error("Failed to get token:", e);
+      }
+    }
   },
   mounted(){
     let afterPermissionList=[]
@@ -610,6 +662,9 @@ export default {
       }
     })
     this.checkedSidebarItems=JSON.parse(JSON.stringify(afterPermissionList))
+    this.startListeners();
+
+
   }
 }
 </script>

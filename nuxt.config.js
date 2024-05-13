@@ -26,7 +26,7 @@ export default {
     {src: "~/plugins/axios.js"},
     {src: "~/plugins/mixins.js"},
     {src: "~/plugins/v-mask.js"},
-    {src: "./plugins/element-io.js"}
+    {src: "./plugins/element-io.js"},
   ],
 
   components: true,
@@ -46,8 +46,56 @@ export default {
     "@nuxtjs/toast",
     '@nuxtjs/auth-next',
     '@nuxtjs/i18n',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    "@nuxtjs/firebase",
   ],
+
+  firebase: {
+    lazy: false,
+    config: {
+      apiKey: "AIzaSyBBTwVdvR26nnycC2IaaAV5uD0sDU34XU0",
+      authDomain: "andaza-d9c48.firebaseapp.com",
+      projectId: "andaza-d9c48",
+      storageBucket: "andaza-d9c48.appspot.com",
+      messagingSenderId: "613085841293",
+      appId: "1:613085841293:web:ddd54438996b3ff6db9fc4",
+      measurementId: "G-8KCZDLR1W2"
+    },
+    onFirebaseHosting: false,
+    services: {
+      messaging: true,
+    }
+  },
+
+
+  messaging: {
+    createServiceWorker: true,
+    actions: [
+      {
+        action: 'goHome',
+        url: 'https://localhost:8000'
+      }
+    ],
+    fcmPublicVapidKey: "BMMSXnJHVcOkKOQgbdszWNf7GnQZF27_Et_FJWmBFwsO59Yx4MvDth-dSLiN-_MKBPwyrwnoM5An1NdiX9H0e4o" 
+  },
+  // firebase: {
+  //   config: {
+  //     apiKey: "AIzaSyBBTwVdvR26nnycC2IaaAV5uD0sDU34XU0",
+  //     authDomain: "andaza-d9c48.firebaseapp.com",
+  //     projectId: "andaza-d9c48",
+  //     storageBucket: "andaza-d9c48.appspot.com",
+  //     messagingSenderId: "613085841293",
+  //     appId: "1:613085841293:web:ddd54438996b3ff6db9fc4",
+  //     measurementId: "G-8KCZDLR1W2"
+  //   },
+  //   services: {
+  //     messaging: {
+  //       createServiceWorker: false,
+  //       fcmPublicVapidKey: 'BMMSXnJHVcOkKOQgbdszWNf7GnQZF27_Et_FJWmBFwsO59Yx4MvDth-dSLiN-_MKBPwyrwnoM5An1NdiX9H0e4o' // Optional, if used
+  //     }
+  //   }
+  // },
+
   pwa: {
     manifest: {
       name: 'Andaza',
@@ -80,7 +128,10 @@ export default {
       ]
     },
     workbox: {
-      navigateFallback: '/'
+      navigateFallback: '/',
+      importScripts: [
+        '/static/firebase-messaging-sw.js'
+      ],
     },
     devOptions: {
       enabled: true,
