@@ -164,7 +164,7 @@ export default {
       getNotificationList:"notification/getNotificationList",
     }),
     addNotification(){
-
+      this.$router.push("/notification/add-notification")
     },
     async page(value) {
       this.current_page = value - 1;
