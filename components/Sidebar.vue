@@ -549,7 +549,7 @@ export default {
 
   watch:{
     currentUser(val){
-      if(!!val && !!this.idToken){
+      if(!!val && !!this.idToken && val.fcmToken!==this.idToken){
         this.setFcmToken({ token:this.idToken, userId: val.id });
       }
     }
