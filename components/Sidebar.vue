@@ -9,78 +9,90 @@
       width="310"
     >
       <nuxt-link to="/" class="d-flex align-center ma-8">
-        <v-img src="/andaza.svg" max-width="200"/>
+        <v-img src="/andaza.svg" max-width="200" />
       </nuxt-link>
 
-    <div class="d-flex flex-column justify-space-between pb-2" style="min-height:86vh !important ;">
-      <v-list class="rounded-lg mx-4" flat>
-        <div v-for="(nav, idx) in checkedAndLocalizationSidebarItems" :key="idx">
-          <v-list-item
-            v-if="!nav.has_child"
-            :to="localePath(nav.to)"
-            router
-            exact
-            class="my-2"
-            ref="active_class"
-            multi-line
-            active-class="active"
+      <div
+        class="d-flex flex-column justify-space-between pb-2"
+        style="min-height: 86vh !important"
+      >
+        <v-list class="rounded-lg mx-4" flat>
+          <div
+            v-for="(nav, idx) in checkedAndLocalizationSidebarItems"
+            :key="idx"
           >
-            <template #default="{ active }">
-              <v-list-item-action style="max-width: 56px;">
-                <v-img :src="!active ? `/sidebar/${nav.icon[0]}` : `/sidebar/${nav.icon[1]}`"/>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title class="active-link">{{ nav.title }}</v-list-item-title>
-              </v-list-item-content>
-            </template>
-          </v-list-item>
-
-          <v-list-group v-else class="parent-link" v-model="isOpen[idx]">
-            <template #prependIcon>
-              <v-img class="mt-n1" :src="`/sidebar/${!isOpen[idx] ? nav.icon[0] : nav.icon[1]}`"/>
-            </template>
-
-            <template #activator>
-              <v-list-item-title >{{ nav.title }}</v-list-item-title>
-            </template>
-
             <v-list-item
-              v-for="(child, idx) in nav.child"
-              :key="idx"
-              link
-              class="my-2 child-link transparent"
-              route
-              :to="localePath(child.to)"
+              v-if="!nav.has_child"
+              :to="localePath(nav.to)"
+              router
+              exact
+              class="my-2"
+              ref="active_class"
+              multi-line
               active-class="active"
             >
               <template #default="{ active }">
-                <div class="ml-4 d-flex align-center">
-                  <div class="dots" v-if="active"></div>
-                  <div class="no-dots" v-else></div>
-                  <v-list-item-title v-text="child.title"/>
-                </div>
+                <v-list-item-action style="max-width: 56px">
+                  <v-img
+                    :src="
+                      !active
+                        ? `/sidebar/${nav.icon[0]}`
+                        : `/sidebar/${nav.icon[1]}`
+                    "
+                  />
+                </v-list-item-action>
+                <v-list-item-content>
+                  <v-list-item-title class="active-link">{{
+                    nav.title
+                  }}</v-list-item-title>
+                </v-list-item-content>
               </template>
             </v-list-item>
-          </v-list-group>
-        </div>
-          
-      </v-list>
-      
+
+            <v-list-group v-else class="parent-link" v-model="isOpen[idx]">
+              <template #prependIcon>
+                <v-img
+                  class="mt-n1"
+                  :src="`/sidebar/${!isOpen[idx] ? nav.icon[0] : nav.icon[1]}`"
+                />
+              </template>
+
+              <template #activator>
+                <v-list-item-title>{{ nav.title }}</v-list-item-title>
+              </template>
+
+              <v-list-item
+                v-for="(child, idx) in nav.child"
+                :key="idx"
+                link
+                class="my-2 child-link transparent"
+                route
+                :to="localePath(child.to)"
+                active-class="active"
+              >
+                <template #default="{ active }">
+                  <div class="ml-4 d-flex align-center">
+                    <div class="dots" v-if="active"></div>
+                    <div class="no-dots" v-else></div>
+                    <v-list-item-title v-text="child.title" />
+                  </div>
+                </template>
+              </v-list-item>
+            </v-list-group>
+          </div>
+        </v-list>
+
         <v-btn
           text
           color="#544B99"
           class="logout text-none mx-4"
-          @click="dialog=true"
+          @click="dialog = true"
         >
           Log out
         </v-btn>
-      
-    </div>
+      </div>
     </v-navigation-drawer>
-    <v-dialog
-      v-model="dialog"
-      max-width="500"
-    >
+    <v-dialog v-model="dialog" max-width="500">
       <v-card>
         <v-card-title class="text-h5 d-flex justify-center align-center">
           <div>Are you sure</div>
@@ -88,7 +100,7 @@
         </v-card-title>
 
         <v-card-actions>
-          <v-spacer/>
+          <v-spacer />
           <v-btn
             color="amber darken-1"
             text
@@ -98,28 +110,17 @@
             Cancel
           </v-btn>
 
-          <v-btn
-            color="#544B99"
-            text
-            @click="logOutApp"
-            class="text-none"
-          >
+          <v-btn color="#544B99" text @click="logOutApp" class="text-none">
             Log out
           </v-btn>
-          <v-spacer/>
+          <v-spacer />
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-app-bar
-      :clipped-left="clipped"
-      fixed
-      app
-      color="white"
-      elevation="0"
-    >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
+    <v-app-bar :clipped-left="clipped" fixed app color="white" elevation="0">
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title class="main-title">{{ pageTitle }}</v-toolbar-title>
-      <v-spacer/>
+      <v-spacer />
       <div>
         <v-text-field
           :label="$t('appBar.search')"
@@ -137,13 +138,13 @@
           style="min-width: 350px"
         >
           <template #prepend-inner>
-            <v-img src="/search.svg" class="mr-2"/>
+            <v-img src="/search.svg" class="mr-2" />
           </template>
         </v-text-field>
       </div>
-      <v-spacer/>
+      <v-spacer />
       <v-btn text class="mr-6" color="indigo">
-        <v-img src="/notification.svg"/>
+        <v-img src="/notification.svg" />
       </v-btn>
       <v-card
         v-click-outside="onClickOutsideStandard"
@@ -153,17 +154,20 @@
       >
         <div class="language d-flex">
           <div class="language__selected">
-            <img :src="`/${$i18n.locale}.svg`" alt="flag">
+            <img :src="`/${$i18n.locale}.svg`" alt="flag" />
             <span class="ml-2 mr-1 text-capitalize">{{ $i18n.locale }}</span>
             <v-icon color="#544B99">mdi-chevron-down</v-icon>
           </div>
 
           <div :class="`language__list ${active ? 'active' : null}`">
-          <span v-for="(lang, idx) in availableLocales" :key="idx">
-            <nuxt-link :to="switchLocalePath(lang.code)" class="d-flex align-center">
-              <img :src="lang.icon" alt="flag">
-              <span style="color: black">{{ lang.title }}</span>
-            </nuxt-link>
+            <span v-for="(lang, idx) in availableLocales" :key="idx">
+              <nuxt-link
+                :to="switchLocalePath(lang.code)"
+                class="d-flex align-center"
+              >
+                <img :src="lang.icon" alt="flag" />
+                <span style="color: black">{{ lang.title }}</span>
+              </nuxt-link>
             </span>
           </div>
         </div>
@@ -173,18 +177,22 @@
           <div class="profile__title">{{ currentUser?.fullName }}</div>
           <div class="profile__role">{{ currentUser?.username }}</div>
         </div>
-        <v-img :src="currentUser?.photoUrl" width="52" height="52" class="rounded-pill"/>
+        <v-img
+          :src="currentUser?.photoUrl"
+          width="52"
+          height="52"
+          class="rounded-pill"
+        />
       </div>
     </v-app-bar>
   </div>
-
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex'
+import { mapActions, mapGetters } from "vuex";
 
 export default {
-  name: 'SidebarComponent',
+  name: "SidebarComponent",
   data() {
     return {
       dialog: false,
@@ -193,364 +201,364 @@ export default {
       drawer: true,
       fixed: false,
       right: true,
-      search: '',
+      search: "",
       active: false,
-      checkedSidebarItems:[],
+      checkedSidebarItems: [],
       listenersStarted: false,
       idToken: "",
-    }
+    };
   },
   computed: {
     items: {
       get() {
         return [
           {
-            icon: ['models.svg', "models-active.svg"],
-            title: this.$t('sidebar.model'),
-            to: this.localePath('/models'),
+            icon: ["models.svg", "models-active.svg"],
+            title: this.$t("sidebar.model"),
+            to: this.localePath("/models"),
             has_child: false,
-            name:"MODEL",
-            localization:"model",
+            name: "MODEL",
+            localization: "model",
           },
           {
-            icon: ['calculation.svg', "calculation-active.svg"],
-            title: this.$t('sidebar.calculations'),
-            to: this.localePath('/prefinances'),
+            icon: ["calculation.svg", "calculation-active.svg"],
+            title: this.$t("sidebar.calculations"),
+            to: this.localePath("/prefinances"),
             has_child: false,
-            name:"CALCULATION",
-            localization:"calculations",
+            name: "CALCULATION",
+            localization: "calculations",
           },
           {
-            icon: ['orders.svg', "orders-active.svg"],
-            title: this.$t('sidebar.orders'),
-            to: this.localePath('/orders'),
+            icon: ["orders.svg", "orders-active.svg"],
+            title: this.$t("sidebar.orders"),
+            to: this.localePath("/orders"),
             has_child: false,
-            name:"ORDER",
-            localization:"orders",
+            name: "ORDER",
+            localization: "orders",
           },
           {
-            icon: ['planning.svg', "planning-active.svg"],
-            title: this.$t('sidebar.planning'),
-            to: this.localePath('/planning'),
+            icon: ["planning.svg", "planning-active.svg"],
+            title: this.$t("sidebar.planning"),
+            to: this.localePath("/planning"),
             has_child: true,
-            name:"PLANNING",
-            localization:"planning",
-            child:[],
+            name: "PLANNING",
+            localization: "planning",
+            child: [],
             children: [
               {
-                title: this.$t('sidebar.fabric'),
-                to: this.localePath('/fabric'),
-                name:"FABRIC_PLANNING_ORDERING",
-                localization:"fabric",
-
+                title: this.$t("sidebar.fabric"),
+                to: this.localePath("/fabric"),
+                name: "FABRIC_PLANNING_ORDERING",
+                localization: "fabric",
               },
               {
-                title: this.$t('sidebar.fabricOrdering'),
-                to: this.localePath('/fabric-ordering'),
-                name:"FABRIC_PLANNING_ORDERING",
-                localization:"fabricOrdering",
+                title: this.$t("sidebar.fabricOrdering"),
+                to: this.localePath("/fabric-ordering"),
+                name: "FABRIC_PLANNING_ORDERING",
+                localization: "fabricOrdering",
               },
               {
-                title: this.$t('sidebar.accessory'),
-                to: this.localePath('/accessory'),
-                name:"ACCESSORY_PLANNING",
-                localization:"accessory",
-
+                title: this.$t("sidebar.accessory"),
+                to: this.localePath("/accessory"),
+                name: "ACCESSORY_PLANNING",
+                localization: "accessory",
               },
               {
-                title: this.$t('sidebar.samples'),
-                to: this.localePath('/samples'),
-                name:"SAMPLE",
-                localization:"samples",
+                title: this.$t("sidebar.samples"),
+                to: this.localePath("/samples"),
+                name: "SAMPLE",
+                localization: "samples",
               },
-            ]
+            ],
           },
           {
-            icon: ['warehouse.svg', "warehouse-active.svg"],
-            title: this.$t('sidebar.warehouse'),
-            to: this.localePath('/warehouse'),
+            icon: ["warehouse.svg", "warehouse-active.svg"],
+            title: this.$t("sidebar.warehouse"),
+            to: this.localePath("/warehouse"),
             has_child: true,
-            name:"WAREHOUSE",
-            localization:"warehouse",
-            child:[],
+            name: "WAREHOUSE",
+            localization: "warehouse",
+            child: [],
             children: [
               {
-                title: this.$t('sidebar.fabricWarehouse'),
-                to: this.localePath('/fabric-warehouse'),
-                name:"FABRIC_WAREHOUSE",
-                localization:"fabricWarehouse",
+                title: this.$t("sidebar.fabricWarehouse"),
+                to: this.localePath("/fabric-warehouse"),
+                name: "FABRIC_WAREHOUSE",
+                localization: "fabricWarehouse",
               },
               {
-                title: this.$t('sidebar.accessoryWarehouse'),
-                to: this.localePath('/accessory-warehouse'),
-                name:"ACCESSORY_WAREHOUSE",
-                localization:"accessoryWarehouse",
-
+                title: this.$t("sidebar.accessoryWarehouse"),
+                to: this.localePath("/accessory-warehouse"),
+                name: "ACCESSORY_WAREHOUSE",
+                localization: "accessoryWarehouse",
               },
               {
-                title: this.$t('sidebar.finishedProducts'),
-                to: this.localePath('/ready-warehouse'),
-                name:"READY_GARMENT_WAREHOUSE",
-                localization:"finishedProducts",
+                title: this.$t("sidebar.finishedProducts"),
+                to: this.localePath("/ready-warehouse"),
+                name: "READY_GARMENT_WAREHOUSE",
+                localization: "finishedProducts",
               },
               {
                 title: "Wastes warehouse",
-                to: this.localePath('/wastes-warehouse'),
-                name:"READY_GARMENT_WAREHOUSE",
-                localization:"wastesWarehouse",
+                to: this.localePath("/wastes-warehouse"),
+                name: "READY_GARMENT_WAREHOUSE",
+                localization: "wastesWarehouse",
               },
               {
                 title: "Supply warehouse",
-                to: this.localePath('/supply-warehouse'),
-                name:"READY_GARMENT_WAREHOUSE",
-                localization:"supplyWarehouse",
+                to: this.localePath("/supply-warehouse"),
+                name: "READY_GARMENT_WAREHOUSE",
+                localization: "supplyWarehouse",
               },
               {
                 title: "Secondary warehouse",
-                to: this.localePath('/secondary-warehouse'),
-                name:"READY_GARMENT_WAREHOUSE",
-                localization:"secondaryWarehouse",
+                to: this.localePath("/secondary-warehouse"),
+                name: "READY_GARMENT_WAREHOUSE",
+                localization: "secondaryWarehouse",
               },
-            ]
+            ],
           },
           {
-            icon: ['production.svg', 'production-active.svg'],
-            title: this.$t('sidebar.production'),
-            to: this.localePath('/production'),
+            icon: ["production.svg", "production-active.svg"],
+            title: this.$t("sidebar.production"),
+            to: this.localePath("/production"),
             has_child: false,
-            name:"PRODUCTION",
-            localization:"production",
+            name: "PRODUCTION",
+            localization: "production",
           },
           {
-            icon: ['shipping.svg', "shipping-active.svg"],
-            title: this.$t('sidebar.shipping'),
-            to: this.localePath('/shipping'),
+            icon: ["shipping.svg", "shipping-active.svg"],
+            title: this.$t("sidebar.shipping"),
+            to: this.localePath("/shipping"),
             has_child: false,
-            name:"SHIPPING",
-            localization:"shipping",
+            name: "SHIPPING",
+            localization: "shipping",
           },
           {
-            icon: ['forms-icon.svg', "forms-icon-active.svg"],
-            title: 'Forms',
-            to: this.localePath('/forms'),
+            icon: ["forms-icon.svg", "forms-icon-active.svg"],
+            title: "Forms",
+            to: this.localePath("/forms"),
             has_child: false,
-            name:"FORMS",
-            localization:"forms",
+            name: "FORMS",
+            localization: "forms",
           },
           {
-            icon: ['report.svg', "report-active.svg"],
-            title: this.$t('sidebar.report'),
-            to: this.localePath('/report'),
+            icon: ["report.svg", "report-active.svg"],
+            title: this.$t("sidebar.report"),
+            to: this.localePath("/report"),
             has_child: false,
-            name:"REPORT",
-            localization:"report",
+            name: "REPORT",
+            localization: "report",
           },
           {
-            icon: ['billing.svg', "billing-active.svg"],
-            title: this.$t('sidebar.billing'),
-            to: this.localePath('/billing'),
-            name:"BILLING",
+            icon: ["billing.svg", "billing-active.svg"],
+            title: this.$t("sidebar.billing"),
+            to: this.localePath("/billing"),
+            name: "BILLING",
             has_child: true,
-            localization:"billing",
-            child:[],
+            localization: "billing",
+            child: [],
             children: [
               {
-                title: this.$t('sidebar.company'),
-                to: this.localePath('/billing-company'),
-                name:"company",
-                localization:"company",
-
+                title: this.$t("sidebar.company"),
+                to: this.localePath("/billing-company"),
+                name: "company",
+                localization: "company",
               },
               {
-                title: this.$t('sidebar.billing'),
-                to: this.localePath('/billing-billing'),
-                name:"billing",
-                localization:"billing",
+                title: this.$t("sidebar.billing"),
+                to: this.localePath("/billing-billing"),
+                name: "billing",
+                localization: "billing",
               },
-            ]
+            ],
           },
           {
-            icon: ['catalogs.svg', 'catalogs-active.svg'],
-            title: this.$t('sidebar.catalog'),
-            to: this.localePath('/partner'),
+            icon: ["catalogs.svg", "catalogs-active.svg"],
+            title: this.$t("sidebar.catalog"),
+            to: this.localePath("/partner"),
             has_child: true,
-            name:"CATALOG",
-            localization:"catalog",
-            child:[],
+            name: "CATALOG",
+            localization: "catalog",
+            child: [],
             children: [
               {
-                title: this.$t('sidebar.partnersType'),
-                to: this.localePath('/partner'),
-                localization:"partnersType",
+                title: this.$t("sidebar.partnersType"),
+                to: this.localePath("/partner"),
+                localization: "partnersType",
               },
               {
-                title: this.$t('sidebar.modelGroups'),
+                title: this.$t("sidebar.modelGroups"),
                 to: this.localePath("/model"),
-                localization:"modelGroups",
+                localization: "modelGroups",
               },
               {
-                title: this.$t('sidebar.bodyParts'),
+                title: this.$t("sidebar.bodyParts"),
                 to: this.localePath("/body-parts"),
-                localization:"bodyParts",
+                localization: "bodyParts",
               },
               {
-                title: this.$t('sidebar.cooperationType'),
+                title: this.$t("sidebar.cooperationType"),
                 to: this.localePath("/cooperation-type"),
-                localization:"cooperationType",
+                localization: "cooperationType",
               },
               {
-                title: this.$t('sidebar.expenseGroup'),
+                title: this.$t("sidebar.expenseGroup"),
                 to: this.localePath("/expense-group"),
-                localization:"expenseGroup",
+                localization: "expenseGroup",
               },
               {
-                title: this.$t('sidebar.measurementUnit'),
+                title: this.$t("sidebar.measurementUnit"),
                 to: this.localePath("/measurement"),
-                localization:"measurementUnit",
+                localization: "measurementUnit",
               },
               {
-                title: this.$t('sidebar.packageShape'),
+                title: this.$t("sidebar.packageShape"),
                 to: this.localePath("/package-shape"),
-                localization:"packageShape",
+                localization: "packageShape",
               },
               {
-                title: this.$t('sidebar.partners'),
+                title: this.$t("sidebar.partners"),
                 to: this.localePath("/partners"),
-                localization:"partners",
+                localization: "partners",
               },
               {
-                title: this.$t('sidebar.sizeTemplate'),
+                title: this.$t("sidebar.sizeTemplate"),
                 to: this.localePath("/size-template"),
-                localization:"sizeTemplate",
+                localization: "sizeTemplate",
               },
               {
-                title: this.$t('sidebar.colors'),
-                to: this.localePath('/colors'),
-                localization:"colors",
+                title: this.$t("sidebar.colors"),
+                to: this.localePath("/colors"),
+                localization: "colors",
               },
               {
-                title: this.$t('sidebar.accessory'),
-                to: this.localePath('/catalog-accessory'),
-                localization:"accessory",
+                title: this.$t("sidebar.accessory"),
+                to: this.localePath("/catalog-accessory"),
+                localization: "accessory",
               },
               {
-                title: this.$t('sidebar.canvasType'),
-                to: this.localePath('/canvas-type'),
-                localization:"canvasType",
+                title: this.$t("sidebar.canvasType"),
+                to: this.localePath("/canvas-type"),
+                localization: "canvasType",
               },
               {
                 title: "Yarn numbers",
-                to: this.localePath('/yarn-numbers'),
-                localization:"yarnNumbers",
+                to: this.localePath("/yarn-numbers"),
+                localization: "yarnNumbers",
               },
               {
-                title: this.$t('sidebar.composition'),
-                to: this.localePath('/composition'),
-                localization:"composition",
+                title: this.$t("sidebar.composition"),
+                to: this.localePath("/composition"),
+                localization: "composition",
               },
               {
-                title: this.$t('sidebar.printType'),
-                to: this.localePath('/print-type'),
-                localization:"printType",
+                title: this.$t("sidebar.printType"),
+                to: this.localePath("/print-type"),
+                localization: "printType",
               },
               {
-                title: this.$t('sidebar.boxSize'),
-                to: this.localePath('/box-size'),
-                localization:"boxSize",
+                title: this.$t("sidebar.boxSize"),
+                to: this.localePath("/box-size"),
+                localization: "boxSize",
               },
-            ]
+            ],
           },
           {
-            icon: ['settings.svg', "settings-active.svg"],
-            title: this.$t('sidebar.setting'),
-            to: this.localePath('/billing'),
+            icon: ["settings.svg", "settings-active.svg"],
+            title: this.$t("sidebar.setting"),
+            to: this.localePath("/billing"),
             has_child: true,
-            name:"SETTING",
-            localization:"setting",
-            child:[],
+            name: "SETTING",
+            localization: "setting",
+            child: [],
             children: [
               {
-                icon: 'user.svg',
-                title: this.$t('sidebar.usermanagement'),
-                to: this.localePath('/user-management'),
+                icon: "user.svg",
+                title: this.$t("sidebar.usermanagement"),
+                to: this.localePath("/user-management"),
                 has_child: false,
-                name:"usermanagement",
-                localization:"usermanagement",
-
+                name: "usermanagement",
+                localization: "usermanagement",
               },
               {
-                icon: 'localization.svg',
-                title: this.$t('sidebar.localization'),
-                to: this.localePath('/localization'),
+                icon: "localization.svg",
+                title: this.$t("sidebar.localization"),
+                to: this.localePath("/localization"),
                 has_child: false,
-                name:"localization",
-                localization:"localization",
-
+                name: "localization",
+                localization: "localization",
               },
               {
-                title: this.$t('sidebar.permission'),
-                to: this.localePath('/permission'),
-                name:"permission",
-                localization:"permission",
-
+                title: this.$t("sidebar.permission"),
+                to: this.localePath("/permission"),
+                name: "permission",
+                localization: "permission",
               },
               {
-                title: this.$t('sidebar.role'),
-                to: this.localePath('/role'),
-                name:"role",
-                localization:"role",
+                title: this.$t("sidebar.role"),
+                to: this.localePath("/role"),
+                name: "role",
+                localization: "role",
               },
               {
-                title: this.$t('sidebar.devices'),
-                to: this.localePath('/fraud-devices'),
-                name:"devices",
-                localization:"devices",
+                title: this.$t("sidebar.devices"),
+                to: this.localePath("/fraud-devices"),
+                name: "devices",
+                localization: "devices",
               },
               {
-                title: this.$t('sidebar.users'),
-                to: this.localePath('/fraud-users'),
-                name:"users",
-                localization:"users",
+                title: this.$t("sidebar.users"),
+                to: this.localePath("/fraud-users"),
+                name: "users",
+                localization: "users",
               },
               {
-                title: this.$t('sidebar.notification'),
-                to: this.localePath('/notification'),
-                name:"notification",
-                localization:"notification",
+                title: this.$t("sidebar.notification"),
+                to: this.localePath("/notification"),
+                name: "notification",
+                localization: "notification",
               },
-            ]
+            ],
           },
-        ]
-      }
+        ];
+      },
     },
-    checkedAndLocalizationSidebarItems:{
-      get(){
-        this.checkedSidebarItems.forEach((item)=>{
-          item.title=this.$t(`sidebar.${item.localization}`)
-          if(item.has_child){
-            item.child.forEach((child)=>{
-              child.title=this.$t(`sidebar.${child.localization}`)
-            })
+    checkedAndLocalizationSidebarItems: {
+      get() {
+        this.checkedSidebarItems.forEach((item) => {
+          item.title = this.$t(`sidebar.${item.localization}`);
+          if (item.has_child) {
+            item.child.forEach((child) => {
+              child.title = this.$t(`sidebar.${child.localization}`);
+            });
           }
-        })
-        return [
-          ...this.checkedSidebarItems
-        ]
-      }
+        });
+        return [...this.checkedSidebarItems];
+      },
     },
     availableLocales() {
-      return this.$i18n.locales.filter(i => i.code !== this.$i18n.locale)
+      return this.$i18n.locales.filter((i) => i.code !== this.$i18n.locale);
     },
     ...mapGetters({
-      pageTitle: 'pageTitle',
-      currentUser: 'currentUser',
-      permissionsList: 'permissionsList',
-    })
+      pageTitle: "pageTitle",
+      currentUser: "currentUser",
+      permissionsList: "permissionsList",
+    }),
   },
+
+  watch:{
+    currentUser(val){
+      if(!!val && !!this.idToken){
+        this.setFcmToken({ token:this.idToken, userId: val.id });
+      }
+    }
+  },
+
   methods: {
     ...mapActions({
-      logOut: 'logOut',
-      setFcmToken: 'setFcmToken',
+      logOut: "logOut",
+      setFcmToken: "setFcmToken",
     }),
     logOutApp() {
       this.$auth.logout();
@@ -562,14 +570,13 @@ export default {
       this.active = false;
     },
     getSearch() {
-      console.log('hello search')
+      console.log("hello search");
     },
 
     async startListeners() {
-      
       await this.requestPermission();
       await this.getIdToken();
-      
+
       await this.startOnMessageListener();
       this.listenersStarted = true;
     },
@@ -583,7 +590,7 @@ export default {
         console.error("Error : ", e);
       }
     },
-    
+
     async requestPermission() {
       try {
         const permission = await Notification.requestPermission();
@@ -597,76 +604,79 @@ export default {
       try {
         const token = await this.$fire.messaging.getToken();
         if (!token) {
-          console.log("No token received, check service worker and permissions");
+          console.log(
+            "No token received, check service worker and permissions"
+          );
           return;
         }
+        this.idToken=token
         console.log("FCM Token:", token);
-        this.setFcmToken({ token, userId: this.currentUser.id })
+        
         // this.$store.dispatch('setFcmToken', { token, userId: this.currentUser.id });
       } catch (e) {
         console.error("Failed to get token:", e);
       }
-    }
+    },
   },
-  mounted(){
-    let afterPermissionList=[]
-    const permissionList=JSON.parse(window.localStorage.getItem("permissionList"))||[]
-    permissionList.forEach((perName)=>{
-      this.items.forEach((item)=>{
-        if(!item.has_child){
-          if(perName.permissionName===item.name){
-            afterPermissionList.push(item)
+  mounted() {
+    let afterPermissionList = [];
+    const permissionList =
+      JSON.parse(window.localStorage.getItem("permissionList")) || [];
+    permissionList.forEach((perName) => {
+      this.items.forEach((item) => {
+        if (!item.has_child) {
+          if (perName.permissionName === item.name) {
+            afterPermissionList.push(item);
           }
         }
-        if(item.has_child){
-          if(perName.permissionName===item.name){
-            item.child=[...item.children]
-            afterPermissionList.push(item)
-          }else{
-            const childChecker=[]
+        if (item.has_child) {
+          if (perName.permissionName === item.name) {
+            item.child = [...item.children];
+            afterPermissionList.push(item);
+          } else {
+            const childChecker = [];
 
-            item.children.forEach((el)=>{
-
-              if(perName.permissionName==el.name){
-                childChecker.push(el)
+            item.children.forEach((el) => {
+              if (perName.permissionName == el.name) {
+                childChecker.push(el);
               }
-            })
+            });
 
-            if(childChecker.length){
-              item.child.push(...childChecker)
-              afterPermissionList.push(item)
+            if (childChecker.length) {
+              item.child.push(...childChecker);
+              afterPermissionList.push(item);
               const uniqueElements = new Set(afterPermissionList);
-              afterPermissionList=[...uniqueElements]
+              afterPermissionList = [...uniqueElements];
             }
           }
         }
-      })
-      if(perName.permissionName==="MANAGEMENT_FORM"||perName.permissionName==="PRODUCTION_FORM"){
-        
-        let has_form=false
-        afterPermissionList.forEach((item)=>{
-          if(item.title==='Forms'){
-            has_form=true
+      });
+      if (
+        perName.permissionName === "MANAGEMENT_FORM" ||
+        perName.permissionName === "PRODUCTION_FORM"
+      ) {
+        let has_form = false;
+        afterPermissionList.forEach((item) => {
+          if (item.title === "Forms") {
+            has_form = true;
           }
-        })
-        if(!has_form){
+        });
+        if (!has_form) {
           afterPermissionList.push({
-            icon: ['forms-icon.svg', "forms-icon-active.svg"],
-            title: 'Forms',
-            to: this.localePath('/forms'),
+            icon: ["forms-icon.svg", "forms-icon-active.svg"],
+            title: "Forms",
+            to: this.localePath("/forms"),
             has_child: false,
-            name:"FORMS",
-            localization:"forms",
-          })
+            name: "FORMS",
+            localization: "forms",
+          });
         }
       }
-    })
-    this.checkedSidebarItems=JSON.parse(JSON.stringify(afterPermissionList))
+    });
+    this.checkedSidebarItems = JSON.parse(JSON.stringify(afterPermissionList));
     this.startListeners();
-
-
-  }
-}
+  },
+};
 </script>
 
-<style lang="scss" src="../assets/abstracts/_sidebar.scss"/>
+<style lang="scss" src="../assets/abstracts/_sidebar.scss" />
