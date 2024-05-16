@@ -50,6 +50,25 @@
           </template>
           <span class="text-capitalize">Send to Waybill</span>
         </v-tooltip>
+        <v-tooltip
+          top
+          color="#544B99"
+          class="pointer"
+          v-if="Object.keys(item).length > 2"
+        >
+          <template #activator="{ on, attrs }">
+            <v-btn
+              icon
+              v-bind="attrs"
+              v-on="on"
+              color="#544B99"
+              @click="nextProcessItem(item)"
+            >
+              <v-img src="/warehouse.svg" max-width="21"/>
+            </v-btn>
+          </template>
+          <span class="text-capitalize">edit</span>
+        </v-tooltip>
       </template>
     </v-data-table>
 
@@ -231,6 +250,56 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-dialog v-model="nextProcessDialog" width="1200">
+      <v-card>
+        <v-card-title class="d-flex justify-space-between w-full">
+          <div class="text-capitalize font-weight-bold">Edit Cutting info</div>
+          <v-btn icon color="#544B99" @click="nextProcessDialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text class="mt-4">
+          <v-form ref="edit_form" v-model="edit_validate" lazy-validation>
+            <v-row>
+              <v-col cols="12" lg="3" v-for="(item, idx) in selectedItem.sizeDistributions" :key="`_cutting_${idx}`">
+                <div class="label">{{ item.size }}</div>
+                <v-text-field
+                  v-model="item.quantity"
+                  placeholder="0"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base "
+                  validate-on-blur
+                  dense
+                  color="#544B99"
+                />
+              </v-col>
+            </v-row>
+
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="d-flex justify-center pb-8">
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            outlined color="#544B99"
+            width="130"
+            @click="nextProcessDialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-btn
+            class="rounded-lg text-capitalize ml-4 font-weight-bold"
+            color="#544B99" dark
+            width="130"
+            @click="saveNextProcess"
+          >
+            save
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-dialog v-model="history_dialog" max-width="1200">
       <v-card flat>
         <v-card-title>
@@ -265,6 +334,7 @@ export default {
       autoFilling:false,
       waybilSearch: "",
       edit_dialog: false,
+      nextProcessDialog: false,
       selectedItem: {},
       edit_validate: true,
       currency_enums: ["USD", "UZS", "RUB"],
@@ -430,6 +500,21 @@ export default {
       getWaybillList: "waybill/getWaybillList",
       productionToWaybill: "generalWarehouse/productionToWaybill",
     }),
+    nextProcessItem(item){
+      this.nextProcessDialog = true
+      this.selectedItem = {...item}
+    },
+    saveNextProcess() {
+      let data = {
+        entityId: this.selectedItem.entityId,
+        operationType:"SECOND_CLASS",
+        productionId: this.productionId,
+        sizeDistributionList: [...this.selectedItem.sizeDistributions],
+      }
+
+      this.giveReadyWarehouse({data,id:this.planningProcessId})
+      this.nextProcessDialog = false
+    },
     getHistory(item) {
       this.getHistoryList(item.entityId);
       this.history_dialog = true;

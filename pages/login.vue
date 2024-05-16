@@ -72,7 +72,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'IndexPage',
   layout: 'main',
@@ -82,7 +81,7 @@ export default {
         userName: '',
         password: ''
       },
-      show_password: true
+      show_password: true,
     }
   },
   methods: {
@@ -100,7 +99,13 @@ export default {
           window.localStorage.setItem("permissionList",JSON.stringify(res.data.permissions))
           this.$router.push('/user-management');
         })
-    }
+    },
+
+    
+  },
+
+  mounted(){
+    
   }
 }
 </script>

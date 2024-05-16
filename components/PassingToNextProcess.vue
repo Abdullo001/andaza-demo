@@ -55,7 +55,7 @@
           top
           color="#544B99"
           class="pointer"
-          v-else
+          
         >
           <template #activator="{ on, attrs }">
             <v-btn
@@ -616,7 +616,7 @@ export default {
         };
         this.productionToWaybill({data,id:this.selectedItem.entityId});
 
-        this.edit_dialog = false;
+        this.waybillDialog = false;
     },
     deleteItem() {
     },

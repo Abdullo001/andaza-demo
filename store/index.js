@@ -42,5 +42,14 @@ export const actions = {
       }).catch(({response}) => {
       console.log(response);
     })
+  },
+  setFcmToken({dispatch},{userId,token}){
+    this.$axios.put(`/api/v1/user/fcm-token/${userId}?fcmToken=${token}`)
+    .then((res)=>{
+      dispatch("getUserInfo")
+    })
+    .catch(({response})=>{
+      console.log(response);
+    })
   }
 }

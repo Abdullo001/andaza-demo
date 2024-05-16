@@ -1233,6 +1233,10 @@ export default {
     onePreFinance(val) {
       if (Object.keys(val).length) {
         const data = JSON.parse(JSON.stringify(val));
+
+        this.getImages(val.modelId);
+        this.getDocuments({modelId: val.modelId});
+
         this.addPreFinances = data;
         this.addPreFinances.modelNames = data.modelName;
         this.$store.commit("preFinance/setPreFinanceId", data.id);
@@ -1243,6 +1247,7 @@ export default {
         this.headers[2].text=data.primaryCurrency
         this.headers[3].text=data.secondaryCurrency
         this.headers[4].text=data.tertiaryCurrency
+        
         if (val?.overProductionPercent >= 0) {
           this.calculation[1].editable = val?.overProductionPercent;
           this.calculation[2].editable = val?.lossPercent;
@@ -1261,13 +1266,12 @@ export default {
     async modelData(val) {
       if (typeof val[0]?.id === "number") {
         const id = val[0]?.id;
-        await this.getImages(id);
-        await this.getDocuments({modelId: id});
+        // await this.getImages(id);
+        // await this.getDocuments({modelId: id});
       }
 
       if (this.$route.params.id === "creating") {
         const data = {...val[0]};
-        console.log(data)
         this.addPreFinances = {
           id: data.id,
           modelNames: data.name,
