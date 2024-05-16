@@ -143,9 +143,79 @@
         </v-text-field>
       </div>
       <v-spacer />
-      <v-btn text class="mr-6" color="indigo">
-        <v-img src="/notification.svg" />
-      </v-btn>
+      
+      <template>
+        <div class="text-center">
+          <v-menu
+            
+            v-model="menu"
+            transition="slide-y-transition"
+            
+          >
+            <template v-slot:activator="{ props }">
+              
+              <v-btn icon class="mr-6" color="indigo" v-bind="props" @click="menu=!menu">
+                <v-badge :content="countUnreadNotification" color="red">
+                  <v-icon color="#544B99">mdi-bell-ring</v-icon>
+                </v-badge>
+              </v-btn>
+            </template>
+      
+            <v-card min-width="300"  class="" >
+              <v-card-title class="d-flex align-center justify-center">
+                <div class="d-flex align-center justify-center">
+                  Notifications 
+                  <v-chip
+                    dark
+                    color="#544B99"
+                    class="ml-4"
+                  >
+                    {{ countUnreadNotification }}
+                  </v-chip></div>
+              </v-card-title>
+      
+              
+              <v-data-table
+                  :headers="headers"
+                  :items="recivedNotificationList"
+                  :no-data-text="$t('noDataText')"
+                  hide-default-header
+                  hide-default-footer
+                  class="mt-4 rounded-lg notification-list"
+                  
+                  @click:row="(item) => getMessageInfo(item)"
+                >
+                  <template #item.mainPart="{item}">
+                    <div style="cursor:pointer" class=" d-flex align-center  " :class="!item.read?'notification-item':''">
+                      <v-col cols="2" class=" "><div  :class="!item.read?'dot':''"></div></v-col>
+                      <v-col cols="10" class="me-auto">
+                        <span class="notification-creator">{{ item.createdBy }}:</span>{{ item.title }}
+                        <div class="sent-time d-flex justify-end"> 
+                          {{$timeElapsedFromGivenDate($dateToISOFormat(item.sentTime))}}
+                        </div>
+                      </v-col>
+                    </div>
+                    <v-divider></v-divider>
+                  </template>
+                </v-data-table>
+              
+              
+              <v-divider></v-divider>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="#544B99"
+                  text
+                  @click="openNotificationTable"
+                >
+                  See all
+                </v-btn>
+                <v-spacer></v-spacer>
+              </v-card-actions>
+            </v-card>
+          </v-menu>
+        </div>
+      </template>
       <v-card
         v-click-outside="onClickOutsideStandard"
         @click="clickShowLang"
@@ -185,6 +255,78 @@
         />
       </div>
     </v-app-bar>
+
+    <v-dialog v-model="notificationDialog" width="500">
+      <v-card elevation="0">
+        <v-card-title>
+          <v-img class="mr-2" src="/message.svg" max-width="20" height="" />
+          <span class="notification-title">Message </span>
+          <v-icon color="#544B99">mdi-circle-small</v-icon>
+          <span class="sent-time">
+            {{ selectedMessage.givenTime }}
+
+          </span>
+        </v-card-title>
+
+        <v-card-text>
+          <div>
+            <h3 class="mb-3 text-h5" style="color:#544B99">{{selectedMessage.createdBy}}</h3>
+            <div style="color:#000; " class="text-h6 mb-6">
+              <span class="font-weight-black">Title:</span>{{ selectedMessage.title }}
+            </div>
+          </div>
+
+          <v-divider class="mb-6"/>
+
+          <p class="text-body-1">
+            {{ selectedMessage.body }}
+          </p>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer/>
+          <v-btn
+                color="green"
+                dark
+                class="text-capitalize rounded-lg"
+                @click="closeDialog"
+              >
+                OK
+              </v-btn>
+          <v-spacer/>
+
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="notificationListDialog" width="800">
+      <v-card elevation="0">
+        <v-card-title class="d-flex justify-space-between w-full">
+          <div class="text-capitalize font-weight-bold">Notification list </div>
+          <v-btn icon color="#544B99" @click="notificationListDialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+
+        <v-card-text>
+          <v-data-table
+            class="mt-4 rounded-lg pt-4"
+            :headers="headersNotification"
+            :items="recivedNotificationList"
+            :items-per-page="itemPerPage"
+            :footer-props="{
+              itemsPerPageOptions: [5,10, 20, 50, 100],
+            }"
+            @update:page="page"
+            @update:items-per-page="size"
+            :server-items-length="recivedNotificationListTotalElements"
+            @click:row="(item) => getMessageInfo(item)"
+          >
+
+          </v-data-table>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -195,6 +337,20 @@ export default {
   name: "SidebarComponent",
   data() {
     return {
+      itemPerPage:5,
+      current_page:0,
+      notificationDialog:false,
+      notificationListDialog:false,
+      headers:[
+        {text:"",value:"mainPart",sortable:false}
+      ],
+      headersNotification:[
+        {text:"Name",value:"createdBy",sortable:false},
+        {text:"Title",value:"title",sortable:false},
+        {text:"Body",value:"body",sortable:false},
+        {text:"Recieved time",value:"sentTime",sortable:false},
+      ],
+      menu: false,
       dialog: false,
       isOpen: [],
       clipped: false,
@@ -206,6 +362,9 @@ export default {
       checkedSidebarItems: [],
       listenersStarted: false,
       idToken: "",
+      selectedMessage:{
+        sentTime:""
+      },
     };
   },
   computed: {
@@ -544,13 +703,26 @@ export default {
       pageTitle: "pageTitle",
       currentUser: "currentUser",
       permissionsList: "permissionsList",
+      countUnreadNotification: "notification/countUnreadNotification",
+      recivedNotificationList: "notification/recivedNotificationList",
+      recivedNotificationListTotalElements: "notification/recivedNotificationListTotalElements",
     }),
   },
 
   watch:{
+    menu(val){
+      if(!!val){
+        this.getRecivedNotification({id:this.currentUser.id,page:0,size:5})
+
+      }
+    },
     currentUser(val){
       if(!!val && !!this.idToken && val.fcmToken!==this.idToken){
         this.setFcmToken({ token:this.idToken, userId: val.id });
+      }
+      if(!!val){
+        this.getCountUnreadNotification(val.id)
+        // this.getRecivedNotification({id:val.id,page:0,size:5})
       }
     }
   },
@@ -559,7 +731,30 @@ export default {
     ...mapActions({
       logOut: "logOut",
       setFcmToken: "setFcmToken",
+      getCountUnreadNotification: "notification/getCountUnreadNotification",
+      getRecivedNotification: "notification/getRecivedNotification",
+      markAsRead: "notification/markAsRead",
     }),
+    openNotificationTable(){
+      this.menu=false
+      this.notificationListDialog=true
+    },
+    async page(value) {
+      this.current_page = value - 1;
+      await this.getRecivedNotification({
+        id:this.currentUser.id,
+        page: this.current_page,
+        size: this.itemPerPage,
+      });
+    },
+    async size(value) {
+      this.itemPerPage = value;
+      await this.getRecivedNotification({
+        id:this.currentUser.id,
+        page: 0,
+        size: this.itemPerPage,
+      });
+    },
     logOutApp() {
       this.$auth.logout();
     },
@@ -571,6 +766,18 @@ export default {
     },
     getSearch() {
       console.log("hello search");
+    },
+
+    getMessageInfo(item){
+      this.selectedMessage={...item}
+      this.notificationDialog=true
+      this.selectedMessage.givenTime=this.$timeElapsedFromGivenDate(this.$dateToISOFormat(this.selectedMessage?.sentTime))
+      this.markAsRead({id:item.id,userId:this.currentUser.id})
+      this.notificationListDialog=false
+    },
+
+    closeDialog(){
+      this.notificationDialog=false
     },
 
     async startListeners() {
@@ -585,6 +792,8 @@ export default {
         this.$fire.messaging.onMessage((payload) => {
           console.info("Message received : ", payload);
           console.log(payload.notification.body);
+          this.getCountUnreadNotification(this.currentUser.id)
+          this.getRecivedNotification({id:this.currentUser.id,page:0,size:5})
         });
       } catch (e) {
         console.error("Error : ", e);
@@ -675,6 +884,7 @@ export default {
     });
     this.checkedSidebarItems = JSON.parse(JSON.stringify(afterPermissionList));
     this.startListeners();
+    
   },
 };
 </script>

@@ -140,7 +140,7 @@ export default {
       filter_form:true,
       loading: false,
       headers: [
-        {text:"Type",value:"type",sortable:false},
+        {text:"Type",value:"channels",sortable:false},
         {text:"Title",value:"title",sortable:false},
         {text:"Created by",value:"createdBy",sortable:false},
         {text:"Created at",value:"sentTime",sortable:false},

@@ -27,6 +27,8 @@ export default {
     {src: "~/plugins/mixins.js"},
     {src: "~/plugins/v-mask.js"},
     {src: "./plugins/element-io.js"},
+    {src:'~/plugins/timeElapsed.js'},
+    {src:'~/plugins/dateToISO.js'},
   ],
 
   components: true,
