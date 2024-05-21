@@ -221,21 +221,19 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">{{$t('listsModels.child.license')}}</div>
-            <v-select
-              v-model="model.licence"
-              outlined
-              hide-details
-              class="rounded-lg base mb-4"
-              height="44" dense
-              :items="licence_enums"
-              item-text="text"
-              item-value="key"
-              append-icon="mdi-chevron-down"
-              style="max-width: 400px"
-              :placeholder="$t('listsModels.child.selectModelGroup')"
-              color="#544B99"
-            />
+            <div class="label">Inspection date</div>
+            <div style="height: 40px !important">
+              <el-date-picker
+                v-model="model.inspectionDate"
+                :picker-options="pickerShortcuts"
+                class="base_picker"
+                placeholder="dd.MM.yyyy HH:mm:ss"
+                style="width: 100%; height: 100%"
+                type="datetime"
+                value-format="dd.MM.yyyy HH:mm:ss"
+              >
+              </el-date-picker>
+            </div>
           </v-col>
           <v-col cols="12" lg="6" md="6" sm="6">
             <div class="label">{{$t('listsModels.child.description')}}</div>

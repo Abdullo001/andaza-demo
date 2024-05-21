@@ -53,6 +53,8 @@ export default {
     production: "Производство",
     planningOfProduction: "Планирование производства",
     workingOperations: "Рабочие операции",
+    notification:"Уведомление",
+
   },
   appBar: {
     search: "Поиск",
@@ -110,6 +112,7 @@ export default {
       userManagement: "Управление пользователями",
     },
     table: {
+      email:"Эл. адрес",
       userName: "Имя пользователя",
       firstName: "Имя",
       lastName: "Фамилия",

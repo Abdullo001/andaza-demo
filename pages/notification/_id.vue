@@ -28,6 +28,15 @@
             >
               <div class="d-flex align-center flex-column">
                 <img
+                  v-if="!pushNot"
+                  class="mb-2"
+                  src="/push-dark.svg"
+                  alt=""
+                  width="63"
+                  height="60"
+                />
+                <img
+                  v-else
                   class="mb-2"
                   src="/push.svg"
                   alt=""
@@ -46,6 +55,15 @@
             >
               <div class="d-flex flex-column">
                 <img
+                  v-if="!mailNot"
+                  src="/mail-dark.svg"
+                  class="mb-2"
+                  alt=""
+                  width="63"
+                  height="60"
+                />
+                <img
+                  v-else
                   src="/mail-big.svg"
                   class="mb-2"
                   alt=""
@@ -64,8 +82,17 @@
             >
               <div>
                 <img
+                  v-if="!botNot"
                   class="mb-2"
                   src="/bot.svg"
+                  alt=""
+                  width="63"
+                  height="60"
+                />
+                <img
+                  v-else
+                  class="mb-2"
+                  src="/telegram-light.svg"
                   alt=""
                   width="63"
                   height="60"
@@ -213,6 +240,71 @@
         </div>
       </v-card-text>
     </v-card>
+
+    <v-dialog v-model="warningDialog" max-width="500">
+      <v-card class="pa-4 text-center">
+        <div class="d-flex justify-center mb-2">
+          <v-img src="/warning-icon.svg" max-width="40"/>
+        </div>
+        <v-card-title class="d-flex justify-center">
+          Sending notification
+        </v-card-title>
+        <v-card-text>
+          Are you sure you want to send this notification? 
+        </v-card-text>
+        <v-card-actions class="px-16">
+          <v-btn
+            outlined
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#777C85"
+            width="140"
+            @click.stop="warningDialog = false"
+          >
+            No
+          </v-btn>
+          <v-spacer/>
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#FF4E4F"
+            width="140"
+            elevation="0"
+            dark
+            @click="confirmNotification"
+          >
+            Yes
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="successDialog" max-width="500">
+      <v-card class="pa-4 text-center">
+        <div class="d-flex justify-center mb-2">
+          <v-img src="/success.svg" max-width="100"/>
+        </div>
+        <v-card-title class="d-flex justify-center">
+          Success!
+        </v-card-title>
+        <v-card-text>
+          You have sent notification successfully
+        </v-card-text>
+        <v-card-actions class="px-16">
+          
+          <v-spacer/>
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="green"
+            width="140"
+            elevation="0"
+            dark
+            @click="successDialog=false"
+          >
+            Continue
+          </v-btn>
+          <v-spacer/>
+
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -220,6 +312,8 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
+      warningDialog:false,
+      successDialog:false,
       headers: [
         {
           text: "",
@@ -316,10 +410,9 @@ export default {
         this.botNot = !this.botNot;
       }
     },
-
-    resetAll() {},
-    saveAll() {
-
+    confirmNotification(){
+      this.warningDialog=false
+      this.successDialog=true
       const receivers=[]
       const channels=[]
 
@@ -340,6 +433,11 @@ export default {
         
       }
       this.createNotification(data)
+    },
+
+    resetAll() {},
+    saveAll() {
+      this.warningDialog=true
     },
   },
 
