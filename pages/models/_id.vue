@@ -222,7 +222,7 @@
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">Inspection date</div>
-            <div style="height: 40px !important">
+            <div style="height: 44px !important">
               <el-date-picker
                 v-model="model.inspectionDate"
                 :picker-options="pickerShortcuts"
@@ -234,6 +234,20 @@
               >
               </el-date-picker>
             </div>
+          </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">Planned order quantity</div>
+            <v-text-field
+              v-model="model.orderedQuantity"
+              outlined
+              class="rounded-lg base"
+              hide-details
+              height="44"
+              color="#544B99"
+              dense
+              placeholder="Enter the planned order quantity"
+              append-icon=""
+            />
           </v-col>
           <v-col cols="12" lg="6" md="6" sm="6">
             <div class="label">{{$t('listsModels.child.description')}}</div>
@@ -619,7 +633,6 @@ export default {
 
 .el-date-editor--datetime {
   width: 100%;
-  border: 5px solid red;
 }
 .show_active {
   height: 0;

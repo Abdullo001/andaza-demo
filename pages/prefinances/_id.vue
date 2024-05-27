@@ -162,6 +162,7 @@
             <v-text-field
               v-model="addPreFinances.orderedQuantity"
               outlined
+              disabled
               class="rounded-lg base"
               hide-details
               height="44"
