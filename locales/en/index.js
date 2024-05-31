@@ -64,6 +64,7 @@ export default {
     workingOperations: "Working operations",
     yarnNumbers:"Yarn number",
     composition:"Composition",
+    notification:"Notification",
   },
   appBar: {
     search: "Search",
@@ -120,6 +121,7 @@ export default {
       userManagement: "User management",
     },
     table: {
+      email:"Email",
       userName: "Username",
       firstName: "First Name",
       lastName: "Last Name",

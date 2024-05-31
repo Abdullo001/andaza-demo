@@ -65,6 +65,21 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
+              <div class="label">Model name</div>
+              <v-text-field
+                outlined
+                hide-details
+                disabled
+                height="44"
+                class="rounded-lg base mb-4"
+                v-model="sampleDetail.modelName"
+                placeholder="Model name"
+                validate-on-blur
+                dense
+                color="#544B99"
+              />
+            </v-col>
+            <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Client name</div>
               <v-text-field
                 outlined
@@ -72,8 +87,8 @@
                 disabled
                 height="44"
                 class="rounded-lg base mb-4"
-                v-model="sampleDetail.client"
-                placeholder=" client name"
+                v-model="sampleDetail.clientName"
+                placeholder="Client name"
                 validate-on-blur
                 dense
                 color="#544B99"
@@ -87,7 +102,7 @@
                 disabled
                 height="44"
                 class="rounded-lg base mb-4"
-                v-model="sampleDetail.orderedQuantity"
+                v-model="sampleDetail.orderQuantity"
                 placeholder=" Order quantity"
                 validate-on-blur
                 dense
@@ -97,7 +112,7 @@
             <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Created by</div>
               <v-text-field
-                v-model="sampleDetail.createdBy"
+                v-model="sampleDetail.creatorOfModel"
                 placeholder="Enter creator"
                 outlined
                 hide-details
@@ -115,7 +130,7 @@
             <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Created at</div>
               <v-text-field
-                v-model="sampleDetail.createdAt"
+                v-model="sampleDetail.createdTimeOfModel"
                 placeholder="Created at"
                 outlined
                 hide-details
@@ -281,6 +296,18 @@
           </v-tab-item>
         </v-tabs-items>
       </v-tabs>
+      <div class="d-flex px-8 pb-5">
+        <v-spacer/>
+        <v-btn
+          color="#544B99"
+          outlined
+          class="text-capitalize rounded-lg px-3"
+          width="200"
+          @click="finisSample"
+        >
+          Finish Sample
+        </v-btn>
+      </div>
     </v-card>
   </div>
 </template>
@@ -323,6 +350,7 @@ export default {
       orderNumSearch: "",
       modelNumSearch: "",
       new_validate:true,
+      purpose:'',
       map_links: [
         {
           text: "Home",
@@ -376,6 +404,7 @@ export default {
 
   watch:{
     accessoryData(val){
+      this.sampleDetail={...val}
       this.sampleDetail.orderNumber={orderNumber:val.orderNumber,id:val.orderId}
     },
     oneSample(val){
@@ -400,21 +429,21 @@ export default {
 
     },
     tab(val){
-        let purpose=""
+        
         switch(val){
-          case 0:  purpose="FQS"; break
-          case 1:  purpose="LD";break
-          case 2:  purpose="FIT";break
-          case 3:  purpose="STRIKE";break
-          case 4:  purpose="BULK";break
-          case 5:  purpose="PPS";break
-          case 6:  purpose="PHOTO_SAMPLE";break
-          case 7:  purpose="SHIPMENT_SAMPLE";break
-          case 8:  purpose="CERTIFICATE_SAMPLE";break
+          case 0:  this.purpose="FQS"; break
+          case 1:  this.purpose="LD";break
+          case 2:  this.purpose="FIT";break
+          case 3:  this.purpose="STRIKE";break
+          case 4:  this.purpose="BULK";break
+          case 5:  this.purpose="PPS";break
+          case 6:  this.purpose="PHOTO_SAMPLE";break
+          case 7:  this.purpose="SHIPMENT_SAMPLE";break
+          case 8:  this.purpose="CERTIFICATE_SAMPLE";break
         }
         const id =this.sampleDetail.id
         if(!!id){
-          this.getChartList({purpose,planningId:id})
+          this.getChartList({purpose:this.purpose,planningId:id})
         }
       },
 
@@ -456,7 +485,7 @@ export default {
       modelColor:"accessorySamples/modelColor",
       getModelOrderInfo:"accessory/getModelOrderInfo",
       getChartList:"samplesTabs/getChartList",
-
+      finishSampleFunc:"sample/finishSample",
     }),
 
     createdSample(){
@@ -475,7 +504,15 @@ export default {
         id:this.sampleDetail.id
       }
       this.updateSample(data)
-    }
+    },
+    finisSample(){
+      const id = this.$route.params.id;
+      const data={
+        purpose:this.purpose,
+        id
+      }
+      this.finishSampleFunc(data)
+    },
   },
 
   mounted(){
