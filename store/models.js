@@ -111,7 +111,7 @@ export const actions = {
       description: data.description,
       gender: data.gender,
       groupId: data.group,
-      licenseRequired: data.licence,
+      licenseRequired: "false",
       modelNumber: data.number,
       name: data.name,
       partnerId: data.partnerId,
@@ -121,6 +121,8 @@ export const actions = {
       canvasTypeId:data.canvasTypeId.id,
       fabricRework:data.fabricRework,
       mainFabricDensity:data.mainFabricDensity,
+      inspectionDate:data.inspectionDate,
+      orderedQuantity:Number(data.orderedQuantity),
     }
     this.$axios.$post('/api/v1/models/create', model)
       .then(res => {
@@ -135,7 +137,7 @@ export const actions = {
       description: data.description,
       gender: data.gender,
       groupId: data.group,
-      licenseRequired: data.licence,
+      licenseRequired: "false",
       modelNumber: data.number,
       name: data.name,
       partnerId: data.partnerId,
@@ -146,6 +148,9 @@ export const actions = {
       canvasTypeId:data.canvasTypeId.id,
       fabricRework:data.fabricRework,
       mainFabricDensity:data.mainFabricDensity,
+      inspectionDate:data.inspectionDate,
+      orderedQuantity:Number(data.orderedQuantity),
+
     }
     this.$axios.$put('/api/v1/models/update', model)
       .then(res => {

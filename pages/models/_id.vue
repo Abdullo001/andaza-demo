@@ -499,10 +499,10 @@ export default {
         group: '',
         compositionId: '',
         season: '',
-        licence: null,
         brandName:'',
         gender: '',
         description: '',
+        inspectionDate:null,
         creator: '',
         modifiedPerson: '',
         createdTime: null,
@@ -567,6 +567,8 @@ export default {
       model.fabricRework = val.fabricRework;
       model.mainFabricDensity = val.mainFabricDensity;
       model.canvasTypeId = {id:val.canvasTypeId,name:val.canvasType}
+      model.inspectionDate=val.inspectionDate
+      model.orderedQuantity=val.orderedQuantity
     },
     "model.partnerId"(val){
       if(!!val){
