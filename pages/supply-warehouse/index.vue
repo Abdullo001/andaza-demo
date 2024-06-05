@@ -183,6 +183,55 @@
         <v-card-text class="mt-4">
           <v-form ref="edit_form" v-model="edit_validate" lazy-validation>
             <v-row>
+              <v-col cols="12" lg="12" md="12">
+                <div class="label">Planned Accessory expense for 1 set</div>
+                <div class="d-flex align-center">
+                  <v-select
+                    v-model="expenseGroupId"
+                    :items="expenseGroup"
+                    item-value="id"
+                    item-text="name"
+                    append-icon="mdi-chevron-down"
+                    class="rounded-lg base rounded-l-lg rounded-r-0 mr-1"
+                    color="#544B99"
+                    dense
+                    placeholder="Expense group"
+                    height="44"
+                    hide-details
+                    outlined
+                    style="max-width: 200px"
+                    validate-on-blur
+                  />
+                  <v-text-field
+                    disabled
+                    v-model="expense.totalPrice"
+                    class="rounded-lg base rounded-l-0 rounded-r-0 mr-1"
+                    color="#544B99"
+                    dense
+                    height="44"
+                    hide-details
+                    outlined
+                    placeholder="0.00"
+                    readonly
+                    validate-on-blur
+                  />
+                  <v-text-field
+                    disabled
+                    v-model="expense.currency"
+                    class="rounded-lg base rounded-l-0 rounded-r-lg"
+                    color="#544B99"
+                    dense
+                    height="44"
+                    hide-details
+                    outlined
+                    placeholder="Currency"
+                    readonly
+                    validate-on-blur
+                  />
+                </div>
+              </v-col>
+            </v-row>
+            <v-row>
               <v-col cols="12" lg="6" md="6" sm="6">
                 <div class="label">Price per work</div>
                 <div class="d-flex align-center">
@@ -440,6 +489,8 @@ export default {
         type: "FIRST_CLASS",
         waybillId: null,
       },
+      expenseGroupId:"",
+      expense:{},
       waybilSearch:"",
       currency_enums:["USD","UZS","RUB"],
       valid_search: true,
@@ -523,10 +574,18 @@ export default {
       totalElements: "supply/totalElements",
       waybillList: "waybill/waybillList",
       measurementUnitList: "preFinance/measurementUnit",
+      expenseForProduction: "expenseGroup/expenseForProduction",
+      expenseGroup: "expenseGroup/expenseGroup",
     }),
   },
 
   watch: {
+    expenseGroupId(val){
+      this.getExpenseProduction({groupId:val,modelId:this.selectedItem.modelId})
+    },
+    expenseForProduction(val){
+      this.expense=JSON.parse(JSON.stringify(val))
+    },
     supplyList(list) {
       const specialList = list.map(function (el) {
         const value = {};
@@ -607,7 +666,8 @@ export default {
       spendSupply: "supply/spendSupply",
       getWaybillList: "waybill/getWaybillList",
       getMeasurementUnit: "preFinance/getMeasurementUnit",
-
+      filterExpenseGroup: "expenseGroup/filterExpenseGroup",
+      getExpenseProduction: "expenseGroup/getExpenseProduction",
     }),
     resetFilters() {
       this.getSupplyList({ page: 0, size: 10 });
@@ -658,6 +718,7 @@ export default {
     },
   },
   mounted() {
+    this.filterExpenseGroup({id:"",name:"",createdAt:"",updateAt:""})
     this.$store.commit("setPageTitle", "Supply warehouse");
     this.getSupplyList({ page: 0, size: 10 });
   },

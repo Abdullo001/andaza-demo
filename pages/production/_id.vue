@@ -192,6 +192,53 @@
               disabled
             />
           </v-col>
+          <v-col cols="12" lg="3" md="3">
+            <div class="label">Planned Accessory expense for 1 set</div>
+            <div class="d-flex align-center">
+              <v-select
+                v-model="expenseGroupId"
+                :items="expenseGroup"
+                item-value="id"
+                item-text="name"
+                append-icon="mdi-chevron-down"
+                class="rounded-lg base rounded-l-lg rounded-r-0 mr-1"
+                color="#544B99"
+                dense
+                placeholder="Expense group"
+                height="44"
+                hide-details
+                outlined
+                style="max-width: 200px"
+                validate-on-blur
+              />
+              <v-text-field
+                disabled
+                v-model="expense.totalPrice"
+                class="rounded-lg base rounded-l-0 rounded-r-0 mr-1"
+                color="#544B99"
+                dense
+                height="44"
+                hide-details
+                outlined
+                placeholder="0.00"
+                readonly
+                validate-on-blur
+              />
+              <v-text-field
+                disabled
+                v-model="expense.currency"
+                class="rounded-lg base rounded-l-0 rounded-r-lg"
+                color="#544B99"
+                dense
+                height="44"
+                hide-details
+                outlined
+                placeholder="Currency"
+                readonly
+                validate-on-blur
+              />
+            </div>
+          </v-col>
 
           <v-col cols="12" lg="6" md="6">
             <div class="label mt-4"  v-if="!!model_images[0]?.filePath">{{ $t('workingProcess.dialog.photosModels') }}</div>
@@ -296,6 +343,8 @@ export default {
       modelList: [],
       orderSearch: '',
       modelSearch: '',
+      expenseGroupId:"",
+      expense:{},
       model_images: [],
       map_links: [
         {
@@ -334,10 +383,18 @@ export default {
       modelData: 'preFinance/modelData',
       modelInfo: 'production/planning/modelInfo',
       modelImages: 'modelPhoto/modelImages',
-      productionId: 'production/planning/productionId'
+      productionId: 'production/planning/productionId',
+      expenseForProduction: "expenseGroup/expenseForProduction",
+      expenseGroup: "expenseGroup/expenseGroup",
     })
   },
   watch: {
+    expenseGroupId(val){
+      this.getExpenseProduction({groupId:val,modelId:this.planning.modelId})
+    },
+    expenseForProduction(val){
+      this.expense=JSON.parse(JSON.stringify(val))
+    },
     modelSearch(elem) {
       if (!(typeof elem === null || typeof elem === 'object')) {
         this.getModelName(elem)
@@ -365,7 +422,9 @@ export default {
       getWorkshopList: 'production/planning/getWorkshopList',
       getColorsList: 'production/planning/getColorsList',
       createProcessPlanning: 'production/planning/createProcessPlanning',
-      getProcessingList: 'production/planning/getProcessingList'
+      getProcessingList: 'production/planning/getProcessingList',
+      filterExpenseGroup: "expenseGroup/filterExpenseGroup",
+      getExpenseProduction: "expenseGroup/getExpenseProduction",
     }),
     clickBtn(){
       this.show_btn = !this.show_btn
@@ -380,6 +439,7 @@ export default {
     },
   },
   mounted() {
+    this.filterExpenseGroup({id:"",name:"",createdAt:"",updateAt:""})
     const param = this.$route.params.id;
     if(param !== 'create') {
       this.title = "Edit"

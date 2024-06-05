@@ -33,26 +33,6 @@
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">Model number</div>
-            <!-- <v-combobox
-              :items="modelData"
-              v-model="accessoryDetail.modelNumber"
-              placeholder="Search by model number"
-              validate-on-blur
-              item-text="modelNumber"
-              item-value="id"
-              outlined
-              hide-details
-              height="44"
-              dense
-              class="rounded-lg base mb-4"
-              :search-input.sync="search"
-              color="#544B99"
-              append-icon=""
-            >
-              <template #append>
-                <v-icon color="#544B99">mdi-magnify</v-icon>
-              </template>
-            </v-combobox> -->
             <v-combobox
               v-model="accessoryDetail.modelNumber"
               :items="modelData"
@@ -277,7 +257,51 @@
               </template>
             </v-text-field>
           </v-col>
-          <v-col cols="12" lg="3" md="3">
+          <v-col cols="12" lg="6" md="6">
+            <div class="label">Planned Accessory expense for 1 set</div>
+            <div class="d-flex align-center">
+              <v-select
+                v-model="expenseGroupId"
+                :items="expenseGroup"
+                item-value="id"
+                item-text="name"
+                append-icon="mdi-chevron-down"
+                class="rounded-lg base rounded-l-lg rounded-r-0 mr-1"
+                color="#544B99"
+                dense
+                height="44"
+                hide-details
+                outlined
+                style="max-width: 200px"
+                validate-on-blur
+              />
+              <v-text-field
+                disabled
+                v-model="expense.totalPrice"
+                class="rounded-lg base rounded-l-0 rounded-r-0 mr-1"
+                color="#544B99"
+                dense
+                height="44"
+                hide-details
+                outlined
+                placeholder="0.00"
+                readonly
+                validate-on-blur
+              />
+              <v-text-field
+                disabled
+                v-model="expense.currency"
+                class="rounded-lg base rounded-l-0 rounded-r-lg"
+                color="#544B99"
+                dense
+                height="44"
+                hide-details
+                outlined
+                placeholder="Currency"
+                readonly
+                validate-on-blur
+              />
+            </div>
           </v-col>
           <v-col cols="12" lg="6" md="6" sm="6">
             <div class="label" v-if="!!modelImages[0]?.filePath">Photos of models</div>
@@ -441,6 +465,8 @@ export default {
       ],
       image_dialog: false,
       currentImage: "",
+      expenseGroupId:"",
+      expense:{},
     };
   },
 
@@ -460,9 +486,17 @@ export default {
       accessoryData: "accessory/accessoryData",
       modelImages: "modelPhoto/modelImages",
       OneData: "accessory/oneData",
+      expenseForProduction: "expenseGroup/expenseForProduction",
+      expenseGroup: "expenseGroup/expenseGroup",
     }),
   },
   watch: {
+    expenseGroupId(val){
+      this.getExpenseProduction({groupId:val,modelId:this.accessoryDetail.modelId})
+    },
+    expenseForProduction(val){
+      this.expense=JSON.parse(JSON.stringify(val))
+    },
     modelSearch(val){
       this.getModelName(val);
     },
@@ -501,6 +535,8 @@ export default {
       createPlanningAccessory: "accessory/createPlanningAccessory",
       updatePlanningAccessory: "accessory/updatePlanningAccessory",
       getOneAccessory: "accessory/getOneAccessory",
+      filterExpenseGroup: "expenseGroup/filterExpenseGroup",
+      getExpenseProduction: "expenseGroup/getExpenseProduction",
     }),
     clickBtn(){
       this.show_btn = !this.show_btn
@@ -529,6 +565,7 @@ export default {
   },
 
   async mounted() {
+    this.filterExpenseGroup({id:"",name:"",createdAt:"",updateAt:""})
     const param = this.$route.params.id;
     if (param !== "create") {
       this.title = "Edit";

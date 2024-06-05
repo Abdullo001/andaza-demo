@@ -621,6 +621,11 @@ export default {
                 to: this.localePath("/box-size"),
                 localization: "boxSize",
               },
+              {
+                title: "Fabric rework",
+                to: this.localePath("/fabric-rework"),
+                localization: "fabricRework",
+              },
             ],
           },
           {
