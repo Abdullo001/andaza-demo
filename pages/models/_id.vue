@@ -221,20 +221,32 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">{{$t('listsModels.child.license')}}</div>
-            <v-select
-              v-model="model.licence"
+            <div class="label">Inspection date</div>
+            <div style="height: 44px !important">
+              <el-date-picker
+                v-model="model.inspectionDate"
+                :picker-options="pickerShortcuts"
+                class="base_picker"
+                placeholder="dd.MM.yyyy HH:mm:ss"
+                style="width: 100%; height: 100%"
+                type="datetime"
+                value-format="dd.MM.yyyy HH:mm:ss"
+              >
+              </el-date-picker>
+            </div>
+          </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">Planned order quantity</div>
+            <v-text-field
+              v-model="model.orderedQuantity"
               outlined
+              class="rounded-lg base"
               hide-details
-              class="rounded-lg base mb-4"
-              height="44" dense
-              :items="licence_enums"
-              item-text="text"
-              item-value="key"
-              append-icon="mdi-chevron-down"
-              style="max-width: 400px"
-              :placeholder="$t('listsModels.child.selectModelGroup')"
+              height="44"
               color="#544B99"
+              dense
+              placeholder="Enter the planned order quantity"
+              append-icon=""
             />
           </v-col>
           <v-col cols="12" lg="6" md="6" sm="6">
@@ -487,10 +499,10 @@ export default {
         group: '',
         compositionId: '',
         season: '',
-        licence: null,
         brandName:'',
         gender: '',
         description: '',
+        inspectionDate:null,
         creator: '',
         modifiedPerson: '',
         createdTime: null,
@@ -555,6 +567,8 @@ export default {
       model.fabricRework = val.fabricRework;
       model.mainFabricDensity = val.mainFabricDensity;
       model.canvasTypeId = {id:val.canvasTypeId,name:val.canvasType}
+      model.inspectionDate=val.inspectionDate
+      model.orderedQuantity=val.orderedQuantity
     },
     "model.partnerId"(val){
       if(!!val){
@@ -621,7 +635,6 @@ export default {
 
 .el-date-editor--datetime {
   width: 100%;
-  border: 5px solid red;
 }
 .show_active {
   height: 0;

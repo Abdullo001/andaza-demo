@@ -62,7 +62,7 @@ export default {
     yarnNumbers:"Iplar soni",
     printType: "Print turi",
     composition:"Mato Tarkibi",
-
+    notification:"Bildirishnoma",
 
   },
   appBar: {
@@ -121,6 +121,7 @@ export default {
       userManagement: "Foydalanuvchi boshqaruvi",
     },
     table: {
+      email:"Email",
       userName: "Foydalanuvchi nomi",
       firstName: "Ism",
       lastName: "Familiya",

@@ -119,4 +119,16 @@ export const actions = {
         commit("setLoading", false)
       })
   },
+
+  finishSample({dispatch},data){
+    this.$axios.put(`/api/v1/sample-planning/finish-sample?id=${data.id}&purpose=${data.purpose}`)
+    .then((res)=>{
+      console.log(res);
+      this.$toast.success(res.data.message)
+    })
+    .catch(({response})=>{
+      console.log(response);
+      this.$toast.error(response.data.message)
+    })
+  }
 }

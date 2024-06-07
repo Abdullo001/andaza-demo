@@ -3,7 +3,6 @@ FROM node:14.19.0-alpine3.14
 RUN mkdir -p /app
 WORKDIR /app
 
-RUN echo "nameserver 1.1.1.1" >> /etc/resolv.conf
 
 COPY . /app/
 
