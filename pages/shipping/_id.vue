@@ -311,6 +311,22 @@
                       </template>
                     </v-combobox>
                   </v-col>
+                  <v-col cols="12" lg="3" md="3" sm="6">
+                    <div class="label">Creator name</div>
+                    <v-text-field
+                      :disabled="eventEditBtn"
+                      class="rounded-lg base mb-4"
+                      color="#544B99"
+                      dense
+                      disabled
+                      :value="shipping?.shippingCreator"
+                      height="44"
+                      hide-details
+                      outlined
+                      placeholder="Enter creator name"
+                      validate-on-blur
+                    />
+                  </v-col>
                   <v-col class="d-flex justify-end align-end" cols="12">
                       <v-btn
                           v-if="shippingStatus === 'Add'"

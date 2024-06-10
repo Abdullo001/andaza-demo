@@ -133,6 +133,7 @@
               <div class="d-flex align-center">
                 <v-text-field
                   v-model="order.priceWithDiscount"
+                  disabled
                   class="rounded-lg base rounded-l-lg rounded-r-0"
                   color="#544B99"
                   dense
@@ -144,6 +145,7 @@
                 />
                 <v-select
                   v-model="order.priceWithDiscountCurrency"
+                  disabled
                   :items="currency_enums"
                   append-icon="mdi-chevron-down"
                   class="rounded-lg base rounded-r-lg rounded-l-0"
@@ -161,6 +163,7 @@
               <div class="label">Total</div>
               <div class="d-flex align-center">
                 <v-text-field
+                  disabled
                   v-model="order.totalPrice"
                   class="rounded-lg base rounded-l-lg rounded-r-0"
                   color="#544B99"
@@ -173,6 +176,7 @@
                   validate-on-blur
                 />
                 <v-select
+                  disabled
                   v-model="order.priceWithDiscountCurrency"
                   :items="currency_enums"
                   append-icon="mdi-chevron-down"
@@ -233,6 +237,53 @@
                 placeholder="Select order priority"
                 validate-on-blur
               />
+            </v-col>
+            <v-col cols="12" lg="3" md="3">
+              <div class="label">Planned Accessory expense for 1 set</div>
+              <div class="d-flex align-center">
+                <v-select
+                  v-model="expenseGroupId"
+                  :items="expenseGroup"
+                  item-value="id"
+                  item-text="name"
+                  append-icon="mdi-chevron-down"
+                  class="rounded-lg base rounded-l-lg rounded-r-0 mr-1"
+                  color="#544B99"
+                  dense
+                  placeholder="Expense group"
+                  height="44"
+                  hide-details
+                  outlined
+                  style="max-width: 200px"
+                  validate-on-blur
+                />
+                <v-text-field
+                  disabled
+                  v-model="expense.totalPrice"
+                  class="rounded-lg base rounded-l-0 rounded-r-0 mr-1"
+                  color="#544B99"
+                  dense
+                  height="44"
+                  hide-details
+                  outlined
+                  placeholder="0.00"
+                  readonly
+                  validate-on-blur
+                />
+                <v-text-field
+                  disabled
+                  v-model="expense.currency"
+                  class="rounded-lg base rounded-l-0 rounded-r-lg"
+                  color="#544B99"
+                  dense
+                  height="44"
+                  hide-details
+                  outlined
+                  placeholder="Currency"
+                  readonly
+                  validate-on-blur
+                />
+              </div>
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Description</div>
@@ -507,6 +558,8 @@ export default {
         priority: this.$route.params.id !== "add-order" ? "" : "LOW",
         modelId: null,
       },
+      expenseGroupId:"",
+      expense:{},
 
       selectedModelInfo: {},
       modelInfo: {},
@@ -531,9 +584,17 @@ export default {
       clientList: "orders/clientList",
       modelList: "orders/modelList",
       infoToOrder: "orders/infoToOrder",
+      expenseForProduction: "expenseGroup/expenseForProduction",
+      expenseGroup: "expenseGroup/expenseGroup",
     }),
   },
   watch: {
+    expenseGroupId(val){
+      this.getExpenseProduction({groupId:val,modelId:this.order.modelId})
+    },
+    expenseForProduction(val){
+      this.expense=JSON.parse(JSON.stringify(val))
+    },
     orderDetail(item) {
       const order = this.order;
       order.id = item.id;
@@ -622,6 +683,8 @@ export default {
       getModelId: "orders/getModelId",
       updateOrder: "orders/updateOrder",
       getGivePrice: "orders/getGivePrice",
+      filterExpenseGroup: "expenseGroup/filterExpenseGroup",
+      getExpenseProduction: "expenseGroup/getExpenseProduction",
     }),
     clickBtn() {
       this.show_btn = !this.show_btn
@@ -647,6 +710,7 @@ export default {
 
   },
   mounted() {
+    this.filterExpenseGroup({id:"",name:"",createdAt:"",updateAt:""})
     const id = this.$route.params.id;
     const modelId = this.$route.query.modelId;
     if (id !== "add-order") {

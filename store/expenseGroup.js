@@ -1,9 +1,11 @@
 export const state = () => ({
   loading: true,
   expenseGroup: [],
+  expenseForProduction:[],
 })
 export const getters = {
   loading: state => state.loading,
+  expenseForProduction: state => state.expenseForProduction,
   expenseGroup: state => state.expenseGroup.content,
   totalElements: state => state.expenseGroup.totalElements,
 }
@@ -13,6 +15,9 @@ export const mutations = {
   },
   setExpenseGroup(state, expenseGroups) {
     state.expenseGroup = expenseGroups
+  },
+  setExpenseForProduction(state, item) {
+    state.expenseForProduction = item
   },
 }
 export const actions = {
@@ -119,4 +124,14 @@ export const actions = {
         commit("setLoading", false)
       })
   },
+
+  getExpenseProduction({commit},{modelId,groupId}){
+    this.$axios.get(`/api/v1/possible-expense/expenses?modelId=${modelId}&groupId=${groupId}`)
+    .then((res)=>{
+      commit("setExpenseForProduction",res.data.data)
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  }
 }

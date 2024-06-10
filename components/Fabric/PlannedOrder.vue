@@ -21,20 +21,7 @@
         />
       </template>
 
-      <template #item.pricePerUnit="{item}">
-        <v-text-field
-          @keyup="(e)=>setPricePerUnit(e,item)"
-          outlined
-          hide-details
-          height="32"
-          class="rounded-lg base my-2" dense
-          :disabled="item.status==='ORDERED'"
-          :rules="[formRules.required]"
-          validate-on-blur
-          color="#544B99"
-          v-model="item.pricePerUnit"
-        />
-      </template>
+      
       <template #item.actualTotalFabric="{item}">
         <v-text-field
           @keyup.enter="setActualFabric(item)"
@@ -87,8 +74,6 @@ export default {
         { text: 'Fabric 1pc', value: 'quantityOnePc', sortable: false },
         { text: 'Total fabric', value: 'total', sortable: false },
         { text: 'Actual total fabric', value: 'actualTotalFabric', sortable: false,width: 110  },
-        { text: 'Price per unit', value: 'pricePerUnit', sortable: false,width: 110 },
-        { text: 'Total price', value: 'totalPrice', sortable: false },
 
       ],
       status_enums: ["ORDERED", "CANCELLED", "PENDING","FABRIC_GENERATED"],

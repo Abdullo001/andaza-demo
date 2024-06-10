@@ -102,7 +102,19 @@ export default (context, inject) => {
               case 'FABRIC_GENERATED':
                 return '#6df291'
               case 'RECEIVED':
-                return '#607274'
+                return '#1E7722'
+            }
+          },
+          fabricsList(color){
+            switch (color) {
+              case 'ORDERED':
+                return '#27C124'
+              case 'CANCELLED':
+                return '#FF0C0C'
+              case 'RECEIVED':
+                return '#1E7722'
+              case 'PENDING':
+                return '#FFE03C'
             }
           },
           shippingStatusColor(color){
@@ -152,9 +164,20 @@ export default (context, inject) => {
           subcontractColor(color) {
             switch (color) {
               case 'SENT':
-                return '#FF4E4F'
-                case 'RECEIVED':
-                  return '#10BF41'
+                return '#6df291'
+              case 'RECEIVED':
+                return '#10BF41'
+              case 'PENDING':
+                return 'amber'
+
+            }
+          },
+          inspectionStatus(color) {
+            switch (color) {
+              case 'OK':
+                return '#10BF41'
+                case 'N/A':
+                  return '#FF4E4F'
 
             }
           },

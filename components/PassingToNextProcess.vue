@@ -36,7 +36,26 @@
           top
           color="#544B99"
           class="pointer"
-          v-if="Object.keys(item).length > 2"
+          v-if="(title==='packaging')"
+        >
+          <template #activator="{ on, attrs }">
+            <v-btn
+              icon
+              v-bind="attrs"
+              v-on="on"
+              color="#544B99"
+              @click="sendWaybill(item)"
+            >
+              <v-img src="/table-icon.svg" max-width="21" />
+            </v-btn>
+          </template>
+          <span class="text-capitalize">Send to waybill</span>
+        </v-tooltip>
+        <v-tooltip
+          top
+          color="#544B99"
+          class="pointer"
+          
         >
           <template #activator="{ on, attrs }">
             <v-btn
@@ -54,11 +73,189 @@
       </template>
     </v-data-table>
 
+    <v-dialog v-model="waybillDialog" width="1200">
+      <v-card>
+        <v-card-title class="d-flex justify-space-between w-full">
+          <div class="text-capitalize font-weight-bold">Output of waybill</div>
+          <v-btn icon color="#544B99" @click="waybillDialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text class="mt-4">
+          <v-form ref="edit_form" v-model="edit_validate" lazy-validation>
+            <v-row>
+              <v-col cols="12" lg="6">
+                <div class="label">Waybill number</div>
+                <div class="search-field">
+                  <v-combobox
+                    v-model="selectedItem.waybillId"
+                    :items="waybillList"
+                    item-text="number"
+                    item-value="id"
+                    :return-object="true"
+                    :search-input.sync="waybilSearch"
+                    class="rounded-lg base d-flex align-center justify-center"
+                    color="#544B99"
+                    dense
+                    height="44"
+                    hide-details
+                    outlined
+                    placeholder="Select waybill No."
+                    prepend-icon=""
+                    style="margin-bottom: 22px"
+                  >
+                    <template #append>
+                      <v-icon class="d-inline-block" color="#544B99">
+                        mdi-magnify
+                      </v-icon>
+                    </template>
+                  </v-combobox>
+                </div>
+              </v-col>
+              <v-col cols="12" lg="6">
+                <div class="label">Good and products name</div>
+                <v-text-field
+                  v-model="selectedItem.name"
+                  class="rounded-lg base mb-4"
+                  color="#544B99"
+                  dense
+                  height="44"
+                  hide-details
+                  outlined
+                  placeholder="Enter name"
+                  validate-on-blur
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <div class="label">Total quantity</div>
+                <div class="d-flex align-center">
+                  <v-text-field
+                    v-model="selectedItem.totalQuantity"
+                    class="rounded-lg base rounded-l-lg rounded-r-0"
+                    color="#544B99"
+                    dense
+                    height="44"
+                    hide-details
+                    outlined
+                    placeholder="Enter quantity"
+                    validate-on-blur
+                  />
+                  <v-select
+                    v-model="selectedItem.measurementUnitId"
+                    append-icon="mdi-chevron-down"
+                    class="rounded-lg base rounded-r-lg rounded-l-0"
+                    color="#544B99"
+                    :items="measurementUnitList"
+                    item-text="name"
+                    item-value="id"
+                    dense
+                    height="44"
+                    hide-details
+                    outlined
+                    style="max-width: 100px"
+                    validate-on-blur
+                  />
+                </div>
+              </v-col>
+              <v-col cols="12" lg="6">
+                <div class="label">Service price</div>
+                <div class="d-flex align-center">
+                  <v-text-field
+                    v-model="selectedItem.price"
+                    class="rounded-lg base rounded-l-lg rounded-r-0"
+                    color="#544B99"
+                    dense
+                    height="44"
+                    hide-details
+                    outlined
+                    placeholder="0.00"
+                    validate-on-blur
+                  />
+                  <v-select
+                    v-model="selectedItem.currency"
+                    :items="currency_enums"
+                    append-icon="mdi-chevron-down"
+                    class="rounded-lg base rounded-r-lg rounded-l-0"
+                    color="#544B99"
+                    dense
+                    height="44"
+                    hide-details
+                    outlined
+                    style="max-width: 100px"
+                    validate-on-blur
+                  />
+                </div>
+              </v-col>
+              <v-col cols="12" lg="6">
+                <div class="label">Box quantity</div>
+                <v-text-field
+                  v-model="selectedItem.boxQuantity"
+                  class="rounded-lg base mb-4"
+                  color="#544B99"
+                  dense
+                  height="44"
+                  hide-details
+                  outlined
+                  placeholder="Enter quantity"
+                  validate-on-blur
+                />
+              </v-col>
+              <v-col cols="4" class="d-flex align-center">
+                <v-switch inset v-model="autoFilling" color="#4F46E5" />
+                <div class="label mr-5 ">Aut.Filling</div>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col
+                cols="12"
+                lg="3"
+                v-for="(item, idx) in selectedItem.sizeDistributions"
+                :key="`_cutting_${idx}`"
+              >
+                <div class="label">{{ item.size }}</div>
+                <v-text-field
+                  v-model="item.quantity"
+                  placeholder="0"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  validate-on-blur
+                  dense
+                  color="#544B99"
+                />
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="d-flex justify-center pb-8">
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            outlined
+            color="#544B99"
+            width="130"
+            @click="waybillDialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-btn
+            class="rounded-lg text-capitalize ml-4 font-weight-bold"
+            color="#544B99"
+            dark
+            width="130"
+            @click="send"
+          >
+            save
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <v-dialog v-model="edit_dialog" width="1200">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Edit Cutting info</div>
-          <v-btn icon color="#544B99" @click="edit_dialog = false">
+          <v-btn icon color="#544B99" @click="closeDialog">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -81,7 +278,7 @@
               </v-col>
             </v-row>
             <v-row v-if="title!=='packaging'">
-              <v-col cols="12">
+              <v-col cols="8">
                 <v-radio-group
 
                   row
@@ -99,7 +296,18 @@
                     label="Subcontractor"
                     value="SUBCONTRACTOR"
                   ></v-radio>
+                  <v-radio
+                    v-if="passSupplyWarehouse"
+                    color="#544B99"
+                    label="Supply warehouse"
+                    value="SUPPLY_WAREHOUSE"
+                  ></v-radio>
+
                 </v-radio-group>
+              </v-col>
+              <v-col cols="4" class="d-flex align-center">
+                <v-switch inset v-model="autoFilling" color="#4F46E5" />
+                <div class="label mr-5 ">Aut.Filling</div>
               </v-col>
               <v-col cols="12" lg="6" >
                 <div class="label"  >Select the next process</div>
@@ -144,7 +352,7 @@
             class="rounded-lg text-capitalize font-weight-bold"
             outlined color="#544B99"
             width="130"
-            @click="edit_dialog = false"
+            @click="closeDialog"
           >
             cancel
           </v-btn>
@@ -208,6 +416,8 @@
       </v-card>
     </v-dialog>
 
+
+
   </div>
 </template>
 
@@ -216,8 +426,16 @@ import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: 'QualityControl',
+  props:{
+    passSupplyWarehouse:{
+      type:Boolean,
+      default:false,
+    }
+  },
   data() {
     return {
+      waybillDialog:false,
+      autoFilling:false,
       edit_dialog: false,
       history_dialog:false,
       selectedItem: {},
@@ -233,11 +451,13 @@ export default {
       checkedList: [],
       historyHeaders:[
         {text: 'To process', sortable: false, align: 'start', value: 'toProcess'},
-        {text: 'Date', sortable: false, align: 'start', value: 'date'},
-        {text: 'Done By', sortable: false, align: 'center', value: 'doneBy'},
+        {text: 'Date', sortable: false, align: 'start', value: 'createdBy'},
+        {text: 'Done By', sortable: false, align: 'center', value: 'createdDate'},
       ],
       historyList:[],
       selectedEntity:null,
+      currency_enums:["USD","UZS","RUB"],
+      waybilSearch:"",
     }
   },
 
@@ -249,10 +469,24 @@ export default {
       partnerList: "subcontracts/partnerList",
       historyListServer: "passingToNextProcess/historyProcessableList",
       nextProcessList: "passingToNextProcess/nextProcessList",
+      measurementUnitList: "preFinance/measurementUnit",
+      waybillList: "waybill/waybillList",
     })
   },
 
   watch: {
+    autoFilling(val){
+      if(val){
+        this.selectedItem.sizeDistributions.forEach((item,idx)=>{
+          item.quantity=this.selectedItem.sizeDistributionList[idx].quantity
+        })
+      }else{
+        this.selectedItem.sizeDistributions.forEach((item,idx)=>{
+          item.quantity=0
+        })
+      }
+      
+    },
     passingList(list) {
       this.headers = [
         {text: 'Color', align: 'start', sortable: false, value: 'color'},
@@ -301,8 +535,8 @@ export default {
       })
 
       this.historyHeaders.push(
-        {text: 'Date', sortable: false, align: 'start', value: 'date'},
-        {text: 'Done By', sortable: false, align: 'center', value: 'doneBy'},
+        {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
+        {text: 'Done By', sortable: false, align: 'center', value: 'createdBy'},
       )
 
       const specialList = list.map(function (el) {
@@ -340,6 +574,9 @@ export default {
       setHistoryProcessable: "passingToNextProcess/setHistoryProcessable",
       getNextProcessList: "passingToNextProcess/getNextProcessList",
       setReadyGarmentWarehouse: "passingToNextProcess/setReadyGarmentWarehouse",
+      getMeasurementUnit: "preFinance/getMeasurementUnit",
+      getWaybillList: "waybill/getWaybillList",
+      productionToWaybill: "generalWarehouse/productionToWaybill",
 
     }),
     getHistory(item) {
@@ -348,10 +585,38 @@ export default {
     },
     editItem(item) {
       this.edit_dialog = true
+      this.autoFilling = false
       this.selectedItem = {...item}
       this.selectedItem.status="editProcess"
       this.getHistoryList(item.entityId)
       this.selectedEntity=item.entityId
+    },
+
+    sendWaybill(item){
+      this.waybillDialog = true
+      this.autoFilling = false
+      this.selectedItem = {...item}
+      this.selectedEntity=item.entityId
+    },
+    
+    send(){
+      let data = {
+
+        boxQuantity: this.selectedItem.boxQuantity,
+        currency: this.selectedItem.currency,
+        measurementUnitId: this.selectedItem.measurementUnitId,
+        name: this.selectedItem.name,
+        partnerId: this.selectedItem.waybillId?.partnerId,
+        price: this.selectedItem.price,
+        productionId: this.productionId,
+        sizeDistributions: [...this.selectedItem.sizeDistributions],
+        totalQuantity: this.selectedItem.totalQuantity,
+        type: "FIRST_CLASS",
+        waybillId: this.selectedItem.waybillId?.id,
+        };
+        this.productionToWaybill({data,id:this.selectedItem.entityId});
+
+        this.waybillDialog = false;
     },
     deleteItem() {
     },
@@ -368,13 +633,26 @@ export default {
           this.setReadyGarmentWarehouse(data)
         }
         else{
-          let data = {
-            entityId: this.selectedItem.entityId,
-            process: this.selectedItem.process,
-            sizeDistributionList: [...this.selectedItem.sizeDistributions],
-            productionId: this.productionId,
-            workshopType: this.selectedItem.workshopType,
-            planningProcessId: this.planningProcessId,
+          let data={}
+          if(this.title==="printing"){
+            data = {
+              fromProcess:"PRINTING",
+              entityId: this.selectedItem.entityId,
+              process: this.selectedItem.process,
+              sizeDistributionList: [...this.selectedItem.sizeDistributions],
+              productionId: this.productionId,
+              workshopType: this.selectedItem.workshopType,
+              planningProcessId: this.planningProcessId,
+            }
+          }else{
+            data = {
+              entityId: this.selectedItem.entityId,
+              process: this.selectedItem.process,
+              sizeDistributionList: [...this.selectedItem.sizeDistributions],
+              productionId: this.productionId,
+              workshopType: this.selectedItem.workshopType,
+              planningProcessId: this.planningProcessId,
+            }
           }
 
           if (this.selectedItem.partnerId) {
@@ -398,6 +676,10 @@ export default {
       this.selectedItem = {...item}
       this.selectedItem.status="edit_history"
 
+    },
+    closeDialog(){
+      this.edit_dialog = false
+      this.autoFilling=false
     },
 
     deleteHistoryItem(item){

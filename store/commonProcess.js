@@ -204,6 +204,19 @@ export const actions = {
       console.log(res);
       this.$toast.error(res.data.message)
     })
+  },
+
+  refuseApprove({dispatch},data){
+    this.$axios.post(`/api/v1/classification/refuse-approve`,data)
+    .then((res)=>{
+      dispatch("getOrderQuantityList")
+      this.$toast.success(res.data.message)
+    })
+    .catch((response)=>{
+      console.log(response);
+      this.$toast.error(response.data.message)
+
+    })
   }
 
 

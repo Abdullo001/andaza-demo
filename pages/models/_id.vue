@@ -68,27 +68,6 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">{{$t('listsModels.child.composition')}}</div>
-            <v-select
-              :items="compositionList"
-              item-text="name"
-              item-value="id"
-              v-model="model.compositionId"
-              :return-object="false"
-              outlined
-              hide-details
-              class="rounded-lg base mb-4"
-              height="44"
-              dense
-              style="max-width: 400px"
-              :placeholder="$t('listsModels.child.entermodelComposition')"
-              color="#544B99"
-              append-icon="mdi-chevron-down"
-            />
-          </v-col>
-        </v-row>
-        <v-row :class="showObject">
-          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{$t('listsModels.child.partner')}}</div>
 
             <v-combobox
@@ -114,6 +93,9 @@
                   </template>
                  </v-combobox>
           </v-col>
+        </v-row>
+        <v-row :class="showObject">
+          
           <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">Brand name</div>
             <v-select
@@ -127,6 +109,81 @@
               append-icon="mdi-chevron-down"
               style="max-width: 400px"
               placeholder="Select brand name"
+              color="#544B99"
+            />
+          </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">Fabric name</div>
+            <v-combobox
+                  v-model="model.canvasTypeId"
+                  :items="canvasTypeList"
+                  :search-input.sync="canvasSearch"
+                  item-text="name"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :return-object="true"
+                  color="#544B99"
+                  dense
+                  placeholder="Enter canvas type"
+                  append-icon="mdi-chevron-down"
+                  :rules="[formRules.required]"
+                  validate-on-blur
+                  >
+                  <template #append>
+                    <v-icon color="#544B99">mdi-magnify</v-icon>
+                  </template>
+            </v-combobox>
+          </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">{{$t('listsModels.child.composition')}}</div>
+            <v-select
+              :items="compositionList"
+              item-text="name"
+              item-value="id"
+              v-model="model.compositionId"
+              :return-object="false"
+              outlined
+              hide-details
+              class="rounded-lg base mb-4"
+              height="44"
+              dense
+              style="max-width: 400px"
+              :placeholder="$t('listsModels.child.entermodelComposition')"
+              color="#544B99"
+              append-icon="mdi-chevron-down"
+            />
+          </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">Main fabric density (gr/m2)</div>
+            <v-text-field
+              v-model="model.mainFabricDensity"
+              outlined
+              hide-details
+              class="rounded-lg base mb-4"
+              height="44"
+              dense
+              style="max-width: 400px"
+              placeholder="Density"
+              color="#544B99"
+            />
+          </v-col>
+          
+          
+          <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">Fabric rework</div>
+            <v-select
+              v-model="model.fabricRework"
+              outlined
+              hide-details
+              class="rounded-lg base mb-4"
+              height="44" dense
+              :items="fabricRework"
+              append-icon="mdi-chevron-down"
+              style="max-width: 400px"
+              placeholder="Fabric rework"
               color="#544B99"
             />
           </v-col>
@@ -149,23 +206,6 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">{{$t('listsModels.child.license')}}</div>
-            <v-select
-              v-model="model.licence"
-              outlined
-              hide-details
-              class="rounded-lg base mb-4"
-              height="44" dense
-              :items="licence_enums"
-              item-text="text"
-              item-value="key"
-              append-icon="mdi-chevron-down"
-              style="max-width: 400px"
-              :placeholder="$t('listsModels.child.selectModelGroup')"
-              color="#544B99"
-            />
-          </v-col>
-          <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{$t('listsModels.child.gender')}}</div>
             <v-select
               v-model="model.gender"
@@ -178,6 +218,35 @@
               style="max-width: 400px"
               :placeholder="$t('listsModels.child.selectGender')"
               color="#544B99"
+            />
+          </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">Inspection date</div>
+            <div style="height: 44px !important">
+              <el-date-picker
+                v-model="model.inspectionDate"
+                :picker-options="pickerShortcuts"
+                class="base_picker"
+                placeholder="dd.MM.yyyy"
+                style="width: 100%; height: 100%"
+                type="date"
+                value-format="dd.MM.yyyy"
+              >
+              </el-date-picker>
+            </div>
+          </v-col>
+          <v-col cols="12" lg="3" md="3" sm="6">
+            <div class="label">Planned order quantity</div>
+            <v-text-field
+              v-model="model.orderedQuantity"
+              outlined
+              class="rounded-lg base"
+              hide-details
+              height="44"
+              color="#544B99"
+              dense
+              placeholder="Enter the planned order quantity"
+              append-icon=""
             />
           </v-col>
           <v-col cols="12" lg="6" md="6" sm="6">
@@ -344,6 +413,13 @@
               </v-card-text>
             </v-card>
           </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text class="pt-0">
+                <InspectionComponent/>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
         </v-tabs-items>
       </v-tabs>
     </v-card>
@@ -360,6 +436,7 @@ import DocumentsComponent from "../../components/Documents.vue";
 import SamplesComponent from "../../components/Samples.vue";
 import ModelPhotoComponent from "../../components/ModelPhoto.vue";
 import InstructionComponent from "../../components/Instruction.vue";
+import InspectionComponent from "@/components/InspectionFile.vue";
 import composition from "@/components/FabricCatalogs/Composition.vue";
 import ShowBtnComponent from "../../components/ShowComponentBtn/ShowBtn.vue";
 
@@ -375,11 +452,13 @@ export default {
     SizeChartComponent,
     ModelPartsComponent,
     Breadcrumbs,
+    InspectionComponent
   },
   data() {
     return {
       show_btn: true,
       partnerName:'',
+      canvasSearch:'',
       items: [
         this.$t('listsModels.child.modelParts'),
         this.$t('listsModels.child.sizeChart'),
@@ -387,6 +466,7 @@ export default {
         this.$t('listsModels.child.documents'),
         this.$t('listsModels.child.modelPhoto'),
         this.$t('listsModels.child.instruction'),
+        "Inspection file"
       ],
       tab: null,
       modelStatus: 'Add',
@@ -411,6 +491,7 @@ export default {
           icon: false
         },
       ],
+      fabricRework:["Solid","AOP"],
       model: {
         number: '',
         partnerId: '',
@@ -418,10 +499,10 @@ export default {
         group: '',
         compositionId: '',
         season: '',
-        licence: null,
         brandName:'',
         gender: '',
         description: '',
+        inspectionDate:null,
         creator: '',
         modifiedPerson: '',
         createdTime: null,
@@ -441,6 +522,7 @@ export default {
   created() {
     this.getPartnerList();
     this.getCompositionList();
+    this.filterCanvasTypeList({id:"",name:"", createdAt:"", updatedAt:""});
   },
   computed: {
     showObject(){
@@ -453,7 +535,8 @@ export default {
       modelGroups: 'models/modelGroups',
       partner_enums: 'fabricOrdering/partnerLists',
       compositionList: 'models/compositionList',
-      brandList: 'models/brandList'
+      brandList: 'models/brandList',
+      canvasTypeList: 'canvasType/canvas_type_list',
     }),
   },
   watch: {
@@ -461,6 +544,9 @@ export default {
       if(!!val && val !== '') {
       this.getPartnerName(val);
       }
+    },
+    canvasSearch(val){
+      this.filterCanvasTypeList({id:"",name:val, createdAt:"", updatedAt:""});
     },
     oneModel(val) {
       const model = this.model;
@@ -478,6 +564,11 @@ export default {
       model.createdTime = val.createdAt;
       model.updateTime = val.updatedAt;
       model.brandName = val.brandName;
+      model.fabricRework = val.fabricRework;
+      model.mainFabricDensity = val.mainFabricDensity;
+      model.canvasTypeId = {id:val.canvasTypeId,name:val.canvasType}
+      model.inspectionDate=val.inspectionDate
+      model.orderedQuantity=val.orderedQuantity
     },
     "model.partnerId"(val){
       if(!!val){
@@ -497,6 +588,7 @@ export default {
       getBrandList: 'models/getBrandList',
       modelToPrefinance: 'preFinance/modelToPrefinance',
       getPartnerName: 'fabricOrdering/getPartnerName',
+      filterCanvasTypeList: 'canvasType/filterCanvasTypeList',
 
     }),
     clickBtn(){
@@ -543,7 +635,6 @@ export default {
 
 .el-date-editor--datetime {
   width: 100%;
-  border: 5px solid red;
 }
 .show_active {
   height: 0;

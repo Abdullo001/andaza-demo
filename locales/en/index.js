@@ -56,9 +56,16 @@ export default {
     fabricWarehouse: "Fabric warehouse",
     accessoryWarehouse: "Accessory warehouse",
     finishedProducts: "Ready garment warehouse",
+    wastesWarehouse:"Wastes warehouse",
+    supplyWarehouse:"Supply warehouse",
+    secondaryWarehouse:"Secondary warehouse",
     production: "Production",
     planningOfProduction: "Planning of production",
     workingOperations: "Working operations",
+    yarnNumbers:"Yarn number",
+    composition:"Composition",
+    notification:"Notification",
+    fabricRework:"Fabric rework"
   },
   appBar: {
     search: "Search",
@@ -115,6 +122,7 @@ export default {
       userManagement: "User management",
     },
     table: {
+      email:"Email",
       userName: "Username",
       firstName: "First Name",
       lastName: "Last Name",

@@ -305,6 +305,9 @@
           <v-tab-item>
             <CuttingToNextProcess/>
           </v-tab-item>
+          <v-tab-item>
+            <ToWastes/>
+          </v-tab-item>
         </v-tabs-items>
       </v-card-text>
     </v-card>
@@ -340,6 +343,7 @@ import CuttingComponent from "@/components/Cutting.vue";
 import CalculationShortcomings from "@/components/CalculationsShoertcomings.vue";
 import OrderQuantities from "@/components/OrderQuantities.vue";
 import CuttingToNextProcess from "@/components/CuttingToNextProcess.vue";
+import ToWastes from "@/components/ToWastes.vue";
 
 export default {
   name: 'ProductionOfPlanningPage',
@@ -350,13 +354,14 @@ export default {
     ShowBtnComponent,
     Subcontracts,
     Breadcrumbs,
-    CuttingToNextProcess
+    CuttingToNextProcess,
+    ToWastes,
   },
   data() {
     return {
       show_btn: true,
       tab: null,
-      items: ["Cutting", "Subcontracts","Passing to next process"],
+      items: ["Cutting", "Subcontracts","Passing to next process","Wastes"],
       title: "Add",
       currentImage: '',
       image_dialog: false,

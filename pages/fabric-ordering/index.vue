@@ -156,8 +156,19 @@
         <v-toolbar-title class="d-flex justify-space-between w-full">
           <div class="text-h6">Generated Orders</div>
         </v-toolbar-title>
-
+        <v-btn
+          color="#544B99"
+          outlined
+          class="text-capitalize rounded-lg mr-2"
+          @click="$router.push(`/fabric-ordering/fabrics-list`)"
+        >
+          Fabrics List
+        </v-btn>
       </v-toolbar>
+    </template>
+
+    <template #item.fabricDesignPhoto="{item}">
+
     </template>
 
     <template #item.isOrder="{item}">
@@ -168,22 +179,22 @@
       ></v-simple-checkbox>
     </template>
 
-    <template #item.queue="{item}">
+<!--    <template #item.queue="{item}">-->
 
-      <v-text-field
-        @keyup.enter="setQueueFunc(item)"
-        outlined
-        hide-details
-        height="32"
-        class="rounded-lg base my-2" dense
-        :disabled="item.status==='ORDERED'"
-        :rules="[formRules.required]"
-        validate-on-blur
-        color="#544B99"
-        v-model="item.queue"
-      />
+<!--      <v-text-field-->
+<!--        @keyup.enter="setQueueFunc(item)"-->
+<!--        outlined-->
+<!--        hide-details-->
+<!--        height="32"-->
+<!--        class="rounded-lg base my-2" dense-->
+<!--        :disabled="item.status==='ORDERED'"-->
+<!--        :rules="[formRules.required]"-->
+<!--        validate-on-blur-->
+<!--        color="#544B99"-->
+<!--        v-model="item.queue"-->
+<!--      />-->
 
-  </template>
+<!--  </template>-->
 
 
     <template #item.status="{item}">
@@ -197,6 +208,38 @@
         rounded
         dark
         @change="changeStatusFunc(item)"
+      />
+    </template>
+
+    <template #item.actions="{item}">
+      <v-tooltip
+        top
+        color="#544B99"
+        class="pointer"
+        v-if="Object.keys(item).length > 2"
+      >
+        <template #activator="{ on, attrs }">
+          <v-btn
+            icon
+            v-bind="attrs"
+            v-on="on"
+            color="#544B99"
+            :disabled="item.status=== 'ORDERED' || item.status=== 'RECEIVED'"
+            @click="editItem(item)"
+          >
+            <v-img :src="item.status=== 'ORDERED' || item.status === 'RECEIVED' ? '/disable-editIcon.svg' : '/edit-active.svg'" max-width="22"/>
+          </v-btn>
+        </template>
+        <span class="text-capitalize">Add info</span>
+      </v-tooltip>
+    </template>
+    <template #item.fabricDesignPhoto="{item}">
+      <v-img
+        :src="item?.filePath"
+        class="mr-2"
+        width="40"
+        height="40"
+        @click="showImage(item.filePath)"
       />
     </template>
 
@@ -223,7 +266,134 @@
       Order Fabric
     </v-btn>
   </div>
+    <v-dialog v-model="edit_dialog" width="580">
+      <v-card>
+        <v-card-title class="d-flex justify-space-between w-full">
+          <div class="text-capitalize font-weight-bold">
+            Add Fabric informations
+          </div>
+          <v-btn icon color="#544B99" @click="edit_dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text class="mt-4">
+          <v-form ref="new_form">
+            <v-row>
+              <v-col cols="6">
+                <div class="label">Actual fabric price</div>
+                <div class="d-flex align-center">
+                  <v-text-field
+                    height="44"
+                    class="rounded-lg base rounded-l-lg"
+                    color="#544B99"
+                    v-model="addFabricInformation.actualPrice"
+                    outlined
+                    hide-details
+                    dense
+                    placeholder="Enter Actual F/P" />
+                </div>
+              </v-col>
+              <v-col cols="6">
+                <div class="label">Queue</div>
+                <v-text-field
+                  height="44"
+                  class="rounded-lg base rounded-l-lg"
+                  color="#544B99"
+                  v-model="addFabricInformation.queue"
+                  outlined
+                  hide-details
+                  dense
+                  placeholder="Enter Queue" />
+              </v-col>
+              <v-col cols="12">
+                <div class="label">Additional accessories</div>
+                <v-text-field
+                  height="44"
+                  class="rounded-lg base rounded-l-lg"
+                  color="#544B99"
+                  v-model="addFabricInformation.additionalAccessory"
+                  outlined
+                  hide-details
+                  dense
+                  placeholder="Enter Additional accessories" />
+              </v-col>
+              <v-col cols="12">
+                <div class="big__image overflow-hidden relative " >
+                  <input
+                    ref="uploaderFirst"
+                    class="d-none"
+                    type="file"
+                    @change="(e)=>firstFileChanged(e)"
+                    accept="image/*"
+                  />
 
+                  <div class="update__icon" v-if="!!files[0].file">
+                    <v-btn color="green" icon @click="getFile('first')">
+                      <v-img src="/upload-green.svg" max-width="22"/>
+                    </v-btn>
+                    <v-btn color="green" icon @click="deleteFile('first')">
+                      <v-img src="/trash-red.svg" max-width="22"/>
+                    </v-btn>
+                  </div>
+
+                  <v-img
+                    :src="images[0].photo"
+                    lazy-src="/model-image.jpg"
+                    v-if="!!files[0].file" width="100%"
+                    @click="showImage(images[0].photo)"
+                  />
+
+                  <div class="default__box" v-else>
+                    <v-img src="/default-image.svg" width="70"/>
+                    <v-btn text color="#5570F1" class="rounded-lg mt-6 my-4" @click="getFile('first')">
+                      <v-img src="/upload.svg" class="mr-2"/>
+                      <div class="text-capitalize upload-text">Upload Image</div>
+                    </v-btn>
+                    <div class="default__text">
+                      <p>Upload a cover image for your product.</p>
+                    </div>
+                  </div>
+
+                </div>
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="d-flex justify-center pb-8">
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            outlined
+            color="#544B99"
+            width="163"
+            @click="edit_dialog = false"
+          >
+            {{ $t("bodyParts.dialog.cancelBtn") }}
+          </v-btn>
+          <v-btn
+            class="rounded-lg text-capitalize ml-4 font-weight-bold"
+            color="#544B99"
+            dark
+            width="163"
+            @click="updateItem"
+          >
+            {{ $t("save") }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog max-width="590" v-model="image_dialog">
+      <v-card >
+        <v-card-title class="d-flex">
+          <v-spacer/>
+          <v-btn icon color="#544B99" large @click="image_dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text>
+          <v-img :src="currentImage" height="500" class="mb-4" contain/>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -234,6 +404,8 @@ export default {
     return{
       selected:[],
       singleSelect:false,
+      edit_dialog: false,
+      new_form: true,
       headers:[
         {text:"Model №",value:"modelNumber",sortable:false},
         {text:"Fabric specification",value:"specification",sortable:false},
@@ -242,32 +414,55 @@ export default {
         {text:"Peach effect",value:"peachEffectEnabled",sortable:false},
         {text:"Color",value:"color",sortable:false},
         {text:"Actual fabric total",value:"actualFabricTotal",sortable:false},
-        {text:"Price",value:"pricePerUnit",sortable:false},
-        {text:"Total price",value:"totalPrice",sortable:false},
       ],
       genHeaders:[
-        {text:"",value:"isOrder",sortable:false},
-        {text:"Sip №",value:"sipNumber",sortable:false},
-        {text:"Model №",value:"modelNumbers",sortable:false},
-        {text:"Queue",value:"queue",sortable:false,width:150},
-        {text:"Fabric specification",value:"fabricSpecification",sortable:false},
-        {text:"Color",value:"color",sortable:false},
-        {text:"Status",value:"status",sortable:false},
-        {text:"Supplier",value:"supplier",sortable:false},
-        {text:"Actual fabric total",value:"actualTotalFabric",sortable:false},
-        {text:"Total price",value:"totalPrice",sortable:false,width:200},
-        {text:"Fabric deadline",value:"fabricDeadline",sortable:false},
+        {text: "", value:"isOrder",sortable:false},
+        {text: "Sip №", value:"sipNumber",sortable:false},
+        {text: "Model №", value:"modelNumbers",sortable:false},
+        {text: "Fabric design", value: "fabricDesignPhoto", sortable: false},
+        {text: "Queue", value:"queue",sortable:false,width:150},
+        {text: "Fabric specification",value:"fabricSpecification",sortable:false},
+        {text: "Color",value:"color",sortable:false},
+        {text: "Status",value:"status",sortable:false},
+        {text: "Supplier",value:"supplier",sortable:false},
+        {text: "Actual fabric total",value:"actualTotalFabric",sortable:false},
+        {text:"Actual fabric price",value:"actualPrice",sortable:false},
+        {text: "Actual total price",value:"totalPrice",sortable:false,width:200},
+        {text: "Fabric deadline",value:"fabricDeadline",sortable:false},
+        {text: "Additional accessory",value:"additionalAccessory",sortable:false},
+        {text: "Actions", value: "actions"}
       ],
       new_valid:true,
+      image_dialog: false,
+      currentImage: "",
       orderNumSearch:"",
       orderNumber:"",
       partnerName:"",
       partnerId:null,
       orderId:null,
       deliveryTime:null,
-      status_enums: ["ORDERED", "CANCELLED", "PENDING"],
+      status_enums: ["ORDERED", "CANCELLED", "PENDING", "RECEIVED"],
+      price_enums: ["USD", "UZS", "RUB"],
       generatedList:[],
       sampleList:[],
+      addFabricInformation: {
+        actualPrice: '',
+        additionalAccessory: '',
+        fabricOrderId: null,
+        queue: ''
+      },
+      files:[
+        {file:null,id:null},
+        {file:null,id:null},
+        {file:null,id:null},
+        {file:null,id:null},
+      ],
+      images:[
+        {photo:""},
+        {photo:""},
+        {photo:""},
+        {photo:""},
+      ],
     }
   },
 
@@ -340,8 +535,54 @@ export default {
       changeStatus: 'fabricOrdering/changeStatus',
       returnOrders: 'fabricOrdering/returnOrders',
       setQueue: 'fabricOrdering/setQueue',
-
+      updateGeneratedOrders: 'fabricOrdering/updateGeneratedOrders'
     }),
+
+    firstFileChanged(e) {
+      this.files[0].file = e.target.files[0];
+      this.images[0].photo = URL.createObjectURL(this.files[0].file);
+      if(!!this.files[0].id){
+        this.fileRequests[0].file=e.target.files[0]
+        this.fileRequests[0].id=this.files[0].id
+      }
+    },
+
+    getFile(count) {
+      switch (count) {
+        case 'first':
+          return this.$refs.uploaderFirst.click();
+        case 'second':
+          return this.$refs.uploaderSecond.click();
+        case 'third':
+          return this.$refs.uploaderThird.click();
+        case 'fourth':
+          return this.$refs.uploaderFourth.click();
+      }
+    },
+
+    deleteFile(count) {
+      switch (count) {
+        case 'first':
+          this.files[0].file = null;
+          break;
+        case 'second':
+          this.files[1].file = null;
+          break;
+        case 'third':
+          this.files[2].file = null;
+
+          break;
+        case 'fourth':
+          this.files[3].file = null;
+          this.deleteImages({id:this.files[3].id,modelId:this.$route.params.id})
+          break;
+      }
+    },
+
+    showImage(photo) {
+      this.currentImage = photo;
+      this.image_dialog = true;
+    },
 
     setTotalPriceFunc(e,item){
       if(e.code===`Enter`){
@@ -432,11 +673,40 @@ export default {
       }
 
       this.setFabricOrder({data,id:this.orderId.id})
-    }
+    },
+
+    editItem(item) {
+      this.edit_dialog = true
+      this.addFabricInformation.fabricOrderId = item.fabricOrderId
+    },
+    async updateItem()  {
+          const validate = this.$refs.new_form.validate();
+          const {
+            actualPrice,
+            additionalAccessory,
+            fabricOrderId,
+            queue,
+          } = this.addFabricInformation
+          if (validate) {
+            const formData= new FormData()
+            formData.append("actualPrice", actualPrice)
+            formData.append("additionalAccessory", additionalAccessory)
+            formData.append("fabricOrderId", fabricOrderId)
+            formData.append("queue", queue)
+            if(!!this.files[0]?.file){
+              formData.append("file",this.files[0]?.file)
+            }
+            await this.updateGeneratedOrders({ data: formData,orderId:this.orderId?.id })
+            await this.$refs.new_form.reset()
+          }
+          this.edit_dialog = false
+      },
   },
+
 
   mounted(){
     this.getPartnerName("")
+    this.$store.commit('setPageTitle', 'Fabric Ordering');
   }
 }
 

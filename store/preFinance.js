@@ -88,7 +88,6 @@ export const actions = {
       modelNumber:name,
       page:0,
       size:10,
-      status:"ACTIVE"
     }
 
     await this.$axios

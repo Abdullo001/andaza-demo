@@ -7,7 +7,7 @@ export const state = () => ({
 export const getters = {
   fabricWarehouseList: (state) => state.fabricWarehouseList.content,
   totalElements: (state) => state.fabricWarehouseList.totalElements,
-  sipNumbers: (state) => state.sipNumbers,
+  sipNumbers: (state) => state.sipNumbers.content,
   toSipNumbers: (state) => state.toSipNumbers,
 };
 
@@ -76,8 +76,7 @@ export const actions = {
     }
     this.$axios.put(`/api/v1/fabric-order/list`,data)
       .then((res) => {
-        console.log(res)
-        commit("setSipNumbers", res.data.data.content);
+        commit("setSipNumbers", res.data.data);
       })
       .catch((res) => {
         console.log(res);

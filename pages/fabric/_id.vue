@@ -334,9 +334,6 @@
             <FabricPlannedOrder/>
           </v-tab-item>
           <v-tab-item>
-            <FabricSupplyFabric/>
-          </v-tab-item>
-          <v-tab-item>
             <Documents/>
           </v-tab-item>
         </v-tabs-items>
@@ -350,10 +347,18 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col cols="12" lg="6">
+      <v-col cols="12" lg="3">
         <v-card class="mt-3 rounded-lg elevation-0">
           <v-card-text>
             <FabricOrder/>
+            <v-divider/>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col cols="12" lg="3">
+        <v-card class="mt-3 rounded-lg elevation-0">
+          <v-card-text>
+            <PlannedExpense :modelId="addFabric.modelId"/>
             <v-divider/>
           </v-card-text>
         </v-card>
@@ -380,6 +385,7 @@ import FabricPlanningChart from "../../components/Fabric/PlanningChart.vue"
 import FabricOrdered from "../../components/Fabric/Ordered.vue"
 import FabricSupplyFabric from "../../components/Fabric/SupplyFabric.vue"
 import FabricOrder from "../../components/Fabric/Order.vue"
+import PlannedExpense from "../../components/Fabric/PlannedExpense.vue"
 import FabricCalculation from "../../components/Fabric/Calculation.vue"
 import FabricPlannedOrder from "../../components/Fabric/PlannedOrder.vue"
 import Documents from "../../components/Documents.vue"
@@ -396,7 +402,8 @@ export default {
     FabricOrder,
     FabricCalculation,
     FabricPlannedOrder,
-    Documents
+    Documents,
+    PlannedExpense
   },
   data() {
     return {
@@ -452,7 +459,6 @@ export default {
         'Fabric planning chart',
         'List of fabrics to be ordered',
         'Planned fabric order',
-        'Supply fabric',
         'Documentation'
       ],
       tab: null,
@@ -502,6 +508,7 @@ export default {
       data.createdTimeOfModel = val.createdTimeOfModel;
       data.creatorOfOrder = val.creatorOfOrder;
       data.createdTimeOfOrder = val.createdTimeOfOrder;
+      data.modelId=val.modelId
     }
   },
   computed: {
@@ -526,7 +533,7 @@ export default {
       getImages: 'modelPhoto/getImages',
       savePlanning: 'fabric/savePlanning',
       getPlanningChartList: 'fabric/getPlanningChartList',
-      getPlanningChartListOne: 'fabric/getPlanningChartListOne'
+      getPlanningChartListOne: 'fabric/getPlanningChartListOne',
     }),
     clickBtn(){
       this.show_btn = !this.show_btn

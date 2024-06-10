@@ -144,7 +144,7 @@ export default {
         {text: "Invoice Amount",  value: "invoiceAmount"},
         {text: "Net weight, kg",  value: "nettoWeight"},
         {text: "Gross weight, kg",  value: "grossWeight"},
-        {text: "Shipped date",  value: "shippedDate"},
+        {text: "Shipped date",  value: "invoiceDate"},
         {text: "Status",  value: "status"},
         {text: "Action",sortable:false,  value: "action"},
       ],
@@ -199,7 +199,7 @@ export default {
     async size(value) {
       this.itemPrePage = value;
       await this.getShippingList({
-        clientName: this.filters.   clientName,
+        clientName: this.filters.clientName,
         invoiceNumber: this.filters.invoiceNumber,
         shippingDate: this.filters.shippingDate,
         page: this.current_page,

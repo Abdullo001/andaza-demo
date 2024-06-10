@@ -82,7 +82,7 @@
               </td>
               <td v-if="idx === 0" :rowspan="idx">{{ group.weightPerBox }}</td>
               <td v-if="idx === 0" :rowspan="idx">{{ group.grossWeight === "NaN" ? 0 : group.grossWeight }}</td>
-              <td v-if="idx === 0" :rowspan="idx">{{ group.cbmM3 }}</td>
+              <td v-if="idx === 0" :rowspan="idx">{{ group.totalCbm }}</td>
               <td v-if="idx === 0" :rowspan="idx">{{ group.packingListNumber }}</td>
               <td v-if="idx === 0" :rowspan="idx">{{ group.packingListDate }}</td>
               <td v-if="idx === 0" :rowspan="idx">{{ group.marking }}</td>
@@ -92,6 +92,21 @@
                     <v-btn :disabled="group.isChecked" icon color="green" @click="editItem(group)">
                       <v-img src="/edit-active.svg" max-width="22"/>
                     </v-btn>
+                    <v-tooltip top color="#544B99">
+                      <template #activator="{on, attrs}">
+                        <v-btn
+                          icon class="ml-2"
+                          :href="item.filePath"
+                          :download="`Document.${item.extension}`"
+                          v-on="on"
+                          v-bind="attrs"
+                          @click="downloadPdf(group)"
+                        >
+                          <v-img src="/download.svg" max-width="24"/>
+                        </v-btn>
+                      </template>
+                      <span>Download</span>
+                    </v-tooltip>
                   </div>
                 </template>
               </td>
@@ -279,6 +294,13 @@
         Generate Invoice
       </v-btn>
     </div>
+    <v-overlay v-model="isLoad" class="align-center justify-center">
+      <v-progress-circular
+        color="#544B99"
+        indeterminate
+        size="80"
+      ></v-progress-circular>
+    </v-overlay>
   </div>
 </template>
 <script>
@@ -311,6 +333,7 @@ export default {
       },
       allList: [],
       updateSizess: [],
+      newList: [],
       totalBoxQuantity: "",
       totalGroupTotal: ""
     }
@@ -328,12 +351,13 @@ export default {
     },
     packingList(list) {
       const specialList = list.map((el) => {
-        let netWeight = {};
-        let totalNetWeight = 0;
-        const valueSizes = {};
-        let totalDistribution = 0;
-        let totalBoxQuantity = 0;
-        let grossWeight = 0;
+        let netWeight = {}
+        let totalNetWeight = 0
+        const valueSizes = {}
+        let totalDistribution = 0
+        let totalCbm = 0
+        let totalBoxQuantity = 0
+        let grossWeight = 0
 
         for (let item in el.itemResponseList) {
           totalDistribution += el.itemResponseList[item].total
@@ -357,10 +381,10 @@ export default {
           );
           totalNetWeight += netWeight[size.size];
         }
-
+        totalCbm = parseFloat((el.cbmM3 * totalBoxQuantity).toFixed(2))
         grossWeight = (
           el.weightPerBox * totalBoxQuantity + totalNetWeight
-        ).toFixed(2);
+        ).toFixed(2)
         return {
           ...el,
           isChecked: el.isGenerated,
@@ -370,6 +394,7 @@ export default {
           totalBoxQuantity: totalBoxQuantity,
           totalNetWeight: totalNetWeight ? totalNetWeight.toFixed(3) : "",
           grossWeight: grossWeight,
+          totalCbm: totalCbm
         };
       });
       this.allList = JSON.parse(JSON.stringify(specialList));
@@ -378,6 +403,7 @@ export default {
   computed: {
     ...mapGetters({
       packingList: "packingList/packingList",
+      isLoad: "packingList/isLoad",
       boxSizeList: "boxSize/boxSizeList"
     }),
   },
@@ -387,8 +413,31 @@ export default {
       getBoxSizeList: "boxSize/getBoxSizeList",
       updatePackingList: "packingList/updatePackingList",
       setBoxQuantity: "packingList/setBoxQuantity",
-      postGenerateInvoice: "packingList/postGenerateInvoice"
+      postGenerateInvoice: "packingList/postGenerateInvoice",
+      generatePackagingListPdf: 'packingList/generatePackagingListPdf'
     }),
+    downloadPdf(group) {
+      let newNetList = []
+      let res
+      const filter = this.allList.filter(el => el.id === group.id )
+      filter.map(el => {
+        res = Object.entries(el.netWeight)
+      })
+      for(let i = 0; i < res.length; i++) {
+          newNetList.push({size: res[i][0],value: res[i][1]})
+      }
+      const data = {
+        cbm: group.totalCbm,
+        grossWeight: group.grossWeight,
+        packagingListId: group?.id,
+        shippingId: Number(this?.shippingId),
+        sizeWeightDistributions: [...newNetList],
+        totalBoxQuantity: filter[0]?.totalBoxQuantity,
+        totalNetWeight: Number(filter[0]?.totalNetWeight),
+        totalPcs: filter[0]?.totalDistribution
+      }
+      this.generatePackagingListPdf(data)
+    },
     isGeneratedFunc(item) {
       this.generatedItem.push({
         grossWeight: item.grossWeight,

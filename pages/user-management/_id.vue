@@ -191,7 +191,7 @@
     <v-card color="#fff" elevation="0" class="mt-8">
       <v-card-title class="d-flex justify-space-between">
         <div>Permissions</div>
-       
+
       </v-card-title>
       <v-divider/>
       <v-card-text>
@@ -199,12 +199,13 @@
           class="mt-4 rounded-lg"
           :headers="headers"
           :items="permisionList"
-          :items-per-page="16"
+          :items-per-page="17"
           hide-default-footer
         >
         <template #item.checker="{item}">
           <v-simple-checkbox
             v-model="item.isChecked"
+            @click="checkFunc(item)"
             color="#544B99"
           ></v-simple-checkbox>
         </template>
@@ -337,7 +338,7 @@ export default {
         canDelete:false,
       },
       otherPermissions:
-      [ 
+      [
         "MODEL",
         "CALCULATION",
         "ORDER",
@@ -353,7 +354,8 @@ export default {
         "PRODUCTION_FORM",
         "CATALOG",
         "SETTING",
-        "REPORT" 
+        "REPORT",
+        "TELEGRAM_BOT",
       ],
       permission_dialog:false,
       permisionList:[
@@ -405,7 +407,7 @@ export default {
     },
     primaryPermissionsList(list){
       let otherPermissions=
-      [ 
+      [
         "MODEL",
         "CALCULATION",
         "ORDER",
@@ -421,10 +423,11 @@ export default {
         "PRODUCTION_FORM",
         "CATALOG",
         "SETTING",
-        "REPORT" 
+        "REPORT",
+        "TELEGRAM",
       ]
       const specialList=list.map((item)=>{
-        
+
         return{
           ...item,
           isChecked:true,
@@ -444,7 +447,7 @@ export default {
         }
       })
       specialList.push(...specialListForOther)
-      console.log(specialList);
+
       this.permisionList=JSON.parse(JSON.stringify(specialList))
 
     }
@@ -455,6 +458,30 @@ export default {
       resetPassword: 'users/resetPassword',
       setPermission: 'users/setPermission',
     }),
+    checkFunc(item){
+      let data={}
+      if(item.isChecked){
+        data={
+          userId:this.$route.params.id,
+          permissionName:item.permissionName,
+          canDelete: true,
+          canRead: true,
+          canUpdate:true,
+          canWrite:true, 
+        }
+      }else{
+        data={
+          userId:this.$route.params.id,
+          permissionName:item.permissionName,
+          canDelete: false,
+          canRead: false,
+          canUpdate:false,
+          canWrite:false, 
+        }
+      }
+      
+      this.setPermission(data)
+    },
     getPassword(password) {
       navigator.clipboard.writeText(password);
       this.$toast.success(`Copied to clipboard !`);
@@ -473,11 +500,7 @@ export default {
         this.one_user.photo = window.URL.createObjectURL(this.avatar);
       }
     },
-    addPermission(){
-      this.permisionList.forEach((el)=>{
-        this.otherPermissions=this.otherPermissions.filter(item=>item!==el.permissionName)
-      })
-    },
+    
     setPermissonFunc(){
       const data={
         userId:this.$route.params.id,

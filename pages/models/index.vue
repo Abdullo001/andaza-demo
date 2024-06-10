@@ -158,7 +158,7 @@ export default {
         {text: this.$t('listsModels.table.clientName'), value: 'partner'},
         {text: this.$t('listsModels.table.composition'), value: 'composition'},
         {text: this.$t('listsModels.table.modelGroup'), value: 'modelGroup'},
-        {text: this.$t('listsModels.table.license'), value: 'licenceRequired'},
+        {text: "Inspection date", value: 'inspectionDate'},
         {text: "Fabric status", value: 'fabricStatus'},
         {text: "Accessory status", value: 'accessoryStatus'},
         {text: this.$t('listsModels.table.status'), value: 'status', width: 200},
