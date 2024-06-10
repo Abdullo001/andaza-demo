@@ -227,10 +227,10 @@
                 v-model="model.inspectionDate"
                 :picker-options="pickerShortcuts"
                 class="base_picker"
-                placeholder="dd.MM.yyyy HH:mm:ss"
+                placeholder="dd.MM.yyyy"
                 style="width: 100%; height: 100%"
-                type="datetime"
-                value-format="dd.MM.yyyy HH:mm:ss"
+                type="date"
+                value-format="dd.MM.yyyy"
               >
               </el-date-picker>
             </div>

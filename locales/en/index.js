@@ -65,6 +65,7 @@ export default {
     yarnNumbers:"Yarn number",
     composition:"Composition",
     notification:"Notification",
+    fabricRework:"Fabric rework"
   },
   appBar: {
     search: "Search",

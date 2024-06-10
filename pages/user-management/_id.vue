@@ -199,7 +199,7 @@
           class="mt-4 rounded-lg"
           :headers="headers"
           :items="permisionList"
-          :items-per-page="16"
+          :items-per-page="17"
           hide-default-footer
         >
         <template #item.checker="{item}">
@@ -354,7 +354,8 @@ export default {
         "PRODUCTION_FORM",
         "CATALOG",
         "SETTING",
-        "REPORT"
+        "REPORT",
+        "TELEGRAM_BOT",
       ],
       permission_dialog:false,
       permisionList:[
@@ -422,7 +423,8 @@ export default {
         "PRODUCTION_FORM",
         "CATALOG",
         "SETTING",
-        "REPORT"
+        "REPORT",
+        "TELEGRAM",
       ]
       const specialList=list.map((item)=>{
 
@@ -445,6 +447,7 @@ export default {
         }
       })
       specialList.push(...specialListForOther)
+
       this.permisionList=JSON.parse(JSON.stringify(specialList))
 
     }
@@ -497,11 +500,7 @@ export default {
         this.one_user.photo = window.URL.createObjectURL(this.avatar);
       }
     },
-    addPermission(){
-      this.permisionList.forEach((el)=>{
-        this.otherPermissions=this.otherPermissions.filter(item=>item!==el.permissionName)
-      })
-    },
+    
     setPermissonFunc(){
       const data={
         userId:this.$route.params.id,
@@ -530,7 +529,6 @@ export default {
       if (typeof this.avatar === "object") {
         data.photo = this.avatar
       } else data.photo = null
-      console.log(data)
       this.updateUser(data);
     },
     langFlag(lang) {
