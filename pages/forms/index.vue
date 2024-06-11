@@ -139,7 +139,7 @@ export default {
           title: "Production status",
           subtitle: "Production information with status related to all models of one client ",
           status:"PRODUCTION",
-          to: "/forms/print-pdf-generation",
+          to: "/forms/production-status",
         },
         {
           title: "Daily/Monthly production q-ty",
