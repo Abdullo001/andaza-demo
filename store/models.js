@@ -111,7 +111,7 @@ export const actions = {
       description: data.description,
       gender: data.gender,
       groupId: data.group,
-      licenseRequired: "false",
+      licenseRequired: false,
       modelNumber: data.number,
       name: data.name,
       partnerId: data.partnerId,

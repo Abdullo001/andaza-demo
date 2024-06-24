@@ -96,7 +96,6 @@
                   outlined
                   height="44"
                   hide-details
-                  validate-on-blur
                   color="#544B99"
                   class="rounded-lg base mr-2"
                   append-icon="mdi-chevron-down"
@@ -280,4 +279,4 @@ export default {
 };
 </script>
 
-<style lang="scss" ></style>
+<style lang="scss" scoped ></style>
