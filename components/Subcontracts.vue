@@ -674,6 +674,7 @@ export default {
       saveReturnFabricFunc: "subcontracts/saveReturnFabric",
       changeStatusFunc: "subcontracts/changeStatus",
       getHistoryList: "cuttingProcess/getHistoryList",
+      setHistoryItem: "cuttingProcess/setHistoryItem",
       setMainColorFunc: "subcontracts/setMainColor",
       setWasteFabric: "subcontracts/setWasteFabric",
 
@@ -719,7 +720,10 @@ export default {
 
     },
 
-    editHistoryItem(){},
+    editHistoryItem(item){
+      this.selectedSubcontract={...item}
+      this.selectedSubcontract.status="editHistory"
+    },
 
     deleteHistoryItem(){},
 
@@ -756,15 +760,29 @@ export default {
 
 
     async updateSubcontractsView() {
-      this.edit_dialog = false;
-      const data={
-        sizeDistributions:[...this.subcontractsDetail.sizeDistributions],
-        deadline:this.subcontractsDetail.deadline,
-        sentDate:this.subcontractsDetail.sentDate,
-        pricePerWork:this.subcontractsDetail.pricePerWork,
-        id:this.subcontractsDetail.id,
+      console.log(this.subcontractsDetail);
+      if(this.subcontractsDetail.status==="editHistory"){
+        const data={
+          id:this.subcontractsDetail.id,
+          sizeDistributionList:[...this.subcontractsDetail.sizeDistributions]
+        }
+        this.editHistory(data)
+      }else{
+        const data={
+          sizeDistributions:[...this.subcontractsDetail.sizeDistributions],
+          deadline:this.subcontractsDetail.deadline,
+          sentDate:this.subcontractsDetail.sentDate,
+          pricePerWork:this.subcontractsDetail.pricePerWork,
+          id:this.subcontractsDetail.id,
+        }
+        this.setUpdateSizes(data);
       }
-      this.setUpdateSizes(data);
+        
+      
+
+      this.edit_dialog = false;
+
+      
     },
 
     deleteSubcontractOne(item) {
