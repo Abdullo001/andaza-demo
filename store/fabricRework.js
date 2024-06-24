@@ -1,15 +1,20 @@
 export const state = () => ({
   reworkList: [],
+  reworkThinList:[],
 })
 
 export const getters={
   reworkList:(state)=>state.reworkList.content,
   totalElements:(state)=>state.reworkList.totalElements,
+  reworkThinList:(state)=>state.reworkThinList,
 }
 
 export const mutations={
   setReworkList(state,list){
     state.reworkList=list
+  },
+  setReworkThinList(state,list){
+    state.reworkThinList=list
   },
 }
 
@@ -77,4 +82,13 @@ export const actions={
 
     })
   },
+  getReworkThinList({commit}){
+    this.$axios.get(`/api/v1/fabric-rework/list`)
+    .then((res)=>{
+      commit("setReworkThinList",res.data.data)
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  }
 }

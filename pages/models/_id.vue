@@ -175,12 +175,14 @@
           <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">Fabric rework</div>
             <v-select
-              v-model="model.fabricRework"
+              v-model="model.fabricReworkId"
               outlined
               hide-details
               class="rounded-lg base mb-4"
               height="44" dense
-              :items="fabricRework"
+              :items="reworkThinList"
+              item-text="name"
+              item-value="id"
               append-icon="mdi-chevron-down"
               style="max-width: 400px"
               placeholder="Fabric rework"
@@ -523,6 +525,7 @@ export default {
     this.getPartnerList();
     this.getCompositionList();
     this.filterCanvasTypeList({id:"",name:"", createdAt:"", updatedAt:""});
+    this.getReworkThinList();
   },
   computed: {
     showObject(){
@@ -537,6 +540,7 @@ export default {
       compositionList: 'models/compositionList',
       brandList: 'models/brandList',
       canvasTypeList: 'canvasType/canvas_type_list',
+      reworkThinList: 'fabricRework/reworkThinList',
     }),
   },
   watch: {
@@ -589,6 +593,7 @@ export default {
       modelToPrefinance: 'preFinance/modelToPrefinance',
       getPartnerName: 'fabricOrdering/getPartnerName',
       filterCanvasTypeList: 'canvasType/filterCanvasTypeList',
+      getReworkThinList: 'fabricRework/getReworkThinList',
 
     }),
     clickBtn(){
