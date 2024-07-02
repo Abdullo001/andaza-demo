@@ -468,7 +468,6 @@ export default {
         this.$t('listsModels.child.documents'),
         this.$t('listsModels.child.modelPhoto'),
         this.$t('listsModels.child.instruction'),
-        "Inspection file"
       ],
       tab: null,
       modelStatus: 'Add',

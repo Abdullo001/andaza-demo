@@ -199,7 +199,7 @@
           class="mt-4 rounded-lg"
           :headers="headers"
           :items="permisionList"
-          :items-per-page="17"
+          :items-per-page="18"
           hide-default-footer
         >
         <template #item.checker="{item}">
@@ -425,6 +425,7 @@ export default {
         "SETTING",
         "REPORT",
         "TELEGRAM",
+        "NOTIFICATION",
       ]
       const specialList=list.map((item)=>{
 
