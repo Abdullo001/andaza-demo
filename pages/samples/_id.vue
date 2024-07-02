@@ -46,7 +46,7 @@
                 :items="modelsList"
                 :search-input.sync="modelNumSearch"
                 item-text="modelNumber"
-                item-value="modelNumber"
+                item-value="id"
                 validate-on-blur
                 outlined
                 hide-details
@@ -490,10 +490,9 @@ export default {
 
     createdSample(){
       const data={
-        modelId:this.sampleDetail.modelNumber.id,
+        modelId:this.sampleDetail.modelId,
         orderId:this.sampleDetail.orderNumber.id,
       }
-
       this.createSample(data)
     },
 
