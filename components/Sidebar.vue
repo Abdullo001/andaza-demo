@@ -389,6 +389,14 @@ export default {
           },
           {
             icon: ["orders.svg", "orders-active.svg"],
+            title: this.$t("sidebar.inspection"),
+            to: this.localePath("/inspection-file"),
+            has_child: false,
+            name: "INSPECTION",
+            localization: "inspection",
+          },
+          {
+            icon: ["orders.svg", "orders-active.svg"],
             title: this.$t("sidebar.orders"),
             to: this.localePath("/orders"),
             has_child: false,

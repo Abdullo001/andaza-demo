@@ -18,7 +18,8 @@
               width="160"
               height="36"
               @click="openDialog"
-              dark
+              :disabled="!currentId"
+              :dark="!!currentId"
             >
               Upload document
             </v-btn>
@@ -26,8 +27,8 @@
         </v-toolbar>
       </template>
 
-      <template #item.status="{item}">
-        <v-chip :color="statusColor.inspectionStatus(item.status)" dark class="font-weight-bold ml-5">{{ item.status }}</v-chip>
+      <template #item.result="{item}">
+        <v-chip :color="statusColor.inspectionStatus(item.result)" dark class="font-weight-bold ml-5">{{ item.result }}</v-chip>
       </template>
       <template #item.actions="{item}">
         <div>
@@ -308,7 +309,7 @@ export default {
         modelId: '',
         id: ''
       },
-      inspectionStatus:["N/A","OK"],
+      inspectionStatus:["NA","OK","PENDING","REMAKE"],
       valid_edit: true,
       edit_dialog: false,
       delete_dialog: false,
@@ -320,7 +321,7 @@ export default {
         {text: 'Send date', sortable: false, value: 'sendDate'},
         {text: 'Title of document', sortable: false, value: 'title'},
         {text: 'Description', sortable: false, value: 'description'},
-        {text: 'Status', sortable: false, value: 'status'},
+        {text: 'Status', sortable: false, value: 'result'},
         {text: 'Created at', sortable: false, value: 'createdAt'},
         {text: 'Actions', sortable: false, align: 'center', value: 'actions'},
       ],
@@ -330,25 +331,31 @@ export default {
         file: null,
         title: '',
         description: '',
-        modelId: ''
+        modelId: '',
+        sendDate:'',
       },
       currentId: '',
       inspectionList: [],
       inspection_list_length: null,
+      currentModel:{},
     }
   },
   computed: {
     ...mapGetters({
       inspectionFileList: "inspectionFile/inspectionFileList",
+      selectedModel: "inspectionFile/model",
       newModelId: "models/newModelId",
 
     })
   },
   watch: {
+    selectedModel(val){
+      this.currentId=val.id
+      console.log(val);
+    },
     inspectionFileList(list) {
-      if(Object.keys(this.inspectionFileList).length !== 0) {
-        this.inspectionList = [list]
-      }
+        this.inspectionList = JSON.parse(JSON.stringify(list))
+
     },
   },
   methods: {
@@ -377,7 +384,7 @@ export default {
       this.edit_dialog = true
     },
     async addDocument() {
-      this.newInspectionFile.modelId = this.$route.params.id!=='add-model'?this.$route.params.id:this.newModelId
+      this.newInspectionFile.modelId = this.$route.params.id!=='add-inspection'?this.$route.params.id:this.currentId
       this.btnDisabled = true
         const {
           description,
@@ -391,7 +398,7 @@ export default {
       formData.append("title", title)
       formData.append("modelId", modelId)
       formData.append("sendDate", sendDate)
-      formData.append("status", status)
+      formData.append("result", status)
       if(!!this.newInspectionFile.file){
         formData.append("file", this.newInspectionFile.file)
       }
@@ -415,8 +422,9 @@ export default {
   },
   async mounted() {
     const id = this.$route.params.id;
-    if (id !== 'add-model') {
+    if (id !== 'add-inspection') {
       await this.getInspectionFileList(id);
+      this.currentId=id
       this.dialogStatus = 'Edit'
     } else {
       this.dialogStatus = 'Add'
