@@ -87,9 +87,9 @@
               <v-col cols="12" lg="6">
                 <div class="label">Select main color</div>
                 <v-select
-                  :items="ownList"
+                  :items="colorList"
                   v-model="refuseItem.detailsId"
-                  placeholder="Gender type"
+                  placeholder="Select gender"
                   item-text="color"
                   item-value="id"
                   dense
@@ -171,12 +171,14 @@ export default {
       value:0,
       headers: [],
       items: [],
+      colorList:[],
       warningDialog:false,
       disableBtn:false,
       refuseDialog:false,
       refuseItem:{
         detailsId:"",
       },
+
     };
   },
 
@@ -184,10 +186,22 @@ export default {
     ...mapGetters({
       orderQuantityList: "commonProcess/orderQuantityList",
       ownList:"commonProcess/ownList",
+      subcontractList:"commonProcess/subcontractList",
+      isConfirm:"commonProcess/isConfirm",
     }),
   },
 
   watch: {
+    isConfirm(val){
+      this.disableBtn=JSON.parse(JSON.stringify(val.isConfirm))
+    },
+    ownList(val){
+      this.colorList=JSON.parse(JSON.stringify(val))
+    },
+    subcontractList(val){
+      this.colorList=JSON.parse(JSON.stringify(val))
+    },
+    
     refuseDialog(val){
       if(!val){
         this.$refs.refuse_form.reset()
@@ -235,10 +249,12 @@ export default {
     ...mapActions({
       getOrderQuantityList: "commonProcess/getOrderQuantityList",
       refuseApprove: "commonProcess/refuseApprove",
+      confirmApprove: "commonProcess/confirmApprove",
     }),
     approwe(){
       this.disableBtn=true
       this.warningDialog=false
+      this.confirmApprove({isConfirm:true})
     },
     refuseBtn(){
       this.refuseDialog=true
@@ -275,6 +291,8 @@ export default {
 
   mounted() {
     this.getOrderQuantityList();
+    const id = this.$route.query.isConfirmed
+    this.disableBtn=id==="true"?true:false
   },
 };
 </script>

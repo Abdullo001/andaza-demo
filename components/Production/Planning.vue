@@ -261,10 +261,12 @@ export default {
     getCurrentRow(item){
       this.$store.commit('cuttingProcess/setPlanningProcessId', item.id)
       const id = this.$route.params.id;
+      const isConfirm=item.isConfirmed??false
       const process=item.process.toLowerCase().replace('_', '-');
       this.$store.commit('subcontracts/setPlanningProcessId', item.id)
       this.$store.commit('commonProcess/setPlanningProcessId', item.id)
-      this.$router.push(this.localePath(`/planning-production/${process}/${id}`));
+      this.$store.commit('commonProcess/setIsConfirm',{isConfirm:item.isConfirmed,time: new Date()})
+      this.$router.push(this.localePath(`/planning-production/${process}/${id}?isConfirmed=${isConfirm}`));
 
     },
     editItem(item) {
