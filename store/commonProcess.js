@@ -7,6 +7,7 @@ export const state = () => ({
   subcontractList:[],
   subcontractSecondClassList:[],
   subcontractSentToAlterationList:[],
+  isConfirm:{},
 })
 
 export const getters = {
@@ -18,9 +19,14 @@ export const getters = {
   subcontractList: state => state.subcontractList,
   subcontractSecondClassList: state => state.subcontractSecondClassList,
   subcontractSentToAlterationList: state => state.subcontractSentToAlterationList,
+  isConfirm: state => state.isConfirm,
 }
 
 export const mutations = {
+  setIsConfirm(state, item) {
+    state.isConfirm = item
+    console.log(item);
+  },
   setOwnList(state, item) {
     state.ownList = item
   },
@@ -216,6 +222,16 @@ export const actions = {
       console.log(response);
       this.$toast.error(response.data.message)
 
+    })
+  },
+  confirmApprove({dispatch,state},data){
+    this.$axios.put(`/api/v1/process-planning/${state.planningProcessId}?isConfirm=${data.isConfirm}`)
+    .then((res)=>{
+      this.$toast.success(res.data.message)
+    })
+    .catch(({response})=>{
+      this.$toast.error(response.data.message)
+      console.log(response);
     })
   }
 
