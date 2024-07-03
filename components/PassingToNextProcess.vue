@@ -562,6 +562,7 @@ export default {
 
   created() {
     this.getPartnerList()
+    this.getMeasurementUnit()
   },
 
   methods: {
