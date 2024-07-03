@@ -356,6 +356,7 @@ export default {
         "SETTING",
         "REPORT",
         "TELEGRAM_BOT",
+        "INSPECTION",
       ],
       permission_dialog:false,
       permisionList:[
