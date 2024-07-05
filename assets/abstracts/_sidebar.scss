@@ -171,3 +171,8 @@ a.child-link.v-list-item--active {
 .notification-item{
   background-color: #c7c5df;
 }
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
