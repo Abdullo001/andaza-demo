@@ -199,7 +199,7 @@
           class="mt-4 rounded-lg"
           :headers="headers"
           :items="permisionList"
-          :items-per-page="18"
+          :items-per-page="20"
           hide-default-footer
         >
         <template #item.checker="{item}">
@@ -427,12 +427,13 @@ export default {
         "REPORT",
         "TELEGRAM",
         "NOTIFICATION",
+        "INSPECTION"
       ]
       const specialList=list.map((item)=>{
 
         return{
           ...item,
-          isChecked:true,
+          isChecked:item.canWrite||item.canRead||item.canUpdate||item.canDelete?true:false,
         }
       })
       list.forEach((el)=>{
