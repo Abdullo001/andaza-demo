@@ -2,15 +2,20 @@ export const state = () => ({
   chartSizes: [],
   sizeTemplateList: {},
   sizeTemplate: [],
+  stockList:[],
 
 });
 export const getters = {
   chartSizes: state => state.chartSizes,
   sizeTemplate: state => state.sizeTemplate,
+  stockList: state => state.stockList,
 };
 export const mutations = {
   setChartSizes(state, item) {
     state.chartSizes = item;
+  },
+  setStockList(state, item) {
+    state.stockList = item;
   },
   setSizeTemplate(state, size) {
     state.sizeTemplateList = size;
@@ -56,6 +61,7 @@ export const actions = {
     delete newData.gradation;
     delete newData.shrinkagePercent;
     delete newData.modelId;
+    delete newData.stockId;
     const templateSizesValues = [];
     if (!!Object.keys(newData).length) {
       for (let key in newData) {
@@ -68,25 +74,40 @@ export const actions = {
         description: data.description,
         deviation: data.deviation,
         gradation: data.gradation,
-        modelId: data.modelId,
         shrinkagePercent: data.shrinkagePercent,
         sizeName: data.sizeName,
         templateSizesValues: templateSizesValues
       }
+      if(!!data.modelId){
+        body.modelId= data.modelId
+      }
+      if(!!data.stockId){
+        body.stockId= data.stockId
+      }
       await this.$axios.$post('/api/v1/size-charts/create', body)
         .then(res => {
           this.$toast.success(res.message)
-          dispatch('getChartSizes', data.modelId)
+          if(!!data.modelId){
+            dispatch('getChartSizes', data.modelId)
+          }
+          if(!!data.stockId){
+            dispatch('getStockSizeList', data.stockId)
+          }
         }).catch(({response}) => {
           this.$toast.error(response.data.message)
         })
     }
   },
-  async deleteOneSizeChart({dispatch}, {chartId, modelId}) {
+  async deleteOneSizeChart({dispatch}, {chartId, modelId,stockId}) {
     await this.$axios.$delete(`/api/v1/size-charts/delete?id=${chartId}`)
       .then(res => {
         this.$toast.success(res.message);
-        dispatch('getChartSizes', modelId)
+        if(!!modelId){
+          dispatch('getChartSizes', modelId)
+        }
+        if(!!stockId){
+          dispatch('getStockSizeList', stockId)
+        }
       }).catch(({response}) => console.log(response))
   },
   async updateChartSizes({dispatch}, data) {
@@ -118,16 +139,36 @@ export const actions = {
         description: data.description,
         deviation: data.deviation,
         gradation: data.gradation,
-        modelId: data.modelId,
         shrinkagePercent: data.shrinkagePercent,
         sizeName: data.sizeName,
         templateSizesValues: templateSizesValues
       }
+      if(!!data.modelId){
+        body.modelId= data.modelId
+      }
+      if(!!data.stockId){
+        body.stockId= data.stockId
+      }
       await this.$axios.$put('/api/v1/size-charts/update', body)
         .then(res => {
           this.$toast.success(res.message)
-          dispatch('getChartSizes', data.modelId)
+          if(!!data.modelId){
+            dispatch('getChartSizes', data.modelId)
+          }
+          if(!!data.stockId){
+            dispatch('getStockSizeList', data.stockId)
+          }
         }).catch(({response}) => console.log(response))
     }
+  },
+
+  getStockSizeList({commit},id){
+    this.$axios.get(`/api/v1/size-charts/list/stock/${id}`)
+    .then((res)=>{
+      commit("setStockList",res.data.data)
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
   }
 }
