@@ -74,6 +74,9 @@
           <v-toolbar-title class="d-flex w-full align-center justify-space-between">
             <div>Ready garment warehouse</div>
             <div>
+              <v-btn color="#544B99" outlined class="text-capitalize rounded-lg mr-2" @click="toStockGarments">
+                Garments in Stock
+              </v-btn>
               <v-btn color="#544B99" dark class="text-capitalize rounded-lg" @click="toCentralWarehouse">
                 Central warehouse
               </v-btn>
@@ -180,6 +183,10 @@ export default {
 
     toCentralWarehouse(){
       this.$router.push("/central-warehouse")
+    },
+
+    toStockGarments(){
+      this.$router.push("/garments-stock")
     }
   },
   async mounted() {

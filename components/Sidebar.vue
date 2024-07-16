@@ -807,7 +807,6 @@ export default {
         this.idToken=token
         console.log("FCM Token:", token);
         
-        // this.$store.dispatch('setFcmToken', { token, userId: this.currentUser.id });
       } catch (e) {
         console.error("Failed to get token:", e);
       }
@@ -876,10 +875,8 @@ export default {
 
     this.items.forEach(item=>{
       item.disabledMenu=true
-      // console.log(item);
       permissionList.forEach(perName=>{
         if(item.name===perName.permissionName && perName.canRead){
-          // console.log(item.name);
           item.disabledMenu=true
           
         }
@@ -890,14 +887,11 @@ export default {
 
       if(!!item.has_child){
           item.children.forEach(child=>{
-            // console.log(child);
-            // child.disabledMenu=false
             if(!child.name){
               child.disabledMenu=true
             }
             permissionList.forEach(perName=>{
               if(!!child.name && child.name===perName.permissionName && perName.canRead){
-                // console.log(child);
                 child.disabledMenu=true
                 
               }
@@ -911,9 +905,7 @@ export default {
           })
         }
     })
-    // console.log(this.items);
     this.checkedSidebarItems = JSON.parse(JSON.stringify(this.items));
-    console.log(this.checkedSidebarItems);
 
     
   },
