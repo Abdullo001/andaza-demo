@@ -12,7 +12,7 @@ export const mutations = {
   }
 };
 export const actions = {
-  uploadImages({commit}, {data, modelId}) {
+  uploadImages({commit}, {data, modelId,stockId}) {
     const config = {
       headers: {"Content-Type": "multipart/form-data"}
     }
@@ -27,8 +27,31 @@ export const actions = {
       this.$toast.error(response.data.message)
     })
   },
+  uploadStockImages({commit}, {data, stockId}) {
+    const config = {
+      headers: {"Content-Type": "multipart/form-data"}
+    }
+    const formData = new FormData();
+    for (let file = 0; file <= 3; file++) {
+      if (data[file].file) formData.append('files', data[file].file)
+    }
+    this.$axios.$post(`/api/v1/model-resources/upload-photos?stockId=${stockId}`, formData, config)
+      .then(res => {
+        this.$toast.success(res.message)
+      }).catch(({response}) => {
+      this.$toast.error(response.data.message)
+    })
+  },
   getImages({commit}, id) {
     this.$axios.$get(`/api/v1/model-resources/list?modelId=${id}&fileType=PHOTO`)
+      .then(res => {
+        commit('setModelImages', res.data);
+      }).catch((response) => {
+      console.log(response);
+    })
+  },
+  getStocImages({commit}, id) {
+    this.$axios.$get(`/api/v1/model-resources/list?stockId=${id}&fileType=PHOTO`)
       .then(res => {
         commit('setModelImages', res.data);
       }).catch((response) => {
