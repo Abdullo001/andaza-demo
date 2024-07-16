@@ -310,7 +310,7 @@ export default {
   },
   mounted() {
     const id = this.$route.params.id;
-    if(id!=="add-garments"){
+    if(id!=="add-garment"){
       this.uid=id
     }
     

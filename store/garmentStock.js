@@ -60,7 +60,7 @@ export const actions={
     this.$axios.post(`/api/v1/garment-stock`,data)
     .then((res)=>{
       this.$toast.success("Success")
-      commit("setStockId",res)
+      commit("setStockId",res.data)
     })
     .catch(({response})=>{
       console.log(response);

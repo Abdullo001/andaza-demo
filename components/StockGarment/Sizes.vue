@@ -278,9 +278,7 @@ export default {
     })
   },
   watch: {
-    stockId(val){
-      this.newModelId=val.id
-    },
+    
     new_chart: {
       handler(val) {
       }, deep: true
@@ -326,12 +324,8 @@ export default {
     // },
     async saveChart() {
       let data = {...this.new_chart};
-      const id = this.$route.params.id;
-      if (id === 'add-garment') {
-        data.stockId = this.newModelId
-      } else {
-        data.stockId = id
-      }
+      data.stockId = this.uid
+      
       for (let item in data){
         if(data[item]==="" || data[item]===null){
           data[item]=0
@@ -398,9 +392,12 @@ export default {
     const id = this.$route.params.id;
     if (id !== 'add-garment') {
       await this.getChartSizes(id);
+      this.uid=id
       this.templateStatus = true
     } else {
       this.templateStatus = false
+      this.uid=this.stockId.id
+
     }
     let data = [...this.headers];
     data.shift();

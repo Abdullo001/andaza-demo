@@ -198,6 +198,10 @@ export default {
     })
   },
 
+  created(){
+    
+  },
+
   watch:{
     sizeQuantityList(list){
       const specialList=list.map((item)=>{
@@ -271,7 +275,7 @@ export default {
     async createSizeDistirbution(){
       const data=JSON.parse(JSON.stringify(this.newGarment))
 
-      await this.saveStockSize({colorCode:data.colorCode,maincolor:data.maincolor,sizeDistributions:data.sizeDistributions,stockId:this.uid})
+      await this.saveStockSize({mainColor:data.mainColor,colorCode:data.colorCode,sizeDistributions:data.sizeDistributions,stockId:this.uid})
       this.new_dialog=false
     },
 
@@ -301,9 +305,14 @@ export default {
 
   mounted(){
     const id=this.$route.params.id
-    if(id!=="add-garments"){
+    if(id!=="add-garment"){
       this.uid=id
+    }else{
+      this.uid=this.stockId.id
     }
+
+    this.getStockDistribution(this.uid)
+    this.getStockSizes(this.uid)
   }
 }
 </script>
