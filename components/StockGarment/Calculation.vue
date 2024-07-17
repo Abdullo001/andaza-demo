@@ -143,7 +143,6 @@ export default {
     },
 
     uid(val){
-      // console.log(val);
       this.getStockCalculation(val)
     },
 
