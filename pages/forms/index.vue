@@ -118,6 +118,12 @@ export default {
           to: "/forms/inspection-files",
         },
         {
+          title: "Shipping",
+          subtitle: "Basic informations about shipped models",
+          status:"MANAGEMENT",
+          to: "/forms/shipping-form",
+        },
+        {
           title: "Cutting form",
           subtitle: "Cutting information form related to one model",
           status:"PRODUCTION",
