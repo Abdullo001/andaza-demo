@@ -126,7 +126,7 @@
           </v-btn>
         </v-card-title>
         <v-card-text>
-          <v-form ref="add_form" v-model="add_validate" lazy-validation>
+          <v-form ref="new_form" v-model="add_validate" lazy-validation>
             <v-row>
               <v-col cols="12" lg="6">
                 <div class="label">Model number</div>
@@ -713,6 +713,11 @@ export default {
   },
 
   watch:{
+    newDialog(val){
+      if(!val){
+        this.$refs.new_form.reset()
+      }
+    },
     autoFilling(val){
       if(val){
         this.selectForSell.sizesNoQuantity.forEach((item,idx)=>{

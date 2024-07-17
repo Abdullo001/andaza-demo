@@ -2,7 +2,7 @@
   <div>
     <v-card elevation="0" class="mb-4">
       <v-card-title>
-        <div>Waybill</div>
+        <div>{{ $route.params.id==='add-garment'?'Add':'Edit' }}  Ready garment</div>
         <v-spacer />
       </v-card-title>
       <v-divider />
@@ -43,16 +43,16 @@
                   v-model="waybill.waybillDate"
                   :picker-options="pickerShortcuts"
                   class="base_picker"
-                  placeholder="dd.MM.yyyy HH:mm:ss"
+                  placeholder="dd.MM.yyyy"
                   style="width: 100%; height: 100%"
-                  type="datetime"
-                  value-format="dd.MM.yyyy HH:mm:ss"
+                  type="date"
+                  value-format="dd.MM.yyyy"
                 >
                 </el-date-picker>
               </div>
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Sent from</div>
+              <div class="label">Sent </div>
               <v-text-field
                 disabled
                 v-model="waybill.sewedBy"
@@ -114,10 +114,10 @@
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">2. Given by</div>
+              <div class="label">2. Name</div>
               <v-text-field
                 disabled
-                v-model="waybill.givenByPosition2"
+                v-model="waybill.givenByName2"
                 class="rounded-lg base mb-4"
                 color="#544B99"
                 dense
@@ -132,7 +132,7 @@
               <div class="label">Transport number</div>
               <v-text-field
                 disabled
-                v-model="waybill.transportNumber"
+                v-model="waybill.transportationNumber"
                 class="rounded-lg base mb-4"
                 color="#544B99"
                 dense
@@ -319,7 +319,7 @@ export default {
     //   }
     // },
     item(val){
-      this.waybill={...val}
+      this.waybill=JSON.parse(JSON.stringify(val))
       this.waybill.waybillNumber={number:val.waybillNumber,id:val.waybillId,sendDate:val.waybillDate,partnerAddress:val.fromAddress}
     },
     waybillSearch(val) {
