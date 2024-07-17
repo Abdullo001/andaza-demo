@@ -332,14 +332,16 @@
 
       <div class="d-flex align-center justify-center mt-16 pb-6">
         <v-btn
-        class="text-capitalize rounded-lg"
-        color="#544B99"
-        outlined
-        height="44"
-        width="250"
-      >
-        Generate PDF
-      </v-btn>
+          class="text-capitalize rounded-lg"
+          color="#544B99"
+          outlined
+          height="44"
+          width="250"
+          @click="getPdf"
+          :loading="loading"
+        >
+          Generate PDF
+        </v-btn>
       </div>
     </v-card>
   </div>
@@ -367,7 +369,8 @@ export default {
       new_validate: true,
       branchSearch: "",
       id: null,
-      items:["1-sort","2-sort"]
+      items:["1-sort","2-sort"],
+      loading:false,
     };
   },
 
@@ -384,7 +387,8 @@ export default {
     ...mapGetters({
       partnerLists: "fabricOrdering/partnerLists",
       oneWaybill: "waybill/oneWaybill",
-
+      newWaybillId: "waybill/newWaybillId",
+      pdfList: "waybill/waybillForm",
     }),
   },
 
@@ -402,7 +406,24 @@ export default {
       this.waybill.waybillNumber=val.number
       this.waybill.branchId={id:val.partnerId,name:val.partner}
       this.waybill.waybillDate=val.sendDate
-    }
+    },
+
+    newWaybillId(val){
+      this.id=val
+    },
+
+    pdfList(val) {
+      this.loading=false
+      const blob = new Blob(
+        [new Uint8Array([...val].map((char) => char.charCodeAt(0)))],
+        { type: "application/pdf" }
+      );
+      const objectUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.setAttribute("target", "_blank");
+      a.setAttribute("href", objectUrl);
+      a.click();
+    },
   },
 
   methods: {
@@ -411,6 +432,7 @@ export default {
       createWaybillList: "waybill/createWaybillList",
       updateWaybill: "waybill/updateWaybill",
       getOneWaybill: "waybill/getOneWaybill",
+      getWaybilForm: "waybill/getWaybilForm",
     }),
     clickBtn() {
       this.show_btn = !this.show_btn;
@@ -435,6 +457,10 @@ export default {
       };
       this.updateWaybill({ data, id: this.id });
     },
+    getPdf(){
+      this.loading=true
+      this.getWaybilForm(this.id)
+    }
   },
 
   mounted() {
