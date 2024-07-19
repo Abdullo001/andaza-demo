@@ -460,7 +460,7 @@ export default {
         this.getAccessorySubcontractList(this.planningProcessId)
       }
       if(val===0){
-        this.getShortcomingsList(this.planningProcessId)
+        this.getShortcomingsList({id:this.planningProcessId,type:"IN_PRODUCTION"})
         this.getAccessoryOwnList(this.planningProcessId)
       }
       if(val===2){

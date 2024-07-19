@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-card flat class="rounded-lg pb-4">
-      <v-data-table :headers="headers" :items="items" hide-default-footer>
+    <v-card flat class="rounded-lg  pb-4">
+      <v-data-table :headers="headers" :items="items" hide-default-footer style="border: 1px solid rgb(234, 233, 233);">
         <template #top>
           <div class="title pa-4">Order quantities</div>
         </template>
