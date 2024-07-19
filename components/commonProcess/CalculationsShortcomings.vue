@@ -1,6 +1,6 @@
 <template>
   <v-card flat class="rounded-lg">
-    <v-data-table item-key="calculation" :headers="headers" :items="items">
+    <v-data-table item-key="calculation" :headers="headers" :items="items" style="border: 1px solid rgb(234, 233, 233);">
       <template #top>
         <v-row class="pa-4">
           <v-col cols="6">
@@ -20,6 +20,7 @@
                 color="#544B99"
                 class="rounded-lg base mr-2"
                 append-icon="mdi-chevron-down"
+                @change="selectChange"
               />
             </div>
           </v-col>
@@ -172,8 +173,8 @@ export default {
   name: "CalculationShortcomings",
   data() {
     return {
-      shortcomType:"In production process",
-      shortcomTypeList:["In production process","Incoming"],
+      shortcomType:"IN_PRODUCTION",
+      shortcomTypeList:["IN_PRODUCTION","INCOMING"],
       edit_validate: true,
       delete_dialog: false,
       edit_dialog: false,
@@ -294,6 +295,8 @@ export default {
     ...mapActions({
       deleteClassification: "commonCalculationsShortcomings/deleteShortcomings",
       updateShortcomings: "commonCalculationsShortcomings/updateShortcomings",
+      getShortcomingsList:'commonCalculationsShortcomings/getShortcomingsList',
+
     }),
 
     editItem(item) {
@@ -329,6 +332,11 @@ export default {
         planningProcessId: this.planningProcessId,
       });
     },
+
+    selectChange(){
+      this.getShortcomingsList({id:this.planningProcessId,type:this.shortcomType})
+
+    }
   },
 };
 </script>

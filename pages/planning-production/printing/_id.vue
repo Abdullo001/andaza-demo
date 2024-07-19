@@ -455,7 +455,7 @@ export default {
         this.getSubcontractShortcomingsList(this.planningProcessId)
       }
       if(val===0){
-        this.getShortcomingsList(this.planningProcessId)
+        this.getShortcomingsList({id:this.planningProcessId,type:"IN_PRODUCTION"})
       }
       if(val===2){
         this.getPassingList(this.planningProcessId)

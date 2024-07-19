@@ -309,9 +309,9 @@
               </v-col>
             </v-row>
             <v-row class="pa-0 ma-0">
-              <vCol class="pl-0">
+              <v-col class="pl-0">
                 <Classification/>
-              </vCol>
+              </v-col>
               <v-col class="pr-0">
                 <OrderQuantities/>
               </v-col>
@@ -319,6 +319,14 @@
           </v-tab-item>
           <v-tab-item>
             <Subcontractor class="mb-10"/>
+            <!-- <v-row class="pa-0 ma-0">
+              <v-col class="pl-0">
+                <QuantitiesTwo/>
+              </v-col>
+              <v-col class="pr-0">
+                <Alteration/>
+              </v-col>
+            </v-row> -->
             <v-row class="pa-0 ma-0">
               <v-col class="pl-0">
                 <Classification/>
@@ -472,7 +480,7 @@ export default {
         this.getSubcontractShortcomingsList(this.planningProcessId)
       }
       if(val===0){
-        this.getShortcomingsList(this.planningProcessId)
+        this.getShortcomingsList({id:this.planningProcessId,type:"IN_PRODUCTION"})
       }
       if(val===2){
         this.getPassingList(this.planningProcessId)

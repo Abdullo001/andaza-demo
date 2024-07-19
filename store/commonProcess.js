@@ -100,7 +100,7 @@ export const actions = {
     this.$axios.put(`/api/v1/common-process-details/update`, data)
       .then((res) => {
         if(Object.keys(data).length===3){
-          dispatch("getSentToAlterationList")
+          dispatch("getSecondClassList")
         }else{
           dispatch("getSubcontarctSecondClassList")
         }
@@ -175,7 +175,7 @@ export const actions = {
   getSubcontarctSecondClassList({commit,state}){
     this.$axios.get(`/api/v1/common-process-details/list-subcontractor?planningProcessId=${state.planningProcessId}&operationType=SECOND_CLASS`)
     .then((res)=>{
-      commit("setSubcontractList",res.data.data)
+      commit("setSubcontractSecondClassList",res.data.data)
     })
     .catch((res) => {
       console.log(res);
@@ -184,7 +184,7 @@ export const actions = {
   getSubcontractSentToAlterationList({commit,state}){
     this.$axios.get(`/api/v1/common-process-details/list-subcontractor?planningProcessId=${state.planningProcessId}&operationType=SENT_TO_ALTERATION`)
     .then((res)=>{
-      commit("setSubcontractList",res.data.data)
+      commit("setSubcontractSentToAlterationList",res.data.data)
     })
     .catch((res) => {
       console.log(res);

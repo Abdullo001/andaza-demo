@@ -13,8 +13,8 @@ export const mutations={
 }
 
 export const actions={
-  getShortcomingsList({commit},id){
-    this.$axios.get(`/api/v1/classification/list-own-common?planningProcessId=${id}`)
+  getShortcomingsList({commit},{id,type}){
+    this.$axios.get(`/api/v1/classification/list-own-common?planningProcessId=${id}&type=${type}`)
     .then((res)=>{
       commit("setShortcomingsList",res.data.data)
     })
@@ -38,7 +38,7 @@ export const actions={
       if(data.status==="subcontract_classification"){
         dispatch("getSubcontractShortcomingsList",id)
       }else{
-        dispatch("getShortcomingsList",id)
+        dispatch("getShortcomingsList",{id,type:"IN_PRODUCTION"})
       }
       this.$toast.success(res.data.message)
     })
@@ -54,7 +54,7 @@ export const actions={
       if(data.partner){
         dispatch("getSubcontractShortcomingsList",id)
       }else{
-        dispatch("getShortcomingsList",id)
+        dispatch("getShortcomingsList",{id,type:"IN_PRODUCTION"})
       }
       this.$toast.success(res.data.message)
     })
@@ -70,7 +70,7 @@ export const actions={
       if(data.partner){
         dispatch("getSubcontractShortcomingsList",planningProcessId)
       }else{
-        dispatch("getShortcomingsList",planningProcessId)
+        dispatch("getShortcomingsList",{id:planningProcessId,type:"IN_PRODUCTION"})
       }
       this.$toast.success(res.data.message)
     })
