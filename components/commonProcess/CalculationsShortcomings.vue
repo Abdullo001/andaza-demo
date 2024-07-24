@@ -171,6 +171,12 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "CalculationShortcomings",
+  props:{
+    statusTab:{
+      type:String,
+      required:true,
+    }
+  },
   data() {
     return {
       shortcomType:"IN_PRODUCTION",
@@ -234,10 +240,14 @@ export default {
     ...mapGetters({
       classificationList: "commonCalculationsShortcomings/shortcomingsList",
       planningProcessId: "commonProcess/planningProcessId",
+      type:"commonCalculationsShortcomings/type",
     }),
   },
 
   watch: {
+    type(val){
+      this.shortcomType=val.text
+    },
     classificationList(val) {
       this.headers = [
         {
@@ -296,6 +306,8 @@ export default {
       deleteClassification: "commonCalculationsShortcomings/deleteShortcomings",
       updateShortcomings: "commonCalculationsShortcomings/updateShortcomings",
       getShortcomingsList:'commonCalculationsShortcomings/getShortcomingsList',
+      getSubcontractShortcomingsList:'commonCalculationsShortcomings/getSubcontractShortcomingsList',
+
 
     }),
 
@@ -316,7 +328,7 @@ export default {
         data.partner = this.selectedItem.partner;
       }
 
-      this.updateShortcomings({ data, id: this.planningProcessId });
+      this.updateShortcomings({ data, id: this.planningProcessId, type:this.shortcomType, });
 
       this.edit_dialog = false;
     },
@@ -330,11 +342,17 @@ export default {
       this.deleteClassification({
         data: { ...this.selectedItem },
         planningProcessId: this.planningProcessId,
+        type:this.shortcomType,
       });
     },
 
     selectChange(){
-      this.getShortcomingsList({id:this.planningProcessId,type:this.shortcomType})
+      if(this.statusTab==="OWN"){
+        this.getShortcomingsList({id:this.planningProcessId,type:this.shortcomType})
+      }
+      if(this.statusTab==="SUB"){
+        this.getSubcontractShortcomingsList({id:this.planningProcessId,type:this.shortcomType})
+      }
 
     }
   },

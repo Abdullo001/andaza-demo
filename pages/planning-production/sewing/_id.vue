@@ -310,10 +310,10 @@
     </v-card>
     <v-row class="mt-2" v-if="tab!==2">
       <v-col>
-        <CalculationShortcomings/>
+        <CalculationShortcomings v-bind="classificationData"/>
       </v-col>
       <v-col>
-        <OrderQuantities/>
+        <OrderQuantities v-bind="classificationData"/>
       </v-col>
       <v-col>
         <GivenAccessoryQuantity/>
@@ -361,6 +361,7 @@ export default {
     return {
       show_btn: true,
       tab: null,
+      tabStatus:"OWN",
       items: ["Sewing", "Subcontracts","Passing to next process"],
       title: "Add",
       currentImage: '',
@@ -426,6 +427,13 @@ export default {
         show_active: this.show_btn
       }
     },
+    classificationData:{
+      get(){
+        return {
+          statusTab:this.tabStatus
+        }
+      }
+    },
     ...mapGetters({
       modelData: 'preFinance/modelData',
       modelInfo: 'production/planning/modelInfo',
@@ -456,12 +464,16 @@ export default {
     },
     tab(val){
       if(val===1){
-        this.getSubcontractShortcomingsList(this.planningProcessId)
+        this.getSubcontractShortcomingsList({id:this.planningProcessId,type:"IN_PRODUCTION"})
         this.getAccessorySubcontractList(this.planningProcessId)
+        this.tabStatus="SUB"
+
       }
       if(val===0){
         this.getShortcomingsList({id:this.planningProcessId,type:"IN_PRODUCTION"})
         this.getAccessoryOwnList(this.planningProcessId)
+        this.tabStatus="OWN"
+
       }
       if(val===2){
         this.getPassingList(this.planningProcessId)

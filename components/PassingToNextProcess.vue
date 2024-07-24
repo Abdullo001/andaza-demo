@@ -519,7 +519,6 @@ export default {
           ...value,
           ...el,
           sizeDistributions: [...sizesList],
-
         }
       })
 

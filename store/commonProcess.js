@@ -25,7 +25,6 @@ export const getters = {
 export const mutations = {
   setIsConfirm(state, item) {
     state.isConfirm = item
-    console.log(item);
   },
   setOwnList(state, item) {
     state.ownList = item
@@ -99,7 +98,7 @@ export const actions = {
   updateSecondClassProcess({dispatch}, data) {
     this.$axios.put(`/api/v1/common-process-details/update`, data)
       .then((res) => {
-        if(Object.keys(data).length===3){
+        if(data.operationType!=="SECOND_CLASS_SUBCONTRACTOR"){
           dispatch("getSecondClassList")
         }else{
           dispatch("getSubcontarctSecondClassList")
@@ -113,7 +112,7 @@ export const actions = {
   updateSentToAlterationProcess({dispatch}, data) {
     this.$axios.put(`/api/v1/common-process-details/update`, data)
       .then((res) => {
-        if(Object.keys(data).length===3){
+        if(data.operationType!=="SENT_TO_ALTERATION_SUBCONTRACTOR"){
           dispatch("getSentToAlterationList")
         }else{
           dispatch("getSubcontractSentToAlterationList")
@@ -173,18 +172,18 @@ export const actions = {
   },
 
   getSubcontarctSecondClassList({commit,state}){
-    this.$axios.get(`/api/v1/common-process-details/list-subcontractor?planningProcessId=${state.planningProcessId}&operationType=SECOND_CLASS`)
+    this.$axios.get(`/api/v1/common-process-details/list-subcontractor?planningProcessId=${state.planningProcessId}&operationType=SECOND_CLASS_SUBCONTRACTOR`)
     .then((res)=>{
-      commit("setSubcontractSecondClassList",res.data.data)
+      commit("setSecondClassList",res.data.data)
     })
     .catch((res) => {
       console.log(res);
     })
   },
   getSubcontractSentToAlterationList({commit,state}){
-    this.$axios.get(`/api/v1/common-process-details/list-subcontractor?planningProcessId=${state.planningProcessId}&operationType=SENT_TO_ALTERATION`)
+    this.$axios.get(`/api/v1/common-process-details/list-subcontractor?planningProcessId=${state.planningProcessId}&operationType=SENT_TO_ALTERATION_SUBCONTRACTOR`)
     .then((res)=>{
-      commit("setSubcontractSentToAlterationList",res.data.data)
+      commit("setSentToAlterationList",res.data.data)
     })
     .catch((res) => {
       console.log(res);
@@ -212,10 +211,16 @@ export const actions = {
     })
   },
 
-  refuseApprove({dispatch},data){
+  refuseApprove({dispatch,state},{data,type}){
     this.$axios.post(`/api/v1/classification/refuse-approve`,data)
     .then((res)=>{
       dispatch("getOrderQuantityList")
+      if(type==="OWN"){
+        dispatch("commonCalculationsShortcomings/getShortcomingsList",{id:state.planningProcessId,type:"INCOMING"},{root:true})
+      }
+      if(type==="SUB"){
+        dispatch("commonCalculationsShortcomings/getSubcontractShortcomingsList",{id:state.planningProcessId,type:"INCOMING"},{root:true})
+      }
       this.$toast.success(res.data.message)
     })
     .catch((response)=>{
