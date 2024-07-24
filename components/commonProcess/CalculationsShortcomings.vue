@@ -1,6 +1,6 @@
 <template>
   <v-card flat class="rounded-lg">
-    <v-data-table item-key="calculation" :headers="headers" :items="items">
+    <v-data-table item-key="calculation" :headers="headers" :items="items" style="border: 1px solid rgb(234, 233, 233);">
       <template #top>
         <v-row class="pa-4">
           <v-col cols="6">
@@ -20,6 +20,7 @@
                 color="#544B99"
                 class="rounded-lg base mr-2"
                 append-icon="mdi-chevron-down"
+                @change="selectChange"
               />
             </div>
           </v-col>
@@ -170,10 +171,16 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "CalculationShortcomings",
+  props:{
+    statusTab:{
+      type:String,
+      required:true,
+    }
+  },
   data() {
     return {
-      shortcomType:"In production process",
-      shortcomTypeList:["In production process","Incoming"],
+      shortcomType:"IN_PRODUCTION",
+      shortcomTypeList:["IN_PRODUCTION","INCOMING"],
       edit_validate: true,
       delete_dialog: false,
       edit_dialog: false,
@@ -233,10 +240,14 @@ export default {
     ...mapGetters({
       classificationList: "commonCalculationsShortcomings/shortcomingsList",
       planningProcessId: "commonProcess/planningProcessId",
+      type:"commonCalculationsShortcomings/type",
     }),
   },
 
   watch: {
+    type(val){
+      this.shortcomType=val.text
+    },
     classificationList(val) {
       this.headers = [
         {
@@ -294,6 +305,10 @@ export default {
     ...mapActions({
       deleteClassification: "commonCalculationsShortcomings/deleteShortcomings",
       updateShortcomings: "commonCalculationsShortcomings/updateShortcomings",
+      getShortcomingsList:'commonCalculationsShortcomings/getShortcomingsList',
+      getSubcontractShortcomingsList:'commonCalculationsShortcomings/getSubcontractShortcomingsList',
+
+
     }),
 
     editItem(item) {
@@ -313,7 +328,7 @@ export default {
         data.partner = this.selectedItem.partner;
       }
 
-      this.updateShortcomings({ data, id: this.planningProcessId });
+      this.updateShortcomings({ data, id: this.planningProcessId, type:this.shortcomType, });
 
       this.edit_dialog = false;
     },
@@ -327,8 +342,19 @@ export default {
       this.deleteClassification({
         data: { ...this.selectedItem },
         planningProcessId: this.planningProcessId,
+        type:this.shortcomType,
       });
     },
+
+    selectChange(){
+      if(this.statusTab==="OWN"){
+        this.getShortcomingsList({id:this.planningProcessId,type:this.shortcomType})
+      }
+      if(this.statusTab==="SUB"){
+        this.getSubcontractShortcomingsList({id:this.planningProcessId,type:this.shortcomType})
+      }
+
+    }
   },
 };
 </script>

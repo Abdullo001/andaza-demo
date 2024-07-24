@@ -87,7 +87,7 @@
                 disabled
                 height="44"
                 class="rounded-lg base mb-4"
-                v-model="sampleDetail.clientName"
+                v-model="sampleDetail.client"
                 placeholder="Client name"
                 validate-on-blur
                 dense
@@ -102,7 +102,7 @@
                 disabled
                 height="44"
                 class="rounded-lg base mb-4"
-                v-model="sampleDetail.orderQuantity"
+                v-model="sampleDetail.orderedQuantity"
                 placeholder=" Order quantity"
                 validate-on-blur
                 dense
@@ -112,7 +112,7 @@
             <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Created by</div>
               <v-text-field
-                v-model="sampleDetail.creatorOfModel"
+                v-model="sampleDetail.createdBy"
                 placeholder="Enter creator"
                 outlined
                 hide-details
@@ -130,7 +130,7 @@
             <v-col cols="12" lg="3" md="3" sm="6">
               <div class="label">Created at</div>
               <v-text-field
-                v-model="sampleDetail.createdTimeOfModel"
+                v-model="sampleDetail.createdAt"
                 placeholder="Created at"
                 outlined
                 hide-details
@@ -346,6 +346,7 @@ export default {
       sampleDetail:{
         orderNumber:"",
         modelNumber:"",
+        id:null,
       },
       orderNumSearch: "",
       modelNumSearch: "",
@@ -404,20 +405,19 @@ export default {
 
   watch:{
     accessoryData(val){
-      this.sampleDetail={...val}
-      this.sampleDetail.orderNumber={orderNumber:val.orderNumber,id:val.orderId}
+      if(this.$route.params.id==="create-sample"){
+        this.sampleDetail={...val}
+        this.sampleDetail.orderNumber={orderNumber:val.orderNumber,id:val.orderId}
+      }
     },
     oneSample(val){
-      const oneSample=this.sampleDetail
-      oneSample.modelNumber={modelNumber:val.modelNumber, id:val.modelId}
-      oneSample.orderNumber={orderNumber:val.orderNumber, id:val.orderId}
-      oneSample.client=val.client
-      oneSample.orderedQuantity=val.orderedQuantity
-      oneSample.createdBy=val.createdBy
-      oneSample.createdAt=val.createdAt
-      oneSample.updatedBy=val.updatedBy
-      oneSample.updatedAt=val.updatedAt
-      oneSample.id=val.id
+      this.sampleDetail={}
+
+      console.log(val);
+      this.sampleDetail=JSON.parse(JSON.stringify(val))
+      this.sampleDetail.modelNumber={modelNumber:val.modelNumber, id:val.modelId}
+      this.sampleDetail.orderNumber={orderNumber:val.orderNumber, id:val.orderId}
+      
       this.getChartList({purpose:"FQS",planningId:val.id})
       this.modelColor(val.modelId)
     },
@@ -441,7 +441,7 @@ export default {
           case 7:  this.purpose="SHIPMENT_SAMPLE";break
           case 8:  this.purpose="CERTIFICATE_SAMPLE";break
         }
-        const id =this.sampleDetail.id
+        const id = this.sampleDetail.id
         if(!!id){
           this.getChartList({purpose:this.purpose,planningId:id})
         }

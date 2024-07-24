@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-card flat class="rounded-lg pb-4">
-      <v-data-table :headers="headers" :items="items" hide-default-footer>
+    <v-card flat class="rounded-lg  pb-4">
+      <v-data-table :headers="headers" :items="items" hide-default-footer style="border: 1px solid rgb(234, 233, 233);">
         <template #top>
           <div class="title pa-4">Order quantities</div>
         </template>
@@ -165,6 +165,12 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   name: "OrderQuantities",
 
+  props:{
+    statusTab:{
+      type:String,
+      required:true,
+    }
+  },
   data() {
     return {
       refuse_validate:true,
@@ -192,6 +198,14 @@ export default {
   },
 
   watch: {
+    statusTab(val){
+      if(val==="OWN"){
+        this.colorList=JSON.parse(JSON.stringify(this.ownList))
+      }
+      if(val==="SUB"){
+        this.colorList=JSON.parse(JSON.stringify(this.subcontractList))
+      }
+    },
     isConfirm(val){
       this.disableBtn=JSON.parse(JSON.stringify(val.isConfirm))
     },
@@ -204,7 +218,7 @@ export default {
     
     refuseDialog(val){
       if(!val){
-        this.$refs.refuse_form.reset()
+        // this.$refs.refuse_form.reset()
       }
     },
     orderQuantityList(list) {
@@ -274,14 +288,14 @@ export default {
         sizeDistributions:[],
       }
 
-      data.sizeDistributions=this.refuseItem.primaryList.map((item)=>{
-        
-        return{
-          size:item.size,
-          quantity:item.quantity??0,
+     this.refuseItem.primaryList.forEach((item)=>{
+        if(!!item.quantity){
+          data.sizeDistributions.push({...item})
         }
       })
-      this.refuseApprove(data)
+
+      this.refuseApprove({data, type:this.statusTab})
+
 
       this.refuseDialog=false
     }

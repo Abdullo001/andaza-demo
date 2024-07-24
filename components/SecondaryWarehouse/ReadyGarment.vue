@@ -66,6 +66,7 @@
               v-bind="attrs"
               v-on="on"
               color="#544B99"
+              @click="spendFunc(item)"
             >
               <v-img src="/truck.svg" max-width="22" />
             </v-btn>
@@ -493,63 +494,30 @@
         <v-card-text>
           <v-form ref="add_form" v-model="add_validate" lazy-validation>
             <v-row>
-              <v-col cols="12" lg="6">
-                <div class="label">Price</div>
-                <div class="d-flex align-center">
-                  <v-text-field
-                    v-model="selectForSell.price"
-                    class="rounded-lg base rounded-l-lg rounded-r-0"
-                    color="#544B99"
-                    dense
-                    height="44"
-                    hide-details
-                    outlined
-                    placeholder="0.00"
-                    validate-on-blur
-                  />
-                  <v-select
-                    v-model="selectForSell.currency"
-                    :items="currency_enums"
-                    append-icon="mdi-chevron-down"
-                    class="rounded-lg base rounded-r-lg rounded-l-0"
-                    color="#544B99"
-                    dense
-                    height="44"
-                    hide-details
-                    outlined
-                    style="max-width: 100px"
-                    validate-on-blur
-                  />
-                </div>
-              </v-col>
-              
-              <v-col cols="12" lg="6">
-                <div class="label">Buyer name</div>
-                <v-text-field
-                  v-model="selectForSell.buyer"
-                  class="rounded-lg base mb-4"
+              <v-col cols="12" lg="6" md="6" sm="6">
+                <div class="label">Invoice number</div>
+                <v-combobox
+                  v-model="selectForSell.shippingId"
+                  :rules="[formRules.required]"
+                  :search-input.sync="shippingInvoice"
+                  :items="shippingInvoiceList"
+                  item-text="invoiceNumber"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :return-object="true"
                   color="#544B99"
                   dense
-                  height="44"
-                  hide-details
-                  outlined
-                  placeholder="Enter buyer name"
+                  placeholder="Enter partner name"
+                  append-icon="mdi-chevron-down"
                   validate-on-blur
-                />
-              </v-col>
-              <v-col cols="12" lg="6">
-                <div class="label">Description</div>
-                <v-text-field
-                  v-model="selectForSell.description"
-                  class="rounded-lg base mb-4"
-                  color="#544B99"
-                  dense
-                  height="44"
-                  hide-details
-                  outlined
-                  placeholder="Enter description"
-                  validate-on-blur
-                />
+                >
+                  <template #append>
+                    <v-icon color="#544B99">mdi-magnify</v-icon>
+                  </template>
+                </v-combobox>
               </v-col>
               
               <v-col cols="4" class="d-flex align-center">
@@ -574,37 +542,8 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="12" lg="6">
-                <div class="label">Total quantity</div>
-                <div class="d-flex align-center">
-                  <v-text-field
-                    v-model="selectForSell.totalQuantity"
-                    class="rounded-lg base rounded-l-lg rounded-r-0"
-                    color="#544B99"
-                    dense
-                    height="44"
-                    hide-details
-                    outlined
-                    placeholder="Enter quantity"
-                    validate-on-blur
-                  />
-                  <v-select
-                    v-model="selectForSell.measurementUnitId"
-                    append-icon="mdi-chevron-down"
-                    class="rounded-lg base rounded-r-lg rounded-l-0"
-                    color="#544B99"
-                    :items="measurementUnitList"
-                    item-text="name"
-                    item-value="id"
-                    dense
-                    height="44"
-                    hide-details
-                    outlined
-                    style="max-width: 100px"
-                    validate-on-blur
-                  />
-                </div>
-              </v-col>
+             
+              
             </v-row>
 
           </v-form>
@@ -644,6 +583,7 @@ export default {
   },
   data(){
     return{
+      shippingInvoice: "",
       spendDialog:false,
       add_validate:true,
       newDialog:false,
@@ -687,6 +627,11 @@ export default {
       status: "ACTIVE",
     });
     this.getMeasurementUnit();
+    this.getShippingInvoiceList({
+      page: 0,
+      size: 100,
+      invoiceNumber: this.shippingInvoice,
+    });
   },
 
   computed:{
@@ -697,6 +642,8 @@ export default {
       modelsList: "models/modelsList",
       colorList: "accessorySamples/colorList",
       measurementUnitList: "preFinance/measurementUnit",
+      shippingInvoiceList: "shipping/shippingInvoiceList",
+
 
     }),
     deleteData: {
@@ -713,6 +660,15 @@ export default {
   },
 
   watch:{
+    shippingInvoice(val) {
+      if (!!val) {
+        this.getShippingInvoiceList({
+          page: 0,
+          size: 100,
+          invoiceNumber: val,
+        });
+      }
+    },
     newDialog(val){
       if(!val){
         this.$refs.new_form.reset()
@@ -776,11 +732,14 @@ export default {
       createItem:"garment/createItem",
       updateItem:"garment/updateItem",
       deleteItem:"garment/deleteItem",
+      sellGarmentInCentral:"garment/sellGarmentInCentral",
       itemSellDomestic:"garment/itemSellDomestic",
       getModelSizes:"garment/getModelsizes",
       getModelsList: "models/getModelsList",
       modelColor: "accessorySamples/modelColor",
       getMeasurementUnit: "preFinance/getMeasurementUnit",
+      getShippingInvoiceList: "shipping/getShippingInvoiceList",
+
     }),
     addGarment(){
       this.newDialog=true
@@ -825,12 +784,14 @@ export default {
       this.deleteDialog=false
     },
     spendFunc(item){
+      this.autoFilling=false
       const sizesNoQuantity=[]
       item.sizeDistributions.forEach((el)=>{
         sizesNoQuantity.push({size:el.size,quantity:0})
       })
       this.selectForSell={
         garmentId:item.id,
+        colorSpecification:item.colorSpecification,
         type:"READY_GARMENT",
         warehouseId:this.id,
         sizesNoQuantity:sizesNoQuantity,
@@ -840,12 +801,15 @@ export default {
     },
     sell(){
       const data={
-        ...this.selectForSell,
+        colorSpecification:this.selectForSell.colorSpecification,
+        sizeDistributions:this.selectForSell.sizesNoQuantity,
+        shippingId:this.selectForSell.shippingId.id,
+        warehouseId:this.id,
       }
-      data.sizeDistributions=this.selectForSell.sizesNoQuantity
       delete data.sizesNoQuantity
+      
 
-      this.itemSellDomestic(data)
+      this.sellGarmentInCentral({data,id:this.selectForSell.garmentId})
       this.spendDialog=false
     }
 

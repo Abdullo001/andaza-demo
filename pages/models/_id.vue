@@ -567,7 +567,7 @@ export default {
       model.createdTime = val.createdAt;
       model.updateTime = val.updatedAt;
       model.brandName = val.brandName;
-      model.fabricRework = val.fabricRework;
+      model.fabricReworkId = val.fabricReworkId;
       model.mainFabricDensity = val.mainFabricDensity;
       model.canvasTypeId = {id:val.canvasTypeId,name:val.canvasType}
       model.inspectionDate=val.inspectionDate
@@ -604,7 +604,7 @@ export default {
     async createNewModel() {
       const data = {...this.model};
       data.partnerId=this.model.partnerId?.id
-      await this.createModel(data);
+      await this.createModel(data)
     },
     async updateModels() {
       const id = this.$route.params.id;

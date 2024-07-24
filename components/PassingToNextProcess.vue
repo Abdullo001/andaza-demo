@@ -475,6 +475,9 @@ export default {
   },
 
   watch: {
+    waybilSearch(val){
+      this.getWaybillList({page:0,size:10,number:val}) 
+    },
     autoFilling(val){
       if(val){
         this.selectedItem.sizeDistributions.forEach((item,idx)=>{
@@ -516,7 +519,6 @@ export default {
           ...value,
           ...el,
           sizeDistributions: [...sizesList],
-
         }
       })
 
@@ -563,6 +565,7 @@ export default {
   created() {
     this.getPartnerList()
     this.getMeasurementUnit()
+    this.getWaybillList({page:0,size:10})
   },
 
   methods: {

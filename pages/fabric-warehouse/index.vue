@@ -326,7 +326,6 @@
               <v-col cols="12" lg="6">
                 <div class="label">Batch №</div>
                 <v-text-field
-                  :rules="[formRules.required]"
                   v-model="arrivedFabric.batchNumber"
                   outlined
                   hide-details
@@ -339,7 +338,6 @@
               <v-col cols="12" lg="6">
                 <div class="label">Fabric width in fact (cm)</div>
                 <v-text-field
-                  :rules="[formRules.required]"
                   v-model="arrivedFabric.fabricWidthInFact"
                   outlined
                   hide-details
@@ -352,7 +350,6 @@
               <v-col cols="12" lg="6">
                 <div class="label">Density (gsm) in fact gr/m2</div>
                 <v-text-field
-                  :rules="[formRules.required]"
                   v-model="arrivedFabric.densityInFact"
                   outlined
                   hide-details
@@ -366,7 +363,6 @@
               <v-col cols="12" lg="6">
                 <div class="label">Fact received Gross weight</div>
                 <v-text-field
-                  :rules="[formRules.required]"
                   v-model="arrivedFabric.factReceivedGrossWeight"
                   outlined
                   hide-details
@@ -379,7 +375,6 @@
               <v-col cols="12" lg="6">
                 <div class="label">Fact received Netto weight</div>
                 <v-text-field
-                  :rules="[formRules.required]"
                   v-model="arrivedFabric.factReceivedNettoWeight"
                   outlined
                   hide-details
@@ -392,7 +387,6 @@
               <v-col cols="12" lg="6">
                 <div class="label">Actual unit price</div>
                 <v-text-field
-                  :rules="[formRules.required]"
                   v-model="arrivedFabric.actualUnitPrice"
                   outlined
                   hide-details
@@ -696,7 +690,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="history_dialog" max-width="800">
+    <v-dialog v-model="history_dialog" max-width="1000">
       <v-card flat>
         <v-card-title>
           <div class="title">History</div>
@@ -796,28 +790,27 @@ export default {
       ],
 
       historyHeaders: [
-        { text: "Date", value: "date", sortable: false },
+        { text: "Date", value: "createdAt", sortable: false },
+        { text: "Done by ", value: "createdBy", sortable: false },
         {
           text: "Warehouse operations",
-          value: "warehouseOperations",
+          value: "operationType",
           sortable: false,
         },
-        { text: "From", value: "from", sortable: false },
-        { text: "To", value: "to", sortable: false },
+        { text: "Operation Id", value: "operationId", sortable: false },
         { text: "Quantity", value: "quantity", sortable: false },
-        { text: "Done by ", value: "doneBy", sortable: false },
       ],
 
-      historyList: [
-        {
-          date: "08.01.2023",
-          warehouseOperations: "Fabric order income",
-          from: "Fashionmelon LLC",
-          to: "Fashionmelon LLC",
-          quantity: "1800 kg",
-          doneBy: "Shavkatova M.",
-        },
-      ],
+      // historyList: [
+      //   {
+      //     date: "08.01.2023",
+      //     warehouseOperations: "Fabric order income",
+      //     from: "Fashionmelon LLC",
+      //     to: "Fashionmelon LLC",
+      //     quantity: "1800 kg",
+      //     doneBy: "Shavkatova M.",
+      //   },
+      // ],
 
       expanded: [],
       singleExpand: true,
@@ -879,6 +872,7 @@ export default {
       sipNumbers: "fabricWarehouse/sipNumbers",
       toSipNumbers: "fabricWarehouse/toSipNumbers",
       totalElements: "fabricWarehouse/totalElements",
+      historyList: "fabricWarehouse/historyList",
       partnerList: "subcontracts/partnerList",
     }),
   },
@@ -892,6 +886,12 @@ export default {
     fabricWarehouseList(val) {
       this.current_list = JSON.parse(JSON.stringify(val));
     },
+
+    new_dialog(val){
+      if(!val){
+        this.$refs.new_form.reset();
+      }
+    }
   },
 
   created() {
@@ -905,6 +905,7 @@ export default {
       getFabricWarehouseList: "fabricWarehouse/getFabricWarehouseList",
       createFabricWarehouse: "fabricWarehouse/createFabricWarehouse",
       getSipNumbers: "fabricWarehouse/getSipNumbers",
+      getWarehouseHistory: "fabricWarehouse/getHistory",
       updateFabricWarehouse: "fabricWarehouse/updateFabricWarehouse",
       deleteFabricWarehouse: "fabricWarehouse/deleteFabricWarehouse",
       getToSipNumbers: "fabricWarehouse/getToSipNumbers",
@@ -912,6 +913,7 @@ export default {
       setFabricToWorkshop: "fabricWarehouse/setFabricToWorkshop",
       setFabricToSubcontract: "fabricWarehouse/setFabricToSubcontract",
       getPartnerList: "subcontracts/getPartnerList",
+
     }),
     loadDetails({ item }) {
       // current opened || choose object ^
@@ -938,9 +940,7 @@ export default {
     },
 
     addArrivedFabric() {
-      if(this.title==="Edit"){
-        this.$refs.new_form.reset();
-      }
+      
       this.arrivedFabric={}
       this.title = "New";
       this.new_dialog = true;
@@ -949,7 +949,6 @@ export default {
     async saveArrivedFabric() {
       const data = { ...this.arrivedFabric };
       await this.createFabricWarehouse(data);
-      await this.$refs.new_form.reset();
       this.new_dialog = false;
     },
 
@@ -1042,6 +1041,7 @@ export default {
 
     getHistory(item) {
       this.history_dialog = true;
+      this.getWarehouseHistory(item.id)
     },
 
     filterData() {

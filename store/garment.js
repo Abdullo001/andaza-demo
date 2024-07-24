@@ -114,6 +114,17 @@ export const actions={
     .catch(({response})=>{
       this.$toast.error(response.data.message)
     })
+  },
+
+  sellGarmentInCentral({dispatch},{data,id}){
+    this.$axios.put(`/api/v1/general/garment/shipping/${id}`,data)
+    .then((res)=>{
+      this.$toast.success(res.data.message)
+      dispatch("getItemList",{warehouseId:data.warehouseId,type:"READY_GARMENT"})
+    })
+    .catch(({response})=>{
+      this.$toast.error(response.data.message)
+    })
   }
 
 }

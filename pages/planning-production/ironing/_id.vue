@@ -310,10 +310,10 @@
     </v-card>
     <v-row class="mt-2" v-if="tab!==2">
       <v-col>
-        <CalculationShortcomings/>
+        <CalculationShortcomings v-bind="classificationData"/>
       </v-col>
       <v-col>
-        <OrderQuantities/>
+        <OrderQuantities v-bind="classificationData"/>
       </v-col>
 
     </v-row>
@@ -411,6 +411,8 @@ export default {
           icon: false
         },
       ],
+      tabStatus:"OWN",
+
     }
   },
   created() {
@@ -422,6 +424,13 @@ export default {
     showObject(){
       return{
         show_active: this.show_btn
+      }
+    },
+    classificationData:{
+      get(){
+        return {
+          statusTab:this.tabStatus
+        }
       }
     },
     ...mapGetters({
@@ -453,10 +462,12 @@ export default {
     },
     tab(val){
       if(val===1){
-        this.getSubcontractShortcomingsList(this.planningProcessId)
+        this.getSubcontractShortcomingsList({id:this.planningProcessId,type:"IN_PRODUCTION"})
+        this.tabStatus="SUB"
       }
       if(val===0){
-        this.getShortcomingsList(this.planningProcessId)
+        this.getShortcomingsList({id:this.planningProcessId,type:"IN_PRODUCTION"})
+        this.tabStatus="OWN"
       }
       if(val===2){
         this.getPassingList(this.planningProcessId)
