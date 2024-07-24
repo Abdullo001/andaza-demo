@@ -302,37 +302,37 @@
             <QuantitiesOne class="mb-5"/>
             <v-row class="pa-0 ma-0">
               <v-col class="pl-0">
-                <QuantitiesTwo/>
+                <QuantitiesTwo v-bind="classificationData"/>
               </v-col>
               <v-col class="pr-0">
-                <Alteration/>
+                <Alteration v-bind="classificationData"/>
               </v-col>
             </v-row>
             <v-row class="pa-0 ma-0">
               <v-col class="pl-0">
-                <Classification/>
+                <Classification v-bind="classificationData"/>
               </v-col>
               <v-col class="pr-0">
-                <OrderQuantities/>
+                <OrderQuantities v-bind="classificationData"/>
               </v-col>
             </v-row>
           </v-tab-item>
           <v-tab-item>
             <Subcontractor class="mb-10"/>
-            <!-- <v-row class="pa-0 ma-0">
-              <v-col class="pl-0">
-                <QuantitiesTwo/>
-              </v-col>
-              <v-col class="pr-0">
-                <Alteration/>
-              </v-col>
-            </v-row> -->
             <v-row class="pa-0 ma-0">
               <v-col class="pl-0">
-                <Classification/>
+                <QuantitiesTwo v-bind="classificationData"/>
               </v-col>
               <v-col class="pr-0">
-                <OrderQuantities/>
+                <Alteration v-bind="classificationData"/>
+              </v-col>
+            </v-row>
+            <v-row class="pa-0 ma-0">
+              <v-col class="pl-0">
+                <Classification v-bind="classificationData"/>
+              </v-col>
+              <v-col class="pr-0">
+                <OrderQuantities v-bind="classificationData"/>
               </v-col>
             </v-row>
 
@@ -404,6 +404,7 @@ export default {
         orderQuantity: '',
         productionQuantity: '',
       },
+      tabStatus:"OWN",
       orderList: [],
       modelList: [],
       orderSearch: '',
@@ -448,6 +449,13 @@ export default {
         show_active: this.show_btn
       }
     },
+    classificationData:{
+      get(){
+        return {
+          statusTab:this.tabStatus
+        }
+      }
+    },
     ...mapGetters({
       modelData: 'preFinance/modelData',
       modelInfo: 'production/planning/modelInfo',
@@ -477,10 +485,18 @@ export default {
     },
     tab(val){
       if(val===1){
-        this.getSubcontractShortcomingsList(this.planningProcessId)
+        this.getSubcontractShortcomingsList({id:this.planningProcessId,type:"IN_PRODUCTION"})
+        this.getSubcontarctSecondClassList()
+        this.getSubcontractSentToAlterationList()
+        this.tabStatus="SUB"
+
       }
       if(val===0){
         this.getShortcomingsList({id:this.planningProcessId,type:"IN_PRODUCTION"})
+        this.getSecondClassList()
+        this.getSentToAlterationList()
+        this.tabStatus="OWN"
+
       }
       if(val===2){
         this.getPassingList(this.planningProcessId)
@@ -503,6 +519,11 @@ export default {
       getSubcontractShortcomingsList:'commonCalculationsShortcomings/getSubcontractShortcomingsList',
       getPassingList:'passingToNextProcess/getPassingList',
       getPassingSecondList: 'nextProcessSecondClass/getSecondList',
+      getSecondClassList:"commonProcess/getSecondClassList",
+      getSubcontarctSecondClassList:"commonProcess/getSubcontarctSecondClassList",
+      getSentToAlterationList: "commonProcess/getSentToAlterationList",
+      getSubcontractSentToAlterationList: "commonProcess/getSubcontractSentToAlterationList",
+
 
     }),
     clickBtn() {

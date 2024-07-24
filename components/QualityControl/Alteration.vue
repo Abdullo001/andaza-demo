@@ -166,6 +166,12 @@ import {mapGetters, mapActions} from "vuex";
 
 export default {
   name: 'Alteration',
+  props:{
+    statusTab:{
+      type:String,
+      required:true,
+    }
+  },
   data() {
     return {
       headers: [
@@ -291,6 +297,11 @@ export default {
           id:this.selectedItem.id,
           operationType:"SENT_TO_ALTERATION",
           sizeDistributions:[...this.selectedItem.sizeDistributions]
+
+        }
+        if(this.statusTab==="SUB"){
+          data.operationType="SENT_TO_ALTERATION_SUBCONTRACTOR"
+          
         }
         this.updateSentToAlterationProcess(data)
       }

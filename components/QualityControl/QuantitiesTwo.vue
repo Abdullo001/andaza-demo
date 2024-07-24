@@ -312,6 +312,12 @@ import {mapGetters, mapActions} from "vuex";
 
 export default {
   name: 'QuantitiesTwo',
+  props:{
+    statusTab:{
+      type:String,
+      required:true,
+    }
+  },
   data() {
     return {
       headers: [
@@ -473,6 +479,9 @@ export default {
           operationType:"SECOND_CLASS",
           sizeDistributions:[...this.selectedItem.sizeDistributions]
         }
+        if(this.statusTab==="SUB"){
+          data.operationType="SECOND_CLASS_SUBCONTRACTOR"
+        }
         this.updateSecondClassProcess(data)
       }
       if(this.selectedItem.status==="editHistory"){
@@ -497,7 +506,7 @@ export default {
 
   },
   async mounted() {
-    this.getSecondClassList()
+
   }
 }
 </script>

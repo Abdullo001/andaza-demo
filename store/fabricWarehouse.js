@@ -2,6 +2,7 @@ export const state = () => ({
   fabricWarehouseList: [],
   sipNumbers: [],
   toSipNumbers: [],
+  historyList:[],
 });
 
 export const getters = {
@@ -9,6 +10,7 @@ export const getters = {
   totalElements: (state) => state.fabricWarehouseList.totalElements,
   sipNumbers: (state) => state.sipNumbers.content,
   toSipNumbers: (state) => state.toSipNumbers,
+  historyList: (state) => state.historyList,
 };
 
 export const mutations = {
@@ -20,6 +22,9 @@ export const mutations = {
   },
   setToSipNumbers(state, item) {
     state.toSipNumbers = item;
+  },
+  setHistoryList(state, item) {
+    state.historyList = item;
   },
 };
 
@@ -190,5 +195,15 @@ export const actions = {
         this.$toast.error(response.data.message);
       });
   },
+
+  getHistory({commit},id){
+    this.$axios.get(`/api/v1/fabric-warehouse/history?warehouseId=${id}`)
+    .then((res)=>{
+      commit("setHistoryList",res.data.data)
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  }
 
 };
