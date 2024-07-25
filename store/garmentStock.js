@@ -44,8 +44,8 @@ export const actions={
       page,size,
       modelName:modelName??"",
       modelNumber:modelNumber??"",
-      fromDate,
-      toDate,
+      fromDate:!!fromDate?fromDate:null,
+      toDate:!!toDate?toDate:null,
     }
     this.$axios.put(`/api/v1/garment-stock`,data)
     .then((res)=>{
