@@ -609,11 +609,29 @@ export default {
           },
           {
             icon: ["report.svg", "report-active.svg"],
-            title: this.$t("sidebar.report"),
-            to: this.localePath("/report"),
-            has_child: false,
-            name: "REPORT",
-            localization: "report",
+            title: "Analytics",
+            to: this.localePath("/analytics"),
+            has_child: true,
+            name: "ANALYTICS",
+            localization: "analytics",
+            child: [],
+            children: [
+              {
+                title: this.$t("sidebar.report"),
+                to: this.localePath("/report"),
+                localization: "report",
+              },
+              {
+                title: "PPG",
+                to: this.localePath("/ppg"),
+                localization: "ppg",
+              },
+              {
+                title: "By models",
+                to: this.localePath("/ppg"),
+                localization: "byModels",
+              },
+            ]
           },
           {
             icon: ["settings.svg", "settings-active.svg"],
