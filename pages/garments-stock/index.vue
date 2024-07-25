@@ -38,7 +38,7 @@
                 style="width: 100%; height: 100%"
                 placeholder="From date"
                 :picker-options="pickerShortcuts"
-                value-format="dd.MM.yyyy"
+                value-format="dd-MM-yyyy"
               >
               </el-date-picker>
             </div>
@@ -52,7 +52,7 @@
                 style="width: 100%; height: 100%"
                 placeholder="To date"
                 :picker-options="pickerShortcuts"
-                value-format="dd.MM.yyyy"
+                value-format="dd-MM-yyyy"
               >
               </el-date-picker>
             </div>
@@ -136,14 +136,13 @@ export default {
     return{
       filters:{
         modelNumber:"",
-        orderNumber:"",
-        client:"",
-        createdDate:"",
+        modelName:"",
+        fromDate:"",
+        toDate:"",
       },
       valid_search:true,
       itemPerPage:10,
       currentPage:0,
-      totalElements:10,
       itemsList:[],
       headers: [
         { text: "Model No.", value: "modelNumber", sortable: false },
@@ -160,7 +159,9 @@ export default {
 
   computed:{
     ...mapGetters({
-      stockList:"garmentStock/stockList"
+      stockList:"garmentStock/stockList",
+      totalElements:"garmentStock/totalElements",
+
     })
   },
 
@@ -168,14 +169,29 @@ export default {
     ...mapActions({
       getStockList:"garmentStock/getStockList",
     }),
-    filterData(){},
-    resetFilters(){},
+    filterData(){
+      this.getStockList({page:0,size:10,...this.filters})
+    },
+    resetFilters(){
+     this.$refs.filter_form.reset()
+     this.filters.fromDate=null
+     this.filters.toDate=null
+     this.getStockList({page:0,size:10})
+
+    },
     viewDetails(item){
       this.$store.commit("garmentStock/setStockId",item.id)
       this.$router.push(`/garments-stock/${item.id}`)
     },
-    page(value){},
-    size(value){},
+    page(value){
+      this.currentPage=val-1
+      this.getStockList({page:this.currentPage,size:this.itemPerPage})
+    },
+    size(value){
+      this.itemPerPage=value
+      this.getStockList({page:0,size:this.itemPerPage})
+
+    },
 
     addGarment(){
       this.$router.push("/garments-stock/add-garment")
