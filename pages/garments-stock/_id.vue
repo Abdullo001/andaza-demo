@@ -603,6 +603,13 @@
               </v-card-text>
             </v-card>
           </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text class="pt-0">
+                <Selling />
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
         </v-tabs-items>
       </v-tabs>
     </v-card>
@@ -615,6 +622,7 @@ import Sizes from "@/components/StockGarment/Sizes.vue";
 import SizeDistribution from "@/components/StockGarment/SizeDistribution.vue";
 import ModelPhoto from "@/components/StockGarment/ModelPhoto.vue";
 import Documents from "@/components/StockGarment/Documents.vue";
+import Selling from "@/components/StockGarment/Selling.vue";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -624,7 +632,8 @@ export default {
     Sizes,
     SizeDistribution,
     ModelPhoto,
-    Documents
+    Documents,
+    Selling,
   },
 
   data() {
