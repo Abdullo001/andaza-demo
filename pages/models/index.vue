@@ -153,11 +153,12 @@ export default {
       },
       status_enums: ['ACTIVE', 'DISABLED', 'PENDING'],
       headers: [
+        {text: "No.", value: 'ordinalNumber', sortable:false},
         {text: "Client", value: 'partner'},
         {text: "Style", align: 'start', sortable: false, value: 'modelNumber'},
         {text: "Category", value: 'modelGroup'},
         {text: "Final Inspection", value: 'inspectionDate'},
-        {text: "Days left FI", value: 'daysLeftFI'},
+        {text: "Days left FI", value: 'differDays'},
         {text: "Fabric status", value: 'fabricStatus'},
         {text: this.$t('listsModels.table.modelName'), value: 'name'},
         {text: this.$t('listsModels.table.composition'), value: 'composition'},

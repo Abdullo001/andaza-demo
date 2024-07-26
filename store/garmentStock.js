@@ -5,6 +5,7 @@ export const state=()=>({
   calculation:{},
   sizeList:[],
   sizeQuantityList:[],
+  sellingList:[],
 })
 
 export const getters={
@@ -15,6 +16,7 @@ export const getters={
   calculation:(state)=>state.calculation,
   sizeList:(state)=>state.sizeList,
   sizeQuantityList:(state)=>state.sizeQuantityList,
+  sellingList:(state)=>state.sellingList,
 }
 
 export const mutations={
@@ -35,6 +37,9 @@ export const mutations={
   },
   setSizeQuantityList(state,item){
     state.sizeQuantityList=item
+  },
+  setSellingList(state,item){
+    state.sellingList=item
   },
 }
 
@@ -160,6 +165,29 @@ export const actions={
     })
     .catch(({response})=>{
       this.$toast.error(response.data.message)
+    })
+  },
+
+  getSellingList({commit},stockId){
+    this.$axios.get(`/api/v1/garment-stock/sell/${stockId}`)
+    .then((res)=>{
+      commit("setSellingList",res.data)
+      console.log(res);
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+
+  sellToShipping({dispatch},{data,id}){
+    this.$axios.put(`/api/v1/garment-stock/sell/shipping/${id}`,data)
+    .then((res)=>{
+      this.$toast.success(res.data.message)
+      dispatch("getSellingList",data.stockId)
+      console.log(res);
+    })
+    .catch((response)=>{
+      console.log(response);
     })
   }
 }
