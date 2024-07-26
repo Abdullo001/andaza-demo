@@ -65,69 +65,64 @@
             v-if="Object.keys(item).length > 2"
           >
             <template #activator="{ on, attrs }">
-              <v-btn icon v-bind="attrs" v-on="on" color="#544B99">
-                <v-img src="/dollar.svg" max-width="20" />
+              <v-btn icon v-bind="attrs" v-on="on" color="#544B99" @click="openShippingDialog(item)">
+                <v-img src="/car.svg" max-width="20" />
               </v-btn>
             </template>
-            <span class="text-capitalize">Sell</span>
+            <span class="text-capitalize">To Shipping</span>
           </v-tooltip>
         </div>
       </template>
     </v-data-table>
 
-    <v-dialog v-model="new_dialog" max-width="572">
+    <v-dialog v-model="shipping_dialog" max-width="572">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
           <div>
-            {{ newGarment.status === "add" ? "Create" : "Edit" }} color/Size
+            Sent to Shipping
           </div>
-          <v-btn @click="new_dialog = !new_dialog" icon>
+          <v-btn @click="shipping_dialog = !shipping_dialog" icon>
             <v-icon color="#544B99">mdi-close</v-icon>
           </v-btn>
         </v-card-title>
 
         <v-card-text>
           <v-form lazy-validation v-model="new_validate" ref="new_form">
-            <v-row class="mb-4 d-flex justify-space-between">
-              <v-col cols="6">
-                <div class="label">Main color</div>
-                <v-text-field
+            <v-row>
+              <v-col cols="12" lg="8"  >
+                <div class="label">Invoice number</div>
+                <v-combobox
+                  v-model="shippingData.shippingId"
                   :rules="[formRules.required]"
-                  v-model="newGarment.mainColor"
-                  placeholder="Enter main color"
-                  single-line
+                  :search-input.sync="shippingInvoice"
+                  :items="shippingInvoiceList"
+                  item-text="invoiceNumber"
+                  item-value="id"
                   outlined
                   hide-details
                   height="44"
-                  validate-on-blur
-                  dense
                   class="rounded-lg base"
+                  :return-object="true"
                   color="#544B99"
-                  background-color="#F8F4FE"
-                />
-              </v-col>
-              <v-col cols="6">
-                <div class="label">Color code</div>
-                <v-text-field
-                  :rules="[formRules.required]"
-                  v-model="newGarment.colorCode"
-                  placeholder="Enter color code"
-                  single-line
-                  outlined
-                  hide-details
-                  height="44"
-                  validate-on-blur
                   dense
-                  class="rounded-lg base"
-                  color="#544B99"
-                  background-color="#F8F4FE"
-                />
+                  placeholder="Enter partner name"
+                  append-icon="mdi-chevron-down"
+                  validate-on-blur
+                >
+                  <template #append>
+                    <v-icon color="#544B99">mdi-magnify</v-icon>
+                  </template>
+                </v-combobox>
               </v-col>
+              <!-- <v-col cols="4" class="d-flex align-center">
+                <v-switch inset v-model="autoFilling" color="#4F46E5" />
+                <div class="label mr-5 ">Aut.Filling</div>
+              </v-col> -->
             </v-row>
             <v-row>
               <v-col
                 cols="4"
-                v-for="(item, idx) in newGarment.sizeDistributions"
+                v-for="(item, idx) in shippingData.editableSizeDistributions"
                 :key="idx"
               >
                 <div class="label">{{ item.size }}</div>
@@ -156,29 +151,19 @@
             class="text-capitalize rounded-lg font-weight-bold mr-6"
             color="#544B99"
             width="163"
-            @click="new_dialog = !new_dialog"
+            @click="shipping_dialog = !shipping_dialog"
             >cancel
           </v-btn>
           <v-btn
-            v-if="newGarment.status === 'add'"
             class="text-capitalize rounded-lg font-weight-bold"
             color="#544B99"
             dark
             width="163"
-            @click="createSizeDistirbution"
+            @click="saveShipping"
           >
             Save
           </v-btn>
-          <v-btn
-            v-else
-            class="text-capitalize rounded-lg font-weight-bold"
-            color="#544B99"
-            dark
-            width="163"
-            @click="saveUpdate"
-          >
-            Save
-          </v-btn>
+         
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -196,7 +181,8 @@ export default {
 
   data() {
     return {
-      new_dialog: false,
+      autoFilling:false,
+      shipping_dialog: false,
       new_validate: true,
       headers: [
         { text: "Main color", value: "mainColor", sortable: false },
@@ -209,14 +195,23 @@ export default {
 
       items: [],
 
-      newGarment: {
+      shippingData: {
         mainColor: "",
         colorCode: "",
-        sizeDistributions: [],
+        editableSizeDistributions: [],
       },
       uid: null,
       deleteDialog: false,
+      shippingInvoice:"",
     };
+  },
+
+  created(){
+    this.getShippingInvoiceList({
+      page: 0,
+      size: 100,
+      invoiceNumber: this.shippingInvoice,
+    });
   },
 
   computed: {
@@ -234,13 +229,26 @@ export default {
     ...mapGetters({
       sizeList: "garmentStock/sizeList",
       stockId: "garmentStock/stockId",
-      sizeQuantityList: "garmentStock/sizeQuantityList",
+      sizeQuantityList: "garmentStock/sellingList",
+      shippingInvoiceList: "shipping/shippingInvoiceList",
+
     }),
   },
 
   created() {},
 
   watch: {
+    autoFilling(val){
+      if(val){
+        this.shippingData.sizeDistributions.forEach((item,idx)=>{
+          item.quantity=this.shippingData.editableSizeDistributions[idx].quantity
+        })
+      }else{
+        this.shippingData.sizeDistributions.forEach((item,idx)=>{
+          item.quantity=0
+        })
+      }
+    },
     sizeQuantityList(list) {
       const specialList = list.map((item) => {
         const sizes = {};
@@ -256,7 +264,7 @@ export default {
     },
     sizeList(val) {
       if (val.length !== 0) {
-        this.newGarment.sizeDistributions = [];
+        this.shippingData.editableSizeDistributions = [];
         this.headers = [
           { text: "Main color", value: "mainColor", sortable: false },
           { text: "Color code", value: "colorCode", sortable: false },
@@ -264,8 +272,8 @@ export default {
 
         val.forEach((item) => {
           this.headers.push({ text: item, value: item, sortable: false });
-          this.newGarment.sizeDistributions.push({
-            quantity: null,
+          this.shippingData.editableSizeDistributions.push({
+            quantity: 0,
             size: item,
           });
         });
@@ -279,7 +287,7 @@ export default {
       }
     },
 
-    new_dialog(val) {
+    shipping_dialog(val) {
       if (!val) {
         this.$refs.new_form.reset();
       }
@@ -291,66 +299,78 @@ export default {
 
     uid(val) {
       if (!!val) {
-        this.getStockDistribution(val);
+        // this.getStockDistribution(val);
         this.getStockSizes(val);
+      }
+    },
+    shippingInvoice(val) {
+      if (!!val) {
+        this.getShippingInvoiceList({
+          page: 0,
+          size: 100,
+          invoiceNumber: val,
+        });
       }
     },
   },
 
   methods: {
     ...mapActions({
-      getStockDistribution: "garmentStock/getStockDistribution",
       getStockSizes: "garmentStock/getStockSizes",
-      saveStockSize: "garmentStock/saveStockSize",
-      updateStockSize: "garmentStock/updateStockSize",
-      deleteStockSize: "garmentStock/deleteStockSize",
+      getSellingList: "garmentStock/getSellingList",
+      getShippingInvoiceList: "shipping/getShippingInvoiceList",
+      sellToShipping: "garmentStock/sellToShipping",
+
     }),
 
-    openCreateDialog() {
-      this.new_dialog = true;
-      this.newGarment.status = "add";
+    openShippingDialog(item) {
+      this.shipping_dialog = true;
+      this.shippingData = {...this.shippingData,...item};
+
     },
 
-    async createSizeDistirbution() {
-      const data = JSON.parse(JSON.stringify(this.newGarment));
+    async saveShipping() {
+      const data = JSON.parse(JSON.stringify(this.shippingData));
 
-      await this.saveStockSize({
-        mainColor: data.mainColor,
-        colorCode: data.colorCode,
-        sizeDistributions: data.sizeDistributions,
-        stockId: this.uid,
+      await this.sellToShipping({
+        data: {
+          shippingId:data.shippingId.id,
+          sizeDistributions: data.editableSizeDistributions,
+          stockId: this.uid,
+        },
+        id:data.id
       });
-      this.new_dialog = false;
+      this.shipping_dialog = false;
     },
 
     edit(item) {
-      this.newGarment = JSON.parse(JSON.stringify(item));
-      this.new_dialog = true;
-      this.newGarment.status = "edit";
+      this.shippingData = JSON.parse(JSON.stringify(item));
+      this.shipping_dialog = true;
+      this.shippingData.status = "edit";
     },
 
     async saveUpdate() {
-      const data = JSON.parse(JSON.stringify(this.newGarment));
+      const data = JSON.parse(JSON.stringify(this.shippingData));
 
-      await this.updateStockSize({
-        data: {
-          colorCode: data.colorCode,
-          mainColor: data.mainColor,
-          sizeDistributions: data.sizeDistributions,
-          stockId: this.uid,
-        },
-        id: this.newGarment.id,
-      });
-      this.new_dialog = false;
+      // await this.updateStockSize({
+      //   data: {
+      //     colorCode: data.colorCode,
+      //     mainColor: data.mainColor,
+      //     sizeDistributions: data.sizeDistributions,
+      //     stockId: this.uid,
+      //   },
+      //   id: this.shippingData.id,
+      // });
+      this.shipping_dialog = false;
     },
 
     deleteOpenDialog(item) {
       this.deleteDialog = true;
-      this.newGarment = { ...item };
+      this.shippingData = { ...item };
     },
 
     deleteFunc() {
-      this.deleteStockSize({ id: this.newGarment.id, stockId: this.uid });
+      // this.deleteStockSize({ id: this.shippingData.id, stockId: this.uid });
     },
   },
 
@@ -362,8 +382,9 @@ export default {
       this.uid = this.stockId.id;
     }
 
-    this.getStockDistribution(this.uid);
-    this.getStockSizes(this.uid);
+    // this.getStockDistribution(this.uid);
+    // this.getStockSizes(this.uid);
+    this.getSellingList(this.uid)
   },
 };
 </script>

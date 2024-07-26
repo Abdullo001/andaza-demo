@@ -446,7 +446,8 @@ export default {
         orderId: item.orderId,
         packagingListId: item.id,
         total: item.totalDistribution,
-        totalBoxQuantity: item.totalBoxQuantity
+        totalBoxQuantity: item.totalBoxQuantity,
+        isGarment:item.isGarment
       })
     },
     generateInvoice() {
