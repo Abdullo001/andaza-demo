@@ -236,6 +236,27 @@ export default {
       deleteImages: "modelPhoto/deleteImages"
 
     }),
+    handlePaste(event) {
+      const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+      for (const item of items) {
+        if (item.type.indexOf('image') === 0) {
+          const blob = item.getAsFile();
+          this.processImage(blob);
+        }
+      }
+    },
+
+    processImage(file) {
+      // Find the first empty slot
+      const emptyIndex = this.files.findIndex(f => !f.file);
+      if (emptyIndex === -1) {
+        alert('All image slots are full. Please delete an image before pasting a new one.');
+        return;
+      }
+
+      this.files[emptyIndex].file = file;
+      this.images[emptyIndex].photo = URL.createObjectURL(file);
+    },
     async saveImages() {
       const param = this.$route.params.id;
       let id = '';
@@ -308,7 +329,13 @@ export default {
     if (id !== "add-model") {
       this.getImages(id);
     }
-  }
+
+    document.addEventListener('paste', this.handlePaste);
+  },
+
+  beforeUnmount() {
+    document.removeEventListener('paste', this.handlePaste);
+  },
 }
 </script>
 

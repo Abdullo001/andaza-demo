@@ -624,6 +624,27 @@ export default {
       getChartAllData: "accessoryChart/getChartAllData",
       getAccessoryComposition: "accessoryChart/getAccessoryComposition",
     }),
+    handlePaste(event) {
+      const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+      for (const item of items) {
+        if (item.type.indexOf('image') === 0) {
+          const blob = item.getAsFile();
+          this.processImage(blob);
+        }
+      }
+    },
+
+    processImage(file) {
+      // Find the first empty slot
+      const emptyIndex = this.files.findIndex(f => !f.file);
+      if (emptyIndex === -1) {
+        alert('All image slots are full. Please delete an image before pasting a new one.');
+        return;
+      }
+
+      this.files[emptyIndex].file = file;
+      this.images[emptyIndex].photo = URL.createObjectURL(file);
+    },
     firstFileChanged(e) {
       this.files[0].file = e.target.files[0];
       this.images[0].photo = URL.createObjectURL(this.files[0].file);
@@ -764,6 +785,11 @@ export default {
     if (id !== "create") {
       this.getChartAllData(id);
     }
+    document.addEventListener('paste', this.handlePaste);
+  },
+
+  beforeUnmount() {
+    document.removeEventListener('paste', this.handlePaste);
   },
 };
 </script>
