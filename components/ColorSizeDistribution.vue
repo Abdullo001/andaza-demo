@@ -184,7 +184,7 @@
               <v-col cols="12" >
                 <div class="label">Artwork (Additional Accessories)</div>
                 <v-text-field
-                      v-model="item.artwork"
+                      v-model="newSizeDistirbution.artwork"
                       placeholder=""
                       outlined
                       hide-details
@@ -344,7 +344,7 @@
               <v-col cols="12" >
                 <div class="label">Artwork (Additional Accessories)</div>
                 <v-text-field
-                      v-model="item.artwork"
+                      v-model="oneSizeDistirbution.artwork"
                       placeholder=""
                       outlined
                       hide-details
@@ -665,6 +665,7 @@ export default {
           sizeDistributionId: el.sizeDistributionId,
           totalWithOverproductionPercent: el.totalWithOverproductionPercent,
           sizeDistributions: [...valueSizesList],
+          artwork:el.artwork
         };
       });
       this.orderSizeList = JSON.parse(JSON.stringify(specialList));
@@ -727,8 +728,10 @@ export default {
           setIdentifier: item.setIdentifier,
           sizeDistributionId: item.sizeDistributionId,
           sizeDistributions: [...item.sizeDistributions],
+          artwork:item.artwork
         };
-        await this.updateSizeDistributionValue({ specialObj });
+        console.log(specialObj);
+        // await this.updateSizeDistributionValue( specialObj );
         this.edit_dialog = !this.edit_dialog;
       }
     },
@@ -778,6 +781,7 @@ export default {
           setIdentifier: item.setIdentifier,
           sizeDistributionId: item.sizeDistributionId,
           sizeDistributions: [...item.sizeDistributions],
+          artwork:item.artwork
         };
 
         await this.updateSizeDistributionValue(specialObj);
