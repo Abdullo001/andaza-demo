@@ -5,10 +5,10 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Sip №"
+              label="Model No."
               outlined
               class="rounded-lg filter"
-              v-model.trim="filters.sipNumber"
+              v-model.trim="filters.modelNumber"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -16,21 +16,21 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Batch №"
-              outlined
-              class="rounded-lg filter"
-              v-model.trim="filters.batchNumber"
-              hide-details
-              dense
-              @keydown.enter="filterData"
-            />
-          </v-col>
-          <v-col cols="12" lg="2" md="2">
-            <v-text-field
-              label="Order №"
+              label="Order No."
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.orderNumber"
+              hide-details
+              dense
+              @keydown.enter="filterData"
+            />
+          </v-col>
+          <v-col cols="12" lg="2" md="2">
+            <v-text-field
+              label="Subcon. name"
+              outlined
+              class="rounded-lg filter"
+              v-model.trim="filters.clientName"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -90,86 +90,34 @@
           </v-toolbar-title>
         </v-toolbar>
       </template>
+
+      <template #item.photo="{item}">
+        <v-img
+          :src="item.photo"
+          class="flex-sm-grow-0 mr-2 mt-2"
+          :width="38"
+          :height="38"
+          @click="showImage(item.photo)"
+
+        />
+      </template>
+
+      <template #item.fabricStatus="{ item }">
+        <v-chip :color="statusColor.fabricModelStatus(item.fabricStatus)" dark>
+          {{ item.fabricStatus }}
+        </v-chip>
+      </template>
+      <template #item.accessoryStatus="{ item }">
+        <v-chip :color="statusColor.fabricModelStatus(item.accessoryStatus)" dark>
+          {{ item.accessoryStatus }}
+        </v-chip>
+      </template>
       
       
       <template #expanded-item="{ headers, item }">
         <td :colspan="headers.length">
           <v-card flat>
             <v-card-text>
-              <!-- <v-row>
-                <v-col>
-                  <div class="body-1 mb-3">
-                    Fabric width in order:
-                    <span class="font-weight-bold ml-2">
-                      {{ item?.fabricWidthInOrder }}</span
-                    >
-                  </div>
-                  <div class="body-1 mb-3">
-                    Fabric width in fact:
-                    <span class="font-weight-bold ml-2">
-                      {{ item?.fabricWidthInFact }}</span
-                    >
-                  </div>
-                  <div class="body-1 mb-3">
-                    Density(gsm) in order gr/m2:
-                    <span class="font-weight-bold ml-2">
-                      {{ item?.densityInOrder ?? "No" }}</span
-                    >
-                  </div>
-                  <div class="body-1 mb-3">
-                    Density(gsm) in fact gr/m2:
-                    <span class="font-weight-bold ml-2">
-                      {{ item?.densityInFact ?? "No" }}</span
-                    >
-                  </div>
-                </v-col>
-                <v-col>
-                  <div class="body-1 mb-3">
-                    Actual fabric quantity:
-                    <span class="font-weight-bold ml-2">
-                      {{ item?.actualFabricQuantity }}</span
-                    >
-                  </div>
-                  <div class="body-1 mb-3">
-                    Fabric received Gross weight:
-                    <span class="font-weight-bold ml-2">
-                      {{ item?.factReceivedGrossWeight }}</span
-                    >
-                  </div>
-                  <div class="body-1 mb-3">
-                    Actual fabric price:
-                    <span class="font-weight-bold ml-2">
-                      {{ item?.actualUnitPrice }}</span
-                    >
-                  </div>
-                  <div class="body-1 mb-3">
-                    Ordered quantity:
-                    <span class="font-weight-bold ml-2">
-                      {{ item?.orderedQuantity }}</span
-                    >
-                  </div>
-                </v-col>
-                <v-col>
-                  <div class="body-1 mb-3">
-                    Created at:
-                    <span class="font-weight-bold ml-2">
-                      {{ item?.updatedAt }}</span
-                    >
-                  </div>
-                  <div class="body-1 mb-3">
-                    Created by:
-                    <span class="font-weight-bold ml-2">
-                      {{ item?.updatedBy }}</span
-                    >
-                  </div>
-                  <div class="body-1 mb-3">
-                    Total price:
-                    <span class="font-weight-bold ml-2">
-                      {{ item?.actualTotalPrice }}</span
-                    >
-                  </div>
-                </v-col>
-              </v-row> -->
               <v-row>
                 <v-col cols="8">
                   <div class="label text-center">I. SAMPLES</div>
@@ -178,41 +126,181 @@
                       LAB DIP
                       <v-divider class="my-2" />
                       <div class="body-1 mb-3">
-                        Created at:
+                        No. :
                         <span class="font-weight-bold ml-2">
-                          {{ item?.updatedAt }}</span
+                          {{ itemDetail.ldResponse?.ordinalNumber }}</span
                         >
                       </div>
                       <div class="body-1 mb-3">
-                        Created by:
+                        Body part color :
                         <span class="font-weight-bold ml-2">
-                          {{ item?.updatedBy }}</span
+                          {{ itemDetail.ldResponse?.color }}</span
                         >
                       </div>
                       <div class="body-1 mb-3">
-                        Total price:
+                        Fabric supplier :
                         <span class="font-weight-bold ml-2">
-                          {{ item?.actualTotalPrice }}</span
+                          {{ itemDetail.ldResponse?.supplier }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        LD sent date :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.ldResponse?.sendDate }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        LD received date :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.ldResponse?.receivedDate }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        Result :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.ldResponse?.result }}</span
                         >
                       </div>
                     </v-col>
                     <v-col cols="3">
-                      LAB DIP
+                      FITTING
                       <v-divider class="my-2" />
+                      <div class="body-1 mb-3">
+                        No. :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.fitResponse?.ordinalNumber }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        Body part color :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.fitResponse?.color }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        Sent date :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.fitResponse?.sendDate }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        Received date :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.fitResponse?.receivedDate }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        Result :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.fitResponse?.result }}</span
+                        >
+                      </div>
                     </v-col>
                     <v-col cols="3">
-                      LAB DIP
+                      BULK
                       <v-divider class="my-2" />
+                      <div class="body-1 mb-3">
+                        No. :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.bulkResponse?.ordinalNumber }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        Body part color :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.bulkResponse?.color }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        Supplier :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.bulkResponse?.supplier }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        Sent date :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.bulkResponse?.sendDate }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        Received date :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.bulkResponse?.receivedDate }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        Result :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.bulkResponse?.result }}</span
+                        >
+                      </div>
                     </v-col>
                     <v-col cols="3">
-                      LAB DIP
+                      PPS
                       <v-divider class="my-2" />
+
+                      <div class="body-1 mb-3">
+                        No. :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.ppsResponse?.ordinalNumber }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        Body part color :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.ppsResponse?.color }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        Sent date :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.ppsResponse?.sendDate }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        Received date :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.ppsResponse?.receivedDate }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        Result :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.ppsResponse?.result }}</span
+                        >
+                      </div>
                     </v-col>
                   </v-row>
                 </v-col>
                 <v-col cols="2">
                   <div class="label text-center">II. INSPECTION</div>
-
+                  <div v-for="(el,idx) in itemDetail.inspectionResponses" :key="idx">
+                    <div class="body-1 mb-3">
+                      {{ idx+1 }}. Inspection sent date :
+                      <span class="font-weight-bold ml-2">
+                        {{ el.inspectionDate }}</span
+                      >
+                    </div>
+                    <div class="body-1 mb-3">
+                      Status :
+                      <span class="font-weight-bold ml-2">
+                        {{ el.status }}</span
+                      >
+                    </div>
+                    <div class="body-1 mb-3">
+                      Description :
+                      <span class="font-weight-bold ml-2">
+                        {{ el.description }}</span
+                      >
+                    </div>
+                    <div class="body-1 mb-3">
+                      Inspector :
+                      <span class="font-weight-bold ml-2">
+                        {{ el.inspector }}</span
+                      >
+                    </div>
+                  </div>
                 </v-col>
                 
               </v-row>
@@ -224,39 +312,129 @@
                       CUTTING
                       <v-divider class="my-2" />
                       <div class="body-1 mb-3">
-                        Created at:
+                        Fabric supplier :
                         <span class="font-weight-bold ml-2">
-                          {{ item?.updatedAt }}</span
+                          {{ itemDetail.cuttingResponse?.fabricSupplier }}</span
                         >
                       </div>
                       <div class="body-1 mb-3">
-                        Created by:
+                        Start date :
                         <span class="font-weight-bold ml-2">
-                          {{ item?.updatedBy }}</span
+                          {{ itemDetail.cuttingResponse?.startDate }}</span
                         >
                       </div>
                       <div class="body-1 mb-3">
-                        Total price:
+                        Cutting quantity :
                         <span class="font-weight-bold ml-2">
-                          {{ item?.actualTotalPrice }}</span
+                          {{ itemDetail.cuttingResponse?.quantity }}</span
                         >
                       </div>
+                      <div class="body-1 mb-3">
+                        Finish date :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.cuttingResponse?.finishDate }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        Status :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.cuttingResponse?.status }}</span
+                        >
+                      </div>
+                      
                     </v-col>
                     <v-col cols="4">
                       PRINTING
                       <v-divider class="my-2" />
+                      <div class="body-1 mb-3">
+                        Fabric supplier :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.printingResponse?.fabricSupplier }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        Start date :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.printingResponse?.startDate }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        Printing quantity :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.printingResponse?.quantity }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        Finish date :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.printingResponse?.finishDate }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        Status :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.printingResponse?.status }}</span
+                        >
+                      </div>
 
                     </v-col>
                     <v-col cols="4">
                       SEWING
                       <v-divider class="my-2" />
+                      <div class="body-1 mb-3">
+                        Fabric supplier :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.sewingResponse?.fabricSupplier }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        Start date :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.sewingResponse?.startDate }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        Sewing quantity :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.sewingResponse?.quantity }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        Finish date :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.sewingResponse?.finishDate }}</span
+                        >
+                      </div>
+                      <div class="body-1 mb-3">
+                        Status :
+                        <span class="font-weight-bold ml-2">
+                          {{ itemDetail.sewingResponse?.status }}</span
+                        >
+                      </div>
 
                     </v-col>
                   </v-row>
                 </v-col>
                 <v-col cols="2">
                   <div class="label text-center">IV. SHIPMENT</div>
-
+                  <div class="body-1 mb-3">
+                    Invoice No. :
+                    <span class="font-weight-bold ml-2">
+                      {{ itemDetail.shipmentResponse?.invoiceNumber }}</span
+                    >
+                  </div>
+                  <div class="body-1 mb-3">
+                    Truck in :
+                    <span class="font-weight-bold ml-2">
+                      {{ itemDetail.shipmentResponse?.truckIn }}</span
+                    >
+                  </div>
+                  <div class="body-1 mb-3">
+                    Truck out :
+                    <span class="font-weight-bold ml-2">
+                      {{ itemDetail.shipmentResponse?.truckOut }}</span
+                    >
+                  </div>
                 </v-col>
                 <v-col cols="2">
                   <div class="label text-center">V. MODEL CANCEL</div>
@@ -264,7 +442,12 @@
                 </v-col>
                 <v-col cols="2">
                   <div class="label text-center">VI. DISCOUNT</div>
-
+                  <div class="body-1 mb-3">
+                    Discount percentage :
+                    <span class="font-weight-bold ml-2">
+                      {{ itemDetail.discount }}</span
+                    >
+                  </div>
                 </v-col>
 
               </v-row>
@@ -273,6 +456,20 @@
         </td>
       </template>
     </v-data-table>
+
+    <v-dialog max-width="590" v-model="image_dialog">
+      <v-card >
+        <v-card-title class="d-flex">
+          <v-spacer/>
+          <v-btn icon color="#544B99" large @click="image_dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text>
+          <v-img :src="currentImage" height="500" class="mb-4" contain/>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
 
   </div>
 </template>
@@ -290,105 +487,68 @@ export default {
         { text: "Model №", value: "modelNumber", sortable: false },
         { text: "Fabric deadline", value: "fabricDeadline", sortable: false },
         { text: "Fabric status", value: "fabricStatus", sortable: false },
-        { text: "Main color", value: "mainColor", sortable: false },
+        { text: "Accessory status", value: "accessoryStatus", sortable: false },
+        { text: "Main color", value: "mainColorName", sortable: false },
         { text: "Articles", value: "articles", sortable: false },
-        { text: "Order q-ty", value: "orderQuantity", sortable: false },
+        { text: "Order q-ty", value: "total", sortable: false },
         { text: "Deadline of order", value: "orderDeadline", sortable: false },
-        { text: "Price", value: "price", sortable: false },
+        { text: "Price", value: "soldPrice", sortable: false },
         { text: "Total price", value: "totalPrice", sortable: false },
         { text: "Model group", value: "modelGroup", sortable: false },
-        { text: "Size group", value: "sizeGroup", sortable: false },
-        { text: "Main fabric composition", value: "mainComposition", sortable: false },
-        { text: "Density gsm", value: "densityGsm", sortable: false },
+        { text: "Size group", value: "sizeName", sortable: false },
+        { text: "Main fabric composition", value: "specification", sortable: false },
+        { text: "Density gsm", value: "density", sortable: false },
         { text: "Fabric rework", value: "fabricRework", sortable: false },
         { text: "Artwork", value: "artwork", sortable: false },
         { text: "Finish plan status", value: "finishPlanStatus", sortable: false },
-        { text: "Delay in delivery (days)", value: "delayInDelivery", sortable: false },
+        { text: "Delay in delivery (days)", value: "delayDays", sortable: false },
         { text: "KPI category", value: "kpi", sortable: false },
         
         { text: "", value: "data-table-expand" },
       ],
-
-      historyHeaders: [
-        { text: "Date", value: "date", sortable: false },
-        {
-          text: "Warehouse operations",
-          value: "warehouseOperations",
-          sortable: false,
-        },
-        { text: "From", value: "from", sortable: false },
-        { text: "To", value: "to", sortable: false },
-        { text: "Quantity", value: "quantity", sortable: false },
-        { text: "Done by ", value: "doneBy", sortable: false },
-      ],
-
-      historyList: [
-        {
-          date: "08.01.2023",
-          warehouseOperations: "Fabric order income",
-          from: "Fashionmelon LLC",
-          to: "Fashionmelon LLC",
-          quantity: "1800 kg",
-          doneBy: "Shavkatova M.",
-        },
-      ],
+      
 
       expanded: [],
-      singleExpand: true,
+      singleExpand: false,
       valid_search: "",
-      new_validate: true,
-      workshop_validate: true,
-      subcontractor_validate: true,
-      spend_validate: true,
-      new_dialog: false,
-      delete_dialog: false,
-      spend_dialog: false,
-      workshop_dialog: false,
-      subcontractor_dialog: false,
-
-      history_dialog: false,
-
-      title: "",
-      arrivedFabric: {},
-      
-
-      
-
-      
+    
 
       filters: {
-        sipNumber: null,
-        batchNumber: null,
-        orderNumber: null,
+        modelNumber:null,
+        orderNumber:null,
+        clientName:null,
+
       },
 
-      deletedId: null,
-      modelNumbers: [],
+    
       itemPrePage: 10,
       current_page: 0,
 
       current_list: [],
+      image_dialog:false,
+      currentImage:"",
+      itemDetail:{},
     };
   },
 
   computed: {
     ...mapGetters({
-      fabricWarehouseList: "fabricWarehouse/fabricWarehouseList",
-      sipNumbers: "fabricWarehouse/sipNumbers",
-      toSipNumbers: "fabricWarehouse/toSipNumbers",
-      totalElements: "fabricWarehouse/totalElements",
-      partnerList: "subcontracts/partnerList",
+      totalElements: "ppg/totalElements",
+      ppgList: "ppg/ppgList",
+      ppgInfo: "ppg/ppgInfo",
     }),
   },
 
   watch: {
-    sipNumberSearch(val){
-      if(!!val){
-        this.getSipNumbers(val);
-      }
+    ppgInfo(val){
+      this.itemDetail=JSON.parse(JSON.stringify(val))
     },
-    fabricWarehouseList(val) {
+    ppgList(val) {
       this.current_list = JSON.parse(JSON.stringify(val));
+
+      this.current_list.forEach((item,index)=>{
+        item.id=index+1
+      })
     },
   },
 
@@ -398,71 +558,42 @@ export default {
 
   methods: {
     ...mapActions({
-      getFabricWarehouseList: "fabricWarehouse/getFabricWarehouseList",
-      createFabricWarehouse: "fabricWarehouse/createFabricWarehouse",
-      getSipNumbers: "fabricWarehouse/getSipNumbers",
-      updateFabricWarehouse: "fabricWarehouse/updateFabricWarehouse",
-      deleteFabricWarehouse: "fabricWarehouse/deleteFabricWarehouse",
-      getToSipNumbers: "fabricWarehouse/getToSipNumbers",
-      setSpendingFabric: "fabricWarehouse/setSpendingFabric",
-      setFabricToWorkshop: "fabricWarehouse/setFabricToWorkshop",
-      setFabricToSubcontract: "fabricWarehouse/setFabricToSubcontract",
-      getPartnerList: "subcontracts/getPartnerList",
+      getPpgList:"ppg/getPpgList",
+      getPpgInfo:"ppg/getPpgInfo",
+
     }),
     loadDetails({ item }) {
-      // current opened || choose object ^
+      this.getPpgInfo({color:item.mainColorName,id:item.modelId})
+    },
+    showImage(photo) {
+      this.currentImage = photo;
+      this.image_dialog = true;
     },
     async page(value) {
       this.current_page = value - 1;
-      await this.getFabricWarehouseList({
-        sipNumber: this.filters.sipNumber,
-        batchNumber: this.filters.batchNumber,
-        orderNumber: this.filters.orderNumber,
+      await this.getPpgList({
         page:this.current_page,
         size:this.itemPrePage,
       });
     },
     async size(value) {
       this.itemPrePage = value;
-      await this.getFabricWarehouseList({
-        sipNumber: this.filters.sipNumber,
-        batchNumber: this.filters.batchNumber,
-        orderNumber: this.filters.orderNumber,
+      await this.getPpgList({
         page:this.current_page,
         size:this.itemPrePage,
       });
     },
     
 
-    
-
-    async saveArrivedFabric() {
-      const data = { ...this.arrivedFabric };
-      await this.createFabricWarehouse(data);
-      await this.$refs.new_form.reset();
-      this.new_dialog = false;
-    },
-
-    
-
-    
-
-    
-
     filterData() {
-      this.getFabricWarehouseList({
-        sipNumber: this.filters.sipNumber,
-        batchNumber: this.filters.batchNumber,
-        orderNumber: this.filters.orderNumber,
+      this.getPpgList({
+        ...this.filters,
         page:this.current_page,
         size:this.itemPrePage,
       });
     },
     async resetFilters() {
-      await this.getFabricWarehouseList({
-        sipNumber: "",
-        batchNumber: "",
-        orderNumber: "",
+      await this.getPpgList({
         page:this.current_page,
         size:this.itemPrePage,
       });
@@ -471,13 +602,8 @@ export default {
   },
 
   mounted() {
-    this.getFabricWarehouseList({
-      sipNumber: "",
-      batchNumber: "",
-      orderNumber: "",
-      page:0,
-      size:10,
-    });
+
+    this.getPpgList({page:0,size:10})
   },
 };
 </script>
