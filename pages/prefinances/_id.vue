@@ -293,10 +293,12 @@
               </template>
             </v-text-field>
           </v-col>
-          <v-col cols="12" class="d-flex justify-end align-end">
+          <v-col cols="12" class="d-flex justify-end align-center">
+            <FinishProcessBtn v-bind="finishDate"/>
             <v-btn
               color="#544B99"
               dark
+              height="44"
               class="text-capitalize rounded-lg font-weight-bold"
               style="min-width: 130px"
               @click="createNewPreFinance"
@@ -862,10 +864,12 @@ import {mapActions, mapGetters} from "vuex";
 import DefaultLayout from "@/layouts/default.vue";
 import Breadcrumbs from "../../components/Breadcrumbs.vue";
 import ShowBtnComponent from "../../components/ShowComponentBtn/ShowBtn.vue";
+import FinishProcessBtn from "@/components/FinishProcessBtn.vue";
+
 
 export default {
   name: "CreatePreFinancePage",
-  components: {ShowBtnComponent, Breadcrumbs, DefaultLayout},
+  components: {ShowBtnComponent, Breadcrumbs, DefaultLayout,FinishProcessBtn},
   data() {
     return {
       isLoad:false,
@@ -1183,6 +1187,14 @@ export default {
     };
   },
   computed: {
+    finishDate:{
+      get(){
+        return{
+          modelId:!!this.modelData[0]?.id?this.modelData[0].id:0,
+          propertyName:"CALCULATION",
+        }
+      }
+    },
     showObject() {
       return {
         show_active: this.show_btn

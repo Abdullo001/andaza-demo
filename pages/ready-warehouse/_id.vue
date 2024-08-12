@@ -180,7 +180,12 @@
             >
             </v-text-field>
           </v-col>
+          <v-col cols="12" class="d-flex justify-end">
+            <FinishProcessBtn v-bind="finishDate"/>
+          </v-col>
         </v-row>
+
+        
       </v-card-text>
       <v-card-actions class="py-6">
         <v-spacer/>
@@ -233,6 +238,8 @@ import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
 import SortOne from "@/components/Warehouse/sortOne.vue";
 import SortTwo from "@/components/Warehouse/sortTwo.vue";
+import FinishProcessBtn from "@/components/FinishProcessBtn.vue";
+
 
 export default {
   components: {
@@ -240,6 +247,7 @@ export default {
     SortOne,
     ShowBtnComponent,
     Breadcrumbs,
+    FinishProcessBtn
   },
   data() {
     return {
@@ -292,6 +300,14 @@ export default {
   },
 
   computed: {
+    finishDate:{
+      get(){
+        return{
+          modelId:!!this.warehouseDetail.modelId?this.warehouseDetail.modelId:0,
+          propertyName:"READY_GARMENT_WAREHOUSE",
+        }
+      }
+    },
     showObject() {
       return {
         show_active: this.show_btn

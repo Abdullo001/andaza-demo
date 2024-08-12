@@ -51,5 +51,18 @@ export const actions = {
     .catch(({response})=>{
       console.log(response);
     })
+  },
+
+  changePageStatus({commit},{propertyName,modelId}){
+    this.$axios.post(`/api/v1/models/finish-process/${modelId}?propertyName=${propertyName}`)
+    .then((res)=>{
+      this.$toast.success(res.data.message)
+    })
+    .catch(({response})=>{
+      console.log(response);
+      this.$toast.error(res.data.message)
+
+    })
   }
+
 }

@@ -329,6 +329,7 @@
           </v-col>
           <v-col cols="12"  class="d-flex justify-end align-center">
             <v-spacer/>
+            <FinishProcessBtn v-bind="finishDate"/>
             <v-btn
               v-if="modelStatus === 'Add'"
               color="#544B99"
@@ -441,6 +442,7 @@ import InstructionComponent from "../../components/Instruction.vue";
 import InspectionComponent from "@/components/InspectionFile.vue";
 import composition from "@/components/FabricCatalogs/Composition.vue";
 import ShowBtnComponent from "../../components/ShowComponentBtn/ShowBtn.vue";
+import FinishProcessBtn from "@/components/FinishProcessBtn.vue";
 
 export default {
   name: 'addOrEditModelsPage',
@@ -454,7 +456,8 @@ export default {
     SizeChartComponent,
     ModelPartsComponent,
     Breadcrumbs,
-    InspectionComponent
+    InspectionComponent,
+    FinishProcessBtn,
   },
   data() {
     return {
@@ -527,6 +530,14 @@ export default {
     this.getReworkThinList();
   },
   computed: {
+    finishDate:{
+      get(){
+        return{
+          modelId:!!this.oneModel.id?this.oneModel.id:0,
+          propertyName:"MODEL_CREATING",
+        }
+      }
+    },
     showObject(){
       return{
         show_active: this.show_btn
@@ -553,6 +564,7 @@ export default {
     },
     oneModel(val) {
       const model = this.model;
+      model.id=val.id
       model.number = val.modelNumber;
       model.name = val.name;
       model.group = val.modelGroupId;
@@ -593,6 +605,7 @@ export default {
       getPartnerName: 'fabricOrdering/getPartnerName',
       filterCanvasTypeList: 'canvasType/filterCanvasTypeList',
       getReworkThinList: 'fabricRework/getReworkThinList',
+      changePageStatus: 'changePageStatus',
 
     }),
     clickBtn(){

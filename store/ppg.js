@@ -4,7 +4,7 @@ export const state = () => ({
 });
 
 export const getters = {
-  ppgList: (state) => state.ppgList.content,
+  ppgList: (state) => state.ppgList.items,
   totalElements: (state) => state.ppgList.totalElements,
   ppgInfo: (state) => state.ppgInfo,
 };
@@ -31,9 +31,9 @@ export const actions = {
       
     };
 
-    this.$axios.put(`/api/v1/ppg`,data)
+    this.$axios.get(`/api/v1/ppg?size=${size}&page=${page}&clientName=${data.clientName}&modelNumber=${data.modelNumber}&orderNumber=${data.orderNumber}`)
     .then((res)=>{
-      commit("setPpgList",res.data)
+      commit("setPpgList",res.data.data)
     })
     .catch((response)=>{
       console.log(response);

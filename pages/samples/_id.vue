@@ -192,6 +192,7 @@
               </v-text-field>
             </v-col>
             <v-col cols="12" class="d-flex justify-end align-end">
+              <FinishProcessBtn v-bind="finishDate"/>
               <v-btn
                 v-if="$route.params.id==='create-sample'"
                 color="#544B99"
@@ -323,6 +324,7 @@ import PhotoSampleComponent from '@/components/SampleTabs/PhotoSample.vue';
 import ShipmentSampleComponent from '@/components/SampleTabs/ShipmentSample.vue';
 import CertificateSampleComponent from '@/components/SampleTabs/CertificateSample.vue';
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
+import FinishProcessBtn from "@/components/FinishProcessBtn.vue";
 
 
 export default {
@@ -338,6 +340,7 @@ export default {
     ShipmentSampleComponent,
     CertificateSampleComponent,
     Breadcrumbs,
+    FinishProcessBtn,
   },
   data(){
     return{
@@ -395,6 +398,14 @@ export default {
   },
 
   computed:{
+    finishDate:{
+      get(){
+        return{
+          modelId:!!this.oneSample.modelId?this.oneSample.modelId:0,
+          propertyName:"SAMPLE_STATUS",
+        }
+      }
+    },
     ...mapGetters({
       ordersList: "orders/ordersList",
       modelsList: "models/modelsList",
@@ -413,7 +424,6 @@ export default {
     oneSample(val){
       this.sampleDetail={}
 
-      console.log(val);
       this.sampleDetail=JSON.parse(JSON.stringify(val))
       this.sampleDetail.modelNumber={modelNumber:val.modelNumber, id:val.modelId}
       this.sampleDetail.orderNumber={orderNumber:val.orderNumber, id:val.orderId}
