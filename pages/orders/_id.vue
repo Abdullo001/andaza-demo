@@ -383,7 +383,8 @@
                 </template>
               </v-text-field>
             </v-col>
-            <v-col class="d-flex justify-end align-end" cols="12">
+            <v-col class="d-flex justify-end align-center" cols="12">
+              <FinishProcessBtn v-bind="finishDate"/>
               <v-btn
                 v-if="orderStatus === 'Add'"
                 class="text-capitalize rounded-lg"
@@ -481,6 +482,7 @@ import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
 import ColorSizeDistribution from "@/components/ColorSizeDistribution.vue";
 import OrdersModelPrints from "@/components/OrdersModelPrints.vue";
 import OrderContract from "@/components/OrderContract.vue";
+import FinishProcessBtn from "@/components/FinishProcessBtn.vue";
 
 export default {
   name: 'OrdersChildPage',
@@ -491,7 +493,8 @@ export default {
     DetailInfo,
     Breadcrumbs,
     OrdersModelPrints,
-    OrderContract
+    OrderContract,
+    FinishProcessBtn
   },
   data() {
     return {
@@ -572,6 +575,14 @@ export default {
     this.getModelId();
   },
   computed: {
+    finishDate:{
+      get(){
+        return{
+          modelId:!!this.orderDetail.modelId?this.orderDetail.modelId:0,
+          propertyName:"ORDER_FORMING",
+        }
+      }
+    },
     showObject() {
       return {
         show_active: this.show_btn

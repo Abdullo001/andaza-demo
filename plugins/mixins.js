@@ -185,6 +185,16 @@ export default (context, inject) => {
 
             }
           },
+          commonStatus(color) {
+            switch (color) {
+              case 'FINISHED':
+                return '#10BF41'
+              case 'IN_PROCESS':
+                return 'amber'
+              default : return '#c2c8d1'
+
+            }
+          },
         }
       },
       pickerShortcuts() {

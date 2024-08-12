@@ -320,16 +320,7 @@
       </v-col>
     </v-row>
     <div class="text-right mt-5 mb-8">
-      <v-btn
-        outlined
-        color="#544B99"
-        class="rounded-lg text-capitalize font-weight-bold"
-        width="200"
-        height="44"
-        style="border-width: 2px"
-      >
-        Finish Process
-      </v-btn>
+      <FinishProcessBtn v-bind="finishDate"/>
     </div>
   </div>
 </template>
@@ -344,6 +335,8 @@ import CalculationShortcomings from "@/components/CalculationsShoertcomings.vue"
 import OrderQuantities from "@/components/OrderQuantities.vue";
 import CuttingToNextProcess from "@/components/CuttingToNextProcess.vue";
 import ToWastes from "@/components/ToWastes.vue";
+import FinishProcessBtn from "@/components/FinishProcessBtn.vue";
+
 
 export default {
   name: 'ProductionOfPlanningPage',
@@ -356,6 +349,7 @@ export default {
     Breadcrumbs,
     CuttingToNextProcess,
     ToWastes,
+    FinishProcessBtn,
   },
   data() {
     return {
@@ -421,6 +415,14 @@ export default {
     this.getColorsList();
   },
   computed: {
+    finishDate:{
+      get(){
+        return{
+          modelId:!!this.modelInfo.modelId?this.modelInfo.modelId:0,
+          propertyName:"CUTTING",
+        }
+      }
+    },
     showObject(){
       return{
         show_active: this.show_btn

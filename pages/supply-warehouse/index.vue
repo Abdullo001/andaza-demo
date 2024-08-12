@@ -139,34 +139,42 @@
       </template>
 
       <template #item.action="{ item }">
-        <v-tooltip top color="#544B99">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              icon
-              color="#544B99"
-              v-on="on"
-              v-bind="attrs"
-              @click="viewDetails(item)"
-            >
-              <v-icon>mdi-chevron-right</v-icon>
-            </v-btn>
-          </template>
-          <span>Details</span>
-        </v-tooltip>
-        <v-tooltip top color="red">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              icon
-              color="red"
-              v-on="on"
-              v-bind="attrs"
-              @click="deleteFunc(item)"
-            >
-              <v-img src="/trash-red.svg" max-width="20" />
-            </v-btn>
-          </template>
-          <span>Delete</span>
-        </v-tooltip>
+        <div>
+          <v-tooltip top color="#544B99">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                icon
+                color="#544B99"
+                v-on="on"
+                v-bind="attrs"
+                @click="viewDetails(item)"
+              >
+                <v-icon>mdi-chevron-right</v-icon>
+              </v-btn>
+            </template>
+            <span>Details</span>
+          </v-tooltip>
+          <v-tooltip top color="#544B99">
+            <template v-slot:activator="{ on, attrs }">
+              <FinishProcessBtn  class="d-inline-block" v-bind="{modelId:item.modelId,propertyName:'SUPPLY_WAREHOUSE',type:true}" />
+            </template>
+            <span>Finish process</span>
+          </v-tooltip>
+          <v-tooltip top color="red">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                icon
+                color="red"
+                v-on="on"
+                v-bind="attrs"
+                @click="deleteFunc(item)"
+              >
+                <v-img src="/trash-red.svg" max-width="20" />
+              </v-btn>
+            </template>
+            <span>Delete</span>
+          </v-tooltip>
+        </div>
       </template>
     </v-data-table>
 
@@ -470,10 +478,12 @@
 </template>
 <script>
 import DeleteDialog from "../../components/DeleteDialog.vue";
+import FinishProcessBtn from "@/components/FinishProcessBtn.vue";
 import { mapActions, mapGetters } from "vuex";
 export default {
   components: {
     DeleteDialog,
+    FinishProcessBtn,
   },
   data() {
     return {
@@ -534,7 +544,7 @@ export default {
         },
         { text: "Sent date", value: "sendDate", sortable: false },
         { text: "Status", value: "status", sortable: false },
-        { text: "Action", value: "action", sortable: false, width: 110 },
+        { text: "Action", value: "action", sortable: false, width: 160 },
       ],
       historyHeaders:[
         {text:"Send date", value:"sendDate",sortable:false},
@@ -556,6 +566,16 @@ export default {
   },
 
   computed: {
+    finishDate:{
+      get(){
+        return{
+          // modelId:!!this.oneModel.id?this.oneModel.id:0,
+          modelId:0,
+          propertyName:"SUPPLY_WAREHOUSE",
+          type:true,
+        }
+      }
+    },
     deleteData: {
       get() {
         return {
@@ -716,6 +736,10 @@ export default {
       this.spendSupply({id:this.selectedItem.id,data})
       this.edit_dialog=false
     },
+    finishFunc(){
+      console.log("hello");
+      
+    }
   },
   mounted() {
     this.filterExpenseGroup({id:"",name:"",createdAt:"",updateAt:""})
