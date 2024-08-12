@@ -284,6 +284,11 @@
               />
             </v-col>
           </v-row>
+
+          <div class="d-flex justify-end">
+            <FinishProcessBtn v-bind="finishDate"/>
+
+          </div>
           
       </v-card-text>
     </v-card>
@@ -294,9 +299,12 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import InspectionFile from "@/components/InspectionFile.vue";
+import FinishProcessBtn from "@/components/FinishProcessBtn.vue";
+
 export default {
   components: {
     InspectionFile,
+    FinishProcessBtn
   },
   data() {
     return {
@@ -339,6 +347,14 @@ export default {
   },
 
   computed: {
+    finishDate:{
+      get(){
+        return{
+          modelId:!!this.oneModel.id?this.oneModel.id:0,
+          propertyName:"FINAL_INSPECTION",
+        }
+      }
+    },
     ...mapGetters({
       modelsList: "models/modelsList",
       oneModel: "models/oneModel",

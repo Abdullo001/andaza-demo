@@ -130,6 +130,76 @@
           {{ item.accessoryStatus }}
         </v-chip>
       </template>
+      <template #item.modelCreating="{ item }">
+        <v-chip :color="statusColor.commonStatus(item.modelCreating)" dark>
+          {{ item.modelCreating }}
+        </v-chip>
+      </template>
+      <template #item.calculation="{ item }">
+        <v-chip :color="statusColor.commonStatus(item.calculation)" dark>
+          {{ item.calculation }}
+        </v-chip>
+      </template>
+      <template #item.orderForming="{ item }">
+        <v-chip :color="statusColor.commonStatus(item.orderForming)" dark>
+          {{ item.orderForming }}
+        </v-chip>
+      </template>
+      <template #item.printAdding="{ item }">
+        <v-chip :color="statusColor.commonStatus(item.printAdding)" dark>
+          {{ item.printAdding }}
+        </v-chip>
+      </template>
+      <template #item.printAdding="{ item }">
+        <v-chip :color="statusColor.commonStatus(item.printAdding)" dark>
+          {{ item.printAdding }}
+        </v-chip>
+      </template>
+      <template #item.sampleStatus="{ item }">
+        <v-chip :color="statusColor.commonStatus(item.sampleStatus)" dark>
+          {{ item.sampleStatus }}
+        </v-chip>
+      </template>
+      <template #item.cutting="{ item }">
+        <v-chip :color="statusColor.commonStatus(item.cutting)" dark>
+          {{ item.cutting }}
+        </v-chip>
+      </template>
+      <template #item.printing="{ item }">
+        <v-chip :color="statusColor.commonStatus(item.printing)" dark>
+          {{ item.printing }}
+        </v-chip>
+      </template>
+      <template #item.supplyWarehouse="{ item }">
+        <v-chip :color="statusColor.commonStatus(item.supplyWarehouse)" dark>
+          {{ item.supplyWarehouse }}
+        </v-chip>
+      </template>
+      <template #item.sewing="{ item }">
+        <v-chip :color="statusColor.commonStatus(item.sewing)" dark>
+          {{ item.sewing }}
+        </v-chip>
+      </template>
+      <template #item.packaging="{ item }">
+        <v-chip :color="statusColor.commonStatus(item.packaging)" dark>
+          {{ item.packaging }}
+        </v-chip>
+      </template>
+      <template #item.readyGarmentWarehouse="{ item }">
+        <v-chip :color="statusColor.commonStatus(item.readyGarmentWarehouse)" dark>
+          {{ item.readyGarmentWarehouse }}
+        </v-chip>
+      </template>
+      <template #item.finalInspection="{ item }">
+        <v-chip :color="statusColor.commonStatus(item.finalInspection)" dark>
+          {{ item.finalInspection }}
+        </v-chip>
+      </template>
+      <template #item.shipment="{ item }">
+        <v-chip :color="statusColor.commonStatus(item.shipment)" dark>
+          {{ item.shipment }}
+        </v-chip>
+      </template>
     </v-data-table>
   </div>
 </template>
@@ -159,8 +229,21 @@ export default {
         {text: "Category", value: 'modelGroup', sortable:false},
         {text: "Final Inspection", value: 'inspectionDate', sortable:false},
         {text: "Days left FI", value: 'differDays', width: 120 },
+        {text: "Model creating", value: 'modelCreating',sortable:false},
+        {text: "Price calculation", value: 'calculation',sortable:false},
+        {text: "Order forming", value: 'orderForming',sortable:false},
+        {text: "Adding print", value: 'printAdding',sortable:false},
         {text: "Fabric status", value: 'fabricStatus',sortable:false},
+        {text: "Samples status", value: 'sampleStatus',sortable:false},
         {text: "Accessory status", value: 'accessoryStatus', sortable:false},
+        {text: "Cutting", value: 'cutting', sortable:false},
+        {text: "Printing", value: 'printing', sortable:false},
+        {text: "Supply warehouse", value: 'supplyWarehouse', sortable:false},
+        {text: "Sewing", value: 'sewing', sortable:false},
+        {text: "Packaging", value: 'packaging', sortable:false},
+        {text: "Ready garment warehouse", value: 'readyGarmentWarehouse', sortable:false},
+        {text: "Final Inspection", value: 'finalInspection', sortable:false},
+        {text: "Shipment", value: 'shipment', sortable:false},
         {text: this.$t('listsModels.table.status'), value: 'status', width: 200, sortable:false},
         {text: this.$t('listsModels.table.actions'), value: 'actions', sortable:false},
       ],

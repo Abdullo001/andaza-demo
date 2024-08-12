@@ -46,6 +46,11 @@
       </div>
     </template>
     </v-data-table>
+
+    <div class="d-flex justify-end mt-4">
+      <FinishProcessBtn v-bind="finishDate"/>
+    </div>
+
     <v-dialog max-width="1000" v-model="newDialog">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between mb-6">
@@ -626,8 +631,13 @@
 </template>
 <script>
 import {mapActions, mapGetters} from "vuex";
+import FinishProcessBtn from "@/components/FinishProcessBtn.vue";
+
 
 export default {
+  components:{
+    FinishProcessBtn
+  },
   data(){
     return{
       headers:[
@@ -690,6 +700,14 @@ export default {
     }
   },
   computed:{
+    finishDate:{
+      get(){
+        return{
+          modelId:!!this.modelPrintList[0].modelId?this.modelPrintList[0].modelId:0,
+          propertyName:"PRINT_ADDING",
+        }
+      }
+    },
     ...mapGetters({
       printTypeEnums: "printing/printTypeEnums",
       partnerEnums: "models/partner_enums",
