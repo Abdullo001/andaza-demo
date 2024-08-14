@@ -703,7 +703,7 @@ export default {
     finishDate:{
       get(){
         return{
-          modelId:!!this.modelPrintList[0].modelId?this.modelPrintList[0].modelId:0,
+          modelId:!!this.modelPrintList[0]?.modelId?this.modelPrintList[0]?.modelId:0,
           propertyName:"PRINT_ADDING",
         }
       }
