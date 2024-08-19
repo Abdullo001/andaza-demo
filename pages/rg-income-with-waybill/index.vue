@@ -98,7 +98,7 @@
           <v-toolbar-title
             class="d-flex w-full align-center justify-space-between"
           >
-            <div>Central warehouse</div>
+            <div>RG income with waybill</div>
             <div>
               <v-btn color="#544B99" dark class="text-capitalize rounded-lg" @click="addGarment">
                 <v-icon>mdi-plus</v-icon>
@@ -168,10 +168,10 @@ export default {
     resetFilters() {},
     filterData() {},
     addGarment(){
-      this.$router.push("/central-warehouse/add-garment")
+      this.$router.push("/rg-income-with-waybill/add-garment")
     },
     viewDetails(item) {
-      this.$router.push( `/central-warehouse/${item.id}`)
+      this.$router.push( `/rg-income-with-waybill/${item.id}`)
     },
     page(value) {
       this.current_page=value-1
@@ -184,7 +184,7 @@ export default {
   },
 
   mounted(){
-    this.$store.commit("setPageTitle", "Central warehouse");
+    this.$store.commit("setPageTitle", "RG income with waybill");
     this.getItems({page:0,size:10,type:"CENTRAL"})
   }
 };

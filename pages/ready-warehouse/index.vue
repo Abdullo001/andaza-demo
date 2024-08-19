@@ -182,7 +182,7 @@ export default {
     },
 
     toCentralWarehouse(){
-      this.$router.push("/central-warehouse")
+      this.$router.push("/rg-income-with-waybill")
     },
 
     toStockGarments(){
