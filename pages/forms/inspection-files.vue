@@ -1,18 +1,20 @@
-<template >
+<template>
   <div>
     <v-card elevation="0" class="rounded-lg">
       <v-card-title>
         <div>
-          Placed orders
+          {{ $t("forms.inspectionFiles.title") }}
         </div>
-        <v-spacer/>
+        <v-spacer />
       </v-card-title>
-      <v-divider/>
+      <v-divider />
       <v-card-text>
         <v-form lazy-validation v-model="filter_form" ref="filters">
           <v-row class="mb-5">
             <v-col cols="12" lg="3">
-              <div class="label">Model number</div>
+              <div class="label">
+                {{ $t("forms.placedOrdersBox.modelNumber") }}
+              </div>
               <v-combobox
                 v-model="modelNumber"
                 :items="modelsList"
@@ -26,7 +28,9 @@
                 class="rounded-lg filter d-flex align-center justify-center mr-2"
                 :return-object="true"
                 dense
-                placeholder="Model number"
+                :placeholder="
+                  $t('forms.placedOrdersBox.modelNumberPlaceholder')
+                "
                 prepend-icon=""
               >
                 <template #append>
@@ -36,7 +40,6 @@
                 </template>
               </v-combobox>
             </v-col>
-            
           </v-row>
           <div class="d-flex justify-center">
             <v-btn
@@ -47,7 +50,7 @@
               class="text-capitalize mr-4 rounded-lg font-weight-bold"
               @click="resetFilter"
             >
-              Reset filters
+              {{ $t("forms.calculationsList.btnReset") }}
             </v-btn>
             <v-btn
               width="140"
@@ -57,7 +60,7 @@
               class="text-capitalize rounded-lg font-weight-bold"
               @click="filter"
             >
-              Generate
+              {{ $t("forms.calculationsList.btnGenerate") }}
             </v-btn>
           </div>
         </v-form>
@@ -73,23 +76,26 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="w-full d-flex">
-            <div class="title">Inspection file</div>
+            <div class="title">
+              {{ $t("forms.inspectionFiles.inspection") }}
+            </div>
           </v-toolbar-title>
         </v-toolbar>
       </template>
-      <template #item.actions="{item}">
+      <template #item.actions="{ item }">
         <div>
           <v-tooltip top color="#544B99">
-            <template #activator="{on, attrs}">
+            <template #activator="{ on, attrs }">
               <v-btn
-                icon class="ml-2"
+                icon
+                class="ml-2"
                 :href="item.filePath"
                 :download="`Document.${item.filePath}`"
                 v-on="on"
                 v-bind="attrs"
                 @click.stop
               >
-                <v-img src="/download.svg" max-width="24"/>
+                <v-img src="/download.svg" max-width="24" />
               </v-btn>
             </template>
             <span>Download</span>
@@ -103,27 +109,40 @@
 import { mapActions, mapGetters } from "vuex";
 
 export default {
-  data(){
-    return{
-      modelNumber:"",
-      modelNumSearch:"",
-      filter_form:true,
+  data() {
+    return {
+      modelNumber: "",
+      modelNumSearch: "",
+      filter_form: true,
       headers: [
-        {text: 'Document name', sortable: false, value: 'title'},
-        {text: 'Description', sortable: false, value: 'description'},
-        {text: 'Actions', sortable: false, align: 'center', value: 'actions'},
+        {
+          text: this.$t("forms.inspectionFiles.documentName"),
+          sortable: false,
+          value: "title",
+        },
+        {
+          text: this.$t("forms.inspectionFiles.description"),
+          sortable: false,
+          value: "description",
+        },
+        {
+          text: this.$t("forms.inspectionFiles.actions"),
+          sortable: false,
+          align: "center",
+          value: "actions",
+        },
       ],
-      inspectionList:[],
-    }
+      inspectionList: [],
+    };
   },
-  created(){
+  created() {
     this.getModelsList({
       page: 0,
       size: 10,
       modelNumber: this.modelNumSearch,
       partner: "",
       status: "ACTIVE",
-    })
+    });
   },
   computed: {
     ...mapGetters({
@@ -131,11 +150,11 @@ export default {
       inspectionFileList: "inspectionFile/inspectionFileList",
     }),
   },
-  watch:{
-    inspectionFileList(val){
-      this.inspectionList=[]
-      if(Object.keys(this.inspectionFileList).length !== 0) {
-        this.inspectionList.push(val)
+  watch: {
+    inspectionFileList(val) {
+      this.inspectionList = [];
+      if (Object.keys(this.inspectionFileList).length !== 0) {
+        this.inspectionList.push(val);
       }
     },
     modelNumSearch(val) {
@@ -150,22 +169,18 @@ export default {
       }
     },
   },
-  methods:{
+  methods: {
     ...mapActions({
       getModelsList: "models/getModelsList",
       getInspectionFileList: "inspectionFile/getInspectionFileList",
     }),
-    resetFilter(){
-      this.$refs.filters.reset()
+    resetFilter() {
+      this.$refs.filters.reset();
     },
-    filter(){
-      this.getInspectionFileList(this.modelNumber.id)
-    }
-  }
-  
-  
-}
+    filter() {
+      this.getInspectionFileList(this.modelNumber.id);
+    },
+  },
+};
 </script>
-<style lang="">
-  
-</style>
+<style lang=""></style>

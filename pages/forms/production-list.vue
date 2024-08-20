@@ -1,18 +1,18 @@
-<template >
+<template>
   <div>
     <v-card elevation="0" class="rounded-lg">
       <v-card-title>
-        <div>
-          Production form
-        </div>
-        <v-spacer/>
+        <div>{{ $t("forms.productionForm.title") }}</div>
+        <v-spacer />
       </v-card-title>
-      <v-divider/>
+      <v-divider />
       <v-card-text>
         <v-form lazy-validation v-model="filter_form" ref="filters">
           <v-row class="mb-5">
             <v-col cols="12" lg="3">
-              <div class="label">Order number</div>
+              <div class="label">
+                {{ $t("forms.placedOrdersBox.orderNumber") }}
+              </div>
               <v-combobox
                 v-model="filters.orderNumber"
                 :items="ordersList"
@@ -27,7 +27,9 @@
                 class="rounded-lg filter d-flex align-center justify-center mr-2"
                 :return-object="true"
                 dense
-                placeholder="Order name"
+                :placeholder="
+                  $t('forms.placedOrdersBox.orderNumberPlaceholder')
+                "
                 prepend-icon=""
               >
                 <template #append>
@@ -38,7 +40,9 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Model number</div>
+              <div class="label">
+                {{ $t("forms.placedOrdersBox.modelNumber") }}
+              </div>
               <v-combobox
                 v-model="filters.modelNumber"
                 :items="modelsList"
@@ -53,7 +57,9 @@
                 class="rounded-lg filter d-flex align-center justify-center mr-2"
                 :return-object="true"
                 dense
-                placeholder="Model name"
+                :placeholder="
+                  $t('forms.placedOrdersBox.modelNumberPlaceholder')
+                "
                 prepend-icon=""
               >
                 <template #append>
@@ -64,7 +70,9 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Client name</div>
+              <div class="label">
+                {{ $t("forms.calculationsList.clientName") }}
+              </div>
               <v-combobox
                 v-model="filters.clientName"
                 :items="clientList"
@@ -78,7 +86,9 @@
                 class="rounded-lg filter d-flex align-center justify-center mr-2"
                 :return-object="true"
                 dense
-                placeholder="Client name"
+                :placeholder="
+                  $t('forms.calculationsList.clientNamePlaceholder')
+                "
                 prepend-icon=""
               >
                 <template #append>
@@ -89,24 +99,25 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Shipping date </div>
+              <div class="label">
+                {{ $t("forms.productionForm.shippingDate") }}
+              </div>
               <div style="height: 40px !important">
                 <el-date-picker
-                v-model="filters.shippingDate"
-                type="month"
-                style="width: 100%; height: 100%"
-                class="filter_picker"
-                placeholder="Shipping date"
-                value-format="MM-yyyy"
-
-              />
+                  v-model="filters.shippingDate"
+                  type="month"
+                  style="width: 100%; height: 100%"
+                  class="filter_picker"
+                  :placeholder="$t('forms.productionForm.shippingDate')"
+                  value-format="MM-yyyy"
+                />
               </div>
             </v-col>
             <v-col cols="12">
               <v-checkbox
                 v-model="filters.isPriceEnabled"
                 color="#544B99"
-                label="Price Enabled"
+                :label="$t('forms.productionForm.price')"
               ></v-checkbox>
             </v-col>
           </v-row>
@@ -120,7 +131,7 @@
               class="text-capitalize mr-4 rounded-lg font-weight-bold"
               @click="resetFilter"
             >
-              Reset filters
+              {{ $t("forms.calculationsList.btnReset") }}
             </v-btn>
             <v-btn
               width="140"
@@ -130,7 +141,7 @@
               class="text-capitalize rounded-lg font-weight-bold"
               @click="filter"
             >
-              Generate
+              {{ $t("forms.calculationsList.btnGenerate") }}
             </v-btn>
           </div>
         </v-form>
@@ -153,31 +164,31 @@ export default {
   data() {
     return {
       filter_form: true,
-      fabricStatus:["NOT_PLANNED","PLANNED","GENERATED_FABRIC","ORDERED"],
-      accessoryStatus:["NOT_PLANNED","PLANNED","ORDERED"],
+      fabricStatus: ["NOT_PLANNED", "PLANNED", "GENERATED_FABRIC", "ORDERED"],
+      accessoryStatus: ["NOT_PLANNED", "PLANNED", "ORDERED"],
       filters: {
-        shippingDate:"",
-        clientName:"",
-        approvedBy:"",
+        shippingDate: "",
+        clientName: "",
+        approvedBy: "",
         orderNumber: "",
         modelNumber: "",
-        supplierName:"",
+        supplierName: "",
         creator: "",
-        sipNumber:"",
-        fabricStatus:"",
-        accessoryStatus:"",
-        isPriceEnabled:false,
+        sipNumber: "",
+        fabricStatus: "",
+        accessoryStatus: "",
+        isPriceEnabled: false,
       },
       isLoad: false,
       clientSearch: "",
-      approvedSearch:"",
-      sipNumberSearch:"",
+      approvedSearch: "",
+      sipNumberSearch: "",
       orderNumSearch: "",
       modelNumSearch: "",
       creatorSearch: "",
       users: [],
       pdfServe: "",
-      partnerName:"",
+      partnerName: "",
     };
   },
   created() {
@@ -198,8 +209,7 @@ export default {
       partner: "",
       status: "ACTIVE",
     }),
-
-    this.getUsersList();
+      this.getUsersList();
     this.getPartnerName("");
     this.getSipNumbers("");
   },
@@ -228,10 +238,10 @@ export default {
       a.setAttribute("target", "_blank");
       a.setAttribute("href", objectUrl);
       a.click();
-      this.pdfServe=objectUrl
+      this.pdfServe = objectUrl;
       this.isLoad = false;
     },
-    
+
     orderNumSearch(val) {
       if (!!val) {
         this.filterOrderList({
@@ -275,12 +285,12 @@ export default {
 
     resetFilter() {
       this.$refs.filters.reset();
-      this.filters.shippingDate=""
+      this.filters.shippingDate = "";
     },
     filter() {
       const data = {
-        isPriceEnabled:this.filters.isPriceEnabled,
-        
+        isPriceEnabled: this.filters.isPriceEnabled,
+
         modelNumber: this.filters.modelNumber?.modelNumber
           ? this.filters.modelNumber?.modelNumber
           : "",
@@ -290,14 +300,14 @@ export default {
         clientName: this.filters.clientName?.name
           ? this.filters.clientName?.name
           : "",
-        shippingDate: !!this.filters.shippingDate ? this.filters.shippingDate : null,
-        
+        shippingDate: !!this.filters.shippingDate
+          ? this.filters.shippingDate
+          : null,
       };
-        this.getPdfList(data);
-        this.isLoad = true;
+      this.getPdfList(data);
+      this.isLoad = true;
     },
   },
 };
 </script>
-<style lang="">
-</style>
+<style lang=""></style>
