@@ -1,18 +1,19 @@
-<template >
+<template>
   <div>
     <v-card elevation="0" class="rounded-lg">
       <v-card-title>
-        <div>
-          Suppliers form of ordered fabrics
-        </div>
-        <v-spacer/>
+        <div>{{ $t("forms.orderedFabricsAmount.title") }}</div>
+        <v-spacer />
       </v-card-title>
-      <v-divider/>
+      <v-divider />
       <v-card-text>
         <v-form lazy-validation v-model="filter_form" ref="filters">
           <v-row class="mb-5">
             <v-col cols="12" lg="3">
-              <div class="label">Supplier name <span style="color:red">*</span></div>
+              <div class="label">
+                {{ $t("forms.orderedFabrics.supplier") }}
+                <span style="color: red">*</span>
+              </div>
               <v-combobox
                 v-model="filters.supplier"
                 :items="partnerLists"
@@ -26,18 +27,20 @@
                 :return-object="true"
                 color="#544B99"
                 dense
-                placeholder="Enter partner name"
+                :placeholder="$t('forms.orderedFabrics.supplierPlaceholder')"
                 append-icon="mdi-chevron-down"
                 :rules="[formRules.required]"
                 validate-on-blur
-                >
+              >
                 <template #append>
                   <v-icon color="#544B99">mdi-magnify</v-icon>
                 </template>
-               </v-combobox>
+              </v-combobox>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">From date</div>
+              <div class="label">
+                {{ $t("forms.calculationsList.fromDate") }}
+              </div>
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="filters.fromDate"
@@ -51,7 +54,7 @@
               </div>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">To date</div>
+              <div class="label">{{ $t("forms.calculationsList.toDate") }}</div>
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="filters.toDate"
@@ -65,11 +68,13 @@
               </div>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Status</div>
+              <div class="label">
+                {{ $t("forms.orderedFabricsAmount.status") }}
+              </div>
               <v-select
                 :items="status_enums"
                 v-model="filters.status"
-                placeholder="Status"
+                :placeholder="$t('forms.orderedFabricsAmount.status')"
                 dense
                 outlined
                 height="44"
@@ -79,7 +84,6 @@
                 append-icon="mdi-chevron-down"
               />
             </v-col>
-
           </v-row>
           <div class="d-flex justify-center">
             <v-btn
@@ -90,7 +94,7 @@
               class="text-capitalize mr-4 rounded-lg font-weight-bold"
               @click="resetFilter"
             >
-              Reset filters
+              {{ $t("forms.calculationsList.btnReset") }}
             </v-btn>
             <v-btn
               width="140"
@@ -100,7 +104,7 @@
               class="text-capitalize rounded-lg font-weight-bold"
               @click="filter"
             >
-              Generate
+              {{ $t("forms.calculationsList.btnGenerate") }}
             </v-btn>
           </div>
         </v-form>
@@ -131,19 +135,19 @@ export default {
         toDate: "",
         gender: "",
         creatorId: "",
-        status:"",
+        status: "",
       },
       season_enums: [
-        {key: 'SS', text: ' Spring/Summer'},
-        {key: 'AW', text: 'Autumn/Winter'},
+        { key: "SS", text: " Spring/Summer" },
+        { key: "AW", text: "Autumn/Winter" },
       ],
-      status_enums: ['ORDERED','RECEIVED'],
+      status_enums: ["ORDERED", "RECEIVED"],
       gander_enums: ["MALE", "FEMALE", "BOY", "GIRL", "UNISEX"],
-      fabric_status:["NOT_PLANNED","PLANNED","GENERATED_FABRIC", "ORDERED"],
-      accessory_status:["NOT_PLANNED","PLANNED", "ORDERED"],
+      fabric_status: ["NOT_PLANNED", "PLANNED", "GENERATED_FABRIC", "ORDERED"],
+      accessory_status: ["NOT_PLANNED", "PLANNED", "ORDERED"],
       isLoad: false,
 
-      partnerName:"",
+      partnerName: "",
       clientSearch: "",
       countryIdSearch: "",
       creatorSearch: "",
@@ -152,8 +156,6 @@ export default {
     };
   },
   created() {
-
-
     this.getClient();
     this.getCountryList({ name: this.countryIdSearch });
     this.getUsersList();
@@ -171,8 +173,8 @@ export default {
 
   watch: {
     partnerName(val) {
-      if(!!val && val !== '') {
-      this.getPartnerName(val);
+      if (!!val && val !== "") {
+        this.getPartnerName(val);
       }
     },
     pdfList(val) {
@@ -185,7 +187,7 @@ export default {
       a.setAttribute("target", "_blank");
       a.setAttribute("href", objectUrl);
       a.click();
-      this.pdfServe=objectUrl
+      this.pdfServe = objectUrl;
       this.isLoad = false;
     },
     usersList(list) {
@@ -209,18 +211,16 @@ export default {
 
   methods: {
     ...mapActions({
-
       getClient: "orders/getClient",
       getCountryList: "partners/getCountryList",
       getUsersList: "orders/getUsersList",
       getPdfList: "generatePdf/getOrderedFabricPdfList",
       getPartnerName: "fabricOrdering/getPartnerName",
-
     }),
 
     resetFilter() {
-      this.filters.fromDate=''
-      this.filters.toDate=''
+      this.filters.fromDate = "";
+      this.filters.toDate = "";
       this.$refs.filters.reset();
     },
     filter() {
@@ -232,7 +232,7 @@ export default {
         toDate: !!this.filters.toDate ? this.filters.toDate : null,
         status: this.filters.status,
       };
-      if(!!this.filters.supplier){
+      if (!!this.filters.supplier) {
         this.getPdfList(data);
         this.isLoad = true;
       }
@@ -240,5 +240,4 @@ export default {
   },
 };
 </script>
-<style lang="">
-</style>
+<style lang=""></style>

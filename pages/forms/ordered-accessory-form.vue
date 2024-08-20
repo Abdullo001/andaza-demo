@@ -1,19 +1,18 @@
-<template >
+<template>
   <div>
     <v-card elevation="0" class="rounded-lg">
       <v-card-title>
-        <div>
-          Ordered accessory form
-        </div>
-        <v-spacer/>
+        <div>{{ $t("forms.orderedAccessoryFrom.title") }}</div>
+        <v-spacer />
       </v-card-title>
-      <v-divider/>
+      <v-divider />
       <v-card-text>
         <v-form lazy-validation v-model="filter_form" ref="filters">
           <v-row class="mb-5">
-
             <v-col cols="12" lg="3">
-              <div class="label">Model number</div>
+              <div class="label">
+                {{ $t("forms.placedOrdersBox.modelNumber") }}
+              </div>
               <v-combobox
                 v-model="filters.modelNumber"
                 :items="modelsList"
@@ -28,7 +27,9 @@
                 class="rounded-lg filter d-flex align-center justify-center mr-2"
                 :return-object="true"
                 dense
-                placeholder="Model name"
+                :placeholder="
+                  $t('forms.placedOrdersBox.modelNumberPlaceholder')
+                "
                 prepend-icon=""
               >
                 <template #append>
@@ -39,7 +40,7 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Supplier name</div>
+              <div class="label">{{ $t("forms.orderedFabrics.supplier") }}</div>
               <v-combobox
                 v-model="filters.supplierName"
                 :items="partnerLists"
@@ -53,14 +54,14 @@
                 :return-object="true"
                 color="#544B99"
                 dense
-                placeholder="Enter partner name"
+                :placeholder="$t('forms.orderedFabrics.supplierPlaceholder')"
                 :rules="[formRules.required]"
                 validate-on-blur
-                >
+              >
                 <template #append>
                   <v-icon color="#544B99">mdi-magnify</v-icon>
                 </template>
-               </v-combobox>
+              </v-combobox>
             </v-col>
           </v-row>
           <div class="d-flex justify-center">
@@ -72,7 +73,7 @@
               class="text-capitalize mr-4 rounded-lg font-weight-bold"
               @click="resetFilter"
             >
-              Reset filters
+              {{ $t("forms.calculationsList.btnReset") }}
             </v-btn>
             <v-btn
               width="140"
@@ -82,7 +83,7 @@
               class="text-capitalize rounded-lg font-weight-bold"
               @click="filter"
             >
-              Generate
+              {{ $t("forms.calculationsList.btnGenerate") }}
             </v-btn>
           </div>
         </v-form>
@@ -107,18 +108,16 @@ export default {
       filter_form: true,
       filters: {
         modelNumber: "",
-        supplierName:"",
+        supplierName: "",
       },
       isLoad: false,
 
-
       modelNumSearch: "",
       pdfServe: "",
-      partnerName:"",
+      partnerName: "",
     };
   },
   created() {
-
     this.getModelsList({
       page: 0,
       size: 10,
@@ -126,8 +125,7 @@ export default {
       partner: "",
       status: "ACTIVE",
     }),
-
-    this.getPartnerName("");
+      this.getPartnerName("");
   },
 
   computed: {
@@ -149,12 +147,12 @@ export default {
       a.setAttribute("target", "_blank");
       a.setAttribute("href", objectUrl);
       a.click();
-      this.pdfServe=objectUrl
+      this.pdfServe = objectUrl;
       this.isLoad = false;
     },
     partnerName(val) {
-      if(!!val && val !== '') {
-      this.getPartnerName(val);
+      if (!!val && val !== "") {
+        this.getPartnerName(val);
       }
     },
     modelNumSearch(val) {
@@ -196,5 +194,4 @@ export default {
   },
 };
 </script>
-<style lang="">
-</style>
+<style lang=""></style>
