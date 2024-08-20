@@ -18,7 +18,7 @@
       >
         <v-list class="rounded-lg mx-4" flat>
           <div
-            v-for="(nav, idx) in checkedSidebarItems"
+            v-for="(nav, idx) in checkedAndLocalizationSidebarItems"
             :key="idx"
           >
             <v-list-item
@@ -692,7 +692,7 @@ export default {
         this.checkedSidebarItems.forEach((item) => {
           item.title = this.$t(`sidebar.${item.localization}`);
           if (item.has_child) {
-            item.child.forEach((child) => {
+            item.children.forEach((child) => {
               child.title = this.$t(`sidebar.${child.localization}`);
             });
           }

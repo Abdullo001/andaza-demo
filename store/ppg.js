@@ -42,7 +42,7 @@ export const actions = {
 
   getPpgInfo({commit},{id,color}){
 
-    this.$axios.get(`/api/v1/ppg/info/${id}?color=${color}`)
+    this.$axios.get(`/api/v1/ppg/info/${id}?color=${encodeURIComponent(color)}`)
     .then((res)=>{
       commit("setPpgInfo",res.data)
     })
