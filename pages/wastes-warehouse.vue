@@ -99,7 +99,7 @@
           <v-toolbar-title
             class="d-flex w-full align-center justify-space-between"
           >
-            <div>Wastes warehouse</div>
+            <div>{{ $t("sidebar.wastesWarehouse") }}</div>
             <div>
               <v-btn
                 color="#544B99"
@@ -296,7 +296,7 @@
                   color="#544B99"
                 />
               </v-col>
-              <v-col cols="12" lg="6" v-if="currentItem.title!=='edit'">
+              <v-col cols="12" lg="6" v-if="currentItem.title !== 'edit'">
                 <div class="label">Model No.</div>
                 <v-combobox
                   v-model="currentItem.modelNumber"
@@ -517,15 +517,16 @@
             :items="historyItems"
             hide-default-footer
           >
-          <template #item.operationType="{ item }">
-            <div style="color: #FF0000"
-            :style="{
-              color:item.operationColor,
-            }"
-            >
-              {{ item.operationType }}
-            </div>
-          </template>
+            <template #item.operationType="{ item }">
+              <div
+                style="color: #ff0000"
+                :style="{
+                  color: item.operationColor,
+                }"
+              >
+                {{ item.operationType }}
+              </div>
+            </template>
           </v-data-table>
         </v-card-text>
       </v-card>
@@ -559,9 +560,7 @@ export default {
       valid_search: true,
       filters: {},
       currentItem: {},
-      current_list: [
-        
-      ],
+      current_list: [],
       headers: [
         { text: "No.", value: "id", sortable: false },
         { text: "Name of wastes", value: "name", sortable: false },
@@ -570,16 +569,36 @@ export default {
         { text: "M/U", value: "measurementUnit", sortable: false },
         { text: "Price", value: "price", sortable: false },
         { text: "Currency", value: "currency", sortable: false },
-        { text: "Begin. of period (qty)", value: "beginPeriodQuantity", sortable: false },
+        {
+          text: "Begin. of period (qty)",
+          value: "beginPeriodQuantity",
+          sortable: false,
+        },
         {
           text: "Begin.of perion (tot.pr)",
           value: "beginPeriodTotalPrice",
           sortable: false,
         },
-        { text: "Total input q-ty", value: "totalInputQuantity", sortable: false },
-        { text: "Total input price", value: "totalInputTotalPrice", sortable: false },
-        { text: "Total output q-ty", value: "totalOutputQuantity", sortable: false },
-        { text: "Total output price", value: "totalOutputTotalPrice", sortable: false },
+        {
+          text: "Total input q-ty",
+          value: "totalInputQuantity",
+          sortable: false,
+        },
+        {
+          text: "Total input price",
+          value: "totalInputTotalPrice",
+          sortable: false,
+        },
+        {
+          text: "Total output q-ty",
+          value: "totalOutputQuantity",
+          sortable: false,
+        },
+        {
+          text: "Total output price",
+          value: "totalOutputTotalPrice",
+          sortable: false,
+        },
         { text: "Remaining q-ty", value: "remainingQuantity", sortable: false },
         {
           text: "Remaining total price",
@@ -602,7 +621,7 @@ export default {
         { text: "Description", value: "description", sortable: false },
       ],
       sellingHistoryItems: [],
-      currency_list:["USD","UZS","RUB"],
+      currency_list: ["USD", "UZS", "RUB"],
       sellingWastes: {},
       historyDialog: false,
       historyItems: [],
@@ -614,8 +633,8 @@ export default {
       ],
       selectItem: {},
       deleteDialog: false,
-      itemPerPage:10,
-      current_page:0,
+      itemPerPage: 10,
+      current_page: 0,
     };
   },
 
@@ -633,9 +652,9 @@ export default {
     ...mapGetters({
       measurementUnit: "measurement/measurementUnit",
       modelsList: "models/modelsList",
-      wastesList:"wastesWarehouse/wastesList",
-      historyList:"wastesWarehouse/historyList",
-      totalElements:"wastesWarehouse/totalElements",
+      wastesList: "wastesWarehouse/wastesList",
+      historyList: "wastesWarehouse/historyList",
+      totalElements: "wastesWarehouse/totalElements",
     }),
 
     deleteData: {
@@ -652,31 +671,31 @@ export default {
   },
 
   watch: {
-    dialog(val){
-      if(!val){
-        this.$refs.new_form.reset()
-        this.currentItem.modelNumber=""
+    dialog(val) {
+      if (!val) {
+        this.$refs.new_form.reset();
+        this.currentItem.modelNumber = "";
       }
     },
-    wastesList(list){
-      this.totalBeginQuantity=0
-      this.totalBeginPrice=0
-      this.totalInputQuantity=0
-      this.totalInputPrice=0
-      this.totalOutputQuantity=0
-      this.totalOutputPrice=0
-      this.totalRemainingQuantity=0
-      this.totalRemainingPrice=0
-      list.forEach((item)=>{
-        this.totalBeginQuantity+=item.beginPeriodQuantity
-        this.totalBeginPrice+=item.beginPeriodTotalPrice
-        this.totalInputQuantity+=item.totalInputQuantity
-        this.totalInputPrice+=item.totalInputTotalPrice
-        this.totalOutputQuantity+=item.totalOutputQuantity
-        this.totalOutputPrice+=item.totalOutputTotalPrice
-        this.totalRemainingQuantity+=item.remainingQuantity
-        this.totalRemainingPrice+=item.remainingTotalPrice
-      })
+    wastesList(list) {
+      this.totalBeginQuantity = 0;
+      this.totalBeginPrice = 0;
+      this.totalInputQuantity = 0;
+      this.totalInputPrice = 0;
+      this.totalOutputQuantity = 0;
+      this.totalOutputPrice = 0;
+      this.totalRemainingQuantity = 0;
+      this.totalRemainingPrice = 0;
+      list.forEach((item) => {
+        this.totalBeginQuantity += item.beginPeriodQuantity;
+        this.totalBeginPrice += item.beginPeriodTotalPrice;
+        this.totalInputQuantity += item.totalInputQuantity;
+        this.totalInputPrice += item.totalInputTotalPrice;
+        this.totalOutputQuantity += item.totalOutputQuantity;
+        this.totalOutputPrice += item.totalOutputTotalPrice;
+        this.totalRemainingQuantity += item.remainingQuantity;
+        this.totalRemainingPrice += item.remainingTotalPrice;
+      });
     },
     searchModelNumber(val) {
       this.getModelsList({
@@ -687,16 +706,16 @@ export default {
       });
     },
 
-    historyList(list){
-      this.historyItems=JSON.parse(JSON.stringify(list))
-      this.historyItems.forEach((item)=>{
-        if(item.operationType==="INPUT"){
-          item.operationColor="#FF0000"
-        }else if(item.operationType==="OUTPUT"){
-          item.operationColor="#08b137"
+    historyList(list) {
+      this.historyItems = JSON.parse(JSON.stringify(list));
+      this.historyItems.forEach((item) => {
+        if (item.operationType === "INPUT") {
+          item.operationColor = "#FF0000";
+        } else if (item.operationType === "OUTPUT") {
+          item.operationColor = "#08b137";
         }
-      })
-    }
+      });
+    },
   },
 
   methods: {
@@ -711,9 +730,9 @@ export default {
     }),
     resetFilters() {
       this.getWastesList({ page: 0, size: 10 });
-      this.$refs.filter_form.reset()
-      this.filters.toDate=null
-      this.filters.fromDate=null
+      this.$refs.filter_form.reset();
+      this.filters.toDate = null;
+      this.filters.fromDate = null;
     },
     filterData() {
       this.getWastesList({ page: 0, size: 10, ...this.filters });
@@ -721,17 +740,15 @@ export default {
     page(value) {
       this.current_page = value - 1;
       this.getWastesList({ page: this.current_page, size: this.itemPerPage });
-
     },
 
     size() {
       this.getWastesList({ page: 0, size: this.itemPerPage });
-
     },
     addWastes() {
       this.dialog = true;
-      this.title="Add"
-      this.currentItem.title='add'
+      this.title = "Add";
+      this.currentItem.title = "add";
     },
     spendFunc(item) {
       this.sellingWastes.id = item.id;
@@ -739,57 +756,55 @@ export default {
     },
     getHistory(item) {
       this.historyDialog = true;
-      this.getHistoryList(item.id)
+      this.getHistoryList(item.id);
     },
     getDeleteItem() {
       this.deleteDialog = true;
     },
-    saveWaste(){
-      const data={
+    saveWaste() {
+      const data = {
         ...this.currentItem,
-        modelId:this.currentItem.modelNumber.id
+        modelId: this.currentItem.modelNumber.id,
+      };
+      delete data.modelNumber;
+      if (this.currentItem.title !== "edit") {
+        this.createWaste(data);
+      } else {
+        this.updateWaste({ data, id: data.id });
       }
-      delete data.modelNumber
-      if(this.currentItem.title!=="edit"){
-        this.createWaste(data)
-      }else{
-        this.updateWaste({data,id:data.id})
-      }
-      this.currentItem={}
-      this.dialog=false
+      this.currentItem = {};
+      this.dialog = false;
     },
-    editItem(item){
-      this.dialog=true
+    editItem(item) {
+      this.dialog = true;
       this.getModelsList({
         page: 0,
         size: 10,
         modelNumber: item.modelNUmber,
         partner: "",
       });
-      this.title="Edit"
-      this.currentItem.id=item.id
-      this.currentItem.title="edit"
-      this.currentItem.name=item.name
-      this.currentItem.price=item.price
-      this.currentItem.currency=item.currency
-      this.currentItem.measurementUnitId=item.measurementUnitId
-      this.currentItem.quantity=item.beginPeriodQuantity
-      this.currentItem.modelNumber=this.modelsList[0]
-
-
+      this.title = "Edit";
+      this.currentItem.id = item.id;
+      this.currentItem.title = "edit";
+      this.currentItem.name = item.name;
+      this.currentItem.price = item.price;
+      this.currentItem.currency = item.currency;
+      this.currentItem.measurementUnitId = item.measurementUnitId;
+      this.currentItem.quantity = item.beginPeriodQuantity;
+      this.currentItem.modelNumber = this.modelsList[0];
     },
-    sellItem(){
-      const data={
-        quantity:this.sellingWastes.quantity,
-        description:this.sellingWastes.description,
-      }
+    sellItem() {
+      const data = {
+        quantity: this.sellingWastes.quantity,
+        description: this.sellingWastes.description,
+      };
 
-      this.sellWaste({data,id:this.sellingWastes.id})
-    }
+      this.sellWaste({ data, id: this.sellingWastes.id });
+    },
   },
 
   mounted() {
-    this.$store.commit("setPageTitle", "Wastes warehouse");
+    this.$store.commit("setPageTitle", this.$t("sidebar.wastesWarehouse"));
     this.getWastesList({ page: 0, size: 10 });
   },
 };

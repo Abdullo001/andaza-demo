@@ -6,10 +6,10 @@ export default {
   to: "С",
   update: "Обновлять",
   sidebar: {
-    setting: 'Настройки',
-    report: 'Отчет',
-    warehouse: 'Склад',
-    shipping: 'Перевозки',
+    setting: "Настройки",
+    report: "Отчет",
+    warehouse: "Склад",
+    shipping: "Перевозки",
     dashboard: "Панель приборов",
     analytics: "Аналитика",
     usermanagement: "Управление пользователями",
@@ -40,7 +40,7 @@ export default {
     productCatalogs: "Каталоги продукции",
     catalogGroups: "Каталог Группы",
     partners: "Партнеры",
-    forms:"Формы",
+    forms: "Формы",
     sizeTemplate: "размера",
     canvasType: "Тип холста",
     colors: "Цвета",
@@ -53,8 +53,8 @@ export default {
     production: "Производство",
     planningOfProduction: "Планирование производства",
     workingOperations: "Рабочие операции",
-    notification:"Уведомление",
-
+    notification: "Уведомление",
+    wastesWarehouse: "Склад отходов",
   },
   appBar: {
     search: "Поиск",
@@ -77,8 +77,8 @@ export default {
       home: "Дом",
       userManagement: "Управление пользователями",
       details: "Подробности",
-      update: 'Обновить пароль',
-      password: 'Новый пароль'
+      update: "Обновить пароль",
+      password: "Новый пароль",
     },
     dialog: {
       userId: "ID пользователя",
@@ -112,7 +112,7 @@ export default {
       userManagement: "Управление пользователями",
     },
     table: {
-      email:"Эл. адрес",
+      email: "Эл. адрес",
       userName: "Имя пользователя",
       firstName: "Имя",
       lastName: "Фамилия",
@@ -745,7 +745,6 @@ export default {
     },
   },
 
-
   deleteTitle: "Удалить пункт",
   deleteContent: "Вы уверены, что хотите удалить этот элемент ?",
 
@@ -769,7 +768,6 @@ export default {
     },
 
     dialog: {
-
       menuName: "части тела ",
       addMainName: "Создать части тела",
       name: "Имя",
@@ -806,7 +804,6 @@ export default {
     },
 
     dialog: {
-
       menuName: "тип сотрудничества ",
       addMainName: "Создать тип сотрудничества",
       name: "Имя",
@@ -820,7 +817,6 @@ export default {
       cancelBtn: "Отмена",
       createBtn: "Создавать",
       deleteBtn: "Удалить",
-
     },
   },
 
@@ -842,7 +838,6 @@ export default {
       updatedAt: "Обновлено в",
       actions: "Действия",
     },
-
 
     dialog: {
       menuName: "группа расходов ",
@@ -1067,7 +1062,6 @@ export default {
         deleteBtn: "Удалить",
       },
     },
-
   },
 
   partners: {
@@ -1077,7 +1071,7 @@ export default {
       pEmail: "Электронная почта партнера",
       status: "Статус",
       reset: "Сброс",
-      search: "Поиск"
+      search: "Поиск",
     },
 
     table: {
@@ -1094,7 +1088,6 @@ export default {
       createdAt: "Создано в",
       updatedAt: "Обновлено в",
       actions: "Действия",
-
     },
 
     dialog: {
@@ -1126,8 +1119,159 @@ export default {
       deleteDialog: "Удалить партнеров",
       deleteText: "Вы уверены, что хотите удалить этого партнера?",
       delete: "Удалить",
-
-    }
-  }
+    },
+  },
+  forms: {
+    index: {
+      all: "Все",
+      management: "Управление",
+      production: "Производство",
+      cards: {
+        subcontractor: "Аутсорс",
+        subcontractorPlaceholder: "Введите аутсорa",
+        calculations: "Список расчетов",
+        calculationsSub: "Форма расчета для всех моделей",
+        placedOrders: "Размещенные заказы",
+        placedOrdersSub:
+          "Вся важная информация, связанная с реальными заказами",
+        prints: "Печать",
+        printsSub: "Список отпечатков, относящихся ко всем моделям",
+        fabrics: "Заказанные ткани",
+        fabricsSub: "Заказанный список тканей у одного поставщика",
+        recievedFabrics: "Полученные ткани",
+        recievedFabricsSub: "Получен список тканей от одного поставщика",
+        orderedFabricsAmount: "Количество заказанных тканей",
+        orderedFabricsAmountSub:
+          "Все заказанные ткани количество текущих моделей",
+        orderedAccessories: "Заказанные аксессуары",
+        orderedAccessoriesSub:
+          "Список всех заказанных аксессуаров текущих моделей",
+        recievedAccessories: "Полученные аксессуары",
+        recievedAccessoriesSub:
+          "Список всех полученных аксессуаров текущих моделей",
+        inspectionFiles: "Инспекционные файлы",
+        inspectionFilesSub: "Файлы проверки каждой модели",
+        shipping: "Перевозки",
+        shippingSub: "Основная информация о поставляемых моделях",
+        cutting: "Форма резки",
+        cuttingSub: "Форма информации о раскрое, относящаяся к одной модели",
+        sewing: "Форма для шитья",
+        sewingSub: "Форма информации о пошиве, относящаяся к одной модели",
+        productionList: "Список продукции",
+        productionListSub:
+          "Производственная информация, касающаяся всех моделей одного клиента",
+        productionStatus: "Статус производства",
+        productionStatusSub:
+          "Информация о производстве со статусом, относящаяся ко всем моделям одного клиента",
+        dailyProduction: "Ежедневный/ежемесячный объем производства",
+        dailyProductionSub:
+          "Ежедневная/ежемесячная/годовая информация о количестве продукции",
+        cuttingSubcontractor: "Список вырубок субподрядчика",
+        cuttingSubcontractorSub:
+          "Список информации о резке, относящийся ко всем моделям одного аутсорса",
+        printingSubcontractor: "Список распечаток аутсорса",
+        printingSubcontractorSub:
+          "Печать списка информации, касающегося всех моделей одного аутсорсa",
+        inconmingPrinting: "Входящий от  аутсорса по печати",
+        inconmingPrintingSub:
+          "Список информации о резке, относящийся к одной модели одного аутсорсa",
+        sewingSubcontractor: "Швейный список аутсорса",
+        sewingSubcontractorSub:
+          "Список информации о резке, относящийся к одной модели одного аутсорсa",
+        inconmingSewing: "Входящий платеж от аутсорсa по швейным работам",
+        inconmingSewingSub:
+          "Список информации о резке, относящийся к одной модели одного аутсорсa",
+      },
+    },
+    calculationsList: {
+      title: "Список расчетов",
+      clientName: "Имя клиента",
+      clientNamePlaceholder: "Имя клиента",
+      gender: "Пол",
+      genderPlaceholder: "Тип пола",
+      fromDate: "С даты",
+      toDate: "На сегодняшний день",
+      country: "Страна",
+      countryPlaceholder: "Страна",
+      season: "Сезон",
+      seasonPlaceholder: "Сезон",
+      creator: "Создано",
+      creatorPlaceholder: "Имя создателя",
+      btnReset: "Сбросить",
+      btnGenerate: "Генерировать",
+      gender_enums: {
+        male: "МУЖСКОЙ",
+        female: "ЖЕНСКИЙ",
+        boy: "МАЛЬЧИК",
+        girl: "ДЕВОЧКА",
+        unisex: "УНИСЕКС",
+      },
+      season_enums: {
+        spring: "Весна/Лето",
+        autumn: "Осень/Зима",
+      },
+    },
+    placedOrdersBox: {
+      orderNumber: "Номер заказа",
+      orderNumberPlaceholder: "Номер заказа",
+      modelNumber: "Номер модели",
+      modelNumberPlaceholder: "Номер модели",
+      modelGroup: "Модельная группа",
+      brandName: "Название бренда",
+      fromDate: "Создано с даты",
+      toDate: "Создано на сегодняшний день",
+      shippingDate: "Дата доставки ежемесячно",
+      shippingDateYear: "Дата отправки ежегодно",
+      fabricStatus: "Состояние ткани",
+      accessoryStatus: "Статус аксессуара",
+      modelStatus: "Статус модели",
+    },
+    printBox: {
+      title: "Печать",
+      printType: "Тип печати",
+    },
+    orderedFabrics: {
+      title: "Заказал Ткань из",
+      approved: "Одобрено",
+      sip: "Номер SIP-а",
+      supplier: "Имя поставщика",
+      supplierPlaceholder: "Введите имяпартнера ",
+    },
+    recievedFabrics: {
+      title: "Полученные ткани от",
+    },
+    orderedFabricsAmount: {
+      title: "Поставщики формы заказанных тканей",
+      status: "Статус",
+    },
+    orderedAccessoryFrom: {
+      title: "Заказанный аксессуар от",
+    },
+    recievedAccessoryForm: {
+      title: "Полученный аксессуар от",
+    },
+    inspectionFiles: {
+      title: "Размещенные заказы",
+      inspection: "Файл проверки",
+      documentName: "Название документа",
+      description: "Описание",
+      actions: "Действия",
+    },
+    shipmentForm: {
+      title: "Форма отправки",
+      bodyColor: "Цвет части тела",
+      bodyColorPlaceholder: "Выберите цвет модели",
+    },
+    productionForm: {
+      title: "Форма производства",
+      price: "C ценой",
+      shippingDate: "Дата отправки",
+    },
+    dailyProductionQuantity: {
+      title: "Ежедневный объем производства",
+      daily: "Ежедневная выработка",
+      monthly: "Ежемесячное производство",
+      yearly: "Годовой объем производства",
+    },
+  },
 };
-

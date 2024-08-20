@@ -1,18 +1,20 @@
-<template >
+<template>
   <div>
     <v-card elevation="0" class="rounded-lg">
       <v-card-title>
         <div>
-          Recieved fabric form
+          {{ $t("forms.recievedFabrics.title") }}
         </div>
-        <v-spacer/>
+        <v-spacer />
       </v-card-title>
-      <v-divider/>
+      <v-divider />
       <v-card-text>
         <v-form lazy-validation v-model="filter_form" ref="filters">
           <v-row class="mb-5">
             <v-col cols="12" lg="3">
-              <div class="label">Order number</div>
+              <div class="label">
+                {{ $t("forms.placedOrdersBox.orderNumber") }}
+              </div>
               <v-combobox
                 v-model="filters.orderNumber"
                 :items="ordersList"
@@ -27,7 +29,9 @@
                 class="rounded-lg filter d-flex align-center justify-center mr-2"
                 :return-object="true"
                 dense
-                placeholder="Order name"
+                :placeholder="
+                  $t('forms.placedOrdersBox.orderNumberPlaceholder')
+                "
                 prepend-icon=""
               >
                 <template #append>
@@ -38,7 +42,9 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Model number</div>
+              <div class="label">
+                {{ $t("forms.placedOrdersBox.modelNumber") }}
+              </div>
               <v-combobox
                 v-model="filters.modelNumber"
                 :items="modelsList"
@@ -53,7 +59,9 @@
                 class="rounded-lg filter d-flex align-center justify-center mr-2"
                 :return-object="true"
                 dense
-                placeholder="Model name"
+                :placeholder="
+                  $t('forms.placedOrdersBox.modelNumberPlaceholder')
+                "
                 prepend-icon=""
               >
                 <template #append>
@@ -64,7 +72,7 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Sip №</div>
+              <div class="label">{{ $t("forms.orderedFabrics.sip") }}</div>
               <v-combobox
                 v-model="filters.sipNumber"
                 :items="sipNumbers"
@@ -76,10 +84,10 @@
                 hide-details
                 color="#544B99"
                 height="44"
-                class="rounded-lg filter  "
+                class="rounded-lg filter"
                 :return-object="true"
                 dense
-                placeholder="Sip number"
+                :placeholder="$t('forms.orderedFabrics.sip')"
                 prepend-icon=""
               >
                 <template #append>
@@ -90,7 +98,10 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Approved by<span style="color:red">*</span></div>
+              <div class="label">
+                {{ $t("forms.orderedFabrics.approved")
+                }}<span style="color: red">*</span>
+              </div>
               <v-combobox
                 v-model="filters.approvedBy"
                 :items="users"
@@ -105,7 +116,7 @@
                 class="rounded-lg filter d-flex align-center justify-center mr-2"
                 :return-object="true"
                 dense
-                placeholder="Creator name"
+                :placeholder="$t('forms.calculationsList.creatorPlaceholder')"
                 prepend-icon=""
               >
                 <template #append>
@@ -116,7 +127,10 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Creator<span style="color:red">*</span></div>
+              <div class="label">
+                {{ $t("forms.calculationsList.creator")
+                }}<span style="color: red">*</span>
+              </div>
               <v-combobox
                 v-model="filters.creator"
                 :items="users"
@@ -131,7 +145,7 @@
                 class="rounded-lg filter d-flex align-center justify-center mr-2"
                 :return-object="true"
                 dense
-                placeholder="Creator name"
+                :placeholder="$t('forms.calculationsList.creatorPlaceholder')"
                 prepend-icon=""
               >
                 <template #append>
@@ -142,7 +156,10 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Supplier name<span style="color:red">*</span></div>
+              <div class="label">
+                {{ $t("forms.orderedFabrics.supplier")
+                }}<span style="color: red">*</span>
+              </div>
               <v-combobox
                 v-model="filters.supplierName"
                 :items="partnerLists"
@@ -156,14 +173,14 @@
                 :return-object="true"
                 color="#544B99"
                 dense
-                placeholder="Enter partner name"
+                :placeholder="$t('forms.orderedFabrics.supplierPlaceholder')"
                 :rules="[formRules.required]"
                 validate-on-blur
-                >
+              >
                 <template #append>
                   <v-icon color="#544B99">mdi-magnify</v-icon>
                 </template>
-               </v-combobox>
+              </v-combobox>
             </v-col>
           </v-row>
           <div class="d-flex justify-center">
@@ -175,7 +192,7 @@
               class="text-capitalize mr-4 rounded-lg font-weight-bold"
               @click="resetFilter"
             >
-              Reset filters
+              {{ $t("forms.calculationsList.btnReset") }}
             </v-btn>
             <v-btn
               width="140"
@@ -185,7 +202,7 @@
               class="text-capitalize rounded-lg font-weight-bold"
               @click="filter"
             >
-              Generate
+              {{ $t("forms.calculationsList.btnGenerate") }}
             </v-btn>
           </div>
         </v-form>
@@ -209,23 +226,23 @@ export default {
     return {
       filter_form: true,
       filters: {
-        approvedBy:"",
+        approvedBy: "",
         orderNumber: "",
         modelNumber: "",
-        supplierName:"",
+        supplierName: "",
         creator: "",
-        sipNumber:"",
+        sipNumber: "",
       },
       isLoad: false,
 
-      approvedSearch:"",
-      sipNumberSearch:"",
+      approvedSearch: "",
+      sipNumberSearch: "",
       orderNumSearch: "",
       modelNumSearch: "",
       creatorSearch: "",
       users: [],
       pdfServe: "",
-      partnerName:"",
+      partnerName: "",
     };
   },
   created() {
@@ -246,8 +263,7 @@ export default {
       partner: "",
       status: "ACTIVE",
     }),
-
-    this.getUsersList();
+      this.getUsersList();
     this.getPartnerName("");
     this.getSipNumbers("");
   },
@@ -274,11 +290,11 @@ export default {
       a.setAttribute("target", "_blank");
       a.setAttribute("href", objectUrl);
       a.click();
-      this.pdfServe=objectUrl
+      this.pdfServe = objectUrl;
       this.isLoad = false;
     },
-    sipNumberSearch(val){
-      if(!!val){
+    sipNumberSearch(val) {
+      if (!!val) {
         this.getSipNumbers(val);
       }
     },
@@ -291,8 +307,8 @@ export default {
       });
     },
     partnerName(val) {
-      if(!!val && val !== '') {
-      this.getPartnerName(val);
+      if (!!val && val !== "") {
+        this.getPartnerName(val);
       }
     },
     orderNumSearch(val) {
@@ -344,9 +360,13 @@ export default {
         supplierName: !!this.filters.supplierName?.name
           ? this.filters.supplierName?.name
           : "",
-        approvedBy: !!this.filters.approvedBy?.name?this.filters.approvedBy?.name:"",
-        sipNumber: !!this.filters.sipNumber?.sipNumber?this.filters.sipNumber?.sipNumber:"",
-        creator: !!this.filters.creator?.name?this.filters.creator?.name:"" ,
+        approvedBy: !!this.filters.approvedBy?.name
+          ? this.filters.approvedBy?.name
+          : "",
+        sipNumber: !!this.filters.sipNumber?.sipNumber
+          ? this.filters.sipNumber?.sipNumber
+          : "",
+        creator: !!this.filters.creator?.name ? this.filters.creator?.name : "",
         modelNumber: this.filters.modelNumber?.modelNumber
           ? this.filters.modelNumber?.modelNumber
           : "",
@@ -360,5 +380,4 @@ export default {
   },
 };
 </script>
-<style lang="">
-</style>
+<style lang=""></style>

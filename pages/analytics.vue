@@ -1,17 +1,13 @@
 <template>
-  <div class="text-center">
-    analytics
-  </div>
+  <div class="text-center">analytics</div>
 </template>
 
 <script>
 export default {
   mounted() {
-    this.$store.commit('setPageTitle', 'Analytics')
-  }
-}
+    this.$store.commit("setPageTitle", "Analytics");
+  },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

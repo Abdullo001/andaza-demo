@@ -1,18 +1,18 @@
-<template >
+<template>
   <div>
     <v-card elevation="0" class="rounded-lg">
       <v-card-title>
-        <div>
-          Prints
-        </div>
-        <v-spacer/>
+        <div>{{ $t("forms.printBox.title") }}</div>
+        <v-spacer />
       </v-card-title>
-      <v-divider/>
+      <v-divider />
       <v-card-text>
         <v-form lazy-validation v-model="filter_form" ref="filters">
           <v-row class="mb-5">
             <v-col cols="12" lg="3">
-              <div class="label">Order number</div>
+              <div class="label">
+                {{ $t("forms.placedOrdersBox.orderNumber") }}
+              </div>
               <v-combobox
                 v-model="filters.orderNumber"
                 :items="ordersList"
@@ -26,7 +26,9 @@
                 class="rounded-lg filter d-flex align-center justify-center mr-2"
                 :return-object="true"
                 dense
-                placeholder="Order name"
+                :placeholder="
+                  $t('forms.placedOrdersBox.orderNumberPlaceholder')
+                "
                 prepend-icon=""
               >
                 <template #append>
@@ -37,7 +39,9 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Model number</div>
+              <div class="label">
+                {{ $t("forms.placedOrdersBox.modelNumber") }}
+              </div>
               <v-combobox
                 v-model="filters.modelNumber"
                 :items="modelsList"
@@ -51,7 +55,9 @@
                 class="rounded-lg filter d-flex align-center justify-center mr-2"
                 :return-object="true"
                 dense
-                placeholder="Model name"
+                :placeholder="
+                  $t('forms.placedOrdersBox.modelNumberPlaceholder')
+                "
                 prepend-icon=""
               >
                 <template #append>
@@ -62,36 +68,40 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Subcontractor</div>
+              <div class="label">
+                {{ $t("forms.index.cards.subcontractor") }}
+              </div>
               <v-combobox
-                  v-model="filters.subcontractor"
-                  :items="partnerLists"
-                  :search-input.sync="partnerName"
-                  item-text="name"
-                  item-value="id"
-                  outlined
-                  hide-details
-                  color="#544B99"
-                  dense
-                  height="44"
-                  validate-on-blur
-                  class="rounded-lg filter d-flex align-center justify-center mr-2"
-                  :return-object="true"
-                  placeholder="Enter subcontractor "
-                  append-icon="mdi-chevron-down"
-                  :rules="[formRules.required]"
-                  >
-                  <template #append>
-                    <v-icon color="#544B99">mdi-magnify</v-icon>
-                  </template>
-                 </v-combobox>
+                v-model="filters.subcontractor"
+                :items="partnerLists"
+                :search-input.sync="partnerName"
+                item-text="name"
+                item-value="id"
+                outlined
+                hide-details
+                color="#544B99"
+                dense
+                height="44"
+                validate-on-blur
+                class="rounded-lg filter d-flex align-center justify-center mr-2"
+                :return-object="true"
+                :placeholder="$t('forms.index.cards.subcontractorPlaceholder')"
+                append-icon="mdi-chevron-down"
+                :rules="[formRules.required]"
+              >
+                <template #append>
+                  <v-icon color="#544B99">mdi-magnify</v-icon>
+                </template>
+              </v-combobox>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Gender</div>
+              <div class="label">{{ $t("forms.calculationsList.gender") }}</div>
               <v-select
                 :items="gander_enums"
                 v-model="filters.gender"
-                placeholder="Gender type"
+                item-text="text"
+                item-value="val"
+                :placeholder="$t('forms.calculationsList.genderPlaceholder')"
                 dense
                 outlined
                 height="44"
@@ -102,7 +112,9 @@
               />
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Client name</div>
+              <div class="label">
+                {{ $t("forms.calculationsList.clientName") }}
+              </div>
               <v-combobox
                 v-model="filters.clientName"
                 :items="clientList"
@@ -116,7 +128,9 @@
                 class="rounded-lg filter d-flex align-center justify-center mr-2"
                 :return-object="true"
                 dense
-                placeholder="Client name"
+                :placeholder="
+                  $t('forms.calculationsList.clientNamePlaceholder')
+                "
                 prepend-icon=""
               >
                 <template #append>
@@ -127,11 +141,13 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Brand name</div>
+              <div class="label">
+                {{ $t("forms.placedOrdersBox.brandName") }}
+              </div>
               <v-select
                 :items="brandList"
                 v-model="filters.brandName"
-                placeholder="Brand name"
+                :placeholder="$t('forms.placedOrdersBox.brandName')"
                 dense
                 outlined
                 height="44"
@@ -142,7 +158,9 @@
               />
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">From date</div>
+              <div class="label">
+                {{ $t("forms.calculationsList.fromDate") }}
+              </div>
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="filters.fromDate"
@@ -156,7 +174,9 @@
               </div>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">To date</div>
+              <div class="label">
+                {{ $t("forms.calculationsList.toDate") }}
+              </div>
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="filters.toDate"
@@ -170,24 +190,29 @@
               </div>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label text-capitalize mb-2"> print type</div>
-                <v-select
-                  outlined
-                  :items="printTypeEnums"
-                  v-model="filters.printType"
-                  single-line
-                  placeholder="Print Type"
-                  item-value="name"
-                  item-text="name"
-                  dense append-icon="mdi-chevron-down"
-                  color="#544B99"
-                  class="rounded-lg "
-                  height="44"
-                  hide-details
-                />
+              <div class="label text-capitalize mb-2">
+                {{ $t("forms.printBox.printType") }}
+              </div>
+              <v-select
+                outlined
+                :items="printTypeEnums"
+                v-model="filters.printType"
+                single-line
+                :placeholder="$t('forms.printBox.printType')"
+                item-value="name"
+                item-text="name"
+                dense
+                append-icon="mdi-chevron-down"
+                color="#544B99"
+                class="rounded-lg"
+                height="44"
+                hide-details
+              />
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Creator</div>
+              <div class="label">
+                {{ $t("forms.calculationsList.creator") }}
+              </div>
               <v-combobox
                 v-model="filters.creatorId"
                 :items="users"
@@ -201,7 +226,7 @@
                 class="rounded-lg filter d-flex align-center justify-center mr-2"
                 :return-object="true"
                 dense
-                placeholder="Creator name"
+                :placeholder="$t('forms.calculationsList.creatorPlaceholder')"
                 prepend-icon=""
               >
                 <template #append>
@@ -221,7 +246,7 @@
               class="text-capitalize mr-4 rounded-lg font-weight-bold"
               @click="resetFilter"
             >
-              Reset filters
+              {{ $t("forms.calculationsList.btnReset") }}
             </v-btn>
             <v-btn
               width="140"
@@ -231,7 +256,7 @@
               class="text-capitalize rounded-lg font-weight-bold"
               @click="filter"
             >
-              Generate
+              {{ $t("forms.calculationsList.btnGenerate") }}
             </v-btn>
           </div>
         </v-form>
@@ -265,12 +290,33 @@ export default {
         toDate: "",
         gender: "",
         creatorId: "",
-        subcontractor:"",
-        printType:"",
-
+        subcontractor: "",
+        printType: "",
       },
-      partnerName:"",
-      gander_enums: ["MALE", "FEMALE", "BOY", "GIRL", "UNISEX"],
+      partnerName: "",
+      gander_enums: [
+        {
+          val: "MALE",
+          text: this.$t("forms.calculationsList.gender_enums.male"),
+        },
+        {
+          val: "FEMALE",
+          text: this.$t("forms.calculationsList.gender_enums.female"),
+        },
+        {
+          val: "BOY",
+          text: this.$t("forms.calculationsList.gender_enums.boy"),
+        },
+        {
+          val: "GIRL",
+          text: this.$t("forms.calculationsList.gender_enums.girl"),
+        },
+        {
+          val: "UNISEX",
+          text: this.$t("forms.calculationsList.gender_enums.unisex"),
+        },
+      ],
+
       isLoad: false,
 
       orderNumSearch: "",
@@ -306,8 +352,8 @@ export default {
     this.getClient();
     this.getCountryList({ name: this.countryIdSearch });
     this.getUsersList();
-    this.getPartnerName("")
-    this.getPrintType({page: 0, size: 100})
+    this.getPartnerName("");
+    this.getPrintType({ page: 0, size: 100 });
   },
 
   computed: {
@@ -322,7 +368,6 @@ export default {
       printPdfList: "generatePdf/printPdfList",
       partnerLists: "fabricOrdering/partnerLists",
       printTypeEnums: "printing/printTypeEnums",
-
     }),
   },
 
@@ -337,7 +382,7 @@ export default {
       a.setAttribute("target", "_blank");
       a.setAttribute("href", objectUrl);
       a.click();
-      this.pdfServe=objectUrl
+      this.pdfServe = objectUrl;
       this.isLoad = false;
     },
     usersList(list) {
@@ -348,8 +393,8 @@ export default {
         });
       });
     },
-    partnerName(val){
-      this.getPartnerName(val)
+    partnerName(val) {
+      this.getPartnerName(val);
     },
     orderNumSearch(val) {
       if (!!val) {
@@ -403,7 +448,6 @@ export default {
       getPrintPdfList: "generatePdf/getPrintPdfList",
       getPartnerName: "fabricOrdering/getPartnerName",
       getPrintType: "printing/getPrintType",
-
     }),
 
     resetFilter() {
@@ -418,8 +462,10 @@ export default {
         creatorId: this.filters.creatorId?.id ? this.filters.creatorId?.id : 0,
         fromDate: !!this.filters.fromDate ? this.filters.fromDate : null,
         gender: this.filters.gender,
-        subcontractor: !!this.filters.subcontractor?.name?this.filters.subcontractor?.name:"",
-        printType:this.filters.printType,
+        subcontractor: !!this.filters.subcontractor?.name
+          ? this.filters.subcontractor?.name
+          : "",
+        printType: this.filters.printType,
         modelNumber: this.filters.modelNumber?.modelNumber
           ? this.filters.modelNumber?.modelNumber
           : "",
@@ -434,5 +480,4 @@ export default {
   },
 };
 </script>
-<style lang="">
-</style>
+<style lang=""></style>

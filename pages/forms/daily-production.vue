@@ -1,23 +1,25 @@
-<template >
+<template>
   <div>
     <v-card elevation="0" class="rounded-lg">
       <v-card-title>
         <div>
-          Daily production quantity
+          {{ $t("forms.dailyProductionQuantity.title") }}
         </div>
-        <v-spacer/>
+        <v-spacer />
       </v-card-title>
-      <v-divider/>
+      <v-divider />
       <v-card-text>
         <v-form lazy-validation v-model="filter_form" ref="filters">
           <v-row class="mb-5">
             <v-col cols="12" lg="3">
-              <div class="label">Daily production</div>
+              <div class="label">
+                {{ $t("forms.dailyProductionQuantity.daily") }}
+              </div>
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="filters.daily"
                   type="date"
-                  :disabled="!!filters.monthly||!!filters.yearly"
+                  :disabled="!!filters.monthly || !!filters.yearly"
                   style="width: 100%; height: 100%"
                   placeholder="dd.MM.yyyy"
                   :picker-options="pickerShortcuts"
@@ -27,11 +29,13 @@
               </div>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Monthly production</div>
+              <div class="label">
+                {{ $t("forms.dailyProductionQuantity.monthly") }}
+              </div>
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="filters.monthly"
-                  :disabled="!!filters.daily||!!filters.yearly"
+                  :disabled="!!filters.daily || !!filters.yearly"
                   type="month"
                   style="width: 100%; height: 100%"
                   placeholder="MM.yyyy"
@@ -42,11 +46,13 @@
               </div>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Yearly production</div>
+              <div class="label">
+                {{ $t("forms.dailyProductionQuantity.yearly") }}
+              </div>
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="filters.yearly"
-                  :disabled="!!filters.monthly||!!filters.daily"
+                  :disabled="!!filters.monthly || !!filters.daily"
                   type="year"
                   style="width: 100%; height: 100%"
                   placeholder="yyyy"
@@ -66,7 +72,7 @@
               class="text-capitalize mr-4 rounded-lg font-weight-bold"
               @click="resetFilter"
             >
-              Reset filters
+              {{ $t("forms.calculationsList.btnReset") }}
             </v-btn>
             <v-btn
               width="140"
@@ -76,7 +82,7 @@
               class="text-capitalize rounded-lg font-weight-bold"
               @click="filter"
             >
-              Generate
+              {{ $t("forms.calculationsList.btnGenerate") }}
             </v-btn>
           </div>
         </v-form>
@@ -100,25 +106,21 @@ export default {
     return {
       filter_form: true,
       filters: {
-        monthly:"",
-        daily:"",
-        yearly:"",
+        monthly: "",
+        daily: "",
+        yearly: "",
       },
       isLoad: false,
 
-
       modelNumSearch: "",
       pdfServe: "",
-      partnerName:"",
+      partnerName: "",
     };
   },
-  created() {
-
-  },
+  created() {},
 
   computed: {
     ...mapGetters({
-
       pdfList: "generatePdf/dailyProductionPdfList",
     }),
   },
@@ -134,38 +136,34 @@ export default {
       a.setAttribute("target", "_blank");
       a.setAttribute("href", objectUrl);
       a.click();
-      this.pdfServe=objectUrl
+      this.pdfServe = objectUrl;
       this.isLoad = false;
     },
-
   },
 
   methods: {
     ...mapActions({
-
       getPdfList: "generatePdf/getDailyProductionPdfList",
-
     }),
 
     resetFilter() {
       this.$refs.filters.reset();
-      this.filters.daily=""
-      this.filters.monthly=""
-      this.filters.yearly=""
+      this.filters.daily = "";
+      this.filters.monthly = "";
+      this.filters.yearly = "";
     },
     filter() {
-
       const data = {
-        dateTime:"",
+        dateTime: "",
       };
-      if(!!this.filters.daily){
-        data.dateTime=this.filters.daily
+      if (!!this.filters.daily) {
+        data.dateTime = this.filters.daily;
       }
-      if(!!this.filters.monthly){
-        data.dateTime=this.filters.monthly
+      if (!!this.filters.monthly) {
+        data.dateTime = this.filters.monthly;
       }
-      if(!!this.filters.yearly){
-        data.dateTime=this.filters.yearly
+      if (!!this.filters.yearly) {
+        data.dateTime = this.filters.yearly;
       }
       this.getPdfList(data);
       this.isLoad = true;
@@ -173,5 +171,4 @@ export default {
   },
 };
 </script>
-<style lang="">
-</style>
+<style lang=""></style>

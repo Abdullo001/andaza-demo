@@ -6,10 +6,10 @@ export default {
   to: "Gacha",
   update: "Yangilash",
   sidebar: {
-    setting: 'Sozlamalar',
-    report: 'Hisobot',
-    warehouse: 'Ombor',
-    shipping: 'Yetkazib berish',
+    setting: "Sozlamalar",
+    report: "Hisobot",
+    warehouse: "Ombor",
+    shipping: "Yetkazib berish",
     dashboard: "Boshqaruv paneli",
     analytics: "Analitika",
     usermanagement: "Foydalanuvchi boshqaruvi",
@@ -37,7 +37,7 @@ export default {
     measurementUnit: "O'lchov birligi",
     packageShape: "Qadoqlash turi",
     fabricCatalogs: "Mato kataloglari",
-    forms:"Formalar",
+    forms: "Formalar",
     productCatalogs: "Mahsulot kataloglari",
     catalogGroups: "Katalog guruhlari",
     partners: "Hamkorlar",
@@ -56,14 +56,14 @@ export default {
     fabricWarehouse: "Mato ombori",
     accessoryWarehouse: "Aksessuar Ombori",
     finishedProducts: "Tayyor mahsulot ombori",
-    wastesWarehouse:"Chiqindilar ombori",
-    supplyWarehouse:"Ta`minot ombori",
-    secondaryWarehouse:"Ikkilamchi ombor",
-    yarnNumbers:"Iplar soni",
+    wastesWarehouse: "Chiqindilar ombori",
+    supplyWarehouse: "Ta`minot ombori",
+    secondaryWarehouse: "Ikkilamchi ombor",
+    yarnNumbers: "Iplar soni",
     printType: "Print turi",
-    composition:"Mato Tarkibi",
-    notification:"Bildirishnoma",
-
+    composition: "Mato Tarkibi",
+    notification: "Bildirishnoma",
+    wastesWarehouse: "Chiqindilar ombori",
   },
   appBar: {
     search: "Qidirmoq",
@@ -86,8 +86,8 @@ export default {
       home: "Uy",
       userManagement: "Foydalanuvchi boshqaruvi",
       details: "Tafsilotlar",
-      update: 'Parolni yangilash',
-      password: 'Yangi parol'
+      update: "Parolni yangilash",
+      password: "Yangi parol",
     },
     dialog: {
       userId: "Foydalanuvchi IDsi",
@@ -121,7 +121,7 @@ export default {
       userManagement: "Foydalanuvchi boshqaruvi",
     },
     table: {
-      email:"Email",
+      email: "Email",
       userName: "Foydalanuvchi nomi",
       firstName: "Ism",
       lastName: "Familiya",
@@ -130,7 +130,7 @@ export default {
       lang: "Lang",
       status: "Status",
       actions: "Amallar",
-    }
+    },
   },
   localization: {
     dialog: {
@@ -371,7 +371,7 @@ export default {
       created: "Yaratilgan",
       updated: "Yangilangan",
       actions: "Amallar",
-    }
+    },
   },
   billingCompany: {
     addBilling: {
@@ -812,7 +812,6 @@ export default {
       actions: "Amallar",
     },
 
-
     dialog: {
       menuName: "Hamkorlik turi",
       addMainName: "Hamkorlik turini yaratish",
@@ -1084,7 +1083,7 @@ export default {
       pEmail: "Hamkor elektron pochtasi",
       status: "Status",
       reset: "Qayta tiklash",
-      search: "Qidirish"
+      search: "Qidirish",
     },
 
     table: {
@@ -1101,7 +1100,6 @@ export default {
       createdAt: "Yaratilgan ",
       updatedAt: "Yangilangan",
       actions: "Amallar",
-
     },
 
     dialog: {
@@ -1133,8 +1131,160 @@ export default {
       deleteDialog: "Hamkorni o'chirish",
       deleteText: "Ushbu hamkorni o'chirib tashlamoqchimisiz?",
       delete: "O'chirish",
-
-    }
-  }
+    },
+  },
+  forms: {
+    index: {
+      all: "Hammasi",
+      management: "Boshqaruv",
+      production: "Ishlab chiqarish",
+      cards: {
+        subcontractor: "Autsors",
+        subcontractorPlaceholder: "Autsorsni kiriting",
+        calculations: "Kalkulyatsiya ro'yxati",
+        calculationsSub: "Barcha model uchun kalkulyatsiya shakli",
+        placedOrders: "Qabul qilingan buyurtmalar",
+        placedOrdersSub: "Buyurtmalar bilan bog'liq barcha muhim ma'lumotlar",
+        prints: "Pechat",
+        printsSub: "Barcha modellarga tegishli pechat ro'yxati",
+        fabrics: "Buyurtma qilingan matolar",
+        fabricsSub:
+          "Bitta yetkazib beruvchiga buyurtma qilingan matolar ro'yxati ",
+        recievedFabrics: "Qabul qilingan matolar",
+        recievedFabricsSub:
+          "Bitta etkazib beruvchidan olingan matolar ro'yxati",
+        orderedFabricsAmount: "Buyurtma qilingan matolar miqdori",
+        orderedFabricsAmountSub:
+          "Joriy modellarning barcha buyurtma qilingan matolar miqdori ",
+        orderedAccessories: "Buyurtma qilingan aksessuarlar",
+        orderedAccessoriesSub:
+          "Joriy modellarning barcha buyurtma qilingan aksessuarlar ro'yxati",
+        recievedAccessories: "Qabul qilingan aksessuarlar",
+        recievedAccessoriesSub:
+          "Joriy modellarning barcha qabul qilingan aksessuarlar ro'yxati",
+        inspectionFiles: "Inspeksiya fayllari",
+        inspectionFilesSub: "Har bir modelni inspeksiya fayllari",
+        shipping: "Yuklama",
+        shippingSub: "Yuborilgan modellar haqida asosiy ma'lumotlar",
+        cutting: "Kesim formasi",
+        cuttingSub: "Bitta modelga tegishli kesim ma`lumotlari",
+        sewing: "Tikish formasi",
+        sewingSub: "Bitta modelga tegishli tikuv ma'lumotlari",
+        productionList: "Ishlab chiqarish ro'yxati",
+        productionListSub:
+          "Bitta mijozning barcha modellari bilan bog'liq ishlab chiqarish ma'lumotlari",
+        productionStatus: "Ishlab chiqarish holati",
+        productionStatusSub:
+          "Bitta mijozning barcha modellari bilan bog'liq ishlab chiqarish ma'lumotlari",
+        dailyProduction: "Kunlik/oylik ishlab chiqarish miqdori",
+        dailyProductionSub:
+          "Kunlik/oylik/yillik ishlab chiqarish miqdori haqida ma'lumot",
+        cuttingSubcontractor: "Autsorsning kesim ro'yxati",
+        cuttingSubcontractorSub:
+          "Bitta autsorsningning barcha modellari bilan bog'liq kesim ma'lumotlar ro'yxati",
+        printingSubcontractor: "Autsorsning pechat ro'yxati",
+        printingSubcontractorSub:
+          "Bitta autsorsning barcha modellari bilan bog'liq pechat ro'yxati",
+        inconmingPrinting: "Autsorsdan kelgan pechatlar",
+        inconmingPrintingSub:
+          "Bitta autsorsning bitta modeliga tegishli kesish ma'lumotlar ro'yxati",
+        sewingSubcontractor: "Autsorsning tikuv ro'yxati",
+        sewingSubcontractorSub:
+          "Bitta autsorsning bitta modeliga tegishli kesish ma'lumotlar ro'yxati",
+        inconmingSewing: "Autsorsning tikuv kirimi",
+        inconmingSewingSub:
+          "Bitta autsorsning bitta modeliga tegishli kesish ma'lumotlar ro'yxati",
+      },
+    },
+    calculationsList: {
+      title: "Hisoblar ro'yxati",
+      clientName: "Mijoz nomi",
+      clientNamePlaceholder: "Mijoz nomi",
+      gender: "Jins",
+      genderPlaceholder: "Jins turi",
+      fromDate: "Sanadan boshlab",
+      toDate: "Hozirgi kungacha",
+      country: "Mamlakat",
+      countryPlaceholder: "Mamlakat",
+      season: "Mavsum",
+      seasonPlaceholder: "Mavsum",
+      creator: "Yaratuvchi",
+      creatorPlaceholder: "Yaratuvchi nomi",
+      btnReset: "Tozalash",
+      btnGenerate: "Yaratish",
+      gender_enums: {
+        male: "ERKAK",
+        female: "AYOL",
+        boy: "YIGIT",
+        girl: "QIZ",
+        unisex: "UNISEX",
+      },
+      season_enums: {
+        spring: "Bahor/Yoz",
+        autumn: "Kuz/Qish",
+      },
+    },
+    placedOrdersBox: {
+      orderNumber: "Buyurtma raqami",
+      orderNumberPlaceholder: "Buyurtma raqami",
+      modelNumber: "Model raqami",
+      modelNumberPlaceholder: "Model raqami",
+      modelGroup: "Model guruhi",
+      brandName: "Brend nomi",
+      fromDate: "Yaratilgan sanadan boshlab",
+      toDate: "Hozirgacha yaratilgan",
+      shippingDate: "Oylik etkazib berish sanasi",
+      shippingDateYear: "Yillik etkazib berish sanasi",
+      fabricStatus: "Mato holati",
+      accessoryStatus: "Aksessuar holati",
+      modelStatus: "Model holati",
+    },
+    printBox: {
+      title: "Pechat",
+      printType: "Pechat turi",
+    },
+    orderedFabrics: {
+      title: "Buyurtma qilingan mato",
+      approved: "Tomonidan tasdiqlangan",
+      sip: "Sip raqami",
+      supplier: "Yetkazib beruvchi nomi",
+      supplierPlaceholder: "Hamkor nomini kiriting",
+    },
+    recievedFabrics: {
+      title: "Qabul qilingan matolar",
+    },
+    orderedFabricsAmount: {
+      title: "Buyurtma qilingan mato yetkazib beruvchilari",
+      status: "Status",
+    },
+    orderedAccessoryFrom: {
+      title: "Buyurtma qilingan aksessuar",
+    },
+    recievedAccessoryForm: {
+      title: "Qabul qilingan aksessuarlar",
+    },
+    inspectionFiles: {
+      title: "Joylashtirilgan buyurtmalar",
+      inspection: "Inspeksiya fayli",
+      documentName: "Hujjat nomi",
+      description: "Tavsif",
+      actions: "Harakatlar",
+    },
+    shipmentForm: {
+      title: "Yuk tashish shakli",
+      bodyColor: "Tana qismining rangi",
+      bodyColorPlaceholder: "Model rangini tanlang",
+    },
+    productionForm: {
+      title: "Ishlab chiqarish shakli",
+      price: "Narxli",
+      shippingDate: "Yuklama sanasi",
+    },
+    dailyProductionQuantity: {
+      title: "Kundalik ishlab chiqarish miqdori",
+      daily: "Kundalik ishlab chiqarish",
+      monthly: "Oylik ishlab chiqarish",
+      yearly: "Yillik ishlab chiqarish",
+    },
+  },
 };
-

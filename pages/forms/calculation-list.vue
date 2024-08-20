@@ -1,20 +1,18 @@
-<template >
+<template>
   <div>
     <v-card elevation="0" class="rounded-lg">
       <v-card-title>
-        <div>
-          Calculations list
-        </div>
-        <v-spacer/>
+        <div>{{ $t("forms.calculationsList.title") }}</div>
+        <v-spacer />
       </v-card-title>
-      <v-divider/>
+      <v-divider />
       <v-card-text>
         <v-form lazy-validation v-model="filter_form" ref="filters">
           <v-row class="mb-5">
-
-
             <v-col cols="12" lg="3">
-              <div class="label">Client name</div>
+              <div class="label">
+                {{ $t("forms.calculationsList.clientName") }}
+              </div>
               <v-combobox
                 v-model="filters.clientName"
                 :items="clientList"
@@ -28,7 +26,9 @@
                 class="rounded-lg filter d-flex align-center justify-center mr-2"
                 :return-object="true"
                 dense
-                placeholder="Client name"
+                :placeholder="
+                  $t('forms.calculationsList.clientNamePlaceholder')
+                "
                 prepend-icon=""
               >
                 <template #append>
@@ -39,11 +39,13 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Gender</div>
+              <div class="label">{{ $t("forms.calculationsList.gender") }}</div>
               <v-select
                 :items="gander_enums"
+                item-text="text"
+                item-value="val"
                 v-model="filters.gender"
-                placeholder="Gender type"
+                :placeholder="$t('forms.calculationsList.genderPlaceholder')"
                 dense
                 outlined
                 height="44"
@@ -54,7 +56,9 @@
               />
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">From date</div>
+              <div class="label">
+                {{ $t("forms.calculationsList.fromDate") }}
+              </div>
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="filters.fromDate"
@@ -68,7 +72,7 @@
               </div>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">To date</div>
+              <div class="label">{{ $t("forms.calculationsList.toDate") }}</div>
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="filters.toDate"
@@ -82,7 +86,9 @@
               </div>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Country</div>
+              <div class="label">
+                {{ $t("forms.calculationsList.country") }}
+              </div>
               <v-combobox
                 v-model="filters.country"
                 :items="countryList"
@@ -96,7 +102,7 @@
                 class="rounded-lg filter d-flex align-center justify-center mr-2"
                 :return-object="true"
                 dense
-                placeholder="Country"
+                :placeholder="$t('forms.calculationsList.country')"
                 prepend-icon=""
               >
                 <template #append>
@@ -107,11 +113,11 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Season</div>
+              <div class="label">{{ $t("forms.calculationsList.season") }}</div>
               <v-select
                 :items="season_enums"
                 v-model="filters.season"
-                placeholder="Season"
+                :placeholder="$t('forms.calculationsList.seasonPlaceholder')"
                 item-text="text"
                 item-value="key"
                 dense
@@ -124,7 +130,9 @@
               />
             </v-col>
             <v-col cols="12" lg="3">
-              <div class="label">Created by</div>
+              <div class="label">
+                {{ $t("forms.calculationsList.creator") }}
+              </div>
               <v-combobox
                 v-model="filters.creatorId"
                 :items="users"
@@ -138,7 +146,7 @@
                 class="rounded-lg filter d-flex align-center justify-center mr-2"
                 :return-object="true"
                 dense
-                placeholder="Creator name"
+                :placeholder="$t('forms.calculationsList.creatorPlaceholder')"
                 prepend-icon=""
               >
                 <template #append>
@@ -158,7 +166,7 @@
               class="text-capitalize mr-4 rounded-lg font-weight-bold"
               @click="resetFilter"
             >
-              Reset filters
+              {{ $t("forms.calculationsList.btnReset") }}
             </v-btn>
             <v-btn
               width="140"
@@ -168,7 +176,7 @@
               class="text-capitalize rounded-lg font-weight-bold"
               @click="filter"
             >
-              Generate
+              {{ $t("forms.calculationsList.btnGenerate") }}
             </v-btn>
           </div>
         </v-form>
@@ -192,7 +200,6 @@ export default {
     return {
       filter_form: true,
       filters: {
-
         clientName: "",
         country: "",
         season: "",
@@ -200,19 +207,42 @@ export default {
         toDate: "",
         gender: "",
         creatorId: "",
-
-
-
       },
       season_enums: [
-        {key: 'SS', text: ' Spring/Summer'},
-        {key: 'AW', text: 'Autumn/Winter'}
+        {
+          key: "SS",
+          text: this.$t("forms.calculationsList.season_enums.spring"),
+        },
+        {
+          key: "AW",
+          text: this.$t("forms.calculationsList.season_enums.autumn"),
+        },
       ],
-      gander_enums: ["MALE", "FEMALE", "BOY", "GIRL", "UNISEX"],
-      fabric_status:["NOT_PLANNED","PLANNED","GENERATED_FABRIC", "ORDERED"],
-      accessory_status:["NOT_PLANNED","PLANNED", "ORDERED"],
+      gander_enums: [
+        {
+          val: "MALE",
+          text: this.$t("forms.calculationsList.gender_enums.male"),
+        },
+        {
+          val: "FEMALE",
+          text: this.$t("forms.calculationsList.gender_enums.female"),
+        },
+        {
+          val: "BOY",
+          text: this.$t("forms.calculationsList.gender_enums.boy"),
+        },
+        {
+          val: "GIRL",
+          text: this.$t("forms.calculationsList.gender_enums.girl"),
+        },
+        {
+          val: "UNISEX",
+          text: this.$t("forms.calculationsList.gender_enums.unisex"),
+        },
+      ],
+      fabric_status: ["NOT_PLANNED", "PLANNED", "GENERATED_FABRIC", "ORDERED"],
+      accessory_status: ["NOT_PLANNED", "PLANNED", "ORDERED"],
       isLoad: false,
-
 
       clientSearch: "",
       countryIdSearch: "",
@@ -222,8 +252,6 @@ export default {
     };
   },
   created() {
-
-
     this.getClient();
     this.getCountryList({ name: this.countryIdSearch });
     this.getUsersList();
@@ -231,7 +259,6 @@ export default {
 
   computed: {
     ...mapGetters({
-
       clientList: "orders/clientList",
       countryList: "partners/countryList",
       usersList: "orders/usersList",
@@ -250,7 +277,7 @@ export default {
       a.setAttribute("target", "_blank");
       a.setAttribute("href", objectUrl);
       a.click();
-      this.pdfServe=objectUrl
+      this.pdfServe = objectUrl;
       this.isLoad = false;
     },
     usersList(list) {
@@ -274,7 +301,6 @@ export default {
 
   methods: {
     ...mapActions({
-
       getClient: "orders/getClient",
       getCountryList: "partners/getCountryList",
       getUsersList: "orders/getUsersList",
@@ -302,5 +328,4 @@ export default {
   },
 };
 </script>
-<style lang="">
-</style>
+<style lang=""></style>

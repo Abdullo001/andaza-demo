@@ -1,24 +1,24 @@
-<template >
+<template>
   <div>
     <v-card elevation="0">
       <v-card-title>
         <v-radio-group row v-model.trim="filter" class="">
-          <v-radio             
-            :readonly="managementStatus||productionStatus"
-            color="#544B99" 
-            label="All" 
+          <v-radio
+            :readonly="managementStatus || productionStatus"
+            color="#544B99"
+            :label="$t('forms.index.all')"
             value="ALL"
           ></v-radio>
           <v-radio
             :readonly="managementStatus"
             color="#544B99"
-            label="Management"
+            :label="$t('forms.index.management')"
             value="MANAGEMENT"
           ></v-radio>
           <v-radio
             :readonly="productionStatus"
             color="#544B99"
-            label="Production"
+            :label="$t('forms.index.production')"
             value="PRODUCTION"
           ></v-radio>
         </v-radio-group>
@@ -31,18 +31,18 @@
               <v-card
                 :elevation="hover ? 10 : 2"
                 :class="{ 'on-hover': hover }"
-                v-if="item.status==filter||filter==='ALL'"
+                v-if="item.status == filter || filter === 'ALL'"
                 height="150"
                 style="cursor: pointer"
                 @click="$router.push(`${item.to}`)"
               >
                 <v-card-title class="d-flex align-center justify-center">
-                  <div style="color: #544b99" class=" text-center">
+                  <div style="color: #544b99" class="text-center">
                     {{ item.title }}
                   </div>
                 </v-card-title>
                 <v-card-text class="">
-                  <div style="text-align:center">{{item.subtitle}}</div>
+                  <div style="text-align: center">{{ item.subtitle }}</div>
                 </v-card-text>
               </v-card>
             </v-hover>
@@ -57,160 +57,151 @@ export default {
   data() {
     return {
       filter: "ALL",
-      productionStatus:true,
-      managementStatus:true,
+      productionStatus: true,
+      managementStatus: true,
       buttons: [
         {
-          title: "Calculations list",
-          subtitle: "Calculation form for all model",
+          title: this.$t("forms.index.cards.calculations"),
+          subtitle: this.$t("forms.index.cards.calculationsSub"),
           to: "/forms/calculation-list",
-          status:"MANAGEMENT"
+          status: "MANAGEMENT",
         },
         {
-          title: "Placed orders",
-          subtitle: "All important informations related to actual orders",
+          title: this.$t("forms.index.cards.placedOrders"),
+          subtitle: this.$t("forms.index.cards.placedOrdersSub"),
           to: "/forms/order-pdf-generation",
-          status:"MANAGEMENT"
-
+          status: "MANAGEMENT",
         },
         {
-          title: "Prints",
-          subtitle: "Prints list related to all models",
+          title: this.$t("forms.index.cards.prints"),
+          subtitle: this.$t("forms.index.cards.printsSub"),
           to: "/forms/print-pdf-generation",
-          status:"MANAGEMENT"
-
+          status: "MANAGEMENT",
         },
         {
-          title: "Ordered fabrics",
-          subtitle: "Ordered fabrics list to one supplier",
+          title: this.$t("forms.index.cards.fabrics"),
+          subtitle: this.$t("forms.index.cards.fabricsSub"),
           to: "/forms/ordered-fabric-form",
-          status:"MANAGEMENT"
-
+          status: "MANAGEMENT",
         },
         {
-          title: "Received fabrics",
-          subtitle: "Received fabrics list from one supplier",
+          title: this.$t("forms.index.cards.recievedFabrics"),
+          subtitle: this.$t("forms.index.cards.recievedFabricsSub"),
           to: "/forms/recieved-fabric-form",
-          status:"MANAGEMENT"
+          status: "MANAGEMENT",
         },
         {
-          title: "Ordered fabrics amount ",
-          subtitle: "All ordered fabrics amount of the current models",
+          title: this.$t("forms.index.cards.orderedFabricsAmount"),
+          subtitle: this.$t("forms.index.cards.orderedFabricsAmountSub"),
           to: "/forms/suppliers-fabric-form",
-          status:"MANAGEMENT"
+          status: "MANAGEMENT",
         },
         {
-          title: "Ordered accessories",
-          subtitle: "All ordered accessories list of the current models",
-          status:"MANAGEMENT",
+          title: this.$t("forms.index.cards.orderedAccessories"),
+          subtitle: this.$t("forms.index.cards.orderedAccessoriesSub"),
+          status: "MANAGEMENT",
           to: "/forms/ordered-accessory-form",
         },
         {
-          title: "Received accessories",
-          subtitle: "All received accessories list of the current models",
-          status:"MANAGEMENT",
+          title: this.$t("forms.index.cards.recievedAccessories"),
+          subtitle: this.$t("forms.index.cards.recievedAccessoriesSub"),
+          status: "MANAGEMENT",
           to: "/forms/recieved-accessory-form",
         },
         {
-          title: "Inspection files",
-          subtitle: "Inspection files of each model",
-          status:"MANAGEMENT",
+          title: this.$t("forms.index.cards.inspectionFiles"),
+          subtitle: this.$t("forms.index.cards.inspectionFilesSub"),
+          status: "MANAGEMENT",
           to: "/forms/inspection-files",
         },
         {
-          title: "Shipping",
-          subtitle: "Basic informations about shipped models",
-          status:"MANAGEMENT",
+          title: this.$t("forms.index.cards.shipping"),
+          subtitle: this.$t("forms.index.cards.shippingSub"),
+          status: "MANAGEMENT",
           to: "/forms/shipping-form",
         },
         {
-          title: "Cutting form",
-          subtitle: "Cutting information form related to one model",
-          status:"PRODUCTION",
+          title: this.$t("forms.index.cards.cutting"),
+          subtitle: this.$t("forms.index.cards.cuttingSub"),
+          status: "PRODUCTION",
           to: "/forms/cutting",
         },
         {
-          title: "Sewing form",
-          subtitle: "Sewing information form related to one model",
-          status:"PRODUCTION",
+          title: this.$t("forms.index.cards.sewing"),
+          subtitle: this.$t("forms.index.cards.sewingSub"),
+          status: "PRODUCTION",
           to: "/forms/print-pdf-generation",
         },
         {
-          title: "Production list",
-          subtitle: "Production information related to all models of one client",
-          status:"PRODUCTION",
+          title: this.$t("forms.index.cards.productionList"),
+          subtitle: this.$t("forms.index.cards.productionListSub"),
+          status: "PRODUCTION",
           to: "/forms/production-list",
         },
         {
-          title: "Production status",
-          subtitle: "Production information with status related to all models of one client ",
-          status:"PRODUCTION",
+          title: this.$t("forms.index.cards.productionStatus"),
+          subtitle: this.$t("forms.index.cards.productionStatusSub"),
+          status: "PRODUCTION",
           to: "/forms/production-status",
         },
         {
-          title: "Daily/Monthly production q-ty",
-          subtitle: "Daily/monthly/annual production quantity information ",
-          status:"PRODUCTION",
+          title: this.$t("forms.index.cards.dailyProduction"),
+          subtitle: this.$t("forms.index.cards.dailyProductionSub"),
+          status: "PRODUCTION",
           to: "/forms/daily-production",
         },
         {
-          title: "Cuttings list of subcontractor",
-          subtitle: "Cutting information list related to all models of one subcontractor",
-          status:"PRODUCTION",
+          title: this.$t("forms.index.cards.cuttingSubcontractor"),
+          subtitle: this.$t("forms.index.cards.cuttingSubcontractorSub"),
+          status: "PRODUCTION",
           to: "/forms/print-pdf-generation",
         },
         {
-          title: "Printings list of subcontractor",
-          subtitle: "Printing information list related to all models of one subcontractor",
-          status:"PRODUCTION",
+          title: this.$t("forms.index.cards.printingSubcontractor"),
+          subtitle: this.$t("forms.index.cards.printingSubcontractorSub"),
+          status: "PRODUCTION",
           to: "/forms/print-pdf-generation",
         },
         {
-          title: "Inconming from printing subcontractor",
-          subtitle: "Cutting information list related to one model of one subcontractor",
-          status:"PRODUCTION",
+          title: this.$t("forms.index.cards.inconmingPrinting"),
+          subtitle: this.$t("forms.index.cards.inconmingPrintingSub"),
+          status: "PRODUCTION",
           to: "/forms/print-pdf-generation",
         },
         {
-          title: "Sewing list of subcontractor",
-          subtitle: "Cutting information list related to one model of one subcontractor",
-          status:"PRODUCTION",
+          title: this.$t("forms.index.cards.sewingSubcontractor"),
+          subtitle: this.$t("forms.index.cards.sewingSubcontractorSub"),
+          status: "PRODUCTION",
           to: "/forms/print-pdf-generation",
         },
         {
-          title: "Inconming from sewing subcontractor",
-          subtitle: "Cutting information list related to one model of one subcontractor",
-          status:"PRODUCTION",
+          title: this.$t("forms.index.cards.inconmingSewing"),
+          subtitle: this.$t("forms.index.cards.inconmingSewingSub"),
+          status: "PRODUCTION",
           to: "/forms/print-pdf-generation",
         },
-        
       ],
-      filteredButtons:[],
+      filteredButtons: [],
     };
   },
-  watch:{
-
-  },
-  methods:{
-
-  },
+  watch: {},
+  methods: {},
   mounted() {
-    this.$store.commit("setPageTitle", "Forms");
-    const permisionList=JSON.parse(localStorage.getItem("permissionList"))
-    permisionList.forEach((item)=>{
-      if(item.permissionName==="MANAGEMENT_FORM"){
-        this.filter="MANAGEMENT"
-        this.managementStatus=false
+    this.$store.commit("setPageTitle", this.$t("sidebar.forms"));
+    const permisionList = JSON.parse(localStorage.getItem("permissionList"));
+    permisionList.forEach((item) => {
+      if (item.permissionName === "MANAGEMENT_FORM") {
+        this.filter = "MANAGEMENT";
+        this.managementStatus = false;
       }
-      if(item.permissionName==="PRODUCTION_FORM"){
-        this.filter="PRODUCTION"
-        this.productionStatus=false
-
+      if (item.permissionName === "PRODUCTION_FORM") {
+        this.filter = "PRODUCTION";
+        this.productionStatus = false;
       }
-      if(!this.productionStatus&&!this.managementStatus){
-        this.filter="ALL"
+      if (!this.productionStatus && !this.managementStatus) {
+        this.filter = "ALL";
       }
-    })
+    });
   },
 };
 </script>

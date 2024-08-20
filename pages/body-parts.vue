@@ -124,7 +124,7 @@
           <v-form ref="new_form">
             <v-row>
               <v-col cols="12">
-                <div class="label">{{$t('bodyParts.dialog.name')}}</div>
+                <div class="label">{{ $t("bodyParts.dialog.name") }}</div>
                 <v-text-field
                   v-model="create_bodyParts.partName"
                   outlined
@@ -137,7 +137,9 @@
                 />
               </v-col>
               <v-col cols="12">
-                <div class="label">{{$t('bodyParts.dialog.description')}}</div>
+                <div class="label">
+                  {{ $t("bodyParts.dialog.description") }}
+                </div>
                 <v-textarea
                   v-model="create_bodyParts.description"
                   outlined

@@ -133,7 +133,9 @@
           <v-form ref="new_form">
             <v-row>
               <v-col cols="12">
-                <div class="label">{{$t('catalogsModelGroup.dialog.modelGroup')}}</div>
+                <div class="label">
+                  {{ $t("catalogsModelGroup.dialog.modelGroup") }}
+                </div>
                 <v-text-field
                   v-model="create_model.name"
                   outlined
@@ -146,13 +148,17 @@
                 />
               </v-col>
               <v-col cols="12">
-                <div class="label">{{$t('catalogsModelGroup.dialog.description')}}</div>
+                <div class="label">
+                  {{ $t("catalogsModelGroup.dialog.description") }}
+                </div>
                 <v-textarea
                   v-model="create_model.description"
                   outlined
                   hide-details
                   class="base rounded-lg"
-                  :placeholder="$t('catalogsModelGroup.dialog.descriptionPlacholder')"
+                  :placeholder="
+                    $t('catalogsModelGroup.dialog.descriptionPlacholder')
+                  "
                   dense
                   color="#544B99"
                 />
@@ -196,7 +202,9 @@
           <v-form ref="new_form">
             <v-row>
               <v-col cols="12">
-                <div class="label">{{$t('catalogsModelGroup.dialog.modelGroup')}}</div>
+                <div class="label">
+                  {{ $t("catalogsModelGroup.dialog.modelGroup") }}
+                </div>
                 <v-text-field
                   v-model="edit_model.name"
                   outlined
@@ -209,13 +217,17 @@
                 />
               </v-col>
               <v-col cols="12">
-                <div class="label">{{$t('catalogsModelGroup.dialog.description')}}</div>
+                <div class="label">
+                  {{ $t("catalogsModelGroup.dialog.description") }}
+                </div>
                 <v-textarea
                   v-model="edit_model.description"
                   outlined
                   hide-details
                   class="rounded-lg base"
-                  :placeholder="$t('catalogsModelGroup.dialog.descriptionPlacholder')"
+                  :placeholder="
+                    $t('catalogsModelGroup.dialog.descriptionPlacholder')
+                  "
                   dense
                   color="#544B99"
                 />
@@ -440,7 +452,7 @@ export default {
   },
 
   mounted() {
-    this.$store.commit("setPageTitle", this.$t("sidebar.catalogs"));
+    this.$store.commit("setPageTitle", this.$t("sidebar.catalog"));
   },
 };
 </script>
