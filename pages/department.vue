@@ -5,7 +5,7 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              v-model="filters.partName"
+              v-model="filters.name"
               :label="$t('bodyParts.child.name')"
               outlined
               class="rounded-lg filter"
@@ -68,10 +68,10 @@
     </v-card>
     <v-data-table
       :headers="headers"
-      :items="bodyParts"
+      :items="departmentList"
       :options.sync="options"
       :loading="loading"
-      :server-items-length="bodyPartsTotalElements"
+      :server-items-length="totalElements"
       :items-per-page="itemPrePage"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100],
@@ -126,7 +126,7 @@
               <v-col cols="12">
                 <div class="label">{{$t('bodyParts.dialog.name')}}</div>
                 <v-text-field
-                  v-model="create_bodyParts.partName"
+                  v-model="newDialog.name"
                   outlined
                   hide-details
                   class="rounded-lg base"
@@ -139,7 +139,7 @@
               <v-col cols="12">
                 <div class="label">{{$t('bodyParts.dialog.description')}}</div>
                 <v-textarea
-                  v-model="create_bodyParts.description"
+                  v-model="newDialog.description"
                   outlined
                   hide-details
                   class="rounded-lg base"
@@ -162,6 +162,7 @@
             {{ $t("bodyParts.dialog.cancelBtn") }}
           </v-btn>
           <v-btn
+            v-if="newDialog.title==='new'"
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#544B99"
             dark
@@ -170,61 +171,20 @@
           >
             {{ $t("bodyParts.dialog.createBtn") }}
           </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-    <v-dialog v-model="edit_dialog" width="580">
-      <v-card>
-        <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">
-            {{ $t("bodyParts.dialog.editDialog") }}
-          </div>
-          <v-btn icon color="#544B99" @click="edit_dialog = false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-card-title>
-        <v-card-text class="mt-4">
-          <v-form ref="new_form">
-            <v-text-field
-              v-model="edit_bodyParts.partName"
-              filled
-              :label="$t('bodyParts.dialog.name')"
-              :placeholder="$t('bodyParts.dialog.enterMainName')"
-              dense
-              color="#544B99"
-            />
-            <v-textarea
-              v-model="edit_bodyParts.description"
-              filled
-              :label="$t('bodyParts.dialog.description')"
-              :placeholder="$t('bodyParts.dialog.descriptionPlacholder')"
-              dense
-              color="#544B99"
-            />
-          </v-form>
-        </v-card-text>
-        <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
-            class="rounded-lg text-capitalize font-weight-bold"
-            outlined
-            color="#544B99"
-            width="163"
-            @click="edit_dialog = false"
-          >
-            {{ $t("bodyParts.dialog.cancelBtn") }}
-          </v-btn>
-          <v-btn
+            v-else
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#544B99"
             dark
             width="163"
             @click="update"
           >
-            {{ $t("update") }}
+            Update
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
+    
     <v-dialog v-model="delete_dialog" max-width="500">
       <v-card class="pa-4 text-center">
         <div class="d-flex justify-center mb-2">
@@ -279,12 +239,12 @@ export default {
       headers: [
         {
           text: this.$t("samplePurposes.table.id"),
-          value: "id",
+          value: "departmentId",
           align: "start",
           sortable: false,
           width: "100",
         },
-        { text: this.$t("samplePurposes.table.name"), value: "partName" },
+        { text: this.$t("samplePurposes.table.name"), value: "name" },
         {
           text: this.$t("samplePurposes.table.description"),
           value: "description",
@@ -304,17 +264,19 @@ export default {
           sortable: false,
         },
       ],
-      create_bodyParts: {
-        partName: "",
+      newDialog: {
+        name: "",
         description: "",
+        title:"new"
+
       },
       edit_bodyParts: {
-        partName: "",
+        name: "",
         description: "",
       },
       delete_bodyParts: {},
       filters: {
-        partName: "",
+        name: "",
         updatedAt: "",
         createdAt: "",
       },
@@ -342,67 +304,70 @@ export default {
   },
   computed: {
     ...mapGetters({
-      loading: "bodyParts/loading",
-      bodyParts: "bodyParts/bodyParts",
-      bodyPartsTotalElements: "bodyParts/bodyPartsTotalElements",
+      loading: "department/loading",
+      departmentList: "department/departmentList",
+      totalElements: "department/totalElements",
     }),
   },
   methods: {
     ...mapActions({
       getDepartmentList: "department/getDepartmentList",
-      createBodyParts: "bodyParts/createBodyParts",
-      updateBodyParts: "bodyParts/updateBodyParts",
-      deleteBodyParts: "bodyParts/deleteBodyParts",
+      createDepartment: "department/createDepartment",
+      updateDepartment: "department/updateDepartment",
+      deleteDepartment: "department/deleteDepartment",
       filterBodyParts: "bodyParts/filterBodyParts",
       sortBodyParts: "bodyParts/sortBodyParts",
     }),
     async size(val) {
       this.itemPrePage = val;
-      await this.$store.dispatch("bodyParts/getBodyParts", {
-        page: 0,
-        size: this.itemPrePage,
-      });
+      this.getDepartmentList({page:0,size:this.itemPrePage})
+
     },
     async page(val) {
       this.current_page = val - 1;
-      await this.$store.dispatch("bodyParts/getBodyParts", {
-        page: this.create_bodyParts,
-        size: this.itemPrePage,
-      });
+      this.getDepartmentList({page:this.current_page,size:this.itemPrePage})
+    },
+
+    async getDeleteItem(item) {
+      this.delete_bodyParts = { ...item };
+      this.delete_dialog = true;
     },
     async deleteBody() {
-      const id = this.delete_bodyParts.id;
-      await this.deleteBodyParts(id);
+      const id = this.delete_bodyParts.departmentId;
+      await this.deleteDepartment(id);
       this.delete_dialog = false;
     },
     async save() {
-      const items = { ...this.create_bodyParts };
-      await this.createBodyParts(items);
-      this.create_bodyParts = {
-        partName: "",
+      const items = { ...this.newDialog };
+      await this.createDepartment(items);
+      this.newDialog = {
+        name: "",
         description: "",
       };
       this.new_dialog = false;
     },
     async update() {
-      const items = { ...this.edit_bodyParts };
-      await this.updateBodyParts(items);
-      this.edit_dialog = false;
+      const items = { ...this.newDialog };
+      await this.updateDepartment(items);
+      
+      this.newDialog.name=""
+      this.newDialog.description=""
+      this.newDialog.departmentId=""
+      this.new_dialog = false;
+      this.newDialog.title="new"
     },
-    async getDeleteItem(item) {
-      this.delete_bodyParts = { ...item };
-      this.delete_dialog = true;
-    },
+    
     editItem(item) {
-      delete item.createdAt;
-      delete item.updatedAt;
-      this.edit_bodyParts = { ...item };
-      this.edit_dialog = true;
+      this.newDialog = { ...item };
+      this.newDialog.title="edit"
+      this.new_dialog = true;
     },
+
+    
     async resetFilters() {
       this.filters = {
         id: "",
-        partName: "",
+        name: "",
         updatedAt: "",
         createdAt: "",
       };
