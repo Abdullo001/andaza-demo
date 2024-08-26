@@ -470,6 +470,11 @@ export default {
                 to: this.localePath("/fabric-rework"),
                 localization: "fabricRework",
               },
+              {
+                title: "Department",
+                to: this.localePath("/department"),
+                localization: "department",
+              },
             ],
           },
           {
@@ -548,6 +553,11 @@ export default {
             localization: "warehouse",
             child: [],
             children: [
+              {
+                title: this.$t("sidebar.centralWarehouse"),
+                to: this.localePath("/central-warehouse"),
+                localization: "centralWarehouse",
+              },
               {
                 title: this.$t("sidebar.fabricWarehouse"),
                 to: this.localePath("/fabric-warehouse"),
