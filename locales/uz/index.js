@@ -6,6 +6,7 @@ export default {
   to: "Gacha",
   update: "Yangilash",
   sidebar: {
+      catalogs:"Kataloglar",
     setting: "Sozlamalar",
     report: "Hisobot",
     warehouse: "Ombor",
@@ -63,6 +64,17 @@ export default {
     printType: "Print turi",
     composition: "Mato Tarkibi",
     notification: "Bildirishnoma",
+    fabricRework: "Matoni qayta ishlash",
+    inspection: "Inspeksiya",
+    fabricOrdering: "Matoga buyurtma berish",
+    fabricWarehouse: "Mato ombori",
+    accessoryWarehouse: "Aksessuarlar ombori",
+    finishedProducts: "Tayyor kiyim ombori",
+    wastesWarehouse: " Chiqindilar ombori",
+    supplyWarehouse: "Ta'minot ombori",
+    secondaryWarehouse: "Ikkilamchi ombor",
+    ppg: "PPG",
+    
   },
   appBar: {
     search: "Qidirmoq",
@@ -1131,7 +1143,101 @@ export default {
       deleteText: "Ushbu hamkorni o'chirib tashlamoqchimisiz?",
       delete: "O'chirish",
     },
+    
   },
+   sizeTemplate: {
+    child: {
+      idSize: "O'lcham IDsi",
+      sizeName: "O'lcham nomi",
+      created: "Created",
+      Updated: "Updated",
+      reset: "reset",
+      search: "search",
+    },
+
+    table: {
+      mainMenu: "size template",
+      addSizeTemplate: "Add Size Template",
+      id: "id",
+      sizes: "O'lchamlar",
+      isTem: "is Template",
+      isRoman: "is Roman",
+      createdAt: "Created At",
+      updatedAt: "Updated at",
+      actions: "Actions",
+    },
+
+    dialog: {
+      addSizeTemp: "Add Size Template",
+      roman: "Roman",
+      template: "Template",
+      size: "O'lcham",
+      selectSize: "Select size",
+      addSize: "O'lcham qo'shish",
+      enterAddsize: "O'lcham kiriting",
+      cancel: "Bekor qilish",
+       enterSizeName: "O'lcham nomini kiriting",
+      createSize: "O'lcham yaratish",
+      add: "Qo'shish",
+      sava: "Save",
+      deleteDialog: "Delete Size",
+      deleteText: "Are you sure you want to Delete this size?",
+      delete: "Delete",
+    },
+
+  },
+  colorsBox:{
+    table:{
+      color:"Ranglar",
+      colorCode:"Rang kodi",
+      colorName:"Rang nomi",
+      colorCodeHex:"Rangning HEX kodi",
+      pantoneCode:"Panton kodi",
+      pantoneType:"Panton turi",      
+    },
+
+    dialog:{
+      addColor:"Rang qo'shish",
+      entercolorName:"Rang nomini kiriting",
+      entercolorCode:"Rang kodini kiriting",
+      codeApperance:"Rang kodi va ko'rinishi",
+      enterPantoneCode:"Panton kodini kiriting",
+
+    },
+  },
+   catalogAccessory:{
+    table:{
+      IdAccessory:"Aksessuar ID si",
+      accessoryName:"Aksessuar nomi",
+      specification:"Xususiyat",
+      measurementUnit:"O'lchov birligi",
+      accessoryType:"Aksessuar turi",
+      description:"Tavsif",
+
+    },
+    dialog:{
+      accessory:"Aksessuar",
+      addAccessory:"Aksessuar qo'shish",
+      nameAccessory:"Aksessuar nomi",
+      enterNameAccessory:"Aksessuar nomini kiriting",
+      addSpecification:"Xususiyat qo'shish",
+      enterSpecification:"Xususiyatni kiriting",
+      specifications:"Xususiyatlari",
+      enterDescription:"Tavsifni kiriting",
+      selectMeasurementUnit:"O'lchov birligini tanlang",
+
+    },
+
+  },
+   canvasType:{
+    idCanvasType:"ID Canvas type"
+  },
+  yarnNamber:{
+    idYArnNumber:"ID Yarn Number",
+    yarnType:"Yarn Type",
+
+  },
+
   forms: {
     index: {
       all: "Hammasi",
@@ -1284,6 +1390,158 @@ export default {
       daily: "Kundalik ishlab chiqarish",
       monthly: "Oylik ishlab chiqarish",
       yearly: "Yillik ishlab chiqarish",
+    },
+  },
+   modelBox:{
+    table:{
+    no: "No",
+    client: "Mijoz",
+    style:"Uslub",
+    category:"Turkum",
+    inspectionDate:"Tekshirish sanasi",
+    daysLeftFl:"Yakuniy kunlar qoldi",
+    modelCreating:"Model yaratish",
+    priceCalculation:"Narxni hisoblash",
+    orderForming:"Buyurtmani shakllantirish",
+    addingPrint:"Pechat qo'shish",
+    fabricStatus:"Mato holati",
+    sampleStatus:"Namuna holati",
+    accessoryStatus:"Aksessuar holati",
+    cutting:"Kesish",
+    printing:"Pechat",
+    supplyWarehouse:"Ta'minot ombori",
+    sewing:"Tikuv",
+    packaging:"Qadoqlash",
+    readyGarmentWarehouse:"Tayyor kiyim ombori",
+    finalInspection:"Yakuniy tekshirish",
+    shipment:"Yuklama",
+    },
+    dialog:{
+
+      add: "Qo'shish",
+      enterPartnerName: "Hamkor nomini kiriting",
+      brandName:"Brend nomi",
+      selectBrandName:"Brend nomini tanlang",
+      fabricName:"Mato nomi",
+      enterCanvasType:"Mato turini kiriting",
+      composition:"Tarkibi",
+      mainFabricDensity:"Asosiy mato zichligi",
+      density:"Zichlik",
+      inspectionDate:"Tekshirish sanasi",
+      plannedOrderQuality:"Rejalashtirilgan buyurtma sifati",
+      enterPlannedOrderQuality:"Rejalashtirilgan buyurtma sifatini kiriting",
+      showDetail:"Tafsilotni ko'rsatish",
+      hideDetail:"Tafsilotlarni yashirish",
+      finishProccess:"Yakunlash",
+     
+
+    },
+    modelPartsBox:{
+       modelParts:"Model qismlari",
+      addPart: "Qism qo'shing",
+      partName:"Qism nomi",
+      yarnNumber:"Ip raqami",
+      canvasType:"Mato turi",
+      comment:"Izoh",
+      creator:"Yaratuvchi",
+       addModelPart:"Model qismlarini qo'shing",
+      enterBodyPart:"Tana qismini kiriting",
+      enterPartName:"Qism nomini kiriting",
+      enterYarnNumber:"Ip raqamini kiriting",
+      enterCanvasType:"Mato turini kiriting",
+      enterComposition:"Tarkibni kiriting",
+      enterDescription:"Tavsifni kiritingn",
+    },
+    measurementListBox:{
+    measurementList:"O'lchovlar ro'yxati",
+    sizeTemplate:"O'lchov shabloni",
+    sizeChart:"O'lcham jadvali",
+    code:"Kod",
+    sizeName:"O'lcham nomi",
+    gradation:"Gradatsiya",
+    tolerance:"Cho'ziluvchanlik",
+    shrinked:"Qisqarish",
+    comment:"Izoh",
+    date:"Sana",
+   
+
+    },
+    printingBox:{
+      printing:"Pechat",
+      photoModel:"Modelning fotosurati",
+      printType:"Pechat turi",
+      colorQuality:"Rang sifati",
+      printPartnerName:"Pechat hamkori nomi",
+      price:"Narxi",
+      currency:"Valyuta",
+      simpleSendDate:"Oddiy yuborish sanasi",
+      
+    },
+    documentBox:{
+      document:"Hujjat",
+      uploadDocument:"Hujjatni yuklash",
+      documentName:"Hujjat nomi",
+      type:"Turi",
+      uploader:"Yuklovchi",
+      clear:"TOZLASH",
+      save:"SAQLASH",
+      delete:"OʻCHIRISH",
+      addDocument:"Hujjat qo'shing",
+      selectDocument:"Hujjatni tanlang",
+      title:"Sarlavha",
+      enterDocumentName:"Hujjat nomini kiriting",
+
+  
+    },
+    instruction:{
+      generalInstruct:"Umumiy ko'rsatma",
+      sewingInstruct:"Tikuv bo'yicha ko'rsatma",
+      sampleInstruct:"Ko'rsatma namunasi",
+      fabricInstruct:"Mato bo'yicha ko'rsatma",
+      packagingInstruct:"Qadoqlash bo'yicha ko'rsatma",
+      accessoryInstruct:"Aksessuarlar bo'yicha ko'rsatma",
+      printInstruct:"Pechat bo'yicha ko'rsatma",
+
+    },
+
+
+    
+  },
+   inspectionBox:{
+    clientName:"Mijoz nomi",
+   plannedInspectionDate:"Rejalashtirilgan tekshirish sanasi",
+    inspectionDate:"Tekshirish sanasi",
+    titleDoc:"Hujjat nomi",
+    model:"Model raqami",
+    clientName:"Mijoz nomi",
+    modelInspection:"Model tekshiruvlari",
+    addInspection:"Tekshirish qo'shing",
+    
+  },
+   orderBox:{
+    index:{
+      orderNum:"Buyurtma raqami",
+      modelGroup:"Model guruhi",
+      printForms:"Pechat shakllari",
+      placedOrderForm:"Qabul qilingan buyurtma shakli",
+      addOrder:"Buyurtma qo'shing",
+      deadline:"Topshirish muddati",
+   },
+   add:{
+    enterOrderNumber:"Buyurtma raqamini kiriting",
+    headProductDep:"Ishlab chiqarish bo'limi boshlig'i",
+    enterRespPerson:"Mas'ul shaxsni kiriting",
+    overProduct:"Ortiqcha ishlab chiqarish",
+    enterOverproduction:"Ortiqcha ishlab chiqarishni kiriting",
+    priceDiscount:"Chegirma bilan narxi",
+    total:"Jami",
+    orderDate:"Buyurtma sanasi",
+    orderpriority:"Buyurtma ustuvorligi",
+    plannedAccess:"1 to'plam uchun rejalashtirilgan aksessuar xarajatlari",
+    modeifiedPerson:"O'zgartirilgan shaxs",
+    updatedTime:"Yangilangan vaqt",
+    updatedAt:"Yangilangan",
+
     },
   },
 };

@@ -6,7 +6,7 @@
           <v-col cols="12" lg="2" md="2">
             <v-text-field
               v-model="filter_accessory.id"
-              label="ID Accessory"
+              :label="$t('catalogAccessory.table.IdAccessory')"
               outlined
               class="rounded-lg filter"
               hide-details
@@ -17,7 +17,7 @@
           <v-col cols="12" lg="2" md="2">
             <v-text-field
               v-model="filter_accessory.name"
-              label="Accessory name"
+              :label="$t('catalogAccessory.table.accessoryName')"
               outlined
               class="rounded-lg filter"
               hide-details
@@ -30,7 +30,7 @@
               style="width: 100%"
               v-model="filter_accessory.createdAt"
               type="datetime"
-              placeholder="Created"
+               :placeholder="$t('measurementUnit.child.created')"
               class="filter_picker"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
@@ -42,7 +42,7 @@
               style="width: 100%"
               v-model="filter_accessory.updatedAt"
               type="datetime"
-              placeholder="Updated"
+             :placeholder="$t('measurementUnit.child.updated')"
               class="filter_picker"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
@@ -60,7 +60,7 @@
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
-                Reset
+                {{ $t("partners.child.reset") }}
               </v-btn>
               <v-btn
                 width="140"
@@ -70,7 +70,7 @@
                 class="text-capitalize rounded-lg"
                 @click="filterData"
               >
-                Search
+                 {{ $t("partners.child.search") }}
               </v-btn>
             </div>
           </v-col>
@@ -93,7 +93,7 @@
       <template #top>
         <v-toolbar elevation="0" class="rounded-lg">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium text-capitalize">Accessory</div>
+            <div class="font-weight-medium text-capitalize">{{ $t("catalogAccessory.dialog.accessory") }}</div>
             <v-btn
               color="#544B99"
               class="rounded-lg text-capitalize"
@@ -101,7 +101,7 @@
               @click="new_dialog = true"
             >
               <v-icon>mdi-plus</v-icon>
-              Add Accessory
+              {{ $t("catalogAccessory.dialog.addAccessory") }}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -124,7 +124,7 @@
     <v-dialog v-model="new_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Add Accessory</div>
+          <div class="text-capitalize font-weight-bold"> {{ $t("catalogAccessory.dialog.addAccessory") }}</div>
           <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -133,7 +133,7 @@
           <v-form ref="new_form" lazy-validation v-model="validate">
             <v-row>
               <v-col cols="12" lg="6">
-                <div class="label">Name accessory</div>
+                <div class="label">{{ $t("catalogAccessory.table.accessoryName") }}</div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="create_accessory.name"
@@ -142,12 +142,12 @@
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  placeholder="Enter Name accessory"
+                  :placeholder="$t('catalogAccessory.dialog.enterNameAccessory')"
                   color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Measurement unit</div>
+                <div class="label">{{ $t("catalogAccessory.table.measurementUnit") }}</div>
                 <v-select
                   v-model="create_accessory.measurementUnitId"
                   :items="measurement"
@@ -161,17 +161,17 @@
                   dense
                   item-text="name"
                   item-value="id"
-                  placeholder="Select Measurement unit"
+                  :placeholder="$t('catalogAccessory.dialog.selectMeasurementUnit')"
                   append-icon="mdi-chevron-down"
                   color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="7">
-                <div class="label">Add Specification</div>
+                <div class="label">{{ $t("catalogAccessory.dialog.addSpecification") }}</div>
                 <v-text-field
                   v-model="specification"
                   color="#544B99"
-                  placeholder="Enter specification"
+                  :placeholder="$t('catalogAccessory.dialog.enterSpecification')"
                   outlined
                   hide-details
                   height="44"
@@ -188,12 +188,12 @@
                   dark
                 >
                   <v-icon>mdi-plus</v-icon>
-                  Add Specification
+                 {{ $t("catalogAccessory.dialog.addSpecification") }}
                 </v-btn>
               </v-col>
 
               <v-col cols="12">
-                <div class="label">Specifications</div>
+                <div class="label">{{ $t("catalogAccessory.dialog.specifications") }}</div>
                 <v-autocomplete
                   chips
                   multiple
@@ -226,7 +226,7 @@
               </v-col>
 
               <v-col cols="12">
-                <div class="label">Description</div>
+                <div class="label">{{ $t("catalogAccessory.table.description") }}</div>
                 <v-textarea
                   v-model="create_accessory.description"
                   outlined
@@ -235,7 +235,7 @@
                   rows="1"
                   dense
                   auto-grow
-                  placeholder="Enter Description"
+                   :placeholder="$t('catalogAccessory.dialog.enterDescription')"
                   color="#544B99"
                 />
               </v-col>
@@ -250,7 +250,7 @@
             width="163"
             @click="new_dialog = false"
           >
-            cancel
+            {{ $t("sizeTemplate.dialog.cancel")}}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -259,7 +259,7 @@
             width="163"
             @click="save"
           >
-            Add
+            {{ $t("sizeTemplate.dialog.add")}}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -478,15 +478,15 @@ export default {
       new_dialog: false,
       delete_dialog: false,
       headers: [
-        { text: "Id", value: "id", sortable: false },
-        { text: "Name", value: "name", sortable: false },
-        { text: "Specification", value: "specification", sortable: false },
-        { text: "Measurement unit", value: "measurementUnit", sortable: false },
-        { text: "Accessory Type", value: "accessoryType", sortable: false },
-        { text: "CreatedAt", value: "createdAt", sortable: false },
-        { text: "Description", value: "description", sortable: false },
-        { text: "UpdatedAt", value: "updatedAt", sortable: false },
-        { text: "Actions", value: "actions", align: "center", sortable: false },
+        { text: this.$t("sizeTemplate.table.id"),  value: "id", sortable: false },
+        { text:this.$t("samplePurposes.table.name"), value: "name", sortable: false },
+        { text: this.$t("catalogAccessory.table.specification"), value: "specification", sortable: false },
+        { text:  this.$t("catalogAccessory.table.measurementUnit"), value: "measurementUnit", sortable: false },
+        { text:  this.$t("catalogAccessory.table.accessoryType"), value: "accessoryType", sortable: false },
+        { text: this.$t("samplePurposes.table.createdAt"), value: "createdAt", sortable: false },
+        { text:  this.$t("catalogAccessory.table.description"), value: "description", sortable: false },
+        { text: this.$t("samplePurposes.table.updatedAt"), value: "updatedAt", sortable: false },
+        { text: this.$t("samplePurposes.table.actions"), value: "actions", align: "center", sortable: false },
       ],
       specificationList:[],
 
@@ -609,7 +609,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.commit("setPageTitle", "Catalogs");
+    this.$store.commit("setPageTitle",this.$t('sidebar.catalogs'));
   },
 };
 </script>

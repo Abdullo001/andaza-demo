@@ -83,7 +83,7 @@
                   :return-object="true"
                   color="#544B99"
                   dense
-                  placeholder="Enter partner name"
+                  :placeholder="$t('modelBox.dialog.enterPartnerName')"
                   append-icon="mdi-chevron-down"
                   :rules="[formRules.required]"
                   validate-on-blur
@@ -97,7 +97,7 @@
         <v-row :class="showObject">
           
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Brand name</div>
+            <div class="label">{{ $t("modelBox.dialog.brandName") }}</div>
             <v-select
               v-model="model.brandName"
               :items="brandList"
@@ -108,12 +108,12 @@
               dense
               append-icon="mdi-chevron-down"
               style="max-width: 400px"
-              placeholder="Select brand name"
+              :placeholder="$t('modelBox.dialog.selectBrandName')"
               color="#544B99"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Fabric name</div>
+            <div class="label">{{ $t("modelBox.dialog.fabricName") }}</div>
             <v-combobox
                   v-model="model.canvasTypeId"
                   :items="canvasTypeList"
@@ -127,7 +127,7 @@
                   :return-object="true"
                   color="#544B99"
                   dense
-                  placeholder="Enter canvas type"
+                 :placeholder="$t('modelBox.dialog.enterCanvasType')"
                   append-icon="mdi-chevron-down"
                   :rules="[formRules.required]"
                   validate-on-blur
@@ -138,7 +138,7 @@
             </v-combobox>
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">{{$t('listsModels.child.composition')}}</div>
+            <div class="label">{{ $t("modelBox.dialog.composition") }}</div>
             <v-select
               :items="compositionList"
               item-text="name"
@@ -157,7 +157,7 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Main fabric density (gr/m2)</div>
+            <div class="label">{{ $t("modelBox.dialog.mainFabricDensity") }} (gr/m2)</div>
             <v-text-field
               v-model="model.mainFabricDensity"
               outlined
@@ -166,14 +166,14 @@
               height="44"
               dense
               style="max-width: 400px"
-              placeholder="Density"
+               :placeholder="$t('modelBox.dialog.density')"
               color="#544B99"
             />
           </v-col>
           
           
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Fabric rework</div>
+            <div class="label">{{ $t("sidebar.fabricRework") }}</div>
             <v-select
               v-model="model.fabricReworkId"
               outlined
@@ -185,7 +185,7 @@
               item-value="id"
               append-icon="mdi-chevron-down"
               style="max-width: 400px"
-              placeholder="Fabric rework"
+              :placeholder="$t('sidebar.fabricRework')"
               color="#544B99"
             />
           </v-col>
@@ -223,7 +223,7 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Inspection date</div>
+            <div class="label">{{ $t("modelBox.table.inspectionDate") }}</div>
             <div style="height: 44px !important">
               <el-date-picker
                 v-model="model.inspectionDate"
@@ -238,7 +238,7 @@
             </div>
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Planned order quantity</div>
+            <div class="label">{{ $t("modelBox.dialog.plannedOrderQuality") }}</div>
             <v-text-field
               v-model="model.orderedQuantity"
               outlined
@@ -247,7 +247,7 @@
               height="44"
               color="#544B99"
               dense
-              placeholder="Enter the planned order quantity"
+              :placeholder="$t('modelBox.dialog.enterPlannedOrderQuality')"
               append-icon=""
             />
           </v-col>

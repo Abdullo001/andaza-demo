@@ -6,7 +6,7 @@
           <v-col cols="12" lg="2" md="2">
             <v-text-field
               v-model="filter_size.id"
-              label="ID size"
+              :label="$t('sizeTemplate.child.idSize')"
               outlined
               class="rounded-lg filter"
               hide-details
@@ -17,7 +17,7 @@
           <v-col cols="12" lg="2" md="2">
             <v-text-field
               v-model="filter_size.name"
-              label="Size name"
+              :label="$t('sizeTemplate.child.sizeName')"
               outlined
               class="rounded-lg filter"
               hide-details
@@ -31,7 +31,7 @@
               style="width: 100%"
               type="datetime"
               class="filter_picker"
-              placeholder="Created"
+              :placeholder="$t('measurementUnit.child.created')"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
             >
@@ -43,7 +43,7 @@
               style="width: 100%"
               class="filter_picker"
               type="datetime"
-              placeholder="Updated"
+             :placeholder="$t('measurementUnit.child.updated')"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
             >
@@ -60,7 +60,7 @@
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
-                Reset
+               {{ $t("partners.child.reset") }}
               </v-btn>
               <v-btn
                 width="140"
@@ -70,7 +70,7 @@
                 class="text-capitalize rounded-lg"
                 @click="filterData"
               >
-                Search
+                {{ $t("partners.child.search") }}
               </v-btn>
             </div>
           </v-col>
@@ -93,7 +93,7 @@
       <template #top>
         <v-toolbar elevation="0" class="rounded-lg">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium text-capitalize">Size</div>
+            <div class="font-weight-medium text-capitalize">{{ $t("sizeTemplate.dialog.size") }}</div>
             <v-btn
               color="#544B99"
               class="rounded-lg text-capitalize"
@@ -101,7 +101,8 @@
               @click="new_dialog = true"
             >
               <v-icon>mdi-plus</v-icon>
-              Add Size
+             {{$t("sizeTemplate.dialog.addSize")}}
+          
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -118,7 +119,7 @@
         </div>
       </template>
     </v-data-table>
-    <v-dialog v-model="new_dialog" width="580">
+    <v-dialog v-model="new_dialog" width="830">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Create Size</div>
@@ -130,11 +131,11 @@
           <v-form ref="new_form" v-model="validate" lazy-validation>
             <v-row>
               <v-col cols="12">
-                <div class="label">Size name</div>
+                <div class="label">{{ $t("sizeTemplate.child.sizeName")}}</div>
                 <v-text-field
                   v-model="create_size.name"
                   color="#544B99"
-                  placeholder="Enter size name"
+                  :placeholder="$t('sizeTemplate.dialog.enterSizeName')"
                   outlined
                   hide-details
                   height="44"
@@ -143,11 +144,11 @@
                 />
               </v-col>
               <v-col cols="12" md="9">
-                <div class="label">Add Size</div>
+                <div class="label">{{ $t("sizeTemplate.dialog.addSize")}}</div>
                 <v-text-field
                   v-model="add_size.size"
                   color="#544B99"
-                  placeholder="Enter Add size"
+                  :placeholder="$t('sizeTemplate.dialog.addSize')"
                   outlined
                   hide-details
                   height="44"
@@ -163,11 +164,11 @@
                   dark
                 >
                   <v-icon>mdi-plus</v-icon>
-                  Add Size
+                 {{ $t("sizeTemplate.dialog.addSize")}}
                 </v-btn>
               </v-col>
               <v-col cols="12">
-                <div class="label">Size</div>
+                <div class="label">{{ $t("sizeTemplate.dialog.size")}}</div>
                 <v-autocomplete
                   :rules="[formRules.required]"
                   chips
@@ -196,7 +197,7 @@
             width="163"
             @click="new_dialog = false"
           >
-            cancel
+           {{ $t("sizeTemplate.dialog.cancel")}}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -205,7 +206,7 @@
             width="163"
             @click="save"
           >
-            Add
+            {{ $t("sizeTemplate.dialog.add")}}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -374,12 +375,12 @@ export default {
       new_dialog: false,
       delete_dialog: false,
       headers: [
-        { text: "ID", value: "id", sortable: false },
-        { text: "Name", value: "name", sortable: false },
-        { text: "Sizes", value: "sizes", sortable: false },
-        { text: "CreatedAt", value: "createdAt", sortable: false },
-        { text: "UpdatedAt", value: "updatedAt", sortable: false },
-        { text: "Actions", value: "actions", align: "center", sortable: false },
+        { text: this.$t("sizeTemplate.table.id"), value: "id", sortable: false },
+        { text:  this.$t("samplePurposes.table.name"), value: "name", sortable: false },
+        { text: this.$t("sizeTemplate.table.sizes"), value: "sizes", sortable: false },
+        { text:this.$t("samplePurposes.table.createdAt"), value: "createdAt", sortable: false },
+        { text: this.$t("samplePurposes.table.updatedAt"), value: "updatedAt", sortable: false },
+        { text: this.$t("samplePurposes.table.actions"), value: "actions", align: "center", sortable: false },
       ],
     };
   },
@@ -482,7 +483,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.commit("setPageTitle", "Catalogs");
+    this.$store.commit("setPageTitle", this.$t('sidebar.catalogs'));
   },
 };
 </script>

@@ -10,7 +10,7 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="w-full d-flex">
-            Printing
+            {{ $t("modelBox.printingBox.printing") }}
             <v-spacer/>
             <v-btn
               class="text-capitalize rounded-lg"
@@ -439,17 +439,17 @@ export default {
       print_types: ['Material', 'test', 'test 2'],
       currency: ['USD', 'RUB', 'UZS'],
       headers: [
-        {text: 'Photo of Model', align: 'start', sortable: false, value: 'photo', width: 180},
-        {text: 'Print type', align: 'start', sortable: false, value: 'printType', width: 180},
-        {text: 'Color quantity', sortable: false, value: 'colorQuantity'},
-        {text: 'Print partner name', sortable: false, value: 'partner'},
-        {text: 'Price', sortable: false, value: 'price'},
-        {text: 'Currency', sortable: false, value: 'currency', width: 100},
-        {text: 'Simple send date', sortable: false, value: 'sendDate'},
-        {text: 'Comment', sortable: false, value: 'description'},
-        {text: 'Creator', sortable: false, value: 'createdBy'},
-        {text: 'Date', sortable: false, value: 'updatedAt'},
-        {text: 'Actions', sortable: false, value: 'actions'},
+        {text:  this.$t('modelBox.printingBox.photoModel'), align: 'start', sortable: false, value: 'photo', width: 180},
+        {text:  this.$t('modelBox.printingBox.printType'), align: 'start', sortable: false, value: 'printType', width: 180},
+        {text:  this.$t('modelBox.printingBox.colorQuality'), sortable: false, value: 'colorQuantity'},
+        {text:  this.$t('modelBox.printingBox.printPartnerName'), sortable: false, value: 'partner'},
+        {text:  this.$t('modelBox.printingBox.price'), sortable: false, value: 'price'},
+        {text:  this.$t('modelBox.printingBox.currency'), sortable: false, value: 'currency', width: 100},
+        {text:  this.$t('modelBox.printingBox.simpleSendDate'), sortable: false, value: 'sendDate'},
+        {text:  this.$t('modelBox.modelPartsBox.comment'), sortable: false, value: 'description'},
+        {text:  this.$t('modelBox.modelPartsBox.creator'), sortable: false, value: 'createdBy'},
+        {text:  this.$t('modelBox.measurementListBox.date'), sortable: false, value: 'updatedAt'},
+        {text:  this.$t("catalogGroups.tabs.table.actions"), sortable: false, value: 'actions'},
       ],
       dialogTitle: '',
       newPrints: {

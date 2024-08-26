@@ -94,7 +94,7 @@ export default {
   },
   data() {
     return {
-      items: ['General instruct', 'Sewing instruct', 'Sample instruct', 'Fabric instruct', 'Packaging instruct', 'Accessory instruct', 'Print instruct'],
+      items: [this.$t('modelBox.instruction.generalInstruct'),this.$t('modelBox.instruction.sewingInstruct'),this.$t('modelBox.instruction.sampleInstruct'),this.$t('modelBox.instruction.fabricInstruct'), this.$t('modelBox.instruction.packagingInstruct'), this.$t('modelBox.instruction.accessoryInstruct'), this.$t('modelBox.instruction.printInstruct')],
       tab: null,
     }
   },

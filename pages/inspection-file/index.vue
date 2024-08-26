@@ -7,7 +7,7 @@
             <v-col cols="12" lg="2" md="2">
               <v-text-field
                 v-model.trim="filters.modelNumber"
-                :label="$t('listsModels.dialog.modelN')"
+                :label="$t('inspectionBox.model')"
                 outlined validate-on-blur
                 dense hide-details
                 class="rounded-lg filter"
@@ -17,7 +17,7 @@
             <v-col cols="12" lg="2" md="2">
               <v-text-field
                 v-model.trim="filters.clientName"
-                label="Client name"
+                :label="$t('inspectionBox.clientName')"
                 outlined validate-on-blur
                 dense hide-details
                 class="rounded-lg filter"
@@ -68,7 +68,7 @@
         <v-toolbar-title
           class="d-flex w-full align-center justify-space-between"
         >
-          <div>Model inspections</div>
+          <div>{{$t('inspectionBox.modelInspection')}}</div>
           <div>
             
             <v-btn
@@ -78,7 +78,7 @@
               @click="addInspection"
             >
               <v-icon>mdi-plus</v-icon>
-              add Inspection
+              {{$t('inspectionBox.addInspection')}}
             </v-btn>
           </div>
         </v-toolbar-title>
@@ -120,13 +120,13 @@ export default {
       },
       list:[],
       headers:[
-        {text:"Model No.",value:"modelNumber",sortable:false},
-        {text:"Client name",value:"clientName",sortable:false},
-        {text:"Sent date",value:"sendDate",sortable:false},
-        {text:"Status",value:"result",sortable:false},
-        {text:"Created By",value:"createdBy",sortable:false},
-        {text:"Created At",value:"createdAt",sortable:false},
-        {text:"Actions",value:"action",sortable:false},
+        {text:this.$t('inspectionBox.model'),value:"modelNumber",sortable:false},
+        {text:this.$t('inspectionBox.clientName'),value:"clientName",sortable:false},
+        {text:this.$t('modelBox.printingBox.simpleSendDate'),value:"sendDate",sortable:false},
+        {text: this.$t('partners.table.status'),value:"result",sortable:false},
+        {text: this.$t('modelBox.modelPartsBox.creator'),value:"createdBy",sortable:false},
+        {text:this.$t("catalogGroups.tabs.table.createdAt"),value:"createdAt",sortable:false},
+        {text: this.$t("catalogGroups.tabs.table.actions"),value:"action",sortable:false},
       ],
       itemPerPage:10,
       currentPage:0,
