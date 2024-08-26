@@ -2,13 +2,13 @@
   <div>
     <v-card elevation="0">
       <v-card-title>
-        <div>Inspection Files</div>
+        <div>{{ $t('forms.index.cards.inspectionFiles') }} </div>
         <v-spacer />
       </v-card-title>
       <v-card-text>
         <v-row align="center" justify="center">
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Model number</div>
+            <div class="label">{{$t('listsModels.child.modelNumber')}}</div>
             <v-combobox
               :disabled="this.$route.params.id!=='add-inspection'"
               v-model="modelNumber"
@@ -23,7 +23,7 @@
               item-text="modelNumber"
               item-value="id"
               outlined
-              placeholder="Enter model number"
+               :placeholder="$t('listsModels.child.enterModelNumber')"
               prepend-icon=""
               @change="e=>modelChange(e)"
             >
@@ -74,7 +74,7 @@
               height="44"
               dense
               style="max-width: 400px"
-              placeholder="client name"
+              :placeholder="$t('inspectionBox.clientName')"
               color="#544B99"
               disabled
             />
@@ -82,7 +82,7 @@
           </v-row>
           <v-row :class="showObject">
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Brand name</div>
+              <div class="label">{{ $t("modelBox.dialog.brandName") }}</div>
               <v-text-field
                 v-model="model.brandName"
                 outlined
@@ -91,13 +91,13 @@
                 height="44"
                 dense
                 style="max-width: 400px"
-                placeholder="Brand name"
+                :placeholder="$t('modelBox.dialog.selectBrandName')"
                 color="#544B99"
                 disabled
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Fabric name</div>
+              <div class="label">{{ $t("modelBox.dialog.fabricName") }}</div>
 
               <v-text-field
                 v-model="model.canvasType"
@@ -107,13 +107,13 @@
                 height="44"
                 dense
                 style="max-width: 400px"
-                placeholder="fabric name"
+                :placeholder="$t('modelBox.dialog.enterCanvasType')"
                 color="#544B99"
                 disabled
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">{{$t('listsModels.child.composition')}}</div>
+              <div class="label">{{ $t("modelBox.dialog.composition") }}</div>
               <v-text-field
                 v-model="model.composition"
                 outlined
@@ -128,7 +128,7 @@
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Main fabric density (gr/m2)</div>
+              <div class="label">{{ $t("modelBox.dialog.mainFabricDensity") }} (gr/m2)</div>
               <v-text-field
                 v-model="model.mainFabricDensity"
                 outlined
@@ -137,13 +137,13 @@
                 height="44"
                 dense
                 style="max-width: 400px"
-                placeholder="Density"
+                :placeholder="$t('modelBox.dialog.density')"
                 color="#544B99"
                 disabled
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Fabric rework</div>
+              <div class="label">{{ $t("sidebar.fabricRework") }}</div>
               <v-text-field
                 v-model="model.rework"
                 outlined
@@ -152,7 +152,7 @@
                 height="44"
                 dense
                 style="max-width: 400px"
-                placeholder="Fabric rework"
+               :placeholder="$t('sidebar.fabricRework')"
                 color="#544B99"
                 disabled
               />
@@ -171,7 +171,7 @@
                 item-text="text"
                 append-icon="mdi-chevron-down"
                 style="max-width: 400px"
-                placeholder="Season"
+                :placeholder="$t('listsModels.child.season')"
                 color="#544B99"
                 disabled
               />
@@ -186,13 +186,13 @@
                 height="44"
                 dense
                 style="max-width: 400px"
-                placeholder="gender"
+               :placeholder="$t('listsModels.child.selectGender')"
                 color="#544B99"
                 disabled
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Planned inspection date</div>
+              <div class="label">{{ $t('inspectionBox.plannedInspectionDate') }}</div>
               <v-text-field
                 v-model="model.inspectionDate"
                 outlined
@@ -201,7 +201,7 @@
                 height="44"
                 dense
                 style="max-width: 400px"
-                placeholder="Inspection date"
+                :placeholder="$t('inspectionBox.inspectionDate')"
                 color="#544B99"
                 disabled
               />
@@ -278,7 +278,7 @@
                 hide-details
                 class="rounded-lg base"
                 dense
-                placeholder="Description"
+               :placeholder="$t('listsModels.child.enterDescription')"
                 color="#544B99"
                 disabled
               />
@@ -320,12 +320,12 @@ export default {
 
       items: [],
       headers: [
-        { text: "Send date", sortable: false, value: "sendDate" },
+        { text: this.$t('modelBox.printingBox.simpleSendDate'), sortable: false, value: "sendDate" },
         { text: "Title of document", sortable: false, value: "title" },
-        { text: "Description", sortable: false, value: "description" },
-        { text: "Status", sortable: false, value: "status" },
-        { text: "Created at", sortable: false, value: "createdAt" },
-        { text: "Actions", sortable: false, align: "center", value: "actions" },
+        { text: this.$t('listsModels.child.description'), sortable: false, value: "description" },
+        { text: this.$t('partners.table.status'), sortable: false, value: "status" },
+        { text: this.$t("catalogGroups.tabs.table.createdAt"),sortable: false, value: "createdAt" },
+        { text: this.$t("catalogGroups.tabs.table.actions"), sortable: false, align: "center", value: "actions" },
       ],
       newInspectionFile: {
         file: null,

@@ -4,7 +4,8 @@
     <v-card elevation="0">
       <v-card-title>
         <div>
-          Orders
+          {{ $t('sidebar.orders') }}
+
           <v-chip class="font-weight-bold ml-5" color="#10BF41" dark>{{ orderStatus }}</v-chip>
         </div>
         <v-spacer/>
@@ -14,7 +15,7 @@
         <v-form ref="order_detail" v-model="new_validate" lazy-validation>
           <v-row>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Order number</div>
+              <div class="label">{{$t('orderBox.index.orderNum')}}</div>
               <v-text-field
                 v-model="order.orderNumber"
                 class="rounded-lg base mb-4"
@@ -23,12 +24,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter order number"
+                :placeholder="$t('orderBox.add.enterOrderNumber')"
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Client name</div>
+              <div class="label">{{ $t('inspectionBox.clientName') }}</div>
               <v-text-field
                 v-model="order.client"
                 class="rounded-lg base mb-4"
@@ -38,12 +39,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder=" client name"
+                :placeholder=" $t('inspectionBox.clientName')"
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Model number</div>
+              <div class="label">{{ $t('prefinances.child.modelNumber') }}</div>
               <v-combobox
                 v-model="order.modelNumber"
                 :items="modelList"
@@ -57,7 +58,7 @@
                 item-text="modelNumber"
                 item-value="id"
                 outlined
-                placeholder="Enter model number"
+                :placeholder="$t('prefinances.child.enterModelNumber')"
                 prepend-icon=""
                 @change="(e) => setModelName(e)"
               >
@@ -69,7 +70,7 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Model name</div>
+              <div class="label">{{ $t('planningProduction.dialog.modelName') }}</div>
               <v-text-field
                 v-model="order.modelName"
                 class="rounded-lg base mb-4"
@@ -79,14 +80,14 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter"
+                :placeholder="$t('planningProduction.dialog.enterModelName')"
                 validate-on-blur
               />
             </v-col>
           </v-row>
           <v-row :class="showObject">
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Head of production depatment</div>
+              <div class="label">{{$t('orderBox.add.headProductDep')}}</div>
               <div class="search-field">
                 <v-combobox
                   v-model="order.headOfDepartment"
@@ -101,7 +102,7 @@
                   item-text="name"
                   item-value="id"
                   outlined
-                  placeholder="Enter responsible person"
+                  :placeholder="$t('orderBox.add.enterRespPerson')"
                   prepend-icon=""
                   style="margin-bottom:22px"
                 >
@@ -114,7 +115,7 @@
               </div>
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Over-production</div>
+              <div class="label">{{$t('orderBox.add.overProduct')}}</div>
               <v-text-field
                 v-model="order.overproductionPercent"
                 class="rounded-lg base mb-4"
@@ -123,13 +124,13 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter over production"
+                :placeholder="$t('orderBox.add.enterOverproduction')"
                 suffix="%"
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Price with discount</div>
+              <div class="label">{{$t('orderBox.add.priceDiscount')}}</div>
               <div class="d-flex align-center">
                 <v-text-field
                   v-model="order.priceWithDiscount"
@@ -160,7 +161,7 @@
               </div>
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Total</div>
+              <div class="label">{{$t('orderBox.add.total')}}</div>
               <div class="d-flex align-center">
                 <v-text-field
                   disabled
@@ -192,7 +193,7 @@
               </div>
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Order date</div>
+              <div class="label">{{$t('orderBox.add.orderDate')}}</div>
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="order.orderDate"
@@ -207,7 +208,7 @@
               </div>
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Deadline</div>
+              <div class="label">{{$t('orderBox.index.deadline')}}</div>
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="order.deadline"
@@ -222,7 +223,7 @@
               </div>
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Order priority</div>
+              <div class="label">{{$t('orderBox.add.orderpriority')}}</div>
               <v-select
                 v-model="order.priority"
                 :background-color="statusColor.priorityColor(order.priority)"
@@ -239,7 +240,7 @@
               />
             </v-col>
             <v-col cols="12" lg="3" md="3">
-              <div class="label">Planned Accessory expense for 1 set</div>
+              <div class="label">{{$t('orderBox.add.plannedAccess')}}</div>
               <div class="d-flex align-center">
                 <v-select
                   v-model="expenseGroupId"
@@ -286,7 +287,7 @@
               </div>
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Description</div>
+              <div class="label">{{$t('listsModels.child.description')}}</div>
               <v-textarea
                 v-model="order.description"
                 auto-grow
@@ -296,13 +297,13 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter description"
+                :placeholder="$t('listsModels.child.description')"
                 rows="1"
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Creator</div>
+              <div class="label">{{ $t('modelBox.modelPartsBox.creator') }}</div>
               <v-text-field
                 v-model="order.creator"
                 background-color="#F8F4FE"
@@ -313,14 +314,14 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter creator"
+                :placeholder="$t('modelBox.modelPartsBox.creator')"
                 readonly
                 validate-on-blur
               />
             </v-col>
 
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Created time</div>
+              <div class="label">{{ $t('catalogGroups.tabs.table.createdAt') }}</div>
               <v-text-field
                 v-model="order.createdTime"
                 background-color="#F8F4FE"
@@ -331,7 +332,7 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Created at"
+                :placeholder="$t('catalogGroups.tabs.table.createdAt')"
                 readonly
                 validate-on-blur
 
@@ -343,7 +344,7 @@
             </v-col>
 
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Modified person</div>
+              <div class="label">{{ $t('orderBox.add.modeifiedPerson') }}</div>
               <v-text-field
                 v-model="order.modifiedPerson"
                 background-color="#F8F4FE"
@@ -354,7 +355,7 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter Modified person"
+                :placeholder=" $t('orderBox.add.modeifiedPerson') "
                 readonly
                 validate-on-blur
 
@@ -363,7 +364,7 @@
 
 
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Updated time</div>
+              <div class="label">{{ $t('orderBox.add.updatedTime') }}</div>
               <v-text-field
                 v-model="order.updatedTime"
                 background-color="#F8F4FE"
@@ -374,7 +375,7 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Update at"
+                :placeholder="$t('orderBox.add.updatedAt')"
                 readonly
                 validate-on-blur
               >

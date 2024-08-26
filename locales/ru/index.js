@@ -6,6 +6,7 @@ export default {
   to: "С",
   update: "Обновлять",
   sidebar: {
+      catalogs:"Каталоги",
     setting: "Настройки",
     report: "Отчет",
     warehouse: "Склад",
@@ -41,7 +42,7 @@ export default {
     catalogGroups: "Каталог Группы",
     partners: "Партнеры",
     forms: "Формы",
-    sizeTemplate: "размера",
+    sizeTemplate: "Размера",
     canvasType: "Тип холста",
     colors: "Цвета",
     accessoryType: "Тип аксессуара",
@@ -54,6 +55,19 @@ export default {
     planningOfProduction: "Планирование производства",
     workingOperations: "Рабочие операции",
     notification: "Уведомление",
+    yarnNumbers: "Количество пряжи",
+    printType: "Тип печати",
+    fabricRework: "Переделка ткани",
+    inspection: "Инспекция",
+    fabricOrdering: "Заказ ткани",
+    fabricWarehouse: "Склад тканей",
+    accessoryWarehouse: "Склад аксессуаров",
+    finishedProducts: "Склад готовой одеждыi",
+    wastesWarehouse: "Склад отходов",
+    supplyWarehouse: "Склад расходных материалов",
+    secondaryWarehouse: "Вторичный склад",
+    ppg: "ППГ",
+    
   },
   appBar: {
     search: "Поиск",
@@ -1120,6 +1134,99 @@ export default {
       delete: "Удалить",
     },
   },
+   sizeTemplate: {
+    child: {
+      idSize: "ID Размера",
+      sizeName: "Название размера",
+      created: "Created",
+      Updated: "Updated",
+      reset: "reset",
+      search: "search",
+    },
+
+    table: {
+      mainMenu: "size template",
+      addSizeTemplate: "Add Size Template",
+      id: "Ид",
+      sizes: "Размери",
+      isTem: "is Template",
+      isRoman: "is Roman",
+      createdAt: "Created At",
+      updatedAt: "Updated at",
+      actions: "Actions",
+    },
+
+    dialog: {
+      addSizeTemp: "Add Size Template",
+      roman: "Roman",
+      template: "Template",
+      size: "Размер",
+      selectSize: "Select size",
+      addSize: "Добавить размер",
+      enterAddsize: "Введите размер",
+      cancel: "Отмена",
+       enterSizeName: "Введите название размера",
+      createSize: "Создать размер",
+      add: "Добавлять",
+      sava: "Save",
+      deleteDialog: "Delete Size",
+      deleteText: "Are you sure you want to Delete this size?",
+      delete: "Delete",
+    },
+    
+  },
+  colorsBox:{
+    table:{
+      color:"Цвета",
+      colorCode:"Код цвета",
+      colorName:"Название цвета",
+      colorCodeHex:"HEX код цвета",
+      pantoneCode:"Код Pantone",
+      pantoneType:"Тип Pantone",      
+    },
+
+    dialog:{
+      addColor:"Добавить цвет",
+      entercolorName:"Введите название цвета",
+      entercolorCode:"Введите код цвета",
+      codeApperance:"Код и вид цвета",
+      enterPantoneCode:"Введите код Pantone",
+
+    },
+  },
+   catalogAccessory:{
+    table:{
+      IdAccessory:"ID аксессуара",
+      accessoryName:"Название аксессуара",
+      specification:"Характеристика",
+      measurementUnit:"Единица измерения",
+      accessoryType:"Тип аксессуара",
+      description:"Описание",
+
+    },
+    dialog:{
+      accessory:"Аксессуар",
+      addAccessory:"Добавить аксессуар",
+      nameAccessory:"Название аксессуара",
+      enterNameAccessory:"Введите название аксессуара",
+      addSpecification:"Добавить спецификацию",
+      enterSpecification:"Введите спецификацию",
+      specifications:"Характеристики",
+      enterDescription:"Введите описание",
+      selectMeasurementUnit:"Выберите единицу измерения",
+
+    },
+
+  },
+   canvasType:{
+    idCanvasType:"ID Canvas type"
+  },
+  yarnNamber:{
+    idYArnNumber:"ID Yarn Number",
+    yarnType:"Yarn Type",
+
+  },
+
   forms: {
     index: {
       all: "Все",
@@ -1272,5 +1379,158 @@ export default {
       monthly: "Ежемесячное производство",
       yearly: "Годовой объем производства",
     },
+  },
+   modelBox:{
+    table:{
+    no: "Но",
+    client: "Клиент",
+    style:" Стиль",
+    category:" Категория",
+     inspectionDate:"Дата проверки",
+    daysLeftFl:"Окончательное количество дней",
+    modelCreating:"Создание модели",
+    priceCalculation:"Расчет цены",
+    orderForming:"Oreder forming",
+    addingPrint:"Добавление печат",
+    fabricStatus:"Статус ткани",
+    sampleStatus:"Статус образца",
+    accessoryStatus:"Статус аксессуара",
+    cutting:"Раскрой",
+    printing:"Печать",
+    supplyWarehouse:"Склад поставок",
+    sewing:"Шитье",
+    packaging:"Упаковка",
+    readyGarmentWarehouse:"Склад готовой одежды",
+    finalInspection:"Окончательный осмотр",
+    shipment:"Отгрузка",
+    },
+    dialog:{
+
+      add: "Добавить",
+      enterPartnerName: " Введите имя партнера",
+      brandName:"Название бренда",
+      selectBrandName:"Выберите название бренда",
+      fabricName:"Название ткани",
+      enterCanvasType:"Введите тип ткани",
+      composition:"Состав",
+      mainFabricDensity:"Основная плотность ткани",
+      density:"Плотность",
+      inspectionDate:"Дата проверки",
+      plannedOrderQuality:"Планируемое качество заказа",
+      enterPlannedOrderQuality:"Введите планируемое качество заказа",
+      showDetail:"Показать подробности",
+      hideDetail:"Скрыть подробности",
+      finishProccess:"Завершить",
+     
+
+    },
+    modelPartsBox:{
+       modelParts:"Детали модели",
+      addPart: "Добавить деталь",
+      partName:"Название детали",
+      yarnNumber:"Номер пряжи",
+      canvasType:"Тип ткани",
+      comment:"Комментарий",
+      creator:"Создатель",
+       addModelPart:"Добавить детали модели",
+      enterBodyPart:"Введите часть",
+      enterPartName:"Введите название детали",
+      enterYarnNumber:"Введите номер пряжи",
+      enterCanvasType:"Введите тип ткани",
+      enterComposition:"Введите состав",
+      enterDescription:"Введите описание",
+    },
+    measurementListBox:{
+    measurementList:"Список измерений",
+    sizeTemplate:"Шаблон размера",
+    sizeChart:"Таблица размеров",
+    code:"Код",
+    sizeName:"Название размера",
+    gradation:"Градация",
+    tolerance:"Растяжимость",
+    shrinked:"Усадка",
+    comment:"Комментарий",
+    date:"Дата",
+   
+
+    },
+    printingBox:{
+      printing:"Печать",
+      photoModel:"Фото модели",
+      printType:"Тип печати",
+      colorQuality:"Качество цвета",
+      printPartnerName:"Название партнера по печати",
+      price:"Цена",
+      currency:"Валюта",
+      simpleSendDate:"Простая дата отправки",
+      
+    },
+    documentBox:{
+      document:"Документ",
+      uploadDocument:"Загрузить документ",
+      documentName:"Название документа",
+      type:"Тип",
+      uploader:"Загрузчик",
+      clear:"ОЧИСТИТЬ",
+      save:"СОХРАНИТЬ",
+      delete:"УДАЛИТЬ",
+      addDocument:"Добавить документ",
+      selectDocument:"Выбрать документ",
+      title:"Заголовок",
+      enterDocumentName:"Введите название документа",
+
+    
+    },
+    instruction:{
+      generalInstruct:"Общая инструкция",
+      sewingInstruct:"Инструкция по шитью",
+      sampleInstruct:"Инструкция по образцу",
+      fabricInstruct:"Инструкция по ткани",
+      packagingInstruct:"Инструкция по упаковке",
+      accessoryInstruct:"Инструкция по аксессуарам",
+      printInstruct:"Инструкция по печать",
+
+    },
+
+
+    
+  },
+   inspectionBox:{
+    clientName:"Имя клиента",
+   plannedInspectionDate:"Планируемая дата проверки",
+    inspectionDate:"Дата проверки",
+    titleDoc:"Название документа",
+    model:"Номер модели",
+    clientName:"Имя клиента",
+    modelInspection:"Проверки модели",
+    addInspection:"Добавить проверку",
+    
+  },
+   orderBox:{
+    index:{
+      orderNum:"Номер заказа",
+      modelGroup:"Группа моделей",
+      printForms:"Печатные формы",
+      placedOrderForm:"Форма размещенного заказа",
+      addOrder:"Добавить заказ",
+      deadline:"Срок",
+   },
+   add:{
+    enterOrderNumber:"Введите номер заказа",
+    headProductDep:"Начальник производственного отдела",
+    enterRespPerson:"Введите ответственное лицо",
+    overProduct:"Перепроизводство",
+    enterOverproduction:"Введите перепроизводство",
+    priceDiscount:"Цена со скидкой",
+    total:"Итого",
+    orderDate:"Дата заказа",
+    orderpriority:"Приоритет заказа",
+    plannedAccess:"Плановый расход аксессуаров на 1 комплект",
+    modeifiedPerson:"Измененное лицо",
+    updatedTime:"Время обновления",
+    updatedAt:"Обновлено в",
+
+
+   },
   },
 };

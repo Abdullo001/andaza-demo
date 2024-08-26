@@ -1093,7 +1093,7 @@ export default {
     },
   },
   async mounted() {
-    await this.$store.commit("setPageTitle", "Catalogs");
+    await this.$store.commit("setPageTitle", this.$t('sidebar.catalogs'));
   },
 };
 </script>

@@ -20,7 +20,7 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="w-full d-flex">
-            <div class="title mr-6">Measurement list</div>
+            <div class="title mr-6">{{ $t("modelBox.measurementListBox.measurementList") }}</div>
             <v-menu
               :nudge-bottom="40"
               origin="center center"
@@ -36,7 +36,7 @@
                   v-on="on"
                   :disabled="!!allSizeChart.length"
                 >
-                  Size template
+                 {{ $t("modelBox.measurementListBox.sizeTemplate") }}
                 </v-btn>
               </template>
 
@@ -66,7 +66,7 @@
               dark
             >
               <v-icon>mdi-plus</v-icon>
-              size chart
+              {{ $t("modelBox.measurementListBox.sizeChart") }}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -100,7 +100,7 @@
                   dense
                   class="rounded-lg base"
                   validate-on-blur
-                  :placeholder="`Enter  ${el.text}`"
+                  :placeholder="`${el.text}`"
                   v-model="new_chart[el.value]"
                   color="#544B99"
                   :suffix="el.text === 'Shrinkage'?'%':null"
@@ -126,7 +126,8 @@
             width="140" height="40"
             @click="new_dialog=false"
           >
-            cancel
+          {{ $t("userManagement.dialog.cancel") }}
+
           </v-btn>
           <v-btn
             class="font-weight-bold text-capitalize rounded-lg ml-4"
@@ -134,7 +135,7 @@
             width="140" height="40"
             @click="saveChart"
           >
-            save
+            {{ $t("userManagement.dialog.add") }}
           </v-btn>
           <v-spacer/>
         </v-card-actions>
@@ -247,15 +248,15 @@ export default {
       currentTemplate: [],
       headers: [
         {text: '№', align: 'start', sortable: false, value: 'id'},
-        {text: 'Code', sortable: false, value: 'code'},
-        {text: 'Size name', sortable: false, value: 'sizeName'},
-        {text: 'Gradation', sortable: false, value: 'gradation'},
-        {text: 'Tolerance', sortable: false, value: 'deviation'},
-        {text: 'Shrinkage', sortable: false, value: 'shrinkagePercent'},
-        {text: 'Comment', sortable: false, value: 'description'},
-        {text: 'Creator', sortable: false, value: 'createdBy'},
-        {text: 'Date', sortable: false, value: 'updatedAt'},
-        {text: 'Actions', sortable: false, value: 'actions'},
+        {text: this.$t('modelBox.measurementListBox.code'), sortable: false, value: 'code'},
+        {text: this.$t('modelBox.measurementListBox.sizeName'), sortable: false, value: 'sizeName'},
+        {text: this.$t('modelBox.measurementListBox.gradation'), sortable: false, value: 'gradation'},
+        {text: this.$t('modelBox.measurementListBox.tolerance'), sortable: false, value: 'deviation'},
+        {text: this.$t('modelBox.measurementListBox.shrinked'), sortable: false, value: 'shrinkagePercent'},
+        {text: this.$t('modelBox.modelPartsBox.comment'),  sortable: false, value: 'description'},
+        {text: this.$t('modelBox.modelPartsBox.creator'), sortable: false, value: 'createdBy'},
+        {text:this.$t('modelBox.measurementListBox.date'), sortable: false, value: 'updatedAt'},
+        {text: this.$t("catalogGroups.tabs.table.actions"), sortable: false, value: 'actions'},
       ],
       sizeChartDialog: false,
       new_dialog: false,
