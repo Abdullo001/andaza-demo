@@ -7,7 +7,7 @@
             <v-col cols="12" lg="2" md="2">
               <v-text-field
                 v-model="filters.id"
-                placeholder="ID canvas type"
+                :placeholder="$t('canvasType.idCanvasType')"
                 outlined
                 validate-on-blur
                 dense
@@ -18,7 +18,7 @@
             <v-col cols="12" lg="2" md="2">
               <v-text-field
                 v-model="filters.name"
-                placeholder="Name"
+                :placeholder= "$t('samplePurposes.table.name')"
                 outlined
                 validate-on-blur
                 dense
@@ -31,7 +31,7 @@
                 v-model="filters.createdAt"
                 type="datetime"
                 class="rounded-lg d-block filter_picker"
-                placeholder="Created"
+                :placeholder="$t('measurementUnit.child.created')"
                 :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy HH:mm:ss"
               >
@@ -42,7 +42,7 @@
                 v-model="filters.updatedAt"
                 type="datetime"
                 class="rounded-lg d-block filter_picker"
-                placeholder="Updated"
+                 :placeholder="$t('measurementUnit.child.updated')"
                 :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy HH:mm:ss"
               >
@@ -59,7 +59,7 @@
                   @click="resetBtn"
                   class="text-capitalize mr-4 border-primary rounded-lg font-weight-bold"
                 >
-                  Reset
+                   {{ $t("partners.child.reset") }}
                 </v-btn>
                 <v-btn
                   width="140"
@@ -69,7 +69,7 @@
                   @click="filterBtn"
                   class="text-capitalize rounded-lg font-weight-bold"
                 >
-                  Search
+                  {{ $t("partners.child.search") }}
                 </v-btn>
               </div>
             </v-col>
@@ -348,12 +348,12 @@ export default {
           value: "name",
         },
         {
-          text: "Specification",
+          text: this.$t("catalogAccessory.table.specification"),
           value: "specification",
           sortable: false,
         },
         {
-          text: "Description",
+          text: this.$t("catalogAccessory.table.description"),
           value: "description",
           sortable: false,
         },
@@ -453,7 +453,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.commit("setPageTitle", "Catalogs");
+    this.$store.commit("setPageTitle",this.$t('sidebar.catalogs'));
   },
 };
 </script>

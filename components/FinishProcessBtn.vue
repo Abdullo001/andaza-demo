@@ -8,7 +8,7 @@
       height="44"
       outlined
       @click="attantionDialog=true"
-      >Finish process
+      >{{ $t("modelBox.dialog.finishProccess") }}
     </v-btn>
     <v-btn
       v-else

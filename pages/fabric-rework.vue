@@ -82,7 +82,7 @@
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium text-capitalize">
-              Fabric rework
+             {{$t("sidebar.fabricRework")}}
             </div>
             <v-btn
               color="#544B99"
@@ -91,7 +91,7 @@
               @click="new_dialog = true"
             >
               <v-icon>mdi-plus</v-icon>
-              Fabric rework
+             {{$t("sidebar.fabricRework")}}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -112,7 +112,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
-            Create fabric rework
+             {{$t("sidebar.fabricRework")}}
           </div>
           <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>

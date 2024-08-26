@@ -7,7 +7,7 @@
       class="text-capitalize rounded-lg mr-4 font-weight-bold"
       @click="clickBtn"
     >
-      {{ show_btn_value ? "Show detail" : "Hide detail" }}
+      {{ show_btn_value ?  $t('modelBox.dialog.showDetail') :  $t('modelBox.dialog.hideDetail') }}
       <v-icon>
         mdi-chevron-{{ !show_btn_value ? 'up' : 'down' }}
       </v-icon>
