@@ -24,6 +24,7 @@ export default (context, inject) => {
           amount: (sum) => (sum / 100).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$& ,')
         }
       },
+      
       statusEnums() {
         return ['ACTIVE', 'DISABLED', 'PENDING']
       },
@@ -224,6 +225,12 @@ export default (context, inject) => {
             },
           ]
         }
+      },
+    },
+
+    methods:{
+      formatLong(value) {
+        return new Date(value).toLocaleString("en-GB").replace('/', '.').replace('/', '.')
       },
     }
   })
