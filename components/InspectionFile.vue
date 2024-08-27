@@ -10,7 +10,7 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="w-full d-flex">
-            <div class="title">Inspection file</div>
+            <div class="title">{{ $t('forms.index.cards.inspectionFiles') }}</div>
             <v-spacer/>
             <v-btn
               class="rounded-lg text-capitalize"
@@ -318,12 +318,12 @@ export default {
       btnDisabled: false,
       title: 'add',
       headers: [
-        {text: 'Send date', sortable: false, value: 'sendDate'},
-        {text: 'Title of document', sortable: false, value: 'title'},
-        {text: 'Description', sortable: false, value: 'description'},
-        {text: 'Status', sortable: false, value: 'result'},
-        {text: 'Created at', sortable: false, value: 'createdAt'},
-        {text: 'Actions', sortable: false, align: 'center', value: 'actions'},
+        {text:  this.$t('modelBox.printingBox.simpleSendDate'), sortable: false, value: 'sendDate'},
+        {text: this.$t('inspectionBox.titleDoc'), sortable: false, value: 'title'},
+        {text:this.$t('listsModels.child.description'), sortable: false, value: 'description'},
+        {text: this.$t('partners.table.status'),  sortable: false, value: 'result'},
+        {text: this.$t("catalogGroups.tabs.table.createdAt"), sortable: false, value: 'createdAt'},
+        {text: this.$t("catalogGroups.tabs.table.actions"), sortable: false, align: 'center', value: 'actions'},
       ],
       type_enums: ['DOC', 'PHOTO'],
       fileType: '',

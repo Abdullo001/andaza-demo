@@ -6,7 +6,7 @@
           <div class="d-flex align-center justify-space-between flex-fill mb-4">
             <v-text-field
               v-model="filters.orderNumber"
-              placeholder="Order number"
+              :placeholder="$t('orderBox.index.orderNum')"
               outlined
               height="44"
               validate-on-blur
@@ -16,7 +16,7 @@
             />
             <v-text-field
               v-model="filters.modelNumber"
-              placeholder="Model number"
+              :placeholder="$t('inspectionBox.model')"
               outlined
               height="44"
               validate-on-blur
@@ -27,7 +27,7 @@
             <v-select
               :items="modelGroups"
               v-model="filters.modelGroup"
-              placeholder="Model Group"
+               :placeholder="$t('orderBox.index.modelGroup')"
               dense
               outlined
               height="44"
@@ -49,7 +49,7 @@
               class="rounded-lg filter d-flex align-center justify-center mr-2"
               :return-object="true"
               dense
-              placeholder="Creator name"
+              :placeholder="$t('modelBox.modelPartsBox.creator')"
               prepend-icon=""
             >
               <template #append>
@@ -71,7 +71,7 @@
               class="rounded-lg filter d-flex align-center justify-center"
               :return-object="true"
               dense
-              placeholder="Client name"
+              :placeholder="$t('inspectionBox.clientName')"
               prepend-icon=""
             >
               <template #append>
@@ -90,7 +90,7 @@
               class="text-capitalize mr-4 border-primary rounded-lg font-weight-bold"
               @click="resetFilter"
             >
-              Reset
+             {{ $t('listsModels.dialog.reset') }}
             </v-btn>
             <v-btn
               width="140"
@@ -100,7 +100,7 @@
               class="text-capitalize rounded-lg font-weight-bold"
               @click="filterOrder"
             >
-              Search
+               {{ $t('listsModels.dialog.search') }}
             </v-btn>
           </div>
         </v-form>
@@ -126,7 +126,7 @@
           <v-toolbar-title
             class="d-flex w-full align-center justify-space-between"
           >
-            <div>Orders</div>
+            <div>{{ $t('sidebar.orders') }}</div>
             <div>
               <v-btn
                 color="#544B99"
@@ -134,7 +134,7 @@
                 class="text-capitalize rounded-lg mr-2"
                 @click="$router.push(`/forms/print-pdf-generation`)"
               >
-                Prints form
+              {{ $t('orderBox.index.printForms') }}
               </v-btn>
               <v-btn
                 color="#544B99"
@@ -142,7 +142,7 @@
                 class="text-capitalize rounded-lg mr-2"
                 @click="$router.push(`/forms/order-pdf-generation`)"
               >
-                Placed orders form
+                {{ $t('orderBox.index.placedOrderForm') }}
               </v-btn>
               <v-btn
                 color="#544B99"
@@ -151,7 +151,7 @@
                 @click="addOrder"
               >
                 <v-icon>mdi-plus</v-icon>
-                add Order
+                 {{ $t('orderBox.index.addOrder') }}
               </v-btn>
             </div>
           </v-toolbar-title>
@@ -246,18 +246,18 @@ export default {
       modelGroup_enums: [],
       headers: [
         {
-          text: "Order number",
+          text: this.$t('orderBox.index.orderNumber'),
           value: "orderNumber",
           align: "start",
           sortable: false,
         },
-        { text: "Model", value: "model", width: 200 },
-        { text: "Client Name", value: "client" },
-        { text: "Created by", value: "createdBy" },
-        { text: "Created at", value: "createdAt" },
-        { text: "Status", value: "status", width: 215 },
-        { text: "Deadline", value: "deadLine" },
-        { text: "Actions", value: "action", sortable: false },
+        { text: this.$t('inspectionBox.model'), value: "model", width: 200 },
+        { text: this.$t('inspectionBox.clientName'), value: "client" },
+        { text: this.$t('modelBox.modelPartsBox.creator'), value: "createdBy" },
+        { text: this.$t("catalogGroups.tabs.table.createdAt"), value: "createdAt" },
+        { text:  this.$t('partners.table.status'), value: "status", width: 215 },
+        { text:this.$t('orderBox.index.deadline'), value: "deadLine" },
+        { text: this.$t("catalogGroups.tabs.table.actions"), value: "action", sortable: false },
       ],
       list: [],
     };

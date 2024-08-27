@@ -10,7 +10,7 @@
           <v-col cols="12" lg="2" md="2">
             <v-text-field
               v-model="filter_colors.code"
-              label="Color code"
+              :label="$t('colorsBox.table.colorCode')"
               outlined
               class="rounded-lg filter"
               hide-details
@@ -21,7 +21,7 @@
           <v-col cols="12" lg="2" md="2">
             <v-text-field
               v-model="filter_colors.name"
-              label="Color name"
+               :label="$t('colorsBox.table.colorName')"
               outlined
               class="rounded-lg filter"
               hide-details
@@ -37,7 +37,7 @@
               v-model="filter_colors.createdAt"
               type="datetime"
               class="filter_picker"
-              placeholder="Created"
+             :placeholder="$t('measurementUnit.child.created')"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
             >
@@ -51,7 +51,7 @@
               v-model="filter_colors.updatedAt"
               type="datetime"
               class="filter_picker"
-              placeholder="Updated"
+              :placeholder="$t('measurementUnit.child.updated')"
               :picker-options="pickerShortcuts"
               value-format="dd.MM.yyyy HH:mm:ss"
             >
@@ -66,7 +66,7 @@
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
-                Reset
+                {{ $t("partners.child.reset") }}
               </v-btn>
               <v-btn
                 width="140" color="#544B99" dark
@@ -74,7 +74,7 @@
                 class="text-capitalize rounded-lg"
                 @click="filterData"
               >
-                Search
+                 {{ $t("partners.child.search") }}
               </v-btn>
             </div>
           </v-col>
@@ -97,10 +97,10 @@
       <template #top>
         <v-toolbar class="rounded-lg" elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium text-capitalize">Colors</div>
+            <div class="font-weight-medium text-capitalize">{{$t("colorsBox.table.color") }}</div>
             <v-btn color="#544B99" class="rounded-lg text-capitalize" dark @click="new_dialog = true">
               <v-icon>mdi-plus</v-icon>
-              Add Color
+         {{$t("colorsBox.dialog.addColor")}}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -124,7 +124,7 @@
     <v-dialog v-model="new_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Add Color</div>
+          <div class="text-capitalize font-weight-bold">  {{$t("colorsBox.dialog.addColor")}}</div>
           <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -133,20 +133,20 @@
           <v-form ref="new_form" v-model="validate" lazy-validation>
             <v-row>
               <v-col cols="12" md="6">
-                <div class="label">Color name</div>
+                <div class="label">{{$t("colorsBox.table.colorName") }}</div>
                 <v-text-field
                   v-model="create_colors.name"
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  placeholder="Enter Color name"
+                  :placeholder="$t('colorsBox.dialog.entercolorName')"
                   color="#544B99"
                   :rules="[formRules.required]"
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">Code and apperance</div>
+                <div class="label">{{$t("colorsBox.table.colorName") }}</div>
                 <div>
                   <v-menu
                     v-model="menu"
@@ -159,7 +159,7 @@
                         height="44"
                         class="rounded-lg base"
                         :rules="[formRules.required]"
-                        placeholder="Enter Code and apperance"
+                         :placeholder="$t('colorsBox.dialog.entercolorName')"
                         color="#544B99"
                         v-model="create_colors.colorCodeHex"
                         v-on="on"
@@ -188,33 +188,33 @@
                 </div>
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">Color code</div>
+                <div class="label">{{$t("colorsBox.table.colorCode") }}</div>
                 <v-text-field
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
                   v-model="create_colors.colorCode"
-                  placeholder="Enter Color code"
+                  :placeholder="$t('colorsBox.dialog.entercolorCode')"
                   color="#544B99"
                   :rules="[formRules.required]"
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">Panton code</div>
+                <div class="label">{{$t("colorsBox.table.pantoneCode") }}</div>
                 <v-text-field
                   v-model="create_colors.pantoneCode"
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  placeholder="Enter Panton code"
+                  :placeholder="$t('colorsBox.dialog.enterPantoneCode')"
                   color="#544B99"
                   :rules="[formRules.required]"
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="text-body-1">Panton Type</div>
+                <div class="text-body-1">{{$t("colorsBox.table.pantoneType") }}</div>
                 <v-radio-group
                   row
                   v-model="create_colors.pantoneType"
@@ -238,7 +238,7 @@
             width="163"
             @click="new_dialog = false"
           >
-            cancel
+             {{ $t("sizeTemplate.dialog.cancel")}}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -246,7 +246,7 @@
             width="163"
             @click="save"
           >
-            Add
+              {{ $t("sizeTemplate.dialog.add")}}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -452,14 +452,14 @@ export default {
       new_dialog: false,
       delete_dialog: false,
       headers: [
-        {text: "ID", value: "id", sortable: false},
-        {text: "Name", value: "name", sortable: false},
-        {text: "Color Code Hex", value: "colorCodeHex", sortable: false},
-        {text: "Pantone Code", value: "pantoneCode", sortable: false},
-        {text: "Pantone Type", value: "pantoneType", sortable: false},
-        {text: "CreatedAt", value: "createdAt", sortable: false},
-        {text: "UpdatedAt", value: "updatedAt", sortable: false},
-        {text: "Actions", value: "actions", align: "center", sortable: false},
+        {text: this.$t("sizeTemplate.table.id"), value: "id", sortable: false},
+        {text: this.$t("samplePurposes.table.name"), value: "name", sortable: false},
+        {text: this.$t("colorsBox.table.colorCodeHex"), value: "colorCodeHex", sortable: false},
+        {text: this.$t("colorsBox.table.pantoneCode"), value: "pantoneCode", sortable: false},
+        {text:  this.$t("colorsBox.table.pantoneType"), value: "pantoneType", sortable: false},
+        {text:this.$t("samplePurposes.table.createdAt"), value: "createdAt", sortable: false},
+        {text:  this.$t("samplePurposes.table.updatedAt"), value: "updatedAt", sortable: false},
+        {text: this.$t("samplePurposes.table.actions"), value: "actions", align: "center", sortable: false},
       ],
     }
   },
@@ -527,7 +527,7 @@ export default {
     },
   },
   async mounted() {
-    await this.$store.commit('setPageTitle', 'Catalogs');
+    await this.$store.commit('setPageTitle', this.$t('sidebar.catalogs'));
   }
 }
 </script>

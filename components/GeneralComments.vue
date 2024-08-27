@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="12" lg="8">
         <v-textarea
-          placeholder="Enter description"
+          :placeholder="$t('prefinances.child.enterDescription')"
           v-model="description"
           outlined
           hide-details
@@ -16,8 +16,8 @@
       <v-col>
         <div class="table">
           <div class="table__header">
-            <div>Creator</div>
-            <div>Date</div>
+            <div>{{ $t("modelBox.modelPartsBox.creator") }}</div>
+            <div>{{ $t("modelBox.measurementListBox.date") }}</div>
           </div>
           <div class="table__content">
             <div>{{ commentText?.createdBy }}</div>
@@ -32,7 +32,7 @@
             width="130" height="44"
           >
             <v-img src="/delete-default.svg" max-width="18" class="mr-2"/>
-            delete
+            {{ $t("modelBox.documentBox.delete") }}
           </v-btn>
           <v-btn
             color="#544B99"
@@ -40,7 +40,7 @@
             dark width="130" height="44"
             @click="saveComment"
           >
-            save
+            {{ $t("modelBox.documentBox.save") }}
           </v-btn>
         </div>
       </v-col>

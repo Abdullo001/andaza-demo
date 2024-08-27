@@ -10,7 +10,7 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="w-full d-flex">
-            Model Parts
+           {{ $t("modelBox.modelPartsBox.modelParts") }}
             <v-spacer/>
             <v-btn
               class="rounded-lg text-capitalize"
@@ -20,7 +20,7 @@
               dark
             >
               <v-icon>mdi-plus</v-icon>
-              Add parts
+              {{ $t("modelBox.modelPartsBox.addPart") }}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -49,7 +49,7 @@
         <v-card-text class="mt-4">
           <v-row>
             <v-col cols="12" lg="6">
-              <div class="label">Part name</div>
+              <div class="label"> {{ $t("modelBox.modelPartsBox.partName") }}</div>
                 <v-combobox
                   v-model="newModelParts.bodyPartId"
                   :items="partNames"
@@ -63,7 +63,7 @@
                   :return-object="true"
                   color="#544B99"
                   dense
-                  placeholder="Enter body part"
+                  :placeholder="$t('modelBox.modelPartsBox.enterPartName')"
                   prepend-icon=""
                 >
                   <template #append>
@@ -74,13 +74,13 @@
                 </v-combobox>
             </v-col>
             <v-col cols="12" lg="6">
-              <div class="label">Yarn numbers</div>
+              <div class="label"> {{ $t("modelBox.modelPartsBox.yarnNumber") }}</div>
               <v-select
                 v-model="newModelParts.yarnNumberId"
                 :items="yarnNumbersList"
                 item-text="yarns"
                 item-value="id"
-                placeholder="Enter yarn numbers"
+                :placeholder="$t('modelBox.modelPartsBox.enterYarnNumber')"
                 outlined
                 hide-details
                 height="44"
@@ -90,13 +90,13 @@
               />
             </v-col>
             <v-col cols="12" lg="6">
-              <div class="label">Canvas type</div>
+              <div class="label">{{ $t("modelBox.modelPartsBox.canvasType") }}</div>
               <v-select
                 v-model="newModelParts.canvasTypeId"
                 :items="canvasTypeList"
                 item-text="name"
                 item-value="id"
-                placeholder="Enter canvas type"
+                :placeholder="$t('modelBox.modelPartsBox.enterCanvasType')"
                 outlined
                 hide-details
                 height="44"
@@ -107,13 +107,13 @@
             </v-col>
 
             <v-col cols="12" lg="6">
-              <div class="label">Composition</div>
+              <div class="label">{{ $t("modelBox.dialog.composition") }}</div>
               <v-select
                 v-model="newModelParts.compositionId"
                 :items="compositionList"
                 item-text="name"
                 item-value="id"
-                placeholder="Enter composition"
+                :placeholder="$t('modelBox.modelPartsBox.enterComposition')"
                 outlined
                 hide-details
                 height="44"
@@ -123,7 +123,7 @@
               />
             </v-col>
             <v-col cols="12" lg="6">
-              <div class="label">Density</div>
+              <div class="label">{{ $t("modelBox.dialog.density") }}</div>
               <v-text-field
                 v-model="newModelParts.density"
                 placeholder="0.00"
@@ -137,9 +137,9 @@
               />
             </v-col>
             <v-col cols="12" lg="12">
-              <div class="label">Description</div>
+              <div class="label">{{ $t("catalogGroups.composition.dialogs.description") }}</div>
               <v-textarea
-                placeholder="Enter description"
+                 :placeholder="$t('modelBox.modelPartsBox.enterDescription')"
                 v-model="newModelParts.description"
                 outlined
                 hide-details
@@ -158,7 +158,7 @@
             width="140" height="40"
             @click="partsDialog=false"
           >
-            cancel
+              {{ $t("userManagement.dialog.cancel") }}
           </v-btn>
           <v-btn
             class="font-weight-bold text-capitalize rounded-lg ml-4"
@@ -167,7 +167,7 @@
             @click="saveModelParts"
             v-if="dialogTitle === 'Add'"
           >
-            add
+            {{ $t("userManagement.dialog.add") }}
           </v-btn>
           <v-btn
             v-else
@@ -225,14 +225,14 @@ export default {
   data() {
     return {
       headers: [
-        {text: 'Part name', align: 'start', sortable: false, value: 'bodyPart'},
-        {text: 'Yarn number', sortable: false, value: 'yarnNumber'},
-        {text: 'Canvas type', sortable: false, value: 'canvasType'},
-        {text: 'Composition', sortable: false, value: 'composition'},
-        {text: 'Comment', sortable: false, value: 'description', width: 500},
-        {text: 'Creator', sortable: false, value: 'createdBy'},
-        {text: 'Created at', sortable: false, value: 'createdAt'},
-        {text: 'Actions', sortable: false, align: 'center', value: 'actions'},
+        {text: this.$t('modelBox.modelPartsBox.partName'), align: 'start', sortable: false, value: 'bodyPart'},
+        {text: this.$t('modelBox.modelPartsBox.yarnNumber'), sortable: false, value: 'yarnNumber'},
+        {text:  this.$t('modelBox.modelPartsBox.canvasType'), sortable: false, value: 'canvasType'},
+        {text: this.$t('sidebar.composition'), sortable: false, value: 'composition'},
+        {text:  this.$t('modelBox.modelPartsBox.comment'), sortable: false, value: 'description', width: 500},
+        {text:  this.$t('modelBox.modelPartsBox.creator'), sortable: false, value: 'createdBy'},
+        {text:  this.$t("catalogGroups.tabs.table.createdAt"), sortable: false, value: 'createdAt'},
+        {text:  this.$t("catalogGroups.tabs.table.actions"), sortable: false, align: 'center', value: 'actions'},
       ],
       partsDialog: false,
       partSearch:"",

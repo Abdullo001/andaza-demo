@@ -6,6 +6,7 @@ export default {
   to: "To",
   update: "Update",
   sidebar: {
+    catalogs:"Catalogs",
     setting: "Settings",
     report: "Report",
     warehouse: "Warehouse",
@@ -67,6 +68,7 @@ export default {
     notification: "Notification",
     fabricRework: "Fabric rework",
     inspection: "Inspection",
+    ppg: "PPG",
     centralWarehouse: "Central warehouse",
     department: "Department",
   },
@@ -1172,13 +1174,67 @@ export default {
       selectSize: "Select size",
       addSize: "Add size",
       enterAddsize: "Enter add size",
-      cancel: "Cancal",
+      cancel: "Cancel",
+      enterSizeName: "Enter size name",
+      createSize: "Create Size",
       add: "Add",
       sava: "Save",
       deleteDialog: "Delete Size",
       deleteText: "Are you sure you want to Delete this size?",
       delete: "Delete",
     },
+  },
+  colorsBox:{
+    table:{
+      color:"Colors",
+      colorCode:"Color code",
+      colorName:"Color name",
+      colorCodeHex:"Color Code Hex",
+      pantoneCode:"Pantone code",
+      pantoneType:"Pantone Type",      
+    },
+
+    dialog:{
+      addColor:"Add Color",
+      entercolorName:"Enter color name",
+      entercolorCode:"Enter color code",
+      codeApperance:"Code and appearance",
+      enterPantoneCode:"Enter Pantone code",
+
+    },
+  },
+  catalogAccessory:{
+    table:{
+      IdAccessory:"ID Accessory",
+      accessoryName:"Accessory Name",
+      specification:"Specification",
+      measurementUnit:"Measurement Unit",
+      accessoryType:"Accessory Type",
+      description:"Description",
+
+    },
+    dialog:{
+      accessory:"Accessory",
+      addAccessory:"Add Accessory",
+      nameAccessory:"Name Accessory",
+      enterNameAccessory:"Enter Name Accessory",
+      addSpecification:"Add Specification",
+      enterSpecification:"Enter Specification",
+      specifications:"Specifications",
+      enterDescription:"Enter Description",
+      selectMeasurementUnit:"Select Measurement Unit",
+
+    },
+
+
+  },
+  canvasType:{
+    idCanvasType:"ID Canvas type"
+  },
+  yarnNamber:{
+    idYArnNumber:"ID Yarn Number",
+    
+
   },
 
   composition: {
@@ -1438,5 +1494,154 @@ export default {
       monthly: "Monthly production",
       yearly: "Yearly production",
     },
+  },
+  modelBox:{
+    table:{
+    no: "No",
+    client: "Client",
+    style:" Style",
+    category:" Category",
+   inspectionDate:"Inspection date",
+    daysLeftFl:"Days left Fl",
+    modelCreating:"Model creating",
+    priceCalculation:" Price calculation",
+    orderForming:"Oreder forming",
+    addingPrint:"Adding print",
+    fabricStatus:"Fabric status",
+    sampleStatus:"Sample status",
+    accessoryStatus:"Accessory status",
+    cutting:"Cutting",
+    printing:"Printing",
+    supplyWarehouse:"Supply warehouse",
+    sewing:"Sewing",
+    packaging:"Packaging",
+    readyGarmentWarehouse:"Ready garment warehouse",
+    finalInspection:"Final inspection",
+    shipment:"Shipment",
+    },
+    dialog:{
+
+      add: "Add",
+      enterPartnerName: "Enter partner name",
+      brandName:"Brand name",
+      selectBrandName:"Select brand name",
+      fabricName:"Fabric name",
+      enterCanvasType:"Enter canvas type",
+      composition:"Composition",
+      mainFabricDensity:"Main fabric density",
+      density:"Density",
+      inspectionDate:"Inspection date",
+      plannedOrderQuality:"Planned order quality",
+      enterPlannedOrderQuality:"Enter planned order quality",
+      showDetail:"Show detail",
+      hideDetail:"Hide detail",
+      finishProccess:"Finish proccess",
+     
+
+    },
+    modelPartsBox:{
+       modelParts:"Model parts",
+      addPart: "Add part",
+      partName:"Part name",
+      yarnNumber:"Yarn number",
+      canvasType:"Canvas type",
+      comment:"Comment",
+      creator:"Creator",
+      addModelPart:"Add model parts",
+      enterBodyPart:"Enter body part",
+      enterPartName:"Enter part name",
+      enterYarnNumber:"Enter yarn number",
+      enterCanvasType:"Enter canvas type",
+      enterComposition:"Enter composition",
+      enterDescription:"Enter description",
+    },
+    measurementListBox:{
+    measurementList:"Measurement list",
+    sizeTemplate:"Size template",
+    sizeChart:"Size chart",
+    code:"Code",
+    sizeName:"Size name",
+    gradation:"Gradaion",
+    tolerance:"Tolerance",
+    shrinked:"Shrinkage",
+    comment:"Comment",
+    date:"Date",
+   
+
+    },
+    printingBox:{
+      printing:"Printing",
+      photoModel:"Photo of model",
+      printType:"Print type",
+      colorQuality:"Color quality",
+      printPartnerName:"Print partner name",
+      price:"Price",
+      currency:"Currency",
+      simpleSendDate:"Simple send date",
+      
+    },
+    documentBox:{
+      document:"Document",
+      uploadDocument:"Upload document",
+      documentName:"Document name",
+      type:"Type",
+      uploader:"Uploader",
+      clear:"CLEAR",
+      save:"SAVE",
+      delete:"DELETE",
+      addDocument:"Add document",
+      selectDocument:"Select document",
+      title:"Title",
+      enterDocumentName:"Enter document name",
+         },
+    instruction:{
+      generalInstruct:"General instruct",
+      sewingInstruct:"Sewing instruct",
+      sampleInstruct:"Sample instruct",
+      fabricInstruct:"Fabric instruct",
+      packagingInstruct:"Packaging instruct",
+      accessoryInstruct:"Accessory instruct",
+      printInstruct:"Print instruct",
+
+    },
+  },
+  inspectionBox:{
+    clientName:"Client name",
+   plannedInspectionDate:"Planned inspection date",
+    inspectionDate:"Inspection date",
+    titleDoc:"Title of document",
+    model:"Model No",
+    clientName:"Client name",
+    modelInspection:"Model inspections",
+    addInspection:"Add inspection",
+    
+  },
+  orderBox:{
+    index:{
+      orderNum:"Order number",
+      modelGroup:"Model group",
+      printForms:"Print forms",
+      placedOrderForm:"Placed orders form",
+      addOrder:"Add order",
+      deadline:"Deadline",
+   },
+   add:{
+    enterOrderNumber:"Enter order number",
+    headProductDep:"Head of production department",
+    enterRespPerson:"Enter responsible person",
+    overProduct:"Over-production",
+    enterOverproduction:"Enter over-production",
+    priceDiscount:"Price with discount",
+    total:"Total",
+    orderDate:"Order date",
+    orderpriority:"Order priority",
+    plannedAccess:"Planned accessory expense for 1 set",
+    modeifiedPerson:"Modified person",
+    updatedTime:"Updated time",
+    updatedAt:"Updated at",
+
+
+   },
+   
   },
 };
