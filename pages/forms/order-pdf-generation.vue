@@ -189,7 +189,7 @@
             </v-col>
             <v-col cols="12" lg="3">
               <div class="label">
-                {{ $t("forms.placedOrdersBox.shippingDateYear") }}
+                {{ $t("forms.placedOrdersBox.shippingDate") }}
               </div>
               <div style="height: 40px !important">
                 <el-date-picker
