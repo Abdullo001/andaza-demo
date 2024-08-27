@@ -494,6 +494,7 @@ export default {
         { text: "Specification", value: "specification", sortable: false },
         { text: "Department", value: "department", sortable: false },
         { text: "Quantity", value: "quantity", sortable: false },
+        { text: "M-U", value: "measurementUnit", sortable: false },
         { text: "Price", value: "price", sortable: false },
         { text: "Currency", value: "currency", sortable: false },
         { text: "Supplier", value: "supplier", sortable: false },
