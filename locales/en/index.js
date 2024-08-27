@@ -67,6 +67,8 @@ export default {
     notification: "Notification",
     fabricRework: "Fabric rework",
     inspection: "Inspection",
+    centralWarehouse: "Central warehouse",
+    department: "Department",
   },
   appBar: {
     search: "Search",
