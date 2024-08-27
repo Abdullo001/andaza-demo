@@ -69,6 +69,8 @@ export default {
     fabricRework: "Fabric rework",
     inspection: "Inspection",
     ppg: "PPG",
+    centralWarehouse: "Central warehouse",
+    department: "Department",
   },
   appBar: {
     search: "Search",
