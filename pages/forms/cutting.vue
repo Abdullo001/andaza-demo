@@ -196,7 +196,6 @@ export default {
       getCountryList: "partners/getCountryList",
       getUsersList: "orders/getUsersList",
       getPdfList: "generatePdf/getCuttingPdf",
-      getPartnerName: "fabricOrdering/getPartnerName",
       getSipNumbers: "fabricWarehouse/getSipNumbers",
       modelColor: "samplesTabs/getMainColors",
     }),

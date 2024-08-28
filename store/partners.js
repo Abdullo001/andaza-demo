@@ -8,7 +8,7 @@ export const state = () => ({
 });
 export const getters = {
   loading: state => state.loading,
-  partner_list: state => state.partner_list.content,
+  partnerList: state => state.partner_list.items,
   totalElements: state => state.partner_list.totalElements,
   partner_type: state => state.partner_type.content,
   partner_one_list: state => state.partner_one_list,
@@ -36,6 +36,23 @@ export const mutations = {
   }
 };
 export const actions = {
+
+  async getPartnerList({commit}, {page, size,partnerName="",partnerEmail="",phoneNumber="",status=""}) {
+    partnerName=partnerName??""
+    partnerEmail=partnerEmail??""
+    phoneNumber=phoneNumber??""
+    status=status??""
+    await this.$axios.get(`/api/v1/partners?page=${page}&size=${size}&partnerName=${partnerName}&partnerEmail=${partnerEmail}&phoneNumber=${phoneNumber}&status=${status}`)
+      .then(res => {
+        commit("setPartnersList", res.data.data);
+        commit("setLoading", false);
+      })
+      .catch(({response}) => {
+        console.log(response)
+        commit("setLoading", false);
+      })
+  },
+
   async deletePartnerList({dispatch}, id) {
     await this.$axios.$delete(`/api/v1/partner/delete?id=${id}`)
       .then(res => {
@@ -103,23 +120,7 @@ export const actions = {
         this.$toast.error(response.data.message);
       })
   },
-  async getPartnerList({commit}, {page, size}) {
-    const body = {
-      filters: [],
-      sorts: [],
-      page,
-      size,
-    }
-    await this.$axios.$put('/api/v1/partner/list', body)
-      .then(res => {
-        commit("setPartnersList", res.data);
-        commit("setLoading", false);
-      })
-      .catch(({response}) => {
-        console.log(response)
-        commit("setLoading", false);
-      })
-  },
+  
   async filterPartnerList({commit}, data) {
     const {phoneNumber, name, status, email} = data;
     const body = {
