@@ -167,7 +167,7 @@ export const actions = {
       }).catch(({response}) => console.log(response))
   },
   getBrandList({commit},id){
-    this.$axios.get(`/api/v1/partner/brand-names?id=${id}`)
+    this.$axios.get(`/api/v1/partners/brand-names/${id}`)
       .then((res)=>{
         commit("setBrandList",res.data.data)
       })

@@ -558,14 +558,14 @@ export default {
 
   created() {
     this.getDepartmentList({ page: 0, size: 10 });
-    this.getPartnerName("")
+    this.getPartnerList({page:0,size:10})
     this.getMeasurementUnit()
   },
 
   computed: {
     ...mapGetters({
       departmentList: "department/departmentList",
-      partner_enums: "fabricOrdering/partnerLists",
+      partner_enums: "partners/partnerList",
       measurementUnitList: "preFinance/measurementUnit",
       warehouseList: "centralWarehouse/warehouseList",
       totalElements: "centralWarehouse/totalElements",
@@ -584,13 +584,17 @@ export default {
       if(!val){
         this.$refs.new_form.reset()
       }
+    },
+
+    partnerName(val){
+      this.getPartnerList({page:0, size:10,partnerName:val});
     }
   },
 
   methods: {
     ...mapActions({
       getDepartmentList: "department/getDepartmentList",
-      getPartnerName: "fabricOrdering/getPartnerName",
+      getPartnerList: "partners/getPartnerList",
       getMeasurementUnit: "preFinance/getMeasurementUnit",
       createWarehouseItem: "centralWarehouse/createWarehouseItem",
       getWarehouseList: "centralWarehouse/getWarehouseList",

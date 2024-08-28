@@ -159,11 +159,12 @@ export default {
     this.getClient();
     this.getCountryList({ name: this.countryIdSearch });
     this.getUsersList();
+    this.getPartnerList({page:0, size:10});
   },
 
   computed: {
     ...mapGetters({
-      partnerLists: "fabricOrdering/partnerLists",
+      partnerLists: "partners/partnerList",
       clientList: "orders/clientList",
       countryList: "partners/countryList",
       usersList: "orders/usersList",
@@ -173,9 +174,7 @@ export default {
 
   watch: {
     partnerName(val) {
-      if (!!val && val !== "") {
-        this.getPartnerName(val);
-      }
+      this.getPartnerList({page:0, size:10,partnerName:val});
     },
     pdfList(val) {
       const blob = new Blob(
@@ -215,7 +214,7 @@ export default {
       getCountryList: "partners/getCountryList",
       getUsersList: "orders/getUsersList",
       getPdfList: "generatePdf/getOrderedFabricPdfList",
-      getPartnerName: "fabricOrdering/getPartnerName",
+      getPartnerList: "partners/getPartnerList",
     }),
 
     resetFilter() {

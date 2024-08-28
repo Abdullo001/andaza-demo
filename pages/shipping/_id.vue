@@ -475,7 +475,7 @@ export default {
     ...mapGetters({
       oneShipping: "shipping/oneShipping",
       shippingList: "shipping/shippingList",
-      partnerLists: "shipping/partnerLists",
+      partnerLists: "partners/partnerList",
       countryList: "partners/countryList",
       shippingOperationList: "shipping/shippingOperationList"
     }),
@@ -487,7 +487,7 @@ export default {
   },
 
   created() {
-    this.getPartnerName();
+    this.getPartnerList({page:0, size:10});
     this.getCountryList({ name: this.countryIdSearch });
   },
 
@@ -496,7 +496,7 @@ export default {
       getOneShipping: "shipping/getOneShipping",
       createShipping: "shipping/createShipping",
       updateShipping: "shipping/updateShipping",
-      getPartnerName: "shipping/getPartnerName",
+      getPartnerList: "partners/getPartnerList",
       getCountryList: "partners/getCountryList",
       getShippingOperationList: "shippingModels/getShippingOperationList",
     }),
@@ -515,6 +515,9 @@ export default {
   },
 
   watch:{
+    manufacturerName(val){
+      this.getPartnerList({page:0, size:10,partnerName:val});
+    },
     countryIdSearch(val) {
       this.getCountryList({ name: val });
     },

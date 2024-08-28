@@ -168,7 +168,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      partnerLists: "plannedOrder/partnerLists",
+      partnerLists: "partners/partnerList",
       warehouseList: "plannedOrder/warehouseList",
       accessoryData: "accessory/accessoryData",
       plannedOrderList: "accessoryOrder/plannedOrderList",
@@ -180,9 +180,9 @@ export default {
       this.allPlannerOrder = JSON.parse(JSON.stringify(val));
     },
     partnerName(val) {
-      if (!!val && val !== "") {
-        this.getPartnerName(val);
-      }
+      
+      this.getPartnerList({page:0, size:10,partnerName:val});
+
     },
     warehouseCode(val) {
       if (!!val && val !== "") this.getWarehouseCodeList({ code: val });
@@ -202,8 +202,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      getPartnerList: "models/getPartnerList",
-      getPartnerName: "plannedOrder/getPartnerName",
+      getPartnerList: "partners/getPartnerList",
       getWarehouseCodeList: "plannedOrder/getWarehouseCodeList",
       getPlannedOrderList: "accessoryOrder/getPlannedOrderList",
       createPlanningOrder: "accessoryOrder/createPlanningOrder",

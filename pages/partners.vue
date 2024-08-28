@@ -11,7 +11,6 @@
             <v-text-field
               v-model="filters.phoneNumber"
               :label="$t('partners.child.pNumber')"
-              :placeholder="$t('partners.child.pNumberEnter')"
               outlined
               class="rounded-lg filter"
               hide-details
@@ -21,9 +20,8 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              v-model="filters.name"
+              v-model="filters.partnerName"
               :label="$t('partners.child.pName')"
-              :placeholder="$t('partners.child.pNameEnter')"
               outlined
               class="rounded-lg filter"
               hide-details
@@ -33,12 +31,11 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              v-model="filters.email"
+              v-model="filters.partnerEmail"
               outlined
               hide-details
               dense
               :label="$t('partners.child.pEmail')"
-              :placeholder="$t('partners.child.pEmailEnter')"
               class="rounded-lg filter"
             />
           </v-col>
@@ -1088,8 +1085,8 @@ export default {
       await this.getPartnerList({page: 0, size: 10});
     },
     async filterData() {
-      const items = {...this.filters};
-      await this.filterPartnerList(items);
+
+      await this.getPartnerList({page:0,size:10,...this.filters});
     },
   },
   async mounted() {

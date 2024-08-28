@@ -352,7 +352,7 @@ export default {
     this.getClient();
     this.getCountryList({ name: this.countryIdSearch });
     this.getUsersList();
-    this.getPartnerName("");
+    this.getPartnerList({page:0, size:10});
     this.getPrintType({ page: 0, size: 100 });
   },
 
@@ -366,7 +366,7 @@ export default {
       countryList: "partners/countryList",
       usersList: "orders/usersList",
       printPdfList: "generatePdf/printPdfList",
-      partnerLists: "fabricOrdering/partnerLists",
+      partnerLists: "partners/partnerList",
       printTypeEnums: "printing/printTypeEnums",
     }),
   },
@@ -394,7 +394,7 @@ export default {
       });
     },
     partnerName(val) {
-      this.getPartnerName(val);
+      this.getPartnerList({page:0, size:10,partnerName:val});
     },
     orderNumSearch(val) {
       if (!!val) {
@@ -446,7 +446,7 @@ export default {
       getCountryList: "partners/getCountryList",
       getUsersList: "orders/getUsersList",
       getPrintPdfList: "generatePdf/getPrintPdfList",
-      getPartnerName: "fabricOrdering/getPartnerName",
+      getPartnerList: "partners/getPartnerList",
       getPrintType: "printing/getPrintType",
     }),
 

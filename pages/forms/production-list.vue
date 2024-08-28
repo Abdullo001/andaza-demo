@@ -209,8 +209,8 @@ export default {
       partner: "",
       status: "ACTIVE",
     }),
-      this.getUsersList();
-    this.getPartnerName("");
+    this.getUsersList();
+    this.getPartnerList({page:0, size:10});
     this.getSipNumbers("");
   },
 
@@ -221,7 +221,7 @@ export default {
       usersList: "orders/usersList",
       clientList: "orders/clientList",
       pdfList: "generatePdf/productionPdfList",
-      partnerLists: "fabricOrdering/partnerLists",
+      partnerLists: "partners/partnerList",
       sipNumbers: "fabricWarehouse/sipNumbers",
     }),
   },
@@ -267,6 +267,9 @@ export default {
         });
       }
     },
+    clientSearch(val){
+      this.getPartnerList({page:0, size:10,partnerName:val});
+    }
   },
 
   methods: {
@@ -279,7 +282,7 @@ export default {
       getCountryList: "partners/getCountryList",
       getUsersList: "orders/getUsersList",
       getPdfList: "generatePdf/getProductionPdfList",
-      getPartnerName: "fabricOrdering/getPartnerName",
+      getPartnerList: "partners/getPartnerList",
       getSipNumbers: "fabricWarehouse/getSipNumbers",
     }),
 

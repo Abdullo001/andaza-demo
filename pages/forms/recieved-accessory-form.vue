@@ -125,14 +125,14 @@ export default {
       partner: "",
       status: "ACTIVE",
     }),
-      this.getPartnerName("");
+    this.getPartnerList({page:0, size:10});
   },
 
   computed: {
     ...mapGetters({
       modelsList: "models/modelsList",
       pdfList: "generatePdf/recievedAccessoryPdfList",
-      partnerLists: "fabricOrdering/partnerLists",
+      partnerLists: "partners/partnerList",
     }),
   },
 
@@ -151,9 +151,7 @@ export default {
       this.isLoad = false;
     },
     partnerName(val) {
-      if (!!val && val !== "") {
-        this.getPartnerName(val);
-      }
+      this.getPartnerList({page:0, size:10,partnerName:val});
     },
     modelNumSearch(val) {
       if (!!val) {
@@ -173,7 +171,7 @@ export default {
       filterOrderList: "orders/filterOrderList",
       getModelsList: "models/getModelsList",
       getPdfList: "generatePdf/getRecievedAccessoryPdfList",
-      getPartnerName: "fabricOrdering/getPartnerName",
+      getPartnerList: "partners/getPartnerList",
     }),
 
     resetFilter() {

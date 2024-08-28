@@ -746,7 +746,7 @@ export default {
   computed: {
     ...mapGetters( {
       accessoryStockList: "accessoryStock/accessoryStockList",
-      partnerLists: "accessoryStock/partnerLists",
+      partnerLists: "partners/partnerList",
       modelsList: "models/modelsList",
       measurementUnitList: "shippingInfo/measurementUnitList",
     } ),
@@ -757,9 +757,9 @@ export default {
       this.current_list = JSON.parse( JSON.stringify( val ) );
     },
     partnerName( val ) {
-      if ( !!val && val !== "" ) {
-        this.getPartnerName( val );
-      }
+      
+      this.getPartnerList({page:0, size:10,partnerName:val});
+
     },
     "arrivedAccessoryStock.measurementUnitId"( id ) {
       this.arrivedAccessoryStock.measurementUnitId = id;
@@ -784,7 +784,7 @@ export default {
   },
 
   created() {
-    this.getPartnerName();
+    this.getPartnerList({size:10, page:0});
     this.getMeasurementUnit();
     this.getModelsList({
       page: 0,
@@ -804,7 +804,7 @@ export default {
       setAccessoryStockToWorkshop: "accessoryStock/setAccessoryStockToWorkshop",
       setAccessoryStockToSubcontract:
         "accessoryStock/setAccessoryStockToSubcontract",
-      getPartnerName: "accessoryStock/getPartnerName",
+        getPartnerList: "partners/getPartnerList",
       getModelsList: "models/getModelsList",
       getMeasurementUnit: "shippingInfo/getMeasurementUnit",
     } ),

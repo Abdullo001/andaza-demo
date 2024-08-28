@@ -524,7 +524,7 @@ export default {
     }
   },
   created() {
-    this.getPartnerList();
+    this.getPartnerList({page:0, size:10});
     this.getCompositionList();
     this.filterCanvasTypeList({id:"",name:"", createdAt:"", updatedAt:""});
     this.getReworkThinList();
@@ -546,7 +546,7 @@ export default {
     ...mapGetters({
       oneModel: 'models/oneModel',
       modelGroups: 'models/modelGroups',
-      partner_enums: 'fabricOrdering/partnerLists',
+      partner_enums: "partners/partnerList",
       compositionList: 'models/compositionList',
       brandList: 'models/brandList',
       canvasTypeList: 'canvasType/canvas_type_list',
@@ -555,9 +555,7 @@ export default {
   },
   watch: {
     partnerName(val) {
-      if(!!val && val !== '') {
-      this.getPartnerName(val);
-      }
+      this.getPartnerList({page:0, size:10,partnerName:val});
     },
     canvasSearch(val){
       this.filterCanvasTypeList({id:"",name:val, createdAt:"", updatedAt:""});
@@ -602,7 +600,7 @@ export default {
       getCompositionList: 'models/getCompositionList',
       getBrandList: 'models/getBrandList',
       modelToPrefinance: 'preFinance/modelToPrefinance',
-      getPartnerName: 'fabricOrdering/getPartnerName',
+      getPartnerList: "partners/getPartnerList",
       filterCanvasTypeList: 'canvasType/filterCanvasTypeList',
       getReworkThinList: 'fabricRework/getReworkThinList',
       changePageStatus: 'changePageStatus',

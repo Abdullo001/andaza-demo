@@ -263,8 +263,8 @@ export default {
       partner: "",
       status: "ACTIVE",
     }),
-      this.getUsersList();
-    this.getPartnerName("");
+    this.getUsersList();
+    this.getPartnerList({page:0, size:10});
     this.getSipNumbers("");
   },
 
@@ -274,7 +274,7 @@ export default {
       modelsList: "models/modelsList",
       usersList: "orders/usersList",
       pdfList: "generatePdf/recievedFabricPdfList",
-      partnerLists: "fabricOrdering/partnerLists",
+      partnerLists: "partners/partnerList",
       sipNumbers: "fabricWarehouse/sipNumbers",
     }),
   },
@@ -307,9 +307,7 @@ export default {
       });
     },
     partnerName(val) {
-      if (!!val && val !== "") {
-        this.getPartnerName(val);
-      }
+      this.getPartnerList({page:0, size:10,partnerName:val});
     },
     orderNumSearch(val) {
       if (!!val) {
@@ -348,7 +346,7 @@ export default {
       getCountryList: "partners/getCountryList",
       getUsersList: "orders/getUsersList",
       getPdfList: "generatePdf/getRecievedFabricPdfList",
-      getPartnerName: "fabricOrdering/getPartnerName",
+      getPartnerList: "partners/getPartnerList",
       getSipNumbers: "fabricWarehouse/getSipNumbers",
     }),
 
