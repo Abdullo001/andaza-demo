@@ -257,8 +257,7 @@
               </v-col>
             </div>
           </v-col>
-          <v-col cols="12" lg="3" md="3" sm="6"></v-col>
-          <v-col cols="12" lg="3" md="3" sm="6" class="d-flex justify-end align-end">
+          <v-col cols="12" lg="12" md="12" sm="12" class="d-flex justify-end align-end">
             <v-btn
               width="130"
               height="40"
@@ -370,7 +369,6 @@ export default {
   },
   created() {
     this.getProcessList();
-    this.getWorkshopList();
     this.getColorsList();
   },
   computed: {
@@ -419,7 +417,6 @@ export default {
       getModelInfo: 'production/planning/getModelInfo',
       getImages: 'modelPhoto/getImages',
       getProcessList: 'production/planning/getProcessList',
-      getWorkshopList: 'production/planning/getWorkshopList',
       getColorsList: 'production/planning/getColorsList',
       createProcessPlanning: 'production/planning/createProcessPlanning',
       getProcessingList: 'production/planning/getProcessingList',

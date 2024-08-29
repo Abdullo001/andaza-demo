@@ -6,6 +6,7 @@ export const state = () => ({
   newModelId: null,
   compositions: [],
   brandList:[],
+  pdfLoading:false,
 })
 
 export const getters = {
@@ -17,6 +18,7 @@ export const getters = {
   newModelId: state => state.newModelId,
   compositionList: state => state.compositions,
   brandList: state => state.brandList,
+  pdfLoading: state => state.pdfLoading,
 }
 
 export const mutations = {
@@ -40,6 +42,9 @@ export const mutations = {
   },
   setBrandList(state, item) {
     state.brandList = item;
+  },
+  setPdfLoading(state, item) {
+    state.pdfLoading = item;
   },
 }
 
@@ -174,5 +179,28 @@ export const actions = {
       .catch((res)=>{
         console.log(res);
       })
+  },
+
+  getModelPassport({commit},id){
+    commit("setPdfLoading",true)
+    this.$axios.get(`/api/v1/models/generate-model-passport/${id}`)
+    .then((res)=>{
+      commit("setPdfLoading",false) 
+      const binaryCode = atob(res.data);
+      const blob = new Blob(
+        [new Uint8Array([...binaryCode].map((char) => char.charCodeAt(0)))],
+        { type: "application/pdf" }
+      );
+      const objectUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.setAttribute("target", "_blank");
+      a.setAttribute("href", objectUrl);
+      a.click();
+    })
+    .catch((response)=>{
+      console.log(response);
+      commit("setPdfLoading",false)
+      
+    })
   }
 }

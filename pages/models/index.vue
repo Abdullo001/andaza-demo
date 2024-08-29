@@ -72,6 +72,7 @@
       :server-items-length="totalElements"
       @update:page="page"
       @update:items-per-page="size"
+      :loading="pdfLoading"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -113,6 +114,19 @@
             </v-btn>
           </template>
           <span>Details</span>
+        </v-tooltip>
+        <v-tooltip top color="#544B99">
+          <template #activator="{on, attrs}">
+            <v-btn
+              icon class="ml-2"
+              v-on="on"
+              v-bind="attrs"
+              @click.stop="getModelPassport(item.id)"
+            >
+              <v-img src="/download.svg" max-width="24"/>
+            </v-btn>
+          </template>
+          <span>Download</span>
         </v-tooltip>
       </template>
       <template #item.licenceRequired="{ item }">
@@ -245,15 +259,17 @@ export default {
         {text: this.$t('modelBox.table.finalInspection'), value: 'finalInspection', sortable:false},
         {text: this.$t('modelBox.table.shipment'), value: 'shipment', sortable:false},
         {text: this.$t('listsModels.table.status'), value: 'status', width: 200, sortable:false},
-        {text: this.$t('listsModels.table.actions'), value: 'actions', sortable:false},
+        {text: this.$t('listsModels.table.actions'), value: 'actions',width: 120, sortable:false},
       ],
-      allModels: []
+      allModels: [],
+      
     }
   },
   computed: {
     ...mapGetters({
       modelsList: 'models/modelsList',
       totalElements: 'models/totalElements',
+      pdfLoading: 'models/pdfLoading',
     }),
   },
   watch: {
@@ -266,7 +282,8 @@ export default {
   methods: {
     ...mapActions({
       getModelsList: 'models/getModelsList',
-      changeStatusModel: 'models/changeStatusModel'
+      changeStatusModel: 'models/changeStatusModel',
+      getModelPassport: 'models/getModelPassport',
     }),
     async page(value) {
       this.current_page = value - 1;

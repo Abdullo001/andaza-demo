@@ -14,6 +14,7 @@ export const state=()=>({
 export const getters={
   giveShipping: state => state.giveShipping,
   warehouseList: state=>state.warehouseList.content,
+  totalElements: state=>state.warehouseList.totalElements,
   warehouseDetail: state=>state.warehouseDetail,
   firstClassList: state=>state.firstClassList,
   secondClassList: state=>state.secondClassList,
@@ -52,9 +53,9 @@ export const mutations={
 export const actions={
   getWarehouseList({commit},{clientName,modelNumber,orderNumber,page,size}){
     const body={
-      client:clientName,
-      modelNumber,
-      orderNumber,
+      client:clientName??"",
+      modelNumber:modelNumber??"",
+      orderNumber:orderNumber??"",
       page,
       size
     }

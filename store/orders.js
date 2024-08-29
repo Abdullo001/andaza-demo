@@ -148,7 +148,7 @@ export const actions = {
   },
   async getClient({ commit }) {
     await this.$axios
-      .get(`/api/v1/partner/list-by-type?type=client`)
+      .get(`/api/v1/partners/list-by-type?partnerType=client`)
       .then((res) => {
         commit("setClientList", res.data);
       })
