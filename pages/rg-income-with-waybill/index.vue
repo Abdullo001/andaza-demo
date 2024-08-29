@@ -178,7 +178,8 @@ export default {
       this.getItems({page:this.current_page,size:this.itemPerPage,type:"CENTRAL"})
     },
 
-    size() {
+    size(value) {
+      this.itemPerPage=value
       this.getItems({page:0,size:this.itemPerPage,type:"CENTRAL"})
     },
   },
