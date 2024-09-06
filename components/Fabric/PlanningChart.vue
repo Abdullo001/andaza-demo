@@ -8,7 +8,7 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="text-h6">Fabric planning chart</div>
+            <div class="text-h6">{{ $t('planning.planningChart.fabricPlanningChart') }}</div>
             <v-btn
               class="rounded-lg white--text text-capitalize"
               color="#544B99"
@@ -230,16 +230,16 @@ export default {
       delete_dialog: false,
       currency_enums: ["USD", "UZS", "RUB"],
       chartHeaders: [
-        {text: 'Part', align: 'start', sortable: false, value: 'bodyPartName', width:200},
-        {text: 'Fabric specification', value: 'fabricSpecification', width:200},
-        {text: 'Fleece', value: 'withFleece',width: 90},
-        {text: 'Peach effect', value: 'peachEffectEnabled', width: 130},
-        {text: 'Quantity', value: 'quantity',width:100},
+        {text: this.$t('planning.planningChart.part'), align: 'start', sortable: false, value: 'bodyPartName', width:200},
+        {text: this.$t('planning.planningChart.fabricSpecification'), value: 'fabricSpecification', width:200},
+        {text: this.$t('planning.planningChart.fleece'), value: 'withFleece',width: 90},
+        {text: this.$t('planning.planningChart.part'), value: 'peachEffectEnabled', width: 130},
+        {text: this.$t('planning.planningChart.quantity'), value: 'quantity',width:100},
         {text: 'M/U', value: 'quantityUnit',width:80},
-        {text: 'Width type', value: 'widthType',width:120},
-        {text: 'Width(cm)', value: 'width',width:120},
-        {text: 'Density gr/m2', value: 'density', width: 140},
-        {text: 'Actions', value: 'actions', align: 'center',width: 140},
+        {text: this.$t('planning.planningChart.widthType'), value: 'widthType',width:120},
+        {text: this.$t('planning.planningChart.widthCm'), value: 'width',width:120},
+        {text: this.$t('planning.planningChart.densityGrM2'), value: 'density', width: 140},
+        {text: this.$t('planning.planningChart.actions'), value: 'actions', align: 'center',width: 140},
       ],
       planningCharts: [],
       new_dialog: false,

@@ -21,7 +21,7 @@
                 class="rounded-lg text-capitalize mr-2 colorSizeBtn"
                 outlined
               >
-                Supply
+                {{ $t('orderBox.colorSize.supply') }}
               </v-btn>
               <v-btn
                 class="rounded-lg text-capitalize colorSizeBtn"
@@ -31,7 +31,7 @@
                 "
                 outlined
               >
-                Cutting info
+               {{ $t('orderBox.colorSize.cuttingInfo') }}
               </v-btn>
             </div>
             <v-btn
@@ -41,7 +41,7 @@
               @click="new_dialog = true"
             >
               <v-icon>mdi-plus</v-icon>
-              Add row
+              {{ $t('orderBox.colorSize.addRow') }}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -64,7 +64,7 @@
             :colspan="newSizeDistirbution?.modelBodyParts?.length"
             class="text-capitalize text-body-1 font-weight-bold"
           >
-            total quantities
+              {{ $t('orderBox.colorSize.totalQuantities') }}
           </td>
           <td
             v-for="(item, idx) in totalSizes.sizesList"
@@ -87,7 +87,7 @@
     <v-dialog v-model="new_dialog" max-width="572">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
-          <div>Create color/Size</div>
+          <div>  {{ $t('orderBox.dialog.colorDist') }}</div>
           <v-btn @click="new_dialog = !new_dialog" icon>
             <v-icon color="#544B99">mdi-close</v-icon>
           </v-btn>
@@ -182,7 +182,7 @@
 
             <v-row>
               <v-col cols="12" >
-                <div class="label">Artwork (Additional Accessories)</div>
+                <div class="label">{{ $t('orderBox.colorSize.artwork') }}</div>
                 <v-text-field
                       v-model="newSizeDistirbution.artwork"
                       placeholder=""
@@ -227,7 +227,7 @@
                 color="#544B99"
                 width="163"
                 @click="new_dialog = !new_dialog"
-                >cancel
+                >{{ $t('orderBox.colorSize.cencel') }}
               </v-btn>
               <v-btn
                 class="text-capitalize rounded-lg font-weight-bold"
@@ -236,7 +236,7 @@
                 width="163"
                 @click="createSizeDistirbution"
               >
-                Create
+                {{ $t('orderBox.colorSize.create') }}
               </v-btn>
             </v-card-actions>
           </v-form>

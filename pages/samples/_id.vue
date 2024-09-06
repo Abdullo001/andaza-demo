@@ -14,7 +14,7 @@
         <v-form lazy-validation v-model="new_validate" ref="order_detail">
           <v-row>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Order number</div>
+              <div class="label">{{ $t('planning.id.orderNumber') }}</div>
               <v-combobox
                 v-model="sampleDetail.orderNumber"
                 :items="ordersList"
@@ -29,7 +29,7 @@
                 class="rounded-lg base d-flex align-center justify-center mr-2"
                 :return-object="true"
                 dense
-                placeholder="Order name"
+                :placeholder="$t('planning.id.orderNumber') "
                 prepend-icon=""
               >
                 <template #append>
@@ -40,7 +40,7 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Model number</div>
+              <div class="label">{{$t('listsModels.child.modelNumber')}}</div>
               <v-combobox
                 v-model="sampleDetail.modelNumber"
                 :items="modelsList"
@@ -54,7 +54,7 @@
                 class="rounded-lg base d-flex align-center justify-center mr-2"
                 :return-object="true"
                 dense
-                placeholder="Model name"
+                :placeholder="$t('listsModels.child.modelNumber')"
                 prepend-icon=""
               >
                 <template #append>
@@ -65,7 +65,7 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Model name</div>
+              <div class="label">{{ $t('listsModels.child.modelName') }}</div>
               <v-text-field
                 outlined
                 hide-details
@@ -73,14 +73,14 @@
                 height="44"
                 class="rounded-lg base mb-4"
                 v-model="sampleDetail.modelName"
-                placeholder="Model name"
+               :placeholder="$t('listsModels.child.modelName')"
                 validate-on-blur
                 dense
                 color="#544B99"
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Client name</div>
+              <div class="label">{{ $t('planning.id.clientName') }}</div>
               <v-text-field
                 outlined
                 hide-details
@@ -88,14 +88,14 @@
                 height="44"
                 class="rounded-lg base mb-4"
                 v-model="sampleDetail.client"
-                placeholder="Client name"
+                :placeholder=" $t('planning.id.clientName')"
                 validate-on-blur
                 dense
                 color="#544B99"
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Order quantity</div>
+              <div class="label">{{ $t('samplesBox.id.orderQuantity') }}</div>
               <v-text-field
                 outlined
                 hide-details
@@ -103,17 +103,17 @@
                 height="44"
                 class="rounded-lg base mb-4"
                 v-model="sampleDetail.orderedQuantity"
-                placeholder=" Order quantity"
+                :placeholder="$t('samplesBox.id.orderQuantity')"
                 validate-on-blur
                 dense
                 color="#544B99"
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Created by</div>
+              <div class="label">{{ $t('samplesBox.id.createdBy') }}</div>
               <v-text-field
                 v-model="sampleDetail.createdBy"
-                placeholder="Enter creator"
+                :placeholder="$t('samplesBox.id.createdBy')"
                 outlined
                 hide-details
                 height="44"
@@ -128,10 +128,10 @@
             </v-col>
 
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Created at</div>
+              <div class="label">{{ $t('samplesBox.id.createdAt') }}</div>
               <v-text-field
                 v-model="sampleDetail.createdAt"
-                placeholder="Created at"
+                :placeholder=" $t('samplesBox.id.createdAt')"
                 outlined
                 hide-details
                 height="44"
@@ -151,10 +151,10 @@
               </v-col>
 
               <v-col cols="12" lg="3" md="3" sm="6">
-                <div class="label">Updated by</div>
+                <div class="label">{{  $t('samplesBox.id.updatedBy') }}</div>
                 <v-text-field
                   v-model="sampleDetail.updatedBy"
-                  placeholder="Enter Modified person"
+                  :placeholder="  $t('samplesBox.id.updatedBy')"
                   outlined
                   hide-details
                   height="44"
@@ -171,10 +171,10 @@
 
 
               <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Updated at</div>
+              <div class="label">{{   $t('samplesBox.id.updatedAt') }}</div>
               <v-text-field
                 v-model="sampleDetail.updatedAt"
-                placeholder="Update at"
+                :placeholder=" $t('samplesBox.id.updatedAt')"
                 outlined
                 hide-details
                 height="44"
@@ -202,7 +202,7 @@
                 dark
                 @click="createdSample"
               >
-                Save
+                 {{ $t('listsModels.child.save') }}
               </v-btn>
               <v-btn
                 v-else
@@ -345,7 +345,7 @@ export default {
   data(){
     return{
       tab:"",
-      items:["FQS","LD","FIT","STRIKE","BULK","PPS","PHOTO SAMPLE","SHIPMENT SAMPLE","CERTIFICATE SAMPLE"],
+      items:["FQS","LD","FIT","STRIKE","BULK","PPS",this.$t('samplesBox.id.photoSample'),this.$t('samplesBox.id.shipmentSample'),this.$t('samplesBox.id.certificateSample')],
       sampleDetail:{
         orderNumber:"",
         modelNumber:"",

@@ -23,7 +23,7 @@
             item-text="name"
             item-value="id"
             outlined
-            placeholder="Exponse group"
+            :placeholder="$t('planning.expenseGroup.title')"
             @change="(e) => setExpense(e)"
           >
             <template #append>
@@ -49,9 +49,9 @@ export default {
   data() {
     return {
       headers: [
-        { text: "Name", value: "expense", sortable: false },
-        { text: "Price (USD)", value: "price", sortable: false },
-        { text: "Q-ty (kg)", value: "quantity", sortable: false },
+        { text:  this.$t('planning.expenseGroup.name'), value: "expense", sortable: false },
+        { text:  this.$t('planning.expenseGroup.price'), value: "price", sortable: false },
+        { text: this.$t('planning.expenseGroup.quantity'), value: "quantity", sortable: false },
       ],
       expense:"",
       itemList: [],

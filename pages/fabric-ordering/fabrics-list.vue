@@ -18,7 +18,7 @@
                 :return-object="true"
                 dense
                 @keydown.enter="filterBtn"
-                placeholder="Supplier name"
+                :placeholder="$t('fabricOrderingBox.index.supplier')"
                 prepend-icon=""
               >
                 <template #append>
@@ -42,7 +42,7 @@
                 :return-object="true"
                 dense
                 @keydown.enter="filterBtn"
-                placeholder="Sip number"
+                :placeholder="$t('fabricOrderingBox.index.sipNumber')"
                 prepend-icon=""
               >
                 <template #append>
@@ -66,7 +66,7 @@
               :return-object="true"
               dense
               @keydown.enter="filterBtn"
-              placeholder="Order number"
+              :placeholder="$t('orderBox.index.orderNum')"
               prepend-icon=""
             >
               <template #append>
@@ -90,7 +90,7 @@
               :return-object="true"
               dense
               @keydown.enter="filterBtn"
-              placeholder="Model number"
+              :placeholder="$t('planning.listFabric.modelNumber')"
               prepend-icon=""
             >
               <template #append>
@@ -102,7 +102,7 @@
             <v-select
               :items="status_enums"
               v-model="filters.status"
-              placeholder="Select status"
+              :placeholder="$t('fabricOrderingBox.index.status')"
               dense
               outlined
               height="44"
@@ -123,7 +123,7 @@
               class="text-capitalize mr-4 border-primary rounded-lg font-weight-bold"
               @click="resetFilter"
             >
-              Reset
+              {{ $t('localization.dialog.reset') }}
             </v-btn>
             <v-btn
               width="140"
@@ -133,7 +133,7 @@
               class="text-capitalize rounded-lg font-weight-bold"
               @click="filterBtn"
             >
-              Search
+             {{ $t('localization.dialog.search') }}
             </v-btn>
           </div>
 
@@ -176,17 +176,17 @@ export default {
         status: ''
       },
       headers:[
-        {text:"Sip number",value:"sipNumber",sortable:false},
-        {text:"Order number",value:"orderNumber",sortable:false},
-        {text:"Model number",value:"modelNumbers",sortable:false},
-        {text:"Fabric specification",value:"fabricSpecification",sortable:false},
-        {text:"Color",value:"color",sortable:false},
-        {text:"Supplier",value:"supplier",sortable:false},
-        {text:"Ordered fabric",value:"actualTotalFabric",sortable:false},
-        {text:"Actual receiv. fabric/ kg",value:"actualReceivedFabric",sortable:false},
-        {text:"Price per Kg.",value:"pricePerKg",sortable:false},
-        {text:"Total price",value:"totalPrice",sortable:false},
-        {text:"Status",value:"status",sortable:false},
+        {text:this.$t('fabricOrderingBox.index.sipNumber'),value:"sipNumber",sortable:false},
+        {text:this.$t('orderBox.index.orderNum'),value:"orderNumber",sortable:false},
+        {text:this.$t('planning.listFabric.modelNumber'),value:"modelNumbers",sortable:false},
+        {text: this.$t('planning.listFabric.fabricSpecification'),value:"fabricSpecification",sortable:false},
+        {text:this.$t('planning.listFabric.color'),value:"color",sortable:false},
+        {text:this.$t('forms.orderedFabrics.supplier'),value:"supplier",sortable:false},
+        {text:this.$t('fabricOrderingBox.index.orderFabric'),value:"actualTotalFabric",sortable:false},
+        {text:this.$t('fabricOrderingBox.index.recievedFabric'),value:"actualReceivedFabric",sortable:false},
+        {text:this.$t('fabricOrderingBox.index.pricePer'),value:"pricePerKg",sortable:false},
+        {text:this.$t('fabricOrderingBox.index.totalPrice'),value:"totalPrice",sortable:false},
+        {text: this.$t('fabricOrderingBox.index.status'),value:"status",sortable:false},
       ],
       orderNumSearch:"",
       modelNumSearch: "",

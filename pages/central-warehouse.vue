@@ -5,7 +5,7 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Product name"
+              :label="$t('centralWarehouse.productName')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.productName"
@@ -16,7 +16,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Department"
+             :label="$t('centralWarehouse.department')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.department"
@@ -27,7 +27,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Supplier"
+              :label="$t('centralWarehouse.supplier')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.supplier"
@@ -48,7 +48,7 @@
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
-                Reset
+                {{$t('centralWarehouse.reset')}}
               </v-btn>
               <v-btn
                 width="140"
@@ -58,7 +58,7 @@
                 class="text-capitalize rounded-lg"
                 @click="filterData"
               >
-                Search
+               {{$t('centralWarehouse.save')}}
               </v-btn>
             </div>
           </v-col>
@@ -82,7 +82,7 @@
           <v-toolbar-title
             class="d-flex w-full align-center justify-space-between"
           >
-            <div>Central warehouse</div>
+            <div>{{$t('centralWarehouse.centralWarehouse')}}</div>
             <div>
               <v-btn
                 color="#544B99"
@@ -91,7 +91,7 @@
                 @click="addNewItem"
               >
                 <v-icon>mdi-plus</v-icon>
-                Add new item
+                {{$t('centralWarehouse.addNewItem')}}
               </v-btn>
             </div>
           </v-toolbar-title>
@@ -158,7 +158,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
-            {{ title }} arrived Fabric
+          {{$t('centralWarehouse.newArrivedFabric')}}
           </div>
           <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -168,19 +168,19 @@
           <v-form ref="new_form" v-model="new_validate" lazy-validation>
             <v-row>
               <v-col cols="12" lg="6">
-                <div class="label"> Product name</div>
+                <div class="label"> {{$t('centralWarehouse.productName')}}</div>
                 <v-text-field
                   v-model="selectedItem.productName"
                   outlined
                   hide-details
                   dense
                   class="rounded-lg base"
-                  placeholder="Enter product name"
+                  :placeholder="$t('centralWarehouse.productName')"
                   color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Department</div>
+                <div class="label">{{ $t('centralWarehouse.productName') }}</div>
                 <v-combobox
                   v-model="selectedItem.departmentId"
                   :items="departmentList"
@@ -194,7 +194,7 @@
                   class="rounded-lg base d-flex align-center justify-center mr-2"
                   :return-object="true"
                   dense
-                  placeholder="Sip number"
+                  :placeholder="$t('centralWarehouse.sipNumber')"
                   prepend-icon=""
                 >
                   <template #append>
@@ -220,7 +220,7 @@
                   :return-object="true"
                   color="#544B99"
                   dense
-                  placeholder="Enter partner name"
+                  :placeholder="$t('centralWarehouse.enterPartnerName') "
                   append-icon="mdi-chevron-down"
                   :rules="[formRules.required]"
                   validate-on-blur
@@ -231,20 +231,20 @@
                 </v-combobox>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label"> Specification</div>
+                <div class="label">{{ $t('centralWarehouse.specification') }}</div>
                 <v-text-field
                   v-model="selectedItem.specification"
                   outlined
                   hide-details
                   dense
                   class="rounded-lg base"
-                  placeholder="Enter specification"
+                  :placeholder="$t('centralWarehouse.specification')"
                   color="#544B99"
                 />
               </v-col>
 
               <v-col cols="12" lg="6">
-                <div class="label"> Quantity</div>
+                <div class="label"> {{ $t('centralWarehouse.quantity') }}</div>
                   <div class="d-flex align-center">
                     <v-text-field
                       v-model="selectedItem.quantity"
@@ -254,7 +254,7 @@
                       height="44"
                       hide-details
                       outlined
-                      placeholder="Enter quantity"
+                      :placeholder=" $t('centralWarehouse.quantity')"
                       validate-on-blur
                     />
                     <v-select
@@ -275,7 +275,7 @@
                   </div>
               </v-col>
               <v-col cols="12" lg="6" md="6" sm="6">
-                <div class="label">Price</div>
+                <div class="label">{{  $t('centralWarehouse.price') }}</div>
                 <div class="d-flex align-center">
                   <v-text-field
                     v-model="selectedItem.price"
@@ -304,14 +304,14 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label"> Description</div>
+                <div class="label"> {{  $t('centralWarehouse.description') }}</div>
                 <v-text-field
                   v-model="selectedItem.description"
                   outlined
                   hide-details
                   dense
                   class="rounded-lg base"
-                  placeholder="Enter description"
+                  :placeholder=" $t('centralWarehouse.description')"
                   color="#544B99"
                 />
               </v-col>
@@ -326,7 +326,7 @@
             width="163"
             @click="new_dialog = false"
           >
-            cancel
+           {{  $t('centralWarehouse.cancel') }}
           </v-btn>
           <v-btn
             v-if="title === 'new'"
@@ -336,7 +336,7 @@
             width="163"
             @click="saveItem"
           >
-            save
+           {{  $t('centralWarehouse.save') }}
           </v-btn>
           <v-btn
             v-else
@@ -490,23 +490,21 @@ export default {
       currency_enums:["USD","UZS","RUB"],
       headers: [
         { text: "Id", value: "itemId", sortable: false },
-        { text: "Product name", value: "productName", sortable: false },
-        { text: "Specification", value: "specification", sortable: false },
-        { text: "Department", value: "department", sortable: false },
-        { text: "Quantity", value: "quantity", sortable: false },
-        { text: "M-U", value: "measurementUnit", sortable: false },
-        { text: "Price", value: "price", sortable: false },
-        { text: "Currency", value: "currency", sortable: false },
-        { text: "Supplier", value: "supplier", sortable: false },
-        { text: "Description", value: "description", sortable: false },
-        
+        { text: this.$t('centralWarehouse.productName'), value: "productName", sortable: false },
+        { text: this.$t('centralWarehouse.specification'), value: "specification", sortable: false },
+        { text: this.$t('centralWarehouse.department'), value: "department", sortable: false },
+        { text:this.$t('centralWarehouse.quantity'), value: "quantity", sortable: false },
+        { text: this.$t('centralWarehouse.price'), value: "price", sortable: false },
+        { text: this.$t('centralWarehouse.currency'), value: "currency", sortable: false },
+        { text: this.$t('centralWarehouse.supplier'), value: "supplier", sortable: false },
+        { text: this.$t('centralWarehouse.description'), value: "description", sortable: false },
         {
-          text: "Production",
+          text:this.$t('centralWarehouse.production'),
           value: "production",
           sortable: false,
           align: "center",
         },
-        { text: "Action", value: "actions", sortable: false, align: "center" },
+        { text: this.$t('centralWarehouse.action'), value: "actions", sortable: false, align: "center" },
       ],
 
       historyHeaders: [

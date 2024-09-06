@@ -5,7 +5,7 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Sip №"
+               :label="$t('fabricWarehouse.sipNumber')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.sipNumber"
@@ -16,7 +16,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Model №"
+              :label="$t('prefinances.child.modelNumber')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.modelNumber"
@@ -27,7 +27,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Supplier name"
+              :label="$t('fabricOrderingBox.plannedAccessoryOrderBox.supplierName')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.supplierName"
@@ -47,7 +47,7 @@
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
-                Reset
+                {{$t('fabricWarehouse.reset') }}
               </v-btn>
               <v-btn
                 width="140"
@@ -57,7 +57,7 @@
                 class="text-capitalize rounded-lg"
                 @click="filterData"
               >
-                Search
+                {{$t('fabricWarehouse.search') }}
               </v-btn>
             </div>
           </v-col>
@@ -78,7 +78,7 @@
           <v-toolbar-title
             class="d-flex w-full align-center justify-space-between"
           >
-            <div>Fabric stock</div>
+            <div> {{$t('fabricWarehouse.fabricStock') }}</div>
             <v-btn
               color="#544B99"
               dark
@@ -86,7 +86,7 @@
               @click="addArrivedFabricStock"
             >
               <v-icon>mdi-plus</v-icon>
-              Add Fabric Stock
+              {{$t('fabricWarehouse.fabricStock') }}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -150,7 +150,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
-            {{ title }} Fabric stock
+           {{ $t('fabricStockBox.newFabricStock') }}
           </div>
           <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -160,43 +160,43 @@
           <v-form ref="new_form" v-model="new_validate" lazy-validation>
             <v-row>
               <v-col cols="12" lg="6">
-                <div class="label">ART №</div>
+                <div class="label"> {{ $t('fabricStockBox.artNumber') }}</div>
                 <v-text-field
                   v-model="arrivedFabricStock.sipNumber"
                   outlined
                   hide-details
                   dense
                   class="rounded-lg base"
-                  placeholder="Enter ART №"
+                  :placeholder="$t('fabricStockBox.artNumber')"
                   color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Batch №</div>
+                <div class="label">{{$t('fabricStockBox.batchNumber')}}</div>
                 <v-text-field
                   v-model="arrivedFabricStock.batchNumber"
                   outlined
                   hide-details
                   dense
                   class="rounded-lg base"
-                  placeholder="Enter batch №"
+                  :placeholder="$t('fabricStockBox.batchNumber')"
                   color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Order №</div>
+                <div class="label">{{ $t('fabricStockBox.orderNumber') }}</div>
                 <v-text-field
                   v-model="arrivedFabricStock.orderNumber"
                   outlined
                   hide-details
                   dense
                   class="rounded-lg base"
-                  placeholder="Enter Order №"
+                  :placeholder=" $t('fabricStockBox.orderNumber') "
                   color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Model №</div>
+                <div class="label">{{  $t('fabricStockBox.modelNumber')  }}</div>
                 <v-text-field
                   v-model="arrivedFabricStock.modelNumber"
                   outlined
@@ -205,11 +205,11 @@
                   height="44"
                   dense
                   color="#544B99"
-                  placeholder="Enter Model №"
+                  :placeholder=" $t('fabricStockBox.modelNumber')"
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Supplier name</div>
+                <div class="label">{{  $t('fabricStockBox.supplierName') }}</div>
                 <v-combobox
                   v-model="arrivedFabricStock.supplierId"
                   :rules="[formRules.required]"
@@ -224,7 +224,7 @@
                   :return-object="true"
                   color="#544B99"
                   dense
-                  placeholder="Enter partner name"
+                  :placeholder=" $t('fabricStockBox.supplierName')"
                   append-icon="mdi-chevron-down"
                   validate-on-blur
                 >
@@ -234,7 +234,7 @@
                 </v-combobox>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Fabric specification</div>
+                <div class="label">{{  $t('fabricStockBox.fabricSpecification') }}</div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="arrivedFabricStock.fabricSpecification"
@@ -242,12 +242,12 @@
                   hide-details
                   dense
                   class="rounded-lg base"
-                  placeholder="Enter fabric specification"
+                  :placeholder="$t('fabricStockBox.fabricSpecification')"
                   color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Color</div>
+                <div class="label">{{ $t('fabricStockBox.color') }}</div>
                 <v-select
                   append-icon="mdi-chevron-down"
                   v-model="arrivedFabricStock.colorId"
@@ -260,11 +260,11 @@
                   rounded
                   outlined
                   dense
-                  placeholder="Select Color"
+                  :placeholder="$t('fabricStockBox.color') "
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Pantone</div>
+                <div class="label">{{ $t('fabricStockBox.pantone')  }}</div>
                 <div class="d-flex align-center">
                   <v-text-field
                     height="44"
@@ -274,7 +274,7 @@
                     outlined
                     hide-details
                     dense
-                    placeholder="Enter pantone code"
+                    :placeholder="$t('fabricStockBox.pantone')"
                   />
                   <v-select
                     :items="enums"
@@ -293,7 +293,7 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Remaining quantity</div>
+                <div class="label">{{ $t('fabricStockBox.remainingQuantity') }}</div>
                 <div class="d-flex align-center">
                   <v-text-field
                     height="44"
@@ -303,12 +303,12 @@
                     outlined
                     hide-details
                     dense
-                    placeholder="Enter remaining quantity KG"
+                    :placeholder=" $t('fabricStockBox.remainingQuantity') "
                   />
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Price per unit</div>
+                <div class="label">{{  $t('fabricStockBox.pricePerUnit') }}</div>
                 <div class="d-flex align-center">
                   <v-text-field
                     height="44"
@@ -318,7 +318,7 @@
                     outlined
                     hide-details
                     dense
-                    placeholder="Enter Price P/U"
+                    :placeholder=" $t('fabricStockBox.pricePerUnit')"
                   />
                   <v-select
                     :items="priceEnums"
@@ -348,7 +348,7 @@
             width="163"
             @click="new_dialog = false"
           >
-            cancel
+           {{ $t('fabricStockBox.cancel')}}
           </v-btn>
           <v-btn
             v-if="title === 'New'"
@@ -358,7 +358,7 @@
             width="163"
             @click="saveArrivedFabricStock"
           >
-            save
+           {{ $t('fabricStockBox.save')}}
           </v-btn>
           <v-btn
             v-else
@@ -810,18 +810,18 @@ export default {
   data() {
     return {
       headers: [
-        { text: "Sip №", value: "sipNumber", sortable: false },
-        { text: "Batch №", value: "batchNumber", sortable: false },
-        { text: "Order №", value: "orderNumber", sortable: false },
-        { text: "Model №", value: "modelNumber", sortable: false },
-        { text: "Supplier name", value: "supplierName", sortable: false },
-        { text: "Fabric specification", value: "fabricSpecification", sortable: false, width: 200 },
-        { text: "Color", value: "color", sortable: false },
-        { text: "Remaining q-ty", value: "remainingQuantity", sortable: false },
-        { text: "Price P/U", value: "pricePerUnit", sortable: false, align: "center" },
-        { text: "Total price", value: "totalPrice", sortable: false },
-        { text: "Production", value: "production", sortable: false, align: "center" },
-        { text: "Action", value: "actions", sortable: false, align: "center" },
+        { text: this.$t('fabricWarehouse.sipNumber'), value: "sipNumber", sortable: false },
+        { text:this.$t('fabricWarehouse.batchNumber'), value: "batchNumber", sortable: false },
+        { text: this.$t('fabricWarehouse.orderNumber'), value: "orderNumber", sortable: false },
+        { text: this.$t('prefinances.child.modelNumber'), value: "modelNumber", sortable: false },
+        { text: this.$t('samplesBox.sampleTabs.fabricSupplierName'), value: "supplierName", sortable: false },
+        { text: this.$t('fabricWarehouse.fabricSpecification'), value: "fabricSpecification", sortable: false, width: 200 },
+        { text: this.$t('fabricWarehouse.color'), value: "color", sortable: false },
+        { text: this.$t('fabricWarehouse.remainingQuantity'), value: "remainingQuantity", sortable: false },
+        { text:this.$t('fabricWarehouse.pricePerUnit'), value: "pricePerUnit", sortable: false, align: "center" },
+        { text: this.$t('fabricWarehouse.totalPrice'), value: "totalPrice", sortable: false },
+        { text: this.$t('fabricWarehouse.production'), value: "production", sortable: false, align: "center" },
+        { text: this.$t('fabricWarehouse.action'), value: "actions", sortable: false, align: "center" },
       ],
       enums: ["TPX", "TCX", "TPG", "C", "MELANGE"],
       priceEnums: ["USD", "UZS", "RUB"],

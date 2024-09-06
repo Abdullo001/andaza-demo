@@ -4,7 +4,7 @@
     <v-card elevation="0" class="rounded-lg">
       <v-card-title>
         <div>
-          Accessory
+         {{ $t('sidebar.accessory') }}
           <v-chip color="#10BF41" dark class="ml-5 font-weight-bold">
             {{ title }}
           </v-chip>
@@ -15,10 +15,10 @@
       <v-card-text class="mt-4">
         <v-row>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Order number</div>
+            <div class="label">{{ $t('fabricOrderingBox.id.orderNumber') }}</div>
             <v-text-field
               v-model="accessoryDetail.orderNumber"
-              placeholder="Search by order number"
+              :placeholder="$t('fabricOrderingBox.id.orderNumber')"
               validate-on-blur
               outlined
               hide-details
@@ -32,7 +32,7 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Model number</div>
+            <div class="label">{{ $t('fabricOrderingBox.id.modelNumber') }}</div>
             <v-combobox
               v-model="accessoryDetail.modelNumber"
               :items="modelData"
@@ -55,7 +55,7 @@
             </v-combobox>
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6" >
-            <div class="label">Model name</div>
+            <div class="label">{{ $t('fabricOrderingBox.id.modelName') }}</div>
             <v-text-field
               v-model="accessoryDetail.modelName"
               validate-on-blur
@@ -70,11 +70,11 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Head of production department</div>
+            <div class="label">{{ $t('fabricOrderingBox.id.enterHeadOfProductionDepartment') }}</div>
             <v-text-field
               v-model="accessoryDetail.headOfProductionDepartment"
               validate-on-blur
-              placeholder="Enter Head of production department"
+              :placeholder=" $t('fabricOrderingBox.id.enterHeadOfProductionDepartment')"
               outlined
               hide-details
               height="44"
@@ -87,7 +87,7 @@
         </v-row>
         <v-row :class="showObject">
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Client name</div>
+            <div class="label">{{$t('fabricOrderingBox.id.clientName') }}</div>
             <v-text-field
               v-model="accessoryDetail.clientName"
               validate-on-blur
@@ -95,7 +95,7 @@
               hide-details
               height="44"
               dense
-              placeholder="Enter client name"
+              :placeholder="$t('fabricOrderingBox.id.clientName')"
               class="rounded-lg base mb-4"
               disabled
               color="#544B99"
@@ -103,11 +103,11 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Order status</div>
+            <div class="label">{{ $t('fabricOrderingBox.id.orderStatus') }}</div>
             <v-text-field
               v-model="accessoryDetail.orderStatus"
               validate-on-blur
-              placeholder="Enter Order status"
+              :placeholder="$t('fabricOrderingBox.id.orderStatus')"
               outlined
               hide-details
               height="44"
@@ -118,11 +118,11 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Deadline of order</div>
+            <div class="label">{{ $t('fabricOrderingBox.id.deadlineOfOrder') }}</div>
             <v-text-field
               v-model="accessoryDetail.orderDeadline"
               validate-on-blur
-              placeholder="Enter Deadline of order"
+              :placeholder="$t('fabricOrderingBox.id.deadlineOfOrder') "
               outlined
               hide-details
               height="44"
@@ -137,11 +137,11 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Actual shipping date</div>
+            <div class="label">{{ $t('fabricOrderingBox.id.actualShippingDate')  }}</div>
             <v-text-field
               v-model="accessoryDetail.shippingDate"
               validate-on-blur
-              placeholder="Enter Actual shipping date"
+              :placeholder="$t('fabricOrderingBox.id.actualShippingDate')"
               outlined
               hide-details
               height="44"
@@ -156,13 +156,13 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Creator of planning</div>
+            <div class="label">{{ $t('fabricOrderingBox.id.creatorOfPlanning') }}</div>
             <v-text-field
               v-model="accessoryDetail.creatorOfPlanning"
               validate-on-blur
               outlined
               hide-details
-              placeholder="Enter Creator of planning"
+              :placeholder=" $t('fabricOrderingBox.id.creatorOfPlanning') "
               height="44"
               dense
               class="rounded-lg base mb-4"
@@ -171,11 +171,11 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Created time</div>
+            <div class="label">{{  $t('fabricOrderingBox.id.createdTime')  }}</div>
             <v-text-field
               v-model="accessoryDetail.createdTimeOfModel"
               validate-on-blur
-              placeholder="Enter Created time"
+              :placeholder="$t('fabricOrderingBox.id.createdTime')"
               outlined
               hide-details
               height="44"
@@ -190,11 +190,11 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Creator of model</div>
+            <div class="label">{{ $t('fabricOrderingBox.id.creatorOfModel') }}</div>
             <v-text-field
               v-model="accessoryDetail.creatorOfModel"
               validate-on-blur
-              placeholder="Enter Creator of model"
+              :placeholder=" $t('fabricOrderingBox.id.creatorOfModel')"
               outlined
               hide-details
               height="44"
@@ -205,11 +205,11 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Created time</div>
+            <div class="label">{{  $t('fabricOrderingBox.id.createdTime') }}</div>
             <v-text-field
               v-model="accessoryDetail.createdTimeOfModel"
               validate-on-blur
-              placeholder="Enter Created time"
+              :placeholder=" $t('fabricOrderingBox.id.createdTime') "
               outlined
               hide-details
               height="44"
@@ -224,12 +224,12 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Creator of order</div>
+            <div class="label">{{  $t('fabricOrderingBox.id.creatorOfOrder')  }}</div>
             <v-text-field
               v-model="accessoryDetail.creatorOfOrder"
               validate-on-blur
               outlined
-              placeholder="Enter Creator of order"
+              :placeholder="$t('fabricOrderingBox.id.creatorOfOrder')"
               hide-details
               height="44"
               dense
@@ -239,11 +239,11 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Created time</div>
+            <div class="label">{{  $t('fabricOrderingBox.id.createdTime') }}</div>
             <v-text-field
               v-model="accessoryDetail.createdTimeOfOrder"
               validate-on-blur
-              placeholder="Enter Created time"
+              :placeholder="$t('fabricOrderingBox.id.createdTime')"
               outlined
               hide-details
               height="44"
@@ -258,7 +258,7 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="6" md="6">
-            <div class="label">Planned Accessory expense for 1 set</div>
+            <div class="label">{{ $t('fabricOrderingBox.id.plannedAccessoryExpense') }}</div>
             <div class="d-flex align-center">
               <v-select
                 v-model="expenseGroupId"
@@ -297,7 +297,7 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Currency"
+                :placeholder="$t('fabricOrderingBox.id.currency')"
                 readonly
                 validate-on-blur
               />
@@ -338,7 +338,7 @@
               width="130"
               height="44"
             >
-              save
+            {{ $t('fabricOrderingBox.id.save') }}
             </v-btn>
           </v-col>
         </v-row>
@@ -437,9 +437,9 @@ export default {
       search: "",
       accessory_tab: null,
       items: [
-        "Accessory planning chart",
-        "Planned accessory order",
-        "Documentation",
+        this.$t('fabricOrderingBox.id.accessoryPlanningChart'),
+         this.$t('fabricOrderingBox.id.accessoryPlannedOrder'),
+        this.$t('prefinances.child.documents'),
       ],
       fields_status: true,
       currency_enums: ["USD", "UZS", "RUB"],

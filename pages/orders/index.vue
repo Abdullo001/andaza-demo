@@ -246,7 +246,7 @@ export default {
       modelGroup_enums: [],
       headers: [
         {
-          text: this.$t('orderBox.index.orderNumber'),
+          text: this.$t('orderBox.index.orderNum'),
           value: "orderNumber",
           align: "start",
           sortable: false,

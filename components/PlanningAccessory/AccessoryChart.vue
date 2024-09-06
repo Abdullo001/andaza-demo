@@ -13,7 +13,7 @@
         <v-toolbar elevation="0" class="rounded-lg">
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium text-capitalize">
-              Accessory planning chart
+              {{ $t('fabricOrderingBox.id.accessoryPlanningChart') }}
             </div>
             <v-btn
               color="#544B99"
@@ -23,7 +23,7 @@
               :dark="!checkId"
             >
               <v-icon>mdi-plus</v-icon>
-              Add Accessory
+             {{  $t('fabricOrderingBox.addAccessoryBox.addAccessory')}}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -53,7 +53,7 @@
     <v-dialog v-model="new_dialog" width="580">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Add Accessory</div>
+          <div class="text-capitalize font-weight-bold"> {{  $t('fabricOrderingBox.addAccessoryBox.addAccessory')}}</div>
           <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -62,7 +62,7 @@
           <v-form ref="new_form" lazy-validation v-model="validate">
             <v-row>
               <v-col cols="12" md="6">
-                <div class="label">Name</div>
+                <div class="label"> {{  $t('fabricOrderingBox.addAccessoryBox.name')}}</div>
                 <v-select
                   v-model="create_accessory_chart.accessoryId"
                   :items="nameData"
@@ -72,7 +72,7 @@
                   class="rounded-lg base"
                   item-text="name"
                   item-value="id"
-                  placeholder="Select Name"
+                  :placeholder=" $t('fabricOrderingBox.addAccessoryBox.selectName')"
                   dense
                   append-icon="mdi-chevron-down"
                   color="#544B99"
@@ -80,7 +80,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">Specification</div>
+                <div class="label">{{  $t('fabricOrderingBox.addAccessoryBox.specification') }}</div>
                 <v-select
                   v-model="create_accessory_chart.specification"
                   :items="specificationData"
@@ -88,7 +88,7 @@
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  placeholder="Select Specification"
+                  :placeholder=" $t('fabricOrderingBox.addAccessoryBox.selectSpecification')"
                   dense
                   append-icon="mdi-chevron-down"
                   color="#544B99"
@@ -96,7 +96,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">Price per unit</div>
+                <div class="label">{{  $t('fabricOrderingBox.addAccessoryBox.pricePerUnit') }}</div>
                 <div class="d-flex align-center">
                   <v-text-field
                     v-model="create_accessory_chart.accessoryPricePerUnit"
@@ -125,21 +125,21 @@
                 </div>
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">Quantity per unit</div>
+                <div class="label">{{  $t('fabricOrderingBox.addAccessoryBox.quantityPerUnit') }}</div>
                 <v-text-field
                   v-model="create_accessory_chart.quantity"
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  placeholder="Enter Quantity"
+                  :placeholder="$t('fabricOrderingBox.addAccessoryBox.quantityPerUnit')"
                   dense
                   color="#544B99"
                   :rules="[formRules.required]"
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">Measurement unit</div>
+                <div class="label">{{ $t('fabricOrderingBox.addAccessoryBox.measurementUnit') }}</div>
                 <v-select
                   :items="nameData"
                   v-model="create_accessory_chart.accessoryId"
@@ -150,7 +150,7 @@
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  placeholder="Select Measurement unit"
+                  :placeholder="$t('fabricOrderingBox.addAccessoryBox.selectMeasurementUnit')"
                   dense
                   append-icon="mdi-chevron-down"
                   color="#544B99"
@@ -158,41 +158,41 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">Wastage</div>
+                <div class="label">{{$t('fabricOrderingBox.addAccessoryBox.wastage')}}</div>
                 <v-text-field
                   v-model="create_accessory_chart.wastage"
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  placeholder="Enter Wastage"
+                  :placeholder="$t('fabricOrderingBox.addAccessoryBox.wastage')"
                   dense
                   color="#544B99"
                   :rules="[formRules.required]"
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <div class="label">Production quantity</div>
+                <div class="label">{{ $t('fabricOrderingBox.addAccessoryBox.productionQuantity') }}</div>
                 <v-text-field
                   v-model="create_accessory_chart.productionQuantity"
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  placeholder="Enter production quantity"
+                  :placeholder="$t('fabricOrderingBox.addAccessoryBox.productionQuantity') "
                   dense
                   color="#544B99"
                   :rules="[formRules.required]"
                 />
               </v-col>
               <v-col cols="12">
-                <div class="label">Description</div>
+                <div class="label">{{ $t('fabricOrderingBox.addAccessoryBox.description')  }}</div>
                 <v-textarea
                   v-model="create_accessory_chart.description"
                   outlined
                   hide-details
                   class="rounded-lg base"
-                  placeholder="Enter Canvas type"
+                  :placeholder="$t('fabricOrderingBox.addAccessoryBox.description')"
                   dense
                   color="#544B99"
                 />
@@ -249,7 +249,7 @@
             width="163"
             @click="new_dialog = false"
           >
-            cancel
+         {{ $t('billingCompany.dialog.cancel') }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -258,7 +258,7 @@
             width="163"
             @click="create"
           >
-            add
+            {{ $t('billingCompany.dialog.add') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -550,18 +550,18 @@ export default {
       new_dialog: false,
       delete_dialog: false,
       headers: [
-        { text: "Name", value: "name" },
-        { text: "Specification", value: "specification" },
-        { text: "Price P/U", value: "pricePerUnit" },
-        { text: "Currency", value: "pricePerUnitCurrency" },
-        { text: "Accessory photo", value: "accessoryPhoto" },
-        { text: "Quantity", value: "quantity" },
+        { text: this.$t('fabricOrderingBox.addAccessoryBox.name'), value: "name" },
+        { text: this.$t('fabricOrderingBox.addAccessoryBox.specification'), value: "specification" },
+        { text: this.$t('fabricOrderingBox.addAccessoryBox.pricePerUnit'), value: "pricePerUnit" },
+        { text: this.$t('fabricOrderingBox.id.currency'), value: "pricePerUnitCurrency" },
+        { text:this.$t('fabricOrderingBox.addAccessoryBox.accessoryPhoto'), value: "accessoryPhoto" },
+        { text: this.$t('fabricOrderingBox.addAccessoryBox.quantity'), value: "quantity" },
         { text: "M/U", value: "quantityUnitName" },
-        { text: "Wastage", value: "wastage" },
-        { text: "Production Quantity", value: "productionQuantity" },
-        { text: "totalAccessory", value: "totalAccessory" },
-        { text: "Description", value: "description" },
-        { text: "Actions", value: "actions", align: "center", sortable: false , width: 150},
+        { text: this.$t('fabricOrderingBox.addAccessoryBox.wastage'), value: "wastage" },
+        { text: this.$t('fabricOrderingBox.addAccessoryBox.productionQuantity'), value: "productionQuantity" },
+        { text: this.$t('fabricOrderingBox.addAccessoryBox.totalAccessory'), value: "totalAccessory" },
+        { text: this.$t('fabricOrderingBox.addAccessoryBox.description'), value: "description" },
+        { text: this.$t('fabricOrderingBox.addAccessoryBox.actions'), value: "actions", align: "center", sortable: false , width: 150},
       ],
       items:[],
       accessoryId:null,

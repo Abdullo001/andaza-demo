@@ -25,7 +25,7 @@
           <v-img src="/error-icon.svg" max-width="40" />
         </div>
         <v-card-title class="d-flex justify-center">
-          Are you sure you want to complete this process?
+        {{ $t('finishProcess.completeProcess') }}
         </v-card-title>
         <v-card-text>
           <!-- finish this process -->
@@ -49,7 +49,8 @@
             dark
             @click="confirm"
           >
-            Finish
+             {{ $t('finishProcess.finish') }}
+
           </v-btn>
         </v-card-actions>
       </v-card>

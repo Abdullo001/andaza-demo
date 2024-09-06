@@ -13,7 +13,7 @@
             <v-form v-model="new_valid" ref="valid" lazy-validation>
               <v-row class="mt-4">
                 <v-col cols="12" lg="3">
-                  <div class="label">Partner name</div>
+                  <div class="label">{{ $t('fabricOrderingBox.plannedAccessoryOrderBox.partnerName') }}</div>
                   <v-combobox
                     v-model="details.partnerName"
                     :items="partnerLists"
@@ -27,7 +27,7 @@
                     :return-object="true"
                     color="#544B99"
                     dense
-                    placeholder="Enter partner name"
+                    :placeholder="$t('fabricOrderingBox.plannedAccessoryOrderBox.partnerName')"
                     append-icon="mdi-chevron-down"
                     :rules="[formRules.required]"
                     validate-on-blur
@@ -39,12 +39,12 @@
                 </v-col>
 
                 <v-col cols="12" lg="3">
-                  <div class="label">Delivery time</div>
-                  <el-date-picker
+                  <div class="label">{{$t('fabricOrderingBox.plannedAccessoryOrderBox.deliveryTime') }}</div>
+                  <el-date-picker 
                     v-model="details.deliveryTime"
                     type="datetime"
                     style="width: 100%; height: 44px !important;"
-                    placeholder="Deadline for fabric"
+                    :placeholder="$t('fabricOrderingBox.plannedAccessoryOrderBox.deliveryTime') "
                     :picker-options="pickerShortcuts"
                     value-format="dd.MM.yyyy HH:mm:ss"
                     class="base_picker"
@@ -105,7 +105,7 @@
         width="133"
         @click="savePlanningOrder"
       >
-        order
+       {{ $t('fabricOrderingBox.plannedAccessoryOrderBox.order')  }}
       </v-btn>
     </div>
   </div>
@@ -123,34 +123,34 @@ export default {
       headers: [
         { text: "", value: "isOrdered", sortable: false },
         {
-          text: "Deadline",
+          text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.deadline'),
           align: "start",
           sortable: false,
           value: "deadline",
         },
-        { text: "Order №", value: "orderNumber", sortable: false },
-        { text: "Model №", value: "modelNumber", sortable: false },
-        { text: "Client", value: "client", sortable: false },
-        { text: "Supplier name", value: "supplierName", sortable: false },
+        { text:  this.$t('fabricOrderingBox.plannedAccessoryOrderBox.orderNumber'), value: "orderNumber", sortable: false },
+        { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.modelNumber'), value: "modelNumber", sortable: false },
+        { text:  this.$t('fabricOrderingBox.plannedAccessoryOrderBox.client'), value: "client", sortable: false },
+        { text:  this.$t('fabricOrderingBox.plannedAccessoryOrderBox.supplierName'), value: "supplierName", sortable: false },
         {
-          text: "Access name and specification",
+          text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.accessNameSpecification'),
           value: "accessNameAndSpecification",
           sortable: false,
           width: "200",
         },
-        { text: "Status", value: "status", sortable: false, width:200 },
-        { text: "Producing", value: "producingQuantity", sortable: false },
-        { text: "M/U", value: "producingQuantityMUnit", sortable: false },
-        { text: "Quantity for 1pc", value: "quantityOnePc", sortable: false },
-        { text: "M/U", value: "quantityOnePcUnit", sortable: false },
-        { text: "Total accessory", value: "totalAccessory", sortable: false },
+        { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.status'),value: "status", sortable: false, width:200 },
+        { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.producing'), value: "producingQuantity", sortable: false },
+        { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.measurementUnit'), value: "producingQuantityMUnit", sortable: false },
+        { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.quantityForOnePiece'), value: "quantityOnePc", sortable: false },
+        { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.measurementUnit'), value: "quantityOnePcUnit", sortable: false },
+        { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.totalAccessory'), value: "totalAccessory", sortable: false },
         {
-          text: "Price per unit",
+          text:this.$t('fabricOrderingBox.plannedAccessoryOrderBox.pricePerUnit'),
           value: "pricePerUnit",
           sortable: false,
         },
-        { text: "Ordering quantity", value: "orderedQuantity", sortable: false, width:150 },
-        { text: "Total price", value: "totalPrice", sortable: false },
+        { text:this.$t('fabricOrderingBox.plannedAccessoryOrderBox.orderingQuantity'), value: "orderedQuantity", sortable: false, width:150 },
+        { text:this.$t('fabricOrderingBox.plannedAccessoryOrderBox.totalPrice'), value: "totalPrice", sortable: false },
       ],
       details: {
         partnerName: "",
