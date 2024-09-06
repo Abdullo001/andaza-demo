@@ -63,11 +63,14 @@
       class="mt-4 rounded-lg pt-4"
       :headers="headers"
       :items="allModels"
-      :items-per-page="10"
+      :items-per-page="itemPerPage"
       :footer-props="{
           itemsPerPageOptions: [10, 20, 50, 100],
       }"
+      @update:page="page"
+      @update:items-per-page="size"
       @click:row="(item) => viewDetails(item)"
+      :server-items-length="totalElements"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -127,12 +130,15 @@ export default {
         {text: 'Status', sortable: false,  value: 'status', width: 200},
       ],
       allModels: [],
-      statusEnum: ["SHIPPED", "PENDING", "FIELD"]
+      statusEnum: ["SHIPPED", "PENDING", "FIELD"],
+      itemPerPage:10,
+      currentPage:0,
     }
   },
   computed:{
     ...mapGetters({
       warehouseList:"readyGarmentWarehouse/warehouseList",
+      totalElements:"readyGarmentWarehouse/totalElements",
     })
   },
   watch:{
@@ -144,6 +150,15 @@ export default {
     ...mapActions({
       getWarehouseList: "readyGarmentWarehouse/getWarehouseList"
     }),
+    page(value) {
+      this.currentPage=value-1
+      this.getWarehouseList({page:this.currentPage,size:this.itemPerPage})
+    },
+
+    size(value) {
+      this.itemPerPage=value
+      this.getWarehouseList({page:0,size:this.itemPerPage})
+    },
     statusColors(color) {
       switch (color) {
         case 'SHIPPED':

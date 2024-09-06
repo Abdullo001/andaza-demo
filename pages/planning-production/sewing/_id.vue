@@ -411,7 +411,6 @@ export default {
   },
   created() {
     this.getProcessList();
-    this.getWorkshopList();
     this.getColorsList();
   },
   computed: {
@@ -487,7 +486,6 @@ export default {
       getModelInfo: 'production/planning/getModelInfo',
       getImages: 'modelPhoto/getImages',
       getProcessList: 'production/planning/getProcessList',
-      getWorkshopList: 'production/planning/getWorkshopList',
       getColorsList: 'production/planning/getColorsList',
       createProcessPlanning: 'production/planning/createProcessPlanning',
       getProcessingList: 'production/planning/getProcessingList',

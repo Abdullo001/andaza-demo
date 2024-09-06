@@ -375,7 +375,7 @@ export default {
   },
 
   created() {
-    this.getPartnerName("");
+    this.getPartnerList({page:0, size:10});
   },
 
   computed: {
@@ -385,7 +385,7 @@ export default {
       }
     },
     ...mapGetters({
-      partnerLists: "fabricOrdering/partnerLists",
+      partnerLists: "partners/partnerList",
       oneWaybill: "waybill/oneWaybill",
       newWaybillId: "waybill/newWaybillId",
       pdfList: "waybill/waybillForm",
@@ -394,11 +394,7 @@ export default {
 
   watch: {
     branchSearch(val) {
-      if (!!val) {
-        this.getPartnerName(val);
-      } else {
-        this.getPartnerName("");
-      }
+      this.getPartnerList({page:0, size:10,partnerName:val});
     },
 
     oneWaybill(val){
@@ -428,7 +424,7 @@ export default {
 
   methods: {
     ...mapActions({
-      getPartnerName: "fabricOrdering/getPartnerName",
+      getPartnerList: "partners/getPartnerList",
       createWaybillList: "waybill/createWaybillList",
       updateWaybill: "waybill/updateWaybill",
       getOneWaybill: "waybill/getOneWaybill",

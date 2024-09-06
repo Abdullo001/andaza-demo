@@ -181,9 +181,7 @@ export default {
       this.allPlannerOrder = JSON.parse(JSON.stringify(val));
     },
     partnerName(val) {
-      if(!!val && val !== '') {
-        this.getPartnerName(val);
-      }
+      
     },
     warehouseCode(val) {
       if(!!val && val !== '')
@@ -206,7 +204,6 @@ export default {
   methods: {
     ...mapActions({
       getPartnerList: 'models/getPartnerList',
-      getPartnerName: 'plannedOrder/getPartnerName',
       getWarehouseCodeList: 'plannedOrder/getWarehouseCodeList',
       getPlannedOrderList: 'plannedOrder/getPlannedOrderList',
       createPlanningOrder: 'plannedOrder/createPlanningOrder',

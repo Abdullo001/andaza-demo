@@ -93,7 +93,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      partnerLists: 'plannedOrder/partnerLists',
+      partnerLists: "partners/partnerList",
       warehouseList: 'plannedOrder/warehouseList',
       fabricPlanningId: 'fabric/fabricPlanningId',
       plannedOrderList: 'plannedOrder/plannedOrderList',
@@ -107,9 +107,7 @@ export default {
       }
     },
     partnerName(val) {
-      if(!!val && val !== '') {
-      this.getPartnerName(val);
-      }
+      this.getPartnerList({page:0, size:10,partnerName:val});
     },
     warehouseCode(val) {
       if(!!val && val !== '')
@@ -132,7 +130,7 @@ export default {
   methods: {
     ...mapActions({
       getPartnerList: 'models/getPartnerList',
-      getPartnerName: 'plannedOrder/getPartnerName',
+      getPartnerList: 'partners/getPartnerList',
       getWarehouseCodeList: 'plannedOrder/getWarehouseCodeList',
       getPlannedOrderList: 'plannedOrder/getPlannedOrderList',
       createPlanningOrder: 'plannedOrder/createPlanningOrder',

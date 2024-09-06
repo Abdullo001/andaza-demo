@@ -773,7 +773,7 @@ export default {
     };
   },
   created() {
-    this.getPartnerName("");
+    this.getPartnerList({page:0, size:10});
     this.getModelsList({
       page: 0,
       size: 10,
@@ -787,7 +787,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      partnerLists: "fabricOrdering/partnerLists",
+      partnerLists: "partners/partnerList",
       modelsList: "models/modelsList",
       colorList: "accessorySamples/colorList",
       measurementUnitList: "preFinance/measurementUnit",
@@ -840,11 +840,7 @@ export default {
       this.sender=JSON.parse(JSON.stringify(val))
     },
     branchSearch(val) {
-      if (!!val) {
-        this.getPartnerName(val);
-      } else {
-        this.getPartnerName("");
-      }
+      this.getPartnerList({page:0, size:10,partnerName:val});
     },
     "waybill.branchId"(val) {
       this.waybill.branchAddress = val?.address;
@@ -882,7 +878,7 @@ export default {
       getWaybillInfos: "waybill/getWaybillInfos",
       setWaybillInfos: "waybill/setWaybillInfos",
       getWaybillItems: "waybill/getWaybillItems",
-      getPartnerName: "fabricOrdering/getPartnerName",
+      getPartnerList: "partners/getPartnerList",
       getModelsList: "models/getModelsList",
       modelColor: "accessorySamples/modelColor",
       getMeasurementUnit: "preFinance/getMeasurementUnit",

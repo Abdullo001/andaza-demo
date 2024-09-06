@@ -11,7 +11,6 @@
             <v-text-field
               v-model="filters.phoneNumber"
               :label="$t('partners.child.pNumber')"
-              :placeholder="$t('partners.child.pNumberEnter')"
               outlined
               class="rounded-lg filter"
               hide-details
@@ -21,9 +20,8 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              v-model="filters.name"
+              v-model="filters.partnerName"
               :label="$t('partners.child.pName')"
-              :placeholder="$t('partners.child.pNameEnter')"
               outlined
               class="rounded-lg filter"
               hide-details
@@ -33,12 +31,11 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              v-model="filters.email"
+              v-model="filters.partnerEmail"
               outlined
               hide-details
               dense
               :label="$t('partners.child.pEmail')"
-              :placeholder="$t('partners.child.pEmailEnter')"
               class="rounded-lg filter"
             />
           </v-col>
@@ -253,12 +250,17 @@
               </v-col>
               <v-col cols="12" md="6">
                 <div class="label">{{ $t('partners.dialog.pNumber') }}</div>
-                <vue-phone-number-input
+                
+                <v-text-field
+                  :rules="[formRules.required]"
                   v-model="create_partner.phoneNumber"
-                  :required="true"
-                  :color="'#544B99'"
-                  default-country-code="UZ"
-                  @update="newPhoneNumber"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  dense
+                  :placeholder="$t('partners.dialog.pNumber')"
+                  color="#544B99"
                 />
               </v-col>
 
@@ -334,7 +336,7 @@
                   type="datetime"
                   :placeholder="$t('partners.dialog.created')"
                   :picker-options="pickerShortcuts"
-                  value-format="dd.MM.yyyy HH:mm:ss"
+                  value-format="timestamp"
                   class="base_picker"
                 >
                 </el-date-picker>
@@ -535,11 +537,17 @@
               </v-col>
               <v-col cols="12" md="6">
                 <div class="label">{{ $t('partners.dialog.pNumber') }}</div>
-                <vue-phone-number-input
-                  v-model="edit_partner.phoneNumber"
-                  :color="'#544B99'"
-                  @update="editPhoneNumber"
-                />
+                <v-text-field
+                :rules="[formRules.required]"
+                v-model="edit_partner.phoneNumber"
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
+                dense
+                :placeholder="$t('partners.dialog.pNumber')"
+                color="#544B99"
+              />
               </v-col>
               <v-col cols="12" md="6">
                 <div class="label">{{ $t('partners.dialog.email') }}</div>
@@ -592,7 +600,7 @@
                   :placeholder="$t('partners.dialog.created')"
                   :picker-options="pickerShortcuts"
                   class="base_picker"
-                  value-format="dd.MM.yyyy HH:mm:ss"
+                  value-format="timestamp"
                 >
                 </el-date-picker>
               </v-col>
@@ -853,10 +861,9 @@ export default {
     partner_one_list(val) {
       const item = JSON.parse(JSON.stringify(val));
       this.edit_partner = {...item};
-      if (this.edit_partner.phoneNumber) {
-        this.edit_partner.phoneNumber = this.edit_partner.phoneNumber.slice(4);
-      }
+      
       this.countryIdSearch = item.country
+      
     },
 
     "create_partner.brandName"(value) {
@@ -875,7 +882,7 @@ export default {
   computed: {
     ...mapGetters({
       loading: "partners/loading",
-      partner_list: "partners/partner_list",
+      partner_list: "partners/partnerList",
       totalElements: "partners/totalElements",
       partner_type: "partners/partner_type",
       partner_one_list: "partners/partner_one_list",
@@ -898,7 +905,6 @@ export default {
       getCooperationType: "partners/getCooperationType",
     }),
     remove(item) {
-      console.log(item)
       const index = this.brandNameList.indexOf(item)
       if (index >= 0) this.brandNameList.splice(index, 1)
     },
@@ -986,6 +992,7 @@ export default {
           brandName,
           country,
           cooperationType,
+          phoneNumber
 
         } = this.create_partner;
         const formData = new FormData();
@@ -999,8 +1006,7 @@ export default {
         formData.append("contractNumber", contractNumber?contractNumber:"");
         formData.append("status", status?status:"");
         formData.append("typeId", typeId);
-        formData.append("phoneNumber", this.newPhone);
-        formData.append("countryCode", this.countryCode);
+        formData.append("phoneNumber", phoneNumber);
         formData.append("brandNames", brandName);
         if(country?.id){
           formData.append("countryId", country.id);
@@ -1036,15 +1042,14 @@ export default {
           countryId,
           country,
           brandNames,
-          cooperationTypeId
+          cooperationTypeId,
+          phoneNumber,
         } = this.edit_partner;
+        
         if(typeof country!=='string'){
           countryId=country.id
-          console.log(countryId);
         }
-        console.log(this.edit_partner);
         const formData = new FormData();
-        formData.append("id", id);
         formData.append("typeId", partnerTypeId);
         formData.append("address", address?address:"");
         formData.append("contractDate", contractDate?contractDate:"");
@@ -1055,8 +1060,7 @@ export default {
         formData.append("name", name);
         formData.append("contractNumber", contractNumber?contractNumber:"");
         formData.append("status", status?status:"");
-        formData.append("phoneNumber", this.newPhone);
-        formData.append("countryCode", this.countryCode);
+        formData.append("phoneNumber", phoneNumber);
         formData.append("brandNames", brandNames);
         if(countryId){
           formData.append("countryId",countryId);
@@ -1064,7 +1068,7 @@ export default {
         if (cooperationTypeId) {
           formData.append("cooperationTypeId", cooperationTypeId);
         }
-        await this.updatePartnerList(formData);
+        await this.updatePartnerList({data:formData,id});
         this.edit_dialog = false;
         this.edit_image_list = [];
       }
@@ -1088,8 +1092,8 @@ export default {
       await this.getPartnerList({page: 0, size: 10});
     },
     async filterData() {
-      const items = {...this.filters};
-      await this.filterPartnerList(items);
+
+      await this.getPartnerList({page:0,size:10,...this.filters});
     },
   },
   async mounted() {

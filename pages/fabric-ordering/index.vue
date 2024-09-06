@@ -483,16 +483,15 @@ export default {
     ...mapGetters({
       ordersList: "orders/ordersList",
       sampleFabricOrdering:"fabricOrdering/sampleFabricOrdering",
-      partnerLists: "fabricOrdering/partnerLists",
+      partnerLists: "partners/partnerList",
       generatedFabricOrdering: "fabricOrdering/generatedFabricOrdering",
     })
   },
 
   watch:{
     partnerName(val) {
-      if(!!val && val !== '') {
-      this.getPartnerName(val);
-      }
+      this.getPartnerList({page:0, size:10,partnerName:val});
+
     },
 
     generatedFabricOrdering(val){
@@ -527,7 +526,7 @@ export default {
       filterOrderList: "orders/filterOrderList",
       getOrdersList:"orders/getOrdersList",
       getSampleFabricOrdering:"fabricOrdering/getSampleFabricOrdering",
-      getPartnerName: 'fabricOrdering/getPartnerName',
+      getPartnerList: "partners/getPartnerList",
       generateFabricOrder: 'fabricOrdering/generateFabricOrder',
       getGeneratedFabricOrdering: 'fabricOrdering/getGeneratedFabricOrdering',
       setFabricOrder: 'fabricOrdering/setFabricOrder',
@@ -705,7 +704,7 @@ export default {
 
 
   mounted(){
-    this.getPartnerName("")
+    this.getPartnerList({page:0,size:10})
     this.$store.commit('setPageTitle', 'Fabric Ordering');
   }
 }

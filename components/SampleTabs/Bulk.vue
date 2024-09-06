@@ -333,7 +333,7 @@ export default {
   computed:{
     ...mapGetters({
       chartList:"samplesTabs/chartList",
-      partnerLists: "fabricOrdering/partnerLists",
+      partnerLists: "partners/partnerList",
       colorList: "accessorySamples/colorList",
       oneSample:"accessorySamples/oneSample",
 
@@ -346,9 +346,7 @@ export default {
       this.currentList=JSON.parse(JSON.stringify(val))
     },
     partnerName(val) {
-      if(!!val && val !== '') {
-      this.getPartnerName(val);
-      }
+      this.getPartnerList({page:0, size:10,partnerName:val});
     },
   },
 
@@ -358,7 +356,7 @@ export default {
       createChartRow:"samplesTabs/createChartRow",
       updateChartRow:"samplesTabs/updateChartRow",
       deleteChartRow:"samplesTabs/deleteChartRow",
-      getPartnerName: "fabricOrdering/getPartnerName",
+      getPartnerList: "partners/getPartnerList",
 
     }),
     addNewChart(){
@@ -412,7 +410,7 @@ export default {
   },
 
   mounted(){
-    this.getPartnerName("")
+    this.getPartnerList({page:0,size:10})
   }
 };
 </script>

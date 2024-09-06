@@ -883,7 +883,7 @@ export default {
     ...mapGetters({
       fabricStockList: "fabricStock/fabricStockList",
       colorsList: "accessoryChart/colorsList",
-      partnerLists: "fabricStock/partnerLists",
+      partnerLists: "partners/partnerList",
       partnerList: "fabricStock/partnerList",
       modelsList: "models/modelsList",
       processDetails: "fabricStock/processDetails",
@@ -920,9 +920,10 @@ export default {
       this.current_list = JSON.parse(JSON.stringify(val));
     },
     partnerName(val) {
-      if (!!val && val !== "") {
-        this.getPartnerName(val);
-      }
+      this.getPartnerList({page:0, size:10,partnerName:val});
+    },
+    supplierName(val){
+      this.getPartnerList({page:0, size:10,partnerName:val});
     },
     modelNumSearch(val) {
       if (!!val) {
@@ -938,9 +939,8 @@ export default {
   },
 
   created() {
-    this.getPartnerList();
     this.getColorsList();
-    this.getPartnerName();
+    this.getPartnerList({page:0,size:10})
     this.getModelsList({
       page: 0,
       size: 10,
@@ -960,7 +960,7 @@ export default {
       setFabricStockToSubcontract: "fabricStock/setFabricStockToSubcontract",
       getPartnerList: "subcontracts/getPartnerList",
       getColorsList: "accessoryChart/getColorsList",
-      getPartnerName: "fabricStock/getPartnerName",
+      getPartnerList: "partners/getPartnerList",
       getPartnerListFunc: "fabricStock/getPartnerList",
       getModelsList: "models/getModelsList",
       getFabricProcessDetails: "fabricStock/getFabricProcessDetails",

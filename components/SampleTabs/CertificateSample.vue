@@ -244,7 +244,7 @@ export default {
   computed:{
     ...mapGetters({
       chartList:"samplesTabs/chartList",
-      partnerLists: "fabricOrdering/partnerLists",
+      partnerLists: "partners/partnerList",
       colorList: "accessorySamples/colorList",
       mainColorsList: "samplesTabs/mainColorsList",
       modelSizesList: "samplesTabs/modelSizesList",
@@ -302,9 +302,7 @@ export default {
 
     },
     partnerName(val) {
-      if(!!val && val !== '') {
-      this.getPartnerName(val);
-      }
+      this.getPartnerList({page:0, size:10,partnerName:val});
     },
   },
 
@@ -314,7 +312,7 @@ export default {
       createChartRow:"samplesTabs/createChartRow",
       updateChartRow:"samplesTabs/updateChartRow",
       deleteChartRow:"samplesTabs/deleteChartRow",
-      getPartnerName: "fabricOrdering/getPartnerName",
+      getPartnerList: "partners/getPartnerList",
       getMainColors: "samplesTabs/getMainColors",
       getSizesList: "samplesTabs/getSizesList",
 
@@ -388,7 +386,8 @@ export default {
   mounted(){
     this.getMainColors(this.oneSample.modelId)
     this.getSizesList(this.oneSample.modelId)
-    this.getPartnerName("")
+    this.getPartnerList({page:0,size:10})
+
   }
 };
 </script>
