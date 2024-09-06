@@ -6,7 +6,7 @@
           <div class="d-flex align-center justify-space-between flex-fill mb-4">
             <v-text-field
               v-model="filters.orderNumber"
-              placeholder="Order number"
+              :placeholder="$t('fabricOrderingBox.index.supplier')"
               outlined
               height="40"
               validate-on-blur
@@ -16,7 +16,7 @@
             />
             <v-text-field
               v-model="filters.modelNumber"
-              placeholder="Model number"
+              :placeholder="$t('planning.listFabric.modelNumber')"
               outlined
               height="40"
               validate-on-blur
@@ -26,7 +26,7 @@
             />
             <v-text-field
               v-model="filters.clientName"
-              placeholder="Client name"
+              :placeholder="$t('inspectionBox.clientName')"
               outlined
               height="40"
               validate-on-blur
@@ -40,7 +40,7 @@
                 class="rounded-lg d-block filter_picker "
                 type="date"
                 style="width: 100%; height: 100%"
-                placeholder="From date"
+                :placeholder="$t('forms.calculationsList.fromDate')"
                 :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy"
               >
@@ -52,7 +52,7 @@
                 v-model="filters.toDate"
                 type="date"
                 style="width: 100%; height: 100%"
-                placeholder="To date"
+                :placeholder="$t('forms.calculationsList.toDate')"
                 :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy"
               >
@@ -69,7 +69,7 @@
               class="text-capitalize mr-4 border-primary rounded-lg font-weight-bold"
               @click="resetFilter"
             >
-              Reset
+              {{ $t('listsModels.dialog.reset') }}
             </v-btn>
             <v-btn
               width="140"
@@ -79,7 +79,7 @@
               class="text-capitalize rounded-lg font-weight-bold"
               @click="filterBtn"
             >
-              Search
+              {{ $t('listsModels.dialog.search') }}
             </v-btn>
           </div>
         
@@ -104,10 +104,10 @@
           <v-toolbar-title
             class="d-flex w-full align-center justify-space-between"
           >
-            <div>Accessory</div>
+            <div>{{ $t('sidebar.accessory') }}</div>
             <v-btn color="#544B99" dark class="text-capitalize rounded-lg" @click="addOrder">
               <v-icon>mdi-plus</v-icon>
-              Accessory
+               {{ $t('sidebar.accessory') }}  
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -150,12 +150,12 @@ export default {
       },
       headers: [
         {text: "ID", align: "start", sortable: false, value: "id",},
-        {text: "Order №", value: "orderNumber"},
-        {text: "Model №", value: "modelNumber"},
-        {text: "Client name", value: "clientName"},
-        {text: "Created", value: "createdTimeOfPlanning"},
-        {text: "Updated", value: "updatedTimeOfPlanning"},
-        {text: "Actions", value: "actions", sortable: false, align: "center"},
+        {text: this.$t('orderBox.index.orderNum'), value: "orderNumber"},
+        {text: this.$t('inspectionBox.model'), value: "modelNumber"},
+        {text: this.$t('inspectionBox.clientName'), value: "clientName"},
+        {text: this.$t("catalogGroups.tabs.table.createdAt"), value: "createdTimeOfPlanning"},
+        {text: this.$t('planning.index.updated'),  value: "updatedTimeOfPlanning"},
+        {text: this.$t("catalogGroups.tabs.table.actions"), value: "actions", sortable: false, align: "center"},
       ],
     };
   },

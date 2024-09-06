@@ -14,7 +14,7 @@
           <v-toolbar-title
             class="d-flex w-full align-center justify-space-between"
           >
-            <div>SHIPMENT SAMPLE</div>
+            <div>SHIPMENT</div>
             <v-btn
               color="#544B99"
               dark
@@ -22,7 +22,7 @@
               @click="addNewChart"
             >
               <v-icon>mdi-plus</v-icon>
-              Add sample info
+              {{ $t('samplesBox.sampleTabs.addSampleInfo') }}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -67,7 +67,7 @@
     <v-dialog v-model="new_dialog" max-width="572">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
-          <div>SHIPMENT SAMPLE info</div>
+          <div>SHIPMENT</div>
           <v-btn @click="new_dialog = false" icon>
             <v-icon color="#544B99">mdi-close</v-icon>
           </v-btn>
@@ -77,13 +77,13 @@
           <v-form lazy-validation v-model="new_validate" ref="new_form">
             <v-row class="mb-4">
               <v-col cols="12" lg="6">
-                <div class="label">Main color</div>
+                <div class="label">{{ $t('samplesBox.sampleTabs.bodyPartColor') }}</div>
                 <v-select
                   v-model="chartData.color"
                   :items="mainColorsList"
                   :rules="[formRules.required]"
                   append-icon="mdi-chevron-down"
-                  placeholder="Select main color"
+                  :placeholder=" $t('samplesBox.sampleTabs.bodyPartColor')"
                   outlined
                   single-line
                   hide-details
@@ -94,7 +94,7 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">SHIPMENT SAMPLE Sent date</div>
+                <div class="label">{{  $t('samplesBox.sampleTabs.sentDate') }}</div>
                 <div style="height: 40px !important">
                   <el-date-picker
                     v-model="chartData.sendDate"
@@ -124,14 +124,14 @@
                 />
               </v-col>
               <v-col cols="12" lg="12">
-                <div class="label">Note</div>
+                <div class="label">{{  $t('samplesBox.sampleTabs.note') }}</div>
                 <v-text-field
                   v-model="chartData.note"
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  placeholder="Enter note"
+                  :placeholder="  $t('samplesBox.sampleTabs.note')"
                   validate-on-blur
                   dense
                   color="#544B99"
@@ -148,7 +148,7 @@
             width="163"
             @click="new_dialog = !new_dialog"
           >
-            cancel
+            {{ $t("bodyParts.dialog.cancelBtn") }}   
           </v-btn>
           <v-btn
             class="text-capitalize rounded-lg font-weight-bold"
@@ -157,7 +157,7 @@
             width="163"
             @click="saveFqs"
           >
-            save
+             {{ $t('orderBox.contractBox.save') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -259,13 +259,13 @@ export default {
       this.headers=[
         { text: "NO.", align: "center", sortable: false, value: "ordinalNumber" },
         {
-          text: "Body part color",
+          text:  this.$t('samplesBox.sampleTabs.bodyPartColor'),
           align: "center",
           sortable: false,
           value: "color",
         },
         {
-          text: "SHIPMENT SAMPLE sent date",
+          text:   this.$t('samplesBox.sampleTabs.sentDate'),
           align: "center",
           sortable: false,
           value: "sendDate",
@@ -278,8 +278,9 @@ export default {
         )
       })
       this.headers.push(
-        { text: "Note", align: "center", sortable: false, value: "note" },
-        { text: "Actions", align: "center", sortable: false, value: "actions" },
+       
+        { text: this.$t('samplesBox.sampleTabs.note'), align: "center", sortable: false, value: "note" },
+        { text: this.$t('samplesBox.sampleTabs.actions'), align: "center", sortable: false, value: "actions" },
       )
     },
     chartList(list){

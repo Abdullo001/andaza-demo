@@ -9,7 +9,7 @@
     >
       <template #top class="px-0">
         <div class="text-h6">
-          Calculations
+         {{$t('planning.calculations.title')}}
         </div>
         <v-divider class="my-4"></v-divider>
       </template>
@@ -66,7 +66,7 @@
             width="130"
             height="44"
           >
-            Calculate
+            {{$t('planning.calculations.calculate')}}
           </v-btn>
         </div>
       </template>
@@ -80,7 +80,7 @@ export default {
     return {
       headers: [
         {
-          text: 'Name',
+          text:  this.$t('planning.expenseGroup.name'),
           align: 'start',
           sortable: false,
           value: 'name',
@@ -110,7 +110,7 @@ export default {
       calculation: [
         {
           id: 1,
-          name: 'Width m.',
+          name:  this.$t('planning.calculations.width'),
           first: '',
           second: '',
           third: '',
@@ -118,7 +118,7 @@ export default {
         },
         {
           id: 2,
-          name: 'Length m.',
+          name: this.$t('planning.calculations.length'),
           first: '',
           second: '',
           third: '',
@@ -126,7 +126,7 @@ export default {
         },
         {
           id: 3,
-          name: 'Density kg/m2',
+          name: this.$t('planning.calculations.density'),
           first: '',
           second: '',
           third: '',
@@ -134,7 +134,7 @@ export default {
         },
         {
           id: 4,
-          name: 'Product quantity 1 unit pcs.',
+          name: this.$t('planning.calculations.productQuantity'),
           first: '',
           second: '',
           third: '',
@@ -142,7 +142,7 @@ export default {
         },
         {
           id: 5,
-          name: 'Over production %',
+          name: this.$t('planning.calculations.overProduction'),
           first: '',
           second: '',
           third: '',
@@ -150,7 +150,7 @@ export default {
         },
         {
           id: 6,
-          name: 'Fabric amount for 1 pc kg.',
+          name:  this.$t('planning.calculations.fabricAmount'),
           first: '',
           second: '',
           third: '',

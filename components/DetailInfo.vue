@@ -2,10 +2,10 @@
   <div>
     <v-row>
       <v-col cols="4" >
-        <div class="label">Order number</div>
+        <div class="label">{{ $t('orderBox.orderDetail.orderNumber') }}</div>
         <v-text-field
           v-model="orderDetail.orderNumber"
-          placeholder="Enter order number"
+          :placeholder=" $t('orderBox.orderDetail.enterOrderNumber')"
           validate-on-blur
           outlined
           hide-details
@@ -18,9 +18,9 @@
         />
       </v-col>
       <v-col cols="4">
-        <div class="label">Season</div>
+        <div class="label">{{ $t('orderBox.orderDetail.season') }}</div>
         <v-text-field
-          placeholder="select season"
+          :placeholder="$t('orderBox.orderDetail.selectSeason')"
           v-model="orderDetail.season"
           dense
           outlined
@@ -35,10 +35,10 @@
       </v-col>
 
       <v-col cols="4">
-        <div class="label">Prefinance number</div>
+        <div class="label">{{ $t('orderBox.orderDetail.prefinanceNumber') }}</div>
         <v-text-field
           v-model="orderDetail.prefinanceNumber"
-          placeholder="Enter prefinance number"
+          :placeholder=" $t('orderBox.orderDetail.enterPrefinanceNumber')"
           outlined
           hide-details
           height="44"
@@ -51,10 +51,10 @@
         />
       </v-col>
       <v-col cols="4">
-        <div class="label">Deadline</div>
+        <div class="label">{{  $t('orderBox.orderDetail.deadline')}}</div>
         <v-text-field
           v-model="orderDetail.deadline"
-          placeholder="Deadline"
+          :placeholder=" $t('orderBox.orderDetail.deadline')"
           outlined
           hide-details
           height="44"
@@ -73,11 +73,11 @@
 
       <v-col cols="4">
         <div class="label">
-          Responsipble person
+         {{  $t('orderBox.orderDetail.responsiblePerson')}}
         </div>
         <v-text-field
           v-model="orderDetail.responsipblePerson"
-          placeholder="Enter responsipble person"
+          :placeholder="  $t('orderBox.orderDetail.enterResponsiblePerson')"
           outlined
           hide-details
           height="44"
@@ -91,9 +91,9 @@
       </v-col>
 
       <v-col cols="4">
-        <div class="label">Model group</div>
+        <div class="label">{{$t('orderBox.orderDetail.modelGroup')}}</div>
         <v-text-field
-          placeholder="select Order group"
+          :placeholder="$t('orderBox.orderDetail.modelGroup')"
           v-model="orderDetail.orderGroup"
           dense
           outlined

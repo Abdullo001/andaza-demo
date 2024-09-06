@@ -15,14 +15,14 @@
       <div class="mt-1">
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="text-h6">Fabric ordering</div>
+            <div class="text-h6">{{ $t('sidebar.fabricOrdering') }}</div>
           </v-toolbar-title>
 
         </v-toolbar>
         <div class="px-4 py-4">
           <v-row class=" mb-4 align-end justify-space-beetwen">
             <v-col cols="12" lg="4"  >
-              <div class="label"> Order number <span style="color:red">*</span></div>
+              <div class="label"> {{ $t('orderBox.index.orderNum') }} <span style="color:red">*</span></div>
               <v-combobox
                 v-model="orderId"
                 :items="ordersList"
@@ -55,14 +55,14 @@
                 height="44"
                 @click="searchModels"
               >
-                Search models
+                {{ $t('appBar.search') }}
               </v-btn>
             </v-col>
           </v-row>
           <v-form v-model="new_valid" ref="valid" lazy-validation>
             <v-row >
               <v-col cols="12" lg="3">
-                <div class="label">Supplier name</div>
+                <div class="label">{{$t('forms.orderedFabrics.supplier')}}</div>
                 <v-combobox
                   v-model="partnerId"
                   :items="partnerLists"
@@ -76,7 +76,7 @@
                   :return-object="true"
                   color="#544B99"
                   dense
-                  placeholder="Enter partner name"
+                  :placeholder="$t('forms.orderedFabrics.supplier')"
                   append-icon="mdi-chevron-down"
                   :rules="[formRules.required]"
                   validate-on-blur
@@ -87,7 +87,7 @@
                  </v-combobox>
               </v-col>
               <v-col cols="12" lg="3">
-                <div class="label">Delivery time</div>
+                <div class="label">{{ $t('fabricOrderingBox.index.deliveyTime') }}</div>
                 <div style="height: 44px !important">
                   <el-date-picker
                     v-model="deliveryTime"
@@ -140,7 +140,7 @@
       height="44"
       @click="generateFabric"
     >
-      Generate Fabric Order
+      {{ $t('fabricOrderingBox.index.generateOrder') }}
     </v-btn>
   </div>
 
@@ -154,7 +154,7 @@
     <template #top>
       <v-toolbar elevation="0">
         <v-toolbar-title class="d-flex justify-space-between w-full">
-          <div class="text-h6">Generated Orders</div>
+          <div class="text-h6">{{$t('fabricOrderingBox.index.title')}}</div>
         </v-toolbar-title>
         <v-btn
           color="#544B99"
@@ -162,7 +162,7 @@
           class="text-capitalize rounded-lg mr-2"
           @click="$router.push(`/fabric-ordering/fabrics-list`)"
         >
-          Fabrics List
+         {{ $t('fabricOrderingBox.index.fabricList') }}
         </v-btn>
       </v-toolbar>
     </template>
@@ -254,7 +254,7 @@
       height="44"
       @click="returnFunc"
     >
-      Return
+     {{ $t('fabricOrderingBox.index.return') }}
     </v-btn>
     <v-btn
       class="text-capitalize rounded-lg font-weight-bold mr-4 py-1 px-6"
@@ -263,7 +263,7 @@
       height="44"
       @click="ordering"
     >
-      Order Fabric
+      {{ $t('fabricOrderingBox.index.orderFabric') }}
     </v-btn>
   </div>
     <v-dialog v-model="edit_dialog" width="580">
@@ -407,30 +407,30 @@ export default {
       edit_dialog: false,
       new_form: true,
       headers:[
-        {text:"Model №",value:"modelNumber",sortable:false},
-        {text:"Fabric specification",value:"specification",sortable:false},
-        {text:"Density gr/m2",value:"density",sortable:false},
-        {text:"Fleece",value:"fleeceEnabled",sortable:false},
-        {text:"Peach effect",value:"peachEffectEnabled",sortable:false},
-        {text:"Color",value:"color",sortable:false},
-        {text:"Actual fabric total",value:"actualFabricTotal",sortable:false},
+        {text: this.$t('planning.listFabric.modelNumber'),value:"modelNumber",sortable:false},
+        {text: this.$t('planning.listFabric.fabricSpecification'),value:"specification",sortable:false},
+        {text: this.$t('planning.planningChart.densityGrM2'),value:"density",sortable:false},
+        {text: this.$t('planning.planningChart.fleece'),value:"fleeceEnabled",sortable:false},
+        {text:this.$t('fabricOrderingBox.index.peachEffect'),value:"peachEffectEnabled",sortable:false},
+        {text:this.$t('planning.listFabric.color'),value:"color",sortable:false},
+        {text:this.$t('planning.listFabric.actualTotalFabric'),value:"actualFabricTotal",sortable:false},
       ],
       genHeaders:[
         {text: "", value:"isOrder",sortable:false},
-        {text: "Sip №", value:"sipNumber",sortable:false},
-        {text: "Model №", value:"modelNumbers",sortable:false},
-        {text: "Fabric design", value: "fabricDesignPhoto", sortable: false},
-        {text: "Queue", value:"queue",sortable:false,width:150},
-        {text: "Fabric specification",value:"fabricSpecification",sortable:false},
-        {text: "Color",value:"color",sortable:false},
-        {text: "Status",value:"status",sortable:false},
-        {text: "Supplier",value:"supplier",sortable:false},
-        {text: "Actual fabric total",value:"actualTotalFabric",sortable:false},
-        {text:"Actual fabric price",value:"actualPrice",sortable:false},
-        {text: "Actual total price",value:"totalPrice",sortable:false,width:200},
-        {text: "Fabric deadline",value:"fabricDeadline",sortable:false},
-        {text: "Additional accessory",value:"additionalAccessory",sortable:false},
-        {text: "Actions", value: "actions"}
+        {text: this.$t('fabricOrderingBox.index.sipNumber'), value:"sipNumber",sortable:false},
+        {text:  this.$t('planning.listFabric.modelNumber'), value:"modelNumbers",sortable:false},
+        {text:this.$t('fabricOrderingBox.index.fabricDesign'), value: "fabricDesignPhoto", sortable: false},
+        {text: this.$t('fabricOrderingBox.index.queue'), value:"queue",sortable:false,width:150},
+        {text:  this.$t('planning.listFabric.fabricSpecification'),value:"fabricSpecification",sortable:false},
+        {text:this.$t('planning.listFabric.color'),value:"color",sortable:false},
+        {text: this.$t('fabricOrderingBox.index.status'),value:"status",sortable:false},
+        {text: this.$t('fabricOrderingBox.index.supplier'),value:"supplier",sortable:false},
+        {text:this.$t('planning.listFabric.actualTotalFabric'),value:"actualTotalFabric",sortable:false},
+        {text:this.$t('fabricOrderingBox.index.actualFabricPrice'),value:"actualPrice",sortable:false},
+        {text: this.$t('fabricOrderingBox.index.actualTotalPrice'),value:"totalPrice",sortable:false,width:200},
+        {text: this.$t('fabricOrderingBox.index.fabricDeadline'),value:"fabricDeadline",sortable:false},
+        {text: this.$t('fabricOrderingBox.index.additionalAccessory'),value:"additionalAccessory",sortable:false},
+        {text:  this.$t("catalogGroups.tabs.table.actions"), value: "actions"}
       ],
       new_valid:true,
       image_dialog: false,

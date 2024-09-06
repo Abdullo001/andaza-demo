@@ -22,7 +22,7 @@
               @click="addNewChart"
             >
               <v-icon>mdi-plus</v-icon>
-              Add sample info
+              {{ $t('samplesBox.sampleTabs.addSampleInfo') }}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -67,7 +67,7 @@
     <v-dialog v-model="new_dialog" max-width="572">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
-          <div>BULK info</div>
+          <div>BULK</div>
           <v-btn @click="new_dialog = false" icon>
             <v-icon color="#544B99">mdi-close</v-icon>
           </v-btn>
@@ -77,7 +77,7 @@
           <v-form lazy-validation v-model="new_validate" ref="new_form">
             <v-row class="mb-4">
               <v-col cols="12" lg="6">
-                <div class="label">Main color</div>
+                <div class="label">{{ $t('samplesBox.sampleTabs.bodyPartColor') }}</div>
                 <v-select
                   v-model="chartData.color"
                   :items="colorList"
@@ -85,7 +85,7 @@
                   item-text="color"
                   item-value="color"
                   append-icon="mdi-chevron-down"
-                  placeholder="Select body part color"
+                  :placeholder="$t('samplesBox.sampleTabs.bodyPartColor') "
                   outlined
                   single-line
                   hide-details
@@ -96,7 +96,7 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Fabric supplier name</div>
+                <div class="label">{{ $t('samplesBox.sampleTabs.fabricSupplierName') }}</div>
                 <v-combobox
                   v-model="chartData.supplierId"
                   :items="partnerLists"
@@ -110,7 +110,7 @@
                   :return-object="true"
                   color="#544B99"
                   dense
-                  placeholder="Enter partner name"
+                  :placeholder=" $t('samplesBox.sampleTabs.fabricSupplierName')"
                   append-icon="mdi-chevron-down"
                   :rules="[formRules.required]"
                   validate-on-blur
@@ -121,7 +121,7 @@
                  </v-combobox>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">BULK request sent date</div>
+                <div class="label">{{  $t('samplesBox.sampleTabs.sentDate') }}</div>
                 <div style="height: 40px !important">
                   <el-date-picker
                     v-model="chartData.sendDate"
@@ -136,7 +136,7 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">BULK received date</div>
+                <div class="label"> {{  $t('samplesBox.sampleTabs.receivedDate') }}</div>
                 <div style="height: 40px !important">
                   <el-date-picker
                     v-model="chartData.receivedDate"
@@ -151,13 +151,13 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Result</div>
+                <div class="label">{{  $t('samplesBox.sampleTabs.result') }}</div>
                 <v-select
                   v-model="chartData.result"
                   :items="result_items"
                   :rules="[formRules.required]"
                   append-icon="mdi-chevron-down"
-                  placeholder="Select result"
+                  :placeholder="  $t('samplesBox.sampleTabs.result') "
                   outlined
                   single-line
                   hide-details
@@ -168,42 +168,42 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Chemical process</div>
+                <div class="label">{{   $t('samplesBox.sampleTabs.chemicalProcess')  }}</div>
                 <v-text-field
                   v-model="chartData.chemicalProcess"
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  placeholder="Enter chemical process"
+                  :placeholder="$t('samplesBox.sampleTabs.chemicalProcess') "
                   validate-on-blur
                   dense
                   color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="12" v-if="chartData.result==='REMAKE'">
-                <div class="label">Reason</div>
+                <div class="label">{{ $t('samplesBox.sampleTabs.reason')  }}</div>
                 <v-text-field
                   v-model="chartData.reason"
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  placeholder="Enter reason"
+                  :placeholder=" $t('samplesBox.sampleTabs.reason')  "
                   validate-on-blur
                   dense
                   color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="12">
-                <div class="label">Note</div>
+                <div class="label">{{  $t('samplesBox.sampleTabs.note') }}</div>
                 <v-text-field
                   v-model="chartData.note"
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  placeholder="Enter note"
+                  :placeholder=" $t('samplesBox.sampleTabs.note')  "
                   validate-on-blur
                   dense
                   color="#544B99"
@@ -220,7 +220,7 @@
             width="163"
             @click="new_dialog = !new_dialog"
           >
-            cancel
+               {{ $t("bodyParts.dialog.cancelBtn") }}            
           </v-btn>
           <v-btn
             class="text-capitalize rounded-lg font-weight-bold"
@@ -229,7 +229,7 @@
             width="163"
             @click="saveFqs"
           >
-            save
+              {{ $t('orderBox.contractBox.save') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -293,36 +293,36 @@ export default {
         note:"",
       },
       headers: [
-        { text: "NO.", align: "center", sortable: false, value: "ordinalNumber" },
+          { text: "NO.", align: "center", sortable: false, value: "ordinalNumber" },
         {
-          text: "Body part color",
+          text:  this.$t('samplesBox.sampleTabs.bodyPartColor'),
           align: "center",
           sortable: false,
           value: "color",
         },
         {
-          text: "Fabric supplier name",
+          text: this.$t('samplesBox.sampleTabs.fabricSupplierName'),
           align: "center",
           sortable: false,
           value: "supplier",
         },
         {
-          text: "BULK sent date",
+          text:  this.$t('samplesBox.sampleTabs.sentDate'),
           align: "center",
           sortable: false,
           value: "sendDate",
         },
         {
-          text: "BULK received date",
+          text: this.$t('samplesBox.sampleTabs.receivedDate'),
           align: "center",
           sortable: false,
           value: "receivedDate",
         },
-        { text: "Result", align: "center", sortable: false, value: "result" },
-        { text: "Option", align: "center", sortable: false, value: "option" },
-        { text: "Reason", align: "center", sortable: false, value: "reason" },
-        { text: "Note", align: "center", sortable: false, value: "note" },
-        { text: "Actions", align: "center", sortable: false, value: "actions" },
+        { text:  this.$t('samplesBox.sampleTabs.result'), align: "center", sortable: false, value: "result" },
+        { text:  this.$t('samplesBox.sampleTabs.option'), align: "center", sortable: false, value: "option" },
+         { text: this.$t('samplesBox.sampleTabs.reason'), align: "center", sortable: false, value: "reason" },
+        { text: this.$t('samplesBox.sampleTabs.note'), align: "center", sortable: false, value: "note" },
+        { text: this.$t('samplesBox.sampleTabs.actions'), align: "center", sortable: false, value: "actions" },
       ],
       currentList: [],
       result_items:["OK","REMAKE","PENDING"],

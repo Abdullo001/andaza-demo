@@ -4,7 +4,7 @@
     <v-card elevation="0" class="mt-2 rounded-lg">
       <v-card-title>
         <div>
-          Fabric
+         {{$t('planning.index.fabric')}}
           <v-chip
             color="#10BF41"
             class="text-capitalize ml-5 font-weight-bold"
@@ -19,7 +19,7 @@
         <v-form lazy-validation ref="new_validate">
           <v-row>
             <v-col cols="12" lg="3" md="3">
-              <div class="label">Order number</div>
+              <div class="label">{{ $t('planning.id.orderNumber') }}</div>
               <v-combobox
                 v-model="addFabric.orderNumber"
                 :items="orderData"
@@ -34,7 +34,7 @@
                 color="#544B99"
                 dense
                 disabled
-                placeholder="Enter order number"
+                :placeholder="$t('planning.id.enterOrderNumber') "
                 append-icon="mdi-chevron-down"
               >
                 <template #append>
@@ -43,7 +43,7 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3" md="3">
-              <div class="label">Model number</div>
+              <div class="label">{{$t('listsModels.child.modelNumber')}}</div>
               <v-combobox
                 v-model="addFabric.modelNumber"
                 :items="modelData"
@@ -57,7 +57,7 @@
                 :return-object="true"
                 color="#544B99"
                 dense
-                placeholder="Enter model number"
+                :placeholder="$t('listsModels.child.enterModelNumber')"
                 append-icon="mdi-chevron-down"
               >
                 <template #append>
@@ -66,7 +66,7 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3" md="3">
-              <div class="label">Model name</div>
+              <div class="label">{{$t('listsModels.child.modelName')}}</div>
               <v-text-field
                 outlined
                 hide-details
@@ -74,13 +74,13 @@
                 class="rounded-lg base"
                 color="#544B99"
                 dense
-                placeholder="Model name"
+                :placeholder="$t('listsModels.child.modelName')"
                 v-model="addFabric.modelName"
                 disabled
               />
             </v-col>
             <v-col cols="12" lg="3" md="3">
-              <div class="label">Head of production department</div>
+              <div class="label">{{ $t('planning.id.deadlineForFabric') }}</div>
               <v-text-field
                 v-model="addFabric.headOfProduction"
                 outlined
@@ -89,14 +89,14 @@
                 class="rounded-lg base"
                 color="#544B99"
                 dense disabled
-                placeholder="Enter head of production department..."
+                :placeholder="$t('planning.id.deadlineForFabricPlaceholder') "
                 append-icon=""
               />
             </v-col>
           </v-row>
           <v-row :class="showObject">
             <v-col cols="12" lg="3" md="3">
-              <div class="label">Client name</div>
+              <div class="label">{{ $t('planning.id.clientName') }}</div>
               <v-text-field
                 v-model="addFabric.clientName"
                 outlined
@@ -105,12 +105,12 @@
                 class="rounded-lg base"
                 color="#544B99"
                 dense disabled
-                placeholder="Enter client name..."
+                :placeholder="$t('planning.id.enterClientName')"
                 append-icon=""
               />
             </v-col>
             <v-col cols="12" lg="3" md="3">
-              <div class="label">Order priority</div>
+              <div class="label">{{$t('planning.id.orderPriority')}}</div>
               <v-text-field
                 v-model="addFabric.orderPriority"
                 outlined
@@ -124,7 +124,7 @@
               />
             </v-col>
             <v-col cols="12" lg="3" md="3">
-              <div class="label">Deadline of order</div>
+              <div class="label">{{$t('planning.id.deadlineOfOrder')}}</div>
               <v-text-field
                 v-model="addFabric.deadlineOfOrder"
                 outlined
@@ -133,7 +133,7 @@
                 class="rounded-lg base"
                 color="#544B99"
                 dense
-                placeholder="Enter deadline of order"
+                :placeholder="$t('planning.id.enterDeadlineOfOrder')"
                 disabled
               >
                 <template #append>
@@ -142,7 +142,7 @@
               </v-text-field>
             </v-col>
             <v-col cols="12" lg="3" md="3">
-              <div class="label">Actual shipping date</div>
+              <div class="label">{{$t('planning.id.actualShippingDate')}}</div>
               <v-text-field
                 v-model="addFabric.actualShippingDate"
                 outlined
@@ -151,7 +151,7 @@
                 class="rounded-lg base"
                 color="#544B99"
                 dense
-                placeholder="Enter Actual shipping date"
+                :placeholder="$t('planning.id.enterActualShippingDate')"
                 disabled
               >
                 <template #append>
@@ -160,12 +160,12 @@
               </v-text-field>
             </v-col>
             <v-col cols="12" lg="3" md="3">
-              <div class="label">Deadline for fabric</div>
+              <div class="label">{{$t('planning.id.deadlineForFabric')}}</div>
               <el-date-picker
                 v-model="addFabric.deadlineForFabric"
                 type="datetime"
                 style="width: 100%; height: 44px !important;"
-                placeholder="Deadline for fabric"
+                :placeholder="$t('planning.id.deadlineForFabric')"
                 :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy HH:mm:ss"
                 class="base_picker"
@@ -173,7 +173,7 @@
               </el-date-picker>
             </v-col>
             <v-col cols="12" lg="3" md="3">
-              <div class="label">Creator of planning</div>
+              <div class="label">{{$t('planning.id.creatorOfPlanning')}}</div>
               <v-text-field
                 v-model="addFabric.creatorOfPlanning"
                 outlined
@@ -182,12 +182,12 @@
                 class="rounded-lg base"
                 color="#544B99"
                 dense
-                placeholder="Enter deadline for fabric"
+                :placeholder="$t('planning.id.creatorOfPlanning')"
                 disabled
               />
             </v-col>
             <v-col cols="12" lg="3" md="3">
-              <div class="label">Created time</div>
+              <div class="label">{{$t('planning.id.creatorOfPlanning')}}</div>
               <v-text-field
                 v-model="addFabric.createdAt"
                 outlined
@@ -205,7 +205,7 @@
               </v-text-field>
             </v-col>
             <v-col cols="12" lg="3" md="3">
-              <div class="label">Creator of Model</div>
+              <div class="label">{{$t('planning.id.creatorOfModel')}}</div>
               <v-text-field
                 v-model="addFabric.creatorOfModel"
                 outlined
@@ -214,12 +214,12 @@
                 class="rounded-lg base"
                 color="#544B99"
                 dense
-                placeholder="Enter create of model"
+                :placeholder="$t('planning.id.creatorOfModel')"
                 disabled
               />
             </v-col>
             <v-col cols="12" lg="3" md="3">
-              <div class="label">Created time</div>
+              <div class="label">{{$t('planning.id.createdTime')}}</div>
               <v-text-field
                 v-model="addFabric.createdTimeOfModel"
                 outlined
@@ -237,7 +237,7 @@
               </v-text-field>
             </v-col>
             <v-col cols="12" lg="3" md="3">
-              <div class="label">Creator of order</div>
+              <div class="label">{{$t('planning.id.creatorOfOrder')}}</div>
               <v-text-field
                 v-model="addFabric.creatorOfOrder"
                 outlined
@@ -246,12 +246,12 @@
                 class="rounded-lg base"
                 color="#544B99"
                 dense
-                placeholder="Enter Modified person"
+                :placeholder="$t('planning.id.creatorOfOrder')"
                 disabled
               />
             </v-col>
             <v-col cols="12" lg="3" md="3">
-              <div class="label">Created time</div>
+              <div class="label">{{$t('planning.id.createdTime')}}</div>
               <v-text-field
                 v-model="addFabric.createdTimeOfOrder"
                 outlined
@@ -292,7 +292,7 @@
                 style="min-width: 130px;"
                 @click="createPlanning"
               >
-                save
+               {{ $t('listsModels.child.save') }}
               </v-btn>
             </v-col>
           </v-row>
@@ -456,10 +456,10 @@ export default {
       orderSearch: '',
       modelSearch: '',
       items: [
-        'Fabric planning chart',
-        'List of fabrics to be ordered',
-        'Planned fabric order',
-        'Documentation'
+       this.$t('planning.planningChart.fabricPlanningChart'),
+         this.$t('planning.planningChart.listOfFabrics'),
+         this.$t('planning.planningChart.plannedFabricOrder'),
+        this.$t("modelBox.documentBox.document"),
       ],
       tab: null,
       currentImage: '',

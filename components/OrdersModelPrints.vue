@@ -8,7 +8,7 @@
     <template #top>
       <v-toolbar elevation="0">
         <v-toolbar-title class="w-full d-flex">
-          <div class="title">Model prints</div>
+          <div class="title">{{ $t('orderBox.modelPrint.price') }}</div>
           <v-spacer/>
           <v-btn
             class="rounded-lg text-capitalize"
@@ -17,7 +17,7 @@
             @click="newDialog = true"
             dark
           >
-            Add print
+            {{ $t('orderBox.modelPrint.addPrint') }}
           </v-btn>
         </v-toolbar-title>
       </v-toolbar>
@@ -54,7 +54,7 @@
     <v-dialog max-width="1000" v-model="newDialog">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between mb-6">
-          <div class="title text-capitalize">add model print</div>
+          <div class="title text-capitalize">{{ $t('orderBox.modelPrint.modelPrints') }}</div>
           <v-btn icon color="#544B99" @click="newDialog=false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -63,13 +63,13 @@
           <v-form ref="new_validate" lazy-validation>
             <v-row>
               <v-col cols="6">
-                <div class="label text-capitalize mb-2"> Main color</div>
+                <div class="label text-capitalize mb-2">{{ $t('orderBox.modelPrint.mainColor') }}</div>
                 <v-select
                   outlined
                   :items="mainColorsList"
                   v-model="newPrints.modelPartColorId"
                   single-line
-                  placeholder="Main color"
+                  :placeholder="$t('orderBox.modelPrint.mainColor') "
                   item-value="id"
                   item-text="color"
                   dense append-icon="mdi-chevron-down"
@@ -80,13 +80,13 @@
                 />
               </v-col>
               <v-col cols="6">
-                <div class="label text-capitalize mb-2"> print type</div>
+                <div class="label text-capitalize mb-2"> {{ $t('orderBox.modelPrint.printType') }}</div>
                 <v-select
                   outlined
                   :items="printTypeEnums"
                   v-model="newPrints.printTypeId"
                   single-line
-                  placeholder="Print Type"
+                  :placeholder="$t('orderBox.modelPrint.printType') "
                   item-value="id"
                   item-text="name"
                   dense append-icon="mdi-chevron-down"
@@ -97,11 +97,11 @@
                 />
               </v-col>
               <v-col cols="6">
-                <div class="label text-capitalize mb-2"> Color quantity</div>
+                <div class="label text-capitalize mb-2">  {{ $t('orderBox.modelPrint.colorQuantity') }}</div>
                 <v-text-field
                   outlined
                   single-line
-                  placeholder="Color quantity"
+                  :placeholder=" $t('orderBox.modelPrint.colorQuantity')"
                   v-model="newPrints.colorQuantity"
                   color="#544B99"
                   dense
@@ -111,12 +111,12 @@
                 />
               </v-col>
               <v-col cols="6">
-                <div class="label text-capitalize mb-2"> partner name</div>
+                <div class="label text-capitalize mb-2">  {{ $t('orderBox.modelPrint.partnerName') }}</div>
                 <v-select
                   outlined
                   :items="partnerEnums"
                   single-line
-                  placeholder="Partner name"
+                  :placeholder="$t('orderBox.modelPrint.partnerName')"
                   item-value="id"
                   item-text="name"
                   v-model="newPrints.partnerId"
@@ -128,7 +128,7 @@
                 />
               </v-col>
               <v-col cols="6">
-                <div class="label text-capitalize mb-2"> price</div>
+                <div class="label text-capitalize mb-2">  {{ $t('orderBox.modelPrint.currency') }}</div>
                 <div class="d-flex align-center">
                   <v-text-field
 
@@ -158,10 +158,10 @@
                 </div>
               </v-col>
               <v-col cols="12">
-                <div class="label text-capitalize mb-2">description</div>
+                <div class="label text-capitalize mb-2">{{$t('listsModels.child.description')}}</div>
                 <v-textarea
                   v-model="newPrints.description"
-                  placeholder="Enter description"
+                  :placeholder="$t('listsModels.child.description')"
                   rows="1"
                   outlined
                   single-line
@@ -641,18 +641,18 @@ export default {
   data(){
     return{
       headers:[
-        {text: 'Main color', sortable: false, align: 'center', value: 'color', },
-        {text: 'Print photo', sortable: false, align: 'center', value: 'printPhoto', },
-        {text: 'Print type', sortable: false, align: 'center', value: 'printType', },
-        {text: 'Color quantity', sortable: false, align: 'center', value: 'colorQuantity', },
-        {text: 'Price per design', sortable: false, align: 'center', value: 'price', },
-        {text: 'Quantity', sortable: false, align: 'center', value: 'quantity', },
-        {text: 'Total amount', sortable: false, align: 'center', value: 'totalAmount', },
-        {text: 'Partner', sortable: false, align: 'center', value: 'partner', },
-        {text: 'Description', sortable: false, align: 'center', value: 'description', },
-        {text: 'Creator', sortable: false, align: 'center', value: 'createdBy', },
-        {text: 'Created at', sortable: false, align: 'center', value: 'createdAt', },
-        {text: 'Actions', sortable: false, align: 'center', value: 'actions',width:"150" }
+        {text: this.$t("orderBox.modelPrint.mainColor"), sortable: false, align: 'center', value: 'color', },
+        {text: this.$t("orderBox.modelPrint.printPhoto"), sortable: false, align: 'center', value: 'printPhoto', },
+        {text: this.$t("orderBox.modelPrint.printType"), sortable: false, align: 'center', value: 'printType', },
+        {text: this.$t("orderBox.modelPrint.colorQuantity"), sortable: false, align: 'center', value: 'colorQuantity', },
+        {text: this.$t("orderBox.modelPrint.pricePerDesign"), sortable: false, align: 'center', value: 'price', },
+        {text:this.$t("orderBox.modelPrint.quantity"), sortable: false, align: 'center', value: 'quantity', },
+        {text: this.$t("orderBox.modelPrint.totalAmount"), sortable: false, align: 'center', value: 'totalAmount', },
+        {text: this.$t("orderBox.modelPrint.partner"), sortable: false, align: 'center', value: 'partner', },
+        {text:this.$t("catalogAccessory.table.description"), sortable: false, align: 'center', value: 'description', },
+        {text: this.$t('modelBox.modelPartsBox.creator'), sortable: false, align: 'center', value: 'createdBy', },
+        {text: this.$t("catalogGroups.tabs.table.createdAt"), sortable: false, align: 'center', value: 'createdAt', },
+        {text: this.$t("catalogGroups.tabs.table.actions"), sortable: false, align: 'center', value: 'actions',width:"150" }
       ],
       currency:["USD","RUB","UZS"],
       items:[],

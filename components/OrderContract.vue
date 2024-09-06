@@ -8,7 +8,7 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="w-full d-flex">
-            <div class="title">Contracts</div>
+            <div class="title">{{ $t('orderBox.dialog.contract') }}</div>
             <v-spacer />
             <v-btn
               class="rounded-lg text-capitalize"
@@ -18,7 +18,7 @@
               @click="newDialog = true"
               dark
             >
-              Add contract
+               {{$t('orderBox.contractBox.addContract')}}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -39,7 +39,7 @@
     <v-dialog max-width="600" v-model="newDialog">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between mb-6">
-          <div class="title text-capitalize">add contract</div>
+          <div class="title text-capitalize">{{ $t('orderBox.contractBox.addContract') }}</div>
           <v-btn icon color="#544B99" @click="newDialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -48,11 +48,11 @@
           <v-form ref="new_validate" lazy-validation>
             <v-row>
               <v-col cols="6">
-                <div class="label text-capitalize mb-2">Contract/SA No.</div>
+                <div class="label text-capitalize mb-2">{{ $t('orderBox.contractBox.contractNo') }}</div>
                 <v-text-field
                   outlined
                   single-line
-                  placeholder="Contract/SA No"
+                  :placeholder=" $t('orderBox.contractBox.contractNo') "
                   v-model="newContarct.contractNumber"
                   color="#544B99"
                   dense
@@ -62,7 +62,7 @@
                 />
               </v-col>
               <v-col cols="6">
-                <div class="label">Date of contract</div>
+                <div class="label">{{ $t('orderBox.contractBox.contractDate') }}</div>
                 <div style="height: 40px !important">
                   <el-date-picker
                     v-model="newContarct.contractDate"
@@ -77,7 +77,7 @@
                 </div>
               </v-col>
               <v-col cols="6">
-                <div class="label">Deadline of contract</div>
+                <div class="label">{{ $t('orderBox.contractBox.deadline') }}</div>
                 <div style="height: 40px !important">
                   <el-date-picker
                     v-model="newContarct.deadline"
@@ -92,7 +92,7 @@
                 </div>
               </v-col>
               <v-col cols="6">
-                <div class="label text-capitalize mb-2">price</div>
+                <div class="label text-capitalize mb-2">{{ $t('orderBox.modelPrint.price') }}</div>
                 <div class="d-flex align-center">
                   <v-text-field
                     v-model="newContarct.sum"
@@ -121,13 +121,13 @@
                 </div>
               </v-col>
               <v-col cols="6">
-                <div class="label text-capitalize mb-2">Delivery condition</div>
+                <div class="label text-capitalize mb-2">{{ $t('orderBox.contractBox.deliveryCondition') }}</div>
                 <v-select
                   outlined
                   :items="conditionList"
                   v-model="newContarct.condition"
                   single-line
-                  placeholder="Delivery condition"
+                  :placeholder="$t('orderBox.contractBox.deliveryCondition')"
                   dense
                   append-icon="mdi-chevron-down"
                   color="#544B99"
@@ -190,7 +190,7 @@
             height="44"
             style="border-width: 2px"
             @click="newDialog = false"
-            >cancel
+            >{{ $t('orderBox.colorSize.cencel') }}
           </v-btn>
           <v-btn
             class="rounded-lg white--text ml-6"
@@ -198,7 +198,7 @@
             width="130"
             height="44"
             @click="save"
-            >save
+            >{{ $t('orderBox.contractBox.save') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -421,13 +421,13 @@ export default {
       currency: ["USD", "RUB", "UZS"],
       conditionList: ["CIF", "CIP", "CPT", "EXW", "FCA", "FOB"],
       headers: [
-        { text: "Contract/SA No.", sortable: false, align: "center", value: "contractNumber" },
-        { text: "Contract/SA date", sortable: false, align: "center", value: "contractDate" },
-        { text: "Deadline", sortable: false, align: "center", value: "deadline" },
-        { text: "Sum of Contract", sortable: false, align: "center", value: "sum" },
-        { text: "Client country", sortable: false, align: "center", value: "clientCountry" },
-        { text: "Delivery condition", sortable: false, align: "center", value: "condition" },
-        { text: "Actions", sortable: false, align: "center", value: "actions" },
+        { text: this.$t('orderBox.contractBox.contractNo'), sortable: false, align: "center", value: "contractNumber" },
+        { text: this.$t('orderBox.contractBox.contractDate'), sortable: false, align: "center", value: "contractDate" },
+        { text:this.$t('orderBox.contractBox.deadline'), sortable: false, align: "center", value: "deadline" },
+        { text: this.$t('orderBox.contractBox.sumOfContract'), sortable: false, align: "center", value: "sum" },
+        { text: this.$t('orderBox.contractBox.clientCountry'), sortable: false, align: "center", value: "clientCountry" },
+        { text: this.$t('orderBox.contractBox.deliveryCondition'), sortable: false, align: "center", value: "condition" },
+        { text: this.$t("catalogGroups.tabs.table.actions"), sortable: false, align: "center", value: "actions" },
       ],
       items: [],
       newContarct: {

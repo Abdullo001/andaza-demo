@@ -18,7 +18,7 @@
                 class="rounded-lg filter d-flex align-center justify-center mr-2"
                 :return-object="true"
                 dense
-                placeholder="Order name"
+                 :placeholder="$t('orderBox.index.orderNum')"
                 prepend-icon=""
               >
                 <template #append>
@@ -42,7 +42,7 @@
                 class="rounded-lg filter d-flex align-center justify-center mr-2"
                 :return-object="true"
                 dense
-                placeholder="Model name"
+                :placeholder="$t('listsModels.child.modelName')"
                 prepend-icon=""
               >
                 <template #append>
@@ -63,7 +63,7 @@
                   class="text-capitalize mr-4 border-primary rounded-lg font-weight-bold"
                   @click="resetFilter"
                 >
-                  Reset
+                 {{ $t('listsModels.dialog.reset') }}
                 </v-btn>
                 <v-btn
                   width="140"
@@ -73,7 +73,7 @@
                   class="text-capitalize rounded-lg font-weight-bold"
                   @click="filterOrder"
                 >
-                  Search
+                  {{ $t('listsModels.dialog.search') }}
                 </v-btn>
               </div>
             </v-col>
@@ -102,7 +102,7 @@
           <v-toolbar-title
             class="d-flex w-full align-center justify-space-between"
           >
-            <div>Samples</div>
+            <div>{{ $t('samplesBox.samples') }}</div>
             <v-btn
               color="#544B99"
               dark
@@ -110,7 +110,7 @@
               @click="$router.push(`/samples/create-sample`)"
             >
               <v-icon>mdi-plus</v-icon>
-              Add samples
+             {{ $t('samplesBox.addSample') }}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>

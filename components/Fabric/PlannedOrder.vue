@@ -47,7 +47,7 @@
         height="44"
         @click="generateFabricPlanningOrder"
       >
-        {{ allPlannerOrder.length===0?'Generate order':'Refresh Order' }}
+        {{ allPlannerOrder.length===0? $t('planning.listFabric.totalFabric'):'Refresh Order' }}
       </v-btn>
 
     </div>
@@ -61,19 +61,19 @@ export default {
   data() {
     return {
       headers: [
-        { text: 'Fabric specification', value: 'specification', sortable: false },
+        { text:  this.$t('planning.listFabric.fabricSpecification'), value: 'specification', sortable: false },
         {
-          text: 'Deadline',
+          text: this.$t('planning.listFabric.deadline'),
           align: 'start',
           sortable: false,
           value: 'deadline',
         },
-        { text: 'Status',value:'status',sortable: false},
-        { text: 'Color', value: 'color', sortable: false },
-        { text: 'Quantity', value: 'quantity', sortable: false },
-        { text: 'Fabric 1pc', value: 'quantityOnePc', sortable: false },
-        { text: 'Total fabric', value: 'total', sortable: false },
-        { text: 'Actual total fabric', value: 'actualTotalFabric', sortable: false,width: 110  },
+        { text:  this.$t('partners.table.status'),value:'status',sortable: false},
+        { text: this.$t('planning.listFabric.color'), value: 'color', sortable: false },
+        { text:  this.$t('planning.listFabric.quantity'), value: 'quantity', sortable: false },
+        { text:  this.$t('planning.listFabric.fabricPerPiece'), value: 'quantityOnePc', sortable: false },
+        { text:  this.$t('planning.listFabric.totalFabric'), value: 'total', sortable: false },
+        { text:this.$t('planning.listFabric.actualTotalFabric'), value: 'actualTotalFabric', sortable: false,width: 110  },
 
       ],
       status_enums: ["ORDERED", "CANCELLED", "PENDING","FABRIC_GENERATED"],

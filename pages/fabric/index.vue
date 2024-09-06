@@ -6,7 +6,7 @@
           <v-col cols="2">
             <v-text-field
               v-model="filters.orderNumber"
-              placeholder="Order number"
+              :placeholder="$t('orderBox.index.orderNum')"
               outlined
               height="44"
               validate-on-blur
@@ -19,7 +19,7 @@
           <v-col cols="2">
             <v-text-field
               v-model="filters.modelNumber"
-              placeholder="Model number"
+               :placeholder="$t('inspectionBox.model')"
               outlined
               height="44"
               validate-on-blur
@@ -43,7 +43,7 @@
               class="rounded-lg filter d-flex align-center justify-center mr-2"
               :return-object="true"
               dense
-              placeholder="Creator name"
+              :placeholder="$t('modelBox.modelPartsBox.creator')"
               prepend-icon=""
               @keydown.enter="filterData"
             >
@@ -68,7 +68,7 @@
               class="rounded-lg filter d-flex align-center justify-center"
               :return-object="true"
               dense
-              placeholder="Client name"
+              :placeholder="$t('inspectionBox.clientName')"
               prepend-icon=""
               @keydown.enter="filterData"
             >
@@ -101,7 +101,7 @@
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
-                Reset
+                 {{ $t('listsModels.dialog.reset') }}
               </v-btn>
               <v-btn
                 width="140"
@@ -111,7 +111,7 @@
                 class="text-capitalize rounded-lg"
                 @click="filterData"
               >
-                Search
+                {{ $t('listsModels.dialog.search') }}
               </v-btn>
             </div>
           </v-col>
@@ -135,7 +135,7 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium">Fabric</div>
+            <div class="font-weight-medium">{{$t('planning.index.fabric')}}</div>
             <v-btn
               color="#544B99"
               class="rounded-lg text-capitalize"
@@ -143,7 +143,7 @@
               @click="$router.push(`/fabric/create`)"
             >
               <v-icon>mdi-plus</v-icon>
-              Fabric
+              {{$t('planning.index.fabric')}}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -189,13 +189,13 @@ export default {
       menu2: false,
       headers: [
         { text: "ID", align: "start", sortable: false, value: "id" },
-        { text: "Model number", value: "modelNumber" },
-        { text: "Model id", value: "modelId" },
-        { text: "Order number", value: "orderNumber" },
-        { text: "Order id", value: "orderId" },
-        { text: "Created", value: "createdTimeOfPlanning" },
-        { text: "Updated", value: "updatedTimeOfPlanning" },
-        { text: "Actions", value: "actions" },
+        { text: this.$t('orderBox.index.orderNum'), value: "modelNumber" },
+        { text:  this.$t('planning.index.modelId'), value: "modelId" },
+        { text: this.$t('orderBox.index.orderNum'), value: "orderNumber" },
+        { text: this.$t('planning.index.orderId'), value: "orderId" },
+        { text: this.$t("catalogGroups.tabs.table.createdAt"),value: "createdTimeOfPlanning" },
+        { text:  this.$t('planning.index.updated'),  value: "updatedTimeOfPlanning" },
+        { text: this.$t("catalogGroups.tabs.table.actions"), value:"actions"},
       ],
       itemPerPage: 10,
       current_page: 0,

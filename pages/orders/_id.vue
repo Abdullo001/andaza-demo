@@ -395,7 +395,7 @@
                 width="130"
                 @click="createdNewOrder"
               >
-                Save
+                {{ $t('orderBox.contractBox.save') }}
               </v-btn>
               <v-btn
                 v-else
@@ -511,11 +511,11 @@ export default {
       modelIdSearch: "",
       priority_enums: ["LOW", "MEDIUM", "HIGH"],
       items: [
-        "Color/Size distirbution",
-        "Model prints",
-        "Contract",
-        "Detail info",
-        "Documents",
+       this.$t('orderBox.dialog.colorDist'),
+       this.$t('orderBox.dialog.modelPrints'),
+        this.$t('orderBox.dialog.contract'),
+        this.$t('orderBox.dialog.detailInfo'),
+        this.$t('orderBox.dialog.documents'),
       ],
       map_links: [
         {

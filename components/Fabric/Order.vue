@@ -9,7 +9,7 @@
     >
       <template #top class="px-0">
         <div class="text-h6">
-          Order
+         {{$t('planning.order.title')}}
         </div>
         <v-divider class="my-4"></v-divider>
       </template>
@@ -24,13 +24,13 @@ export default {
     return {
       headers: [
         {
-          text: 'Name',
+          text: this.$t('planning.expenseGroup.name'),
           align: 'start',
           sortable: false,
           value: 'name',
         },
         {
-          text: 'amount',
+          text: this.$t('workingProcess.workingTable.amount'),
           value: 'amount',
           width: 100,
           align: 'center',
@@ -40,32 +40,32 @@ export default {
       orderList: [
         {
           id: 1,
-          name: 'Order quantity',
+          name: this.$t('planning.order.orderQuantity'),
           amount: 0
         },
         {
           id: 2,
-          name: 'Over-production %',
+          name: this.$t('planning.calculations.overProduction'),
           amount: 0
         },
         {
           id: 3,
-          name: 'Quantity to be producer',
+          name: this.$t('planning.order.quantityToProduce'),
           amount: 0
         },
         {
           id: 4,
-          name: 'Quantity of cutting',
+          name: this.$t('planning.order.quantityCutting'),
           amount: 0
         },
         {
           id: 5,
-          name: 'Remainder of cutting',
+          name: this.$t('planning.order.remainderCutting'),
           amount: 0
         },
         {
           id: 6,
-          name: 'Shipping quantity',
+          name: this.$t('planning.order.shippingQuantity'),
           amount: 0
         },
 
