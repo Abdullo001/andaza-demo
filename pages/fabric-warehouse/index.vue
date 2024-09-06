@@ -885,7 +885,11 @@ export default {
     },
     fabricWarehouseList(val) {
       this.current_list = JSON.parse(JSON.stringify(val));
-      this.current_list.modelNumber=this.current_list?.modelNumber?.split("$")
+
+      this.current_list.forEach((item,idx)=>{
+        item.modelNumber=val[idx].modelNumber.split("$")
+      })
+      
     },
 
     new_dialog(val){
