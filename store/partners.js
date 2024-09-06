@@ -52,9 +52,20 @@ export const actions = {
         commit("setLoading", false);
       })
   },
+  async createPartnerList({dispatch}, data) {
+    await this.$axios.$post('/api/v1/partners', data)
+      .then(res => {
+        dispatch("getPartnerList", {page: 0, size: 10});
+        this.$toast.success(res.message);
+      })
+      .catch(({response}) => {
+        console.log(response)
+        this.$toast.error(response.data.message);
+      })
+  },
 
   async deletePartnerList({dispatch}, id) {
-    await this.$axios.$delete(`/api/v1/partner/delete?id=${id}`)
+    await this.$axios.$delete(`/api/v1/partners/${id}`)
       .then(res => {
         dispatch("getPartnerList", {page: 0, size: 10});
         this.$toast.success(res.message);
@@ -79,21 +90,13 @@ export const actions = {
         console.log(response)
       })
   },
-  async changeStatus({dispatch}, data){
-    const { id, status } = data
-    await this.$axios.$put(`/api/v1/partner/change-status?id=${id}&status=${status}`)
-      .then(res => {
-        this.$toast.success(res.message);
-      })
-      .catch(({response}) => {
-        console.log(response)
-      })
-  },
-  async updatePartnerList({dispatch}, data) {
-    await this.$axios.$put('/api/v1/partner/update', data)
+  
+  async updatePartnerList({dispatch}, {id,data}) {
+    await this.$axios.$put(`/api/v1/partners/${id}`, data)
       .then(res => {
         dispatch("getPartnerList", {page: 0, size: 10});
-        this.$toast.success(res.message);
+        this.$toast.success(res.code);
+        
       })
       .catch(({response}) => {
         console.log(response)
@@ -101,23 +104,25 @@ export const actions = {
       })
   },
   async getPartnerOneList({commit}, id){
-    await this.$axios.get(`/api/v1/partner/get?id=${id}`)
+    await this.$axios.get(`/api/v1/partners/${id}`)
       .then(res => {
         commit("setPartnerOneList", res.data.data)
+        
       })
       .catch(({response}) => {
         console.log(response)
       })
   },
-  async createPartnerList({dispatch}, data) {
-    await this.$axios.$post('/api/v1/partner/create', data)
+  
+
+  async changeStatus({dispatch}, data){
+    const { id, status } = data
+    await this.$axios.patch(`/api/v1/partners/change-status/${id}?status=${status}`)
       .then(res => {
-        dispatch("getPartnerList", {page: 0, size: 10});
         this.$toast.success(res.message);
       })
       .catch(({response}) => {
         console.log(response)
-        this.$toast.error(response.data.message);
       })
   },
   
