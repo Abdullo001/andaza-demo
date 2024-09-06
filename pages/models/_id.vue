@@ -594,7 +594,6 @@ export default {
     ...mapActions({
       getOneModel: 'models/getOneModel',
       getModelGroup: 'models/getModelGroup',
-      getPartnerList: 'models/getPartnerList',
       createModel: 'models/createModel',
       updateModel: 'models/updateModel',
       getCompositionList: 'models/getCompositionList',

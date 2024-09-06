@@ -616,21 +616,28 @@
             <v-row>
               <v-col cols="12">
                 <div class="label">Partner</div>
-                <v-select
-                  append-icon="mdi-chevron-down"
+                <v-combobox
                   v-model="subcontractor.partnerId"
                   :items="partnerList"
-                  :rules="[formRules.required]"
+                  :search-input.sync="partnerName"
                   item-text="name"
                   item-value="id"
-                  hide-details
-                  color="#544B99"
-                  class="base rounded-lg"
-                  rounded
                   outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :return-object="true"
+                  color="#544B99"
                   dense
                   placeholder="Select partner"
-                />
+                  append-icon="mdi-chevron-down"
+                  :rules="[formRules.required]"
+                  validate-on-blur
+                  >
+                  <template #append>
+                    <v-icon color="#544B99">mdi-magnify</v-icon>
+                  </template>
+                </v-combobox>
               </v-col>
 
               <v-col cols="12">
@@ -801,17 +808,6 @@ export default {
         { text: "Quantity", value: "quantity", sortable: false },
       ],
 
-      // historyList: [
-      //   {
-      //     date: "08.01.2023",
-      //     warehouseOperations: "Fabric order income",
-      //     from: "Fashionmelon LLC",
-      //     to: "Fashionmelon LLC",
-      //     quantity: "1800 kg",
-      //     doneBy: "Shavkatova M.",
-      //   },
-      // ],
-
       expanded: [],
       singleExpand: true,
       valid_search: "",
@@ -863,6 +859,7 @@ export default {
       current_page: 0,
 
       current_list: [],
+      partnerName: "",
     };
   },
 
@@ -873,11 +870,14 @@ export default {
       toSipNumbers: "fabricWarehouse/toSipNumbers",
       totalElements: "fabricWarehouse/totalElements",
       historyList: "fabricWarehouse/historyList",
-      partnerList: "subcontracts/partnerList",
+      partnerList: "partners/partnerList",
     }),
   },
 
   watch: {
+    partnerName(val) {
+      this.getPartnerList({page:0, size:10,partnerName:val});
+    },
     sipNumberSearch(val){
       if(!!val){
         this.getSipNumbers(val);
@@ -885,6 +885,11 @@ export default {
     },
     fabricWarehouseList(val) {
       this.current_list = JSON.parse(JSON.stringify(val));
+
+      this.current_list.forEach((item,idx)=>{
+        item.modelNumber=val[idx].modelNumber.split("$")
+      })
+      
     },
 
     new_dialog(val){
@@ -897,7 +902,7 @@ export default {
   created() {
     this.getSipNumbers("");
     this.getToSipNumbers();
-    this.getPartnerList();
+    this.getPartnerList({page:0, size:10});
   },
 
   methods: {
@@ -912,7 +917,7 @@ export default {
       setSpendingFabric: "fabricWarehouse/setSpendingFabric",
       setFabricToWorkshop: "fabricWarehouse/setFabricToWorkshop",
       setFabricToSubcontract: "fabricWarehouse/setFabricToSubcontract",
-      getPartnerList: "subcontracts/getPartnerList",
+      getPartnerList: "partners/getPartnerList",
 
     }),
     loadDetails({ item }) {
@@ -1004,7 +1009,13 @@ export default {
       this.workshop_dialog = true;
       this.workshop.fabricWarehouseId = item.id;
       this.workshop.measurement = item.factReceivedNettoWeight.split(" ")[1];
-      this.modelNumbers = [...item.modelNumber.split("/")];
+      if(typeof item.modelNumber==="string"){
+        this.modelNumbers.push(item.modelNumber)
+      }
+      
+      if(typeof item.modelNumber==="object"){
+        this.modelNumbers=[...item.modelNumber]
+      }
     },
 
     async saveWorkshop() {
@@ -1025,18 +1036,26 @@ export default {
         modelNumber: this.subcontractor.modelNumber,
         quantity: this.subcontractor.quantity,
         fabricWarehouseId: this.subcontractor.fabricWarehouseId,
-        partnerId: this.subcontractor.partnerId,
+        partnerId: this.subcontractor.partnerId?.id,
       };
       this.setFabricToSubcontract(data);
       await this.$refs.subcontractor_form.reset();
     },
 
     async subcontractorFunc(item) {
+      this.modelNumbers=[]
       this.subcontractor_dialog = true;
       this.subcontractor.measurement =
         item.factReceivedNettoWeight.split(" ")[1];
       this.subcontractor.fabricWarehouseId = item.id;
-      this.modelNumbers = [...item.modelNumber.split("/")];
+
+      if(typeof item.modelNumber==="string"){
+        this.modelNumbers.push(item.modelNumber)
+      }
+      
+      if(typeof item.modelNumber==="object"){
+        this.modelNumbers=[...item.modelNumber]
+      }
     },
 
     getHistory(item) {
