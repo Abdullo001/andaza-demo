@@ -15,11 +15,11 @@
         <v-toolbar-title
           class="d-flex w-full align-center justify-space-between"
         >
-          <div> Ready garments</div>
+          <div> {{$t('readyWarehouse.addReadyGarment.readyGarments')}}</div>
           <div>
             <v-btn color="#544B99" dark class="text-capitalize rounded-lg" @click="addGarment">
               <v-icon>mdi-plus</v-icon>
-              add Garments
+             {{$t('readyWarehouse.addReadyGarment.title')}}
             </v-btn>
           </div>
         </v-toolbar-title>
@@ -121,7 +121,7 @@
     <v-dialog max-width="900" v-model="newDialog">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between mb-6">
-          <div class="title text-capitalize">add Ready Garment</div>
+          <div class="title text-capitalize">{{$t('readyWarehouse.addReadyGarment.title')}}</div>
           <v-btn icon color="#544B99" @click="newDialog=false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -130,7 +130,7 @@
           <v-form ref="new_form" v-model="add_validate" lazy-validation>
             <v-row>
               <v-col cols="12" lg="6">
-                <div class="label">Model number</div>
+                <div class="label">{{$t('readyWarehouse.addReadyGarment.modelNo')}}</div>
                 <v-combobox
                   v-model="addition.modelNumber"
                   :items="modelsList"
@@ -145,7 +145,7 @@
                   class="rounded-lg base d-flex align-center justify-center mr-2"
                   :return-object="true"
                   dense
-                  placeholder="Model name"
+                  :placeholder="$t('readyWarehouse.addReadyGarment.modelNo')"
                   prepend-icon=""
                 >
                   <template #append>
@@ -156,7 +156,7 @@
                 </v-combobox>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Good and products name</div>
+                <div class="label">{{ $t('readyWarehouse.addReadyGarment.goodAndProductsName') }}</div>
                 <v-text-field
                   v-model="addition.name"
                   class="rounded-lg base mb-4"
@@ -165,16 +165,16 @@
                   height="44"
                   hide-details
                   outlined
-                  placeholder="Enter name"
+                  :placeholder="$t('readyWarehouse.addReadyGarment.goodAndProductsName')"
                   validate-on-blur
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Color</div>
+                <div class="label">{{ $t('readyWarehouse.addReadyGarment.color') }}</div>
                 <v-select
                   :items="colorList"
                   v-model="addition.colorSpecification"
-                  placeholder="Select color"
+                  :placeholder="$t('readyWarehouse.addReadyGarment.color')"
                   dense
                   outlined
                   height="44"
@@ -186,7 +186,7 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Total quantity</div>
+                <div class="label">{{ $t('readyWarehouse.addReadyGarment.totalQuantity') }}</div>
                 <div class="d-flex align-center">
                   <v-text-field
                     v-model="addition.totalQuantity"
@@ -196,7 +196,7 @@
                     height="44"
                     hide-details
                     outlined
-                    placeholder="Enter quantity"
+                    :placeholder="$t('readyWarehouse.addReadyGarment.totalQuantity') "
                     validate-on-blur
                   />
                   <v-select
@@ -217,7 +217,7 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Outsource Price</div>
+                <div class="label">{{ $t('readyWarehouse.addReadyGarment.outsourcePrice')  }}</div>
                 <div class="d-flex align-center">
                   <v-text-field
                     v-model="addition.price"
@@ -246,7 +246,7 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Box quantity</div>
+                <div class="label">{{ $t('readyWarehouse.addReadyGarment.boxQuantity')  }}</div>
                 <v-text-field
                   v-model="addition.boxQuantity"
                   class="rounded-lg base mb-4"
@@ -255,7 +255,7 @@
                   height="44"
                   hide-details
                   outlined
-                  placeholder="Enter box quantity"
+                  :placeholder=" $t('readyWarehouse.addReadyGarment.boxQuantity') "
                   validate-on-blur
                 />
               </v-col>
@@ -286,7 +286,7 @@
             width="130"
             @click="newDialog = false"
           >
-            cancel
+          {{  $t('readyWarehouse.addReadyGarment.cancel')  }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -295,7 +295,7 @@
             width="130"
             @click="save"
           >
-            save
+        {{  $t('readyWarehouse.addReadyGarment.save')  }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -596,20 +596,20 @@ export default {
       },
       selectedItem:{},
       headers:[
-        {text:"Name",value:"name",sortable:false},
-        {text:"Order No.",value:"orderNumber",sortable:false},
-        {text:"Model No.",value:"modelNumber",sortable:false},
-        {text:"Color",value:"colorSpecification",sortable:false},
+        {text:this.$t('readyWarehouse.addReadyGarment.name'),value:"name",sortable:false},
+        {text:this.$t('readyWarehouse.addReadyGarment.orderNo'),value:"orderNumber",sortable:false},
+        {text:this.$t('readyWarehouse.addReadyGarment.modelNo'),value:"modelNumber",sortable:false},
+        {text:this.$t('readyWarehouse.addReadyGarment.color'),value:"colorSpecification",sortable:false},
         {text:"M/U",value:"measurementUnit",sortable:false},
-        {text:"Sizes",value:"sizes",sortable:false,align:"center",width:300},
-        {text:"Total",value:"totalQuantity",sortable:false},
-        {text:"Model price",value:"modelPrice",sortable:false},
-        {text:"Model total price",value:"modelTotalPrice",sortable:false},
-        {text:"Outsource price",value:"price",sortable:false},
-        {text:"Outsource total price",value:"totalPrice",sortable:false},
-        {text:"Box quantity",value:"boxQuantity",sortable:false},
-        {text:"Client name",value:"clientName",sortable:false},
-        {text:"Action",value:"action",sortable:false},
+        {text:this.$t('sizeTemplate.dialog.size'),value:"sizes",sortable:false,align:"center",width:300},
+        {text:this.$t('readyWarehouse.addReadyGarment.total'),value:"totalQuantity",sortable:false},
+        {text:this.$t('readyWarehouse.addReadyGarment.modelPrice'),value:"modelPrice",sortable:false},
+        {text:this.$t('readyWarehouse.addReadyGarment.modelTotalPrice'),value:"modelTotalPrice",sortable:false},
+        {text:this.$t('readyWarehouse.addReadyGarment.orderNo'),value:"price",sortable:false},
+        {text:this.$t('readyWarehouse.addReadyGarment.outsourceTotalPrice'),value:"totalPrice",sortable:false},
+        {text:this.$t('readyWarehouse.addReadyGarment.boxQuantity'),value:"boxQuantity",sortable:false},
+        {text:this.$t('readyWarehouse.addReadyGarment.clientName'),value:"clientName",sortable:false},
+        {text:this.$t('readyWarehouse.addReadyGarment.action'),value:"action",sortable:false},
       ],
       selectForSell:{},
       id:null,

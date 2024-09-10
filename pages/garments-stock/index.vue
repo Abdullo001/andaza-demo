@@ -9,7 +9,7 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Model number"
+              :label="$t('readyWarehouse.garmentsOfStock.modelNumber')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.modelNumber"
@@ -20,7 +20,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Model name"
+                  :label="$t('readyWarehouse.garmentsOfStock.modelName')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.modelName"
@@ -36,7 +36,7 @@
                 class="rounded-lg d-block filter_picker "
                 type="date"
                 style="width: 100%; height: 100%"
-                placeholder="From date"
+                 :placeholder="$t('readyWarehouse.garmentsOfStock.fromDate')"
                 :picker-options="pickerShortcuts"
                 value-format="dd-MM-yyyy"
               >
@@ -50,7 +50,7 @@
                 class="rounded-lg d-block filter_picker "
                 type="date"
                 style="width: 100%; height: 100%"
-                placeholder="To date"
+               :placeholder="$t('readyWarehouse.garmentsOfStock.toDate')"
                 :picker-options="pickerShortcuts"
                 value-format="dd-MM-yyyy"
               >
@@ -99,7 +99,7 @@
           <v-toolbar-title
             class="d-flex w-full align-center justify-space-between"
           >
-            <div>Garments of Stock</div>
+            <div>{{ $t('readyWarehouse.garmentsOfStock.garmentsStock') }}</div>
             <div>
               <v-btn color="#544B99" dark class="text-capitalize rounded-lg" @click="addGarment">
                 <v-icon>mdi-plus</v-icon>

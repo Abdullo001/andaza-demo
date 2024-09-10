@@ -174,11 +174,11 @@ export default {
         warehouseId: null,
       },
       headers: [
-        {text: 'Main colors', align: 'start', sortable: false, value: 'mainColors'},
-        {text: 'Total', align: 'start', sortable: false, value: 'total'},
-        {text: 'Price', align: 'start', sortable: false, value: 'price'},
-        {text: 'Total Price', align: 'start', sortable: false, value: 'totalPrice'},
-        {text: 'Actions', align: 'end', sortable: false, value: 'actions'},
+        {text: this.$t('orderBox.modelPrint.mainColor'), align: 'start', sortable: false, value: 'mainColors'},
+        {text: this.$t('readyWarehouse.readyGarments.total'), align: 'start', sortable: false, value: 'total'},
+        {text: this.$t('prefinances.child.detailsHeaders.price'), align: 'start', sortable: false, value: 'price'},
+        {text:  this.$t('prefinances.child.totalPrice'), align: 'start', sortable: false, value: 'totalPrice'},
+        {text: this.$t('userManagement.table.actions'), align: 'end', sortable: false, value: 'actions'},
       ],
       historyHeaders:[
         {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
@@ -227,7 +227,7 @@ export default {
     firstClassList(list){
       list.forEach((item)=>{
         this.headers= [
-          {text: 'Color', sortable: false, align: 'start', value: 'colorSpecification'},
+          {text:  this.$t('orderBox.modelPrint.mainColor'), sortable: false, align: 'start', value: 'colorSpecification'},
         ],
 
       list[0]?.sizeDistributionList?.forEach((item) => {
@@ -237,10 +237,10 @@ export default {
         })
 
         this.headers.push(
-          {text: 'Produced total', sortable: false, align: 'start', value: 'total'},
-          {text: 'Price', sortable: false, align: 'start', value: 'price'},
-          {text: 'Total price', sortable: false, align: 'start', value: 'totalPrice'},
-          {text: 'Actions', sortable: false, align: 'start', value: 'actions'},
+          {text: this.$t('readyWarehouse.productDetails.producedTotal'), sortable: false, align: 'start', value: 'total'},
+          {text:this.$t('prefinances.child.detailsHeaders.price'), sortable: false, align: 'start', value: 'price'},
+          {text: this.$t('prefinances.child.totalPrice'), sortable: false, align: 'start', value: 'totalPrice'},
+          {text: this.$t('userManagement.table.actions'),sortable: false, align: 'start', value: 'actions'},
         )
         const specialList = list.map(function (el) {
           const value = {};

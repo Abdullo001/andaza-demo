@@ -7,7 +7,7 @@
             <v-col cols="12" lg="2" md="2">
               <v-text-field
                 v-model.trim="filters.orderNumber"
-                label="Order №"
+                :label="$t('fabricWarehouse.orderNumber')"
                 outlined validate-on-blur
                 dense hide-details
                 class="rounded-lg filter"
@@ -17,7 +17,7 @@
             <v-col cols="12" lg="2" md="2">
               <v-text-field
                 v-model.trim="filters.modelNumber"
-                label="Model №"
+               :label="$t('prefinances.child.modelNumber')"
                 outlined validate-on-blur
                 dense hide-details
                 class="rounded-lg filter"
@@ -27,7 +27,7 @@
             <v-col cols="12" lg="2" md="2">
               <v-text-field
                 v-model="filters.clientName"
-                label="Client name"
+                :label="$t('planningProduction.dialog.clientName')"
                 outlined dense hide-details
                 validate-on-blur
                 class="rounded-lg filter"
@@ -75,13 +75,13 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex w-full align-center justify-space-between">
-            <div>Ready garment warehouse</div>
+            <div>{{ $t('readyWarehouse.index.readyGarmentWarehouse') }}</div>
             <div>
               <v-btn color="#544B99" outlined class="text-capitalize rounded-lg mr-2" @click="toStockGarments">
-                Garments in Stock
+               {{ $t('readyWarehouse.index.garmentsInStock') }}
               </v-btn>
               <v-btn color="#544B99" dark class="text-capitalize rounded-lg" @click="toCentralWarehouse">
-                Ready garment income with waybill
+              {{ $t('readyWarehouse.index.readyGarmentIncomeWithWaybill') }}
               </v-btn>
             </div>
           </v-toolbar-title>
@@ -120,14 +120,14 @@ export default {
         clientName: '',
       },
       headers: [
-        {text: 'Order №', align: 'start', sortable: false, value: 'orderNumber'},
-        {text: 'Model №',  sortable: false, value: 'modelNumber'},
-        {text: 'Client name',  sortable: false, value: 'clientName'},
-        {text: 'Model name',  sortable: false, value: 'modelName'},
-        {text: 'Order  quantity', sortable: false,  value: 'orderQuantity'},
-        {text: 'Produced quantity',  sortable: false, value: 'producedQuantity'},
-        {text: 'Deadline',  sortable: false, value: 'deadline'},
-        {text: 'Status', sortable: false,  value: 'status', width: 200},
+        {text:this.$t('readyWarehouse.index.orderNumber'), align: 'start', sortable: false, value: 'orderNumber'},
+        {text:this.$t('readyWarehouse.index.modelNumber'),  sortable: false, value: 'modelNumber'},
+        {text: this.$t('readyWarehouse.index.clientName'),  sortable: false, value: 'clientName'},
+        {text:this.$t('readyWarehouse.index.modelName'),  sortable: false, value: 'modelName'},
+        {text: this.$t('readyWarehouse.index.orderQuantity'), sortable: false,  value: 'orderQuantity'},
+        {text: this.$t('readyWarehouse.index.producedQuantity'),  sortable: false, value: 'producedQuantity'},
+        {text: this.$t('readyWarehouse.index.deadline'),  sortable: false, value: 'deadline'},
+        {text: this.$t('readyWarehouse.index.status'), sortable: false,  value: 'status', width: 200},
       ],
       allModels: [],
       statusEnum: ["SHIPPED", "PENDING", "FIELD"],

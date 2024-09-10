@@ -92,7 +92,7 @@
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium text-capitalize">
-              Box Size
+             {{ $t('accessoryWarehouse.boxSize') }}
             </div>
             <v-btn
               color="#544B99"
@@ -101,7 +101,7 @@
               @click="new_dialog = true"
             >
               <v-icon>mdi-plus</v-icon>
-              Add Box Size
+             {{ $t('accessoryWarehouse.addBoxSize') }}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -122,7 +122,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
-            Add Box Size
+           {{ $t('accessoryWarehouse.addBoxSize') }}
           </div>
           <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -132,7 +132,7 @@
           <v-form ref="new_form">
             <v-row>
               <v-col cols="8">
-                <div class="label">Size/m</div>
+                <div class="label">{{ $t('accessoryWarehouse.size') }}</div>
                 <v-text-field
                   outlined
                   hide-details
@@ -158,7 +158,7 @@
                 />
               </v-col>
               <v-col cols="12">
-                <div class="label">Description</div>
+                <div class="label">{{ $t('prefinances.child.description') }}</div>
                 <v-textarea
                   outlined
                   hide-details
@@ -332,7 +332,7 @@ export default {
           width: "100",
         },
         {
-          text: "Size/m",
+          text: this.$t('accessoryWarehouse.size'),
           value: "size",
           align: "start",
           sortable: false,
@@ -340,15 +340,15 @@ export default {
         },
         { text: "CBM/m3", value: "cbm" },
         {
-          text: "Description",
+          text: this.$t('prefinances.child.description'),
           value: "description",
         },
         {
-          text: "Crated At",
+          text: this.$t('catalogsPartnerType.child.created'),
           value: "createdAt",
         },
         {
-          text: "Updated At",
+          text: this.$t('catalogsPartnerType.child.updated'),
           value: "updatedAt",
         },
         {

@@ -316,7 +316,7 @@ export default {
         {text: 'Total sold amount', sortable: false, align: 'start', value: 'sellingPrice'},
         {text: 'Sold by', sortable: false, align: 'start', value: 'soldBy'},
         {text: this.$t('listsModels.modelPartsTable.table.comment'), sortable: false, align: 'start', value: 'comment'},
-        {text: this.$t('actions'), sortable: false, align: 'start', value: 'actions'},
+        {text: this.$t('userManagement.table.actions'), sortable: false, align: 'start', value: 'actions'},
       ],
       title: "sell",
       colorSpecification: "",
@@ -340,7 +340,7 @@ export default {
   watch: {
     secondClassList(list) {
       this.headers = [
-        {text: 'Color', sortable: false, align: 'start', value: 'colorSpecification'},
+        {text: this.$t('readyWarehouse.productDetails.color'), sortable: false, align: 'start', value: 'colorSpecification'},
       ],
 
         list[0]?.sizeDistributionList?.forEach((item) => {
@@ -350,10 +350,10 @@ export default {
         })
 
       this.headers.push(
-        {text: 'Produced total', sortable: false, align: 'start', value: 'total'},
-        {text: 'Real price', sortable: false, align: 'start', value: 'price'},
-        {text: 'Total sold amount', sortable: false, align: 'start', value: 'totalPrice'},
-        {text: this.$t('actions'), sortable: false, align: 'start', value: 'actions'},
+        {text:  this.$t('readyWarehouse.productDetails.producedTotal'), sortable: false, align: 'start', value: 'total'},
+        {text:   this.$t('readyWarehouse.productDetails.realPrice'), sortable: false, align: 'start', value: 'price'},
+        {text:  this.$t('readyWarehouse.productDetails.totalSoldAmount'), sortable: false, align: 'start', value: 'totalPrice'},
+        {text:this.$t('userManagement.table.actions'), sortable: false, align: 'start', value: 'actions'},
       )
 
       const specialList = list.map(function (el) {
@@ -393,7 +393,7 @@ export default {
         {text: 'Total sold amount', sortable: false, align: 'start', value: 'sellingTotalPrice'},
         {text: 'Sold by', sortable: false, align: 'start', value: 'createdBy'},
         {text: this.$t('listsModels.modelPartsTable.table.comment'), sortable: false, align: 'start', value: 'comment'},
-        {text: this.$t('actions'), sortable: false, align: 'start', value: 'actions'},
+        {text:this.$t('userManagement.table.actions'), sortable: false, align: 'start', value: 'actions'},
       )
       const specialList = list.map(function (el) {
         const value = {};

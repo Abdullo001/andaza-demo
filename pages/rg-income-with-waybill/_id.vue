@@ -10,7 +10,7 @@
         <v-form ref="waybill_detail" v-model="new_validate" lazy-validation>
           <v-row>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Internal waybill No.</div>
+              <div class="label">  {{ $t('readyWarehouse.id.internalWaybillNo') }}</div>
               <v-combobox
                 v-model="waybill.waybillNumber"
                 :items="waybillList"
@@ -24,7 +24,7 @@
                 item-text="number"
                 item-value="number"
                 outlined
-                placeholder="Enter branch name"
+                :placeholder="$t('readyWarehouse.id.internalWaybillNo')"
                 prepend-icon=""
               >
                 <template #append>
@@ -36,7 +36,7 @@
             </v-col>
 
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Date of waybill</div>
+              <div class="label">{{ $t('readyWarehouse.id.dateOfWaybill') }}</div>
               <div style="height: 40px !important">
                 <el-date-picker
                   readonly
@@ -52,7 +52,7 @@
               </div>
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Sent </div>
+              <div class="label">{{ $t('readyWarehouse.id.sent') }} </div>
               <v-text-field
                 disabled
                 v-model="waybill.sewedBy"
@@ -62,12 +62,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter from"
+                :placeholder=" $t('readyWarehouse.id.sent')"
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">1. Given by</div>
+              <div class="label">1.{{  $t('readyWarehouse.id.givenBy') }}</div>
               <v-text-field
                 disabled
                 v-model="waybill.givenByPosition1"
@@ -77,14 +77,14 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter position"
+                :placeholder=" $t('readyWarehouse.id.givenBy')"
                 validate-on-blur
               />
             </v-col>
           </v-row>
           <v-row>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Name 1</div>
+              <div class="label">{{  $t('readyWarehouse.id.name1') }}</div>
               <v-text-field
                 disabled
                 v-model="waybill.givenByName1"
@@ -94,12 +94,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter name"
+                :placeholder=" $t('readyWarehouse.id.name1') "
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">2. Given by</div>
+              <div class="label">2.{{  $t('readyWarehouse.id.givenBy') }}</div>
               <v-text-field
                 disabled
                 v-model="waybill.givenByPosition2"
@@ -109,12 +109,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter position"
+                :placeholder=" $t('readyWarehouse.id.givenBy')"
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">2. Name</div>
+              <div class="label">2. {{  $t('readyWarehouse.id.name') }}</div>
               <v-text-field
                 disabled
                 v-model="waybill.givenByName2"
@@ -124,12 +124,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter name"
+                :placeholder=" $t('readyWarehouse.id.name') "
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Transport number</div>
+              <div class="label">{{  $t('readyWarehouse.id.transportNumber')  }}</div>
               <v-text-field
                 disabled
                 v-model="waybill.transportationNumber"
@@ -139,12 +139,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter transport number"
+                :placeholder="$t('readyWarehouse.id.transportNumber') "
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Transportation dep. worker</div>
+              <div class="label">{{ $t('readyWarehouse.id.transportationDepWorker')  }}</div>
               <v-text-field
                 disabled
                 v-model="waybill.transportationWorker"
@@ -154,12 +154,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter transportation worker"
+                :placeholder="$t('readyWarehouse.id.transportationDepWorker')"
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">1. Receiver</div>
+              <div class="label">1. {{ $t('readyWarehouse.id.receiver') }}</div>
               <v-text-field
                 v-model="waybill.receiverByPosition"
                 class="rounded-lg base mb-4"
@@ -168,12 +168,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter receiver position"
+                :placeholder="$t('readyWarehouse.id.receiver')"
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Name 1</div>
+              <div class="label">{{ $t('readyWarehouse.id.name') }} 1</div>
               <v-text-field
                 v-model="waybill.receiverByName"
                 class="rounded-lg base mb-4"
@@ -182,12 +182,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter receiver name"
+                :placeholder="$t('readyWarehouse.id.name') "
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Checked by</div>
+              <div class="label">{{ $t('readyWarehouse.id.checkedBy')  }}</div>
               <v-text-field
                 v-model="waybill.checkedByPosition"
                 class="rounded-lg base mb-4"
@@ -196,12 +196,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter checked by"
+                :placeholder="$t('readyWarehouse.id.checkedBy')"
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Name</div>
+              <div class="label">{{ $t('readyWarehouse.id.name') }}</div>
               <v-text-field
                 v-model="waybill.checkedByName"
                 class="rounded-lg base mb-4"
@@ -210,7 +210,7 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Name"
+                :placeholder=" $t('readyWarehouse.id.name') "
                 validate-on-blur
               />
             </v-col>
@@ -225,7 +225,7 @@
                 width="130"
                 @click="saveItem"
               >
-                Save
+               {{  $t('userManagement.child.save')  }}
               </v-btn>
               <v-btn
                 v-else

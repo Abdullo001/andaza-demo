@@ -154,7 +154,7 @@
                   outlined
                   hide-details
                   class="rounded-lg base"
-                  :placeholder="$t('printType.dialog.descriptionPlacholder')"
+                  :placeholder="$t('printType.dialog.descriptionPlaceholder')"
                   dense
                   color="#544B99"
                 />
