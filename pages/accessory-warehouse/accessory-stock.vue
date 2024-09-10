@@ -4,15 +4,15 @@
       <v-form lazy-validation v-model="valid_search" ref="filter_form">
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
-            <v-text-field label="Accessory name" outlined class="rounded-lg filter" v-model.trim="filters.accessoryName"
+            <v-text-field :label="$t('accessoryWarehouse.accessoryName')" outlined class="rounded-lg filter" v-model.trim="filters.accessoryName"
               hide-details dense @keydown.enter="filterData" />
           </v-col>
           <v-col cols="12" lg="2" md="2">
-            <v-text-field label="Model №" outlined class="rounded-lg filter" v-model.trim="filters.modelNumber"
+            <v-text-field :label="$t('accessoryWarehouse.modelNumber')" outlined class="rounded-lg filter" v-model.trim="filters.modelNumber"
               hide-details dense @keydown.enter="filterData" />
           </v-col>
           <v-col cols="12" lg="2" md="2">
-            <v-text-field label="Supplier name" outlined class="rounded-lg filter" v-model.trim="filters.supplierName"
+            <v-text-field :label="$t('accessoryWarehouse.supplierName')" outlined class="rounded-lg filter" v-model.trim="filters.supplierName"
               hide-details dense @keydown.enter="filterData" />
           </v-col>
           <v-spacer />
@@ -20,11 +20,11 @@
             <div class="d-flex justify-end">
               <v-btn width="140" outlined color="#544B99" elevation="0" class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters">
-                Reset
+               {{ $t('accessoryWarehouse.reset') }}
               </v-btn>
               <v-btn width="140" color="#544B99" dark elevation="0" class="text-capitalize rounded-lg"
                 @click="filterData">
-                Search
+                {{ $t('accessoryWarehouse.search') }}
               </v-btn>
             </div>
           </v-col>
@@ -38,10 +38,10 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex w-full align-center justify-space-between">
-            <div>Accessory stock</div>
+            <div> {{ $t('accessoryWarehouse.accessoryStock') }}</div>
             <v-btn color="#544B99" dark class="text-capitalize rounded-lg" @click="addArrivedAccessoryStock">
               <v-icon>mdi-plus</v-icon>
-              Add Accessory Stock
+             {{ $t('accessoryWarehouse.addAccessoryStock')}}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -106,7 +106,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
-            {{ title }} Accessory stock
+          {{ $t('accessoryWarehouse.accessoryStock') }}
           </div>
           <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -116,18 +116,18 @@
           <v-form ref="new_form" v-model="new_validate" lazy-validation>
             <v-row>
               <v-col cols="12" lg="6">
-                <div class="label">Order №</div>
+                <div class="label">   {{ $t('accessoryWarehouse.orderNumber') }}</div>
                 <v-text-field
                 v-model="arrivedAccessoryStock.orderNumber"
                 outlined
                 hide-details
                 dense
                 class="rounded-lg base"
-                placeholder="Enter Order №"
+                :placeholder="$t('accessoryWarehouse.orderNumber')"
                 color="#544B99" />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Model №</div>
+                <div class="label">{{ $t('accessoryWarehouse.modelNumber') }}</div>
                 <v-text-field
                 v-model="arrivedAccessoryStock.modelNumber"
                 outlined
@@ -136,10 +136,10 @@
                 height="44"
                 dense
                 color="#544B99"
-                placeholder="Enter Model №" />
+                :placeholder=" $t('accessoryWarehouse.modelNumber')" />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Accessory name</div>
+                <div class="label">{{  $t('accessoryWarehouse.accessoryName') }}</div>
                 <v-text-field
                 :rules="[formRules.required]"
                 v-model="arrivedAccessoryStock.accessoryName"
@@ -149,10 +149,10 @@
                 height="44"
                 dense
                 color="#544B99"
-                placeholder="Enter accessory name" />
+                :placeholder=" $t('accessoryWarehouse.accessoryName')" />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Supplier name</div>
+                <div class="label">{{  $t('accessoryWarehouse.supplierName') }}</div>
                 <v-combobox
                 v-model="arrivedAccessoryStock.supplierId"
                 :search-input.sync="partnerName"
@@ -166,7 +166,7 @@
                 :return-object="true"
                 color="#544B99"
                 dense
-                placeholder="Enter partner name"
+                :placeholder=" $t('accessoryWarehouse.supplierName')"
                 append-icon="mdi-chevron-down"
                 validate-on-blur
                 >
@@ -176,7 +176,7 @@
                 </v-combobox>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Accessory specification</div>
+                <div class="label">{{  $t('accessoryWarehouse.accessorySpecification') }}</div>
                 <v-text-field
                 :rules="[formRules.required]"
                 v-model="arrivedAccessoryStock.specification"
@@ -184,11 +184,11 @@
                 hide-details
                 dense
                 class="rounded-lg base"
-                placeholder="Enter accessory specification"
+                :placeholder="  $t('accessoryWarehouse.accessorySpecification')"
                 color="#544B99" />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Remaining quantity</div>
+                <div class="label">{{   $t('accessoryWarehouse.remainingQuantity') }}</div>
                 <div class="d-flex align-center">
                   <v-text-field
                   height="44"
@@ -198,7 +198,7 @@
                   outlined
                   hide-details
                   dense
-                  placeholder="Enter Remaining q-ty" />
+                  :placeholder="$t('accessoryWarehouse.remainingQuantity')" />
                   <v-select
                   :items="measurementUnitList"
                   item-text="name"
@@ -216,7 +216,7 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Price per unit</div>
+                <div class="label">{{ $t('accessoryWarehouse.pricePerUnit') }}</div>
                 <div class="d-flex align-center">
                   <v-text-field
                   height="44"
@@ -226,7 +226,7 @@
                   outlined
                   hide-details
                   dense
-                  placeholder="Enter Price P/U" />
+                  :placeholder="$t('accessoryWarehouse.pricePerUnit')" />
                   <v-select
                   :items="priceEnums"
                   style="max-width: 100px"
@@ -334,7 +334,7 @@
           color="#544B99"
           width="163"
           @click="new_dialog = false">
-            cancel
+          {{$t('userManagement.dialog.cancel')}}
           </v-btn>
           <v-btn
           v-if="title === 'New'"
@@ -343,7 +343,7 @@
           dark
           width="163"
           @click="saveArrivedAccessoryStock">
-            save
+            {{$t('userManagement.child.save')}}
           </v-btn>
           <v-btn
           v-else
@@ -665,17 +665,17 @@ export default {
   data() {
     return {
       headers: [
-        { text: "Order №", value: "orderNumber", sortable: false },
-        { text: "Model №", value: "modelNumber", sortable: false },
-        { text: "Accessory name", value: "accessoryName", sortable: false },
-        { text: "Accessory specification", value: "specification", sortable: false, width: 200 },
-        { text: "Accessory photo", value: "accessoryPhoto" },
-        { text: "Supplier name", value: "supplierName", sortable: false },
-        { text: "Remaining q-ty", value: "remainingQuantity", sortable: false },
+        { text: this.$t('accessoryWarehouse.orderNumber'), value: "orderNumber", sortable: false },
+        { text: this.$t('accessoryWarehouse.modelNumber'), value: "modelNumber", sortable: false },
+        { text: this.$t('accessoryWarehouse.accessoryName'), value: "accessoryName", sortable: false },
+        { text:  this.$t('accessoryWarehouse.accessorySpecification'), value: "specification", sortable: false, width: 200 },
+        { text:  this.$t('accessoryWarehouse.accessoryPhoto'), value: "accessoryPhoto" },
+        { text:  this.$t('accessoryWarehouse.supplierName'), value: "supplierName", sortable: false },
+        { text:  this.$t('accessoryWarehouse.remainingQuantity'), value: "remainingQuantity", sortable: false },
         { text: "M/U", value: "measurementUnit", sortable: false },
-        { text: "Price P/U", value: "pricePerUnit", sortable: false, align: "center" },
-        { text: "Total price", value: "totalPrice", sortable: false },
-        { text: "Action", value: "actions", sortable: false, align: "center" },
+        { text: this.$t('accessoryWarehouse.pricePerUnit'), value: "pricePerUnit", sortable: false, align: "center" },
+        { text: this.$t('accessoryWarehouse.totalPrice'), value: "totalPrice", sortable: false },
+        { text: this.$t('accessoryWarehouse.action'), value: "actions", sortable: false, align: "center" },
       ],
 
       files:[

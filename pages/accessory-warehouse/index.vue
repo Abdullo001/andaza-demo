@@ -5,7 +5,7 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Order number"
+              :label="$t('fabricWarehouse.orderNumber')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.orderNumber"
@@ -16,7 +16,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Model number"
+              :label="$t('prefinances.child.modelNumber')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.modelNumber"
@@ -36,7 +36,7 @@
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
-                Reset
+                {{$t('fabricWarehouse.reset') }}
               </v-btn>
               <v-btn
                 width="140"
@@ -46,7 +46,7 @@
                 class="text-capitalize rounded-lg"
                 @click="filterData"
               >
-                Search
+               {{$t('fabricWarehouse.search') }}
               </v-btn>
             </div>
           </v-col>
@@ -71,14 +71,14 @@
           <v-toolbar-title
             class="d-flex w-full align-center justify-space-between"
           >
-            <div>Accessory warehouse</div>
+            <div>{{ $t('sidebar.accessoryWarehouse') }}</div>
             <v-btn
               color="#544B99"
               outlined
               class="text-capitalize rounded-lg mr-2"
-              @click="$router.push(`/accessory-warehouse/accessory-stock`)"
+              @click="$router.push(localePath('/accessory-warehouse/accessory-stock'))"
             >
-              Accessory Stock
+             {{ $t('accessoryWarehouse.accessoryStock') }}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -116,22 +116,22 @@ export default {
       },
       headers: [
         {
-          text: "Order №",
+          text:this.$t('fabricWarehouse.orderNumber'),
           value: "orderNumber",
           sortable: false,
         },
         {
-          text: "Model №",
+          text: this.$t('prefinances.child.modelNumber'),
           value: "modelNumber",
           sortable: false,
         },
         {
-          text: "Planned By",
+          text:this.$t('accessoryWarehouse.plannedBy'),
           value: "plannedBy",
           sortable: false,
         },
         {
-          text: "Planned at",
+          text: this.$t('accessoryWarehouse.plannedAt'),
           value: "plannedAt",
           sortable: false,
         },

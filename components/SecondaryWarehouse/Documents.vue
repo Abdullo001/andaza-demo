@@ -10,7 +10,7 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="w-full d-flex">
-            <div class="title">Documents</div>
+            <div class="title">{{ $t('readyWarehouse.documents.title') }}</div>
             <v-spacer/>
             <v-btn
               class="rounded-lg text-capitalize"
@@ -19,7 +19,7 @@
               @click="newDialog = true"
               dark
             >
-              Upload document
+             {{ $t('readyWarehouse.documents.uploadDocument') }}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -72,7 +72,7 @@
     <v-dialog max-width="500" v-model="newDialog">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between mb-6">
-          <div class="title text-capitalize">add document</div>
+          <div class="title text-capitalize">{{ $t('readyWarehouse.documents.title') }}</div>
           <v-btn icon color="#544B99" @click="newDialog=false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -81,7 +81,7 @@
           <v-form ref="new_validate" lazy-validation>
             <v-row>
               <v-col cols="12" lg="12">
-                <div class="label">Upload document</div>
+                <div class="label">{{ $t('readyWarehouse.documents.uploadDocument') }}</div>
                 <v-file-input
                   outlined
                   hide-details
@@ -91,15 +91,15 @@
                   dense
                   prepend-icon=""
                   prepend-inner-icon="mdi-file-document-outline"
-                  placeholder="Select document"
+                  :placeholder=" $t('readyWarehouse.documents.uploadDocument')"
                   color="#544B99"
                   v-model="newDocument.file"
                   validate-on-blur
                   :rules="[formRules.required]"
                 />
-                <div class="label">Title</div>
+                <div class="label">{{ $t('readyWarehouse.addDocument.title')}}</div>
                 <v-text-field
-                  placeholder="Enter document name"
+                  :placeholder="$t('readyWarehouse.addDocument.title')"
                   outlined
                   dense
                   hide-details
@@ -111,9 +111,9 @@
                   :rules="[formRules.required]"
                 />
                 
-                <div class="label">Description</div>
+                <div class="label">{{$t('readyWarehouse.addDocument.description')}}</div>
                 <v-text-field
-                  placeholder="Enter description"
+                  :placeholder="$t('readyWarehouse.addDocument.description')"
                   outlined
                   dense
                   hide-details
@@ -136,7 +136,7 @@
             width="140" height="40"
             @click="newDialog=false"
           >
-            cancel
+            {{ $t('readyWarehouse.addDocument.cancel') }}
           </v-btn>
           <v-btn
             class="font-weight-bold text-capitalize rounded-lg ml-4"
@@ -144,7 +144,7 @@
             width="140" height="40"
             @click="addDocument"
           >
-            save
+           {{ $t('readyWarehouse.addDocument.save') }}
           </v-btn>
           <v-spacer/>
         </v-card-actions>
@@ -268,12 +268,12 @@ export default {
       newDialog: false,
       dialogStatus: 'add',
       headers: [
-        {text: 'Type', align: 'start', sortable: false, value: 'type'},
-        {text: 'Document name', sortable: false, value: 'title'},
-        {text: 'Description', sortable: false, value: 'description'},
-        {text: 'Uploader', sortable: false, value: 'createdBy'},
-        {text: 'Date', sortable: false, value: 'uploadedAt'},
-        {text: 'Actions', sortable: false, align: 'center', value: 'actions'},
+        {text: this.$t('readyWarehouse.documents.type'), align: 'start', sortable: false, value: 'type'},
+        {text: this.$t('readyWarehouse.documents.documentName'), sortable: false, value: 'title'},
+        {text: this.$t('readyWarehouse.documents.description'), sortable: false, value: 'description'},
+        {text: this.$t('readyWarehouse.documents.uploader'), sortable: false, value: 'createdBy'},
+        {text: this.$t('readyWarehouse.documents.date'),sortable: false, value: 'uploadedAt'},
+        {text:  this.$t('readyWarehouse.documents.actions'), sortable: false, align: 'center', value: 'actions'},
       ],
       type_enums: ['DOC', 'PHOTO'],
       fileType: '',

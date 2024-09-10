@@ -4,7 +4,7 @@
     <v-card elevation="0" class="rounded-lg">
       <v-card-title>
         <div>
-          Ready garment warehouse
+          {{ $t('readyWarehouse.readyGarmentWarehouse.title') }}
           <v-chip color="#10BF41" dark class="ml-5 font-weight-bold">
             {{ title }}
           </v-chip>
@@ -15,10 +15,10 @@
       <v-card-text class="mt-4">
         <v-row>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Order number</div>
+            <div class="label">  {{ $t('readyWarehouse.readyGarmentWarehouse.orderNumber') }} </div>
             <v-text-field
               v-model="accessoryDetail.orderNumber"
-              placeholder="Search by order number"
+              :placeholder="$t('readyWarehouse.readyGarmentWarehouse.orderNumber')"
               validate-on-blur
               outlined
               hide-details
@@ -32,11 +32,11 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Model number</div>
+            <div class="label"> {{ $t('readyWarehouse.readyGarmentWarehouse.modelNumber') }}</div>
             <v-combobox
               :items="modelData"
               v-model="accessoryDetail.modelNumber"
-              placeholder="Search by model number"
+              :placeholder="$t('readyWarehouse.readyGarmentWarehouse.modelNumber')"
               validate-on-blur
               item-text="modelNumber"
               item-value="id"
@@ -55,11 +55,11 @@
             </v-combobox>
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Model name</div>
+            <div class="label">{{ $t('readyWarehouse.readyGarmentWarehouse.modelName') }}</div>
             <v-text-field
               v-model="accessoryDetail.modelName"
               validate-on-blur
-              placeholder="Enter Model name"
+              :placeholder="$t('readyWarehouse.readyGarmentWarehouse.modelName') "
               outlined
               hide-details
               height="44"
@@ -70,11 +70,11 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Client name</div>
+            <div class="label">{{ $t('readyWarehouse.readyGarmentWarehouse.clientName')  }}</div>
             <v-text-field
               v-model="accessoryDetail.clientName"
               validate-on-blur
-              placeholder="Enter Head of production department"
+              :placeholder="$t('readyWarehouse.readyGarmentWarehouse.clientName') "
               outlined
               hide-details
               height="44"
@@ -87,7 +87,7 @@
         </v-row>
         <v-row :class="showObject">
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Fabric specification</div>
+            <div class="label">{{$t('readyWarehouse.readyGarmentWarehouse.fabricSpecification') }}</div>
             <v-text-field
               v-model="accessoryDetail.fabricSpecification"
               validate-on-blur
@@ -95,7 +95,7 @@
               hide-details
               height="44"
               dense
-              placeholder="Enter fabric specification"
+              :placeholder="$t('readyWarehouse.readyGarmentWarehouse.fabricSpecification')"
               class="rounded-lg base mb-4"
               disabled
               color="#544B99"
@@ -103,11 +103,11 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Season</div>
+            <div class="label">{{ $t('readyWarehouse.readyGarmentWarehouse.season') }}</div>
             <v-text-field
               v-model="accessoryDetail.season"
               validate-on-blur
-              placeholder="Enter Season"
+              :placeholder="$t('readyWarehouse.readyGarmentWarehouse.season')"
               outlined
               hide-details
               height="44"
@@ -118,11 +118,11 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Gender</div>
+            <div class="label">{{$t('readyWarehouse.readyGarmentWarehouse.gender')}}</div>
             <v-text-field
               v-model="accessoryDetail.gender"
               validate-on-blur
-              placeholder="Enter Gender"
+              :placeholder="$t('readyWarehouse.readyGarmentWarehouse.gender')"
               outlined
               hide-details
               height="44"
@@ -134,11 +134,11 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Order date</div>
+            <div class="label">{{ $t('readyWarehouse.readyGarmentWarehouse.orderDate') }}</div>
             <v-text-field
               v-model="accessoryDetail.orderDate"
               validate-on-blur
-              placeholder="Enter order date"
+              :placeholder="$t('readyWarehouse.readyGarmentWarehouse.orderDate')"
               outlined
               hide-details
               height="44"
@@ -150,13 +150,13 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Deadline</div>
+            <div class="label">{{ $t('readyWarehouse.readyGarmentWarehouse.deadline') }}</div>
             <v-text-field
               v-model="accessoryDetail.deadline"
               validate-on-blur
               outlined
               hide-details
-              placeholder="Enter deadline"
+              :placeholder="$t('readyWarehouse.readyGarmentWarehouse.deadline')"
               height="44"
               dense
               class="rounded-lg base mb-4"
@@ -165,11 +165,11 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">Order quantity</div>
+            <div class="label">{{ $t('readyWarehouse.readyGarmentWarehouse.orderQuantity') }}</div>
             <v-text-field
               v-model="accessoryDetail.orderQuantity"
               validate-on-blur
-              placeholder="Enter Created time"
+              :placeholder=" $t('readyWarehouse.readyGarmentWarehouse.orderQuantity')"
               outlined
               hide-details
               height="44"

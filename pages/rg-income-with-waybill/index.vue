@@ -5,7 +5,7 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              placeholder="Model №"
+              :placeholder="$t('readyWarehouse.id.modelNo')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.modelNumber"
@@ -16,7 +16,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              placeholder="Order №"
+              :placeholder="$t('readyWarehouse.id.orderNo')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.orderNumber"
@@ -27,7 +27,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              placeholder="Subcon. name"
+               :placeholder="$t('readyWarehouse.id.subconName')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.subcontractorName"
@@ -43,7 +43,7 @@
                 type="datetime"
                 style="width: 100%; height: 100%"
                 class="filter_picker"
-                placeholder="Created at"
+                 :placeholder="$t('readyWarehouse.id.createdAt')"
                 :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy HH:mm:ss"
               >
@@ -61,7 +61,7 @@
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
-                Reset
+              {{ $t('readyWarehouse.id.reset') }}
               </v-btn>
               <v-btn
                 width="140"
@@ -71,7 +71,7 @@
                 class="text-capitalize rounded-lg"
                 @click="filterData"
               >
-                Search
+              {{ $t('readyWarehouse.id.search') }}
               </v-btn>
             </div>
           </v-col>
@@ -98,11 +98,11 @@
           <v-toolbar-title
             class="d-flex w-full align-center justify-space-between"
           >
-            <div>RG income with waybill</div>
+            <div> {{ $t('readyWarehouse.id.rgIncomeWithWaybill') }}</div>
             <div>
               <v-btn color="#544B99" dark class="text-capitalize rounded-lg" @click="addGarment">
                 <v-icon>mdi-plus</v-icon>
-                add Garments
+                {{ $t('readyWarehouse.id.addGarments') }}
               </v-btn>
             </div>
           </v-toolbar-title>
@@ -141,13 +141,13 @@ export default {
       },
 
       headers: [
-        { text: "Waybill No.", value: "waybillNumber", sortable: false },
-        { text: "Oreder No.", value: "orderNumber", sortable: false },
-        { text: "Model No.", value: "modelNumber", sortable: false },
-        { text: "Branch name", value: "sewedBy", sortable: false },
-        { text: "Created by", value: "createdBy", sortable: false },
-        { text: "Created at", value: "createdAt", sortable: false },
-        { text: "Action", value: "action", sortable: false },
+        { text: this.$t('readyWarehouse.id.waybillNo'), value: "waybillNumber", sortable: false },
+        { text: this.$t('readyWarehouse.id.orderNo'), value: "orderNumber", sortable: false },
+        { text:this.$t('readyWarehouse.id.modelNo'), value: "modelNumber", sortable: false },
+        { text: this.$t('readyWarehouse.id.branchName'), value: "sewedBy", sortable: false },
+        { text: this.$t('readyWarehouse.id.createdBy'), value: "createdBy", sortable: false },
+        { text:this.$t('readyWarehouse.id.createdAt'), value: "createdAt", sortable: false },
+        { text: this.$t('readyWarehouse.id.action'), value: "action", sortable: false },
       ],
       current_page:0,
       itemPerPage: 10,
