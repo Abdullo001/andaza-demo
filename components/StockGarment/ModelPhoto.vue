@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="title mt-3">Photos of models</div>
+    <div class="title mt-3">{{ $t('readyWarehouse.garmentsOfStock.modelPhoto') }}</div>
     <v-divider class="my-6"/>
     <v-row>
       <v-col cols="12" lg="5">
@@ -148,7 +148,7 @@
             height="44"
             style="border-width: 2px"
             @click="clearImages"
-          >clear
+          >{{ $t('modelBox.documentBox.clear') }}
           </v-btn>
           <v-btn
             class="rounded-lg white--text ml-6"
@@ -156,7 +156,7 @@
             width="130"
             height="44"
             @click="saveImages"
-          >save
+          >{{ $t('modelBox.documentBox.save') }}
           </v-btn>
         </div>
       </v-col>

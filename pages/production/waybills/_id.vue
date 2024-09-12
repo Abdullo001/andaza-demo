@@ -2,7 +2,7 @@
   <div>
     <v-card elevation="0" class="mb-4">
       <v-card-title>
-        <div>Waybill</div>
+        <div>{{ $t('supplyWarehouse.waybill') }}</div>
         <v-spacer />
       </v-card-title>
       <v-divider />
@@ -10,7 +10,7 @@
         <v-form ref="waybill_detail" v-model="new_validate" lazy-validation>
           <v-row>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Internal waybill No.</div>
+              <div class="label">{{ $t('production.waybills.internalWaybillNo') }}</div>
               <v-text-field
                 v-model="waybill.waybillNumber"
                 class="rounded-lg base mb-4"
@@ -19,12 +19,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter waybill No."
+                :placeholder="$t('production.waybills.internalWaybillNo')"
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Waybill date</div>
+              <div class="label">{{ $t('production.waybills.waybillDate') }}</div>
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="waybill.waybillDate"
@@ -39,7 +39,7 @@
               </div>
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Sending from</div>
+              <div class="label">{{ $t('production.waybills.sendingFrom') }}</div>
               <v-combobox
                 v-model="waybill.branchId"
                 :items="partnerLists"
@@ -53,7 +53,7 @@
                 item-text="name"
                 item-value="name"
                 outlined
-                placeholder="Enter sender from"
+                :placeholder="$t('production.waybills.waybillDate')"
                 prepend-icon=""
               >
                 <template #append>
@@ -66,7 +66,7 @@
 
             
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">1. Given by</div>
+              <div class="label">{{ $t('production.waybills.givenBy') }}</div>
               <v-text-field
                 v-model="waybill.givenByPosition1"
                 class="rounded-lg base mb-4"
@@ -75,14 +75,14 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter position"
+                :placeholder="$t('production.waybills.givenBy')"
                 validate-on-blur
               />
             </v-col>
           </v-row>
           <v-row :class="showObject">
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Name 1</div>
+              <div class="label">{{ $t('production.oneSort.name') }} 1</div>
               <v-text-field
                 v-model="waybill.givenByName1"
                 class="rounded-lg base mb-4"
@@ -91,12 +91,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter name"
+                :placeholder="$t('production.oneSort.name')"
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">2. Given by</div>
+              <div class="label">2.{{ $t('production.waybills.givenBy') }}</div>
               <v-text-field
                 v-model="waybill.givenByPosition2"
                 class="rounded-lg base mb-4"
@@ -105,12 +105,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter position"
+                :placeholder="$t('production.waybills.givenBy')"
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">2. Given by</div>
+              <div class="label">2.{{ $t('production.waybills.givenBy') }}</div>
               <v-text-field
                 v-model="waybill.givenByName2"
                 class="rounded-lg base mb-4"
@@ -119,12 +119,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter name"
+                 :placeholder="$t('production.waybills.givenBy')"
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Transport number</div>
+              <div class="label">{{ $t('production.waybills.transportNumber') }}</div>
               <v-text-field
                 v-model="waybill.transportationNumber"
                 class="rounded-lg base mb-4"
@@ -133,12 +133,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter transport number"
+                :placeholder="$t('production.waybills.transportNumber')"
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Transportation dep. worker</div>
+              <div class="label">{{ $t('production.waybills.transportationWorker') }}</div>
               <v-text-field
                 v-model="waybill.transportationWorker"
                 class="rounded-lg base mb-4"
@@ -147,12 +147,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter transportation worker"
+                :placeholder=" $t('production.waybills.transportationWorker')"
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">1. Receiver</div>
+              <div class="label">1.{{ $t('production.waybills.receiver') }}</div>
               <v-text-field
                 v-model="waybill.receiverByPosition"
                 class="rounded-lg base mb-4"
@@ -161,12 +161,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter receiver position"
+                :placeholder="$t('production.waybills.receiver')"
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Name 1</div>
+              <div class="label">{{ $t('production.oneSort.name') }} 1</div>
               <v-text-field
                 v-model="waybill.receiverByName"
                 class="rounded-lg base mb-4"
@@ -175,12 +175,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter receiver name"
+                :placeholder="$t('production.oneSort.name') "
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Checked by</div>
+              <div class="label">{{ $t('production.waybills.checkedBy')  }}</div>
               <v-text-field
                 v-model="waybill.checkedByPosition"
                 class="rounded-lg base mb-4"
@@ -189,12 +189,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter checked position"
+                :placeholder="$t('production.waybills.checkedBy')"
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Name</div>
+              <div class="label">{{ $t('production.oneSort.name') }} </div>
               <v-text-field
                 v-model="waybill.checkedByName"
                 class="rounded-lg base mb-4"
@@ -203,12 +203,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Name"
+                :placeholder="$t('production.oneSort.name')"
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Creator</div>
+              <div class="label">{{$t('production.waybills.creator')}}</div>
               <v-text-field
                 v-model="waybill.createdBy"
                 background-color="#F8F4FE"
@@ -219,14 +219,14 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Creator"
+                :placeholder="$t('production.waybills.creator')"
                 readonly
                 validate-on-blur
               />
             </v-col>
 
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Created time</div>
+              <div class="label">{{$t('production.waybills.createdAt')}}</div>
               <v-text-field
                 v-model="waybill.createdAt"
                 class="rounded-lg base mb-4"
@@ -276,7 +276,7 @@
                 width="130"
                 @click="saveWaybill"
               >
-                Save
+                {{$t('production.waybills.save')}}
               </v-btn>
               <v-btn
                 v-else
@@ -340,7 +340,7 @@
           @click="getPdf"
           :loading="loading"
         >
-          Generate PDF
+         {{$t('production.oneSort.generatePdf')}}
         </v-btn>
       </div>
     </v-card>
@@ -369,7 +369,7 @@ export default {
       new_validate: true,
       branchSearch: "",
       id: null,
-      items:["1-sort","2-sort"],
+      items:[this.$t('production.oneSort.oneSort'),this.$t('production.oneSort.twoSort')],
       loading:false,
     };
   },

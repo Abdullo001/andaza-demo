@@ -5,7 +5,7 @@
         <v-row class="mx-0 px-0  mt-4 pa-4 pb-0 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              placeholder="Model №"
+              :placeholder="$t('waybills.modelNo')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.modelNumber"
@@ -16,7 +16,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              placeholder="Waybill №"
+             :placeholder="$t('waybills.waybillNo')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.number"
@@ -27,7 +27,7 @@
           </v-col>
           <v-col cols="12" lg="2">
             <v-text-field
-              placeholder="Subcon. name"
+               :placeholder="$t('waybills.subconName')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.partnerName"
@@ -43,8 +43,8 @@
                 type="daterange"
                 unlink-panels
                 range-separator="-"
-                start-placeholder="From"
-                end-placeholder="To"
+                :start-placeholder="$t('waybills.from')"
+                :end-placeholder="$t('waybills.to')"
                 :shortcuts="pickerShortcuts"
                 class="filter_picker rounded-lg" 
                 value-format="dd.MM.yyyy HH:mm:ss"
@@ -65,7 +65,7 @@
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
-                Reset
+               {{ $t('waybills.reset') }}
               </v-btn>
               <v-btn
                 width="140"
@@ -75,7 +75,7 @@
                 class="text-capitalize rounded-lg"
                 @click="filterData"
               >
-                Search
+                 {{ $t('waybills.search') }}
               </v-btn>
             </div>
           </v-col>
@@ -99,7 +99,7 @@
           <v-toolbar-title
             class="d-flex w-full align-center justify-space-between"
           >
-            <div>Waybills</div>
+            <div> {{ $t('waybills.title') }}</div>
             <div>
               <v-btn
                 color="#544B99"
@@ -108,7 +108,7 @@
                 @click="addWaybil"
               >
                 <v-icon>mdi-plus</v-icon>
-                Add waybill
+               {{ $t('waybills.addWaybill') }}
               </v-btn>
             </div>
           </v-toolbar-title>
@@ -163,17 +163,17 @@ export default {
       },
 
       headers: [
-        { text: "Waybill no.", value: "number", sortable: false },
-        { text: "Order no.", value: "orderNumbers", sortable: false },
-        { text: "Model No.", value: "modelNumbers", sortable: false },
+        { text: this.$t('waybills.waybillNo'), value: "number", sortable: false },
+        { text: this.$t('waybills.orderNo'), value: "orderNumbers", sortable: false },
+        { text: this.$t('waybills.modelNo'), value: "modelNumbers", sortable: false },
         {
-          text: "Branch name",
+          text: this.$t('waybills.branchName'),
           value: "partner",
           sortable: false,
         },
-        { text: "Sent date", value: "sendDate", sortable: false },
-        { text: "Creator", value: "createdBy", sortable: false },
-        { text: "Action", value: "action", sortable: false, width: 110 },
+        { text: this.$t('waybills.sentDate'), value: "sendDate", sortable: false },
+        { text: this.$t('waybills.creator'), value: "createdBy", sortable: false },
+        { text: this.$t('waybills.action'), value: "action", sortable: false, width: 110 },
       ],
       itemPerPage: 10,
       current_page:0,

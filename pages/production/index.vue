@@ -9,7 +9,7 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Order number"
+              :label="$t('secondaryWarehouse.index.orderNo')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.orderNumber"
@@ -20,7 +20,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Model number"
+              :label="$t('secondaryWarehouse.index.modelNo')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.modelNumber"
@@ -31,7 +31,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Client name"
+              :label="$t('planningProduction.dialog.clientName')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.client"
@@ -42,7 +42,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="Status"
+              :label="$t('listsModels.table.status')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.status"
@@ -109,7 +109,7 @@
               outlined
               @click="$router.push(localePath(`/production/waybills`))"
             >
-              Waybills
+              {{ $t('supplyWarehouse.waybill') }}
             </v-btn>
             </div>
           </v-toolbar-title>
@@ -169,7 +169,7 @@ export default {
         {text: 'ID', align: 'start', sortable: false, value: 'id'},
         {text: this.$t('planningProduction.table.orderNumber'), value: 'orderNumber'},
         {text: this.$t('planningProduction.table.modelNumber'), value: 'modelNumber'},
-        {text: "Client name", value: 'client'},
+        {text:this.$t('planningProduction.dialog.clientName'), value: 'client'},
         {text: this.$t('planningProduction.table.orderQuantity'), value: 'orderQuantity'},
         {text: this.$t('planningProduction.table.deadlineProd'), value: 'deadline'},
         {text: this.$t('planningProduction.table.quantity'), value: 'productionQuantity'},

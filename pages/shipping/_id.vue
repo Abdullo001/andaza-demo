@@ -5,7 +5,7 @@
       <v-card-title>
         <v-row>
          <v-col cols="11">
-           Shipping
+          {{$t('sidebar.shipping')}}
            <v-chip color="#10BF41" dark class="font-weight-bold ml-5">{{ shippingStatus }}</v-chip>
          </v-col>
           <v-col cols="1">
@@ -26,7 +26,7 @@
           <v-form ref="order_detail" v-model="new_validate" lazy-validation>
               <v-row>
                   <v-col cols="12" lg="3" md="3" sm="6">
-                      <div class="label">Invoice No.</div>
+                      <div class="label"> {{$t('shipping.id.invoiceNo')}}</div>
                       <v-text-field
                           :disabled="eventEditBtn"
                           v-model="shipping.invoiceNumber"
@@ -36,12 +36,12 @@
                           height="44"
                           hide-details
                           outlined
-                          placeholder="Enter the invoice No."
+                          :placeholder="$t('shipping.id.invoiceNo')"
                           validate-on-blur
                       />
                   </v-col>
                   <v-col cols="12" lg="3" md="3" sm="6">
-                      <div class="label">Invoice date</div>
+                      <div class="label">{{ $t('shipping.id.invoiceDate') }}</div>
                       <div style="height: 40px !important">
                           <el-date-picker
                             :disabled="eventEditBtn"
@@ -57,7 +57,7 @@
                       </div>
                   </v-col>
                   <v-col cols="12" lg="3" md="3" sm="6">
-                    <div class="label">Buyer name</div>
+                    <div class="label">{{ $t('shipping.id.buyerName') }}</div>
                       <v-combobox
                         :disabled="eventEditBtn"
                         v-model="shipping.buyerId"
@@ -73,7 +73,7 @@
                         :return-object="true"
                         color="#544B99"
                         dense
-                        placeholder="Enter partner name"
+                        :placeholder="$t('shipping.id.buyerName')"
                         append-icon="mdi-chevron-down"
                         validate-on-blur
                       >
@@ -83,7 +83,7 @@
                       </v-combobox>
                 </v-col>
                   <v-col cols="12" lg="3" md="3" sm="6">
-                    <div class="label">Buyer address</div>
+                    <div class="label">{{ $t('shipping.id.buyerAddress') }}</div>
                   <v-text-field
                     :disabled="eventEditBtn"
                     class="rounded-lg base mb-4"
@@ -94,14 +94,14 @@
                     hide-details
                     disabled
                     outlined
-                    placeholder="Enter the invoice No."
+                    :placeholder="$t('shipping.id.buyerAddress')"
                     validate-on-blur
                   />
                 </v-col>
               </v-row>
               <v-row :class="showObject">
                   <v-col cols="12" lg="3" md="3" sm="6">
-                  <div class="label">Contract No.</div>
+                  <div class="label">{{ $t('shipping.id.contractNo') }}</div>
                   <v-text-field
                     :disabled="eventEditBtn"
                     class="rounded-lg base mb-4"
@@ -112,12 +112,12 @@
                     hide-details
                     outlined
                     disabled
-                    placeholder="Enter the invoice No."
+                    :placeholder="$t('shipping.id.contractNo')"
                     validate-on-blur
                   />
                 </v-col>
                   <v-col cols="12" lg="3" md="3" sm="6">
-                  <div class="label">Contract date</div>
+                  <div class="label">{{ $t('shipping.id.contractDate') }}</div>
                   <div style="height: 40px !important">
                     <el-date-picker
                       :disabled="eventEditBtn"
@@ -134,7 +134,7 @@
                   </div>
                 </v-col>
                   <v-col cols="12" lg="3" md="3" sm="6">
-                    <div class="label">Seller name</div>
+                    <div class="label">{{ $t('shipping.id.sellerName') }}</div>
                       <v-combobox
                         :disabled="eventEditBtn"
                         v-model="shipping.sellerId"
@@ -150,7 +150,7 @@
                         :return-object="true"
                         color="#544B99"
                         dense
-                        placeholder="Select the seller name"
+                        :placeholder="$t('shipping.id.sellerName')"
                         append-icon="mdi-chevron-down"
                         validate-on-blur
                       >
@@ -160,7 +160,7 @@
                   </v-combobox>
                 </v-col>
                   <v-col cols="12" lg="3" md="3" sm="6">
-                      <div class="label">Seller address</div>
+                      <div class="label">{{ $t('shipping.id.sellerAddress') }}</div>
                       <v-text-field
                           :disabled="eventEditBtn"
                           class="rounded-lg base mb-4"
@@ -171,12 +171,12 @@
                           height="44"
                           hide-details
                           outlined
-                          placeholder="Select the seller name"
+                          :placeholder="$t('shipping.id.sellerAddress')"
                           validate-on-blur
                       />
                   </v-col>
                   <v-col cols="12" lg="3" md="3" sm="6">
-                    <div class="label">Sender company</div>
+                    <div class="label">{{ $t('shipping.id.senderCompany') }}</div>
                     <v-combobox
                       :disabled="eventEditBtn"
                       v-model="shipping.senderId"
@@ -192,7 +192,7 @@
                       :return-object="true"
                       color="#544B99"
                       dense
-                      placeholder="Select the sender company"
+                      :placeholder=" $t('shipping.id.senderCompany')"
                       append-icon="mdi-chevron-down"
                       validate-on-blur
                     >
@@ -202,7 +202,7 @@
                     </v-combobox>
                   </v-col>
                   <v-col cols="12" lg="3" md="3" sm="6">
-                      <div class="label">Sender company address</div>
+                      <div class="label">{{ $t('shipping.id.senderCompanyAddress') }}</div>
                       <v-text-field
                           :disabled="eventEditBtn"
                           class="rounded-lg base mb-4"
@@ -213,12 +213,12 @@
                           height="44"
                           hide-details
                           outlined
-                          placeholder="Select the sender company"
+                          :placeholder="$t('shipping.id.senderCompanyAddress')"
                           validate-on-blur
                       />
                   </v-col>
                   <v-col cols="12" lg="3" md="3" sm="6">
-                    <div class="label">Receiver name</div>
+                    <div class="label">{{$t('shipping.id.receiverName')}}</div>
                       <v-combobox
                         :disabled="eventEditBtn"
                         v-model="shipping.receiverId"
@@ -234,7 +234,7 @@
                         :return-object="true"
                         color="#544B99"
                         dense
-                        placeholder="Select the receiver name"
+                        :placeholder="$t('shipping.id.receiverName')"
                         append-icon="mdi-chevron-down"
                         validate-on-blur
                       >
@@ -244,7 +244,7 @@
                       </v-combobox>
                   </v-col>
                   <v-col cols="12" lg="3" md="3" sm="6">
-                      <div class="label">Receiver address</div>
+                      <div class="label">{{ $t('shipping.id.receiverAddress') }}</div>
                       <v-text-field
                         :disabled="eventEditBtn"
                           class="rounded-lg base mb-4"
@@ -255,12 +255,12 @@
                           height="44"
                           hide-details
                           outlined
-                          placeholder="Select the receiver name"
+                          :placeholder=" $t('shipping.id.receiverAddress')"
                           validate-on-blur
                       />
                   </v-col>
                   <v-col cols="12" lg="3" md="3" sm="6">
-                    <div class="label">Country of origin</div>
+                    <div class="label">{{ $t('shipping.id.countryOfOrigin') }}</div>
                       <v-combobox
                         :disabled="eventEditBtn"
                         v-model="shipping.countryId"
@@ -276,7 +276,7 @@
                         :return-object="true"
                         color="#544B99"
                         dense
-                        placeholder="Select the country of origin"
+                        :placeholder="$t('shipping.id.countryOfOrigin')"
                         append-icon="mdi-chevron-down"
                         validate-on-blur
                       >
@@ -286,7 +286,7 @@
                       </v-combobox>
                 </v-col>
                   <v-col cols="12" lg="3" md="3" sm="6">
-                    <div class="label">Manufacturer</div>
+                    <div class="label">{{$t('shipping.id.manufacturer')}}</div>
                     <v-combobox
                       :disabled="eventEditBtn"
                       v-model="shipping.manufacturerId"
@@ -302,7 +302,7 @@
                       :return-object="true"
                       color="#544B99"
                       dense
-                      placeholder="Select the manufacturer name"
+                      :placeholder="$t('shipping.id.manufacturer')"
                       append-icon="mdi-chevron-down"
                       validate-on-blur
                     >
@@ -312,7 +312,7 @@
                     </v-combobox>
                   </v-col>
                   <v-col cols="12" lg="3" md="3" sm="6">
-                    <div class="label">Creator name</div>
+                    <div class="label">{{ $t('shipping.id.creatorName') }}</div>
                     <v-text-field
                       :disabled="eventEditBtn"
                       class="rounded-lg base mb-4"
@@ -323,7 +323,7 @@
                       height="44"
                       hide-details
                       outlined
-                      placeholder="Enter creator name"
+                      :placeholder=" $t('shipping.id.creatorName') "
                       validate-on-blur
                     />
                   </v-col>
@@ -337,7 +337,7 @@
                           width="130"
                           @click="createdNewShipping"
                       >
-                          Save
+                         {{ $t('shipping.id.save') }}
                       </v-btn>
                       <v-btn
                         v-else
@@ -433,9 +433,9 @@ export default {
       countryIdSearch: "",
       eventEditBtn: false,
       items:[
-        "Shipping models",
-        "Packing list",
-        "Invoice"
+         this.$t('shipping.id.shippingModels') ,
+         this.$t('shipping.id.packingList') ,
+        this.$t('shipping.id.invoice') ,
       ],
       shipping: {
         id: "",

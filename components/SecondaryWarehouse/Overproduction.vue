@@ -15,11 +15,11 @@
         <v-toolbar-title
           class="d-flex w-full align-center justify-space-between"
         >
-          <div> Overproduction</div>
+          <div> {{$t('secondaryWarehouse.overproductions.title')}}</div>
           <div>
             <v-btn color="#544B99" dark class="text-capitalize rounded-lg" @click="addGarment">
               <v-icon>mdi-plus</v-icon>
-              add Overproduction
+             {{$t('secondaryWarehouse.overproductions.addOverproduction')}}
             </v-btn>
           </div>
         </v-toolbar-title>
@@ -121,7 +121,7 @@
     <v-dialog max-width="900" v-model="newDialog">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between mb-6">
-          <div class="title text-capitalize">add OverProduction</div>
+          <div class="title text-capitalize"> {{$t('secondaryWarehouse.overproductions.addOverproduction')}}</div>
           <v-btn icon color="#544B99" @click="newDialog=false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -130,7 +130,7 @@
           <v-form ref="add_form" v-model="add_validate" lazy-validation>
             <v-row>
               <v-col cols="12" lg="6">
-                <div class="label">Model number</div>
+                <div class="label"> {{$t('secondaryWarehouse.addOverproduction.modelNumber')}}</div>
                 <v-combobox
                   v-model="addition.modelNumber"
                   :items="modelsList"
@@ -145,7 +145,7 @@
                   class="rounded-lg base d-flex align-center justify-center mr-2"
                   :return-object="true"
                   dense
-                  placeholder="Model name"
+                  :placeholder="$t('secondaryWarehouse.addOverproduction.modelNumber')"
                   prepend-icon=""
                 >
                   <template #append>
@@ -156,7 +156,7 @@
                 </v-combobox>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Good and products name</div>
+                <div class="label">{{$t('secondaryWarehouse.addOverproduction.goodAndProductsName')}}</div>
                 <v-text-field
                   v-model="addition.name"
                   class="rounded-lg base mb-4"
@@ -165,16 +165,16 @@
                   height="44"
                   hide-details
                   outlined
-                  placeholder="Enter name"
+                  :placeholder="$t('secondaryWarehouse.addOverproduction.goodAndProductsName')"
                   validate-on-blur
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Color</div>
+                <div class="label">{{$t('secondaryWarehouse.addOverproduction.color')}}</div>
                 <v-select
                   :items="colorList"
                   v-model="addition.colorSpecification"
-                  placeholder="Select color"
+                  :placeholder="$t('secondaryWarehouse.addOverproduction.color')"
                   dense
                   outlined
                   height="44"
@@ -186,7 +186,7 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Total quantity</div>
+                <div class="label">{{$t('secondaryWarehouse.addOverproduction.totalQuantity')}}</div>
                 <div class="d-flex align-center">
                   <v-text-field
                     v-model="addition.totalQuantity"
@@ -196,7 +196,7 @@
                     height="44"
                     hide-details
                     outlined
-                    placeholder="Enter quantity"
+                    :placeholder="$t('secondaryWarehouse.addOverproduction.totalQuantity')"
                     validate-on-blur
                   />
                   <v-select
@@ -217,7 +217,7 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Price</div>
+                <div class="label">{{ $t('secondaryWarehouse.addOverproduction.price') }}</div>
                 <div class="d-flex align-center">
                   <v-text-field
                     v-model="addition.price"
@@ -272,7 +272,7 @@
             width="130"
             @click="newDialog = false"
           >
-            cancel
+           {{$t('secondaryWarehouse.addOverproduction.cancel')}}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -281,7 +281,7 @@
             width="130"
             @click="save"
           >
-            save
+           {{ $t('secondaryWarehouse.addOverproduction.save') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -629,16 +629,16 @@ export default {
       },
       selectedItem:{},
       headers:[
-        {text:"Name",value:"name",sortable:false},
-        {text:"Order No.",value:"orderNumber",sortable:false},
-        {text:"Model No.",value:"modelNumber",sortable:false},
-        {text:"Color",value:"colorSpecification",sortable:false},
-        {text:"M/U",value:"measurementUnit",sortable:false},
-        {text:"Sizes",value:"sizes",sortable:false,align:"center",width:300},
-        {text:"Total",value:"totalQuantity",sortable:false},
-        {text:"Price",value:"price",sortable:false},
-        {text:"Total price",value:"totalPrice",sortable:false},
-        {text:"Action",value:"action",sortable:false},
+        {text:this.$t('secondaryWarehouse.overproductions.name'),value:"name",sortable:false},
+        {text:this.$t('secondaryWarehouse.overproductions.orderNo'),value:"orderNumber",sortable:false},
+        {text:this.$t('secondaryWarehouse.overproductions.modelNo'),value:"modelNumber",sortable:false},
+        {text:this.$t('secondaryWarehouse.overproductions.color'),value:"colorSpecification",sortable:false},
+        {text:this.$t('secondaryWarehouse.overproductions.mu'),value:"measurementUnit",sortable:false},
+        {text:this.$t('secondaryWarehouse.overproductions.sizes'),value:"sizes",sortable:false,align:"center",width:300},
+        {text:this.$t('secondaryWarehouse.overproductions.total'),value:"totalQuantity",sortable:false},
+        {text:this.$t('secondaryWarehouse.overproductions.price'),value:"price",sortable:false},
+        {text:this.$t('secondaryWarehouse.overproductions.totalPrice'),value:"totalPrice",sortable:false},
+        {text:this.$t('secondaryWarehouse.overproductions.action'),value:"action",sortable:false},
       ],
       selectForSell:{},
       id:null,

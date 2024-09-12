@@ -99,11 +99,11 @@
           <v-toolbar-title
             class="d-flex w-full align-center justify-space-between"
           >
-            <div>{{ $t('readyWarehouse.garmentsOfStock.garmentsStock') }}</div>
+            <div>{{ $t('readyWarehouse.garmentsOfStock.title') }}</div>
             <div>
               <v-btn color="#544B99" dark class="text-capitalize rounded-lg" @click="addGarment">
                 <v-icon>mdi-plus</v-icon>
-                add Garments
+                {{ $t('readyWarehouse.garmentsOfStock.addGarments') }}
               </v-btn>
             </div>
           </v-toolbar-title>
@@ -145,14 +145,14 @@ export default {
       currentPage:0,
       itemsList:[],
       headers: [
-        { text: "Model No.", value: "modelNumber", sortable: false },
-        { text: "Model name", value: "modelName", sortable: false },
-        { text: "Price", value: "price", sortable: false },
-        { text: "Production quantity", value: "productionQuantity", sortable: false },
-        { text: "Remaining quantity", value: "remainingQuantity", sortable: false },
-        { text: "Added at", value: "createdAt", sortable: false },
-        { text: "Added by", value: "createdBy", sortable: false },
-        { text: "Action", value: "action", sortable: false },
+        { text: this.$t('readyWarehouse.garmentsOfStock.modelNumber'), value: "modelNumber", sortable: false },
+        { text:  this.$t('readyWarehouse.garmentsOfStock.modelName'), value: "modelName", sortable: false },
+        { text:  this.$t('readyWarehouse.garmentsOfStock.price'), value: "price", sortable: false },
+        { text:  this.$t('readyWarehouse.garmentsOfStock.productionQuantity'), value: "productionQuantity", sortable: false },
+        { text:  this.$t('readyWarehouse.garmentsOfStock.remainingQuantity'), value: "remainingQuantity", sortable: false },
+        { text:  this.$t('readyWarehouse.garmentsOfStock.addedAt'), value: "createdAt", sortable: false },
+        { text:  this.$t('readyWarehouse.garmentsOfStock.addedBy'), value: "createdBy", sortable: false },
+        { text:  this.$t('readyWarehouse.garmentsOfStock.action'), value: "action", sortable: false },
       ],
     }
   },

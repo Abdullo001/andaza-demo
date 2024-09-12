@@ -193,7 +193,7 @@
             />
           </v-col>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">Planned Accessory expense for 1 set</div>
+            <div class="label">{{ $t('orderBox.add.plannedAccess') }}</div>
             <div class="d-flex align-center">
               <v-select
                 v-model="expenseGroupId"
@@ -265,7 +265,7 @@
               class="font-weight-bold rounded-lg"
               dark @click="savePlanning"
             >
-              {{ $route.params.id === 'create' ? $t('save') : $t('update') }}
+              {{ $route.params.id === 'create' ? $t('waybillId.save') : $t('update') }}
             </v-btn>
           </v-col>
         </v-row>

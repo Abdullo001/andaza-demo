@@ -16,7 +16,7 @@
         <v-toolbar-title
           class="d-flex w-full align-center justify-space-between"
         >
-          <div> {{tabName}}</div>
+          <div> {{$t('production.oneSort.oneSort')}}</div>
           <div>
             
           </div>
@@ -68,7 +68,7 @@
         <v-toolbar-title
           class="d-flex w-full align-center justify-space-between"
         >
-          <div> {{tabName}}</div>
+          <div> {{$t('production.oneSort.twoSort')}}</div>
           <div>
             
           </div>
@@ -127,17 +127,17 @@ export default {
     return{
       
       headers:[
-        {text:"Name",value:"name",sortable:false},
-        {text:"Order No.",value:"orderNumber",sortable:false},
-        {text:"Model No.",value:"modelNumber",sortable:false},
-        {text:"Color",value:"colorSpecification",sortable:false},
-        {text:"M/U",value:"measurementUnit",sortable:false},
-        {text:"Sizes",value:"sizes",sortable:false,align:"center",width:300},
-        {text:"Total",value:"totalQuantity",sortable:false},
-        {text:"Outsource Price",value:"price",sortable:false},
-        {text:"Total price",value:"totalPrice",sortable:false},
-        {text:"Box quantity",value:"boxQuantity",sortable:false},
-        {text:"Client name",value:"clientName",sortable:false},
+        {text:this.$t('production.oneSort.name'),value:"name",sortable:false},
+        {text:this.$t('production.oneSort.orderNo'),value:"orderNumber",sortable:false},
+        {text:this.$t('production.oneSort.modelNo'),value:"modelNumber",sortable:false},
+        {text:this.$t('production.oneSort.color'),value:"colorSpecification",sortable:false},
+        {text:this.$t('production.oneSort.mu'),value:"measurementUnit",sortable:false},
+        {text:this.$t('production.oneSort.sizes'),value:"sizes",sortable:false,align:"center",width:300},
+        {text:this.$t('production.oneSort.total'),value:"totalQuantity",sortable:false},
+        {text:this.$t('production.oneSort.outsourcePrice'),value:"price",sortable:false},
+        {text:this.$t('production.oneSort.totalPrice'),value:"totalPrice",sortable:false},
+        {text:this.$t('production.oneSort.boxQuantity'),value:"boxQuantity",sortable:false},
+        {text:this.$t('production.oneSort.clientName'),value:"clientName",sortable:false},
       ],
       itemsList:[],
       id:null,
