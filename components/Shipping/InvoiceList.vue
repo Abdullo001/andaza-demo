@@ -4,7 +4,7 @@
       <v-toolbar-title
         class="d-flex w-full align-center justify-space-between"
       >
-        <div>Invoice</div>
+        <div>{{$t('shipping.id.invoice')}}</div>
       </v-toolbar-title>
     </v-toolbar>
     <v-data-table
@@ -41,7 +41,7 @@
           <td
             colspan="6"
           >
-              Total
+              {{ $t('workingProcess.working.total')}}
           </td>
             <td>
               {{ sumTotal }}
@@ -125,7 +125,7 @@
           lazy-validation
         >
           <v-col cols="12" lg="12" md="3" sm="6">
-            <div class="label">Delivery terms</div>
+            <div class="label">{{ $t('shipping.invoice.deliveryTerms') }} </div>
             <div class="d-flex align-center">
               <v-select
                 style="max-width: 100px"
@@ -152,7 +152,7 @@
             </div>
           </v-col>
           <v-col cols="12" lg="12" md="3" sm="6">
-            <div class="label">Payment terms</div>
+            <div class="label">{{ $t('shipping.invoice.paymentTerms') }}</div>
             <v-text-field
               class="rounded-lg base mb-4"
               color="#544B99"
@@ -165,7 +165,7 @@
             />
           </v-col>
           <v-col cols="12" lg="12" md="3" sm="6">
-            <div class="label">Type of packaging</div>
+            <div class="label">{{ $t('shipping.invoice.typeOfPackaging') }}</div>
             <v-text-field
               class="rounded-lg base mb-4"
               color="#544B99"
@@ -178,7 +178,7 @@
             />
           </v-col>
           <v-col cols="12" lg="12" md="3" sm="6">
-            <div class="label">Letter of credit No.</div>
+            <div class="label">{{ $t('shipping.invoice.letterOfCreditNo') }}</div>
             <v-text-field
               class="rounded-lg base mb-4"
               color="#544B99"
@@ -197,7 +197,7 @@
           lazy-validation
         >
           <v-col cols="12" lg="12" sm="6" md="3" >
-            <div class="label">Total net weight (Kg.)</div>
+            <div class="label">{{ $t('shipping.invoice.totalNetWeight') }}</div>
             <v-text-field
               class="rounded-lg mb-4"
               background-color="#EDEDED"
@@ -211,7 +211,7 @@
             />
           </v-col>
           <v-col cols="12" lg="12" sm="6" md="3" >
-            <div class="label">Total gross weight</div>
+            <div class="label">{{ $t('shipping.invoice.totalGrossWeight') }}</div>
             <v-text-field
               class="rounded-lg mb-4"
               dense
@@ -225,7 +225,7 @@
             />
           </v-col>
           <v-col cols="12" lg="12" sm="6" md="3" >
-            <div class="label">Total box places quantity (pcs)</div>
+            <div class="label">{{ $t('shipping.invoice.totalBoxPlacesQuantity') }}</div>
             <v-text-field
               class="rounded-lg mb-4"
               background-color="#EDEDED"
@@ -242,14 +242,14 @@
       </v-col>
     </v-row>
     <div>
-      <div class="label ml-5 font-weight-bold">Bank information</div>
+      <div class="label ml-5 font-weight-bold">{{ $t('shipping.invoice.bankInformation') }}</div>
       <v-row>
         <v-col cols="8">
           <v-form lazy-validation>
             <v-row>
               <v-col cols="8" sm="12" md="6" lg="4">
                 <v-col cols="12" >
-                  <div class="label">Bank name</div>
+                  <div class="label">{{ $t('shipping.invoice.bankName') }}</div>
                   <v-text-field
                     class="rounded-lg base mb-4"
                     color="#544B99"
@@ -258,13 +258,13 @@
                     v-model="invoiceList.bankName"
                     hide-details
                     outlined
-                    placeholder="Bank name"
+                    :placeholder="$t('shipping.invoice.bankName')"
                     validate-on-blur
                   />
                 </v-col>
                 <v-row class="ml-1" >
                   <v-col cols="6">
-                    <div class="label">Bank code</div>
+                    <div class="label">{{$t('shipping.invoice.bankCode')}}</div>
                     <v-text-field
                       class="rounded-lg base mb-4"
                       color="#544B99"
@@ -273,12 +273,12 @@
                       height="44"
                       hide-details
                       outlined
-                      placeholder="Bank code"
+                      :placeholder="$t('shipping.invoice.bankCode')"
                       validate-on-blur
                     />
                   </v-col>
                   <v-col cols="6">
-                    <div class="label">SWIFT</div>
+                    <div class="label">{{$t('shipping.invoice.swift')}}</div>
                     <v-text-field
                       class="rounded-lg base mb-4"
                       color="#544B99"
@@ -287,7 +287,7 @@
                       height="44"
                       hide-details
                       outlined
-                      placeholder="SWIFT "
+                      :placeholder="$t('shipping.invoice.swift') "
                       validate-on-blur
                     />
                   </v-col>
@@ -295,7 +295,7 @@
               </v-col>
               <v-col cols="4" sm="12" md="6" lg="8">
                 <v-col cols="12">
-                  <div class="label">Bank address</div>
+                  <div class="label">{{$t('shipping.invoice.bankAddress')}}</div>
                   <v-textarea
                     rows="1"
                     auto-grow
@@ -303,7 +303,7 @@
                     filled
                     height="170"
                     class="rounded-lg base mb-4"
-                    placeholder="Bank address"
+                    :placeholder="$t('shipping.invoice.bankAddress')"
                     color="#544B99"
                     dense
                     outlined
@@ -316,7 +316,7 @@
           </v-form>
         </v-col>
         <v-col cols="4">
-          <div class="label pt-4" style="margin-left: 45px">Bank account numbers</div>
+          <div class="label pt-4" style="margin-left: 45px">{{ $t('shipping.invoice.bankAccountNumbers') }}</div>
           <v-form lazy-validation>
             <v-col class="d-flex align-center py-0" cols="12">
               <div class="label mr-1" style="color: #BEBEBE">USD</div>
@@ -328,7 +328,7 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Bank account number (USD)"
+                :placeholder="$t('shipping.invoice.bankAccountNumberUSD')"
                 validate-on-blur
               />
             </v-col>
@@ -342,7 +342,7 @@
                 hide-details
                 outlined
                 v-model="invoiceList.accountNumberRUB"
-                placeholder="Bank account number (RUB)"
+                :placeholder="$t('shipping.invoice.bankAccountNumberRUB')"
                 validate-on-blur
               />
             </v-col>
@@ -356,7 +356,7 @@
                 hide-details
                 outlined
                 v-model="invoiceList.accountNumberUZS"
-                placeholder="Bank account number (UZS)"
+                :placeholder="$t('shipping.invoice.bankAccountNumberUZS')"
                 validate-on-blur
               />
             </v-col>
@@ -374,7 +374,7 @@
         width="190"
         @click="generatePdfInvoice"
       >
-        PDF Download
+       {{$t('workingProcess.working.pdfDownload')}}
       </v-btn>
       <v-btn
         width="140"
@@ -385,7 +385,7 @@
         class="text-capitalize rounded-lg font-weight-bold"
         @click="updateInvoice"
       >
-        Save
+        {{$t('userManagement.child.save')}}
       </v-btn>
     </div>
     <v-overlay v-model="isLoad" class="align-center justify-center">

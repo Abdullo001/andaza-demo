@@ -4,7 +4,7 @@
       <v-toolbar-title
         class="d-flex w-full"
       >
-        <div>Packing list</div>
+        <div>{{ $t('shipping.id.packingList') }}</div>
       </v-toolbar-title>
     </v-toolbar>
     <template  v-for="(group, groupIndex) in allList">
@@ -291,7 +291,7 @@
         height="44"
         @click="generateInvoice"
       >
-        Generate Invoice
+        {{  this.$t('shipping.id.generateInvoice') , }}
       </v-btn>
     </div>
     <v-overlay v-model="isLoad" class="align-center justify-center">

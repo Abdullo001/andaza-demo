@@ -5,7 +5,7 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              placeholder="Model №"
+              :placeholder="$t('wastes.wastesWarehouse.modelNo')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.modelNumber"
@@ -16,7 +16,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              placeholder="Wastes name"
+              :placeholder="$t('wastes.wastesWarehouse.wastesName')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.name"
@@ -32,7 +32,7 @@
                 type="datetime"
                 style="width: 100%; height: 100%"
                 class="filter_picker"
-                placeholder="From"
+                 :placeholder="$t('wastes.wastesWarehouse.from')"
                 :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy HH:mm:ss"
               >
@@ -45,7 +45,7 @@
                 v-model="filters.toDate"
                 type="datetime"
                 style="width: 100%; height: 100%"
-                placeholder="To"
+                 :placeholder="$t('wastes.wastesWarehouse.to')"
                 class="filter_picker"
                 :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy HH:mm:ss"
@@ -64,7 +64,7 @@
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
-                Reset
+               {{ $t('wastes.wastesWarehouse.reset')}}
               </v-btn>
               <v-btn
                 width="140"
@@ -74,7 +74,7 @@
                 class="text-capitalize rounded-lg"
                 @click="filterData"
               >
-                Search
+                {{ $t('wastes.wastesWarehouse.search')}}
               </v-btn>
             </div>
           </v-col>
@@ -99,7 +99,7 @@
           <v-toolbar-title
             class="d-flex w-full align-center justify-space-between"
           >
-            <div>Wastes warehouse</div>
+            <div> {{ $t('wastes.wastesWarehouse.title')}}</div>
             <div>
               <v-btn
                 color="#544B99"
@@ -108,7 +108,7 @@
                 @click="addWastes"
               >
                 <v-icon>mdi-plus</v-icon>
-                Add wastes
+                {{ $t('wastes.wastesWarehouse.addWastes')}}
               </v-btn>
             </div>
           </v-toolbar-title>
@@ -275,7 +275,7 @@
     <v-dialog v-model="dialog" width="800">
       <v-card elevation="0">
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">{{ title }} wastes</div>
+          <div class="text-capitalize font-weight-bold">   {{ $t('wastes.wastesWarehouse.addWastes')}}</div>
           <v-btn icon color="#544B99" @click="dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -284,7 +284,7 @@
           <v-form lazy-validation v-model="new_validate" ref="new_form">
             <v-row>
               <v-col cols="12" lg="6">
-                <div class="label">Name of wastes</div>
+                <div class="label">   {{ $t('wastes.wastesWarehouse.nameOfWastes')}}</div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="currentItem.name"
@@ -292,12 +292,12 @@
                   hide-details
                   dense
                   class="rounded-lg base"
-                  placeholder="Enter name of wastes"
+                  :placeholder="$t('wastes.wastesWarehouse.nameOfWastes')"
                   color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6" v-if="currentItem.title!=='edit'">
-                <div class="label">Model No.</div>
+                <div class="label">   {{ $t('wastes.wastesWarehouse.modelNo')}}</div>
                 <v-combobox
                   v-model="currentItem.modelNumber"
                   :items="modelsList"
@@ -311,7 +311,7 @@
                   class="rounded-lg base d-flex align-center justify-center mr-2"
                   :return-object="true"
                   dense
-                  placeholder="Select model number"
+                  :placeholder="$t('wastes.wastesWarehouse.modelNo')"
                   prepend-icon=""
                 >
                   <template #append>
@@ -323,11 +323,11 @@
               </v-col>
               <v-col cols="12" lg="6">
                 <div>
-                  <div class="label">Wastes quantity</div>
+                  <div class="label">{{ $t('wastes.addWastes.wastesQuantity') }}</div>
                   <div class="d-flex align-center">
                     <v-text-field
                       v-model="currentItem.quantity"
-                      placeholder="Enter quantity"
+                      :placeholder="$t('wastes.addWastes.wastesQuantity')"
                       outlined
                       hide-details
                       height="44"
@@ -356,7 +356,7 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Selling price</div>
+                <div class="label">{{$t('wastes.addWastes.sellingPrice')}}</div>
                 <div class="d-flex align-center">
                   <v-text-field
                     :rules="[formRules.required]"
@@ -366,7 +366,7 @@
                     height="44"
                     dense
                     class="rounded-lg base rounded-l-lg rounded-r-0"
-                    placeholder="Enter price"
+                    :placeholder="$t('wastes.addWastes.sellingPrice')"
                     color="#544B99"
                   />
                   <v-select
@@ -395,7 +395,7 @@
             color="#544B99"
             width="163"
             @click="dialog = false"
-            >cancel
+            >{{$t('wastes.addWastes.cancel')}}
           </v-btn>
           <v-btn
             class="text-capitalize rounded-lg font-weight-bold"
@@ -404,7 +404,7 @@
             width="163"
             @click="saveWaste"
           >
-            Create
+           {{$t('wastes.addWastes.create')}}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -563,31 +563,31 @@ export default {
         
       ],
       headers: [
-        { text: "No.", value: "id", sortable: false },
-        { text: "Name of wastes", value: "name", sortable: false },
-        { text: "Batch number", value: "batchNumber", sortable: false },
-        { text: "Model No.", value: "modelNumber", sortable: false },
-        { text: "M/U", value: "measurementUnit", sortable: false },
-        { text: "Price", value: "price", sortable: false },
-        { text: "Currency", value: "currency", sortable: false },
-        { text: "Begin. of period (qty)", value: "beginPeriodQuantity", sortable: false },
+        { text: this.$t('wastes.wastesWarehouse.no'), value: "id", sortable: false },
+        { text:  this.$t('wastes.wastesWarehouse.nameOfWastes'), value: "name", sortable: false },
+        { text:  this.$t('wastes.wastesWarehouse.batchNumber'), value: "batchNumber", sortable: false },
+        { text:  this.$t('wastes.wastesWarehouse.modelNo'), value: "modelNumber", sortable: false },
+        { text:  this.$t('wastes.wastesWarehouse.mu'), value: "measurementUnit", sortable: false },
+        { text:  this.$t('wastes.wastesWarehouse.price'),value: "price", sortable: false },
+        { text:  this.$t('wastes.wastesWarehouse.currency'), value: "currency", sortable: false },
+        { text: this.$t('wastes.wastesWarehouse.beginOfPeriodQty'),value: "beginPeriodQuantity", sortable: false },
         {
-          text: "Begin.of perion (tot.pr)",
+          text:  this.$t('wastes.wastesWarehouse.beginOfPeriodPrice'),
           value: "beginPeriodTotalPrice",
           sortable: false,
         },
-        { text: "Total input q-ty", value: "totalInputQuantity", sortable: false },
-        { text: "Total input price", value: "totalInputTotalPrice", sortable: false },
-        { text: "Total output q-ty", value: "totalOutputQuantity", sortable: false },
-        { text: "Total output price", value: "totalOutputTotalPrice", sortable: false },
-        { text: "Remaining q-ty", value: "remainingQuantity", sortable: false },
+        { text: this.$t('wastes.wastesWarehouse.totalInputQty'), value: "totalInputQuantity", sortable: false },
+        { text: this.$t('wastes.wastesWarehouse.totalInputPrice'),value: "totalInputTotalPrice", sortable: false },
+        { text:  this.$t('wastes.wastesWarehouse.totalOutputQty'), value: "totalOutputQuantity", sortable: false },
+        { text: this.$t('wastes.wastesWarehouse.totalOutputPrice'), value: "totalOutputTotalPrice", sortable: false },
+        { text: this.$t('wastes.wastesWarehouse.remainingQty'), value: "remainingQuantity", sortable: false },
         {
-          text: "Remaining total price",
+          text: this.$t('wastes.wastesWarehouse.remainingTotalPrice'),
           value: "remainingTotalPrice",
           sortable: false,
         },
         {
-          text: "Actions",
+          text: this.$t('wastes.wastesWarehouse.actions'),
           value: "actions",
           sortable: false,
           width: 150,

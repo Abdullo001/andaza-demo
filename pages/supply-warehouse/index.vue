@@ -5,7 +5,7 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              placeholder="Model №"
+              :placeholder="$t('supplyWarehouse.modelNo')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.modelNumber"
@@ -16,7 +16,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              placeholder="Order №"
+              :placeholder="$t('supplyWarehouse.orderNo')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.orderNumber"
@@ -27,7 +27,7 @@
           </v-col>
           <v-col cols="12" lg="2">
             <v-text-field
-              placeholder="Subcon. name"
+              :placeholder="$t('supplyWarehouse.subconName')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.partner"
@@ -40,7 +40,7 @@
             <v-select
               :items="statusItems"
               v-model="filters.status"
-              placeholder="Status"
+              :placeholder="$t('supplyWarehouse.status')"
               dense
               outlined
               hide-details
@@ -60,7 +60,7 @@
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
-                Reset
+               {{$t('supplyWarehouse.reset') }}
               </v-btn>
               <v-btn
                 width="140"
@@ -70,7 +70,7 @@
                 class="text-capitalize rounded-lg"
                 @click="filterData"
               >
-                Search
+                {{$t('supplyWarehouse.search') }}
               </v-btn>
             </div>
           </v-col>
@@ -91,7 +91,7 @@
           <v-toolbar-title
             class="d-flex w-full align-center justify-space-between"
           >
-            <div>Supply warehouse</div>
+            <div> {{$t('supplyWarehouse.title') }}</div>
             <div>
               <v-btn
                 color="#544B99"
@@ -99,7 +99,7 @@
                 class="text-capitalize rounded-lg"
                 @click="addWaybil"
               >
-                Waybill
+               {{$t('supplyWarehouse.waybill') }}
               </v-btn>
             </div>
           </v-toolbar-title>
@@ -517,34 +517,34 @@ export default {
       historyList:[],
 
       headers: [
-        { text: "Incom from", value: "fromProcess", sortable: false },
-        { text: "Order No.", value: "orderNumber", sortable: false },
-        { text: "Model No.", value: "modelNumber", sortable: false },
-        { text: "Main color", value: "colorSpecification", sortable: false },
-        { text: "Art work", value: "artWork", sortable: false },
-        { text: "Size name", value: "sizeName", sortable: false },
+        { text: this.$t('supplyWarehouse.incomeFrom'), value: "fromProcess", sortable: false },
+        { text: this.$t('supplyWarehouse.orderNo'), value: "orderNumber", sortable: false },
+        { text: this.$t('supplyWarehouse.modelNo'), value: "modelNumber", sortable: false },
+        { text: this.$t('supplyWarehouse.mainColor'), value: "colorSpecification", sortable: false },
+        { text: this.$t('supplyWarehouse.artWork'), value: "artWork", sortable: false },
+        { text: this.$t('supplyWarehouse.sizeName'), value: "sizeName", sortable: false },
         {
-          text: "Sizes",
+          text: this.$t('supplyWarehouse.sizeName'),
           value: "sizes",
           sortable: false,
           width: 400,
           align: "center",
         },
-        { text: "Total quantity", value: "totalQuantity", sortable: false },
+        { text: this.$t('supplyWarehouse.totalQuantity'), value: "totalQuantity", sortable: false },
         {
-          text: "Service price per work",
+          text: this.$t('supplyWarehouse.servicePricePerWork'),
           value: "pricePerWork",
           sortable: false,
         },
-        { text: "Order deadline", value: "orderDeadline", sortable: false },
+        { text: this.$t('supplyWarehouse.orderDeadline'), value: "orderDeadline", sortable: false },
         {
-          text: "Branch/subcontractor name",
+          text: this.$t('supplyWarehouse.branchName'),
           value: "partner",
           sortable: false,
         },
-        { text: "Sent date", value: "sendDate", sortable: false },
-        { text: "Status", value: "status", sortable: false },
-        { text: "Action", value: "action", sortable: false, width: 160 },
+        { text:  this.$t('supplyWarehouse.sentDate'), value: "sendDate", sortable: false },
+        { text:  this.$t('supplyWarehouse.status'), value: "status", sortable: false },
+        { text:  this.$t('supplyWarehouse.action'), value: "action", sortable: false, width: 160 },
       ],
       historyHeaders:[
         {text:"Send date", value:"sendDate",sortable:false},

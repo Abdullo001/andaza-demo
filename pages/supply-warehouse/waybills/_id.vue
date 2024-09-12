@@ -2,7 +2,7 @@
   <div>
     <v-card elevation="0" class="mb-4">
       <v-card-title>
-        <div>Waybill</div>
+        <div>{{ $t('waybillId.waybills') }}</div>
         <v-spacer />
       </v-card-title>
       <v-divider />
@@ -10,7 +10,7 @@
         <v-form ref="waybill_detail" v-model="new_validate" lazy-validation>
           <v-row>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Waybill No.</div>
+              <div class="label">{{ $t('waybillId.waybillNo') }}</div>
               <v-text-field
                 v-model="waybill.waybillNumber"
                 class="rounded-lg base mb-4"
@@ -19,12 +19,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter waybill No."
+                :placeholder="$t('waybillId.waybillNo')"
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Branch/subcontractor name</div>
+              <div class="label">{{ $t('waybillId.branchName') }}</div>
               <v-combobox
                 v-model="waybill.branchId"
                 :items="partnerLists"
@@ -38,7 +38,7 @@
                 item-text="name"
                 item-value="name"
                 outlined
-                placeholder="Enter branch name"
+                :placeholder=" $t('waybillId.branchName') "
                 prepend-icon=""
               >
                 <template #append>
@@ -49,7 +49,7 @@
               </v-combobox>
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Address of branch/subcontractor</div>
+              <div class="label">{{  $t('waybillId.branchAddress')  }}</div>
               <v-text-field
                 v-model="waybill.branchAddress"
                 class="rounded-lg base mb-4"
@@ -59,13 +59,13 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Branch address"
+                :placeholder=" $t('waybillId.branchAddress') "
                 validate-on-blur
               />
             </v-col>
 
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Date of waybill</div>
+              <div class="label">{{  $t('waybillId.date')  }}</div>
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="waybill.waybillDate"
@@ -81,7 +81,7 @@
             </v-col>
 
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Creator</div>
+              <div class="label">{{  $t('waybillId.creator')  }}</div>
               <v-text-field
                 v-model="waybill.createdBy"
                 background-color="#F8F4FE"
@@ -92,14 +92,14 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Creator"
+                :placeholder=" $t('waybillId.creator')"
                 readonly
                 validate-on-blur
               />
             </v-col>
 
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Created time</div>
+              <div class="label">{{  $t('waybillId.createdAt')  }}</div>
               <v-text-field
                 v-model="waybill.createdAt"
                 class="rounded-lg base mb-4"
@@ -108,7 +108,7 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Created at"
+                :placeholder="$t('waybillId.createdAt')"
                 validate-on-blur
               >
                 <template #append>
@@ -118,7 +118,7 @@
             </v-col>
 
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Updated time</div>
+              <div class="label">{{$t('waybillId.updatedAt')}}</div>
               <v-text-field
                 v-model="waybill.updatedAt"
                 background-color="#F8F4FE"
@@ -129,7 +129,7 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Update at"
+                :placeholder="$t('waybillId.updatedAt')"
                 readonly
                 validate-on-blur
               >
@@ -149,7 +149,7 @@
                 width="130"
                 @click="saveWaybill"
               >
-                Save
+                {{ $t('waybillId.save') }}
               </v-btn>
               <v-btn
               v-else
@@ -174,7 +174,7 @@
           <v-toolbar-title
             class="d-flex w-full align-center justify-space-between"
           >
-            <div>Waybills</div>
+            <div>{{ $t('waybillId.waybills') }}</div>
           </v-toolbar-title>
         </v-toolbar>
       </v-card-title>
@@ -224,7 +224,7 @@
               <v-toolbar-title
                 class="d-flex w-full align-center justify-space-between"
               >
-                <div>Additons</div>
+                <div>  {{ $t('waybillId.add') }}</div>
                 <div>
                   <v-btn
                     color="#544B99"
@@ -233,7 +233,7 @@
                     @click="addAddition"
                   >
                     <v-icon>mdi-plus</v-icon>
-                    Additon
+                    {{ $t('waybillId.add') }}
                   </v-btn>
                 </div>
               </v-toolbar-title>
@@ -245,7 +245,7 @@
       <v-dialog v-model="add_dialog" width="800">
         <v-card>
           <v-card-title class="d-flex justify-space-between w-full">
-            <div class="text-capitalize font-weight-bold">Additions</div>
+            <div class="text-capitalize font-weight-bold">  {{ $t('waybillId.add') }}</div>
             <v-btn icon color="#544B99" @click="add_dialog = false">
               <v-icon>mdi-close</v-icon>
             </v-btn>
@@ -254,7 +254,7 @@
             <v-form ref="add_form" v-model="add_validate" lazy-validation>
               <v-row>
                 <v-col cols="12" lg="6">
-                  <div class="label">Model number</div>
+                  <div class="label">{{ $t('waybillId.modelNo') }}</div>
                   <v-combobox
                     v-model="addition.modelNumber"
                     :items="modelsList"
@@ -269,7 +269,7 @@
                     class="rounded-lg base d-flex align-center justify-center mr-2"
                     :return-object="true"
                     dense
-                    placeholder="Model name"
+                    :placeholder=" $t('waybillId.modelNo')"
                     prepend-icon=""
                   >
                     <template #append>
@@ -280,7 +280,7 @@
                   </v-combobox>
                 </v-col>
                 <v-col cols="12" lg="6">
-                  <div class="label">Good and products name</div>
+                  <div class="label">{{ $t('centralWarehouse.productName') }}</div>
                   <v-text-field
                     v-model="addition.name"
                     class="rounded-lg base mb-4"
@@ -289,16 +289,16 @@
                     height="44"
                     hide-details
                     outlined
-                    placeholder="Enter name"
+                    :placeholder=" $t('centralWarehouse.productName')"
                     validate-on-blur
                   />
                 </v-col>
                 <v-col cols="12" lg="6">
-                  <div class="label">Color</div>
+                  <div class="label">{{  $t('waybillId.color') }}</div>
                   <v-select
                     :items="colorList"
                     v-model="addition.colorSpecification"
-                    placeholder="Select color"
+                    :placeholder="$t('waybillId.color')"
                     dense
                     outlined
                     height="44"
@@ -310,7 +310,7 @@
                   />
                 </v-col>
                 <v-col cols="12" lg="6">
-                  <div class="label">Quantity</div>
+                  <div class="label">{{ $t('prefinances.child.quantity') }}</div>
                   <div class="d-flex align-center">
                     <v-text-field
                       v-model="addition.quantity"
@@ -320,7 +320,7 @@
                       height="44"
                       hide-details
                       outlined
-                      placeholder="Enter quantity"
+                      :placeholder=" $t('prefinances.child.quantity')"
                       validate-on-blur
                     />
                     <v-select
@@ -341,7 +341,7 @@
                   </div>
                 </v-col>
                 <v-col cols="12" lg="6">
-                  <div class="label">Price</div>
+                  <div class="label">{{ $t('waybillId.price') }}</div>
                   <div class="d-flex align-center">
                     <v-text-field
                       v-model="addition.price"
@@ -380,7 +380,7 @@
               width="130"
               @click="add_dialog = false"
             >
-              cancel
+             {{ $t('userManagement.dialog.cancel') }}
             </v-btn>
             <v-btn
               class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -389,7 +389,7 @@
               width="130"
               @click="save"
             >
-              save
+             {{ $t('waybillId.save') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -398,15 +398,15 @@
       <div class="mx-4">
         <v-toolbar elevation="0" class="mb-6">
           <v-toolbar-title class="d-flex w-full align-center justify-center">
-            <div>SENDER SIDE</div>
+            <div>{{ $t('waybillForm.senderSide') }}</div>
           </v-toolbar-title>
         </v-toolbar>
 
         <v-row>
           <v-col cols="4">
-            <div class="label">Description</div>
+            <div class="label">{{ $t('waybillForm.description') }}</div>
             <v-textarea
-              placeholder="Enter description"
+              :placeholder="$t('waybillForm.description')"
               v-model="sender.senderDescription"
               outlined
               hide-details
@@ -420,7 +420,7 @@
             
             <v-row>
               <v-col cols="3">
-                <div class="label">Given By</div>
+                <div class="label">{{ $t('waybillForm.givenBy') }}</div>
                 <v-text-field
                   v-model="sender.givenByPosition"
                   class="rounded-lg base"
@@ -429,7 +429,7 @@
                   height="44"
                   hide-details
                   outlined
-                  placeholder="Enter position"
+                  :placeholder=" $t('waybillForm.enterPosition') "
                   validate-on-blur
                 />
               </v-col>
@@ -443,12 +443,12 @@
                   height="44"
                   hide-details
                   outlined
-                  placeholder="Enter Name"
+                  :placeholder=" $t('waybillForm.enterName') "
                   validate-on-blur
                 />
               </v-col>
               <v-col cols="3">
-                <div class="label">Receiver in Factory</div>
+                <div class="label">{{ $t('waybillForm.receiverInFactory')  }}</div>
                 <v-text-field
                   v-model="sender.receiverByPosition"
                   class="rounded-lg base"
@@ -457,13 +457,13 @@
                   height="44"
                   hide-details
                   outlined
-                  placeholder="Enter position"
+                  :placeholder=" $t('waybillForm.enterPosition') "
                   validate-on-blur
                 />
               </v-col>
               <v-col cols="3">
                 <div class="label" style="visibility: hidden">
-                  Receiver in Factory
+                 {{ $t('waybillForm.receiverInFactory')  }}
                 </div>
                 <v-text-field
                   v-model="sender.receiverByName"
@@ -473,7 +473,7 @@
                   height="44"
                   hide-details
                   outlined
-                  placeholder="Enter name"
+                  :placeholder=" $t('waybillForm.enterName') "
                   validate-on-blur
                 />
               </v-col>
@@ -489,7 +489,7 @@
                   height="44"
                   hide-details
                   outlined
-                  placeholder="Enter position"
+                  :placeholder=" $t('waybillForm.enterPosition') "
                   validate-on-blur
                 />
               </v-col>
@@ -503,12 +503,12 @@
                   height="44"
                   hide-details
                   outlined
-                  placeholder="Enter Name"
+                   :placeholder=" $t('waybillForm.enterName') "
                   validate-on-blur
                 />
               </v-col>
               <v-col cols="3">
-                <div class="label">Confirmed by</div>
+                <div class="label">{{ $t('waybillForm.confirmedBy') }}</div>
                 <v-text-field
                   v-model="sender.confirmedByPosition2"
                   class="rounded-lg base"
@@ -517,7 +517,7 @@
                   height="44"
                   hide-details
                   outlined
-                  placeholder="Enter position"
+                   :placeholder=" $t('waybillForm.enterPosition') "
                   validate-on-blur
                 />
               </v-col>
@@ -533,7 +533,7 @@
                   height="44"
                   hide-details
                   outlined
-                  placeholder="Enter name"
+                 :placeholder=" $t('waybillForm.enterName') "
                   validate-on-blur
                 />
               </v-col>
@@ -549,7 +549,7 @@
                   height="44"
                   hide-details
                   outlined
-                  placeholder="Enter position"
+                    :placeholder=" $t('waybillForm.enterPosition') "
                   validate-on-blur
                 />
               </v-col>
@@ -563,12 +563,12 @@
                   height="44"
                   hide-details
                   outlined
-                  placeholder="Enter Name"
+                  :placeholder=" $t('waybillForm.enterName') "
                   validate-on-blur
                 />
               </v-col>
               <v-col cols="3">
-                <div class="label">Allowed by</div>
+                <div class="label">{{ $t('waybillForm.allowedBy')  }} </div>
                 <v-text-field
                   v-model="sender.approvedByPosition2"
                   class="rounded-lg base"
@@ -577,7 +577,7 @@
                   height="44"
                   hide-details
                   outlined
-                  placeholder="Enter position"
+                   :placeholder=" $t('waybillForm.enterPosition') "
                   validate-on-blur
                 />
               </v-col>
@@ -593,7 +593,7 @@
                   height="44"
                   hide-details
                   outlined
-                  placeholder="Enter name"
+                :placeholder=" $t('waybillForm.enterName') "
                   validate-on-blur
                 />
               </v-col>
@@ -603,13 +603,13 @@
 
         <v-toolbar elevation="0" class="mb-6">
           <v-toolbar-title class="d-flex w-full align-center justify-center">
-            <div>RECEIVER SIDE</div>
+            <div>{{ $t('waybillForm.receiverSide') }}</div>
           </v-toolbar-title>
         </v-toolbar>
 
         <v-row>
           <v-col cols="6">
-            <div class="label">Received by</div>
+            <div class="label">{{ $t('waybillForm.receivedBy') }}</div>
             <v-text-field
               v-model="sender.receivedByPosition1"
               class="rounded-lg base"
@@ -618,7 +618,7 @@
               height="44"
               hide-details
               outlined
-              placeholder="Enter position"
+                :placeholder=" $t('waybillForm.enterPosition') "
               validate-on-blur
             />
           </v-col>
@@ -634,7 +634,7 @@
               height="44"
               hide-details
               outlined
-              placeholder="Enter name"
+             :placeholder=" $t('waybillForm.enterName') "
               validate-on-blur
             />
           </v-col>
@@ -648,7 +648,7 @@
               height="44"
               hide-details
               outlined
-              placeholder="Enter position"
+               :placeholder=" $t('waybillForm.enterPosition') "
               validate-on-blur
             />
           </v-col>
@@ -664,7 +664,7 @@
               height="44"
               hide-details
               outlined
-              placeholder="Enter name"
+             :placeholder=" $t('waybillForm.enterName') "
               validate-on-blur
             />
           </v-col>
@@ -678,7 +678,7 @@
             @click="downloadDoc"
             :loading="loading"
           >
-            Download PDF
+           {{ $t('waybillForm.downloadPdf') }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -687,7 +687,7 @@
             width="130"
             @click="saveInfos"
           >
-            Save
+                    {{ $t('waybillForm.save') }}
           </v-btn>
         </div>
       </div>
@@ -715,28 +715,28 @@ export default {
       new_validate: true,
       addition: {},
       headers: [
-        { text: "No.", value: "id", sortable: false },
-        { text: "Model No.", value: "modelNumber", sortable: false },
-        { text: "Name", value: "name", sortable: false },
-        { text: "Color", value: "colorSpecification", sortable: false },
-        { text: "M/U", value: "measurementUnit", sortable: false },
-        { text: "Sample", value: "sample", sortable: false },
-        { text: "Sizes", value: "sizes", sortable: false, width:400,align:"center"},
-        { text: "Total quantities", value: "totalQuantity", sortable: false },
-        { text: "Price", value: "price", sortable: false },
-        { text: "Total price", value: "totalPrice", sortable: false },
+        { text: this.$t('waybillId.no'), value: "id", sortable: false },
+        { text: this.$t('waybillId.modelNo'), value: "modelNumber", sortable: false },
+        { text: this.$t('waybillId.name'), value: "name", sortable: false },
+        { text: this.$t('waybillId.color'), value: "colorSpecification", sortable: false },
+        { text: this.$t('waybillId.mu'), value: "measurementUnit", sortable: false },
+        { text: this.$t('waybillId.sample'), value: "sample", sortable: false },
+        { text:this.$t('sizeTemplate.table.sizes'), value: "sizes", sortable: false, width:400,align:"center"},
+        { text:this.$t('waybillId.totalQuantities'), value: "totalQuantity", sortable: false },
+        { text: this.$t('waybillId.price'), value: "price", sortable: false },
+        { text: this.$t('waybillId.totalPrice'), value: "totalPrice", sortable: false },
       ],
       additionHeaders: [
-        { text: "No.", value: "id", sortable: false },
-        { text: "Model No.", value: "modelNumber", sortable: false },
-        { text: "Name", value: "name", sortable: false },
-        { text: "Color", value: "colorSpecification", sortable: false },
-        { text: "M/U", value: "measurementUnit", sortable: false },
-        { text: "Sample", value: "sample", sortable: false },
-        { text: "Quantities", value: "quantity", sortable: false },
-        { text: "Total quantities", value: "totalQuantities", sortable: false },
-        { text: "Price", value: "price", sortable: false },
-        { text: "Total price", value: "totalPrice", sortable: false },
+         { text: this.$t('waybillId.no'), value: "id", sortable: false },
+        { text: this.$t('waybillId.modelNo'), value: "modelNumber", sortable: false },
+        { text: this.$t('waybillId.name'), value: "name", sortable: false },
+        { text: this.$t('waybillId.color'), value: "colorSpecification", sortable: false },
+        { text: this.$t('waybillId.mu'), value: "measurementUnit", sortable: false },
+        { text: this.$t('waybillId.sample'), value: "sample", sortable: false },
+        { text: this.$t('prefinances.child.quantity'), value: "quantity", sortable: false },
+         { text:this.$t('waybillId.totalQuantities'), value: "totalQuantity", sortable: false },
+        { text: this.$t('waybillId.price'), value: "price", sortable: false },
+        { text: this.$t('waybillId.totalPrice'), value: "totalPrice", sortable: false },
       ],
       items: [
         {

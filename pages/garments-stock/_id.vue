@@ -3,7 +3,7 @@
     <Breadcrumbs :maps="map_links" />
     <v-card elevation="0">
       <v-card-title>
-        <div>Gaments of stock</div>
+        <div>{{ $t('readyWarehouse.garmentsOfStock.title') }}</div>
         <v-spacer />
       </v-card-title>
       <v-divider />
@@ -11,7 +11,7 @@
         <v-form ref="order_detail" v-model="new_validate" lazy-validation>
           <v-row>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Model number</div>
+              <div class="label">{{ $t('readyWarehouse.garmentsOfStock.modelNumber') }}</div>
               <v-text-field
                 v-model="garment.modelNumber"
                 class="rounded-lg base mb-4"
@@ -20,12 +20,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter model number"
+                :placeholder="$t('readyWarehouse.garmentsOfStock.modelNumber')"
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Model name</div>
+              <div class="label">{{ $t('readyWarehouse.garmentsOfStock.modelName') }}</div>
               <v-text-field
                 v-model="garment.modelName"
                 class="rounded-lg base mb-4"
@@ -34,12 +34,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter model name"
+                :placeholder="$t('readyWarehouse.garmentsOfStock.modelName') "
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Model group</div>
+              <div class="label">{{$t('listsModels.child.modelGroup') }}</div>
               <v-select
                 v-model="garment.modelGroupId"
                 outlined
@@ -51,12 +51,12 @@
                 item-value="id"
                 item-text="name"
                 append-icon="mdi-chevron-down"
-                placeholder="Select model group"
+                :placeholder="$t('listsModels.child.modelGroup')"
                 color="#544B99"
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Composition</div>
+              <div class="label">{{ $t('sidebar.composition') }}</div>
               <v-select
                 :items="compositionList"
                 item-text="name"
@@ -68,13 +68,13 @@
                 class="rounded-lg base mb-4"
                 height="44"
                 dense
-                placeholder="Enter composition"
+                :placeholder="$t('sidebar.composition')"
                 color="#544B99"
                 append-icon="mdi-chevron-down"
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Density gr/m2</div>
+              <div class="label">{{ $t('modelBox.dialog.density') }} gr/m2</div>
               <v-text-field
                 v-model="garment.density"
                 class="rounded-lg base mb-4"
@@ -83,12 +83,12 @@
                 height="44"
                 hide-details
                 outlined
-                placeholder="Enter density"
+                :placeholder="$t('modelBox.dialog.density')"
                 validate-on-blur
               />
             </v-col>
             <v-col cols="12" lg="3" md="3" sm="6">
-              <div class="label">Fabric rework</div>
+              <div class="label">{{ $t('sidebar.fabricRework') }}</div>
               <v-select
                 v-model="garment.fabricReworkId"
                 outlined
@@ -101,7 +101,7 @@
                 item-value="id"
                 append-icon="mdi-chevron-down"
                 style="max-width: 400px"
-                placeholder="Fabric rework"
+                :placeholder="$t('sidebar.fabricRework')"
                 color="#544B99"
               />
             </v-col>
@@ -538,7 +538,7 @@
                 width="130"
                 @click="createdNewGarment"
               >
-                Save
+              {{ $t('userManagement.child.save') }}
               </v-btn>
               <v-btn
                 v-else
@@ -640,12 +640,13 @@ export default {
     return {
       tab: "",
       tabs: [
-        "Calculation",
-        "Sizes",
-        "Quantities by sizes",
-        "Model photo",
-        "Documents",
-        "Selling",
+       this.$t('readyWarehouse.garmentsOfStock.calculation'),
+       this.$t('readyWarehouse.garmentsOfStock.sizes'),
+        this.$t('readyWarehouse.garmentsOfStock.quantitiesBySizes'),
+       this.$t('readyWarehouse.garmentsOfStock.modelPhoto'),
+        this.$t('readyWarehouse.garmentsOfStock.documents'),
+        this.$t('readyWarehouse.garmentsOfStock.selling'),
+      
       ],
       map_links: [
         {

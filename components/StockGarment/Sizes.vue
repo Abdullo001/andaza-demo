@@ -20,7 +20,7 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="w-full d-flex">
-            <div class="title mr-6">Measurement list</div>
+            <div class="title mr-6">{{ $t('readyWarehouse.measurementList.title') }}</div>
             <v-menu
               :nudge-bottom="40"
               origin="center center"
@@ -36,7 +36,7 @@
                   v-on="on"
                   :disabled="!!allSizeChart.length"
                 >
-                  Size template
+                {{ $t('readyWarehouse.measurementList.sizeTemplate') }}
                 </v-btn>
               </template>
 
@@ -66,7 +66,7 @@
               dark
             >
               <v-icon>mdi-plus</v-icon>
-              size chart
+             {{ $t('readyWarehouse.measurementList.sizeChart') }}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -79,7 +79,7 @@
     <v-dialog v-model="new_dialog" max-width="1000">
       <v-card>
         <v-card-title class="d-flex align-center justify-space-between w-full">
-          <div class="title">New measurement item</div>
+          <div class="title">{{ $t('readyWarehouse.measurementList.title') }}</div>
           <v-btn icon large color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -246,16 +246,16 @@ export default {
       },
       currentTemplate: [],
       headers: [
-        {text: '№', align: 'start', sortable: false, value: 'id'},
-        {text: 'Code', sortable: false, value: 'code'},
-        {text: 'Size name', sortable: false, value: 'sizeName'},
-        {text: 'Gradation', sortable: false, value: 'gradation'},
-        {text: 'Tolerance', sortable: false, value: 'deviation'},
-        {text: 'Shrinkage', sortable: false, value: 'shrinkagePercent'},
-        {text: 'Comment', sortable: false, value: 'description'},
-        {text: 'Creator', sortable: false, value: 'createdBy'},
-        {text: 'Date', sortable: false, value: 'updatedAt'},
-        {text: 'Actions', sortable: false, value: 'actions'},
+        {text:this.$t('readyWarehouse.measurementList.no'), align: 'start', sortable: false, value: 'id'},
+        {text:this.$t('readyWarehouse.measurementList.code'), sortable: false, value: 'code'},
+        {text: this.$t('readyWarehouse.measurementList.sizeName'), sortable: false, value: 'sizeName'},
+        {text: this.$t('readyWarehouse.measurementList.gradation'), sortable: false, value: 'gradation'},
+        {text:this.$t('readyWarehouse.measurementList.tolerance'), sortable: false, value: 'deviation'},
+        {text: this.$t('readyWarehouse.measurementList.shrinkage'), sortable: false, value: 'shrinkagePercent'},
+        {text: this.$t('readyWarehouse.measurementList.comment'), sortable: false, value: 'description'},
+        {text:this.$t('readyWarehouse.measurementList.creator'), sortable: false, value: 'createdBy'},
+        {text: this.$t('readyWarehouse.measurementList.date'), sortable: false, value: 'updatedAt'},
+        {text: this.$t('readyWarehouse.measurementList.actions'), sortable: false, value: 'actions'},
       ],
       sizeChartDialog: false,
       new_dialog: false,

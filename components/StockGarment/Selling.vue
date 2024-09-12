@@ -6,7 +6,7 @@
           <v-toolbar-title
             class="d-flex w-full align-center justify-space-between"
           >
-            <div>Quantity by sizes</div>
+            <div>{{ $t('readyWarehouse.quantityBySizes.title') }}</div>
           </v-toolbar-title>
         </v-toolbar>
       </template>
@@ -185,12 +185,12 @@ export default {
       shipping_dialog: false,
       new_validate: true,
       headers: [
-        { text: "Main color", value: "mainColor", sortable: false },
-        { text: "Color code", value: "colorCode", sortable: false },
-        { text: "Total", value: "total", sortable: false },
-        { text: "Price", value: "price", sortable: false },
-        { text: "Total price", value: "totalPrice", sortable: false },
-        { text: "Actions", value: "actions", sortable: false },
+        {text:this.$t('readyWarehouse.quantityBySizes.mainColor'), value:"mainColor",sortable:false},
+        {text:this.$t('readyWarehouse.quantityBySizes.colorCode'), value:"colorCode",sortable:false},
+        {text:this.$t('readyWarehouse.quantityBySizes.total'), value:"total",sortable:false},
+        {text:this.$t('readyWarehouse.quantityBySizes.price'), value:"price",sortable:false},
+        {text:this.$t('readyWarehouse.quantityBySizes.totalPrice'), value:"totalPrice",sortable:false},
+        {text:this.$t('readyWarehouse.quantityBySizes.actions'), value:"actions",sortable:false},
       ],
 
       items: [],

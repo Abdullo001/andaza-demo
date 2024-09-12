@@ -6,7 +6,7 @@
           <v-row>
             <v-col cols="12" lg="2" md="2">
               <v-text-field
-              placeholder="Invoice NO."
+              :placeholder="$t('shipping.index.invoiceNo')"
               v-model.trim="filters.invoiceNumber"
               outlined
               validate-on-blur
@@ -19,7 +19,7 @@
 
             <v-col cols="12" lg="2" md="2">
               <v-text-field
-                placeholder="Client name"
+                :placeholder="$t('shipping.index.clientName')"
                 v-model.trim="filters.clientName"
                 outlined
                 validate-on-blur
@@ -35,7 +35,7 @@
                 v-model="filters.shippingDate"
                 type="datetime"
                 class="rounded-lg d-block filter_picker"
-                placeholder="Shipping date"
+                :placeholder="$t('shipping.index.shippingDate')"
                 :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy HH:mm:ss"
               >
@@ -52,7 +52,7 @@
                   class="text-capitalize mr-4 border-primary rounded-lg font-weight-bold"
                   @click.stop="resetFilters"
                 >
-                  Reset
+                 {{ $t('shipping.index.reset')}}
                 </v-btn>
                 <v-btn
                   width="140"
@@ -62,7 +62,7 @@
                   class="text-capitalize rounded-lg font-weight-bold"
                   @click="filterData"
                 >
-                  Search
+                  {{ $t('shipping.index.search')}}
                 </v-btn>
               </div>
             </v-col>
@@ -89,7 +89,7 @@
         <v-toolbar-title
           class="d-flex w-full align-center justify-space-between"
         >
-          <div>Shipping</div>
+          <div>{{ $t('shipping.index.shipping')}}</div>
 
           <v-btn
             color="#544B99"
@@ -98,7 +98,7 @@
             @click="addShipping"
           >
             <v-icon>mdi-plus</v-icon>
-            Add Shipping
+           {{ $t('shipping.index.addShipping')}}
           </v-btn>
 
         </v-toolbar-title>
@@ -139,14 +139,14 @@ export default {
       title: "",
       filter_form: true,
       headers:[
-        {text: "Invoice No.", value: "invoiceNumber", sortable: false, align: "start"},
-        {text: "Client name",   value: "clientName"},
-        {text: "Invoice Amount",  value: "invoiceAmount"},
-        {text: "Net weight, kg",  value: "nettoWeight"},
-        {text: "Gross weight, kg",  value: "grossWeight"},
-        {text: "Shipped date",  value: "invoiceDate"},
-        {text: "Status",  value: "status"},
-        {text: "Action",sortable:false,  value: "action"},
+        {text: this.$t('shipping.index.invoiceNo'), value: "invoiceNumber", sortable: false, align: "start"},
+        {text:this.$t('shipping.index.clientName'),  value: "clientName"},
+        {text:this.$t('shipping.index.invoiceAmount'),  value: "invoiceAmount"},
+        {text:this.$t('shipping.index.netWeight'),  value: "nettoWeight"},
+        {text: this.$t('shipping.index.grossWeight'),  value: "grossWeight"},
+        {text: this.$t('shipping.index.shippedDate'), value: "invoiceDate"},
+        {text: this.$t('userManagement.child.status'),  value: "status"},
+        {text:this.$t('prefinances.table.actions'),sortable:false,  value: "action"},
       ],
       expanded: [],
       filters: {

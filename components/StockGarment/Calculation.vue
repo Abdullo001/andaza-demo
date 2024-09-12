@@ -11,7 +11,7 @@
           <v-toolbar-title
             class="d-flex w-full align-center justify-space-between"
           >
-            <div>Garments of Stock</div>
+            <div>{{ $t('readyWarehouse.garmentsOfStock.title') }}</div>
           </v-toolbar-title>
         </v-toolbar>
       </template>
@@ -87,7 +87,7 @@
           height="44"
           @click="saveCalculation"
         >
-          Save
+           {{ $t('userManagement.child.save') }}
         </v-btn>
       </template>
     </v-data-table>
@@ -99,15 +99,15 @@ export default {
   data() {
     return {
       headers: [
-        { text: "Cost price", value: "costPrice", sortable: false },
-        { text: "Profit", value: "profit", sortable: false },
-        { text: "Selling price", value: "sellingPrice", sortable: false },
+        { text: this.$t('readyWarehouse.pricingPage.costPrice'), value: "costPrice", sortable: false },
+        { text: this.$t('readyWarehouse.pricingPage.profit'), value: "profit", sortable: false },
+        { text: this.$t('readyWarehouse.pricingPage.sellingPrice'), value: "sellingPrice", sortable: false },
         {
-          text: "Fact selling price",
+          text:this.$t('readyWarehouse.pricingPage.factSellingPrice'),
           value: "factSellingPrice",
           sortable: false,
         },
-        { text: "Actions", value: "actions", sortable: false },
+        { text: this.$t('readyWarehouse.pricingPage.actions'), value: "actions", sortable: false },
       ],
 
       currency_enums: ["USD", "UZS", "RUB"],

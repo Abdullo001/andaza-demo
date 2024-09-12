@@ -5,7 +5,7 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              placeholder="Model №"
+              :placeholder="$t('secondaryWarehouse.index.modelNo')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.modelNumber"
@@ -16,7 +16,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              placeholder="Order №"
+             :placeholder="$t('secondaryWarehouse.index.orderNo')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.orderNumber"
@@ -32,7 +32,7 @@
                 type="datetime"
                 style="width: 100%; height: 100%"
                 class="filter_picker"
-                placeholder="From"
+                :placeholder="$t('secondaryWarehouse.index.from')"
                 :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy HH:mm:ss"
               >
@@ -50,7 +50,7 @@
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
-                Reset
+               {{ $t('secondaryWarehouse.index.reset') }}
               </v-btn>
               <v-btn
                 width="140"
@@ -60,7 +60,7 @@
                 class="text-capitalize rounded-lg"
                 @click="filterData"
               >
-                Search
+                  {{ $t('secondaryWarehouse.index.search') }}
               </v-btn>
             </div>
           </v-col>
@@ -87,11 +87,11 @@
           <v-toolbar-title
             class="d-flex w-full align-center justify-space-between"
           >
-            <div>Secondary warehouse</div>
+            <div>  {{ $t('secondaryWarehouse.index.title') }}</div>
             <div>
               <v-btn color="#544B99" dark class="text-capitalize rounded-lg" @click="addGarment">
                 <v-icon>mdi-plus</v-icon>
-                add Garments
+                 {{ $t('secondaryWarehouse.index.addGarments') }}
               </v-btn>
             </div>
           </v-toolbar-title>
@@ -131,21 +131,21 @@ export default {
 
       headers: [
        
-        { text: "Waybill No.", value: "waybillNumber", sortable: false },
+        { text:this.$t('secondaryWarehouse.index.waybillNo'), value: "waybillNumber", sortable: false },
         {
-          text: "2-sort quantity",
+          text: this.$t('secondaryWarehouse.index.twoSortQuantity'),
           value: "secondSortTotal",
           sortable: false,
         },
         {
-          text: "Overprodutions quantity",
+          text: this.$t('secondaryWarehouse.index.overproductionsQuantity'),
           value: "overproductionTotal",
           sortable: false,
         },
-        { text: "Sewed by", value: "sewedBy", sortable: false },
-        { text: "Created by", value: "createdBy", sortable: false },
-        { text: "Created at", value: "createdAt", sortable: false },
-        { text: "Action", value: "action", sortable: false },
+        { text: this.$t('secondaryWarehouse.index.sewedBy'), value: "sewedBy", sortable: false },
+        { text: this.$t('secondaryWarehouse.index.createdBy'), value: "createdBy", sortable: false },
+        { text:  this.$t('secondaryWarehouse.index.createdAt'), value: "createdAt", sortable: false },
+        { text:  this.$t('secondaryWarehouse.index.action'), value: "action", sortable: false },
       ],
       current_page:0,
       itemPerPage: 10,

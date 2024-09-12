@@ -10,7 +10,7 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="w-full d-flex">
-            <div class="title">Stock garment Documents</div>
+            <div class="title">{{ $t('readyWarehouse.documents.title') }}</div>
             <v-spacer/>
             <v-btn
               class="rounded-lg text-capitalize"
@@ -19,7 +19,7 @@
               @click="newDialog = true"
               dark
             >
-              Upload document
+             {{ $t('readyWarehouse.documents.uploadDocument') }}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -255,11 +255,11 @@ export default {
       newDialog: false,
       dialogStatus: 'add',
       headers: [
-        {text: 'Type', align: 'start', sortable: false, value: 'extension'},
-        {text: 'Document name', sortable: false, value: 'title'},
-        {text: 'Uploader', sortable: false, value: 'createdBy'},
-        {text: 'Date', sortable: false, value: 'createdAt'},
-        {text: 'Actions', sortable: false, align: 'center', value: 'actions'},
+        {text: this.$t('readyWarehouse.documents.type'), align: 'start', sortable: false, value: 'extension'},
+        {text:this.$t('readyWarehouse.documents.documentName'), sortable: false, value: 'title'},
+        {text: this.$t('readyWarehouse.documents.uploader'), sortable: false, value: 'createdBy'},
+        {text: this.$t('readyWarehouse.documents.date'), sortable: false, value: 'createdAt'},
+        {text: this.$t('readyWarehouse.documents.action'), sortable: false, align: 'center', value: 'actions'},
       ],
       type_enums: ['DOC', 'PHOTO'],
       fileType: '',

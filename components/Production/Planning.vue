@@ -13,7 +13,7 @@
     >
       <template #top>
         <v-card-title class="d-flex">
-          <div class="title">Production processes for current model</div>
+          <div class="title">{{$t('secondaryWarehouse.productionProcesses')}}</div>
           <v-spacer/>
           <v-btn
             color="#544B99" dark

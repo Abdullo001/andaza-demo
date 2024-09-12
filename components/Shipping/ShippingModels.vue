@@ -4,7 +4,7 @@
       <v-toolbar-title
         class="d-flex w-full "
       >
-        <div>Shipping models</div>
+        <div>{{$t('shipping.id.shippingModels')}}</div>
 
       </v-toolbar-title>
     </v-toolbar>

@@ -10,7 +10,7 @@
         <v-toolbar-title
           class="d-flex w-full align-center justify-space-between"
         >
-          <div>Quantity by sizes</div>
+          <div>{{ $t('readyWarehouse.quantityBySizes.title') }}</div>
           <div>
             <v-btn
               color="#544B99"
@@ -19,7 +19,7 @@
               @click="openCreateDialog"
             >
               <v-icon>mdi-plus</v-icon>
-              Add row
+              {{ $t('readyWarehouse.quantityBySizes.addRow') }}
             </v-btn>
           </div>
         </v-toolbar-title>
@@ -54,11 +54,11 @@
           <v-form lazy-validation v-model="new_validate" ref="new_form">
             <v-row class="mb-4 d-flex justify-space-between">
               <v-col cols="6">
-                <div class="label">Main color</div>
+                <div class="label">{{ $t('readyWarehouse.quantityBySizes.mainColor') }}</div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="newGarment.mainColor"
-                  placeholder="Enter main color"
+                  :placeholder="$t('readyWarehouse.quantityBySizes.mainColor')"
                   single-line
                   outlined
                   hide-details
@@ -71,11 +71,11 @@
                 />
               </v-col>
               <v-col cols="6">
-                <div class="label">Color code</div>
+                <div class="label">{{ $t('readyWarehouse.quantityBySizes.colorCode') }}</div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="newGarment.colorCode"
-                  placeholder="Enter color code"
+                  :placeholder="$t('readyWarehouse.quantityBySizes.colorCode')"
                   single-line
                   outlined
                   hide-details
@@ -117,7 +117,7 @@
             color="#544B99"
             width="163"
             @click="new_dialog = !new_dialog"
-            >cancel
+            >{{ $t('userManagement.dialog.cancel') }}
           </v-btn>
           <v-btn
             v-if="newGarment.status==='add'"
@@ -127,7 +127,7 @@
             width="163"
             @click="createSizeDistirbution"
           >
-            Save
+           {{ $t('userManagement.child.save') }}
           </v-btn>
           <v-btn
             v-else
@@ -160,12 +160,12 @@ export default {
       new_dialog:false,
       new_validate:true,
       headers:[
-        {text:"Main color", value:"mainColor",sortable:false},
-        {text:"Color code", value:"colorCode",sortable:false},
-        {text:"Total", value:"total",sortable:false},
-        {text:"Price", value:"price",sortable:false},
-        {text:"Total price", value:"totalPrice",sortable:false},
-        {text:"Actions", value:"actions",sortable:false},
+        {text:this.$t('readyWarehouse.quantityBySizes.mainColor'), value:"mainColor",sortable:false},
+        {text:this.$t('readyWarehouse.quantityBySizes.colorCode'), value:"colorCode",sortable:false},
+        {text:this.$t('readyWarehouse.quantityBySizes.total'), value:"total",sortable:false},
+        {text:this.$t('readyWarehouse.quantityBySizes.price'), value:"price",sortable:false},
+        {text:this.$t('readyWarehouse.quantityBySizes.totalPrice'), value:"totalPrice",sortable:false},
+        {text:this.$t('readyWarehouse.quantityBySizes.actions'), value:"actions",sortable:false},
       ],
 
       items:[],
