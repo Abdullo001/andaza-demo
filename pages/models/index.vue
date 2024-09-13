@@ -95,6 +95,8 @@
           @change="changeStatus(item)"
           :background-color="statusColor.color(item.status)"
           :items="status_enums"
+          item-value="key"
+          item-text="value"
           append-icon="mdi-chevron-down"
           v-model="item.status"
           hide-details
@@ -136,82 +138,79 @@
       </template>
       <template #item.fabricStatus="{ item }">
         <v-chip :color="statusColor.fabricModelStatus(item.fabricStatus)" dark>
-          {{ item.fabricStatus }}
+         {{ $t(`statusItems.${item.fabricStatus.toLowerCase()}`) }}
         </v-chip>
       </template>
       <template #item.accessoryStatus="{ item }">
         <v-chip :color="statusColor.fabricModelStatus(item.accessoryStatus)" dark>
-          {{ item.accessoryStatus }}
+        {{ $t(`statusItems.${item.accessoryStatus.toLowerCase()}`) }}
         </v-chip>
       </template>
       <template #item.modelCreating="{ item }">
         <v-chip :color="statusColor.commonStatus(item.modelCreating)" dark>
-          {{ item.modelCreating }}
+          <!-- {{ item.modelCreating }} -->
+          {{ $t(`statusItems.${item.modelCreating.toLowerCase()}`) }}
         </v-chip>
       </template>
       <template #item.calculation="{ item }">
         <v-chip :color="statusColor.commonStatus(item.calculation)" dark>
-          {{ item.calculation }}
+           {{ $t(`statusItems.${item.calculation.toLowerCase()}`) }}
         </v-chip>
       </template>
       <template #item.orderForming="{ item }">
         <v-chip :color="statusColor.commonStatus(item.orderForming)" dark>
-          {{ item.orderForming }}
+           {{ $t(`statusItems.${item.orderForming.toLowerCase()}`) }}
         </v-chip>
       </template>
+      
       <template #item.printAdding="{ item }">
         <v-chip :color="statusColor.commonStatus(item.printAdding)" dark>
-          {{ item.printAdding }}
-        </v-chip>
-      </template>
-      <template #item.printAdding="{ item }">,
-        <v-chip :color="statusColor.commonStatus(item.printAdding)" dark>
-          {{ item.printAdding }}
+          {{ $t(`statusItems.${item.printAdding.toLowerCase()}`) }}
         </v-chip>
       </template>
       <template #item.sampleStatus="{ item }">
         <v-chip :color="statusColor.commonStatus(item.sampleStatus)" dark>
-          {{ item.sampleStatus }}
+         {{ $t(`statusItems.${item.sampleStatus.toLowerCase()}`) }}
         </v-chip>
       </template>
       <template #item.cutting="{ item }">
         <v-chip :color="statusColor.commonStatus(item.cutting)" dark>
-          {{ item.cutting }}
+          {{ $t(`statusItems.${item.cutting.toLowerCase()}`) }}
         </v-chip>
       </template>
       <template #item.printing="{ item }">
         <v-chip :color="statusColor.commonStatus(item.printing)" dark>
-          {{ item.printing }}
+          {{ $t(`statusItems.${item.printing.toLowerCase()}`) }}
         </v-chip>
       </template>
       <template #item.supplyWarehouse="{ item }">
         <v-chip :color="statusColor.commonStatus(item.supplyWarehouse)" dark>
-          {{ item.supplyWarehouse }}
+         {{ $t(`statusItems.${item.supplyWarehouse.toLowerCase()}`) }}
         </v-chip>
       </template>
       <template #item.sewing="{ item }">
         <v-chip :color="statusColor.commonStatus(item.sewing)" dark>
-          {{ item.sewing }}
+             {{ $t(`statusItems.${item.sewing.toLowerCase()}`) }}
         </v-chip>
       </template>
       <template #item.packaging="{ item }">
         <v-chip :color="statusColor.commonStatus(item.packaging)" dark>
-          {{ item.packaging }}
+            {{ $t(`statusItems.${item.packaging.toLowerCase()}`) }}
         </v-chip>
       </template>
       <template #item.readyGarmentWarehouse="{ item }">
         <v-chip :color="statusColor.commonStatus(item.readyGarmentWarehouse)" dark>
-          {{ item.readyGarmentWarehouse }}
+            {{ $t(`statusItems.${item.readyGarmentWarehouse.toLowerCase()}`) }}
         </v-chip>
       </template>
       <template #item.finalInspection="{ item }">
         <v-chip :color="statusColor.commonStatus(item.finalInspection)" dark>
-          {{ item.finalInspection }}
+           {{ $t(`statusItems.${item.finalInspection.toLowerCase()}`) }}
         </v-chip>
       </template>
       <template #item.shipment="{ item }">
         <v-chip :color="statusColor.commonStatus(item.shipment)" dark>
-          {{ item.shipment }}
+           {{ $t(`statusItems.${item.shipment.toLowerCase()}`) }}
         </v-chip>
       </template>
     </v-data-table>
@@ -235,7 +234,7 @@ export default {
         status: '',
         createdAt: ''
       },
-      status_enums: ['ACTIVE', 'DISABLED', 'PENDING'],
+      status_enums: [{key:'ACTIVE',value:this.$t('statusItems.active')}, {key:'DISABLED',value:this.$t('statusItems.disabled')}, {key:'PENDING',value:this.$t('statusItems.pending')}],
       headers: [
         {text: this.$t('modelBox.table.no'), value: 'ordinalNumber', sortable:false},
         {text: this.$t('modelBox.table.client'), value: 'partner', sortable:false},
