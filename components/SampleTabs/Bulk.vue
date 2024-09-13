@@ -291,6 +291,7 @@ export default {
         sendDate:"",
         reason:"",
         note:"",
+        receivedDate:"",
       },
       headers: [
           { text: "NO.", align: "center", sortable: false, value: "ordinalNumber" },

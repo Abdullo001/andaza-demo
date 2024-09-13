@@ -75,13 +75,21 @@ export const actions = {
         console.log(response);
       })
   },
-  async getModelGroup({commit}) {
+  async getModelGroup({commit},name) {
     const body = {
-      filter: [],
+      filters: [
+        {
+          key: 'name',
+          operator: 'LIKE',
+          propertyType: 'STRING',
+          value: name
+        },
+      ],
       sorts: [],
       page: 0,
       size: 50
     }
+    body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
     await this.$axios.$put(`/api/v1/model-groups/list`, body)
       .then(res => {
         commit('setModelGroups', res.data);
@@ -115,7 +123,7 @@ export const actions = {
       compositionId: data.compositionId,
       description: data.description,
       gender: data.gender,
-      groupId: data.group,
+      groupId: data.groupId,
       licenseRequired: false,
       modelNumber: data.number,
       name: data.name,
@@ -133,15 +141,18 @@ export const actions = {
       .then(res => {
         commit('setNewModelId', res.data.id);
         commit('setOneModel', res.data);
-        this.$toast.success(res.message, {theme: 'toasted-primary'});
-      }).catch(({response}) => console.log(response))
+        this.$toast.success(res.data.message, {theme: 'toasted-primary'});
+      }).catch(({response}) =>{
+        console.log(response)
+        this.$toast.error(response.data.errorMessage)
+      })
   },
   async updateModel({commit}, {data, id}) {
     const model = {
       compositionId: data.compositionId,
       description: data.description,
       gender: data.gender,
-      groupId: data.group,
+      groupId: data.groupId,
       licenseRequired: "false",
       modelNumber: data.number,
       name: data.name,
@@ -159,10 +170,10 @@ export const actions = {
     }
     this.$axios.$put('/api/v1/models/update', model)
       .then(res => {
-        this.$toast.success(res.message, {theme: 'toasted-primary'});
+        this.$toast.success(res.data.message, {theme: 'toasted-primary'});
       }).catch(({response}) => {
       console.log(response);
-      this.$toast.error(response.data.message, {theme: 'toasted-primary'})
+      this.$toast.error(response.data.errorMessage, {theme: 'toasted-primary'})
     })
   },
   getCompositionList({commit}) {

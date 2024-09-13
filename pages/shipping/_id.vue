@@ -491,6 +491,44 @@ export default {
     this.getCountryList({ name: this.countryIdSearch });
   },
 
+  watch:{
+    buyerName(val){
+      this.getPartnerList({page:0, size:10, partnerName:val});
+    },
+    partnerName(val){
+      this.getPartnerList({page:0, size:10, partnerName:val});
+    },
+    sellerName(val){
+      this.getPartnerList({page:0, size:10, partnerName:val});
+    },
+    manufacturerName(val){
+      this.getPartnerList({page:0, size:10,partnerName:val});
+    },
+    senderCompanyName(val){
+      this.getPartnerList({page:0, size:10,partnerName:val});
+    },
+    receiverName(val){
+      this.getPartnerList({page:0, size:10,partnerName:val});
+    },
+    countryIdSearch(val) {
+      this.getCountryList({ name: val });
+    },
+    oneShipping(item) {
+      this.eventEditBtn = true;
+      const shipping = this.shipping;
+      shipping.id = item.id;
+      shipping.buyerId = {id: item.buyerId, address: item.buyerAddress, name: item.buyerName, contractDate: item.contractDate, contractNumber: item.contractNumber};
+      shipping.invoiceDate = item.invoiceDate;
+      shipping.invoiceNumber = item.invoiceNumber;
+      shipping.manufacturerId = {id: item.manufacturerId, name: item.manufacturerName};
+      shipping.senderId = {id: item.senderId, address: item.senderAddress, name: item.senderName};
+      shipping.sellerId = {id: item.sellerId, address: item.sellerAddress, name: item.sellerName};
+      shipping.receiverId = {id: item.receiverId, address: item.receiverAddress, name: item.receiverName};
+      shipping.countryId = {id: item.countryId, name: item.countryName};
+      this.$store.commit('shipping/setShippingId', item.buyerId);
+    },
+  },
+
   methods: {
     ...mapActions({
       getOneShipping: "shipping/getOneShipping",
@@ -514,28 +552,6 @@ export default {
     }
   },
 
-  watch:{
-    manufacturerName(val){
-      this.getPartnerList({page:0, size:10,partnerName:val});
-    },
-    countryIdSearch(val) {
-      this.getCountryList({ name: val });
-    },
-    oneShipping(item) {
-      this.eventEditBtn = true;
-      const shipping = this.shipping;
-      shipping.id = item.id;
-      shipping.buyerId = {id: item.buyerId, address: item.buyerAddress, name: item.buyerName, contractDate: item.contractDate, contractNumber: item.contractNumber};
-      shipping.invoiceDate = item.invoiceDate;
-      shipping.invoiceNumber = item.invoiceNumber;
-      shipping.manufacturerId = {id: item.manufacturerId, name: item.manufacturerName};
-      shipping.senderId = {id: item.senderId, address: item.senderAddress, name: item.senderName};
-      shipping.sellerId = {id: item.sellerId, address: item.sellerAddress, name: item.sellerName};
-      shipping.receiverId = {id: item.receiverId, address: item.receiverAddress, name: item.receiverName};
-      shipping.countryId = {id: item.countryId, name: item.countryName};
-      this.$store.commit('shipping/setShippingId', item.buyerId);
-    },
-  },
   async mounted(){
     const id = this.$route.params.id;
     if (id !== 'add-shipping') {

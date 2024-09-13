@@ -52,20 +52,29 @@
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{$t('listsModels.child.modelGroup')}}</div>
-            <v-select
-              v-model="model.group"
-              outlined
-              hide-details
-              class="rounded-lg base mb-4"
-              height="44" dense
-              :items="modelGroups"
-              item-value="id"
-              item-text="name"
-              append-icon="mdi-chevron-down"
-              style="max-width: 400px"
-              :placeholder="$t('listsModels.child.selectModelGroup')"
-              color="#544B99"
-            />
+
+            <v-combobox
+                  v-model="model.groupId"
+                  :items="modelGroups"
+                  :search-input.sync="groupSearch"
+                  item-text="name"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :return-object="true"
+                  color="#544B99"
+                  dense
+                 :placeholder="$t('listsModels.child.selectModelGroup')"
+                  append-icon="mdi-chevron-down"
+                  :rules="[formRules.required]"
+                  validate-on-blur
+                  >
+                  <template #append>
+                    <v-icon color="#544B99">mdi-magnify</v-icon>
+                  </template>
+            </v-combobox>
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{$t('listsModels.child.partner')}}</div>
@@ -521,6 +530,7 @@ export default {
         {key: false, text: 'No'}
       ],
       gander_enums: ['MALE', 'FEMALE', 'BOY', 'GIRL', 'UNISEX'],
+      groupSearch:"",
     }
   },
   created() {
@@ -560,12 +570,15 @@ export default {
     canvasSearch(val){
       this.filterCanvasTypeList({id:"",name:val, createdAt:"", updatedAt:""});
     },
+    groupSearch(val){
+      this.getModelGroup(val);
+    },
     oneModel(val) {
       const model = this.model;
       model.id=val.id
       model.number = val.modelNumber;
       model.name = val.name;
-      model.group = val.modelGroupId;
+      model.groupId = {id:val.modelGroupId,name:val.modelGroup};
       model.compositionId = val.compositionId;
       model.season = val.season;
       model.licence = val.licenceRequired;
@@ -614,12 +627,16 @@ export default {
     async createNewModel() {
       const data = {...this.model};
       data.partnerId=this.model.partnerId?.id
+      data.groupId=this.model.groupId?.id
+      
       await this.createModel(data)
     },
     async updateModels() {
       const id = this.$route.params.id;
       const data = {...this.model};
       data.partnerId=this.model.partnerId?.id
+      data.groupId=this.model.groupId?.id
+
 
       await this.updateModel(
         {
@@ -634,7 +651,7 @@ export default {
       await this.getOneModel(id);
       this.modelStatus = 'Edit'
     } else this.modelStatus = 'Add'
-    await this.getModelGroup()
+    await this.getModelGroup("")
   }
 }
 </script>
