@@ -2568,4 +2568,16 @@ wastes:{
   noDataAvailable: "No data available",   
     },
   },
+
+  statusItems:{
+    in_process:"In process",
+    empty:"Empty",
+    finished:"Finished",
+    planned:"Planned",
+    not_planned:"Not_planned",
+    generated_fabric:"Generate_fabric",
+    active:"Active",
+    disabled:"Disabled",
+    pending:"Pending",
+  },
 };
