@@ -62,6 +62,7 @@
         itemsPerPageOptions: [10, 20, 50, 100],
       }"
       :loading="loading"
+      :server-items-length="totalElements"
       class="mt-4 rounded-lg"
       @update:items-per-page="size"
       @update:page="page"
@@ -375,6 +376,7 @@ export default {
     ...mapGetters({
       loading: "boxSize/loading",
       boxSizeList: "boxSize/boxSizeList",
+      totalElements: "boxSize/totalElements",
     }),
   },
   methods: {
