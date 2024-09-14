@@ -2,12 +2,14 @@ export const state = () => ({
   loading: true,
   expenseGroup: [],
   expenseForProduction:[],
+  expenseList:[],
 })
 export const getters = {
   loading: state => state.loading,
   expenseForProduction: state => state.expenseForProduction,
-  expenseGroup: state => state.expenseGroup.content,
+  expenseGroup: state => state.expenseGroup.items,
   totalElements: state => state.expenseGroup.totalElements,
+  expenseList: state => state.expenseList,
 }
 export const mutations = {
   setLoading(state, loadings) {
@@ -19,78 +21,38 @@ export const mutations = {
   setExpenseForProduction(state, item) {
     state.expenseForProduction = item
   },
+  setExpenseList(state, item) {
+    state.expenseList = item
+  },
 }
 export const actions = {
-  async sortExpenseGroup({commit}, {data, page, size}) {
-    const body = {
-      filters: [],
-      sorts: [
-        {
-          key: data.sortBy,
-          direction: !data.sortDesc ? "DESC" : "ASC",
-        }
-      ],
-      page: page,
-      size: size
-    };
-    await this.$axios.$put('/api/v1/expense-group/list', body)
-      .then(res => {
-        commit('setExpenseGroup', res.data)
-      })
-      .catch(({response}) => {
-        console.log(response)
-      })
-  },
   async filterExpenseGroup({commit}, data) {
-    const body = {
-      filters: [
-        {
-          key: 'id',
-          operator: 'EQUAL',
-          propertyType: 'LONG',
-          value: data.id
-        },
-        {
-          key: 'name',
-          operator: 'LIKE',
-          propertyType: 'STRING',
-          value: data.name
-        },
-        {
-          key: 'createdAt',
-          operator: 'BETWEEN',
-          propertyType: 'DATE',
-          value: data.createdAt,
-          valueTo: data.updatedAt
-        },
-      ],
-      sorts: [],
-      page: 0,
-      size: 10,
-    }
-    body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
-    await this.$axios.$put('/api/v1/expense-group/list', body)
+    
+    const expenseGroupName=data.name??"" 
+    await this.$axios.get(`/api/v1/expense-groups?page=0&size=10&expenseGroupName=${expenseGroupName}`)
+
       .then(res => {
-        commit('setExpenseGroup', res.data)
+        commit('setExpenseGroup', res.data.data)
       })
       .catch(({response}) => {
         console.log(response)
       })
   },
-  async updateExpenseGroup({dispatch}, data) {
-    await this.$axios.$put(`/api/v1/expense-group/update`, data)
+  async updateExpenseGroup({dispatch}, {data,id}) {
+    await this.$axios.$put(`/api/v1/expense-groups/${id}`, data)
       .then(res => {
-        this.$toast.success(res.message)
+        this.$toast.success(res.data.message)
         dispatch('getExpenseGroup', {page: 0, size: 10})
       })
       .catch(({response}) => {
+        this.$toast.error(res.data.errorMessage)
         console.log(response)
       })
   },
   async deleteExpenseGroup({dispatch}, id) {
-    await this.$axios.$delete(`/api/v1/expense-group/delete?id=${id}`)
+    await this.$axios.delete(`/api/v1/expense-groups/${id}`)
       .then(res => {
-        this.$toast.success(res.message)
+        this.$toast.success(res.data.data.message)
         dispatch('getExpenseGroup', {page: 0, size: 10})
       })
       .catch(({response}) => {
@@ -98,29 +60,25 @@ export const actions = {
       })
   },
   async createExpenseGroup({dispatch}, data) {
-    await this.$axios.$post('/api/v1/expense-group/create', data)
+    await this.$axios.post('/api/v1/expense-groups', data)
       .then(res => {
-        this.$toast.success(res.message)
+        this.$toast.success(res.data.data.message)
         dispatch('getExpenseGroup', {page: 0, size: 10})
       })
       .catch(({response}) => {
         console.log(response)
       })
   },
-  async getExpenseGroup({commit}, {page, size}) {
-    const body = {
-      filters: [],
-      sorts: [],
-      page: page,
-      size: size,
-    }
-    await this.$axios.$put('/api/v1/expense-group/list', body)
+  async getExpenseGroup({commit}, {page, size,expenseGroupId="",expenseGroupName=""}) {
+    expenseGroupId=expenseGroupId??"",
+    expenseGroupName=expenseGroupName??"",
+    await this.$axios.get(`/api/v1/expense-groups?page=${page}&size=${size}&expenseGroupId=${expenseGroupId}&expenseGroupName=${expenseGroupName}`)
       .then(res => {
-          commit('setExpenseGroup', res.data)
+          commit('setExpenseGroup', res.data.data)
           commit("setLoading", false)
+          
       })
       .catch(({response}) => {
-        console.log(response)
         commit("setLoading", false)
       })
   },
@@ -129,6 +87,16 @@ export const actions = {
     this.$axios.get(`/api/v1/possible-expense/expenses?modelId=${modelId}&groupId=${groupId}`)
     .then((res)=>{
       commit("setExpenseForProduction",res.data.data)
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+
+  getExpenseItems({commit},id){
+    this.$axios.get(`/api/v1/expenses/expense-groups/${id}`)
+    .then((res)=>{
+      commit("setExpenseList",res.data.data)
     })
     .catch((response)=>{
       console.log(response);
