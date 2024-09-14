@@ -347,11 +347,8 @@ export default {
     },
     async page(val) {
       this.current_page = val - 1;
-      await this.$store.dispatch("bodyParts/getBodyParts", {
-        page: this.create_bodyParts,
-        size: this.itemPrePage,
-      });
-      this.getReworkList({page:0,size:this.itemPrePage,name:this.filters.name})
+      
+      this.getReworkList({page:this.current_page,size:this.itemPrePage,name:this.filters.name})
 
     },
     async deleteBody() {

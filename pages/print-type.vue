@@ -25,29 +25,6 @@
               @keydown.enter="filterData"
             />
           </v-col>
-          <v-col cols="12" lg="2" md="2">
-            <v-text-field
-              v-model.trim="filters.createdBy"
-              :label="$t('printType.child.createdBy')"
-              outlined
-              class="rounded-lg filter"
-              hide-details
-              dense
-              @keydown.enter="filterData"
-            />
-          </v-col>
-          <v-col cols="12" lg="2" md="2">
-            <el-date-picker
-              v-model="filters.createdAt"
-              type="datetime"
-              class="filter_picker"
-              style="width: 100%;"
-              :placeholder="$t('printType.child.created')"
-              :picker-options="pickerShortcuts"
-              format="dd.MM.yyyy HH:mm:ss"
-            >
-            </el-date-picker>
-          </v-col>
 
           <v-spacer />
           <v-col cols="12" lg="2" md="2">
@@ -88,6 +65,8 @@
         itemsPerPageOptions: [10, 20, 50, 100],
       }"
       class="mt-4 rounded-lg"
+      @update:items-per-page="size"
+      @update:page="page"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -340,8 +319,6 @@ export default {
       filters: {
         id: "",
         name: "",
-        createdBy:"",
-        createdAt: "",
       },
     };
   },
@@ -349,7 +326,7 @@ export default {
 
   },
   async created() {
-    await this.$store.dispatch("printType/getPrintTypeList", { page: 0, size: 10 });
+    this.getPrintTypeList({page:0,size:10})
   },
   computed: {
     ...mapGetters({
@@ -364,18 +341,17 @@ export default {
       createPrintType: "printType/createPrintType",
       updatePrintType: "printType/updatePrintType",
       deletePrintType: "printType/deletePrintType",
-      filterPrintTypeData: "printType/filterPrintTypeData",
     }),
     async size(val) {
       this.itemPrePage = val;
-      await this.$store.dispatch("printType/getPrintTypeList", {
+      this.getPrintTypeList({
         page: 0,
         size: this.itemPrePage,
       });
     },
     async page(val) {
       this.current_page = val - 1;
-      await this.$store.dispatch("printType/getPrintTypeList", {
+      this.getPrintTypeList( {
         page: this.current_page,
         size: this.itemPrePage,
       });
@@ -417,8 +393,7 @@ export default {
       await this.getPrintTypeList({ page: 0, size: 10 });
     },
     async filterData() {
-      const items = { ...this.filters };
-      await this.filterPrintTypeData(items);
+      await this.getPrintTypeList({ page: 0, size: 10, ...this.filters });
     },
   },
   mounted() {

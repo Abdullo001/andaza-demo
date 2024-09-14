@@ -4,7 +4,7 @@ export const state = () => ({
 });
 export const getters = {
   loading: state => state.loading,
-  colors_thin_list: state => state.colors_thin_list.content,
+  colors_thin_list: state => state.colors_thin_list.items,
   totalElements: state => state.colors_thin_list.totalElements,
 };
 export const mutations = {
@@ -17,48 +17,44 @@ export const mutations = {
 };
 export const actions = {
   async deleteColorsList({dispatch}, id){
-    await this.$axios.$delete(`/api/v1/colors/delete?id=${id}`)
+    await this.$axios.$delete(`/api/v1/colors/${id}`)
       .then(res => {
         dispatch("getColorsThinList", {page: 0, size: 10});
-        this.$toast.success(res.message);
+        this.$toast.success(res.data.message);
       })
       .catch(({response}) => {
         console.log(response)
-        this.$toast.error(response.message);
+        this.$toast.error(response.data.errorMessage);
       })
   },
   async updateColorsList({dispatch}, data){
-    await this.$axios.$put('/api/v1/colors/update', data)
+    await this.$axios.$put(`/api/v1/colors/${data.id}`, data)
       .then(res => {
         dispatch("getColorsThinList", {page: 0, size: 10});
-        this.$toast.success(res.message);
+        this.$toast.success(res.code);
       })
       .catch(({response}) => {
         console.log(response)
-        this.$toast.error(response.message);
+        this.$toast.error(response.data.errorMessage);
       })
   },
   async createColorsList({dispatch}, data){
-    await this.$axios.$post('/api/v1/colors/create', data)
+    await this.$axios.$post('/api/v1/colors', data)
       .then(res => {
         dispatch("getColorsThinList", {page: 0, size: 10});
-        this.$toast.success(res.message);
+        this.$toast.success(res.code);
       })
       .catch(({response}) => {
         console.log(response)
-        this.$toast.error(response.message);
+        this.$toast.error(response.data.errorMessage);
       })
   },
-  async getColorsThinList({commit}, {page, size}){
-    const body = {
-      filters: [],
-      sorts: [],
-      page,
-      size,
-    }
-    await this.$axios.$put('/api/v1/colors/list', body)
+  async getColorsThinList({commit}, {page, size,code="",name=""}){
+    code=code??""
+    name=name??""
+    await this.$axios.get(`/api/v1/colors?page=${page}&size=${size}&colorCode=${code}&colorName=${name}`)
       .then(res => {
-        commit("setColorsThinList", res.data);
+        commit("setColorsThinList", res.data.data);
         commit("setLoading", false);
       })
       .catch(({response}) => {
