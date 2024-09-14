@@ -329,7 +329,7 @@
           <v-tab-item>
             <v-data-table
               :headers="detailsHeaders"
-              :items="detailsList"
+              :items="detailItems"
               hide-default-footer
               :no-data-text="$t('noDataText')"
               :footer-props="{
@@ -405,7 +405,7 @@
               <template #footer>
                 <v-divider/>
                 <div class="d-flex justify-end mt-4 mr-2 text-body-1">
-                  {{ $t("prefinances.child.totalPrice") }}: {{ totalPrice }} USD
+                  {{ $t("prefinances.child.totalPrice") }}: {{ !!detailItems.length?detailItems[0]?.totalPrice:"0" }} USD
                 </div>
               </template>
             </v-data-table>
@@ -532,7 +532,7 @@
                   hide-details
                   :background-color="!item.status ? '#F8F4FE' : 'transparent'"
                   :disabled="item.status"
-                  :readonly="!(Object.keys(detailsList[0]).length > 3)"
+                  :readonly="totalPrice===0"
                   class="pa-0 ma-0"
                 />
               </template>
@@ -547,7 +547,7 @@
                   :disabled="item.usd_disabled"
                   class="pa-0 ma-0"
                   :readonly="
-                    !(Object.keys(detailsList[0]).length > 3) || item.readonly
+                    totalPrice===0 || item.readonly
                   "
                 />
               </template>
@@ -605,6 +605,7 @@
                   dense
                   append-icon="mdi-chevron-down"
                   :items="expenseGroup"
+                  :search-input.sync="expenseNameSearch"
                   outlined
                   hide-details
                   height="44"
@@ -1184,6 +1185,9 @@ export default {
       currency_enums: ["USD", "UZS", "RUB"],
       expense_status: true,
       modelSearch: "",
+      expenseNameSearch:"",
+      detailItems:[],
+      totalPrice:0,
     };
   },
   computed: {
@@ -1204,11 +1208,10 @@ export default {
       modelNames: "preFinance/modelNames",
       modelData: "preFinance/modelData",
       preFinanceId: "preFinance/preFinanceId",
-      expenseGroup: "preFinance/expenseGroup",
-      expenseList: "preFinance/expenseList",
+      expenseGroup: "expenseGroup/expenseGroup",
+      expenseList: "expenseGroup/expenseList",
       measurementUnitList: "preFinance/measurementUnit",
       detailsList: "preFinance/detailsList",
-      totalPrice: "preFinance/totalPrice",
       modelImages: "modelPhoto/modelImages",
       documentsList: "documents/documentsList",
       onePreFinance: "preFinance/onePreFinance",
@@ -1227,6 +1230,22 @@ export default {
     },
   },
   watch: {
+    detailsList(val){
+      this.detailItems=JSON.parse(JSON.stringify(val))
+      this.totalPrice=0
+      if(this.detailItems.length>0){
+        const totalPrice=this.detailItems[0].totalPrice
+        this.totalPrice=totalPrice
+
+        let data = this.calculation[0];
+        data.firstCurrency = +totalPrice.toFixed(2);
+        data.secondCurrency = (+totalPrice * +this.addPreFinances.secondaryRate).toFixed(2);
+        data.tertiaryCurrency = (+totalPrice * +this.addPreFinances.tertiaryRate).toFixed(2);
+      }
+    },
+    expenseNameSearch(val){
+      this.getExpenseGroup({page:0,size:10,expenseGroupName:val});
+    },
     prefinancePdf(val){
       const blob = new Blob(
         [new Uint8Array([...val].map((char) => char.charCodeAt(0)))],
@@ -1237,7 +1256,6 @@ export default {
       a.setAttribute("target", "_blank");
       a.setAttribute("href", objectUrl);
       a.click();
-      // this.pdfServe=objectUrl
       this.isLoad = false;
     },
     modelSearch(val){
@@ -1246,6 +1264,7 @@ export default {
     onePreFinance(val) {
       if (Object.keys(val).length) {
         const data = JSON.parse(JSON.stringify(val));
+        
 
         this.getImages(val.modelId);
         this.getDocuments({modelId: val.modelId});
@@ -1254,9 +1273,8 @@ export default {
         this.addPreFinances.modelNames = data.modelName;
         this.$store.commit("preFinance/setPreFinanceId", data.id);
         this.addPreFinances.owner = data.createdBy;
-        this.calculation[0].firstCurrency = this.detailsList[0].totalPrice;
-        this.calculation[0].secondCurrency = (this.detailsList[0].totalPrice * val?.secondaryRate).toFixed(2);
-        this.calculation[0].tertiaryCurrency = (this.detailsList[0].totalPrice * val?.tertiaryRate).toFixed(2);
+        this.calculation[0].secondCurrency = (this.totalPrice * val?.secondaryRate).toFixed(2);
+        this.calculation[0].tertiaryCurrency = (this.totalPrice * val?.tertiaryRate).toFixed(2);
         this.headers[2].text=data.primaryCurrency
         this.headers[3].text=data.secondaryCurrency
         this.headers[4].text=data.tertiaryCurrency
@@ -1279,8 +1297,6 @@ export default {
     async modelData(val) {
       if (typeof val[0]?.id === "number") {
         const id = val[0]?.id;
-        // await this.getImages(id);
-        // await this.getDocuments({modelId: id});
       }
 
       if (this.$route.params.id === "creating") {
@@ -1317,31 +1333,29 @@ export default {
     },
     "details.expenseGroup": {
       async handler(val) {
-        Object.keys(val).length > 1
+        if(!!val){
+          Object.keys(val).length > 1
           ? (this.expense_status = false)
           : (this.expense_status = true);
 
-        await this.getExpenseList(val.id);
+          await this.getExpenseItems(val.id);
+        }
       },
       deep: true,
     },
     "selectDetail.expenseGroup": {
       async handler(val) {
-        Object.keys(val).length > 1
+        if(!!val){
+          Object.keys(val).length > 1
           ? (this.expense_status = false)
           : (this.expense_status = true);
 
-        await this.getExpenseList(val.id);
+          await this.getExpenseItems(val.id);
+        }
       },
       deep: true,
     },
 
-    totalPrice(val) {
-      let data = this.calculation[0];
-      data.firstCurrency = +val.toFixed(2);
-      data.secondCurrency = (+val * +this.addPreFinances.secondaryRate).toFixed(2);
-      data.tertiaryCurrency = (+val * +this.addPreFinances.tertiaryRate).toFixed(2);
-    },
     calculation: {
       handler(val) {
         if (val[0].firstCurrency > 0) {
@@ -1438,8 +1452,8 @@ export default {
       createPreFinance: "preFinance/createPreFinance",
       getModelName: "preFinance/getModelName",
       saveCalculations: "preFinance/saveCalculation",
-      getExpenseGroup: "preFinance/getExpenseGroup",
-      getExpenseList: "preFinance/getExpenseList",
+      getExpenseGroup: "expenseGroup/getExpenseGroup",
+      getExpenseItems: "expenseGroup/getExpenseItems",
       getMeasurementUnit: "preFinance/getMeasurementUnit",
       createDetails: "preFinance/createDetails",
       getAllDetails: "preFinance/getAllDetails",
@@ -1529,7 +1543,6 @@ export default {
       const calcVal = this.calculation.filter(
         (el) => el.status === false || el.usd_disabled === false
       );
-      console.log(this.addPreFinances)
       calcVal.priceWithDiscountUSD = this.calculation[10].firstCurrency;
       calcVal.priceWithDiscountUZS = this.calculation[10].secondCurrency;
       calcVal.priceWithDiscountRUB = this.calculation[10].tertiaryCurrency;
@@ -1558,7 +1571,6 @@ export default {
     async createNewPreFinance() {
       const params = this.$route.params.id;
       if (params === "create"){
-        console.log(this.addPreFinances)
         await this.createPreFinance(this.addPreFinances);
       } else {
         const { description, id, modelId, primaryCurrency, orderedQuantity, primaryRate, secondaryCurrency, secondaryRate,  tertiaryCurrency, tertiaryRate  } = this.addPreFinances;
@@ -1603,7 +1615,7 @@ export default {
     },
   },
   mounted() {
-    this.getExpenseGroup();
+    this.getExpenseGroup({page:0,size:10});
     this.getMeasurementUnit();
     const param = this.$route.params.id;
 
@@ -1613,7 +1625,6 @@ export default {
     } else {
       this.$store.commit("modelPhoto/setModelImages", []);
       this.$store.commit("documents/setDocuments", []);
-      this.$store.commit("preFinance/setDetailsList", [{totalPrice: 0}]);
       setTimeout(() => {
         this.calculation[0].secondCurrency = 0;
         this.calculation[0].tertiaryCurrency = 0;

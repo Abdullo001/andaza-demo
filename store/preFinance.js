@@ -20,7 +20,6 @@ export const getters = {
   expenseList: state => state.expenseList,
   measurementUnit: state => state.measurementUnit,
   detailsList: state => state.detailsList,
-  totalPrice: state => state.detailsList[0].totalPrice,
   loading: state => state.loading,
   totalElements: state => state.preFinances.totalElements,
   onePreFinance: state => state.onePreFinance,
@@ -136,7 +135,6 @@ export const actions = {
       });
   },
   async saveCalculation({commit}, {data, id, currency}) {
-    console.log(data);
     const body = {
       overProductionPercent: data[0].editable,
       lossPercent: data[1].editable,
@@ -202,9 +200,8 @@ export const actions = {
     await this.$axios
       .$get(`/api/v1/possible-expense/list?preFinanceId=${id}`)
       .then((res) => {
-        if (!!res.data.length) {
-          commit("setDetailsList", res.data);
-        }
+        commit("setDetailsList", res.data);
+        
       })
       .catch(({response}) => console.log(response));
   },

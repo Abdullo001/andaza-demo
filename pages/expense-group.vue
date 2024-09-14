@@ -5,7 +5,7 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              v-model="filters.id"
+              v-model="filters.expenseGroupId"
               :label="$t('expenseGroup.child.idSearch')"
               outlined
               class="rounded-lg filter"
@@ -16,7 +16,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              v-model="filters.name"
+              v-model="filters.expenseGroupName"
               :label="$t('expenseGroup.child.name')"
               outlined
               class="rounded-lg filter"
@@ -25,30 +25,7 @@
               @keydown.enter="filterData"
             />
           </v-col>
-          <v-col cols="12" lg="2" md="2">
-            <el-date-picker
-              style="width: 100%"
-              v-model="filters.createdAt"
-              type="datetime"
-              class="filter_picker"
-              :placeholder="$t('expenseGroup.child.created')"
-              :picker-options="pickerShortcuts"
-              format="dd.MM.yyyy HH:mm:ss"
-            >
-            </el-date-picker>
-          </v-col>
-          <v-col cols="12" lg="2" md="2">
-            <el-date-picker
-              style="width: 100%"
-              v-model="filters.updatedAt"
-              type="datetime"
-              class="filter_picker"
-              :placeholder="$t('expenseGroup.child.updated')"
-              :picker-options="pickerShortcuts"
-              value-format="dd.MM.yyyy HH:mm:ss"
-            >
-            </el-date-picker>
-          </v-col>
+          
           <v-spacer/>
           <v-col cols="12" lg="2" md="2">
             <div class="d-flex justify-end">
@@ -82,7 +59,6 @@
       :items="expenseGroup"
       :loading="loading"
       :server-items-length="totalElements"
-      :options.sync="options"
       :items-per-page="10"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100],
@@ -144,7 +120,7 @@
               <v-col cols="12">
                 <div class="label">{{ $t('expenseGroup.dialog.name') }}</div>
                 <v-text-field
-                  v-model="create_expense.name"
+                  v-model="create_expense.expenseGroupName"
                   outlined
                   hide-details
                   class="rounded-lg base"
@@ -186,7 +162,7 @@
                   :rules="[formRules.required]"
                   chips
                   multiple
-                  v-model="create_expense.expensesNames"
+                  v-model="create_expense.expenseNames"
                   :items="enum_expense"
                   deletable-chips
                   append-icon="mdi-chevron-down"
@@ -455,13 +431,13 @@ export default {
         },
       ],
       create_expense: {
-        name: "",
-        expensesNames: [],
+        expenseGroupName: "",
+        expenseNames: [],
         description: "",
       },
       edit_expense: {
-        name: "",
-        expenses: [],
+        expenseGroupName: "",
+        expenseNames: [],
         description: "",
       },
       delete_expense: {},
@@ -483,23 +459,8 @@ export default {
     };
   },
   watch: {
-    async "options.sortBy"(elem) {
-      if (elem[0] !== undefined) {
-        if (this.options.sortDesc[0] !== undefined) {
-          const items = {
-            sortDesc: this.options.sortDesc[0],
-            sortBy: elem[0],
-          };
-          await this.sortExpenseGroup({
-            page: this.current_page,
-            size: this.itemPrePage,
-            data: items,
-          });
-        }
-      }
-    },
 
-    "create_expense.expensesNames"(value) {
+    "create_expense.expenseNames"(value) {
       this.enum_expense = value;
     },
     "edit_expense.expensesNames"(value) {
@@ -509,10 +470,7 @@ export default {
 
   },
   async created() {
-    await this.$store.dispatch("expenseGroup/getExpenseGroup", {
-      page: 0,
-      size: 10,
-    });
+    this.getExpenseGroup({page:0,size:10})
   },
   computed: {
     ...mapGetters({
@@ -528,16 +486,15 @@ export default {
       updateExpenseGroup: "expenseGroup/updateExpenseGroup",
       deleteExpenseGroup: "expenseGroup/deleteExpenseGroup",
       filterExpenseGroup: "expenseGroup/filterExpenseGroup",
-      sortExpenseGroup: "expenseGroup/sortExpenseGroup",
     }),
     remove(item) {
-      const index = this.create_expense.expensesNames.indexOf(item)
-      if (index >= 0) this.create_expense.expensesNames.splice(index, 1)
+      const index = this.create_expense.expenseNames.indexOf(item)
+      if (index >= 0) this.create_expense.expenseNames.splice(index, 1)
     },
     addExpense() {
       if (this.add_expenses.expense !== "") {
         const item = {...this.add_expenses};
-        this.create_expense.expensesNames.push(item.expense);
+        this.create_expense.expenseNames.push(item.expense);
         this.add_expenses.expense = "";
       }
     },
@@ -547,8 +504,10 @@ export default {
     },
 
     editAddExpense() {
-      if (this.edit_expenses.expense !== "") {
+      if (!!this.edit_expenses.expense) {
         const item = {...this.edit_expenses};
+        console.log(item);
+        
         this.edit_expense.expensesNames.push(item.expense);
         this.edit_expenses.expense = "";
       }
@@ -556,17 +515,11 @@ export default {
 
     async size(val) {
       this.itemPrePage = val;
-      await this.$store.dispatch("expenseGroup/getExpenseGroup", {
-        page: 0,
-        size: this.itemPrePage,
-      });
+      this.getExpenseGroup({page:0,size:this.itemPrePage})
     },
     async page(val) {
       this.current_page = val - 1;
-      await this.$store.dispatch("expenseGroup/getExpenseGroup", {
-        page: this.current_page,
-        size: this.itemPrePage,
-      });
+      this.getExpenseGroup({page:this.current_page,size:this.itemPrePage})
     },
     async deleteSample() {
       const id = this.delete_expense.id;
@@ -577,15 +530,21 @@ export default {
       const items = {...this.create_expense};
       await this.createExpenseGroup(items);
       this.create_expense = {
-        name: "",
-        expanses: [],
+        expenseGroupName: "",
+        expenseNames: [],
         description: "",
       };
       this.new_dialog = false;
     },
     async update() {
       const items = {...this.edit_expense};
-      await this.updateExpenseGroup(items);
+      const data={
+        expenseGroupName:this.edit_expense.name,
+        expenseNames:this.edit_expense.expensesNames,
+        description:this.edit_expense.description
+      }
+      
+      await this.updateExpenseGroup({data,id:this.edit_expense.id});
       this.edit_dialog = false;
     },
     async getDeleteItem(item) {
@@ -593,23 +552,22 @@ export default {
       this.delete_dialog = true;
     },
     editItem(item) {
-      delete item.createdAt;
-      delete item.updatedAt;
-      this.edit_expense = {...item};
+      this.edit_expense = JSON.parse(JSON.stringify(item));
+      delete this.edit_expense.createdAt;
+      delete this.edit_expense.updatedAt;
+      
       this.edit_dialog = true;
     },
     async resetFilters() {
-      this.filters = {
-        id: "",
-        name: "",
-        updatedAt: "",
-        createdAt: "",
-      };
       await this.getExpenseGroup({page: 0, size: 10});
+      this.filters = {
+        expenseGroupId: "",
+        expenseNames: "",
+      };
     },
     async filterData() {
-      const items = {...this.filters};
-      await this.filterExpenseGroup(items);
+      const {expenseGroupName,expenseGroupId} = this.filters
+      await this.getExpenseGroup({page:0,size:10,expenseGroupName,expenseGroupId});
     },
   },
   mounted() {
