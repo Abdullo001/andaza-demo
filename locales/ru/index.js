@@ -2563,7 +2563,7 @@ twoSort: "2-Сорт",
   }, 
    statusItems:{
    in_process: "В процессе",  
-empty: "Пусто",  
+empty: "Пустой",  
 finished: "Завершено",  
 planned: "Запланировано",  
 not_planned: "Не запланировано",  
