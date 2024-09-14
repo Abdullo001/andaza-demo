@@ -9,7 +9,7 @@
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              v-model="filter_colors.code"
+              v-model="filters.code"
               :label="$t('colorsBox.table.colorCode')"
               outlined
               class="rounded-lg filter"
@@ -20,7 +20,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              v-model="filter_colors.name"
+              v-model="filters.name"
                :label="$t('colorsBox.table.colorName')"
               outlined
               class="rounded-lg filter"
@@ -28,34 +28,6 @@
               dense
               @keydown.enter="filterData"
             />
-          </v-col>
-          <v-col
-            cols="12" lg="2" md="2"
-          >
-            <el-date-picker
-              style="width: 100%"
-              v-model="filter_colors.createdAt"
-              type="datetime"
-              class="filter_picker"
-             :placeholder="$t('measurementUnit.child.created')"
-              :picker-options="pickerShortcuts"
-              value-format="dd.MM.yyyy HH:mm:ss"
-            >
-            </el-date-picker>
-          </v-col>
-          <v-col
-            cols="12" lg="2" md="2"
-          >
-            <el-date-picker
-              style="width: 100%;"
-              v-model="filter_colors.updatedAt"
-              type="datetime"
-              class="filter_picker"
-              :placeholder="$t('measurementUnit.child.updated')"
-              :picker-options="pickerShortcuts"
-              value-format="dd.MM.yyyy HH:mm:ss"
-            >
-            </el-date-picker>
           </v-col>
           <v-spacer/>
           <v-col cols="12" lg="2" md="2">
@@ -213,7 +185,7 @@
                   :rules="[formRules.required]"
                 />
               </v-col>
-              <v-col cols="12" md="6">
+              <v-col cols="12" >
                 <div class="text-body-1">{{$t("colorsBox.table.pantoneType") }}</div>
                 <v-radio-group
                   row
@@ -338,7 +310,7 @@
                   :rules="[formRules.required]"
                 />
               </v-col>
-              <v-col cols="12" md="6">
+              <v-col cols="12" >
                 <div class="text-body-1">Panton Type</div>
                 <v-radio-group
                   row
@@ -419,7 +391,7 @@ export default {
   name: "CatalogsColorPages",
   data() {
     return {
-      radio_item: ["TPX", "TCX", "TPG"],
+      radio_item: ["TPX", "TCX", "TPG","C"],
       edit_validate: true,
       validate: true,
       itemPrePage: 10,
@@ -439,11 +411,9 @@ export default {
         pantoneType: "TPX",
       },
       delete_colors_id: "",
-      filter_colors: {
+      filters: {
         code: "",
         name: "",
-        createdAt: "",
-        updatedAt: ""
       },
       valid_search: true,
       edit_menu: false,
@@ -519,11 +489,11 @@ export default {
       this.delete_dialog = true;
     },
     async filterData() {
-      await this.filterColorsThinList(this.filter_colors);
+      this.getColorsThinList({...this.filters})
     },
     async resetFilters() {
-      this.filter_colors = {};
       await this.getColorsThinList({page: 0, size: 10});
+      this.$refs.filter_form.reset()
     },
   },
   async mounted() {

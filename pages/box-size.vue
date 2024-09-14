@@ -25,28 +25,6 @@
               @keydown.enter="filterData"
             />
           </v-col>
-          <v-col cols="12" lg="2" md="2" style="max-width: 240px">
-            <el-date-picker
-              v-model="filters.createdAt"
-              type="datetime"
-              class="filter_picker"
-              :placeholder="$t('catalogsPartnerType.child.created')"
-              :picker-options="pickerShortcuts"
-              value-format="dd.MM.yyyy HH:mm:ss"
-            >
-            </el-date-picker>
-          </v-col>
-          <v-col cols="12" lg="2" md="2">
-            <el-date-picker
-              v-model="filters.updatedAt"
-              type="datetime"
-              class="filter_picker"
-              :placeholder="$t('catalogsPartnerType.child.updated')"
-              :picker-options="pickerShortcuts"
-              value-format="dd.MM.yyyy HH:mm:ss"
-            >
-            </el-date-picker>
-          </v-col>
           <v-spacer />
           <v-col cols="12" lg="2" md="2">
             <div class="d-flex justify-end">
@@ -373,8 +351,6 @@ export default {
       filters: {
         size: "",
         cbm: "",
-        createdBy:"",
-        createdAt: "",
       },
     };
   },
@@ -433,7 +409,6 @@ export default {
       this.delete_dialog = false;
     },
     async saveBoxSizeList() {
-      console.log(this.boxSizeList)
       const items = { ...this.create_boxSize };
       await this.createBoxSize(items);
       this.create_boxSize = {
@@ -449,7 +424,7 @@ export default {
     },
     async updateBoxSizeSample() {
       const items = { ...this.edit_boxSize };
-      await this.updateBoxSize(items);
+      await this.updateBoxSize({data:items,id:items.id});
       this.edit_dialog = false;
     },
     async resetFilters() {
@@ -462,13 +437,8 @@ export default {
       await this.getBoxSizeList({ page: 0, size: 10 });
     },
     async filterData() {
-      const items = { ...this.filters };
-      if(items.createdAt !== "" && items.updatedAt !== ""){
-        await this.filterBoxSizeData(items);
-        this.valid_date = true;
-      }else {
-        await this.filterBoxSizeData(items);
-      }
+      await this.getBoxSizeList({page:0, size:10,...this.filters })
+      
     },
   },
   mounted() {

@@ -746,7 +746,7 @@ export default {
 
   methods:{
     ...mapActions({
-      getPrintType: "printing/getPrintType",
+      getPrintType: "printType/getPrintType",
       getPartnerList: "models/getPartnerList",
       getMainColorsList:"orderModelPrint/getMainColorsList",
       createModelPrint:"orderModelPrint/createModelPrint",

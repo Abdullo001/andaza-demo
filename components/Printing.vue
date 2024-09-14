@@ -497,7 +497,7 @@ export default {
     ...mapActions({
       getPrintingList: "printing/getPrintingList",
       getPrintOne: "printing/getPrintOne",
-      getPrintType: "printing/getPrintType",
+      getPrintType: "printType/getPrintType",
       getPartnerList: "models/getPartnerList",
       createPrints: "printing/createPrints",
       updatePrints: "printing/updatePrints",
@@ -617,9 +617,9 @@ export default {
     const id = this.$route.params.id;
     if (id !== 'add-model') {
       await this.getPrintOne(id);
-      await this.getPrintType({page: 0, size: 10})
+      await this.getPrintType({page: 0, size: 100})
     } else {
-      await this.getPrintType({page: 0, size: 10})
+      await this.getPrintType({page: 0, size: 100})
       await this.$store.commit("printing/setPrintOne", []);
     }
   }

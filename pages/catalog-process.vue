@@ -411,7 +411,6 @@ export default {
       createPrintType: "printType/createPrintType",
       updatePrintType: "printType/updatePrintType",
       deletePrintType: "printType/deletePrintType",
-      filterPrintTypeData: "printType/filterPrintTypeData",
     }),
     async size(val) {
       this.itemPrePage = val;

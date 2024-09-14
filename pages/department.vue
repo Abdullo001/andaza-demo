@@ -14,30 +14,6 @@
               @keydown.enter="filterData"
             />
           </v-col>
-          <v-col cols="12" lg="2" md="2">
-            <el-date-picker
-              v-model="filters.createdAt"
-              type="datetime"
-              class="filter_picker"
-              style="width: 100%"
-              :placeholder="$t('bodyParts.child.created')"
-              :picker-options="pickerShortcuts"
-              format="dd.MM.yyyy HH:mm:ss"
-            >
-            </el-date-picker>
-          </v-col>
-          <v-col cols="12" lg="2" md="2">
-            <el-date-picker
-              style="width: 100%"
-              class="filter_picker"
-              v-model="filters.updatedAt"
-              type="datetime"
-              :placeholder="$t('bodyParts.child.updated')"
-              :picker-options="pickerShortcuts"
-              value-format="dd.MM.yyyy HH:mm:ss"
-            >
-            </el-date-picker>
-          </v-col>
           <v-spacer />
           <v-col cols="12" lg="2" md="2">
             <div class="d-flex justify-end">

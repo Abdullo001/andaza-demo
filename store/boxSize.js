@@ -5,7 +5,8 @@ export const state = () => ( {
 
 export const getters = {
   loading: state => state.loading,
-  boxSizeList: state => state.boxSizeList,
+  boxSizeList: state => state.boxSizeList.items,
+  totalElements: state => state.boxSizeList.totalElements,
 };
 
 export const mutations = {
@@ -18,53 +19,43 @@ export const mutations = {
 };
 export const actions = {
   async deleteBoxSize( { dispatch }, { id } ) {
-    await this.$axios.$delete( `/api/v1/box-sizes/delete?id=${id}` )
+    await this.$axios.$delete( `/api/v1/box-sizes/${id}` )
       .then( res => {
         dispatch( "getBoxSizeList", { page: 0, size: 10 } );
-        this.$toast.success( res.message );
+        this.$toast.success( res.data.message );
+        
       } )
       .catch( ( { response } ) => {
         console.log( response )
       } )
   },
-  async updateBoxSize( { dispatch }, data ) {
-    await this.$axios.$put( `/api/v1/box-sizes/update`, data )
+  async updateBoxSize( { dispatch }, {data,id} ) {
+    await this.$axios.put( `/api/v1/box-sizes/${id}`, data )
       .then( res => {
         dispatch( "getBoxSizeList", { page: 0, size: 10 } );
-        this.$toast.success( res.message );
+        this.$toast.success( res.data.code );
       } )
       .catch( ( { response } ) => {
         console.log( response )
       } )
   },
   async createBoxSize( { dispatch }, data ) {
-    await this.$axios.$post( `/api/v1/box-sizes/create`, data )
+    await this.$axios.post( `/api/v1/box-sizes`, data )
       .then( res => {
         dispatch( "getBoxSizeList", { page: 0, size: 10 } );
-        this.$toast.success( res.message );
+        this.$toast.success( res.data.code );
       } )
       .catch( ( { response } ) => {
         console.log( response )
       } )
   },
 
-  async getBoxSizeList( { commit }, { page, size } ) {
-    const body = {
-      "filters": [
-        {
-          "key": "isActive",
-          "operator": "EQUAL",
-          "propertyType": "BOOLEAN",
-          "value": true
-        }
-      ],
-      "sorts": [],
-      "page": 0,
-      "size": 10
-    }
-    await this.$axios.$put( `/api/v1/box-sizes/list`, body )
+  async getBoxSizeList( { commit }, { page, size,cbm="",boxSize=""} ) {
+    cbm=cbm??""
+    boxSize=boxSize??""
+    await this.$axios.get( `/api/v1/box-sizes?size=${size}&page=${page}&cbm=${cbm}&boxSize=${boxSize}` )
       .then( res => {
-        commit( "setBoxSizeList", res.data );
+        commit( "setBoxSizeList", res.data.data );
         commit( "setLoading", false );
       } )
       .catch( ( { response } ) => {

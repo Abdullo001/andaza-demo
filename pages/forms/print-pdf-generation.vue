@@ -447,7 +447,7 @@ export default {
       getUsersList: "orders/getUsersList",
       getPrintPdfList: "generatePdf/getPrintPdfList",
       getPartnerList: "partners/getPartnerList",
-      getPrintType: "printing/getPrintType",
+      getPrintType: "printType/getPrintType",
     }),
 
     resetFilter() {
