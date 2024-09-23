@@ -223,7 +223,7 @@ export default {
     },
 
     addOrder() {
-      this.$router.push(`/accessory/create`);
+      this.$router.push(this.localePath(`/accessory/create`));
     },
   },
 
