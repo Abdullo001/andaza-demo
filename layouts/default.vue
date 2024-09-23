@@ -31,6 +31,11 @@ export default {
   },
   mounted() {
     document.addEventListener('contextmenu', event => event.preventDefault());
+    const langCode=localStorage.getItem("lang")??"en"
+    
+
+    this.$router.push(this.switchLocalePath(langCode))
+    
   }
 }
 </script>

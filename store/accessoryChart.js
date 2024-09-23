@@ -31,7 +31,7 @@ export const mutations = {
 }
 export const actions = {
   async deleteChartAccessory({dispatch}, {id, accessoryPlanningId}){
-    await this.$axios.$delete(`/api/v1/accessory-planning-chart/delete?id=${id}`)
+    await this.$axios.$delete(`/api/v1/accessory-planning-charts/${id}`)
       .then(res => {
         dispatch("getChartAllData", accessoryPlanningId);
         this.$toast.success(res.message);
@@ -41,8 +41,8 @@ export const actions = {
         this.$toast.error(response.data.message)
       })
   },
-  async updateChartAccessory({dispatch}, {data,id}){
-    await this.$axios.$put('/api/v1/accessory-planning-chart/update', data)
+  async updateChartAccessory({dispatch}, {data,id,accessoryPlanningChartId}){
+    await this.$axios.$put(`/api/v1/accessory-planning-charts/${accessoryPlanningChartId}`, data)
       .then(res => {
         dispatch("getChartAllData", id);
         this.$toast.success(res.message);
@@ -53,73 +53,24 @@ export const actions = {
       })
   },
   async createChartAccessory({dispatch}, {data,id}){
-    const config = {
-      headers: {"Content-Type": "multipart/form-data"}
-    }
-    await this.$axios.$post('/api/v1/accessory-planning-chart/create', data,config)
+    
+    await this.$axios.$post('/api/v1/accessory-planning-charts', data)
       .then(res => {
         dispatch("getChartAllData", id);
-        this.$toast.success(res.message);
+        this.$toast.success(res.data.code);
       })
       .catch(({response}) => {
         console.log(response)
         this.$toast.error(response.data.message)
       })
   },
-  async getAccessoryList({commit}){
 
-    const body = {
-      filters : [
-        // {
-        //   key:"id",
-        //   operator:"EQUAL",
-        //   propertyType:"LONG",
-        //   value:a,
-        // }
-      ],
-      sorts: [],
-      page: 0,
-      size: 100
-    }
-    await this.$axios.$put(`/api/v1/accessory/list`, body)
-      .then(res => {
-        commit("setAccessoryName", res.data.content)
-      })
-      .catch(({response}) => {
-        console.log(response)
-      })
-  },
-
-  async getAccessoryComposition({commit},id){
-
-    const body = {
-      filters : [
-        {
-          key:"id",
-          operator:"EQUAL",
-          propertyType:"LONG",
-          value:id,
-        }
-      ],
-      sorts: [],
-      page: 0,
-      size: 100
-    }
-    body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
-    await this.$axios.$put(`/api/v1/accessory/list`, body)
-      .then(res => {
-        commit("setAccessorySpecification", res.data.content[0]?.specification)
-
-      })
-      .catch(({response}) => {
-        console.log(response)
-      })
-  },
 
   async getChartAllData({commit}, id){
-    await this.$axios.get(`/api/v1/accessory-planning-chart/list?accessoryPlanningId=${id}`)
+    await this.$axios.get(`/api/v1/accessory-planning-charts/list/${id}`)
       .then(res => {
         commit("setAllChartAccessory", res.data.data);
+        
       })
       .catch(({response}) => {
         console.log(response)

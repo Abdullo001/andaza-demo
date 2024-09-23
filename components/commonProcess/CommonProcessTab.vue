@@ -4,6 +4,7 @@
     :headers="headers"
     :items="items"
     item-key="cuttingTable"
+    
   >
     <template #top>
       <div class="title ma-4">Done works’ quantities</div>
@@ -172,7 +173,7 @@
     </v-card>
   </v-dialog>
 
-  <v-dialog v-model="history_dialog" max-width="600">
+  <v-dialog v-model="history_dialog" max-width="800">
     <v-card flat>
       <v-card-title>
         <div class="title">History</div>
@@ -192,6 +193,7 @@
           :items="historyList"
           class="mt-4 rounded-lg"
           style="border: 1px solid #E9EAEB"
+          :items-per-page="historyList.length"
         >
         </v-data-table>
       </v-card-text>
@@ -336,7 +338,7 @@ export default {
       classification_shortcom:{},
 
       historyHeaders: [
-        {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
+        {text: 'Date', sortable: true, align: 'start', value: 'createdDate'},
 
         {text: 'Done By', sortable: false, align: 'center', value: 'createdBy'},
       ],
@@ -394,7 +396,7 @@ export default {
 
     historyServerList(list){
       this.historyHeaders = [
-        {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
+        {text: 'Date', sortable: true, align: 'start', value: 'createdDate'},
       ],
         list[0]?.sizeDistributionList?.forEach((item) => {
           this.historyHeaders.push({

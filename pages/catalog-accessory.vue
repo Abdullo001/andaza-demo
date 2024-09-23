@@ -25,30 +25,6 @@
               @keydown.enter="filterData"
             />
           </v-col>
-          <v-col cols="12" lg="2" md="2">
-            <el-date-picker
-              style="width: 100%"
-              v-model="filter_accessory.createdAt"
-              type="datetime"
-               :placeholder="$t('measurementUnit.child.created')"
-              class="filter_picker"
-              :picker-options="pickerShortcuts"
-              value-format="dd.MM.yyyy HH:mm:ss"
-            >
-            </el-date-picker>
-          </v-col>
-          <v-col cols="12" lg="2" md="2">
-            <el-date-picker
-              style="width: 100%"
-              v-model="filter_accessory.updatedAt"
-              type="datetime"
-             :placeholder="$t('measurementUnit.child.updated')"
-              class="filter_picker"
-              :picker-options="pickerShortcuts"
-              value-format="dd.MM.yyyy HH:mm:ss"
-            >
-            </el-date-picker>
-          </v-col>
           <v-spacer />
           <v-col cols="12" lg="2" md="2">
             <div class="d-flex justify-end">
@@ -107,6 +83,17 @@
         </v-toolbar>
         <v-divider />
       </template>
+      <template #item.accessoryPhoto="{item}">
+        <div>
+          <v-img
+            :src="item?.accessoryPhoto"
+            class="mr-2"
+            width="40"
+            height="40"
+            @click="showImage(item.accessoryPhoto)"
+          />
+        </div>
+      </template>
       <template #item.checkbox="{ item }">
         <v-checkbox />
       </template>
@@ -121,7 +108,7 @@
         </div>
       </template>
     </v-data-table>
-    <v-dialog v-model="new_dialog" width="580">
+    <v-dialog v-model="new_dialog" width="700">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold"> {{ $t("catalogAccessory.dialog.addAccessory") }}</div>
@@ -238,6 +225,47 @@
                    :placeholder="$t('catalogAccessory.dialog.enterDescription')"
                   color="#544B99"
                 />
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6">
+                <div class="big__image overflow-hidden relative " >
+                  <input
+                    ref="uploaderFirst"
+                    class="d-none"
+                    type="file"
+                    @change="(e)=>firstFileChanged(e)"
+                    accept="image/*"
+                  />
+
+                  <div class="update__icon" v-if="!!files[0].file">
+                    <v-btn color="green" icon @click="getFile('first')">
+                      <v-img src="/upload-green.svg" max-width="22"/>
+                    </v-btn>
+                    <v-btn color="green" icon @click="deleteFile('first')">
+                      <v-img src="/trash-red.svg" max-width="22"/>
+                    </v-btn>
+                  </div>
+
+                  <v-img
+                    :src="images[0].photo"
+                    lazy-src="/model-image.jpg"
+                    v-if="!!files[0].file" width="100%"
+                    @click="showImage(images[0].photo)"
+                  />
+
+                  <div class="default__box" v-else>
+                    <v-img src="/default-image.svg" width="70"/>
+                    <v-btn text color="#5570F1" class="rounded-lg mt-6 my-4" @click="getFile('first')">
+                      <v-img src="/upload.svg" class="mr-2"/>
+                      <div class="text-capitalize upload-text">Upload Image</div>
+                    </v-btn>
+                    <div class="default__text">
+                      <p>Upload a cover image for your product.</p>
+                    </div>
+                  </div>
+
+                </div>
               </v-col>
             </v-row>
           </v-form>
@@ -385,6 +413,47 @@
                 />
               </v-col>
             </v-row>
+            <v-row>
+              <v-col cols="6">
+                <div class="big__image overflow-hidden relative " >
+                  <input
+                    ref="uploaderFirst"
+                    class="d-none"
+                    type="file"
+                    @change="(e)=>firstFileChanged(e)"
+                    accept="image/*"
+                  />
+
+                  <div class="update__icon" v-if="!!files[0].file">
+                    <v-btn color="green" icon @click="getFile('first')">
+                      <v-img src="/upload-green.svg" max-width="22"/>
+                    </v-btn>
+                    <v-btn color="green" icon @click="deleteFile('first')">
+                      <v-img src="/trash-red.svg" max-width="22"/>
+                    </v-btn>
+                  </div>
+
+                  <v-img
+                    :src="images[0].photo"
+                    lazy-src="/model-image.jpg"
+                    v-if="!!files[0].file" width="100%"
+                    @click="showImage(images[0].photo)"
+                  />
+
+                  <div class="default__box" v-else>
+                    <v-img src="/default-image.svg" width="70"/>
+                    <v-btn text color="#5570F1" class="rounded-lg mt-6 my-4" @click="getFile('first')">
+                      <v-img src="/upload.svg" class="mr-2"/>
+                      <div class="text-capitalize upload-text">Upload Image</div>
+                    </v-btn>
+                    <div class="default__text">
+                      <p>Upload a cover image for your product.</p>
+                    </div>
+                  </div>
+
+                </div>
+              </v-col>
+            </v-row>
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
@@ -444,6 +513,20 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-dialog max-width="590" v-model="image_dialog">
+      <v-card >
+        <v-card-title class="d-flex">
+          <v-spacer/>
+          <v-btn icon color="#544B99" large @click="image_dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text>
+          <v-img :src="currentImage" height="500" class="mb-4" contain/>
+        </v-card-text>
+      </v-card>
+    </v-dialog> 
   </div>
 </template>
 
@@ -454,6 +537,7 @@ export default {
   name: "CatalogAccessoryPage",
   data() {
     return {
+      
       itemPrePage: 10,
       current_page: 0,
       delete_accessory_id: "",
@@ -471,8 +555,6 @@ export default {
       filter_accessory: {
         id: "",
         name: "",
-        updatedAt: "",
-        createdAt: "",
       },
       edit_dialog: false,
       new_dialog: false,
@@ -481,6 +563,7 @@ export default {
         { text: this.$t("sizeTemplate.table.id"),  value: "id", sortable: false },
         { text:this.$t("samplePurposes.table.name"), value: "name", sortable: false },
         { text: this.$t("catalogAccessory.table.specification"), value: "specification", sortable: false },
+        { text: this.$t("fabricOrderingBox.addAccessoryBox.accessoryPhoto"), value: "accessoryPhoto", sortable: false },
         { text:  this.$t("catalogAccessory.table.measurementUnit"), value: "measurementUnit", sortable: false },
         { text:  this.$t("catalogAccessory.table.accessoryType"), value: "accessoryType", sortable: false },
         { text: this.$t("samplePurposes.table.createdAt"), value: "createdAt", sortable: false },
@@ -489,6 +572,20 @@ export default {
         { text: this.$t("samplePurposes.table.actions"), value: "actions", align: "center", sortable: false },
       ],
       specificationList:[],
+      files:[
+        {file:null,id:null},
+        {file:null,id:null},
+        {file:null,id:null},
+        {file:null,id:null},
+      ],
+      images:[
+        {photo:""},
+        {photo:""},
+        {photo:""},
+        {photo:""},
+      ],
+      currentImage:"",
+      image_dialog:false,
 
     };
   },
@@ -525,6 +622,67 @@ export default {
       deleteAccessoryList: "catalogAccessory/deleteAccessoryList",
       filterAccessoryList: "catalogAccessory/filterAccessoryList",
     }),
+
+    handlePaste(event) {
+      const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+      for (const item of items) {
+        if (item.type.indexOf('image') === 0) {
+          const blob = item.getAsFile();
+          this.processImage(blob);
+        }
+      }
+    },
+
+    processImage(file) {
+      // Find the first empty slot
+      const emptyIndex = this.files.findIndex(f => !f.file);
+      if (emptyIndex === -1) {
+        alert('All image slots are full. Please delete an image before pasting a new one.');
+        return;
+      }
+
+      this.files[emptyIndex].file = file;
+      this.images[emptyIndex].photo = URL.createObjectURL(file);
+    },
+    firstFileChanged(e) {
+      this.files[0].file = e.target.files[0];
+      this.images[0].photo = URL.createObjectURL(this.files[0].file);
+      if(!!this.files[0].id){
+        this.fileRequests[0].file=e.target.files[0]
+        this.fileRequests[0].id=this.files[0].id
+      }
+    },
+    getFile(count) {
+      switch (count) {
+        case 'first':
+          return this.$refs.uploaderFirst.click();
+        case 'second':
+          return this.$refs.uploaderSecond.click();
+        case 'third':
+          return this.$refs.uploaderThird.click();
+        case 'fourth':
+          return this.$refs.uploaderFourth.click();
+      }
+    },
+    deleteFile(count) {
+      switch (count) {
+        case 'first':
+          this.files[0].file = null;
+          break;
+        case 'second':
+          this.files[1].file = null;
+          break;
+        case 'third':
+          this.files[2].file = null;
+
+          break;
+        case 'fourth':
+          this.files[3].file = null;
+          this.deleteImages({id:this.files[3].id,modelId:this.$route.params.id})
+          break;
+      }
+    },
+
     async size(val) {
       this.itemPrePage = val;
       await this.getAccessoryList({ page: 0, size: this.itemPrePage });
@@ -540,11 +698,25 @@ export default {
     async save() {
       const validate = this.$refs.new_form.validate();
       if (validate) {
-        const item = { ...this.create_accessory };
-        await this.createAccessoryList(item);
+        const formData=new FormData()
+        formData.append("name",this.create_accessory.name)
+        formData.append("measurementUnitId",this.create_accessory.measurementUnitId)
+        formData.append("specification",this.create_accessory.specification)
+        formData.append("description",this.create_accessory.description)
+        
+        if(!!this.files[0]?.file){
+          formData.append("accessoryPhoto",this.files[0]?.file)
+        }
+        await this.createAccessoryList(formData);
         this.$refs.new_form.reset();
         this.new_dialog = false;
+        this.files[0].file=null
       }
+    },
+
+    showImage(photo) {
+      this.currentImage = photo;
+      this.image_dialog = true;
     },
     editSpecificationFunc() {
       if (this.editSpecification !== "") {
@@ -558,15 +730,17 @@ export default {
       if (edit_validate) {
         const { id, description, measurementUnitId, name, specification } =
           this.edit_accessory;
-        const item = {
-          id,
-          description,
-          measurementUnitId,
-          name,
-          specification,
-        };
-        await this.updateAccessoryList(item);
+        const formData=new FormData()
+        formData.append("name",name)
+        formData.append("measurementUnitId",measurementUnitId)
+        formData.append("specification",specification)
+        formData.append("description",description)
+        if(typeof this.files[0]?.file!=="string"){
+          formData.append("accessoryPhoto",this.files[0].file)
+        }
+        await this.updateAccessoryList({id,data:formData});
         this.edit_dialog = false;
+        this.files[0].file=null
       }
     },
     async deleteItem() {
@@ -574,7 +748,9 @@ export default {
       this.delete_dialog = false;
     },
     editItem(item) {
-      this.edit_accessory = { ...item };
+      this.edit_accessory = JSON.parse(JSON.stringify(item));
+      this.images[0].photo=this.edit_accessory.accessoryPhoto
+      this.files[0].file=this.edit_accessory.accessoryPhoto
       this.edit_dialog = true;
     },
     getDeleteItem(item) {
@@ -582,7 +758,7 @@ export default {
       this.delete_dialog = true;
     },
     async filterData() {
-      await this.filterAccessoryList(this.filter_accessory);
+      this.getAccessoryList({page:0, size:10, ...this.filter_accessory})
     },
 
     addSpecification() {
@@ -610,6 +786,11 @@ export default {
   },
   mounted() {
     this.$store.commit("setPageTitle",this.$t('sidebar.catalogs'));
+    document.addEventListener('paste', this.handlePaste);
+  },
+
+  beforeUnmount() {
+    document.removeEventListener('paste', this.handlePaste);
   },
 };
 </script>

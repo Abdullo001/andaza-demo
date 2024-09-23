@@ -134,7 +134,7 @@ export const actions = {
       });
   },
   getOrderedAccessoryList({ commit }, data) {
-    this.$axios.put(`/api/v1/accessory-planning-chart/ordered-accessory-form`, data)
+    this.$axios.put(`/api/v1/accessory-planning-charts/ordered-accessory-form`, data)
       .then((res) => {
         const binaryCode = atob(res.data);
         commit("setOrderedAccessoryPdfList", binaryCode);
@@ -144,7 +144,7 @@ export const actions = {
       });
   },
   getRecievedAccessoryPdfList({ commit }, data) {
-    this.$axios.put(`/api/v1/accessory-planning-chart/received-accessory-form`, data)
+    this.$axios.put(`/api/v1/accessory-planning-charts/received-accessory-form`, data)
       .then((res) => {
         const binaryCode = atob(res.data);
         commit("setRecievedAccessoryPdfList", binaryCode);

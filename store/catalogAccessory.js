@@ -5,7 +5,7 @@ export const state = () => ({
 });
 export const getters = {
   loading: state => state.loading,
-  accessory_list: state => state.accessory_list.content,
+  accessory_list: state => state.accessory_list.items,
   totalElements: state => state.accessory_list.totalElements,
   accessory_type_id: state => state.accessory_type_id,
 };
@@ -32,21 +32,24 @@ export const actions = {
       })
   },
   async deleteAccessoryList({dispatch}, id) {
-    await this.$axios.$delete(`/api/v1/accessory/delete?id=${id}`)
+    await this.$axios.delete(`/api/v1/accessories/${id}`)
       .then(res => {
         dispatch("getAccessoryList", {page: 0, size: 10});
-        this.$toast.success(res.message);
+        this.$toast.success(res.data.data.message);
       })
       .catch(({response}) => {
         console.log(response)
         this.$toast.error(response.message);
       })
   },
-  async updateAccessoryList({dispatch}, data) {
-    await this.$axios.$put('/api/v1/accessory/update', data)
+  async updateAccessoryList({dispatch}, {data,id}) {
+    const config = {
+      headers: {"Content-Type": "multipart/form-data"}
+    }
+    await this.$axios.put(`/api/v1/accessories/${id}`,data,config)
       .then(res => {
         dispatch("getAccessoryList", {page: 0, size: 10});
-        this.$toast.success(res.message);
+        this.$toast.success(res.data.code);
       })
       .catch(({response}) => {
         console.log(response)
@@ -54,7 +57,10 @@ export const actions = {
       })
   },
   async createAccessoryList({dispatch}, data) {
-    await this.$axios.$post('/api/v1/accessory/create', data)
+    const config = {
+      headers: {"Content-Type": "multipart/form-data"}
+    }
+    await this.$axios.$post('/api/v1/accessories', data, config)
       .then(res => {
         dispatch("getAccessoryList", {page: 0, size: 10});
         this.$toast.success(res.message);
@@ -64,16 +70,12 @@ export const actions = {
         this.$toast.error(response.message);
       })
   },
-  async getAccessoryList({commit}, {page, size}) {
-    const body = {
-      filters: [],
-      sorts: [],
-      page,
-      size,
-    }
-    await this.$axios.$put('/api/v1/accessory/list', body)
+  async getAccessoryList({commit}, {page, size, id="",name=""}) {
+    id=id??""
+    name=name??""
+    await this.$axios.get(`/api/v1/accessories?page=${page}&size=${size}&id=${id}&name=${name}`)
       .then(res => {
-        commit("setAccessoryList", res.data);
+        commit("setAccessoryList", res.data.data);
         commit("setLoading", false);
       })
       .catch(({response}) => {

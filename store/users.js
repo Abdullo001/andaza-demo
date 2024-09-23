@@ -224,6 +224,18 @@ export const actions = {
       console.log(response);
       this.$toast.error(response.data.message)
     })
+  },
+
+  changeLang({commit},data){
+    this.$axios.patch(`/api/v1/user/change-language`,data)
+    .then((res)=>{
+      console.log(res);
+       
+    })
+    .catch(({response})=>{
+      console.log(response);
+      
+    })
   }
 }
 
