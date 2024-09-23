@@ -126,7 +126,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title class="main-title">{{ pageTitle }}</v-toolbar-title>
       <v-spacer />
-      <div>
+      <!-- <div>
         <v-text-field
           :label="$t('appBar.search')"
           :placeholder="$t('appBar.pSearch')"
@@ -146,7 +146,7 @@
             <v-img src="/search.svg" class="mr-2" />
           </template>
         </v-text-field>
-      </div>
+      </div> -->
       <v-spacer />
       
       <template>
@@ -160,9 +160,11 @@
             <template v-slot:activator="{ props }">
               
               <v-btn icon class="mr-6" color="indigo" v-bind="props" @click="menu=!menu">
-                <v-badge :content="countUnreadNotification" color="red">
+                <v-badge :content="countUnreadNotification" v-if="!!countUnreadNotification" color="red">
                   <v-icon color="#544B99">mdi-bell-ring</v-icon>
                 </v-badge>
+                <v-icon v-if="!countUnreadNotification" color="#544B99">mdi-bell-ring</v-icon>
+                
               </v-btn>
             </template>
       
@@ -235,7 +237,7 @@
           </div>
 
           <div :class="`language__list ${active ? 'active' : null}`">
-            <span v-for="(lang, idx) in availableLocales" :key="idx">
+            <span v-for="(lang, idx) in availableLocales" :key="idx" @click="setLocalStorage(lang)">
               <nuxt-link
                 :to="switchLocalePath(lang.code)"
                 class="d-flex align-center"
@@ -748,6 +750,7 @@ export default {
       getCountUnreadNotification: "notification/getCountUnreadNotification",
       getRecivedNotification: "notification/getRecivedNotification",
       markAsRead: "notification/markAsRead",
+      changeLang: "users/changeLang",
     }),
     openNotificationTable(){
       this.menu=false
@@ -780,6 +783,10 @@ export default {
     },
     getSearch() {
       console.log("hello search");
+    },
+    setLocalStorage(item){
+      localStorage.setItem("lang",item.code)
+      this.changeLang({userId:this.currentUser.id, lang:item.code})
     },
 
     getMessageInfo(item){

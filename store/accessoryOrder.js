@@ -75,7 +75,7 @@ export const actions = {
   getPlannedOrderList({ commit }, id) {
     this.$axios
       .$get(
-        `/api/v1/accessory-planning-chart/get-planned-order?accessoryPlanningId=${id}`
+        `/api/v1/accessory-planning-charts/get-planned-order?accessoryPlanningId=${id}`
       )
       .then((res) => {
         commit("setPlannedOrderList", res.data);
@@ -84,7 +84,7 @@ export const actions = {
   },
   createPlanningOrder({ dispatch }, { data, id }) {
     this.$axios
-      .$put(`/api/v1/accessory-planning-chart/set-planned-order`, data)
+      .$put(`/api/v1/accessory-planning-charts/set-planned-order`, data)
       .then((res) => {
         dispatch("getPlannedOrderList", id);
         this.$toast.success(res.message);

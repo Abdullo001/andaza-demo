@@ -31,11 +31,12 @@
       </template>
       <template #item.accessoryPhoto="{item}">
         <v-img
-        :src="item?.filePath"
+        v-if="!!item.accessoryPhoto"
+        :src="item?.accessoryPhoto"
         class="mr-2"
         width="40"
         height="40"
-        @click="showImage(item.filePath)"
+        @click="showImage(item.accessoryPhoto)"
       />
       </template>
       <template #item.actions="{ item }">
@@ -63,27 +64,35 @@
             <v-row>
               <v-col cols="12" md="6">
                 <div class="label"> {{  $t('fabricOrderingBox.addAccessoryBox.name')}}</div>
-                <v-select
+                <v-combobox
                   v-model="create_accessory_chart.accessoryId"
                   :items="nameData"
-                  outlined
-                  hide-details
+                  :return-object="true"
+                  :search-input.sync="accessorySearch"
+                  class="rounded-lg base d-flex align-center justify-center mb-4"
+                  color="#544B99"
+                  dense
                   height="44"
-                  class="rounded-lg base"
+                  hide-details
                   item-text="name"
                   item-value="id"
-                  :placeholder=" $t('fabricOrderingBox.addAccessoryBox.selectName')"
-                  dense
-                  append-icon="mdi-chevron-down"
-                  color="#544B99"
-                  :rules="[formRules.required]"
-                />
+                  outlined
+                  :placeholder="$t('prefinances.child.enterModelNumber')"
+                  prepend-icon=""
+                >
+                  <template #append>
+                    <v-icon class="d-inline-block" color="#544B99">
+                      mdi-magnify
+                    </v-icon>
+                  </template>
+                </v-combobox>
               </v-col>
               <v-col cols="12" md="6">
                 <div class="label">{{  $t('fabricOrderingBox.addAccessoryBox.specification') }}</div>
                 <v-select
+                  :disabled="!create_accessory_chart.accessoryId"
                   v-model="create_accessory_chart.specification"
-                  :items="specificationData"
+                  :items="create_accessory_chart.accessoryId?.specification"
                   outlined
                   hide-details
                   height="44"
@@ -209,31 +218,17 @@
                     accept="image/*"
                   />
 
-                  <div class="update__icon" v-if="!!files[0].file">
-                    <v-btn color="green" icon @click="getFile('first')">
-                      <v-img src="/upload-green.svg" max-width="22"/>
-                    </v-btn>
-                    <v-btn color="green" icon @click="deleteFile('first')">
-                      <v-img src="/trash-red.svg" max-width="22"/>
-                    </v-btn>
-                  </div>
 
                   <v-img
-                    :src="images[0].photo"
+                    :src="create_accessory_chart.accessoryId?.accessoryPhoto"
+                    v-if="!!create_accessory_chart.accessoryId?.accessoryPhoto"
                     lazy-src="/model-image.jpg"
-                    v-if="!!files[0].file" width="100%"
+                     width="100%"
                     @click="showImage(images[0].photo)"
                   />
 
                   <div class="default__box" v-else>
                     <v-img src="/default-image.svg" width="70"/>
-                    <v-btn text color="#5570F1" class="rounded-lg mt-6 my-4" @click="getFile('first')">
-                      <v-img src="/upload.svg" class="mr-2"/>
-                      <div class="text-capitalize upload-text">Upload Image</div>
-                    </v-btn>
-                    <div class="default__text">
-                      <p>Upload a cover image for your product.</p>
-                    </div>
                   </div>
 
                 </div>
@@ -416,31 +411,17 @@
                     accept="image/*"
                   />
 
-                  <div class="update__icon" v-if="!!files[0].file||!!images[0].photo">
-                    <v-btn color="green" icon @click="getFile('first')">
-                      <v-img src="/upload-green.svg" max-width="22"/>
-                    </v-btn>
-                    <v-btn color="green" icon @click="deleteFile('first')">
-                      <v-img src="/trash-red.svg" max-width="22"/>
-                    </v-btn>
-                  </div>
 
                   <v-img
-                    :src="images[0].photo"
+                    :src="edit_accessory_chart.accessoryPhoto"
+                    v-if="!!edit_accessory_chart.accessoryPhoto"
                     lazy-src="/model-image.jpg"
-                    v-if="!!files[0].file || !!images[0].photo" width="100%"
-                    @click="showImage(images[0].photo)"
+                     width="100%"
+                    @click="showImage(edit_accessory_chart.accessoryPhoto)"
                   />
 
                   <div class="default__box" v-else>
                     <v-img src="/default-image.svg" width="70"/>
-                    <v-btn text color="#5570F1" class="rounded-lg mt-6 my-4" @click="getFile('first')">
-                      <v-img src="/upload.svg" class="mr-2"/>
-                      <div class="text-capitalize upload-text">Upload Image</div>
-                    </v-btn>
-                    <div class="default__text">
-                      <p>Upload a cover image for your product.</p>
-                    </div>
                   </div>
 
                 </div>
@@ -530,6 +511,7 @@ export default {
   data() {
     return {
       validate: true,
+      accessorySearch:"",
       create_accessory_chart: {
         specification: null,
         accessoryId: null,
@@ -588,20 +570,19 @@ export default {
     accessoryAllData(val){
       this.items=JSON.parse(JSON.stringify(val))
     },
-    "create_accessory_chart.accessoryId"(val) {
-      this.create_accessory_chart.specification = val;
-      this.getAccessoryComposition(val)
-    },
+    accessorySearch(val){
+      this.getAccessoryList({page:0,size:10,name:val});
+    }
   },
   created() {
     this.getMeasurementUnit({ page: 0, size: 20 });
-    this.getAccessoryList();
+    this.getAccessoryList({page:0,size:10,});
   },
   computed: {
     ...mapGetters({
       accessoryData: "accessory/accessoryData",
       measurementUnit: "measurement/measurementUnit",
-      nameData: "accessoryChart/nameData",
+      nameData: "catalogAccessory/accessory_list",
       accessoryAllData: "accessoryChart/accessoryAllData",
       specificationData: "accessoryChart/specificationData",
       newId: "accessory/newId",
@@ -614,15 +595,16 @@ export default {
       } else return false
     }
   },
+
+  
   methods: {
     ...mapActions({
       getMeasurementUnit: "measurement/getMeasurementUnit",
       createChartAccessory: "accessoryChart/createChartAccessory",
-      getAccessoryList: "accessoryChart/getAccessoryList",
+      getAccessoryList: "catalogAccessory/getAccessoryList",
       updateChartAccessory: "accessoryChart/updateChartAccessory",
       deleteChartAccessory: "accessoryChart/deleteChartAccessory",
       getChartAllData: "accessoryChart/getChartAllData",
-      getAccessoryComposition: "accessoryChart/getAccessoryComposition",
     }),
     handlePaste(event) {
       const items = (event.clipboardData || event.originalEvent.clipboardData).items;
@@ -712,21 +694,19 @@ export default {
       }=this.edit_accessory_chart
       let accessoryPlanningId=this.$route.params.id!=='create'?this.$route.params.id:this.accessoryId
       if (edit_validate) {
-        const formData= new FormData()
-        formData.append("specification",specification),
-        formData.append("accessoryId",accessoryId),
-        formData.append("accessoryPlanningId",this.$route.params.id!=='create'?this.$route.params.id:this.accessoryId),
-        formData.append("accessoryPricePerCurrency",pricePerUnitCurrency),
-        formData.append("id",id),
-        formData.append("accessoryPricePerUnit",pricePerUnit),
-        formData.append("description",description),
-        formData.append("quantity",quantity)
-        if(!!this.files[0]?.file){
-          formData.append("file",this.files[0]?.file)
+        
+        const data={
+          accessoryId: accessoryId,
+          accessoryPlanningId: this.$route.params.id!=='create'?this.$route.params.id:this.accessoryId,
+          accessoryPricePerCurrency: pricePerUnitCurrency,
+          accessoryPricePerUnit: pricePerUnit,
+          description: description,
+          productionQuantity: productionQuantity,
+          quantity: quantity,
+          specification: specification,
+          wastage: wastage
         }
-        formData.append("wastage",wastage),
-        formData.append("productionQuantity",productionQuantity),
-        await this.updateChartAccessory({data:formData,id:accessoryPlanningId});
+        await this.updateChartAccessory({data,id:accessoryPlanningId,accessoryPlanningChartId:id});
         this.edit_dialog = false;
       }
     },
@@ -745,21 +725,19 @@ export default {
       }=this.create_accessory_chart
       let accessoryPlanningId=this.$route.params.id!=='create'?this.$route.params.id:this.accessoryId
       if (validate) {
-        const formData= new FormData()
-        formData.append("specification",specification),
-        formData.append("accessoryId",accessoryId),
-        formData.append("accessoryPlanningId",this.$route.params.id!=='create'?this.$route.params.id:this.accessoryId),
-        formData.append("accessoryPricePerCurrency",accessoryPricePerCurrency),
-        formData.append("accessoryPricePerUnit",accessoryPricePerUnit),
-        formData.append("description",description),
-        formData.append("quantity",quantity)
-        if(!!this.files[0]?.file){
-          formData.append("file",this.files[0]?.file)
+        const data={
+          accessoryId: accessoryId.id,
+          accessoryPlanningId: this.$route.params.id!=='create'?this.$route.params.id:this.accessoryId,
+          accessoryPricePerCurrency: accessoryPricePerCurrency,
+          accessoryPricePerUnit: accessoryPricePerUnit,
+          description: description,
+          productionQuantity: productionQuantity,
+          quantity: quantity,
+          specification: specification,
+          wastage: wastage
         }
-        formData.append("wastage",wastage),
-        formData.append("productionQuantity",productionQuantity),
 
-          await this.createChartAccessory({data:formData,id:accessoryPlanningId});
+          await this.createChartAccessory({data,id:accessoryPlanningId});
           this.new_dialog = false;
           this.$refs.new_form.reset();
 
@@ -767,10 +745,10 @@ export default {
     },
     editItem(item) {
       this.edit_accessory_chart = { ...item };
-      this.images[0].photo=""
-      if(!!item.filePath){
-        this.images[0].photo=item.filePath
-      }
+      // this.images[0].photo=""
+      // if(!!item.filePath){
+      //   this.images[0].photo=item.filePath
+      // }
       this.edit_dialog = true;
     },
     getDeleteItem(item) {
