@@ -606,10 +606,10 @@ export default {
           ...this.templeHeaders,
         ];
       } else {
-        const list = [...this.sizeList];
+        const sizeList = [...this.sizeList];
         this.newSizeDistirbution.sizeDistributions = [];
         this.headerSizes = [];
-        list.forEach((item) => {
+        sizeList.forEach((item) => {
           const res = { text: item, sortable: false, value: item };
           const val = { size: item, quantity: null };
           this.newSizeDistirbution.sizeDistributions.push(val);
