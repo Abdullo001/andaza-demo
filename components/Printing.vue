@@ -118,36 +118,54 @@
               </v-col>
               <v-col cols="12" lg="4">
                 <div class="label text-capitalize mb-2"> partner name</div>
-                <v-select
+                <v-combobox
                   v-if="dialogTitle!=='Edit'"
-                  outlined
-                  :items="partnerEnums"
-                  single-line
-                  placeholder="Partner name"
-                  item-value="id"
-                  item-text="name"
                   v-model="newPrints.partnerId"
-                  dense append-icon="mdi-chevron-down"
-                  color="#544B99"
-                  class="rounded-lg base"
-                  height="44"
-                  hide-details
-                />
-                <v-select
-                  v-else
-                  outlined
                   :items="partnerEnums"
-                  single-line
-                  placeholder="Partner name"
-                  item-value="id"
+                  :search-input.sync="partnerName"
                   item-text="name"
-                  v-model="edit.partnerId"
-                  dense append-icon="mdi-chevron-down"
-                  color="#544B99"
-                  class="rounded-lg base"
-                  height="44"
+                  item-value="id"
+                  outlined
                   hide-details
-                />
+                  height="44"
+                  class="rounded-lg base"
+                  :return-object="true"
+                  color="#544B99"
+                  dense
+                  :placeholder="$t('modelBox.dialog.enterPartnerName')"
+                  append-icon="mdi-chevron-down"
+                  :rules="[formRules.required]"
+                  validate-on-blur
+                  >
+                  <template #append>
+                    <v-icon color="#544B99">mdi-magnify</v-icon>
+                  </template>
+                </v-combobox>
+                <v-combobox
+                  v-else
+                  v-model="edit.partnerId"
+                  :items="partnerEnums"
+                  :search-input.sync="partnerName"
+                  item-text="name"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :return-object="true"
+                  color="#544B99"
+                  dense
+                  :placeholder="$t('modelBox.dialog.enterPartnerName')"
+                  append-icon="mdi-chevron-down"
+                  :rules="[formRules.required]"
+                  validate-on-blur
+                  >
+                  <template #append>
+                    <v-icon color="#544B99">mdi-magnify</v-icon>
+                  </template>
+                </v-combobox>
+                
+                
               </v-col>
               <v-col cols="12" lg="4">
                 <div class="label text-capitalize mb-2"> price</div>
@@ -452,6 +470,7 @@ export default {
         {text:  this.$t("catalogGroups.tabs.table.actions"), sortable: false, value: 'actions'},
       ],
       dialogTitle: '',
+      partnerName:'',
       newPrints: {
         colorQuantity: null,
         currency: "USD",
@@ -473,8 +492,8 @@ export default {
     ...mapGetters({
       printingList: 'printing/printingList',
       printOne: 'printing/printOne',
-      printTypeEnums: 'printing/printTypeEnums',
-      partnerEnums: 'models/partner_enums',
+      printTypeEnums: 'printType/printTypeList',
+      partnerEnums: 'partners/partnerList',
       newModelId: "models/newModelId"
     }),
     checkModelId() {
@@ -486,6 +505,9 @@ export default {
     }
   },
   watch: {
+    partnerName(val) {
+      this.getPartnerList({page:0, size:10,partnerName:val});
+    },
     printing_dialog(val) {
       if (!val) this.$refs.new_printing.reset();
     },
@@ -497,8 +519,8 @@ export default {
     ...mapActions({
       getPrintingList: "printing/getPrintingList",
       getPrintOne: "printing/getPrintOne",
-      getPrintType: "printType/getPrintType",
-      getPartnerList: "models/getPartnerList",
+      getPrintType: "printType/getPrintTypeList",
+      getPartnerList: "partners/getPartnerList",
       createPrints: "printing/createPrints",
       updatePrints: "printing/updatePrints",
       deleteOnePrinting: "printing/deleteOnePrinting",
@@ -564,7 +586,7 @@ export default {
       data.append("currency",currency)
       data.append("description",description)
       data.append("modelId",modelId)
-      data.append("partnerId",partnerId)
+      data.append("partnerId",partnerId?.id)
       data.append("price",price)
       data.append("printTypeId",printTypeId)
       data.append("sentDate",sendDate)
@@ -581,6 +603,9 @@ export default {
       this.dialogTitle = 'Edit';
       this.printing_dialog = !this.printing_dialog;
       this.edit = {...item};
+      this.edit.partnerId={id:item.partnerId,name:item.partner}
+      
+      
     },
     async upgradePrints() {
       let {
@@ -601,7 +626,7 @@ export default {
       data.append("currency",currency)
       data.append("description",description)
       data.append("modelId",modelId)
-      data.append("partnerId",partnerId)
+      data.append("partnerId",partnerId.id)
       data.append("price",price)
       data.append("id",id)
       data.append("printTypeId",printTypeId)
@@ -615,6 +640,7 @@ export default {
   },
   async mounted() {
     const id = this.$route.params.id;
+    this.getPartnerList({page:0,size:50})
     if (id !== 'add-model') {
       await this.getPrintOne(id);
       await this.getPrintType({page: 0, size: 100})
