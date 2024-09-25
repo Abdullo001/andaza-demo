@@ -1,4 +1,4 @@
-FROM node:14.19.0-alpine3.14
+FROM node:22.8.0-bookworm-slim
 
 RUN mkdir -p /app
 WORKDIR /app
