@@ -32,7 +32,7 @@ export default {
     boxSize: "Размер коробки",
     modelGroups: "Группы моделей",
     samplePurposes: "Примеры целей",
-    bodyParts: "Части тела",
+    bodyParts: "Элементы изделия ",
     cooperationType: "Тип сотрудничества",
     expenseGroup: "Группа расходов",
     measurementUnit: "Измерительное устройство",

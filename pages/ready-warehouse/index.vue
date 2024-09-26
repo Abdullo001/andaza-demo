@@ -78,7 +78,7 @@
                 Garments in Stock
               </v-btn>
               <v-btn color="#544B99" dark class="text-capitalize rounded-lg" @click="toCentralWarehouse">
-                Central warehouse
+                Ready garment income with waybill
               </v-btn>
             </div>
           </v-toolbar-title>
