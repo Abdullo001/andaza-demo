@@ -33,6 +33,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 export default {
+  ssr:false,
   name: "BarChartComponent",
   data() {
     return {

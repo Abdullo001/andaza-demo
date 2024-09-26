@@ -52,6 +52,7 @@
 <script>
 import {mapGetters} from "vuex"
 export default {
+  ssr:false,
   name: "HorizontalChartComponent",
   data() {
     return {

@@ -47,6 +47,7 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
+  ssr:false,
   name: "ClientsChartComponent",
   data() {
     return {

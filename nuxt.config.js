@@ -50,11 +50,10 @@ export default {
     '@nuxtjs/auth-next',
     '@nuxtjs/i18n',
     '@nuxtjs/pwa',
-    "@nuxtjs/firebase",
   ],
 
   firebase: {
-    lazy: false,
+    lazy: true,
     config: {
       apiKey: "AIzaSyBBTwVdvR26nnycC2IaaAV5uD0sDU34XU0",
       authDomain: "andaza-d9c48.firebaseapp.com",
@@ -160,7 +159,7 @@ export default {
     langDir: "locales/",
     strategy: 'prefix_except_default',
     defaultLocale: "en",
-    parsePages: true
+    parsePages: false
   },
 
   toast: {
@@ -208,6 +207,7 @@ export default {
   },
 
   vuetify: {
+    treeShake: true,
     customVariables: ['~/assets/variables.scss', '~/assets/base.scss'],
     theme: {
       dark: false,
@@ -226,6 +226,14 @@ export default {
   },
 
   build: {
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+        automaticNameDelimiter: '.',
+        name: undefined,
+        cacheGroups: {}
+      }
+    },
     transpile: [
       'defu',
       'vue-phone-number-input'
@@ -237,6 +245,7 @@ export default {
   server: {
     port: process.env.PORT || 8000,
     host: process.env.HOST || "0.0.0.0",
-    timing: false
+    timing: false,
+    compression: true
   }
 }

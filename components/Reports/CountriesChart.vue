@@ -46,6 +46,7 @@
 import { mapGetters } from "vuex";
 export default {
   name: "DoughnutChartComponent",
+  ssr:false,
   data() {
     return {
       creators: [],
