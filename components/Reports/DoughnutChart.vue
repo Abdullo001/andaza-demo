@@ -21,6 +21,7 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
+  ssr:false,
   name: "DoughnutChartComponent",
   data() {
     return {

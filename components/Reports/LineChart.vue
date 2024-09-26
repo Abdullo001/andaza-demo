@@ -18,6 +18,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 export default {
+  ssr:false,
   name: "lineChartComponent",
   data() {
     return {

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-card color="#fff" elevation="0" class="rounded-t-lg">
-      <v-form>
+    <v-card color="#fff" elevation="0" class="rounded-lg">
+      <v-form @submit.prevent="filterData">
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
             <v-text-field
@@ -34,6 +34,7 @@
                 elevation="0"
                 class="text-capitalize rounded-lg"
                 @click="filterData"
+                type="submit"
               >
                 {{ $t("bodyParts.child.search") }}
               </v-btn>
@@ -45,7 +46,6 @@
     <v-data-table
       :headers="headers"
       :items="departmentList"
-      :options.sync="options"
       :loading="loading"
       :server-items-length="totalElements"
       :items-per-page="itemPrePage"
@@ -206,6 +206,7 @@ export default {
   name: "BodyPartsPages",
   data() {
     return {
+      filter_form:true,
       edit_dialog: false,
       delete_dialog: false,
       new_dialog: false,
@@ -253,27 +254,11 @@ export default {
       delete_bodyParts: {},
       filters: {
         name: "",
-        updatedAt: "",
-        createdAt: "",
       },
     };
   },
   watch: {
-    async "options.sortBy"(elem) {
-      if (elem[0] !== undefined) {
-        if (this.options.sortDesc[0] !== undefined) {
-          const items = {
-            sortDesc: this.options.sortDesc[0],
-            sortBy: elem[0],
-          };
-          await this.sortBodyParts({
-            page: this.current_page,
-            size: this.itemPrePage,
-            data: items,
-          });
-        }
-      }
-    },
+    
   },
   async created() {
 
@@ -348,8 +333,9 @@ export default {
       };
       await this.getDepartmentList({ page: 0, size: 10 });
     },
-    async filterData() {
-      const items = { ...this.filters };
+    async filterData(event) {
+      if (event) event.preventDefault();
+      
       await this.getDepartmentList({page:0,size:10,name:this.filters.name});
     },
   },
