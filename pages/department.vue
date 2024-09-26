@@ -366,16 +366,15 @@ export default {
     
     async resetFilters() {
       this.filters = {
-        id: "",
         name: "",
         updatedAt: "",
         createdAt: "",
       };
-      await this.getBodyParts({ page: 0, size: 10 });
+      await this.getDepartmentList({ page: 0, size: 10 });
     },
     async filterData() {
       const items = { ...this.filters };
-      await this.filterBodyParts(items);
+      await this.getDepartmentList({page:0,size:10,name:this.filters.name});
     },
   },
   mounted() {
