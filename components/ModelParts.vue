@@ -75,52 +75,79 @@
             </v-col>
             <v-col cols="12" lg="6">
               <div class="label"> {{ $t("modelBox.modelPartsBox.yarnNumber") }}</div>
-              <v-select
-                v-model="newModelParts.yarnNumberId"
-                :items="yarnNumbersList"
-                item-text="yarns"
-                item-value="id"
-                :placeholder="$t('modelBox.modelPartsBox.enterYarnNumber')"
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg base"  dense
-                color="#544B99"
-                append-icon="mdi-chevron-down"
-              />
+              <v-combobox
+                  v-model="newModelParts.yarnNumberId"
+                  :items="yarnNumbersList"
+                  :search-input.sync="yarnSearch"
+                  item-text="yarns"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base d-flex align-center justify-center"
+                  :return-object="true"
+                  color="#544B99"
+                  dense
+                  :placeholder="$t('modelBox.modelPartsBox.enterYarnNumber')"
+                  prepend-icon=""
+                >
+                  <template #append>
+                    <v-icon class="d-inline-block" color="#544B99">
+                      mdi-magnify
+                    </v-icon>
+                  </template>
+                </v-combobox>
             </v-col>
             <v-col cols="12" lg="6">
               <div class="label">{{ $t("modelBox.modelPartsBox.canvasType") }}</div>
-              <v-select
+              <v-combobox
                 v-model="newModelParts.canvasTypeId"
                 :items="canvasTypeList"
+                :search-input.sync="canvasSearch"
                 item-text="name"
                 item-value="id"
-                :placeholder="$t('modelBox.modelPartsBox.enterCanvasType')"
                 outlined
                 hide-details
                 height="44"
-                class="rounded-lg base"  dense
+                class="rounded-lg base d-flex align-center justify-center"
+                :return-object="true"
                 color="#544B99"
-                append-icon="mdi-chevron-down"
-              />
+                dense
+                :placeholder="$t('modelBox.modelPartsBox.enterCanvasType')"
+                prepend-icon=""
+              >
+                <template #append>
+                  <v-icon class="d-inline-block" color="#544B99">
+                    mdi-magnify
+                  </v-icon>
+                </template>
+              </v-combobox>
             </v-col>
 
             <v-col cols="12" lg="6">
               <div class="label">{{ $t("modelBox.dialog.composition") }}</div>
-              <v-select
+              <v-combobox
                 v-model="newModelParts.compositionId"
                 :items="compositionList"
+                :search-input.sync="compositionSearch"
                 item-text="name"
                 item-value="id"
-                :placeholder="$t('modelBox.modelPartsBox.enterComposition')"
                 outlined
                 hide-details
                 height="44"
-                class="rounded-lg base"  dense
+                class="rounded-lg base d-flex align-center justify-center"
+                :return-object="true"
                 color="#544B99"
-                append-icon="mdi-chevron-down"
-              />
+                dense
+                :placeholder="$t('modelBox.modelPartsBox.enterComposition')"
+                prepend-icon=""
+              >
+                <template #append>
+                  <v-icon class="d-inline-block" color="#544B99">
+                    mdi-magnify
+                  </v-icon>
+                </template>
+              </v-combobox>
             </v-col>
             <v-col cols="12" lg="6">
               <div class="label">{{ $t("modelBox.dialog.density") }}</div>
@@ -249,29 +276,41 @@ export default {
       },
       dialogTitle: '',
       delete_dialog: false,
-      selectedPartsId: null
+      selectedPartsId: null,
+      yarnSearch:"",
+      canvasSearch:"",
+      compositionSearch:"",
     }
   },
   created() {
     this.getPartName("");
-    this.getYarnNumbers();
-    this.getCanvasType();
+    this.getYarnNumbers({page:0,size:10});
+    this.getCanvasType({page:0,size:10});
     this.getYarnType();
-    this.getComposition();
+    this.getComposition({page:0,size:10});
   },
   computed: {
     ...mapGetters({
       partNames: 'modelParts/partName',
       newModelId: 'models/newModelId',
       modelPartsList: "modelParts/modelPartsList",
-      yarnNumbersList: "modelParts/yarnNumbersList",
-      canvasTypeList: "modelParts/canvasTypeList",
+      yarnNumbersList: "yarnNumber/yarn_number_list",
+      canvasTypeList: "canvasType/canvas_type_list",
       yarnTypeList: "modelParts/yarnType",
-      compositionList: "modelParts/compositionList",
+      compositionList: "composition/composition_list",
       oneModelParts: "modelParts/oneModelParts"
     }),
   },
   watch: {
+    yarnSearch(val){
+      this.getYarnNumbers({page:0,size:10,name:val})
+    },
+    canvasSearch(val){
+      this.getCanvasType({page:0,size:10,name:val})
+    },
+    compositionSearch(val){
+      this.getComposition({page:0,size:10,name:val});
+    },
     partsDialog(val) {
       if (!val) {
         this.newModelParts = {
@@ -287,6 +326,9 @@ export default {
       this.newModelParts = {...val}
       this.partSearch=val.bodyPart
       this.newModelParts.bodyPartId={partName:val.bodyPart,id:val.bodyPartId}
+      this.newModelParts.yarnNumberId={yarns:val.yarnNumber,id:val.yarnNumberId}
+      this.newModelParts.canvasTypeId={name:val.canvasType,id:val.canvasTypeId}
+      this.newModelParts.compositionId={name:val.composition,id:val.compositionId}
     },
     partSearch(val){
       if(!!val&&val!==null){
@@ -304,10 +346,10 @@ export default {
       updateModelParts: 'modelParts/updateModelParts',
       deletePartModel: 'modelParts/deletePartModel',
       getModelPart: 'modelParts/getModelPart',
-      getYarnNumbers: 'modelParts/getYarnNumbers',
-      getCanvasType: 'modelParts/getCanvasType',
+      getYarnNumbers: 'yarnNumber/getYarnNumberList',
+      getCanvasType: 'canvasType/getCanvasTypeList',
       getYarnType: 'modelParts/getYarnType',
-      getComposition: 'modelParts/getComposition',
+      getComposition: 'composition/getCompositionList',
       getOneModelParts: 'modelParts/getOneModelParts'
     }),
     async saveModelParts() {
@@ -315,6 +357,7 @@ export default {
       if(id === 'add-model') {
         this.newModelParts.modelId = this.newModelId;
         await this.createModelParts(this.newModelParts);
+        
         this.partsDialog = false
       } else {
         this.newModelParts.modelId = id
