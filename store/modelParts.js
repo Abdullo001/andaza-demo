@@ -91,28 +91,31 @@ export const actions = {
     delete data.createdBy;
     delete data.createAt;
     delete data.partComposition;
-    data.bodyPartId=data.bodyPartId.id
+    delete data.yarnTypeId
+    data.bodyPartId=data.bodyPartId?.id
+    data.compositionId=data.compositionId?.id
+    data.yarnNumberId=data.yarnNumberId?.id
+    data.canvasTypeId=data.canvasTypeId?.id
 
     await this.$axios.$post(`/api/v1/model-parts/create`, data)
       .then(res => {
-        this.$toast.success(res.message, {theme: 'toasted-primary'});
+        this.$toast.success(res.data.message, {theme: 'toasted-primary'});
         dispatch('getModelPart', data.modelId);
       })
-      .catch(({response}) => this.$toast.error(response.data.message))
+      .catch(({response}) => this.$toast.error(response.data.errorMessage))
   },
   async updateModelParts({dispatch}, data) {
     const body = {
-      bodyPartId: data.bodyPartId.id,
-      canvasTypeId: data.canvasTypeId,
-      compositionId: data.compositionId,
+      bodyPartId: data.bodyPartId?.id,
+      canvasTypeId: data.canvasTypeId?.id,
+      compositionId: data.compositionId?.id,
       density: data.density,
       description: data.description,
       id: data.id,
       modelId: data.modelId,
       peachEffectEnabled: data.peachEffectEnabled,
       withFleece: data.withFleece,
-      yarnNumberId: data.yarnNumberId,
-      yarnTypeId: data.yarnTypeId
+      yarnNumberId: data.yarnNumberId?.id,
     }
     await this.$axios.$put(`/api/v1/model-parts/update`, body)
       .then(res => {

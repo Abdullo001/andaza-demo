@@ -46,13 +46,36 @@ export const actions = {
         console.log(response)
       })
   },
-  async getYarnNumberList({commit}, {page, size}) {
+  async getYarnNumberList({commit}, {page, size,id="",name="",createdAt="",updatedAt=""}) {
     const body = {
-      filters: [],
+      filters: [
+        {
+          key: "id",
+          operator: "EQUAL",
+          propertyType: "LONG",
+          value: id,
+        },
+        {
+          key: "name",
+          operator: "LIKE",
+          propertyType: "STRING",
+          value: name,
+        },
+        {
+          key: "createdAt",
+          operator: "BETWEEN",
+          propertyType: "DATE",
+          value: createdAt,
+          valueTo: updatedAt,
+        },
+      ],
       sorts: [],
-      page,
-      size,
+      page: page,
+      size: size,
     }
+    body.filters = body.filters.filter(
+      (item) => item.value !== "" && item.value !== null
+    );
     await this.$axios.$put('/api/v1/yarn-numbers/list', body)
       .then(res => {
         commit("setYarnNumber", res.data);
