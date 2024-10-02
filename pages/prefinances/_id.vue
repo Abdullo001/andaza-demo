@@ -15,7 +15,7 @@
           </v-chip>
         </div>
         <v-spacer/>
-        <v-btn
+        <!-- <v-btn
           class="rounded-lg text-capitalize font-weight-bold mr-4"
           color="#544B99"
           width="140"
@@ -32,7 +32,7 @@
           outlined
         >
           Orders
-        </v-btn>
+        </v-btn> -->
       </v-card-title>
       <v-divider/>
       <v-card-text class="pb-0">

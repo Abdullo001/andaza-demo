@@ -361,13 +361,13 @@ export default {
       ordersList: "orders/ordersList",
       modelsList: "models/modelsList",
       modelGroups: "orders/modelGroups",
-      clientList: "orders/clientList",
+      clientList: "partners/partnerList",
       brandList: "models/brandList",
       countryList: "partners/countryList",
       usersList: "orders/usersList",
       printPdfList: "generatePdf/printPdfList",
       partnerLists: "partners/partnerList",
-      printTypeEnums: "printing/printTypeEnums",
+      printTypeEnums: "printType/printTypeList",
     }),
   },
 
@@ -392,6 +392,9 @@ export default {
           name: `${item.firstName} ${item.lastName}`,
         });
       });
+    },
+    clientSearch(val) {
+      this.getPartnerList({page:0, size:10,partnerName:val});
     },
     partnerName(val) {
       this.getPartnerList({page:0, size:10,partnerName:val});
@@ -447,7 +450,7 @@ export default {
       getUsersList: "orders/getUsersList",
       getPrintPdfList: "generatePdf/getPrintPdfList",
       getPartnerList: "partners/getPartnerList",
-      getPrintType: "printType/getPrintType",
+      getPrintType: "printType/getPrintTypeList",
     }),
 
     resetFilter() {

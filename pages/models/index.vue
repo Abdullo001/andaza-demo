@@ -29,6 +29,8 @@
                 v-model="filters.status"
                 :label="$t('listsModels.dialog.status')"
                 :items="status_enums"
+                item-text="value"
+                item-value="key"
                 outlined dense hide-details
                 validate-on-blur
                 class="rounded-lg filter"

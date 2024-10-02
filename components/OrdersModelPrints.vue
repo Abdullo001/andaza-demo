@@ -709,8 +709,8 @@ export default {
       }
     },
     ...mapGetters({
-      printTypeEnums: "printing/printTypeEnums",
-      partnerEnums: "models/partner_enums",
+      printTypeEnums: "printType/printTypeList",
+      partnerEnums: "partners/partnerList",
       mainColorsList: "orderModelPrint/mainColorsList",
       modelPrintList: "orderModelPrint/modelPrintList",
     })
@@ -740,14 +740,11 @@ export default {
     }
   },
 
-  created(){
-    this.getPartnerList()
-  },
 
   methods:{
     ...mapActions({
-      getPrintType: "printType/getPrintType",
-      getPartnerList: "models/getPartnerList",
+      getPrintType: "printType/getPrintTypeList",
+      getPartnerList: "partners/getPartnerList",
       getMainColorsList:"orderModelPrint/getMainColorsList",
       createModelPrint:"orderModelPrint/createModelPrint",
       getModelPrintList:"orderModelPrint/getModelPrintList",
@@ -947,6 +944,7 @@ export default {
   mounted(){
     const id=this.$route.query.modelId
     this.getPrintType({page: 0, size: 100})
+    this.getPartnerList({page: 0, size: 100})
     this.getMainColorsList(id)
     this.getModelPrintList(id)
     document.addEventListener('paste', this.handlePaste);
