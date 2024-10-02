@@ -410,7 +410,7 @@ export default {
           width: "100",
         },
         {text: this.$t("samplePurposes.table.name"), value: "name"},
-        {text: "Expenses", value: "expensesNames"},
+        {text:  this.$t("samplePurposes.table.expenses"), value: "expensesNames"},
         {
           text: this.$t("samplePurposes.table.description"),
           value: "description",

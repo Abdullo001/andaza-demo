@@ -740,6 +740,7 @@ export default {
       createdAt: "Создан в",
       updatedAt: "Обновлено в",
       actions: "Действия",
+       expenses:"Затраты",
     },
 
     dialog: {
@@ -2571,5 +2572,6 @@ generated_fabric: "Сгенерировать ткань"  ,
 active: "Активный",  
 disabled: "Отключенный",  
 pending: "В ожидании",  
+
   },
 };

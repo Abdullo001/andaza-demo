@@ -747,6 +747,7 @@ export default {
       createdAt: "Created At",
       updatedAt: "Updated At",
       actions: "Actions",
+      expenses:"Expenses",
     },
 
     dialog: {

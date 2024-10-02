@@ -748,6 +748,7 @@ export default {
       createdAt: "Yaratilgan",
       updatedAt: "Yangilangan",
       actions: "Amallar",
+      expenses:"Xarajatlar",
     },
 
     dialog: {
@@ -2579,5 +2580,6 @@ generated_fabric: "Mato generatsiyasi" ,
   active: "Faol",  
 disabled: "O'chirilgan",  
 pending: "Kutilmoqda"  ,
+
   },
 };
