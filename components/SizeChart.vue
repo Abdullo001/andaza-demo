@@ -51,8 +51,8 @@
                 />
                 <v-list-item-group class="mt-4">
                   <v-list-item
-                    v-for="(item, i) in sizeTemplate" :key="`items_${i}`" @click="getTemplate(item)">
-                    <v-list-item-title v-html="item" class="pointer"/>
+                    v-for="(item, i) in thinSizeList" :key="`items_${i}`" @click="getTemplate(item)">
+                    <v-list-item-title  class="pointer">{{item}}</v-list-item-title>
                   </v-list-item>
                 </v-list-item-group>
               </v-list>
@@ -273,7 +273,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      sizeTemplate: "sizeChart/sizeTemplate",
+      thinSizeList: "sizeTemplate/thinSizeList",
       chartSizes: "sizeChart/chartSizes",
       newModelId: "models/newModelId"
     })
@@ -314,7 +314,7 @@ export default {
   methods: {
     ...mapActions({
       getChartSizes: 'sizeChart/getChartSizes',
-      getSizeTemplate: 'sizeChart/getSizeTemplate',
+      getSizeThinList: 'sizeTemplate/getSizeThinList',
       createSizeChart: 'sizeChart/createSizeChart',
       deleteOneSizeChart: 'sizeChart/deleteOneSizeChart',
       updateChartSizes: 'sizeChart/updateChartSizes'
@@ -392,7 +392,7 @@ export default {
     }
   },
   async mounted() {
-    await this.getSizeTemplate()
+    this.getSizeThinList()
     const id = this.$route.params.id;
     if (id !== 'add-model') {
       await this.getChartSizes(id);

@@ -208,7 +208,7 @@ export default {
       const data = {
         modelId: this.filters.modelNumber?.id
           ? this.filters.modelNumber?.id
-          : "",
+          : null,
         mainColorCode: !!this.filters.mainColorCode
           ? this.filters.mainColorCode
           : "",
