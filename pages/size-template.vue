@@ -452,6 +452,7 @@ export default {
       if (edit_validate) {
         const { id, sizes, name} = this.edit_size;
         const item = { id, sizes,name };
+
         await this.updateSizeTemplate(item);
         this.edit_dialog = false;
       }
@@ -470,7 +471,7 @@ export default {
     },
     async filterData() {
       const item = { ...this.filter_size };
-      await this.filterSizeTemplate(item);
+      await this.getSizeTemplateList({page:0,size:10,});
     },
     async resetFilters() {
       this.filter_size = {

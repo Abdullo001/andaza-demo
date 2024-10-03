@@ -132,7 +132,7 @@ export default {
     ...mapGetters({
       modelsList: "models/modelsList",
       pdfList: "generatePdf/orderedAccessoryPdfList",
-      partnerLists: "fabricOrdering/partnerLists",
+      partnerLists: "partners/partnerList",
     }),
   },
 
