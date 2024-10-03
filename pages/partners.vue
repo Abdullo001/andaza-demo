@@ -160,11 +160,11 @@
           <v-form ref="new_form" lazy-validation v-model="validate">
             <v-row>
               <v-col cols="12" md="7">
-                <div class="label">Add Brand name</div>
+                <div class="label">{{  $t("partners.table.addBrandName")}}</div>
                 <v-text-field
                   v-model="add_brand.name"
                   color="#544B99"
-                  placeholder="Enter Brand name"
+                  :placeholder=" $t('partners.table.addBrandName')"
                   outlined
                   hide-details
                   height="44"
@@ -181,11 +181,11 @@
                   dark
                 >
                   <v-icon>mdi-plus</v-icon>
-                  Add Brand name
+                {{  $t("partners.table.addBrandName")}}
                 </v-btn>
               </v-col>
               <v-col cols="12">
-                <div class="label">Brand names</div>
+                <div class="label">{{  $t("partners.table.brandName")}}</div>
                 <v-autocomplete
                   chips
                   multiple
@@ -198,8 +198,8 @@
                   height="44"
                   class="rounded-lg base"
                   dense
-                  placeholder="Select brand name"
-                  label="Select brand name"
+                  :placeholder=" $t('partners.table.brandName')"
+                  :label=" $t('partners.table.brandName')"
                   single-line
                   color="#544B99"
                 >

@@ -60,7 +60,7 @@
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium text-capitalize">
-              Department
+            {{$t('centralWarehouse.department')}}
             </div>
             <v-btn
               color="#544B99"
@@ -69,7 +69,7 @@
               @click="new_dialog = true"
             >
               <v-icon>mdi-plus</v-icon>
-              Department
+          {{$t('centralWarehouse.department')}}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>

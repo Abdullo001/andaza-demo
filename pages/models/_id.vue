@@ -148,7 +148,7 @@
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t("modelBox.dialog.composition") }}</div>
-            <v-select
+            <!-- <v-select
               :items="compositionList"
               item-text="name"
               item-value="id"
@@ -163,7 +163,29 @@
               :placeholder="$t('listsModels.child.entermodelComposition')"
               color="#544B99"
               append-icon="mdi-chevron-down"
-            />
+            /> -->
+            <v-combobox
+                  v-model="model.compositionId"
+                  :items="compositionList"
+                  :search-input.sync="compositionSearch"
+                  item-text="name"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :return-object="true"
+                  color="#544B99"
+                  dense
+                 :placeholder="$t('listsModels.child.entermodelComposition')"
+                  append-icon="mdi-chevron-down"
+                  :rules="[formRules.required]"
+                  validate-on-blur
+                  >
+                  <template #append>
+                    <v-icon color="#544B99">mdi-magnify</v-icon>
+                  </template>
+            </v-combobox>
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t("modelBox.dialog.mainFabricDensity") }} (gr/m2)</div>
@@ -470,6 +492,7 @@ export default {
   },
   data() {
     return {
+      compositionSearch: '',
       show_btn: true,
       partnerName:'',
       canvasSearch:'',
@@ -535,7 +558,7 @@ export default {
   },
   created() {
     this.getPartnerList({page:0, size:10});
-    this.getCompositionList();
+    this.getCompositionList({page:0, size:10});
     this.filterCanvasTypeList({id:"",name:"", createdAt:"", updatedAt:""});
     this.getReworkThinList();
   },
@@ -557,13 +580,18 @@ export default {
       oneModel: 'models/oneModel',
       modelGroups: 'models/modelGroups',
       partner_enums: "partners/partnerList",
-      compositionList: 'models/compositionList',
+      compositionList: 'composition/composition_list',
       brandList: 'models/brandList',
       canvasTypeList: 'canvasType/canvas_type_list',
       reworkThinList: 'fabricRework/reworkThinList',
     }),
   },
   watch: {
+    compositionSearch(val){
+    this.getCompositionList({page:0, size:10,name:val});
+      
+      
+    },
     partnerName(val) {
       this.getPartnerList({page:0, size:10,partnerName:val});
     },
@@ -579,7 +607,7 @@ export default {
       model.number = val.modelNumber;
       model.name = val.name;
       model.groupId = {id:val.modelGroupId,name:val.modelGroup};
-      model.compositionId = val.compositionId;
+      model.compositionId ={id:val.compositionId,name:val.composition} 
       model.season = val.season;
       model.licence = val.licenceRequired;
       model.gender = val.gender;
@@ -609,7 +637,7 @@ export default {
       getModelGroup: 'models/getModelGroup',
       createModel: 'models/createModel',
       updateModel: 'models/updateModel',
-      getCompositionList: 'models/getCompositionList',
+      getCompositionList: 'composition/getCompositionList',
       getBrandList: 'models/getBrandList',
       modelToPrefinance: 'preFinance/modelToPrefinance',
       getPartnerList: "partners/getPartnerList",
@@ -628,6 +656,10 @@ export default {
       const data = {...this.model};
       data.partnerId=this.model.partnerId?.id
       data.groupId=this.model.groupId?.id
+      data.compositionId=this.model.compositionId?.id
+      data.canvasTypeId=this.model.canvasTypeId?.id
+
+
       
       await this.createModel(data)
     },
@@ -636,8 +668,11 @@ export default {
       const data = {...this.model};
       data.partnerId=this.model.partnerId?.id
       data.groupId=this.model.groupId?.id
+      data.compositionId=this.model.compositionId?.id
+      data.canvasTypeId=this.model.canvasTypeId?.id
 
 
+      
       await this.updateModel(
         {
           data,

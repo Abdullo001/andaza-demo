@@ -740,6 +740,7 @@ export default {
       createdAt: "Создан в",
       updatedAt: "Обновлено в",
       actions: "Действия",
+       expenses:"Затраты",
     },
 
     dialog: {
@@ -868,6 +869,8 @@ export default {
       cancelBtn: "Отмена",
       createBtn: "Создавать",
       deleteBtn: "Удалить",
+      addExpense:"расходы",
+      expense: "Расходы",
     },
   },
 
@@ -1103,6 +1106,7 @@ export default {
       createdAt: "Создано в",
       updatedAt: "Обновлено в",
       actions: "Действия",
+      addBrandName:"Добавить название бренда",
     },
 
     dialog: {
@@ -2562,7 +2566,7 @@ twoSort: "2-Сорт",
     },
   }, 
    statusItems:{
-   in_process: "В процессе",  
+in_process: "В процессе",  
 empty: "Пустой",  
 finished: "Завершено",  
 planned: "Запланировано",  
@@ -2571,5 +2575,7 @@ generated_fabric: "Сгенерировать ткань"  ,
 active: "Активный",  
 disabled: "Отключенный",  
 pending: "В ожидании",  
+ordered:"Заказано",
+received:"Получен",
   },
 };

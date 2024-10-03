@@ -748,6 +748,7 @@ export default {
       createdAt: "Yaratilgan",
       updatedAt: "Yangilangan",
       actions: "Amallar",
+      expenses:"Xarajatlar",
     },
 
     dialog: {
@@ -877,6 +878,8 @@ export default {
       deleteText:
         "Haqiqatan ham bu xarajatlar guruhini oʻchirib tashlamoqchimisiz?",
       deleteBtn: "O'chirish",
+      addExpense:"Xarajat qo'shish",
+      expense: "Xarajatlar",
     },
   },
 
@@ -993,14 +996,14 @@ export default {
       enterCreated: "Yaratilgan vaqtni kiriting",
       updated: "Yangilangan vaqt",
       save: "Saqlash",
-      canvasType: "Polotno turi",
+      canvasType: "Mato turi",
       yarnType: " Ip turi ",
       yarnNumber: " Iplar soni",
       composition: "Tarkibi",
     },
 
     tabs: {
-      canvasType: "Polotno turi",
+      canvasType: "Mato turi",
       yarnType: " Ip turi ",
       yarnNumber: " Iplar soni",
       composition: "Tarkibi",
@@ -1019,19 +1022,19 @@ export default {
 
     canvasType: {
       dialogs: {
-        createCanvas: "Polotno turini yaratish",
-        selectCanvas: "Polotno turini tanlash",
-        specification: "Polotno turi spetsifikatsiyasi ",
-        enterSpecification: "Polotno turi spetsifikatsiyasini kiriting",
+        createCanvas: "Mato turini yaratish",
+        selectCanvas: "Mato turini tanlash",
+        specification: "Mato turi spetsifikatsiyasi ",
+        enterSpecification: "Mato turi spetsifikatsiyasini kiriting",
         description: "Tavsif",
         enterDescription: "Tavsifni kiriting",
         cancelBtn: "Bekor qilish",
         createBtn: "Yaratish",
-        editCanvas: "Polotno turini tahrirlash",
+        editCanvas: "Mato turini tahrirlash",
         saveBtn: "Saqlash",
-        deleteDialog: "Polotno turini o'chirish",
+        deleteDialog: "Mato turini o'chirish",
         deleteText:
-          "Haqiqatan ham bu polotno turini oʻchirib tashlamoqchimisiz?",
+          "Haqiqatan ham bu Mato turini oʻchirib tashlamoqchimisiz?",
         deleteBtn: "O'chirish",
       },
     },
@@ -1113,6 +1116,7 @@ export default {
       createdAt: "Yaratilgan ",
       updatedAt: "Yangilangan",
       actions: "Amallar",
+      addBrandName:"Brend nomini kiriting",
     },
 
     dialog: {
@@ -1973,7 +1977,7 @@ size: "Hajmi / m",
   },
    printType: {
     child: {
-      idSearch: "Bosma turi ID",
+      idSearch: "Pechat turi ID",
       name: "Nomi",
       created: "Yaratilgan",
       createdBy: "Kim tomonidan yaratildi",
@@ -1991,18 +1995,18 @@ size: "Hajmi / m",
     },
 
     dialog: {
-      menuName: "Bosma turi",
-      addMainName: "Bosma turini yaratish",
+      menuName: "Pechat turi",
+      addMainName: "Pechat turini yaratish",
       name: "Nomi",
-      enterMainName: "Bosma turi nomini kiriting",
+      enterMainName: "Pechat turi nomini kiriting",
       description: "Tavsif",
-      descriptionPlaceholder: "Bosma turi nomi tavsifini kiriting",
+      descriptionPlaceholder: "Pechat turi nomi tavsifini kiriting",
       cancelBtn: "Bekor qilish",
       createBtn: "Saqlash",
-      editDialog: "Bosma turini tahrirlash",
+      editDialog: "Pechat turini tahrirlash",
       editBtn: "Yangilash",
-      deleteDialog: "Bosma turini o'chirish",
-      deleteText: "Ushbu bosma turini o'chirishni xohlaysizmi?",
+      deleteDialog: "Pechat turini o'chirish",
+      deleteText: "Ushbu Pechat turini o'chirishni xohlaysizmi?",
       deleteBtn: "O'chirish",
     },
   },
@@ -2579,5 +2583,7 @@ generated_fabric: "Mato generatsiyasi" ,
   active: "Faol",  
 disabled: "O'chirilgan",  
 pending: "Kutilmoqda"  ,
+ordered:"Buyurtma qilingan", 
+received:"Qabul qilindi",
   },
 };

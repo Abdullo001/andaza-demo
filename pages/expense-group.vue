@@ -131,11 +131,11 @@
                 />
               </v-col>
               <v-col cols="8">
-                <div class="label">Add expense</div>
+                <div class="label">{{$t('expenseGroup.dialog.addExpense')}}</div>
                 <v-text-field
                   v-model="add_expenses.expense"
                   color="#544B99"
-                  placeholder="Enter expense"
+                  :placeholder="$t('expenseGroup.dialog.addExpense')"
                   outlined
                   hide-details
                   height="44"
@@ -152,12 +152,12 @@
                   dark
                 >
                   <v-icon>mdi-plus</v-icon>
-                  Add Expense
+                {{$t('expenseGroup.dialog.addExpense')}}
                 </v-btn>
               </v-col>
 
               <v-col cols="12">
-                <div class="label">Expense</div>
+                <div class="label">{{$t('expenseGroup.dialog.expense')}}</div>
                 <v-autocomplete
                   :rules="[formRules.required]"
                   chips
@@ -170,7 +170,7 @@
                   hide-details
                   class="rounded-lg base"
                   dense
-                  placeholder="Expenses"
+                  :placeholder="$t('expenseGroup.dialog.expense')"
                   color="#544B99"
                 >
                   <template #selection="data">
@@ -410,7 +410,7 @@ export default {
           width: "100",
         },
         {text: this.$t("samplePurposes.table.name"), value: "name"},
-        {text: "Expenses", value: "expensesNames"},
+        {text:  this.$t("samplePurposes.table.expenses"), value: "expensesNames"},
         {
           text: this.$t("samplePurposes.table.description"),
           value: "description",
