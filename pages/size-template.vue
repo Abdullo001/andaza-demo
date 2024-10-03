@@ -122,7 +122,7 @@
     <v-dialog v-model="new_dialog" width="830">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Create Size</div>
+          <div class="text-capitalize font-weight-bold">{{ $t('sizeTemplate.dialog.createSize') }}</div>
           <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>

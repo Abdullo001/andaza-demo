@@ -147,7 +147,7 @@
               :placeholder="$t('catalogGroups.yarnNumber.dialogs.select')"
               color="#544B99"
             />
-            <div class="label">Yarn type</div>
+            <div class="label">{{ $t('catalogGroups.tabs.yarnType')  }}</div>
             <v-radio-group
               row
               v-model="create_yarn_number.yarnType"

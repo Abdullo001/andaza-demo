@@ -875,6 +875,8 @@ export default {
       deleteDialog: "Delete expense group",
       deleteText: "Are you sure you want to Delete this expense group?",
       deleteBtn: "Delete",
+      addExpense:"Add expense",
+      expense: "Expense",
     },
   },
 
@@ -1110,6 +1112,7 @@ export default {
       updatedAt: "Updated at",
       actions: "Actions",
       brandName: "Brand name",
+      addBrandName:"Add brand name",
     },
 
     dialog: {
@@ -1765,6 +1768,8 @@ export default {
       densityGrM2: "Density gr/m²",
       addRow: "Add Row",
       actions: "Actions",
+      listOfFabrics: "List of fabrics",
+      plannedFabricOrder: "Planned fabric order",
     },
     listFabric:{
        listOfFabrics: "List of fabrics to be ordered",
@@ -2582,5 +2587,7 @@ wastes:{
     active:"Active",
     disabled:"Disabled",
     pending:"Pending",
+    ordered:"Ordered",
+    received:"Received",
   },
 };
