@@ -51,7 +51,7 @@ export const actions = {
   getInspectionList({commit},{clientName="",modelNumber="",page,size}){
       clientName=clientName??"",
       modelNumber=modelNumber??"",
-    this.$axios.get(`/api/v1/inspections?page=${page}&size=${size}clientName=${clientName}&modelNumber=${modelNumber}`)
+    this.$axios.get(`/api/v1/inspections?page=${page}&size=${size}&clientName=${clientName}&modelNumber=${modelNumber}`)
     .then((res)=>{
       commit("setInspectionList",res.data.data)
     })
