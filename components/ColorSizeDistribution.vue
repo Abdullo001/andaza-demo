@@ -583,30 +583,9 @@ export default {
     },
     sizes(list) {
       this.sizeList = JSON.parse(JSON.stringify(list));
-    },
-
-    sizeDistributionList(list) {
-      this.orderSizeList = [];
-      let totalObj = 0;
-      let totalSizes = [];
-      let totalPriceWithDiscount = 0;
       this.headerSizes = [];
       this.headers = [];
-      if (list.length !== 0) {
-        this.newSizeDistirbution.sizeDistributions = [];
-        for (const [key, value] of Object.entries(list[0]?.sizeDistributions)) {
-          const res = { text: key, sortable: false, value: key };
-          const val = { size: key, quantity: null };
-          this.newSizeDistirbution.sizeDistributions.push(val);
-          this.headerSizes.push(res);
-        }
-        this.headers = [
-          ...this.headerBodyPart,
-          ...this.headerSizes,
-          ...this.templeHeaders,
-        ];
-      } else {
-        const sizeList = [...this.sizeList];
+      const sizeList = [...list];
         this.newSizeDistirbution.sizeDistributions = [];
         this.headerSizes = [];
         sizeList.forEach((item) => {
@@ -620,7 +599,14 @@ export default {
           ...this.headerSizes,
           ...this.templeHeaders,
         ];
-      }
+        
+    },
+
+    sizeDistributionList(list) {
+      this.orderSizeList = [];
+      let totalObj = 0;
+      let totalSizes = [];
+      let totalPriceWithDiscount = 0;
 
       const specialList = list.map(function (el) {
         const value = {};
