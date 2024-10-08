@@ -19,6 +19,7 @@ export default {
   script: [],
 
   css: [],
+  ssr:false,
 
   plugins: [
     {src: '~/plugins/chart.js', mode: 'client'},
