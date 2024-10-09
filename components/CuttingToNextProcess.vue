@@ -144,7 +144,30 @@
                   dense
                   placeholder="Select partner"
                 />
-              </v-col>
+              
+              <!-- <v-combobox
+                v-model="selectedItem.partnerId"
+                :items="partner_enums"
+                :search-input.sync="partnerName"
+                item-text="name"
+                item-value="id"
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg base"
+                :return-object="true"
+                color="#544B99"
+                dense
+                :placeholder="$t('modelBox.dialog.enterPartnerName')"
+                append-icon="mdi-chevron-down"
+                :rules="[formRules.required]"
+                validate-on-blur
+                >
+                <template #append>
+                  <v-icon color="#544B99">mdi-magnify</v-icon>
+                </template>
+             </v-combobox> -->
+            </v-col>
 
             </v-row>
           </v-form>
@@ -256,7 +279,7 @@ export default {
       planningProcessId: "cuttingProcess/planningProcessId",
       passingList: "cuttingToNextProcess/passingList",
       productionId: "production/planning/productionId",
-      partnerList: "subcontracts/partnerList",
+      partnerList: "partners/partnerList",
       historyListServer: "cuttingToNextProcess/historyProcessableList",
       nextProcessList: "passingToNextProcess/nextProcessList",
 
@@ -350,14 +373,14 @@ export default {
   },
 
   created() {
-    this.getPartnerList()
+    this.getPartnerList({page:0,size:50})
   },
 
   methods: {
     ...mapActions({
       getPassingList: "cuttingToNextProcess/getPassingList",
       setUpdatePass: "cuttingToNextProcess/setUpdatePass",
-      getPartnerList: "subcontracts/getPartnerList",
+      getPartnerList: "partners/getPartnerList",
       getHistoryList: "cuttingToNextProcess/getHistoryProcessableList",
       deleteHistoryProcessable: "cuttingToNextProcess/deleteHistoryProcessable",
       setHistoryProcessable: "cuttingToNextProcess/setHistoryProcessable",
