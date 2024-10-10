@@ -466,7 +466,7 @@ export default {
       planningProcessId: "cuttingProcess/planningProcessId",
       passingList: "passingToNextProcess/passingList",
       productionId: "production/planning/productionId",
-      partnerList: "subcontracts/partnerList",
+      partnerList: "partners/partnerList",
       historyListServer: "passingToNextProcess/historyProcessableList",
       nextProcessList: "passingToNextProcess/nextProcessList",
       measurementUnitList: "preFinance/measurementUnit",
@@ -563,7 +563,7 @@ export default {
   },
 
   created() {
-    this.getPartnerList()
+    this.getPartnerList({page:0,size:10})
     this.getMeasurementUnit()
     this.getWaybillList({page:0,size:10})
   },
@@ -572,7 +572,7 @@ export default {
     ...mapActions({
       getPassingList: "passingToNextProcess/getPassingList",
       setUpdatePass: "passingToNextProcess/setUpdatePass",
-      getPartnerList: "subcontracts/getPartnerList",
+      getPartnerList: "partners/getPartnerList",
       getHistoryList: "passingToNextProcess/getHistoryProcessableList",
       deleteHistoryProcessable: "passingToNextProcess/deleteHistoryProcessable",
       setHistoryProcessable: "passingToNextProcess/setHistoryProcessable",
