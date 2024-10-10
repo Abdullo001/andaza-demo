@@ -27,6 +27,9 @@
         </v-toolbar>
       </template>
 
+      <template #item.sendDate="{item}">
+        {{ formatLong(item.sendDate) }}
+      </template>
       <template #item.result="{item}">
         <v-chip :color="statusColor.inspectionStatus(item.result)" dark class="font-weight-bold ml-5">{{ item.result }}</v-chip>
       </template>
@@ -132,7 +135,7 @@
                       placeholder="dd.MM.yyyy HH:mm:ss"
                       style="width: 100%; height: 100%"
                       type="date"
-                      value-format="dd.MM.yyyy HH:mm:ss"
+                      value-format="timestamp"
                     >
                     </el-date-picker>
                   </div>
@@ -247,7 +250,7 @@
                     placeholder="dd.MM.yyyy HH:mm:ss"
                     style="width: 100%; height: 100%"
                     type="date"
-                    value-format="dd.MM.yyyy HH:mm:ss"
+                    value-format="timestamp"
                   >
                   </el-date-picker>
                 </div>
@@ -351,7 +354,6 @@ export default {
   watch: {
     selectedModel(val){
       this.currentId=val.id
-      console.log(val);
     },
     inspectionFileList(list) {
         this.inspectionList = JSON.parse(JSON.stringify(list))
@@ -362,6 +364,7 @@ export default {
     ...mapActions({
       getInspectionFileList: "inspectionFile/getInspectionFileList",
       uploadInspectionFile: "inspectionFile/uploadInspectionFile",
+      updateInspectionFile: "inspectionFile/updateInspectionFile",
     }),
     openDialog(){
       this.newDialog=true
@@ -380,7 +383,7 @@ export default {
       this.newInspectionFile.description = item.description
       this.newInspectionFile.modelId = item.modelId
       this.newInspectionFile.sendDate = item.sendDate
-      this.newInspectionFile.status = item.status
+      this.newInspectionFile.status = item.result
       this.edit_dialog = true
     },
     async addDocument() {
@@ -392,28 +395,38 @@ export default {
           modelId,
           sendDate,
           status,
+          id
         } = this.newInspectionFile
       const formData= new FormData()
-      formData.append("description", description)
-      formData.append("title", title)
+      formData.append("inspectionDescription", description)
+      formData.append("inspectionTitle", title)
       formData.append("modelId", modelId)
       formData.append("sendDate", sendDate)
       formData.append("result", status)
       if(!!this.newInspectionFile.file){
         formData.append("file", this.newInspectionFile.file)
       }
-      await this.uploadInspectionFile( { data: formData, id: this.newInspectionFile.modelId } )
+        
+       if(this.title === 'add') {
+         await this.uploadInspectionFile( { data: formData, id: this.newInspectionFile.modelId } )
+        .then((res) => {
+          this.btnDisabled = false
+          this.$refs.new_validate.reset()
+        })
+        .catch((err) => this.btnDisabled = false);
+
+        this.newDialog = false;
+       }else if (this.title === 'edit') {
+        formData.append("inspectionId", id)
+         await this.updateInspectionFile( { data: formData, id: this.newInspectionFile.modelId,inspectionId:id } )
         .then((res) => {
           this.btnDisabled = false
           this.$refs.edit_validate.reset()
         })
         .catch((err) => this.btnDisabled = false);
-       if(this.title === 'add') {
-         this.newDialog = false;
-       }else if (this.title === 'edit') {
-         this.edit_dialog = false
+
+        this.edit_dialog = false
        }
-      await this.$refs.new_validate.reset()
       this.newInspectionFile.sendDate=""
 
     },
