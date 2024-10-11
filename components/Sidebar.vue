@@ -329,7 +329,12 @@
             :server-items-length="recivedNotificationListTotalElements"
             @click:row="(item) => getMessageInfo(item)"
           >
-
+          
+          <template #item.read="{item}">
+            <div :class="!item.read?'unread':''" v-if="!item.read">
+              *
+            </div>
+          </template>
           </v-data-table>
         </v-card-text>
       </v-card>
@@ -352,6 +357,7 @@ export default {
         {text:"",value:"mainPart",sortable:false}
       ],
       headersNotification:[
+        {text:"",value:"read",sortable:false},
         {text:"Name",value:"createdBy",sortable:false},
         {text:"Title",value:"title",sortable:false},
         {text:"Body",value:"body",sortable:false},

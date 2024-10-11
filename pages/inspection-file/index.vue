@@ -89,6 +89,10 @@
       <v-chip :color="statusColor.inspectionStatus(item.result)" dark class="font-weight-bold">{{ item.result }}</v-chip>
     </template>
 
+    <template #item.sendDate="{item}">
+      {{ !!item.sendDate?formatLong(item.sendDate):"" }}
+    </template>
+
     <template #item.action="{item}">
       <v-tooltip top color="#544B99">
         <template v-slot:activator="{ on, attrs }">
