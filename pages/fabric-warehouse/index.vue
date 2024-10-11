@@ -447,7 +447,7 @@
             <v-row>
               <v-col cols="12">
                 <div class="label">to Sip №</div>
-                <v-select
+                <!-- <v-select
                   append-icon="mdi-chevron-down"
                   v-model="spendingFabric.idTo"
                   :rules="[formRules.required]"
@@ -461,11 +461,32 @@
                   outlined
                   dense
                   placeholder="Select Sip №"
-                />
+                /> -->
+                <v-combobox
+                  v-model="spendingFabric.idTo"
+                  :items="toSipNumbers"
+                  item-text="sipNumber"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :return-object="true"
+                  color="#544B99"
+                  dense
+                  placeholder="Select Sip №"
+                  append-icon="mdi-chevron-down"
+                  :rules="[formRules.required]"
+                  validate-on-blur
+                  >
+                  <template #append>
+                    <v-icon color="#544B99">mdi-magnify</v-icon>
+                  </template>
+                </v-combobox>
               </v-col>
               <v-col cols="12">
                 <div class="label">to Batch №</div>
-                <v-select
+                <!-- <v-select
                   append-icon="mdi-chevron-down"
                   v-model="spendingFabric.idTo"
                   :rules="[formRules.required]"
@@ -479,7 +500,28 @@
                   outlined
                   dense
                   placeholder="Batch №"
-                />
+                /> -->
+                <v-combobox
+                  v-model="subcontractor.idTo"
+                  :items="toSipNumbers"
+                  item-text="batchNumber"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :return-object="true"
+                  color="#544B99"
+                  dense
+                  placeholder="Batch №"
+                  append-icon="mdi-chevron-down"
+                  :rules="[formRules.required]"
+                  validate-on-blur
+                  >
+                  <template #append>
+                    <v-icon color="#544B99">mdi-magnify</v-icon>
+                  </template>
+                </v-combobox>
               </v-col>
               <v-col cols="12">
                 <div class="label">Spending quantity</div>
@@ -990,6 +1032,7 @@ export default {
 
     async saveSpending() {
       const data = { ...this.spendingFabric };
+      data.idTo=this.spendingFabric.idTo.id
       await this.setSpendingFabric(data);
       await this.$refs.spend_form.reset();
       this.spend_dialog = false;

@@ -129,44 +129,30 @@
               </v-col>
               <v-col cols="12" lg="6" v-if="selectedItem.workshopType==='SUBCONTRACTOR'">
                 <div class="label">Partner</div>
-                <v-select
-                  append-icon="mdi-chevron-down"
+               
+              
+                <v-combobox
                   v-model="selectedItem.partnerId"
                   :items="partnerList"
-                  :rules="[formRules.required]"
+                  :search-input.sync="partnerName"
                   item-text="name"
                   item-value="id"
-                  hide-details
-                  color="#544B99"
-                  class=" base rounded-lg"
-                  rounded
                   outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :return-object="true"
+                  color="#544B99"
                   dense
-                  placeholder="Select partner"
-                />
-              
-              <!-- <v-combobox
-                v-model="selectedItem.partnerId"
-                :items="partner_enums"
-                :search-input.sync="partnerName"
-                item-text="name"
-                item-value="id"
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg base"
-                :return-object="true"
-                color="#544B99"
-                dense
-                :placeholder="$t('modelBox.dialog.enterPartnerName')"
-                append-icon="mdi-chevron-down"
-                :rules="[formRules.required]"
-                validate-on-blur
+                  :placeholder="$t('modelBox.dialog.enterPartnerName')"
+                  append-icon="mdi-chevron-down"
+                  :rules="[formRules.required]"
+                  validate-on-blur
                 >
-                <template #append>
-                  <v-icon color="#544B99">mdi-magnify</v-icon>
-                </template>
-             </v-combobox> -->
+                  <template #append>
+                    <v-icon color="#544B99">mdi-magnify</v-icon>
+                  </template>
+                </v-combobox>
             </v-col>
 
             </v-row>
@@ -271,6 +257,7 @@ export default {
       ],
       historyList:[],
       selectedEntity:null,
+      partnerName:"",
     }
   },
 
@@ -298,6 +285,9 @@ export default {
           item.quantity=0
         })
       }
+    },
+    partnerName(val){
+      this.getPartnerList({page:0,size:10,partnerName:val})
     },
     passingList(list) {
       this.headers = [
@@ -414,7 +404,7 @@ export default {
           planningProcessId: this.planningProcessId,
         }
         if (this.selectedItem.partnerId) {
-          data = {...data, partnerId: this.selectedItem.partnerId}
+          data = {...data, partnerId: this.selectedItem.partnerId?.id}
         }
         await this.setUpdatePass(data)
         // this.autoFilling = false

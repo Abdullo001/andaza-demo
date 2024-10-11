@@ -549,7 +549,7 @@
     <v-dialog v-model="subcontract_dialog" width="500">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Accessory giving to own workshop</div>
+          <div class="text-capitalize font-weight-bold">Accessory giving to Subcontractor</div>
           <v-btn icon color="#544B99" @click="subcontract_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -578,21 +578,28 @@
               </v-col>
               <v-col cols="6" >
                 <div class="label">Partner</div>
-                <v-select
-                  append-icon="mdi-chevron-down"
+                <v-combobox
                   v-model="subcontractor.partnerId"
                   :items="partnerList"
-                  :rules="[formRules.required]"
+                  :search-input.sync="partnerName"
                   item-text="name"
                   item-value="id"
-                  hide-details
-                  color="#544B99"
-                  class=" base rounded-lg"
-                  rounded
                   outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :return-object="true"
+                  color="#544B99"
                   dense
-                  placeholder="Select partner"
-                />
+                  :placeholder="$t('modelBox.dialog.enterPartnerName')"
+                  append-icon="mdi-chevron-down"
+                  :rules="[formRules.required]"
+                  validate-on-blur
+                >
+                  <template #append>
+                    <v-icon color="#544B99">mdi-magnify</v-icon>
+                  </template>
+                </v-combobox>
               </v-col>
               <v-col cols="6">
                 <div class="label">Quantity</div>
@@ -760,11 +767,12 @@ export default {
         {text: "Done by ", value: "createdBy", sortable: false},
       ],
       historyList:[],
+      partnerName:"",
     }
   },
 
   created(){
-    this.getPartnerList()
+    this.getPartnerList({page:0,size:10})
   },
 
   computed:{
@@ -777,11 +785,14 @@ export default {
       accessoriesSpendList:"accessoryWarehouse/accessoriesSpendList",
       editDates:"accessoryWarehouse/editDates",
       historyServerList:"accessoryWarehouse/historyList",
-      partnerList:"subcontracts/partnerList",
+      partnerList: "partners/partnerList",
     })
   },
 
   watch:{
+    partnerName(val){
+      this.getPartnerList({page:0,size:10,partnerName:val})
+    },
     editDates:{
       deep:true,
       immediate:true,
@@ -855,7 +866,7 @@ export default {
       giveOwn:"accessoryWarehouse/giveOwn",
       getHistoryList:"accessoryWarehouse/getHistoryList",
       giveSubcontractor:"accessoryWarehouse/giveSubcontractor",
-      getPartnerList:"subcontracts/getPartnerList",
+      getPartnerList: "partners/getPartnerList",
       giveToAccessoryStock: "accessoryWarehouse/giveToAccessoryStock",
     }),
 
@@ -946,6 +957,7 @@ export default {
 
     async saveSubcontract(){
       const data={...this.subcontractor}
+      data.partnerId=this.subcontractor.partnerId?.id
       await this.giveSubcontractor({data,modelId:this.filters.modelId?.id,orderId:this.filters.orderId?.id})
       this.subcontract_dialog=false
       await this.$refs.subcontractor_form.reset()

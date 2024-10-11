@@ -328,7 +328,7 @@
               </v-col>
               <v-col cols="12" lg="6" v-if="selectedItem.workshopType==='SUBCONTRACTOR'">
                 <div class="label">Partner</div>
-                <v-select
+                <!-- <v-select
                   append-icon="mdi-chevron-down"
                   v-model="selectedItem.partnerId"
                   :items="partnerList"
@@ -342,7 +342,30 @@
                   outlined
                   dense
                   placeholder="Select partner"
-                />
+                /> -->
+
+                <v-combobox
+                  v-model="selectedItem.partnerId"
+                  :items="partnerList"
+                  :search-input.sync="partnerName"
+                  item-text="name"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :return-object="true"
+                  color="#544B99"
+                  dense
+                  :placeholder="$t('modelBox.dialog.enterPartnerName')"
+                  append-icon="mdi-chevron-down"
+                  :rules="[formRules.required]"
+                  validate-on-blur
+                >
+                  <template #append>
+                    <v-icon color="#544B99">mdi-magnify</v-icon>
+                  </template>
+                </v-combobox>
               </v-col>
             </v-row>
           </v-form>
@@ -435,6 +458,7 @@ export default {
   data() {
     return {
       waybillDialog:false,
+      partnerName:"",
       autoFilling:false,
       edit_dialog: false,
       history_dialog:false,
@@ -477,6 +501,9 @@ export default {
   watch: {
     waybilSearch(val){
       this.getWaybillList({page:0,size:10,number:val}) 
+    },
+    partnerName(val){
+      this.getPartnerList({page:0,size:10,partnerName:val})
     },
     autoFilling(val){
       if(val){
@@ -660,7 +687,7 @@ export default {
           }
 
           if (this.selectedItem.partnerId) {
-            data = {...data, partnerId: this.selectedItem.partnerId}
+            data = {...data, partnerId: this.selectedItem.partnerId?.id}
           }
           this.setUpdatePass(data)
           }

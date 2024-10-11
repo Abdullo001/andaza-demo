@@ -80,27 +80,27 @@
             <div class="label">{{$t('listsModels.child.partner')}}</div>
 
             <v-combobox
-                  v-model="model.partnerId"
-                  :items="partner_enums"
-                  :search-input.sync="partnerName"
-                  item-text="name"
-                  item-value="id"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  :return-object="true"
-                  color="#544B99"
-                  dense
-                  :placeholder="$t('modelBox.dialog.enterPartnerName')"
-                  append-icon="mdi-chevron-down"
-                  :rules="[formRules.required]"
-                  validate-on-blur
-                  >
-                  <template #append>
-                    <v-icon color="#544B99">mdi-magnify</v-icon>
-                  </template>
-                 </v-combobox>
+              v-model="model.partnerId"
+              :items="partner_enums"
+              :search-input.sync="partnerName"
+              item-text="name"
+              item-value="id"
+              outlined
+              hide-details
+              height="44"
+              class="rounded-lg base"
+              :return-object="true"
+              color="#544B99"
+              dense
+              :placeholder="$t('modelBox.dialog.enterPartnerName')"
+              append-icon="mdi-chevron-down"
+              :rules="[formRules.required]"
+              validate-on-blur
+            >
+              <template #append>
+                <v-icon color="#544B99">mdi-magnify</v-icon>
+              </template>
+            </v-combobox>
           </v-col>
         </v-row>
         <v-row :class="showObject">
