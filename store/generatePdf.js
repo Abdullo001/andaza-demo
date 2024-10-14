@@ -184,9 +184,11 @@ export const actions = {
       });
   },
   getProductionStatusPdf({ commit },data) {
-    this.$axios.get(`/api/v1/production/production-status-form?orderNumber=${encodeURIComponent(data.orderNumber)}&modelNumber=${encodeURIComponent(data.modelNumber)}`)
+    
+    this.$axios.post(`/api/v1/production/production-status-form`,data)
       .then((res) => {
         const binaryCode = atob(res.data);
+        
         commit("setProductionStatusList", binaryCode);
       })
       .catch((res) => {
