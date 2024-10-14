@@ -6,6 +6,7 @@ export default {
   to: "To",
   update: "Update",
   sidebar: {
+    byModels:"By Model",
     catalogs:"Catalogs",
     setting: "Settings",
     report: "Report",
@@ -76,7 +77,7 @@ export default {
     search: "Search",
     pSearch: "search...",
   },
-  userManagement: {
+  f: {
     child: {
       delete: "Delete",
       edit: "Edit",
@@ -1444,8 +1445,8 @@ export default {
       modelNumberPlaceholder: "Model Number",
       modelGroup: "Model Group",
       brandName: "Brand name",
-      fromDate: "Created from date",
-      toDate: "Created to date",
+      shippingDateFrom: "Shipping date from",
+      shippingDateTo: "Shipping date to",
       shippingDate: "Shipping date monthly",
       shippingDateYear: "Shipping date yearly",
       fabricStatus: "Fabric Status",
@@ -2589,5 +2590,23 @@ wastes:{
     pending:"Pending",
     ordered:"Ordered",
     received:"Received",
+  },
+  spending:{
+    history:"History",
+    date:"Date",
+    spendingFabric:"Spending fabric",
+    spendingQuantity:"Spending quantity",
+    toSipNo:"To Sip No",
+    toBatchNo:"To Batch No",
+    doneBy:"Done by",
+    warehouseOperations:"Warehouse operations",
+    operationId:"Operation Id",
+    quantity:"Quantity",
+    fabricGivingToOwnWorkshop:"Fabric giving to own workshop",
+    givingFabricQuantity:"Giving fabric quantity",
+    fabricGivingToSubcontractor:"Fabric giving to subcontractor",
+    deleteFabricWarehouseRow:"Delete fabric warehouse row",
+    areYouSureYouWantToDeleteFabricWarehouseRow:"Are you sure you want to delete fabric warehouse row?"
+
   },
 };

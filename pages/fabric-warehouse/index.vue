@@ -436,7 +436,7 @@
     <v-dialog v-model="spend_dialog" width="350">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Spending fabric</div>
+          <div class="text-capitalize font-weight-bold">{{ $t('spending.spendingFabric') }}</div>
           <v-btn icon color="#544B99" @click="spend_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -446,7 +446,7 @@
           <v-form ref="spend_form" v-model="spend_validate" lazy-validation>
             <v-row>
               <v-col cols="12">
-                <div class="label">to Sip №</div>
+                <div class="label">{{ $t('spending.toSipNo') }}</div>
                 <!-- <v-select
                   append-icon="mdi-chevron-down"
                   v-model="spendingFabric.idTo"
@@ -474,7 +474,7 @@
                   :return-object="true"
                   color="#544B99"
                   dense
-                  placeholder="Select Sip №"
+                  :placeholder="$t('spending.toSipNo')"
                   append-icon="mdi-chevron-down"
                   :rules="[formRules.required]"
                   validate-on-blur
@@ -485,7 +485,7 @@
                 </v-combobox>
               </v-col>
               <v-col cols="12">
-                <div class="label">to Batch №</div>
+                <div class="label">{{ $t('spending.toBatchNo') }}</div>
                 <!-- <v-select
                   append-icon="mdi-chevron-down"
                   v-model="spendingFabric.idTo"
@@ -513,7 +513,7 @@
                   :return-object="true"
                   color="#544B99"
                   dense
-                  placeholder="Batch №"
+                  :placeholder="$t('spending.toBatchNo')"
                   append-icon="mdi-chevron-down"
                   :rules="[formRules.required]"
                   validate-on-blur
@@ -524,7 +524,7 @@
                 </v-combobox>
               </v-col>
               <v-col cols="12">
-                <div class="label">Spending quantity</div>
+                <div class="label">{{$t('spending.spendingQuantity')}}</div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="spendingFabric.spendingQuantity"
@@ -532,7 +532,7 @@
                   hide-details
                   dense
                   class="rounded-lg base"
-                  placeholder="Enter spending quantity"
+                  :placeholder="$t('spending.spendingQuantity')"
                   color="#544B99"
                   suffix="kg"
                 />
@@ -548,7 +548,7 @@
             width="130"
             @click="spend_dialog = false"
           >
-            cancel
+           {{$t('userManagement.dialog.cancel')}}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -557,7 +557,7 @@
             width="130"
             @click="saveSpending"
           >
-            save
+           {{$t('userManagement.dialog.save')}}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -567,7 +567,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
-            Fabric giving to own workshop
+           {{$t('spending.fabricGivingToOwnWorkshop')}}
           </div>
           <v-btn icon color="#544B99" @click="workshop_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -582,7 +582,7 @@
           >
             <v-row>
               <v-col cols="12">
-                <div class="label">Model №</div>
+                <div class="label">{{$t('readyWarehouse.id.modelNo')}}</div>
                 <v-select
                   append-icon="mdi-chevron-down"
                   v-model="workshop.modelNumber"
@@ -594,12 +594,12 @@
                   rounded
                   outlined
                   dense
-                  placeholder="Select Model №"
+                  :placeholder="$t('readyWarehouse.id.modelNo')"
                 />
               </v-col>
 
               <v-col cols="12">
-                <div class="label">Giving fabric quantity</div>
+                <div class="label">{{$t('spending.givingFabricQuantity')}}</div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="workshop.quantity"
@@ -607,7 +607,7 @@
                   hide-details
                   dense
                   class="rounded-lg base"
-                  placeholder="Enter giving fabric quantity"
+                  :placeholder="$t('spending.givingFabricQuantity')"
                   color="#544B99"
                   :suffix="workshop.measurement"
                 />
@@ -623,7 +623,7 @@
             width="130"
             @click="workshop_dialog = false"
           >
-            cancel
+           {{$t('userManagement.dialog.cancel')}}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -632,7 +632,7 @@
             width="130"
             @click="saveWorkshop"
           >
-            save
+        {{$t('userManagement.dialog.save')}}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -642,7 +642,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
-            Fabric giving to Subcontractor
+           {{$t('spending.fabricGivingToSubcontractor')}}
           </div>
           <v-btn icon color="#544B99" @click="subcontractor_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -657,7 +657,7 @@
           >
             <v-row>
               <v-col cols="12">
-                <div class="label">Partner</div>
+                <div class="label">{{$t('prefinances.child.partner')}}</div>
                 <v-combobox
                   v-model="subcontractor.partnerId"
                   :items="partnerList"
@@ -671,7 +671,7 @@
                   :return-object="true"
                   color="#544B99"
                   dense
-                  placeholder="Select partner"
+                  :placeholder="$t('prefinances.child.partner')"
                   append-icon="mdi-chevron-down"
                   :rules="[formRules.required]"
                   validate-on-blur
@@ -683,7 +683,7 @@
               </v-col>
 
               <v-col cols="12">
-                <div class="label">Model №</div>
+                <div class="label">{{ $t('readyWarehouse.id.modelNo') }}</div>
                 <v-select
                   append-icon="mdi-chevron-down"
                   v-model="subcontractor.modelNumber"
@@ -695,12 +695,12 @@
                   rounded
                   outlined
                   dense
-                  placeholder="Select Model №"
+                  :placeholder=" $t('readyWarehouse.id.modelNo')"
                 />
               </v-col>
 
               <v-col cols="12">
-                <div class="label">Giving fabric quantity</div>
+                <div class="label">{{ $t('spending.givingFabricQuantity')}}</div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="subcontractor.quantity"
@@ -708,7 +708,7 @@
                   hide-details
                   dense
                   class="rounded-lg base"
-                  placeholder="Enter giving fabric quantity"
+                  :placeholder="$t('spending.givingFabricQuantity')"
                   color="#544B99"
                   :suffix="subcontractor.measurement"
                 />
@@ -724,7 +724,7 @@
             width="130"
             @click="subcontractor_dialog = false"
           >
-            cancel
+           {{$t('userManagement.dialog.cancel')}}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -733,7 +733,7 @@
             width="130"
             @click="saveSubcontractor"
           >
-            save
+          {{$t('userManagement.dialog.save')}}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -742,7 +742,7 @@
     <v-dialog v-model="history_dialog" max-width="1000">
       <v-card flat>
         <v-card-title>
-          <div class="title">History</div>
+          <div class="title">{{ $t('spending.history') }}</div>
           <v-spacer />
           <v-btn icon @click="history_dialog = false" color="#544B99">
             <v-icon>mdi-close</v-icon>
@@ -767,10 +767,10 @@
           <v-img src="/error-icon.svg" max-width="40" />
         </div>
         <v-card-title class="d-flex justify-center"
-          >Delete fabric warehouse row</v-card-title
+          > {{ $t('spending.deleteFabricWarehouseRow') }}</v-card-title
         >
         <v-card-text>
-          Are you sure you want to Delete fabric warehouse row?
+         {{ $t('spending.areYouSureYouWantToDeleteFabricWarehouseRow') }}
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -780,7 +780,7 @@
             width="140"
             @click.stop="delete_dialog = false"
           >
-            cancel
+            {{$t('userManagement.dialog.cancel')}}
           </v-btn>
           <v-spacer />
           <v-btn
@@ -791,7 +791,7 @@
             dark
             @click="deleteItem"
           >
-            delete
+            {{$t('userManagement.dialog.delete')}}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -839,15 +839,15 @@ export default {
       ],
 
       historyHeaders: [
-        { text: "Date", value: "createdAt", sortable: false },
-        { text: "Done by ", value: "createdBy", sortable: false },
+        { text: this.$t('spending.date'), value: "createdAt", sortable: false },
+        { text: this.$t('spending.doneBy'), value: "createdBy", sortable: false },
         {
-          text: "Warehouse operations",
+          text: this.$t('spending.warehouseOperations'),
           value: "operationType",
           sortable: false,
         },
-        { text: "Operation Id", value: "operationId", sortable: false },
-        { text: "Quantity", value: "quantity", sortable: false },
+        { text: this.$t('spending.operationId'), value: "operationId", sortable: false },
+        { text: this.$t('spending.quantity'), value: "quantity", sortable: false },
       ],
 
       expanded: [],
