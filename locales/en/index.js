@@ -77,7 +77,7 @@ export default {
     search: "Search",
     pSearch: "search...",
   },
-  f: {
+  userManagement: {
     child: {
       delete: "Delete",
       edit: "Edit",
