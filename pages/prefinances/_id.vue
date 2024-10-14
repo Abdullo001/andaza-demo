@@ -1333,7 +1333,7 @@ export default {
     },
     "details.expenseGroup": {
       async handler(val) {
-        if(!!val){
+        if(!!val?.id){
           Object.keys(val).length > 1
           ? (this.expense_status = false)
           : (this.expense_status = true);
@@ -1345,7 +1345,7 @@ export default {
     },
     "selectDetail.expenseGroup": {
       async handler(val) {
-        if(!!val){
+        if(!!val?.id){
           Object.keys(val).length > 1
           ? (this.expense_status = false)
           : (this.expense_status = true);
