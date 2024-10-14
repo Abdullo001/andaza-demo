@@ -74,7 +74,7 @@ export const mutations = {
 
 export const actions = {
   getPdfList({ commit }, data) {
-    this.$axios.put(`/api/v1/orders/generate-pdf`, data)
+    this.$axios.put(`/api/v1/orders/generate-placed-orders`, data)
       .then((res) => {
         const binaryCode = atob(res.data);
         commit("setPdfList", binaryCode);
