@@ -540,10 +540,9 @@ export default {
         modelStatus:"ACTIVE"
         
       };
-      // console.log(data);
 
       this.getPdfList(data);
-      // this.isLoad = true;
+      this.isLoad = true;
     },
   },
 };
