@@ -19,7 +19,7 @@ export const getters = {
   totalElements: (state) => state.ordersList.totalElements,
   oneOrder: (state) => state.oneOrder,
   newOrderId: (state) => state.newOrderId,
-  modelGroups: (state) => state.modelGroups.map((elem) => elem.name),
+  modelGroups: (state) => state.modelGroups,
   usersList: (state) => state.usersList.content,
   clientList: (state) => state.clientList.data,
   modelList: (state) => state.modelList.data,

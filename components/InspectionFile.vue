@@ -341,7 +341,7 @@ export default {
       btnDisabled: false,
       title: 'add',
       headers: [
-        {text:  this.$t('modelBox.printingBox.simpleSendDate'), sortable: false, value: 'sendDate'},
+        {text:  this.$t('inspectionBox.inspectionDate'), sortable: false, value: 'sendDate'},
         {text: this.$t('inspectionBox.titleDoc'), sortable: false, value: 'title'},
         {text:this.$t('listsModels.child.description'), sortable: false, value: 'description'},
         {text: this.$t('partners.table.status'),  sortable: false, value: 'result'},
