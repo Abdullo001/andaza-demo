@@ -347,15 +347,8 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col cols="12" lg="3">
-        <v-card class="mt-3 rounded-lg elevation-0">
-          <v-card-text>
-            <FabricOrder/>
-            <v-divider/>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="12" lg="3">
+      
+      <v-col cols="12" lg="6">
         <v-card class="mt-3 rounded-lg elevation-0">
           <v-card-text>
             <PlannedExpense :modelId="addFabric.modelId"/>

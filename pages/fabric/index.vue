@@ -79,17 +79,6 @@
               </template>
             </v-combobox>
           </v-col>
-          <!-- <v-col cols="12" lg="2" md="2">
-            <v-text-field
-              label="Order №"
-              outlined
-              class="rounded-lg filter"
-              v-model.trim="filters.orderId"
-              hide-details
-              dense
-              @keydown.enter="filterData"
-            />
-          </v-col> -->
           <v-spacer />
           <v-col cols="12" lg="4">
             <div class="d-flex justify-end">
@@ -189,12 +178,10 @@ export default {
       menu2: false,
       headers: [
         { text: "ID", align: "start", sortable: false, value: "id" },
-        { text: this.$t('orderBox.index.orderNum'), value: "modelNumber" },
-        { text:  this.$t('planning.index.modelId'), value: "modelId" },
+        { text: this.$t('prefinances.child.modelNumber'), value: "modelNumber" },
         { text: this.$t('orderBox.index.orderNum'), value: "orderNumber" },
-        { text: this.$t('planning.index.orderId'), value: "orderId" },
         { text: this.$t("catalogGroups.tabs.table.createdAt"),value: "createdTimeOfPlanning" },
-        { text:  this.$t('planning.index.updated'),  value: "updatedTimeOfPlanning" },
+        { text:  this.$t('listsModels.child.creator'),  value: "creatorOfPlanning" },
         { text: this.$t("catalogGroups.tabs.table.actions"), value:"actions"},
       ],
       itemPerPage: 10,

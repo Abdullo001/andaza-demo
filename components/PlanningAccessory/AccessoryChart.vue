@@ -77,7 +77,7 @@
                   item-text="name"
                   item-value="id"
                   outlined
-                  :placeholder="$t('prefinances.child.enterModelNumber')"
+                  :placeholder="$t('accessoryWarehouse.accessoryName')"
                   prepend-icon=""
                 >
                   <template #append>
@@ -745,10 +745,6 @@ export default {
     },
     editItem(item) {
       this.edit_accessory_chart = { ...item };
-      // this.images[0].photo=""
-      // if(!!item.filePath){
-      //   this.images[0].photo=item.filePath
-      // }
       this.edit_dialog = true;
     },
     getDeleteItem(item) {
