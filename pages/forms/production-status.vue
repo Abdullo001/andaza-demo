@@ -11,8 +11,7 @@
           <v-row class="mb-5">
             <v-col cols="12" lg="3">
               <div class="label">
-                {{ $t("forms.placedOrdersBox.orderNumber")
-                }}<span style="color: red">*</span>
+                {{ $t("forms.placedOrdersBox.orderNumber")}}
               </div>
               <v-combobox
                 v-model="filters.orderNumber"
@@ -49,7 +48,7 @@
                 :items="modelsList"
                 :search-input.sync="modelNumSearch"
                 item-text="modelNumber"
-                item-value="modelNumber"
+                item-value="id"
                 validate-on-blur
                 outlined
                 color="#544B99"
@@ -226,12 +225,12 @@ export default {
     },
     filter() {
       const data = {
-        modelNumber: this.filters.modelNumber?.modelNumber
-          ? this.filters.modelNumber?.modelNumber
-          : "",
-        orderNumber: this.filters.orderNumber?.orderNumber
-          ? this.filters.orderNumber?.orderNumber
-          : "",
+        modelId: this.filters.modelNumber?.id
+          ? this.filters.modelNumber?.id
+          : null,
+        orderId: this.filters.orderNumber?.id
+          ? this.filters.orderNumber?.id
+          : null,
       };
       this.getPdfList(data);
       this.isLoad = true;
