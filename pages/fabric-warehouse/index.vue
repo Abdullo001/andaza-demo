@@ -427,7 +427,7 @@
             width="163"
             @click="editArrivedFabric"
           >
-            Edit
+            {{ $t('userManagement.child.edit') }}
           </v-btn>
         </v-card-actions>
       </v-card>
