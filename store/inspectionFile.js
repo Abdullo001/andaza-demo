@@ -47,6 +47,14 @@ export const actions = {
       })
       .catch(res => this.$toast.error(res.message))
   },
+  async deleteInspectionFile({commit, dispatch}, {data, id,inspectionId} ) {
+    await this.$axios.delete(`/api/v1/inspections/${inspectionId}`)
+      .then(res => {
+        this.$toast.success(res.data.data.message)
+        dispatch('getInspectionFileList', id)
+      })
+      .catch(res => this.$toast.error(res.message))
+  },
 
   getInspectionList({commit},{clientName="",modelNumber="",page,size}){
       clientName=clientName??"",
