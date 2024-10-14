@@ -48,6 +48,19 @@
             </template>
             <span>Edit</span>
           </v-tooltip>
+          <v-tooltip top color="red">
+            <template #activator="{on, attrs}">
+              <v-btn
+                icon class="mr-2"
+                @click="openDeleteDialog(item)"
+                v-on="on"
+                v-bind="attrs"
+              >
+                <v-img src="/trash-red.svg" max-width="20" />
+              </v-btn>
+            </template>
+            <span>Delete</span>
+          </v-tooltip>
           <v-tooltip top color="#544B99">
             <template #activator="{on, attrs}">
               <v-btn
@@ -296,14 +309,20 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <DeleteDialog v-bind="delete_data"/>
   </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+import DeleteDialog from "./DeleteDialog.vue";
 
 export default {
   name: "InspectionFile",
+  components:{
+    DeleteDialog,
+  },
   data() {
     return {
       edit_document: {
@@ -316,6 +335,7 @@ export default {
       valid_edit: true,
       edit_dialog: false,
       delete_dialog: false,
+      selectedItem:{},
       newDialog: false,
       dialogStatus: 'add',
       btnDisabled: false,
@@ -341,6 +361,7 @@ export default {
       inspectionList: [],
       inspection_list_length: null,
       currentModel:{},
+      deleteDialog:false
     }
   },
   computed: {
@@ -349,7 +370,17 @@ export default {
       selectedModel: "inspectionFile/model",
       newModelId: "models/newModelId",
 
-    })
+    }),
+
+    delete_data:{
+      get(){
+        return{
+          deleteDialog:this.deleteDialog,
+          closeDialog:()=>{this.deleteDialog=false},
+          deleteFunction:this.deleteFunc,
+        }
+      }
+    }
   },
   watch: {
     selectedModel(val){
@@ -365,6 +396,7 @@ export default {
       getInspectionFileList: "inspectionFile/getInspectionFileList",
       uploadInspectionFile: "inspectionFile/uploadInspectionFile",
       updateInspectionFile: "inspectionFile/updateInspectionFile",
+      deleteInspectionFile: "inspectionFile/deleteInspectionFile",
     }),
     openDialog(){
       this.newDialog=true
@@ -385,6 +417,15 @@ export default {
       this.newInspectionFile.sendDate = item.sendDate
       this.newInspectionFile.status = item.result
       this.edit_dialog = true
+    },
+    openDeleteDialog(item){
+      this.deleteDialog=true
+      this.selectedItem={...item}
+      
+    },
+    deleteFunc(){
+      this.deleteInspectionFile({id: this.selectedItem.modelId,inspectionId:this.selectedItem.id})
+      this.deleteDialog=false
     },
     async addDocument() {
       this.newInspectionFile.modelId = this.$route.params.id!=='add-inspection'?this.$route.params.id:this.currentId
