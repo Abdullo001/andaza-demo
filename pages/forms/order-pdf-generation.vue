@@ -76,7 +76,7 @@
                 :items="modelGroups"
                 :search-input.sync="modelGroupSearch"
                 item-text="name"
-                item-value="name"
+                item-value="id"
                 validate-on-blur
                 outlined
                 hide-details
@@ -168,7 +168,7 @@
                   style="width: 100%; height: 100%"
                   placeholder="dd.MM.yyyy HH:mm:ss"
                   :picker-options="pickerShortcuts"
-                  value-format="dd.MM.yyyy HH:mm:ss"
+                  value-format="timestamp"
                 >
                 </el-date-picker>
               </div>
@@ -182,41 +182,12 @@
                   style="width: 100%; height: 100%"
                   placeholder="dd.MM.yyyy HH:mm:ss"
                   :picker-options="pickerShortcuts"
-                  value-format="dd.MM.yyyy HH:mm:ss"
+                  value-format="timestamp"
                 >
                 </el-date-picker>
               </div>
             </v-col>
-            <v-col cols="12" lg="3">
-              <div class="label">
-                {{ $t("forms.placedOrdersBox.shippingDate") }}
-              </div>
-              <div style="height: 40px !important">
-                <el-date-picker
-                  :disabled="!!filters.shippingDateYearly"
-                  v-model="filters.shippingDateMonthly"
-                  type="month"
-                  style="width: 100%; height: 100%"
-                  placeholder="Pick a month"
-                  value-format="MM-yyyy"
-                />
-              </div>
-            </v-col>
-            <v-col cols="12" lg="3">
-              <div class="label">
-                {{ $t("forms.placedOrdersBox.shippingDateYear") }}
-              </div>
-              <div style="height: 40px !important">
-                <el-date-picker
-                  :disabled="!!filters.shippingDateMonthly"
-                  v-model="filters.shippingDateYearly"
-                  type="year"
-                  style="width: 100%; height: 100%"
-                  placeholder="Pick a year"
-                  value-format="yyyy"
-                />
-              </div>
-            </v-col>
+            
             <v-col cols="12" lg="3">
               <div class="label">
                 {{ $t("forms.calculationsList.country") }}
@@ -540,6 +511,7 @@ export default {
     filter() {
       const { shippingDateYearly, shippingDateMonthly } = this.filters;
       let shippingDate = "";
+      
       if (shippingDateYearly !== "") {
         shippingDate = shippingDateYearly;
       } else if (shippingDateMonthly !== "") {
@@ -547,26 +519,28 @@ export default {
       }
       const data = {
         brandName: this.filters.brandName,
-        clientName: !!this.filters.clientName?.name
-          ? this.filters.clientName?.name
-          : "",
-        country: !!this.filters.country?.name ? this.filters.country?.name : "",
-        creatorId: this.filters.creatorId?.id ? this.filters.creatorId?.id : 0,
-        fromDate: !!this.filters.fromDate ? this.filters.fromDate : null,
-        shippingDate: !!shippingDate ? shippingDate : null,
-        gender: this.filters.gender,
-        modelStatus: this.filters.modelStatus,
-        accessoryStatus: this.filters.accessoryStatus,
-        fabricStatus: this.filters.fabricStatus,
-        modelGroup: this.filters.modelGroup,
-        modelNumber: this.filters.modelNumber?.modelNumber
-          ? this.filters.modelNumber?.modelNumber
-          : "",
-        orderNumber: this.filters.orderNumber?.orderNumber
-          ? this.filters.orderNumber?.orderNumber
-          : "",
-        toDate: !!this.filters.toDate ? this.filters.toDate : null,
+        clientId: !!this.filters.clientName?.id
+          ? this.filters.clientName?.id
+          : null,
+        countryId: !!this.filters.country?.id ? this.filters.country?.id : null,
+        creatorId: this.filters.creatorId?.id ? this.filters.creatorId?.id : null,
+        from: !!this.filters.fromDate ? this.filters.fromDate : null,
+        gender: !!this.filters.gender ? this.filters.gender : null,
+        // modelStatus: this.filters.modelStatus,
+        accessoryStatus: !!this.filters.accessoryStatus ? this.filters.accessoryStatus : null,
+        fabricStatus: !!this.filters.fabricStatus ? this.filters.fabricStatus : null,
+        modelGroupId: this.filters.modelGroup?.id?this.filters.modelGroup?.id:null,
+        modelId: this.filters.modelNumber?.id
+          ? this.filters.modelNumber?.id
+          : null,
+        orderId: this.filters.orderNumber?.id
+          ? this.filters.orderNumber?.id
+          : null,
+        to: !!this.filters.toDate ? this.filters.toDate : null,
+        modelStatus:"ACTIVE"
+        
       };
+
       this.getPdfList(data);
       this.isLoad = true;
     },
