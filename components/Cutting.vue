@@ -87,7 +87,7 @@
 
         <v-tooltip
           top
-          color="green"
+          color="#544B99"
           class="pointer"
           v-if="Object.keys(item).length > 2"
         >
@@ -96,13 +96,13 @@
               icon
               v-bind="attrs"
               v-on="on"
-              color="green"
+              color="#544B99"
               @click="editItem(item)"
             >
-              <v-img src="/edit-active.svg" max-width="22"/>
+              <v-img src="/daily.png" max-width="22"/>
             </v-btn>
           </template>
-          <span class="text-capitalize">edit</span>
+          <span class="text-capitalize">Daily work</span>
         </v-tooltip>
 
         <v-tooltip
@@ -151,7 +151,7 @@
     <v-dialog v-model="edit_dialog" width="1200">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Edit Cutting info</div>
+          <div class="text-capitalize font-weight-bold">Daily work Info</div>
           <v-btn icon color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
