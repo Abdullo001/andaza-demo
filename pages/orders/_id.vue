@@ -202,7 +202,7 @@
                   placeholder="dd.MM.yyyy HH:mm:ss"
                   style="width: 100%; height: 100%"
                   type="datetime"
-                  value-format="dd.MM.yyyy HH:mm:ss"
+                  value-format="timestamp"
                 >
                 </el-date-picker>
               </div>
@@ -217,7 +217,7 @@
                   placeholder="dd.MM.yyyy HH:mm:ss"
                   style="width: 100%; height: 100%"
                   type="datetime"
-                  value-format="dd.MM.yyyy HH:mm:ss"
+                  value-format="timestamp"
                 >
                 </el-date-picker>
               </div>

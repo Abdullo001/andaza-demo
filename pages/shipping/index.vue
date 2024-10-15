@@ -183,7 +183,7 @@ export default {
     },
 
     loadDetails({ item }) {
-      // current opened || choose object ^
+      // current opened || choose object 
     },
 
     async page(value) {
@@ -236,6 +236,8 @@ export default {
   mounted(){
     this.$store.commit("setPageTitle", "Shipping");
     this.getShippingList({
+      page:0,
+      size:10,
       clientName: "",
       invoiceNumber: "",
       shippingDate: "",

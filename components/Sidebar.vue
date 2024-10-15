@@ -328,6 +328,7 @@
             @update:items-per-page="size"
             :server-items-length="recivedNotificationListTotalElements"
             @click:row="(item) => getMessageInfo(item)"
+            :item-class="rowClass"
           >
           
           <template #item.read="{item}">
@@ -807,6 +808,10 @@ export default {
       this.notificationDialog=false
     },
 
+    rowClass(item) {
+      return !item.read ? 'notification-item' : ''
+    },
+
     async startListeners() {
       await this.requestPermission();
       await this.getIdToken();
@@ -857,60 +862,7 @@ export default {
     let afterPermissionList = [];
     const permissionList =
       JSON.parse(window.localStorage.getItem("permissionList")) || [];
-    // permissionList.forEach((perName) => {
-    //   this.items.forEach((item) => {
-    //     if (!item.has_child) {
-    //       if (perName.permissionName === item.name) {
-
-    //         afterPermissionList.push({...item,disabledMenu:perName.canRead});
-    //       }
-    //     }
-    //     if (item.has_child) {
-    //       if (perName.permissionName === item.name) {
-    //         item.child = [...item.children];
-    //         afterPermissionList.push(item);
-    //       } else {
-    //         const childChecker = [];
-
-    //         item.children.forEach((el) => {
-    //           if (perName.permissionName == el.name) {
-    //             childChecker.push({...el,disabledMenu:perName.canRead});
-    //           }
-    //         });
-
-    //         if (childChecker.length) {
-    //           item.child.push(...childChecker);
-    //           afterPermissionList.push(item);
-    //           const uniqueElements = new Set(afterPermissionList);
-    //           afterPermissionList = [...uniqueElements];
-    //         }
-    //       }
-    //     }
-    //   });
-    //   if (
-    //     perName.permissionName === "MANAGEMENT_FORM" ||
-    //     perName.permissionName === "PRODUCTION_FORM"
-    //   ) {
-    //     let has_form = false;
-    //     afterPermissionList.forEach((item) => {
-    //       if (item.title === "Forms") {
-    //         has_form = true;
-    //       }
-    //     });
-    //     if (!has_form) {
-    //       afterPermissionList.push({
-    //         disabledMenu:perName.canRead,
-    //         icon: ["forms-icon.svg", "forms-icon-active.svg"],
-    //         title: "Forms",
-    //         to: this.localePath("/forms"),
-    //         has_child: false,
-    //         name: "FORMS",
-    //         localization: "forms",
-    //       });
-    //     }
-    //   }
-    // });
-    // console.log(afterPermissionList);
+    
     this.startListeners();
 
 

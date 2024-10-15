@@ -52,7 +52,7 @@
 
         <v-tooltip
           top
-          color="green"
+          color="#544B99"
           class="pointer"
           v-if="Object.keys(item).length > 2"
         >
@@ -61,13 +61,13 @@
               icon
               v-bind="attrs"
               v-on="on"
-              color="green"
+              color="#544B99"
               @click="editItem(item)"
             >
-              <v-img src="/edit-active.svg" max-width="22"/>
+              <v-img src="/daily.png" max-width="22"/>
             </v-btn>
           </template>
-          <span class="text-capitalize">edit</span>
+          <span class="text-capitalize">Daily work</span>
         </v-tooltip>
 
         <v-tooltip
@@ -107,6 +107,7 @@
         </v-btn>
       </v-card-title>
       <v-card-text class="mt-4">
+        <v-form ref="classification_form" v-model="edit_validate" lazy-validation>
         <v-row>
           <v-col cols="12" lg="3" v-for="(item,idx) in classification_shortcom.sizeDistributions" :key="idx">
             <div class="label">{{ item.size }}</div>
@@ -116,7 +117,7 @@
               dense
               height="44"
               class="rounded-lg base" color="#544B99"
-              placeholder="Enter branch number"
+              placeholder="0"
               v-model.trim="item.quantity"
             />
           </v-col>
@@ -131,7 +132,7 @@
               dense
               height="44"
               class="rounded-lg base" color="#544B99"
-              placeholder="Enter branch number"
+              placeholder="Select reason"
             />
           </v-col>
           <v-col cols="12" lg="6">
@@ -143,10 +144,11 @@
               dense
               height="44"
               class="rounded-lg base" color="#544B99"
-              placeholder="Enter branch number"
+              placeholder="Enter commet"
             />
           </v-col>
         </v-row>
+      </v-form>
       </v-card-text>
       <v-card-actions class="px-10 pb-5">
         <v-spacer/>
@@ -204,7 +206,7 @@
   <v-dialog v-model="edit_dialog" width="1200">
     <v-card>
       <v-card-title class="d-flex justify-space-between w-full">
-        <div class="text-capitalize font-weight-bold">Edit {{title}} info</div>
+        <div class="text-capitalize font-weight-bold">Daily work info</div>
         <v-btn icon color="#544B99" @click="edit_dialog = false">
           <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -381,7 +383,7 @@ export default {
         const sizesList = [];
         el?.sizeDistributionList.forEach((item) => {
           value[item.size] = item.quantity
-          sizesList.push({size: item.size, quantity: 0})
+          sizesList.push({size: item.size, quantity: null})
         });
 
         return {
@@ -450,9 +452,10 @@ export default {
 
     getClassification(item) {
       this.classification_dialog = true;
-      this.classification_shortcom={...item}
+      this.classification_shortcom=JSON.parse(JSON.stringify(item))
+      
     },
-    saveShortcom(){
+    async saveShortcom(){
       const data={
         description:this.classification_shortcom.comment,
         detailsId:this.classification_shortcom.id,
@@ -464,8 +467,11 @@ export default {
           data.sizeDistributions.push(item)
         }
       })
-      this.createShortcomingsList({data,id:this.planningProcessId})
+      await this.createShortcomingsList({data,id:this.planningProcessId})
+      
       this.classification_dialog=false
+      this.classification_shortcom=[]
+
     },
 
     editItem(item){
