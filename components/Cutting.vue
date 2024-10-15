@@ -378,7 +378,7 @@
                 dense
                 height="44"
                 class="rounded-lg base" color="#544B99"
-                placeholder="Enter branch number"
+                placeholder="0"
                 v-model.trim="item.quantity"
               />
             </v-col>
@@ -393,7 +393,7 @@
                 dense
                 height="44"
                 class="rounded-lg base" color="#544B99"
-                placeholder="Enter branch number"
+                placeholder="Select reason"
               />
             </v-col>
             <v-col cols="12" lg="6">
@@ -405,7 +405,7 @@
                 dense
                 height="44"
                 class="rounded-lg base" color="#544B99"
-                placeholder="Enter branch number"
+                placeholder="Enter comment"
               />
             </v-col>
           </v-row>
@@ -516,7 +516,7 @@ export default {
         const sizesList = [];
         el?.sizeDistributionList.forEach((item) => {
           value[item.size] = item.quantity
-          sizesList.push({size: item.size, quantity: 0})
+          sizesList.push({size: item.size, quantity: null})
         });
 
         return {
@@ -657,11 +657,7 @@ export default {
 
     getClassification(item) {
       this.classification_dialog = true
-      this.classification_shortcom = {
-        ...item,
-        reason: '',
-        comment: '',
-      }
+      this.classification_shortcom=JSON.parse(JSON.stringify(item))
     },
     saveClassification() {
       const data = {
@@ -678,6 +674,7 @@ export default {
 
       this.createClassification(data)
       this.classification_dialog = false
+      this.classification_shortcom=[]
     }
   },
 
