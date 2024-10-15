@@ -562,6 +562,7 @@ export default {
     },
     bodyParts(items) {
       this.headerBodyPart = [];
+      this.newSizeDistirbution.modelBodyParts=[]
       this.headers = [];
       for (let item in items) {
         const res = { text: item, sortable: false, value: item };
@@ -607,6 +608,9 @@ export default {
       let totalObj = 0;
       let totalSizes = [];
       let totalPriceWithDiscount = 0;
+      const orderedItemList = this.sizes
+      const orderedSizeDistribution = {}
+      
 
       const specialList = list.map(function (el) {
         const value = {};
@@ -621,21 +625,34 @@ export default {
         const valueSizes = {};
         const valueSizesList = [];
         let idx = 0;
+        for(let orderedItem in orderedItemList){
+          for (let item in el.sizeDistributions) {
+            if(orderedItemList[orderedItem]===item){
+              orderedSizeDistribution[item]=el.sizeDistributions[item]
+            }
+            
+            
+          }
+        }
 
-        for (let item in el.sizeDistributions) {
+        for (let item in orderedSizeDistribution) {
           totalSizes[idx]
             ? (totalSizes[idx] = totalSizes[idx])
             : (totalSizes[idx] = 0);
           totalSizes[idx] =
-            parseInt(totalSizes[idx]) + parseInt(el.sizeDistributions[item]);
+            parseInt(totalSizes[idx]) + parseInt(orderedSizeDistribution[item]);
           idx++;
           const sizeObj = {
             size: item,
-            quantity: el.sizeDistributions[item],
+            quantity: orderedSizeDistribution[item],
           };
-          valueSizes[item] = el.sizeDistributions[item];
+          valueSizes[item] = orderedSizeDistribution[item];
           valueSizesList.push(sizeObj);
         }
+        
+
+        
+        
 
         totalObj = totalObj + el.total;
         totalPriceWithDiscount =
