@@ -64,7 +64,7 @@
               color="#544B99"
               @click="editItem(item)"
             >
-              <v-img src="/daily.png" max-width="22"/>
+              <v-img src="/daily.svg" max-width="25"/>
             </v-btn>
           </template>
           <span class="text-capitalize">Daily work</span>

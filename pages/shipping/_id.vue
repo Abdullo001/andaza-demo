@@ -38,6 +38,7 @@
                           outlined
                           :placeholder="$t('shipping.id.invoiceNo')"
                           validate-on-blur
+                          :rules="[formRules.required]"
                       />
                   </v-col>
                   <v-col cols="12" lg="3" md="3" sm="6">
@@ -539,7 +540,10 @@ export default {
       getShippingOperationList: "shippingModels/getShippingOperationList",
     }),
       async createdNewShipping() {
+        const validate = this.$refs.order_detail.validate()
+       if(validate){
         await this.createShipping(this.shipping);
+       }
       },
       async updateShippingFunc() {
           await this.updateShipping(this.shipping);
