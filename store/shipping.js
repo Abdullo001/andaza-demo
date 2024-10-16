@@ -85,8 +85,7 @@ export const actions = {
         size: 10
       });
   }).catch((res) => {
-      this.$toast.error(res.data.message);
-      console.log(res)
+      this.$toast.error(res.data.errorMessage);
     })
   },
   async updateShipping({commit}, data) {
