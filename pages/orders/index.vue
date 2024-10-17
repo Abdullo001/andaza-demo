@@ -318,7 +318,7 @@ export default {
       await this.filterOrderList({ page: 0, size: 10, data: this.filters });
     },
     async changeStatus(item) {
-      await this.changeStatusOrder({ id: item.id, status: item.status });
+      await this.changeStatusOrder({ id: item.id, status: item.status, modelId:item.modelId });
     },
     addOrder() {
       this.$router.push(`/orders/add-order`);

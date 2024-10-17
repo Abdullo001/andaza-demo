@@ -236,7 +236,7 @@ export default {
         status: '',
         createdAt: ''
       },
-      status_enums: [{key:'ACTIVE',value:this.$t('statusItems.active')}, {key:'DISABLED',value:this.$t('statusItems.disabled')}, {key:'PENDING',value:this.$t('statusItems.pending')}],
+      status_enums: [{key:'ACTIVE',value:this.$t('statusItems.active')}, {key:'DISABLED',value:this.$t('statusItems.disabled')}, {key:'PENDING',value:this.$t('statusItems.pending')}, {key:'CANCELED',value:this.$t('statusItems.cancelled')}],
       headers: [
         {text: this.$t('modelBox.table.no'), value: 'ordinalNumber', sortable:false},
         {text: this.$t('modelBox.table.client'), value: 'partner', sortable:false},
