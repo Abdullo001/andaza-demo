@@ -82,6 +82,12 @@
           </v-toolbar-title>
         </v-toolbar>
       </template>
+      <template #item.sendDate="{item}">
+        {{ formatLong(item.sendDate) }}
+      </template>
+      <template #item.result="{item}">
+        <v-chip :color="statusColor.inspectionStatus(item.result)" dark class="font-weight-bold ml-5">{{ item.result }}</v-chip>
+      </template>
       <template #item.actions="{ item }">
         <div>
           <v-tooltip top color="#544B99">
@@ -115,22 +121,12 @@ export default {
       modelNumSearch: "",
       filter_form: true,
       headers: [
-        {
-          text: this.$t("forms.inspectionFiles.documentName"),
-          sortable: false,
-          value: "title",
-        },
-        {
-          text: this.$t("forms.inspectionFiles.description"),
-          sortable: false,
-          value: "description",
-        },
-        {
-          text: this.$t("forms.inspectionFiles.actions"),
-          sortable: false,
-          align: "center",
-          value: "actions",
-        },
+        {text:  this.$t('inspectionBox.inspectionDate'), sortable: false, value: 'sendDate'},
+        {text: this.$t('inspectionBox.titleDoc'), sortable: false, value: 'title'},
+        {text:this.$t('listsModels.child.description'), sortable: false, value: 'description'},
+        {text: this.$t('partners.table.status'),  sortable: false, value: 'result'},
+        {text: this.$t("catalogGroups.tabs.table.createdAt"), sortable: false, value: 'createdAt'},
+        {text: this.$t("catalogGroups.tabs.table.actions"), sortable: false, align: 'center', value: 'actions'},
       ],
       inspectionList: [],
     };
@@ -152,10 +148,8 @@ export default {
   },
   watch: {
     inspectionFileList(val) {
-      this.inspectionList = [];
-      if (Object.keys(this.inspectionFileList).length !== 0) {
-        this.inspectionList.push(val);
-      }
+      this.inspectionList = JSON.parse(JSON.stringify(val));
+      
     },
     modelNumSearch(val) {
       if (!!val) {
