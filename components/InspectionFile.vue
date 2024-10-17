@@ -139,7 +139,7 @@
                 />
                 </v-col>
                 <v-col cols="12" lg="4">
-                  <div class="label">Send date</div>
+                  <div class="label">Inspection date</div>
                   <div style="height: 40px !important">
                     <el-date-picker
                       v-model="newInspectionFile.sendDate"
