@@ -2576,4 +2576,6 @@ export default {
     areYouSureYouWantToDeleteFabricWarehouseRow:
       "Are you sure you want to delete fabric warehouse row?",
   },
+  alertText:"Please select at least one item to place an order"
+
 };

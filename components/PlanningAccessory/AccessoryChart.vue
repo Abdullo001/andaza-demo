@@ -698,7 +698,7 @@ export default {
         const data={
           accessoryId: accessoryId,
           accessoryPlanningId: this.$route.params.id!=='create'?this.$route.params.id:this.accessoryId,
-          accessoryPricePerCurrency: pricePerUnitCurrency,
+          currency: pricePerUnitCurrency,
           accessoryPricePerUnit: pricePerUnit,
           description: description,
           productionQuantity: productionQuantity,
@@ -728,7 +728,7 @@ export default {
         const data={
           accessoryId: accessoryId.id,
           accessoryPlanningId: this.$route.params.id!=='create'?this.$route.params.id:this.accessoryId,
-          accessoryPricePerCurrency: accessoryPricePerCurrency,
+          currency: accessoryPricePerCurrency,
           accessoryPricePerUnit: accessoryPricePerUnit,
           description: description,
           productionQuantity: productionQuantity,

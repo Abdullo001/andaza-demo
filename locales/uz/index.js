@@ -2578,4 +2578,6 @@ export default {
     areYouSureYouWantToDeleteFabricWarehouseRow:
       "Mato ombor qatorini o'chirishni xohlaysizmi?",
   },
+
+  alertText:" Iltimos, buyurtma berish uchun kamida bitta elementni tanlang"
 };

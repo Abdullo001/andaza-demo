@@ -2568,4 +2568,5 @@ export default {
     areYouSureYouWantToDeleteFabricWarehouseRow:
       "Вы уверены, что хотите удалить строку склада ткани?",
   },
+  alertText:"Пожалуйста, выберите хотя бы один элемент для оформления заказа"
 };
