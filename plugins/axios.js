@@ -1,4 +1,4 @@
-export default function ({$axios, store, app, redirect}) {
+export default function ({$axios, store, app, redirect, }) {
   $axios.onRequest((config) => {
     delete $axios.defaults.headers.common["Authorization"];
     if (store.state.token) {
@@ -14,6 +14,6 @@ export default function ({$axios, store, app, redirect}) {
       app.$auth.$storage.removeUniversal('refreshToken')
       redirect('/login');
     }
-    app.$toast.error(error.response.data.message);
+    app.$toast.error(error.response.data.errorMessage);
   })
 }
