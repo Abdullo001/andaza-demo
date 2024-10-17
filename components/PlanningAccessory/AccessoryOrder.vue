@@ -59,11 +59,28 @@
         </v-card>
       </template>
       <template #item.isOrdered="{ item }">
+        <div :class="{'checkbox-warning': showAlert && !item.ordered}">
+          <v-simple-checkbox
+            v-if="!item.ordered"
+            v-model="item.isOrdered"
+            :disabled="item.status==='ORDERED'"
+            color="#544B99"
+            class="ml-2"
+            @input="handleCheckboxChange"
+          ></v-simple-checkbox>
+        </div>
         <v-simple-checkbox
-          v-model="item.isOrdered"
-          :disabled="item.status==='ORDERED'"
-          color="#544B99"
-        ></v-simple-checkbox>
+            v-if="item.ordered"
+            v-model="item.ordered"
+            :disabled="item.status==='ORDERED'"
+            color="#544B99"
+            class="ml-2"
+            @input="handleCheckboxChange"
+          ></v-simple-checkbox>
+      </template>
+
+      <template #item.deadline="{item}">
+        {{ formatLong(item.deadline) }}
       </template>
 
       <template #item.status="{item}">
@@ -95,6 +112,16 @@
       </template>
     </v-data-table>
     <v-divider />
+    <v-alert
+      v-model="showAlert"
+      dismissible
+      color="warning"
+      border="left"
+      class="mt-4"
+      @click="showAlert = false"
+    >
+    {{ $t('alertText') }}
+    </v-alert>
     <div class="d-flex mt-6">
       <v-spacer />
       <v-btn
@@ -103,7 +130,7 @@
         dark
         height="44"
         width="133"
-        @click="savePlanningOrder"
+        @click="validateAndSave"
       >
        {{ $t('fabricOrderingBox.plannedAccessoryOrderBox.order')  }}
       </v-btn>
@@ -119,7 +146,7 @@ export default {
   data() {
     return {
       status_enums: ["ORDERED","RECEIVED", "CANCELLED", "PENDING"],
-
+      showAlert: false,
       headers: [
         { text: "", value: "isOrdered", sortable: false },
         {
@@ -167,6 +194,9 @@ export default {
     };
   },
   computed: {
+    hasSelectedItems() {
+      return this.allPlannerOrder.some(item => item.isOrdered && item.status !== 'ORDERED');
+    },
     ...mapGetters({
       partnerLists: "partners/partnerList",
       warehouseList: "plannedOrder/warehouseList",
@@ -178,6 +208,7 @@ export default {
   watch: {
     plannedOrderList(val) {
       this.allPlannerOrder = JSON.parse(JSON.stringify(val));
+      
     },
     partnerName(val) {
       
@@ -209,27 +240,49 @@ export default {
       changeStatus: "accessoryOrder/changeStatus",
       getDocuments: "documents/getDocuments",
     }),
-    savePlanningOrder() {
-      const id = this.$route.params.id!=='create'?this.$route.params.id:this.$store.getters["accessory/newId"];
-      const valid = this.$refs.valid.validate();
-      if (valid) {
-        const planningOrderRequests = []
-        this.allPlannerOrder.forEach((item) => {
-          if(item.isOrdered&&item.status!=='ORDERED'){
-            planningOrderRequests.push({
-              chartId:item.planningChartId,
-              orderedQuantity:item.orderedQuantity,
-            })
+    validateAndSave() {
+      if (!this.hasSelectedItems) {
+        this.showAlert = true;
+        this.$nextTick(() => {
+          const alertElement = document.querySelector('.v-alert');
+          if (alertElement) {
+            alertElement.scrollIntoView({ behavior: 'smooth' });
           }
         });
-
-        const data = {
-          deliveryTime: this.details.deliveryTime,
-          partnerId: this.details.partnerName.id,
-          planningOrderRequests,
-        };
-        this.createPlanningOrder({ data,id });
+        return;
       }
+      const valid = this.$refs.valid.validate();
+      if (valid) {
+        this.savePlanningOrder();
+      }
+    },
+    handleCheckboxChange() {
+      this.$nextTick(() => {
+        if (this.hasSelectedItems) {
+          this.showAlert = false;
+        }
+      });
+    },
+    savePlanningOrder() {
+      const id = this.$route.params.id !== 'create' ? this.$route.params.id : this.$store.getters["accessory/newId"];
+      const planningOrderRequests = [];
+      
+      this.allPlannerOrder.forEach((item) => {
+        if (item.isOrdered && item.status !== 'ORDERED') {
+          planningOrderRequests.push({
+            chartId: item.planningChartId,
+            orderedQuantity: item.orderedQuantity,
+          });
+        }
+      });
+
+      const data = {
+        deliveryTime: this.details.deliveryTime,
+        partnerId: this.details.partnerName.id,
+        planningOrderRequests,
+      };
+      
+      this.createPlanningOrder({ data, id });
     },
 
     changeStatusFunc(item){
@@ -268,5 +321,28 @@ export default {
       color: #9a979d !important;
     }
   }
+}
+.checkbox-warning {
+  border: 2px solid #ff5252;
+  border-radius: 4px;
+  padding: 2px;
+  display: inline-block;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 82, 82, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(255, 82, 82, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 82, 82, 0);
+  }
+}
+
+.margin-0{
+  margin: 0 !important;
 }
 </style>

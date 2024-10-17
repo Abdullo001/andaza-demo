@@ -78,13 +78,20 @@ export const actions = {
         console.log(response);
       });
   },
-  async changeStatusOrder({ dispatch }, { id, status }) {
-    await this.$axios
-      .$put(`/api/v1/orders/change-status?id=${id}&status=${status}`)
+  async changeStatusOrder({ dispatch }, { id, status,modelId }) {
+    const data = {
+      modelId,
+      orderStatus:status
+    }
+    await this.$axios.$put(`/api/v1/orders/change-status/${id}`,data)
       .then((res) => {
-        this.$toast.success(res.message, { theme: "toasted-primary" });
+        this.$toast.success(res.data.data.message);
+        dispatch("getOrdersList",{page:0, size:10})
       })
-      .catch(({ response }) => console.log(response));
+      .catch(({ response }) => {
+        console.log(response)
+        dispatch("getOrdersList",{page:0, size:10})
+      });
   },
   async createdOrder({ commit, dispatch }, data) {
     const order = {
