@@ -343,18 +343,9 @@
           </v-tab-item>
         </v-tabs-items>
         <v-spacer/>
-            <div class="mt-4 mr-4 mb-10 d-flex justify-end">
-              <v-btn
-                outlined
-                color="#544B99"
-                style="border-width: 2px"
-                width="280"
-                height="44"
-                class="rounded-lg font-weight-bold"
-              >
-                Finish Process
-              </v-btn>
-            </div>
+        <div class="text-right mt-5 mb-8">
+          <FinishProcessBtn v-bind="finishDate"/>
+        </div>
       </v-card-text>
     </v-card>
     <!--    Small tables -->
@@ -377,7 +368,8 @@ export default {
     Breadcrumbs: () => import('@/components/Breadcrumbs.vue'),
     Subcontractor: () => import('@/components/commonProcess/CommonSubcontractProcessTab.vue'),
     NextProcess: () => import('@/components/PassingToNextProcess.vue'),
-    NextProcessSecondClass: () => import('@/components/QualityControl/NextProcessSecondClass.vue')
+    NextProcessSecondClass: () => import('@/components/QualityControl/NextProcessSecondClass.vue'),
+    FinishProcessBtn: () => import('@/components/FinishProcessBtn.vue'),
   },
   data() {
     return {
@@ -443,6 +435,14 @@ export default {
     this.getColorsList();
   },
   computed: {
+    finishDate:{
+      get(){
+        return{
+          modelId:!!this.modelInfo.modelId?this.modelInfo.modelId:0,
+          propertyName:"PACKAGING",
+        }
+      }
+    },
     showObject() {
       return {
         show_active: this.show_btn
