@@ -17,6 +17,8 @@ export default function ({$axios, store, app, redirect, }) {
     app.$toast.error(error.response.data.errorMessage);
   })
   $axios.onResponse((response)=>{
-    app.$toast.success(response.data.data.message);
+    if(response.data.data?.message){
+      app.$toast.success(response.data.data.message);
+    }
   })
 }
