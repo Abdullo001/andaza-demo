@@ -55,12 +55,12 @@ export const actions = {
 
   changePageStatus({commit},{propertyName,modelId}){
     this.$axios.post(`/api/v1/models/finish-process/${modelId}?propertyName=${propertyName}`)
-    .then((res)=>{
-      this.$toast.success(res.data.message)
+    .then((response)=>{
+      this.$toast.success(response.data.message) 
     })
     .catch(({response})=>{
       console.log(response);
-      this.$toast.error(res.data.message)
+      this.$toast.error(response.data.errorMessage)
 
     })
   }
