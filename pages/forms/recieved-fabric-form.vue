@@ -99,8 +99,7 @@
             </v-col>
             <v-col cols="12" lg="3">
               <div class="label">
-                {{ $t("forms.orderedFabrics.approved")
-                }}<span style="color: red">*</span>
+                {{ $t("forms.orderedFabrics.approved")}}
               </div>
               <v-combobox
                 v-model="filters.approvedBy"
@@ -128,8 +127,7 @@
             </v-col>
             <v-col cols="12" lg="3">
               <div class="label">
-                {{ $t("forms.calculationsList.creator")
-                }}<span style="color: red">*</span>
+                {{ $t("forms.calculationsList.creator") }}
               </div>
               <v-combobox
                 v-model="filters.creator"
@@ -157,8 +155,7 @@
             </v-col>
             <v-col cols="12" lg="3">
               <div class="label">
-                {{ $t("forms.orderedFabrics.supplier")
-                }}<span style="color: red">*</span>
+                {{ $t("forms.orderedFabrics.supplier")}}
               </div>
               <v-combobox
                 v-model="filters.supplierName"
@@ -357,20 +354,20 @@ export default {
       const data = {
         supplierName: !!this.filters.supplierName?.name
           ? this.filters.supplierName?.name
-          : "",
+          : null,
         approvedBy: !!this.filters.approvedBy?.name
           ? this.filters.approvedBy?.name
-          : "",
+          : null,
         sipNumber: !!this.filters.sipNumber?.sipNumber
           ? this.filters.sipNumber?.sipNumber
-          : "",
-        creator: !!this.filters.creator?.name ? this.filters.creator?.name : "",
+          : null,
+        creator: !!this.filters.creator?.name ? this.filters.creator?.name : null,
         modelNumber: this.filters.modelNumber?.modelNumber
           ? this.filters.modelNumber?.modelNumber
-          : "",
+          : null,
         orderNumber: this.filters.orderNumber?.orderNumber
           ? this.filters.orderNumber?.orderNumber
-          : "",
+          : null,
       };
       this.getPdfList(data);
       this.isLoad = true;

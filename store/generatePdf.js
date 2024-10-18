@@ -124,7 +124,7 @@ export const actions = {
       });
   },
   getRecievedFabricPdfList({ commit }, data) {
-    this.$axios.put(`/api/v1/fabric-order/ordered-fabric-form`, data)
+    this.$axios.put(`/api/v1/fabric-warehouse/received-fabric-form`, data)
       .then((res) => {
         const binaryCode = atob(res.data);
         commit("setRecievedFabricPdfList", binaryCode);
