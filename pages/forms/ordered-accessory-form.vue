@@ -183,10 +183,10 @@ export default {
       const data = {
         supplierName: !!this.filters.supplierName?.name
           ? this.filters.supplierName?.name
-          : "",
+          : null,
         modelNumber: this.filters.modelNumber?.modelNumber
           ? this.filters.modelNumber?.modelNumber
-          : "",
+          : null,
       };
       this.getPdfList(data);
       this.isLoad = true;

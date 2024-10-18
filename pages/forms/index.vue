@@ -180,6 +180,12 @@ export default {
           status: "PRODUCTION",
           to: "/forms/print-pdf-generation",
         },
+        {
+          title: "All warehouses remaining",
+          subtitle: this.$t("forms.index.cards.inconmingSewingSub"),
+          status: "PRODUCTION",
+          to: "/forms/warehouse-remaining",
+        },
       ],
       filteredButtons: [],
     };

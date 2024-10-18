@@ -134,7 +134,7 @@ export const actions = {
       });
   },
   getOrderedAccessoryList({ commit }, data) {
-    this.$axios.put(`/api/v1/accessory-planning-charts/ordered-accessory-form`, data)
+    this.$axios.post(`/api/v1/accessory-planning-charts/ordered-accessory-form`, data)
       .then((res) => {
         const binaryCode = atob(res.data);
         commit("setOrderedAccessoryPdfList", binaryCode);
@@ -204,5 +204,28 @@ export const actions = {
     .catch((response)=>{
       console.log(response);
     })
-  }
+  },
+
+  getStockAccessoryPdf({commit}){
+    this.$axios.get(`/api/v1/accessory-stock/remains-pdf`)
+    .then((res)=>{
+      const binaryCode = atob(res.data);
+      commit("setPdfData", binaryCode);
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+
+  getWarehouseRemainsPdf({commit}){
+    this.$axios.get(`/api/v1/warehouse/warehouse-remains`)
+    .then((res)=>{
+
+      const binaryCode = atob(res.data);
+      commit("setPdfData", binaryCode);
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
 };
