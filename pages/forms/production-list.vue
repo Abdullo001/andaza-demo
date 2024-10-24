@@ -75,7 +75,7 @@
               </div>
               <v-combobox
                 v-model="filters.clientName"
-                :items="clientList"
+                :items="partnerLists"
                 :search-input.sync="clientSearch"
                 item-text="name"
                 item-value="name"

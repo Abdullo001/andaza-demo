@@ -106,6 +106,9 @@
           rounded dark
         />
       </template>
+      <template #item.inspectionDate="{item}">
+        {{ item.inspectionDate?formatLong(item.inspectionDate):"" }}
+      </template>
       <template #item.actions="{item}">
         <v-tooltip top color="#544B99">
           <template v-slot:activator="{on, attrs}">
