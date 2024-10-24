@@ -113,10 +113,10 @@
         </div>
       </template>
       <template #item.actions="{item}">
-        <v-tooltip top color="primary">
+        <v-tooltip top color="#544B99">
           <template v-slot:activator="{on, attrs}">
             <v-btn
-              icon color="primary"
+              icon color="#544B99"
               v-on="on" v-bind="attrs"
               @click="$router.push(localePath(`/prefinances/${item.id}`))"
             >
@@ -124,6 +124,20 @@
             </v-btn>
           </template>
           <span>{{ $t('prefinances.dialog.edit') }}</span>
+        </v-tooltip>
+        <v-tooltip top color="#544B99">
+          <template v-slot:activator="{on, attrs}">
+            <v-btn
+              icon color="#544B99"
+              v-on="on" v-bind="attrs"
+              @click.stop="generatePdf(item)"
+              :loading="loadingStates[item.id]"
+              :key="item.id"
+            >
+              <v-img src="/download.svg" max-width="24"/>
+            </v-btn>
+          </template>
+          <span>Generate PDF</span>
         </v-tooltip>
       </template>
     </v-data-table>
@@ -159,6 +173,9 @@ export default {
       preFinanceList: [],
       itemPerPage: 10,
       current_page: 0,
+      isLoad:false,
+      loadingStates: {},
+      currentLoadingId: null,
     }
   },
   created() {
@@ -175,19 +192,43 @@ export default {
     ...mapGetters({
       preFinancesContent: 'preFinance/preFinancesContent',
       loading: 'preFinance/loading',
-      totalElements: 'preFinance/totalElements'
+      totalElements: 'preFinance/totalElements',
+      prefinancePdf: "preFinance/prefinancePdf",
     })
   },
   watch: {
     preFinancesContent(val) {
       this.preFinanceList = JSON.parse(JSON.stringify(val))
-    }
+    },
+    prefinancePdf(val){
+      const blob = new Blob(
+        [new Uint8Array([...val].map((char) => char.charCodeAt(0)))],
+        { type: "application/pdf" }
+      );
+      const objectUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.setAttribute("target", "_blank");
+      a.setAttribute("href", objectUrl);
+      a.click();
+      this.$set(this.loadingStates, this.currentLoadingId, false);
+      this.currentLoadingId = null;
+    },
   },
   methods: {
     ...mapActions({
       getReFinancesList: "preFinance/getPreFinancesList",
-      changePreFinanceStatus: "preFinance/changeStatus"
+      changePreFinanceStatus: "preFinance/changeStatus",
+      getPrefinanceGeneratePdf:"preFinance/getPrefinanceGeneratePdf"
     }),
+    generatePdf(item){
+      this.$set(this.loadingStates, item.id, true);
+      this.currentLoadingId = item.id;
+      const data={
+        preFinanceId:item.id,
+      }
+      this.getPrefinanceGeneratePdf(data)
+
+    },
     resetFilters() {
       this.$refs.filter_form.reset();
       this.getReFinancesList(
