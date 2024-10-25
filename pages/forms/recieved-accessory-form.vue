@@ -179,12 +179,12 @@ export default {
     },
     filter() {
       const data = {
-        supplierName: !!this.filters.supplierName?.name
-          ? this.filters.supplierName?.name
-          : "",
-        modelNumber: this.filters.modelNumber?.modelNumber
-          ? this.filters.modelNumber?.modelNumber
-          : "",
+        supplierId: !!this.filters.supplierName?.id
+          ? this.filters.supplierName?.id
+          : null,
+        modelId: this.filters.modelNumber?.id
+          ? this.filters.modelNumber?.id
+          : null,
       };
       this.getPdfList(data);
       this.isLoad = true;

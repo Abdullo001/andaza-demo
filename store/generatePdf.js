@@ -144,7 +144,7 @@ export const actions = {
       });
   },
   getRecievedAccessoryPdfList({ commit }, data) {
-    this.$axios.put(`/api/v1/accessory-planning-charts/received-accessory-form`, data)
+    this.$axios.post(`/api/v1/accessory-planning-charts/received-accessory-form`, data)
       .then((res) => {
         const binaryCode = atob(res.data);
         commit("setRecievedAccessoryPdfList", binaryCode);
