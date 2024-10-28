@@ -107,7 +107,7 @@
               color="#544B99"
               dark
               class="text-capitalize rounded-lg"
-              @click="$router.push(`/samples/create-sample`)"
+              @click="$router.push(localePath(`/samples/create-sample`))"
             >
               <v-icon>mdi-plus</v-icon>
              {{ $t('samplesBox.addSample') }}
@@ -386,7 +386,7 @@ export default {
       getModelId: "orders/getModelId",
     }),
     viewDetails(item) {
-      this.$router.push(`/samples/${item.id}`);
+      this.$router.push(localePath(`/samples/${item.id}`));
     },
 
     filterOrder() {

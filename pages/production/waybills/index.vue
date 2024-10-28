@@ -187,10 +187,10 @@ export default {
       this.getWaybillList(data)
     },
     addWaybil() {
-      this.$router.push("/production/waybills/add-waybill");
+      this.$router.push(this.localePath("/production/waybills/add-waybill"));
     },
     viewDetails(item) {
-      this.$router.push(`/production/waybills/${item.id}`)
+      this.$router.push(this.localePath(`/production/waybills/${item.id}`))
     },
     deleteFunc(item) {},
     page(value) {

@@ -216,7 +216,7 @@ export default {
       await this.getAccessoryWarehouseList({ page: 0, size: this.itemPrePage ,...this.filters});
     },
     addArrivedAccessory() {
-      this.$router.push(`/accessory-warehouse/add-accessory-warehouse`);
+      this.$router.push(this.localePath(`/accessory-warehouse/add-accessory-warehouse`));
     },
     getRow(item) {
       const data = {
@@ -227,7 +227,7 @@ export default {
         plannedBy: item.plannedBy,
       };
       this.$store.commit("accessoryWarehouse/setEditDates", data);
-      this.$router.push(`/accessory-warehouse/${item.orderId}`);
+      this.$router.push(this.localePath(`/accessory-warehouse/${item.orderId}`));
     },
 
     resetFilters() {

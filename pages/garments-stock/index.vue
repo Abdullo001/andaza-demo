@@ -181,7 +181,7 @@ export default {
     },
     viewDetails(item){
       this.$store.commit("garmentStock/setStockId",item.id)
-      this.$router.push(`/garments-stock/${item.id}`)
+      this.$router.push(this.localePath(`/garments-stock/${item.id}`))
     },
     page(value){
       this.currentPage=val-1
@@ -194,7 +194,7 @@ export default {
     },
 
     addGarment(){
-      this.$router.push("/garments-stock/add-garment")
+      this.$router.push(this.localePath("/garments-stock/add-garment"))
     }
   },
 

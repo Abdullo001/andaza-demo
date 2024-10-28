@@ -170,10 +170,10 @@ export default {
       this.getInspectionList({page:0,size:10})
     },
     addInspection(){
-      this.$router.push('/inspection-file/add-inspection')
+      this.$router.push(this.localePath('/inspection-file/add-inspection'))
     },
     viewDetails(item){
-      this.$router.push(`/inspection-file/${item.modelId}`)
+      this.$router.push(this.localePath(`/inspection-file/${item.modelId}`))
       this.$store.commit("inspectionFile/setModel",{id:item.modelId,modelNumber:item.modelNumber})
     },
     page(val){

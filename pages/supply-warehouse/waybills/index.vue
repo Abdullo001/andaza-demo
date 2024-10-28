@@ -231,10 +231,10 @@ export default {
       this.getWaybillList(data)
     },
     addWaybil() {
-      this.$router.push("/supply-warehouse/waybills/add-waybill");
+      this.$router.push(this.localePath("/supply-warehouse/waybills/add-waybill"));
     },
     viewDetails(item) {
-      this.$router.push(`/supply-warehouse/waybills/${item.id}`)
+      this.$router.push(this.localePath(`/supply-warehouse/waybills/${item.id}`))
     },
     downloadDoc(item) {
       this.loading=true

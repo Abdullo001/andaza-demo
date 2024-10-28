@@ -1444,6 +1444,8 @@ export default {
       fabricStatus: "Fabric Status",
       accessoryStatus: "Accessory Status",
       modelStatus: "Model Status",
+      fromDate:"From date",
+      toDate:"To date",
     },
     printBox: {
       title: "Prints",

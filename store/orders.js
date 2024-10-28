@@ -180,7 +180,7 @@ export const actions = {
       description: data.description,
       priceWithDiscount: data.priceWithDiscount,
       priceWithDiscountCurrency: data.priceWithDiscountCurrency,
-      headOfProductionDepartmentId: data.headOfDepartmentId,
+      headOfProductionDepartmentId: data.headOfDepartment.id,
       id: data.id,
       orderDate:data.orderDate,
       modelId: data.modelId,

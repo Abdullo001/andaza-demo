@@ -179,7 +179,7 @@ export default {
       createShipping: "shipping/createShipping",
     }),
     async viewDetails(item){
-      await this.$router.push(`/shipping/${item.id}`);
+      await this.$router.push(this.localePath(`/shipping/${item.id}`));
     },
 
     loadDetails({ item }) {

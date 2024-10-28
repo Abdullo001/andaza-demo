@@ -118,7 +118,7 @@
               color="#544B99"
               v-on="on"
               v-bind="attrs"
-              @click="$router.push(`/catalog-groups/${item.id}`)"
+              @click="$router.push(localePath(`/catalog-groups/${item.id}`))"
             >
               <v-icon>mdi-chevron-right</v-icon>
             </v-btn>

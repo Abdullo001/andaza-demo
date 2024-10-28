@@ -273,7 +273,7 @@ export const actions = {
   modelToPrefinance({commit},id){
     this.$axios.get(`/api/v1/pre-finances/get-by-model?modelId=${id}`)
     .then((res)=>{
-      this.$router.push(`/prefinances/${res.data.data.id}`)
+      this.$router.push(this.localePath(`/prefinances/${res.data.data.id}`))
     })
     .catch(({res})=>{
       console.log(res);

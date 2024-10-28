@@ -1341,6 +1341,8 @@ export default {
       fabricStatus: "Mato holati",
       accessoryStatus: "Aksessuar holati",
       modelStatus: "Model holati",
+      fromDate:"Boshlanish sanasidan",
+      toDate:"Tugash sanasigacha",
     },
     printBox: {
       title: "Pechat",

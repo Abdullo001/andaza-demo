@@ -168,10 +168,10 @@ export default {
     resetFilters() {},
     filterData() {},
     addGarment(){
-      this.$router.push("/rg-income-with-waybill/add-garment")
+      this.$router.push(this.localePath("/rg-income-with-waybill/add-garment"))
     },
     viewDetails(item) {
-      this.$router.push( `/rg-income-with-waybill/${item.id}`)
+      this.$router.push(this.localePath(`/rg-income-with-waybill/${item.id}`))
     },
     page(value) {
       this.current_page=value-1
