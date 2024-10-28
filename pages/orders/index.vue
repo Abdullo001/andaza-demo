@@ -201,6 +201,9 @@
           </div>
         </div>
       </template>
+      <template #item.deadline="{item}">
+        {{ item.deadline?formatLong(item.deadline):"" }}
+      </template>
       <template #item.action="{ item }">
         <v-tooltip top color="#544B99">
           <template v-slot:activator="{ on, attrs }">
@@ -256,7 +259,7 @@ export default {
         { text: this.$t('modelBox.modelPartsBox.creator'), value: "createdBy" },
         { text: this.$t("catalogGroups.tabs.table.createdAt"), value: "createdAt" },
         { text:  this.$t('partners.table.status'), value: "status", width: 215 },
-        { text:this.$t('orderBox.index.deadline'), value: "deadLine" },
+        { text:this.$t('orderBox.index.deadline'), value: "deadline" },
         { text: this.$t("catalogGroups.tabs.table.actions"), value: "action", sortable: false },
       ],
       list: [],
