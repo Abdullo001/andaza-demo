@@ -1331,6 +1331,8 @@ export default {
       fabricStatus: "Состояние ткани",
       accessoryStatus: "Статус аксессуара",
       modelStatus: "Статус модели",
+      fromDate: "С даты",
+      toDate: "До даты",
     },
     printBox: {
       title: "Печать",
