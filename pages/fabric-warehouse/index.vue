@@ -91,7 +91,7 @@
                 color="#544B99"
                 outlined
                 class="text-capitalize rounded-lg mr-2"
-                @click="$router.push(`/fabric-warehouse/fabric-stock`)"
+                @click="$router.push(localePath(`/fabric-warehouse/fabric-stock`))"
               >
                 {{$t('fabricWarehouse.fabricStock') }}
               </v-btn>

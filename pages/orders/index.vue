@@ -132,7 +132,7 @@
                 color="#544B99"
                 outlined
                 class="text-capitalize rounded-lg mr-2"
-                @click="$router.push(`/forms/print-pdf-generation`)"
+                @click="$router.push(localePath(`/forms/print-pdf-generation`))"
               >
               {{ $t('orderBox.index.printForms') }}
               </v-btn>
@@ -140,7 +140,7 @@
                 color="#544B99"
                 outlined
                 class="text-capitalize rounded-lg mr-2"
-                @click="$router.push(`/forms/order-pdf-generation`)"
+                @click="$router.push(localePath(`/forms/order-pdf-generation`))"
               >
                 {{ $t('orderBox.index.placedOrderForm') }}
               </v-btn>
@@ -321,10 +321,10 @@ export default {
       await this.changeStatusOrder({ id: item.id, status: item.status, modelId:item.modelId });
     },
     addOrder() {
-      this.$router.push(`/orders/add-order`);
+      this.$router.push(this.localePath(`/orders/add-order`));
     },
     async viewDetails(item) {
-      await this.$router.push(`/orders/${item.id}?modelId=${item.modelId}`);
+      await this.$router.push(this.localePath(`/orders/${item.id}?modelId=${item.modelId}`));
       await this.$store.commit("orders/setModelId", item.modelId);
     },
     getCopyKey(item) {

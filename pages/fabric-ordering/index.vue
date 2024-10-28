@@ -160,7 +160,7 @@
           color="#544B99"
           outlined
           class="text-capitalize rounded-lg mr-2"
-          @click="$router.push(`/fabric-ordering/fabrics-list`)"
+          @click="$router.push(localePath(`/fabric-ordering/fabrics-list`))"
         >
          {{ $t('fabricOrderingBox.index.fabricList') }}
         </v-btn>

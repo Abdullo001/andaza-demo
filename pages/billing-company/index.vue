@@ -311,7 +311,7 @@ export default {
     changeStatus() {},
     viewDetails(item) {
       console.log(item);
-      this.$router.push(`/billing-company/${item.id}`)
+      this.$router.push(this.localePath(`/billing-company/${item.id}`))
     },
     getCopyKey(item) {
       navigator.clipboard.writeText(item)

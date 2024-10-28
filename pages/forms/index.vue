@@ -34,7 +34,7 @@
                 v-if="item.status == filter || filter === 'ALL'"
                 height="150"
                 style="cursor: pointer"
-                @click="$router.push(`${item.to}`)"
+                @click="$router.push(localePath(`${item.to}`))"
               >
                 <v-card-title class="d-flex align-center justify-center">
                   <div style="color: #544b99" class="text-center">

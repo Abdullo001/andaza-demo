@@ -119,7 +119,7 @@
       :server-items-length="totalElements"
       @update:page="page"
       @update:items-per-page="size"
-      @click:row="(item) => $router.push(`/fabric/${item.id}`)"
+      @click:row="(item) => $router.push(localePath(`/fabric/${item.id}`))"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -129,7 +129,7 @@
               color="#544B99"
               class="rounded-lg text-capitalize"
               dark
-              @click="$router.push(`/fabric/create`)"
+              @click="$router.push(localePath(`/fabric/create`))"
             >
               <v-icon>mdi-plus</v-icon>
               {{$t('planning.index.fabric')}}
@@ -146,7 +146,7 @@
               color="#544B99"
               v-on="on"
               v-bind="attrs"
-              @click="$router.push(`/fabric/${item.id}`)"
+              @click="$router.push(localePath(`/fabric/${item.id}`))"
             >
               <v-icon>mdi-chevron-right</v-icon>
             </v-btn>

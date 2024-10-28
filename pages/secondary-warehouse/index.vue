@@ -166,10 +166,10 @@ export default {
     resetFilters() {},
     filterData() {},
     addGarment(){
-      this.$router.push("/secondary-warehouse/add-garment")
+      this.$router.push(this.localePath("/secondary-warehouse/add-garment"))
     },
     viewDetails(item) {
-      this.$router.push( `/secondary-warehouse/${item.id}`)
+      this.$router.push( this.localePath(`/secondary-warehouse/${item.id}`))
     },
     page(value) {
       this.current_page=value-1
