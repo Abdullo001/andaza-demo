@@ -484,7 +484,6 @@ export default {
       getModelInfo: 'production/planning/getModelInfo',
       getImages: 'modelPhoto/getImages',
       getProcessList: 'production/planning/getProcessList',
-      getColorsList: 'production/planning/getColorsList',
       createProcessPlanning: 'production/planning/createProcessPlanning',
       getProcessingList: 'production/planning/getProcessingList',
       getShortcomingsList:'commonCalculationsShortcomings/getShortcomingsList',

@@ -25,16 +25,18 @@ export const mutations={
 
 export const actions={
   getHistoryList({commit},id){
-    this.$axios.get(`/api/v1/common-operation/list?detailsId=${id}&operationType=FIRST_CLASS`)
+    this.$axios.get(`/api/v1/common-operations?commonProcessDetailsId=${id}&commonOperationType=FIRST_CLASS`)
     .then((res)=>{
       commit("setHistoryList",res.data.data)
+      console.log(res);
+      
     })
     .catch((res)=>{
       console.log(res);
     })
   },
   getHistorySecondList({commit},id){
-    this.$axios.get(`/api/v1/common-operation/list?detailsId=${id}&operationType=SECOND_CLASS`)
+    this.$axios.get(`/api/v1/common-operations?commonProcessDetailsId=${id}&commonOperationType=SECOND_CLASS`)
     .then((res)=>{
       commit("setHistorySecondList",res.data.data)
     })
@@ -43,7 +45,7 @@ export const actions={
     })
   },
   getHistorySentToAlterationList({commit},id){
-    this.$axios.get(`/api/v1/common-operation/list?detailsId=${id}&operationType=SENT_TO_ALTERATION`)
+    this.$axios.get(`/api/v1/common-operations?commonProcessDetailsId=${id}&commonOperationType=SENT_TO_ALTERATION`)
     .then((res)=>{
       commit("setHistorySentToAlterationList",res.data.data)
     })

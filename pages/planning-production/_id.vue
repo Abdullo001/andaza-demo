@@ -381,7 +381,6 @@ export default {
   },
   created() {
     this.getProcessList();
-    this.getColorsList();
   },
   computed: {
     showObject(){

@@ -174,6 +174,40 @@
                 />
               </v-col>
             </v-row>
+            <v-row>
+              <v-col cols="3">
+                <div class="label">Stream Number</div>
+                <v-select
+                  :items="streamList"
+                  v-model.trim="selectedItem.streamId"
+                  append-icon="mdi-chevron-down"
+                  item-text="streamNumber"
+                  item-value="streamId"
+                  outlined
+                  hide-details
+                  dense
+                  height="44"
+                  class="rounded-lg base" color="#544B99"
+                  placeholder="Select reason"
+                />
+              </v-col>
+              <v-col cols="3">
+                <div class="label">Work date</div>
+                <el-date-picker 
+                    v-model="selectedItem.workDate"
+                    type="date"
+                    style="width: 100%; height: 44px !important;"
+                    :placeholder="$t('fabricOrderingBox.plannedAccessoryOrderBox.deliveryTime')"
+                    :picker-options="pickerShortcuts"
+                    value-format="timestamp"
+                    class="base_picker"
+                    :rules="[formRules.required]"
+                    validate-on-blur
+                  >
+                </el-date-picker>
+              </v-col>
+  
+            </v-row>
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
@@ -483,6 +517,7 @@ export default {
     ...mapGetters({
       cuttingList: "cuttingProcess/cuttingList",
       historyListDate: "cuttingProcess/historyList",
+      streamList:"commonProcess/streamList",
     })
   },
 
@@ -526,14 +561,17 @@ export default {
 
         }
       })
+      
       this.items = JSON.parse(JSON.stringify(specialList))
     },
 
     historyListDate(list) {
       this.historyHeaders = [
-        {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
+        {text: 'Date', sortable: true, align: 'start', value: 'workDate'},
+        {text: 'Stream number', sortable: true, align: 'start', value: 'streamNumber'},
+
       ]
-      list[0]?.sizeDistributionList?.forEach((item) => {
+      list[0]?.sizeDistributions?.forEach((item) => {
         this.historyHeaders.push({
           text: item.size, sortable: false, align: 'start', value: item.size
         })
@@ -544,7 +582,7 @@ export default {
 
       const specialList = list.map(function (el) {
         const value = {};
-        el?.sizeDistributionList.forEach((item) => {
+        el?.sizeDistributions.forEach((item) => {
           value[item.size] = item.quantity
         });
         return {
@@ -572,6 +610,7 @@ export default {
       createClassification: "cuttingProcess/createClassification",
       setMainColorFunc: "cuttingProcess/setMainColor",
       setWasteFabric: "cuttingProcess/setWasteFabric",
+      getPatokList:"commonProcess/getPatokList",
     }),
     setWasteFabricFunc(item){
       const data={
@@ -608,10 +647,17 @@ export default {
     },
     save() {
       if (this.selectedItem.status === "infoEdit") {
-        const data = {
-          id: this.selectedItem.id,
-          sizeDistributions: [...this.selectedItem?.sizeDistributions]
+        const data={
+          id:this.selectedItem.id,
+          operationType:"FIRST_CLASS",
+          sizeDistributions:this.selectedItem.sizeDistributions.map((item)=>({
+            size:item.size,
+            quantity: item.quantity?item.quantity:0
+          })),
+          streamId:this.selectedItem.streamId,
+          workDate:this.selectedItem.workDate,
         }
+        
         this.setUpdateSizes(data)
       }
       if (this.selectedItem.status === "historyEdit") {
