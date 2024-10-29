@@ -432,7 +432,6 @@ export default {
   },
   created() {
     this.getProcessList();
-    this.getColorsList();
   },
   computed: {
     finishDate:{

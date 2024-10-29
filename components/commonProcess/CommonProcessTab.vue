@@ -230,6 +230,41 @@
             </v-col>
           </v-row>
 
+          <v-row>
+            <v-col cols="3">
+              <div class="label">Stream Number</div>
+              <v-select
+                :items="streamList"
+                v-model.trim="selectedItem.streamId"
+                append-icon="mdi-chevron-down"
+                item-text="streamNumber"
+                item-value="streamId"
+                outlined
+                hide-details
+                dense
+                height="44"
+                class="rounded-lg base" color="#544B99"
+                placeholder="Select reason"
+              />
+            </v-col>
+            <v-col cols="3">
+              <div class="label">Work date</div>
+              <el-date-picker 
+                  v-model="selectedItem.workDate"
+                  type="date"
+                  style="width: 100%; height: 44px !important;"
+                  :placeholder="$t('fabricOrderingBox.plannedAccessoryOrderBox.deliveryTime')"
+                  :picker-options="pickerShortcuts"
+                  value-format="timestamp"
+                  class="base_picker"
+                  :rules="[formRules.required]"
+                  validate-on-blur
+                >
+              </el-date-picker>
+            </v-col>
+
+          </v-row>
+
         </v-form>
       </v-card-text>
       <v-card-actions class="d-flex justify-center pb-8">
@@ -340,7 +375,7 @@ export default {
       classification_shortcom:{},
 
       historyHeaders: [
-        {text: 'Date', sortable: true, align: 'start', value: 'createdDate'},
+        {text: 'Date', sortable: true, align: 'start', value: 'workDate'},
 
         {text: 'Done By', sortable: false, align: 'center', value: 'createdBy'},
       ],
@@ -357,6 +392,7 @@ export default {
       ownList:"commonProcess/ownList",
       historyServerList:"history/historyList",
       planningProcessId:"commonProcess/planningProcessId",
+      streamList:"commonProcess/streamList",
 
     }),
   },
@@ -398,9 +434,10 @@ export default {
 
     historyServerList(list){
       this.historyHeaders = [
-        {text: 'Date', sortable: true, align: 'start', value: 'createdDate'},
+        {text: 'Date', sortable: true, align: 'start', value: 'workDate'},
+        {text: 'Stream number', sortable: true, align: 'start', value: 'streamNumber'},
       ],
-        list[0]?.sizeDistributionList?.forEach((item) => {
+        list[0]?.sizeDistributions?.forEach((item) => {
           this.historyHeaders.push({
             text: item.size, sortable: false, align: 'start', value: item.size
           })
@@ -412,7 +449,7 @@ export default {
       const specialList = list.map(function (el) {
         const value = {};
         const sizesList = [];
-        el?.sizeDistributionList.forEach((item) => {
+        el?.sizeDistributions.forEach((item) => {
           value[item.size] = item.quantity
           sizesList.push({size: item.size, quantity: item.quantity})
         });
@@ -432,6 +469,7 @@ export default {
       getOwnList:"commonProcess/getOwnList",
       updateCommonProcess:"commonProcess/updateCommonProcess",
       deleteCommonProcess:"commonProcess/deleteCommonProcess",
+      getPatokList:"commonProcess/getPatokList",
       getHistoryList:"history/getHistoryList",
       deleteHistory:"history/deleteHistoryItem",
       editHistory:"history/editHistoryItem",
@@ -486,8 +524,15 @@ export default {
         const data={
           id:this.selectedItem.id,
           operationType:"FIRST_CLASS",
-          sizeDistributions:[...this.selectedItem.sizeDistributions]
+          sizeDistributions:this.selectedItem.sizeDistributions.map((item)=>({
+            size:item.size,
+            quantity: item.quantity?item.quantity:0
+          })),
+          streamId:this.selectedItem.streamId,
+          workDate:this.selectedItem.workDate,
         }
+        // console.log(data);
+        
         this.updateCommonProcess(data)
       }
       if(this.selectedItem.status==="editHistory"){
@@ -513,6 +558,7 @@ export default {
   mounted(){
     this.title=this.$route.path.split("/")[2]
     this.getOwnList()
+    this.getPatokList()
   },
 
 }

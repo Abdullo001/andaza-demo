@@ -40,6 +40,8 @@ export const actions = {
     if(!!state.planningProcessId)
     this.$axios.get(`/api/v1/process-details/list-own?planningProcessId=${state.planningProcessId}`)
       .then((res) => {
+        console.log(res);
+        
         commit("setCuttingList", res.data.data)
       })
       .catch((res) => {
@@ -48,7 +50,7 @@ export const actions = {
   },
 
   setUpdateSizes({dispatch,state},data){
-    this.$axios.put(`/api/v1/process-details/update`,data)
+    this.$axios.put(`/api/v1/process-details/${data.id}`,data)
     .then((res)=>{
       dispatch("getCuttingList")
       this.$toast.success(res.data.message)
@@ -81,7 +83,7 @@ export const actions = {
   },
 
   getHistoryList({commit},id){
-    this.$axios.get(`/api/v1/cutting-operation/list?detailsId=${id}`)
+    this.$axios.get(`/api/v1/cutting-operations?fabricProcessDetailsId=${id}`)
     .then((res)=>{
       commit("setHistoryList",res.data.data)
     })

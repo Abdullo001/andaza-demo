@@ -5,6 +5,14 @@
         class="d-flex w-full align-center justify-space-between"
       >
         <div>{{$t('shipping.id.invoice')}}</div>
+        <v-btn
+          class="rounded-lg text-capitalize mr-2 colorSizeBtn"
+          outlined
+          @click="editBtn"
+          color="var(--text-icon-600, #777C85)"
+        >
+          Edit
+        </v-btn>
       </v-toolbar-title>
     </v-toolbar>
     <v-data-table
@@ -29,6 +37,7 @@
               v-on="on"
               color="green"
               @click="editInvoiceItem(item)"
+              :disabled="editable"
             >
               <v-img src="/edit-active.svg" max-width="22" />
             </v-btn>
@@ -48,10 +57,15 @@
             </td>
             <td></td>
             <td ></td>
-            <td>{{sumAmountTotal}}</td>
+            <td>{{shippingInvoiceItemList.totalAmount}}</td>
+            <td></td>
+            <td></td>
         </tr>
       </template>
     </v-data-table>
+    <div class=" py-4 text-capitalize text-end px-6 text-h5" style="color:black">
+      <span class="font-weight-bold">Total: </span>{{ shippingInvoiceItemList.totalAmountInWords }}
+    </div>
     <v-dialog v-model="invoiceItem_dialog" width="400">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
@@ -130,6 +144,7 @@
               <v-select
                 style="max-width: 100px"
                 dense
+                :disabled="editable"
                 :items="delivery_terms"
                 v-model="invoiceList.deliveryTerms"
                 outlined
@@ -141,6 +156,7 @@
                 color="#544B99"
               />
               <v-text-field
+                :disabled="editable"
                 height="44"
                 class="rounded-lg base rounded-r-lg rounded-l-0 mb-4"
                 color="#544B99"
@@ -154,6 +170,7 @@
           <v-col cols="12" lg="12" md="3" sm="6">
             <div class="label">{{ $t('shipping.invoice.paymentTerms') }}</div>
             <v-text-field
+              :disabled="editable"
               class="rounded-lg base mb-4"
               color="#544B99"
               dense
@@ -167,6 +184,7 @@
           <v-col cols="12" lg="12" md="3" sm="6">
             <div class="label">{{ $t('shipping.invoice.typeOfPackaging') }}</div>
             <v-text-field
+              :disabled="editable"
               class="rounded-lg base mb-4"
               color="#544B99"
               v-model="invoiceList.packagingType"
@@ -180,6 +198,7 @@
           <v-col cols="12" lg="12" md="3" sm="6">
             <div class="label">{{ $t('shipping.invoice.letterOfCreditNo') }}</div>
             <v-text-field
+              :disabled="editable"  
               class="rounded-lg base mb-4"
               color="#544B99"
               v-model="invoiceList.creditNumber"
@@ -428,28 +447,12 @@ export default {
       invoiceList: [],
       invoiceListItem: [],
       sumTotal: null,
-      sumAmountTotal: null
+      sumAmountTotal: null,
+      editable:false,
     }
   },
   created() {
     this.getMeasurementUnit();
-  },
-  watch: {
-    shippingInvoiceList(list) {
-      this.invoiceList=JSON.parse(JSON.stringify(list))
-    },
-    shippingInvoiceItemList(list) {
-      const specialList = list.map((el, idx) => {
-        let totalItem = idx + 1
-        return {
-          ...el,
-          totalItem,
-        }
-      })
-      this.sumTotal = list.reduce((acc, el) => acc + el.total, 0)
-      this.sumAmountTotal = list.reduce((acc, el) => acc + el.totalAmount, 0)
-      this.invoiceListItem=JSON.parse(JSON.stringify(specialList))
-    },
   },
   computed: {
     ...mapGetters({
@@ -458,6 +461,28 @@ export default {
       measurementUnitList: "shippingInfo/measurementUnitList",
       isLoad: "shippingInvoice/isLoad",
     })
+  },
+  watch: {
+    shippingInvoiceList(list) {
+      this.invoiceList=JSON.parse(JSON.stringify(list))
+      this.editable=true
+    },
+    shippingInvoiceItemList(data) {
+      const list = JSON.parse(JSON.stringify(data.data))
+      if(!!list){
+        const specialList = list.map((el, idx) => {
+          let totalItem = idx + 1
+          return {
+            ...el,
+            totalItem,
+          }
+        })
+        this.sumTotal = list.reduce((acc, el) => acc + el.total, 0)
+        this.sumAmountTotal = list.reduce((acc, el) => acc + el.totalAmount, 0)
+        this.invoiceListItem=JSON.parse(JSON.stringify(specialList))
+      }
+      
+    },
   },
   methods: {
     ...mapActions({
@@ -468,6 +493,9 @@ export default {
       updateInvoiceItem: "shippingInvoice/updateInvoiceItem",
       generateInvoicePdf: 'shippingInvoice/generateInvoicePdf'
     }),
+    editBtn(){
+      this.editable=!this.editable
+    },
     generatePdfInvoice(){
       const data = {
         invoiceId: this.shippingInvoiceList.id,
