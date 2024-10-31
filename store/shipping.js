@@ -48,16 +48,15 @@ export const actions = {
         console.log(response);
       })
   },
-  async getShippingList( { commit }, { clientName, invoiceNumber, shippingDate } ) {
+  async getShippingList( { commit }, { page, size,clientName="", invoiceNumber="", shippingDate="" } ) {
     const body = {
-      clientName: clientName,
-      invoiceNumber: invoiceNumber,
-      shippingDate: shippingDate,
-      page: 0,
-      size: 50
+      clientName: clientName??"",
+      invoiceNumber: invoiceNumber??"",
+      shippingDate: shippingDate??"",
+      page: page,
+      size: size
     }
     await this.$axios.put(`/api/v1/shipping/list`, body).then((res) => {
-      console.log(res);
       commit("setShippingList",res.data.data)
 
     }).catch((res) => {
@@ -86,8 +85,7 @@ export const actions = {
         size: 10
       });
   }).catch((res) => {
-      this.$toast.error(res.data.message);
-      console.log(res)
+      this.$toast.error(res.data.errorMessage);
     })
   },
   async updateShipping({commit}, data) {

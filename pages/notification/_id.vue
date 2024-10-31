@@ -173,10 +173,14 @@
             itemsPerPageText: this.$t('allDataTableText'),
           }"
           :loading="loading"
-          class="mt-4 rounded-lg"
+          class="mt-4 rounded-lg custom-checkbox-table"
           @update:items-per-page="getItemSize"
           @update:page="page"
           :server-items-length="totalElements"
+          show-select
+          v-model="selectedItems"
+          color="#544b99"
+
         >
           <template #top>
             <v-toolbar elevation="0">
@@ -188,6 +192,21 @@
               </v-toolbar-title>
             </v-toolbar>
             <v-divider />
+          </template>
+          <template v-slot:[`header.data-table-select`]="{ props, on }">
+            <v-simple-checkbox
+              :value="props.value || props.indeterminate"
+              v-on="on"
+              :indeterminate="props.indeterminate"
+              color="#544B99"
+            />
+          </template>
+          <template v-slot:item.data-table-select="{ isSelected, select }">
+            <v-simple-checkbox
+              :value="isSelected"
+              color="#544B99"
+              @input="select($event)"
+            />
           </template>
 
           <template #item.phoneNumber="{ item }">
@@ -213,7 +232,7 @@
           </template>
 
           <template #item.checkbox="{ item }">
-            <v-checkbox v-model="item.isChecked" color="#544B99" />
+            <!-- <v-checkbox v-model="item.isChecked" color="#544B99" /> -->
           </template>
         </v-data-table>
 
@@ -314,6 +333,7 @@ export default {
     return {
       warningDialog:false,
       successDialog:false,
+      selectedItems:[],
       headers: [
         {
           text: "",
@@ -419,11 +439,10 @@ export default {
       if(this.pushNot) channels.push("PUSH")
       if(this.mailNot) channels.push("MAIL")
       if(this.botNot) channels.push("BOT")
-      this.users.forEach((item)=>{
-        if(item.isChecked){
-          receivers.push(item.id)
-        }
+      this.selectedItems.forEach((item)=>{
+        receivers.push(item.id)
       })
+      
       const data ={
         body:this.selectedItem.body,
         title:this.selectedItem.title,

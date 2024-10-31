@@ -160,7 +160,7 @@
           color="#544B99"
           outlined
           class="text-capitalize rounded-lg mr-2"
-          @click="$router.push(`/fabric-ordering/fabrics-list`)"
+          @click="$router.push(localePath(`/fabric-ordering/fabrics-list`))"
         >
          {{ $t('fabricOrderingBox.index.fabricList') }}
         </v-btn>
@@ -178,25 +178,6 @@
         color="#544B99"
       ></v-simple-checkbox>
     </template>
-
-<!--    <template #item.queue="{item}">-->
-
-<!--      <v-text-field-->
-<!--        @keyup.enter="setQueueFunc(item)"-->
-<!--        outlined-->
-<!--        hide-details-->
-<!--        height="32"-->
-<!--        class="rounded-lg base my-2" dense-->
-<!--        :disabled="item.status==='ORDERED'"-->
-<!--        :rules="[formRules.required]"-->
-<!--        validate-on-blur-->
-<!--        color="#544B99"-->
-<!--        v-model="item.queue"-->
-<!--      />-->
-
-<!--  </template>-->
-
-
     <template #item.status="{item}">
       <v-select
         :background-color="statusColor.fabricOrderedStatus(item.status)"

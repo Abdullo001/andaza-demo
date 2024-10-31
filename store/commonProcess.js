@@ -8,6 +8,7 @@ export const state = () => ({
   subcontractSecondClassList:[],
   subcontractSentToAlterationList:[],
   isConfirm:{},
+  streamList:[],
 })
 
 export const getters = {
@@ -20,6 +21,7 @@ export const getters = {
   subcontractSecondClassList: state => state.subcontractSecondClassList,
   subcontractSentToAlterationList: state => state.subcontractSentToAlterationList,
   isConfirm: state => state.isConfirm,
+  streamList: state => state.streamList,
 }
 
 export const mutations = {
@@ -50,11 +52,14 @@ export const mutations = {
   setSubcontractSentToAlterationList(state,item){
     state.subcontractSentToAlterationList = item
   },
+  setStreamList(state,item){
+    state.streamList = item
+  },
 }
 
 export const actions = {
   getOwnList({commit, state}) {
-    this.$axios.get(`/api/v1/common-process-details/list-own?planningProcessId=${ state.planningProcessId}&operationType=FIRST_CLASS`)
+    this.$axios.get(`/api/v1/common-process-details/list-own?planningProcessId=${ state.planningProcessId}&commonOperationType=FIRST_CLASS`)
       .then((res) => {
         commit("setOwnList", res.data.data)
       })
@@ -63,7 +68,7 @@ export const actions = {
       })
   },
   getSecondClassList({commit, state}) {
-    this.$axios.get(`/api/v1/common-process-details/list-own?planningProcessId=${ state.planningProcessId}&operationType=SECOND_CLASS`)
+    this.$axios.get(`/api/v1/common-process-details/list-own?planningProcessId=${ state.planningProcessId}&commonOperationType=SECOND_CLASS`)
       .then((res) => {
         commit("setSecondClassList", res.data.data)
       })
@@ -72,7 +77,7 @@ export const actions = {
       })
   },
   getSentToAlterationList({commit, state}) {
-    this.$axios.get(`/api/v1/common-process-details/list-own?planningProcessId=${ state.planningProcessId}&operationType=SENT_TO_ALTERATION`)
+    this.$axios.get(`/api/v1/common-process-details/list-own?planningProcessId=${ state.planningProcessId}&commonOperationType=SENT_TO_ALTERATION`)
       .then((res) => {
         commit("setSentToAlterationList", res.data.data)
       })
@@ -82,9 +87,9 @@ export const actions = {
   },
 
   updateCommonProcess({dispatch}, data) {
-    this.$axios.put(`/api/v1/common-process-details/update`, data)
+    this.$axios.put(`/api/v1/common-process-details/${data.id}`, data)
       .then((res) => {
-        if(Object.keys(data).length===3){
+        if(Object.keys(data).length===5){
           dispatch("getOwnList")
         }else{
           dispatch("getSubcontarctList")
@@ -237,6 +242,18 @@ export const actions = {
     .catch(({response})=>{
       this.$toast.error(response.data.message)
       console.log(response);
+    })
+  },
+
+  getPatokList({commit}){
+    this.$axios.get(`/api/v1/streams`)
+    .then((res)=>{
+      commit("setStreamList",res.data.data)
+      
+    })
+    .catch((response)=>{
+      console.log(response);
+      
     })
   }
 

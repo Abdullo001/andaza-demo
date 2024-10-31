@@ -50,7 +50,6 @@ export const actions = {
 
   createFabricWarehouse({ dispatch }, data) {
     data.fabricOrderId=data.fabricOrderId?.fabricOrderId
-    console.log(data);
     this.$axios
       .post(`/api/v1/fabric-warehouse/create`, data)
       .then((res) => {

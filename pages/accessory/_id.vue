@@ -260,7 +260,7 @@
           <v-col cols="12" lg="6" md="6">
             <div class="label">{{ $t('fabricOrderingBox.id.plannedAccessoryExpense') }}</div>
             <div class="d-flex align-center">
-              <v-select
+              <!-- <v-select
                 v-model="expenseGroupId"
                 :items="expenseGroup"
                 item-value="id"
@@ -274,7 +274,26 @@
                 outlined
                 style="max-width: 200px"
                 validate-on-blur
-              />
+              /> -->
+              <v-combobox
+                v-model="expenseGroupId"
+                :items="expenseGroup"
+                :search-input.sync="expenseSearch"
+                item-text="name"
+                item-value="id"
+                outlined
+                height="44"
+                class="rounded-lg base"
+                hide-details
+                :return-object="true"
+                color="#544B99"
+                dense
+                append-icon="mdi-chevron-down"
+              >
+                <template #append>
+                  <v-icon color="#544B99">mdi-magnify</v-icon>
+                </template>
+              </v-combobox>
               <v-text-field
                 disabled
                 v-model="expense.totalPrice"
@@ -465,8 +484,9 @@ export default {
       ],
       image_dialog: false,
       currentImage: "",
-      expenseGroupId:"",
+      expenseGroupId:null,
       expense:{},
+      expenseSearch:"",
     };
   },
 
@@ -491,8 +511,11 @@ export default {
     }),
   },
   watch: {
+    expenseSearch(val){
+      this.filterExpenseGroup({id:"",name:val,createdAt:"",updateAt:""})
+    },
     expenseGroupId(val){
-      this.getExpenseProduction({groupId:val,modelId:this.accessoryDetail.modelId})
+      this.getExpenseProduction({groupId:val?.id,modelId:this.accessoryDetail.modelId})
     },
     expenseForProduction(val){
       this.expense=JSON.parse(JSON.stringify(val))

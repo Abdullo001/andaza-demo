@@ -19,7 +19,7 @@ export const getters = {
   totalElements: (state) => state.ordersList.totalElements,
   oneOrder: (state) => state.oneOrder,
   newOrderId: (state) => state.newOrderId,
-  modelGroups: (state) => state.modelGroups.map((elem) => elem.name),
+  modelGroups: (state) => state.modelGroups,
   usersList: (state) => state.usersList.content,
   clientList: (state) => state.clientList.data,
   modelList: (state) => state.modelList.data,
@@ -78,13 +78,20 @@ export const actions = {
         console.log(response);
       });
   },
-  async changeStatusOrder({ dispatch }, { id, status }) {
-    await this.$axios
-      .$put(`/api/v1/orders/change-status?id=${id}&status=${status}`)
+  async changeStatusOrder({ dispatch }, { id, status,modelId }) {
+    const data = {
+      modelId,
+      orderStatus:status
+    }
+    await this.$axios.$put(`/api/v1/orders/change-status/${id}`,data)
       .then((res) => {
-        this.$toast.success(res.message, { theme: "toasted-primary" });
+        this.$toast.success(res.data.data.message);
+        dispatch("getOrdersList",{page:0, size:10})
       })
-      .catch(({ response }) => console.log(response));
+      .catch(({ response }) => {
+        console.log(response)
+        dispatch("getOrdersList",{page:0, size:10})
+      });
   },
   async createdOrder({ commit, dispatch }, data) {
     const order = {
@@ -173,7 +180,7 @@ export const actions = {
       description: data.description,
       priceWithDiscount: data.priceWithDiscount,
       priceWithDiscountCurrency: data.priceWithDiscountCurrency,
-      headOfProductionDepartmentId: data.headOfDepartmentId,
+      headOfProductionDepartmentId: data.headOfDepartment.id,
       id: data.id,
       orderDate:data.orderDate,
       modelId: data.modelId,

@@ -698,7 +698,7 @@ export default {
       this.getSupplyList({ page: 0, size: 10,...this.filters });
     },
     addWaybil() {
-      this.$router.push("/supply-warehouse/waybills");
+      this.$router.push(this.localePath("/supply-warehouse/waybills"));
     },
     viewDetails(item) {
       this.edit_dialog = true;

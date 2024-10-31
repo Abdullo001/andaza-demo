@@ -132,7 +132,7 @@
                 color="#544B99"
                 outlined
                 class="text-capitalize rounded-lg mr-2"
-                @click="$router.push(`/forms/print-pdf-generation`)"
+                @click="$router.push(localePath(`/forms/print-pdf-generation`))"
               >
               {{ $t('orderBox.index.printForms') }}
               </v-btn>
@@ -140,7 +140,7 @@
                 color="#544B99"
                 outlined
                 class="text-capitalize rounded-lg mr-2"
-                @click="$router.push(`/forms/order-pdf-generation`)"
+                @click="$router.push(localePath(`/forms/order-pdf-generation`))"
               >
                 {{ $t('orderBox.index.placedOrderForm') }}
               </v-btn>
@@ -201,6 +201,9 @@
           </div>
         </div>
       </template>
+      <template #item.deadline="{item}">
+        {{ item.deadline?formatLong(item.deadline):"" }}
+      </template>
       <template #item.action="{ item }">
         <v-tooltip top color="#544B99">
           <template v-slot:activator="{ on, attrs }">
@@ -256,7 +259,7 @@ export default {
         { text: this.$t('modelBox.modelPartsBox.creator'), value: "createdBy" },
         { text: this.$t("catalogGroups.tabs.table.createdAt"), value: "createdAt" },
         { text:  this.$t('partners.table.status'), value: "status", width: 215 },
-        { text:this.$t('orderBox.index.deadline'), value: "deadLine" },
+        { text:this.$t('orderBox.index.deadline'), value: "deadline" },
         { text: this.$t("catalogGroups.tabs.table.actions"), value: "action", sortable: false },
       ],
       list: [],
@@ -318,13 +321,13 @@ export default {
       await this.filterOrderList({ page: 0, size: 10, data: this.filters });
     },
     async changeStatus(item) {
-      await this.changeStatusOrder({ id: item.id, status: item.status });
+      await this.changeStatusOrder({ id: item.id, status: item.status, modelId:item.modelId });
     },
     addOrder() {
-      this.$router.push(`/orders/add-order`);
+      this.$router.push(this.localePath(`/orders/add-order`));
     },
     async viewDetails(item) {
-      await this.$router.push(`/orders/${item.id}?modelId=${item.modelId}`);
+      await this.$router.push(this.localePath(`/orders/${item.id}?modelId=${item.modelId}`));
       await this.$store.commit("orders/setModelId", item.modelId);
     },
     getCopyKey(item) {

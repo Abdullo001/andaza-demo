@@ -197,11 +197,11 @@ export default {
     },
 
     toCentralWarehouse(){
-      this.$router.push("/rg-income-with-waybill")
+      this.$router.push(this.localePath("/rg-income-with-waybill"))
     },
 
     toStockGarments(){
-      this.$router.push("/garments-stock")
+      this.$router.push(this.localePath("/garments-stock"))
     }
   },
   async mounted() {

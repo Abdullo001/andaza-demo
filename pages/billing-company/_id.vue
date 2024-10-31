@@ -133,7 +133,7 @@
                 class="text-capitalize rounded-lg"
                 dark
                 min-width="170"
-                @click="$router.push('/billing-billing')"
+                @click="$router.push(localePath('/billing-billing'))"
               >
                 <v-icon>mdi-plus</v-icon>
                 add billing

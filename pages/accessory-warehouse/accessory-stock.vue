@@ -39,10 +39,22 @@
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex w-full align-center justify-space-between">
             <div> {{ $t('accessoryWarehouse.accessoryStock') }}</div>
+            <div>
+              <v-btn
+                color="#544B99"
+                outlined
+                elevation="0"
+                class="text-capitalize rounded-lg font-weight-bold"
+                @click="()=>{getStockAccessoryPdf();  isLoad=true}"
+                :loading="isLoad"
+              >
+                Generate PDF
+              </v-btn>
             <v-btn color="#544B99" dark class="text-capitalize rounded-lg" @click="addArrivedAccessoryStock">
               <v-icon>mdi-plus</v-icon>
              {{ $t('accessoryWarehouse.addAccessoryStock')}}
             </v-btn>
+            </div>
           </v-toolbar-title>
         </v-toolbar>
       </template>
@@ -664,6 +676,7 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
+      isLoad:false,
       headers: [
         { text: this.$t('accessoryWarehouse.orderNumber'), value: "orderNumber", sortable: false },
         { text: this.$t('accessoryWarehouse.modelNumber'), value: "modelNumber", sortable: false },
@@ -749,10 +762,23 @@ export default {
       partnerLists: "partners/partnerList",
       modelsList: "models/modelsList",
       measurementUnitList: "shippingInfo/measurementUnitList",
+      pdfList: "generatePdf/pdfData",
     } ),
   },
 
   watch: {
+    pdfList(val) {
+      const blob = new Blob(
+        [new Uint8Array([...val].map((char) => char.charCodeAt(0)))],
+        { type: "application/pdf" }
+      );
+      const objectUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.setAttribute("target", "_blank");
+      a.setAttribute("href", objectUrl);
+      a.click();
+      this.isLoad = false;
+    },
     accessoryStockList( val ) {
       this.current_list = JSON.parse( JSON.stringify( val ) );
     },
@@ -807,6 +833,7 @@ export default {
         getPartnerList: "partners/getPartnerList",
       getModelsList: "models/getModelsList",
       getMeasurementUnit: "shippingInfo/getMeasurementUnit",
+      getStockAccessoryPdf:"generatePdf/getStockAccessoryPdf"
     } ),
 
     firstFileChanged(e) {

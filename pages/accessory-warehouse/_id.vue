@@ -154,14 +154,6 @@
 
       <template #item.actions="{item}">
         <div class="d-flex ">
-          <v-btn icon color="red" @click="getDeleteItem(item)">
-            <v-img src="/delete.svg" max-width="27"/>
-          </v-btn>
-        </div>
-      </template>
-
-      <template #item.spending="{item}">
-        <div class="d-flex ">
           <v-tooltip
             top
             color="#544B99"
@@ -241,15 +233,30 @@
             </template>
             <span class="text-capitalize">subcontractor</span>
           </v-tooltip>
-          <v-btn
-            icon
+          <v-tooltip
+            top
             color="#544B99"
-            @click="giveSureStock(item)"
+            class="pointer"
+            v-if="Object.keys(item).length > 2"
           >
-            <v-img src="/stock-icon.svg" max-width="22" />
-          </v-btn>
+            <template #activator="{ on, attrs }">
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+                color="#544B99"
+                @click="giveSureStock(item)"
+              >
+                <v-img src="/stock-icon.svg" max-width="22" />
+              </v-btn>
+            </template>
+            <span class="text-capitalize">Stock</span>
+          </v-tooltip>
+          
         </div>
       </template>
+
+      
 
     </v-data-table>
     <div class="d-flex mt-4">
@@ -746,7 +753,6 @@ export default {
         {text: "Total price", value: "totalPrice", sortable: false},
         {text: "Supplier name", value: "supplier", sortable: false},
         {text: "Ordered date", value: "orderedDate", sortable: false},
-        {text: "Spending", value: "spending", sortable: false},
         {text: "Actions", value: "actions", sortable: false},
 
       ],

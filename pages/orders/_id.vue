@@ -202,7 +202,7 @@
                   placeholder="dd.MM.yyyy HH:mm:ss"
                   style="width: 100%; height: 100%"
                   type="datetime"
-                  value-format="dd.MM.yyyy HH:mm:ss"
+                  value-format="timestamp"
                 >
                 </el-date-picker>
               </div>
@@ -214,10 +214,10 @@
                   v-model="order.deadline"
                   :picker-options="pickerShortcuts"
                   class="base_picker"
-                  placeholder="dd.MM.yyyy HH:mm:ss"
+                  placeholder="dd.MM.yyyy"
                   style="width: 100%; height: 100%"
-                  type="datetime"
-                  value-format="dd.MM.yyyy HH:mm:ss"
+                  type="date"
+                  value-format="timestamp"
                 >
                 </el-date-picker>
               </div>
@@ -608,29 +608,18 @@ export default {
       this.expense=JSON.parse(JSON.stringify(val))
     },
     orderDetail(item) {
-      const order = this.order;
-      order.id = item.id;
-      order.modelId = item.modelId;
-      order.clientId = item.clientId;
-      order.createdTime = item.createdAt;
-      order.creator = item.createdBy;
-      order.deadline = item.deadLine;
-      order.description = item.description;
-      order.modelName = item.modelName;
-      order.modelNumber = item.modelNumber;
-      order.orderNumber = item.orderNumber;
-      order.modifiedPerson = item.updatedBy;
-      order.updatedTime = item.updatedAt;
-      order.headOfDepartmentId = item.headOfProductionDepartmentId;
-      order.priceWithDiscount = item.priceWithDiscountUSD;
-      order.totalPrice = item.totalPriceUSD
-      order.priceWithDiscountCurrency = "USD";
-      order.modelId = item.modelId;
-      order.priority = item.priority;
-      order.headOfDepartment = item.headOfProductionDepartment
-      order.client = item.client
-      order.orderDate = item.orderDate
-      order.overproductionPercent = item.overproductionPercent
+      console.log(item);
+      this.order=JSON.parse(JSON.stringify(item))
+      this.order.createdTime = item.createdAt;
+      this.order.creator = item.createdBy;
+      this.order.modifiedPerson = item.updatedBy;
+      this.order.updatedTime = item.updatedAt;
+      this.order.headOfDepartmentId = item.headOfProductionDepartmentId;
+      this.order.priceWithDiscount = item.priceWithDiscountUSD;
+      this.order.totalPrice = item.totalPriceUSD
+      this.order.priceWithDiscountCurrency = "USD";
+      this.order.headOfDepartment = {id:item.headOfProductionDepartmentId, name:item.headOfProductionDepartment}
+      
       this.$store.commit('orders/setModelId', item.modelId);
     },
     usersList(list) {

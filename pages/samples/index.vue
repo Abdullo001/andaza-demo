@@ -404,7 +404,7 @@ export default {
       getModelId: "orders/getModelId",
     }),
     viewDetails(item) {
-      this.$router.push(`/samples/${item.id}`);
+      this.$router.push(localePath(`/samples/${item.id}`));
     },
 
     filterOrder() {

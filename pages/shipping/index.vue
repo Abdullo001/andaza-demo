@@ -179,11 +179,11 @@ export default {
       createShipping: "shipping/createShipping",
     }),
     async viewDetails(item){
-      await this.$router.push(`/shipping/${item.id}`);
+      await this.$router.push(this.localePath(`/shipping/${item.id}`));
     },
 
     loadDetails({ item }) {
-      // current opened || choose object ^
+      // current opened || choose object 
     },
 
     async page(value) {
@@ -236,6 +236,8 @@ export default {
   mounted(){
     this.$store.commit("setPageTitle", "Shipping");
     this.getShippingList({
+      page:0,
+      size:10,
       clientName: "",
       invoiceNumber: "",
       shippingDate: "",

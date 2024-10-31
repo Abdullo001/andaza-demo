@@ -54,7 +54,10 @@ export default (context, inject) => {
                 return '#10BF41'
               case 'BLOCKED':
                 return '#FF4E4F'
+              case 'CANCELED':
+                return '#FF4E4F'
             }
+            
           },
 
           licenseColor(color) {
@@ -148,6 +151,8 @@ export default (context, inject) => {
                 return '#6df291'
               case 'ORDERED':
                 return '#10BF41'
+              case 'CANCELLED':
+                return '#FF4E4F'
             }
           },
 
@@ -192,6 +197,8 @@ export default (context, inject) => {
                 return '#10BF41'
               case 'IN_PROCESS':
                 return 'amber'
+              case 'CANCELLED':
+                return '#FF4E4F'
               default : return '#c2c8d1'
 
             }

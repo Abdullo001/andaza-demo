@@ -77,7 +77,6 @@ export const actions={
   markAsRead({dispatch},{id,userId}){
     this.$axios.put(`/api/v1/notification/${id}`)
     .then((res)=>{
-      console.log(res);
       dispatch("getCountUnreadNotification",userId)
       dispatch("getRecivedNotification",{id:userId,page:0,size:5})
     })

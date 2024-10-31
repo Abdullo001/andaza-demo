@@ -97,7 +97,7 @@ export default {
           this.$toast.success(res.message, {theme: 'toasted-primary'});
           this.$store.commit("setPermissionsList",res.data.permissions)
           window.localStorage.setItem("permissionList",JSON.stringify(res.data.permissions))
-          this.$router.push('/user-management');
+          this.$router.push(this.localePath('/user-management'));
         })
     },
 

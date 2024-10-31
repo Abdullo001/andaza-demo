@@ -126,7 +126,7 @@ export default {
       headers:[
         {text:this.$t('inspectionBox.model'),value:"modelNumber",sortable:false},
         {text:this.$t('inspectionBox.clientName'),value:"clientName",sortable:false},
-        {text:this.$t('modelBox.printingBox.simpleSendDate'),value:"sendDate",sortable:false},
+        {text:this.$t('inspectionBox.inspectionDate'),value:"sendDate",sortable:false},
         {text: this.$t('partners.table.status'),value:"result",sortable:false},
         {text: this.$t('modelBox.modelPartsBox.creator'),value:"createdBy",sortable:false},
         {text:this.$t("catalogGroups.tabs.table.createdAt"),value:"createdAt",sortable:false},
@@ -170,10 +170,10 @@ export default {
       this.getInspectionList({page:0,size:10})
     },
     addInspection(){
-      this.$router.push('/inspection-file/add-inspection')
+      this.$router.push(this.localePath('/inspection-file/add-inspection'))
     },
     viewDetails(item){
-      this.$router.push(`/inspection-file/${item.modelId}`)
+      this.$router.push(this.localePath(`/inspection-file/${item.modelId}`))
       this.$store.commit("inspectionFile/setModel",{id:item.modelId,modelNumber:item.modelNumber})
     },
     page(val){

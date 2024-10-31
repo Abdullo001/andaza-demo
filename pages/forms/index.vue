@@ -34,7 +34,7 @@
                 v-if="item.status == filter || filter === 'ALL'"
                 height="150"
                 style="cursor: pointer"
-                @click="$router.push(`${item.to}`)"
+                @click="$router.push(localePath(`${item.to}`))"
               >
                 <v-card-title class="d-flex align-center justify-center">
                   <div style="color: #544b99" class="text-center">
@@ -69,116 +69,122 @@ export default {
         {
           title: this.$t("forms.index.cards.placedOrders"),
           subtitle: this.$t("forms.index.cards.placedOrdersSub"),
-          to: "/forms/order-pdf-generation",
+          to: this.localePath("/forms/order-pdf-generation"),
           status: "MANAGEMENT",
         },
         {
           title: this.$t("forms.index.cards.prints"),
           subtitle: this.$t("forms.index.cards.printsSub"),
-          to: "/forms/print-pdf-generation",
+          to: this.localePath("/forms/print-pdf-generation"),
           status: "MANAGEMENT",
         },
         {
           title: this.$t("forms.index.cards.fabrics"),
           subtitle: this.$t("forms.index.cards.fabricsSub"),
-          to: "/forms/ordered-fabric-form",
+          to: this.localePath("/forms/ordered-fabric-form"),
           status: "MANAGEMENT",
         },
         {
           title: this.$t("forms.index.cards.recievedFabrics"),
           subtitle: this.$t("forms.index.cards.recievedFabricsSub"),
-          to: "/forms/recieved-fabric-form",
+          to: this.localePath("/forms/recieved-fabric-form"),
           status: "MANAGEMENT",
         },
         {
           title: this.$t("forms.index.cards.orderedFabricsAmount"),
           subtitle: this.$t("forms.index.cards.orderedFabricsAmountSub"),
-          to: "/forms/suppliers-fabric-form",
+          to: this.localePath("/forms/suppliers-fabric-form"),
           status: "MANAGEMENT",
         },
         {
           title: this.$t("forms.index.cards.orderedAccessories"),
           subtitle: this.$t("forms.index.cards.orderedAccessoriesSub"),
           status: "MANAGEMENT",
-          to: "/forms/ordered-accessory-form",
+          to: this.localePath("/forms/ordered-accessory-form"),
         },
         {
           title: this.$t("forms.index.cards.recievedAccessories"),
           subtitle: this.$t("forms.index.cards.recievedAccessoriesSub"),
           status: "MANAGEMENT",
-          to: "/forms/recieved-accessory-form",
+          to: this.localePath("/forms/recieved-accessory-form"),
         },
         {
           title: this.$t("forms.index.cards.inspectionFiles"),
           subtitle: this.$t("forms.index.cards.inspectionFilesSub"),
           status: "MANAGEMENT",
-          to: "/forms/inspection-files",
+          to: this.localePath("/forms/inspection-files"),
         },
         {
           title: this.$t("forms.index.cards.shipping"),
           subtitle: this.$t("forms.index.cards.shippingSub"),
           status: "MANAGEMENT",
-          to: "/forms/shipping-form",
+          to: this.localePath("/forms/shipping-form"),
         },
         {
           title: this.$t("forms.index.cards.cutting"),
           subtitle: this.$t("forms.index.cards.cuttingSub"),
           status: "PRODUCTION",
-          to: "/forms/cutting",
+          to: this.localePath("/forms/cutting"),
         },
         {
           title: this.$t("forms.index.cards.sewing"),
           subtitle: this.$t("forms.index.cards.sewingSub"),
           status: "PRODUCTION",
-          to: "/forms/print-pdf-generation",
+          to: this.localePath("/forms/print-pdf-generation"),
         },
         {
           title: this.$t("forms.index.cards.productionList"),
           subtitle: this.$t("forms.index.cards.productionListSub"),
           status: "PRODUCTION",
-          to: "/forms/production-list",
+          to: this.localePath("/forms/production-list"),
         },
         {
           title: this.$t("forms.index.cards.productionStatus"),
           subtitle: this.$t("forms.index.cards.productionStatusSub"),
           status: "PRODUCTION",
-          to: "/forms/production-status",
+          to: this.localePath("/forms/production-status"),
         },
         {
           title: this.$t("forms.index.cards.dailyProduction"),
           subtitle: this.$t("forms.index.cards.dailyProductionSub"),
           status: "PRODUCTION",
-          to: "/forms/daily-production",
+          to: this.localePath("/forms/daily-production"),
         },
         {
           title: this.$t("forms.index.cards.cuttingSubcontractor"),
           subtitle: this.$t("forms.index.cards.cuttingSubcontractorSub"),
           status: "PRODUCTION",
-          to: "/forms/print-pdf-generation",
+          to: this.localePath("/forms/print-pdf-generation"),
         },
         {
           title: this.$t("forms.index.cards.printingSubcontractor"),
           subtitle: this.$t("forms.index.cards.printingSubcontractorSub"),
           status: "PRODUCTION",
-          to: "/forms/print-pdf-generation",
+          to: this.localePath("/forms/print-pdf-generation"),
         },
         {
           title: this.$t("forms.index.cards.inconmingPrinting"),
           subtitle: this.$t("forms.index.cards.inconmingPrintingSub"),
           status: "PRODUCTION",
-          to: "/forms/print-pdf-generation",
+          to: this.localePath("/forms/print-pdf-generation"),
         },
         {
           title: this.$t("forms.index.cards.sewingSubcontractor"),
           subtitle: this.$t("forms.index.cards.sewingSubcontractorSub"),
           status: "PRODUCTION",
-          to: "/forms/print-pdf-generation",
+          to: this.localePath("/forms/print-pdf-generation"),
         },
         {
           title: this.$t("forms.index.cards.inconmingSewing"),
           subtitle: this.$t("forms.index.cards.inconmingSewingSub"),
           status: "PRODUCTION",
-          to: "/forms/print-pdf-generation",
+          to: this.localePath("/forms/print-pdf-generation"),
+        },
+        {
+          title: "All warehouses remaining",
+          subtitle: this.$t("forms.index.cards.inconmingSewingSub"),
+          status: "PRODUCTION",
+          to: this.localePath("/forms/warehouse-remaining"),
         },
       ],
       filteredButtons: [],

@@ -77,7 +77,7 @@
                   item-text="name"
                   item-value="id"
                   outlined
-                  :placeholder="$t('prefinances.child.enterModelNumber')"
+                  :placeholder="$t('accessoryWarehouse.accessoryName')"
                   prepend-icon=""
                 >
                   <template #append>
@@ -698,7 +698,7 @@ export default {
         const data={
           accessoryId: accessoryId,
           accessoryPlanningId: this.$route.params.id!=='create'?this.$route.params.id:this.accessoryId,
-          accessoryPricePerCurrency: pricePerUnitCurrency,
+          currency: pricePerUnitCurrency,
           accessoryPricePerUnit: pricePerUnit,
           description: description,
           productionQuantity: productionQuantity,
@@ -728,7 +728,7 @@ export default {
         const data={
           accessoryId: accessoryId.id,
           accessoryPlanningId: this.$route.params.id!=='create'?this.$route.params.id:this.accessoryId,
-          accessoryPricePerCurrency: accessoryPricePerCurrency,
+          currency: accessoryPricePerCurrency,
           accessoryPricePerUnit: accessoryPricePerUnit,
           description: description,
           productionQuantity: productionQuantity,
@@ -745,10 +745,6 @@ export default {
     },
     editItem(item) {
       this.edit_accessory_chart = { ...item };
-      // this.images[0].photo=""
-      // if(!!item.filePath){
-      //   this.images[0].photo=item.filePath
-      // }
       this.edit_dialog = true;
     },
     getDeleteItem(item) {
