@@ -111,6 +111,21 @@
           <span class="text-capitalize">delete</span>
         </v-tooltip>
       </template>
+      <template v-slot:body.append>
+        <tr>
+          <td ></td>
+          <td
+            :colspan="subcontractList[0]?.sizeDistributionList?.length"
+            class="text-capitalize text-body-1 font-weight-bold"
+          >
+              {{ $t('orderBox.colorSize.totalQuantities') }}
+          </td>
+          <td>
+            {{totalQuantity}}
+          </td>
+          <td colspan="6"></td>
+        </tr>
+      </template>
 
       <template #expanded-item="{headers, item}">
         <td :colspan="headers.length">
@@ -430,8 +445,6 @@ export default {
 
       printingHeader:[
         {text: 'Color', sortable: false, align: 'start', value: 'color'},
-
-
         {text: 'Recived total quantity', sortable: false, align: 'start', value: 'recivedTotalQuantity'},
         {text: 'Partner', sortable: false, align: 'start', value: 'partner'},
         {text: 'Price per work', sortable: false, align: 'start', value: 'pricePerWork'},
@@ -439,17 +452,16 @@ export default {
         {text: 'Status', sortable: false, align: 'start', value: 'status'},
         {text: 'Actions', sortable: false, align: 'center', value: 'actions'},
         {text: '', value: 'data-table-expand'},
-
       ],
 
       printingList:[],
-
       historyHeaders: [
         {text: 'Date', sortable: false, align: 'start', value: 'date'},
         {text: 'Done By', sortable: false, align: 'center', value: 'doneBy'},
       ],
 
       historyList: [],
+      totalQuantity:null,
     }
   },
 
@@ -482,9 +494,11 @@ export default {
         {text: '', value: 'data-table-expand'},
       )
 
+      let totalQuantity=0
       const specialList = list.map(function (el) {
         const value = {};
         const sizesList=[];
+        totalQuantity+=el.receivedQuantity
         el?.sizeDistributionList.forEach((item) => {
           value[item.size]=item.quantity
           sizesList.push({size:item.size,quantity:0})
@@ -495,7 +509,7 @@ export default {
           sizeDistributions:[...sizesList],
         }
       })
-
+      this.totalQuantity=totalQuantity
       this.printingList = JSON.parse(JSON.stringify(specialList));
     },
 

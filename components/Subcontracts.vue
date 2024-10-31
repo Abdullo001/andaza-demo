@@ -172,6 +172,21 @@
           </v-tooltip>
         </div>
       </template>
+    <template v-slot:body.append>
+      <tr>
+        <td colspan="5"></td>
+        <td
+          :colspan="setSubcontractsList[0]?.sizeDistributionList?.length + 2"
+          class="text-capitalize text-body-1 font-weight-bold"
+        >
+            {{ $t('orderBox.colorSize.totalQuantities') }}
+        </td>
+        <td>
+          {{totalQuantity}}
+        </td>
+        <td></td>
+      </tr>
+    </template>
       <template #expanded-item="{headers, item}">
         <td :colspan="headers.length">
           <v-card flat>
@@ -580,6 +595,7 @@ export default {
       subcontractsList: [],
       subcontractsDetail: {},
       selectedSubcontract: {},
+      totalQuantity:null,
     };
   },
 
@@ -615,10 +631,11 @@ export default {
         {text: "Action", sortable: false, value: "actions",width:"250"},
         {text: '', value: 'data-table-expand'},
       )
-
+      let totalQuantity=0
       const specialList = list.map(function (el) {
         const value = {};
         const sizesList=[];
+        totalQuantity+=el.receivedQuantity
         el?.sizeDistributionList.forEach((item) => {
           value[item.size]=item.quantity
           sizesList.push({size:item.size,quantity:0})
@@ -629,7 +646,7 @@ export default {
           sizeDistributions:[...sizesList],
         }
       })
-
+      this.totalQuantity=totalQuantity
       this.subcontractsList = JSON.parse(JSON.stringify(specialList));
 
     },
