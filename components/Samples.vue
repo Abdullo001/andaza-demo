@@ -20,7 +20,7 @@
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="w-full d-flex">
-            <div class="text-capitalize title mr-6">Samples</div>
+            <div class="text-capitalize title mr-6">{{ $t('sidebar.samples') }}</div>
             <v-spacer/>
             <v-btn
               class="rounded-lg text-capitalize"

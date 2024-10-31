@@ -74,6 +74,7 @@
               </v-col>
             </v-row>
           </v-form>
+        
         </v-card-text>
         <v-card-actions class="px-10 pb-5">
           <v-spacer/>

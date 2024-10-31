@@ -107,7 +107,7 @@
               color="#544B99"
               dark
               class="text-capitalize rounded-lg"
-              @click="$router.push(`/samples/create-sample`)"
+              @click="$router.push(localePath(`/samples/create-sample`))"
             >
               <v-icon>mdi-plus</v-icon>
              {{ $t('samplesBox.addSample') }}
@@ -120,6 +120,8 @@
         <v-select
           :background-color="statusColor.sampleStatusColor(item.fqsStatus)"
           :items="status_enums"
+          item-text="value"
+          item-value="key"
           readonly
           append-icon="mdi-chevron-down"
           v-model="item.fqsStatus"
@@ -133,6 +135,8 @@
         <v-select
           :background-color="statusColor.sampleStatusColor(item.ldStatus)"
           :items="status_enums"
+          item-text="value"
+          item-value="key"
           readonly
           append-icon="mdi-chevron-down"
           v-model="item.ldStatus"
@@ -146,6 +150,8 @@
         <v-select
           :background-color="statusColor.sampleStatusColor(item.fitStatus)"
           :items="status_enums"
+          item-text="value"
+          item-value="key"
           readonly
           append-icon="mdi-chevron-down"
           v-model="item.fitStatus"
@@ -159,6 +165,8 @@
         <v-select
           :background-color="statusColor.sampleStatusColor(item.strikeStatus)"
           :items="status_enums"
+          item-text="value"
+          item-value="key"
           readonly
           append-icon="mdi-chevron-down"
           v-model="item.strikeStatus"
@@ -172,6 +180,8 @@
         <v-select
           :background-color="statusColor.sampleStatusColor(item.bulkStatus)"
           :items="status_enums"
+          item-text="value"
+          item-value="key"
           readonly
           append-icon="mdi-chevron-down"
           v-model="item.bulkStatus"
@@ -185,6 +195,8 @@
         <v-select
           :background-color="statusColor.sampleStatusColor(item.ppsStatus)"
           :items="status_enums"
+          item-text="value"
+          item-value="key"
           readonly
           append-icon="mdi-chevron-down"
           v-model="item.ppsStatus"
@@ -198,6 +210,8 @@
         <v-select
           :background-color="statusColor.sampleStatusColor(item.photoSampleStatus)"
           :items="status_enums"
+          item-text="value"
+          item-value="key"
           readonly
           append-icon="mdi-chevron-down"
           v-model="item.photoSampleStatus"
@@ -211,6 +225,8 @@
         <v-select
           :background-color="statusColor.sampleStatusColor(item.shipmentStatus)"
           :items="status_enums"
+          item-text="value"
+          item-value="key"
           readonly
           append-icon="mdi-chevron-down"
           v-model="item.shipmentStatus"
@@ -224,6 +240,8 @@
         <v-select
           :background-color="statusColor.sampleStatusColor(item.certificateStatus)"
           :items="status_enums"
+          item-text="value"
+          item-value="key"
           readonly
           append-icon="mdi-chevron-down"
           v-model="item.certificateStatus"
@@ -285,24 +303,24 @@ export default {
         modelNumber: "",
       },
       headers: [
-        { text: "Id", align: "start", sortable: false, value: "id" },
-        { text: "Order №", sortable: false, value: "orderNumber", width: 150 },
-        { text: "Model №", sortable: false, value: "modelNumber", width: 150 },
+        { text:this.$t("composition.table.id"), align: "start", sortable: false, value: "id" },
+        { text:this.$t('readyWarehouse.id.orderNo'), sortable: false, value: "orderNumber", width: 150 },
+        { text: this.$t('readyWarehouse.id.modelNo'), sortable: false, value: "modelNumber", width: 150 },
         { text: "FQS", sortable: false, value: "fqsStatus" },
         { text: "LD", sortable: false, value: "ldStatus" },
         { text: "FIT", sortable: false, value: "fitStatus" },
         { text: "STRIKE", sortable: false, value: "strikeStatus" },
         { text: "BULK", sortable: false, value: "bulkStatus" },
         { text: "PPS", sortable: false, value: "ppsStatus" },
-        { text: "PHOTO SAMPLE", sortable: false, value: "photoSampleStatus" },
-        { text: "SHIPMET SAMPLE", sortable: false, value: "shipmentStatus" },
+        { text: this.$t('samplesBox.id.photoSample'), sortable: false, value: "photoSampleStatus" },
+        { text: this.$t('samplesBox.id.shipmentSample'), sortable: false, value: "shipmentStatus" },
         {
-          text: "CERTIFICATE SAPLE",
+          text: this.$t('samplesBox.id.certificateSample'),
           sortable: false,
           value: "certificateStatus",
         },
         {
-          text: "Actions",
+          text: this.$t('samplesBox.sampleTabs.actions'),
           sortable: false,
           value: "actions",
           align: "center",
@@ -312,7 +330,7 @@ export default {
       currentList: [],
       orderNumSearch: "",
       modelNumSearch: "",
-      status_enums:["EMPTY","OK","IN_PROCESS"]
+      status_enums:[{key:"EMPTY", value:this.$t('statusItems.empty')},{key:"OK", value:this.$t('sidebar.ok')},{key:"IN_PROCESS", value:this.$t('statusItems.in_process')},]
     };
   },
 

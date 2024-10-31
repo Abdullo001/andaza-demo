@@ -140,7 +140,7 @@
               color="#544B99"
               class="rounded-lg text-capitalize"
               dark
-              @click="$router.push(`/fabric/create`)"
+              @click="$router.push(localePath(`/fabric/create`))"
             >
               <v-icon>mdi-plus</v-icon>
               {{$t('planning.index.fabric')}}
@@ -257,7 +257,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.commit("setPageTitle", "Planning");
+    this.$store.commit("setPageTitle", this.$t('sidebar.planning'));
   },
 };
 </script>

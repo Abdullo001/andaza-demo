@@ -6,6 +6,7 @@ export default {
   to: "Gacha",
   update: "Yangilash",
   sidebar: {
+    ok:"OK",
      byModels: "Model bo'yicha",
       catalogs:"Kataloglar",
     setting: "Sozlamalar",
@@ -97,7 +98,7 @@ export default {
       phoneNumber: "Telefon raqami",
       status: "Holat",
       save: "Saqlash",
-      home: "Uy",
+      home: "Asosiy",
       userManagement: "Foydalanuvchi boshqaruvi",
       details: "Tafsilotlar",
       update: "Parolni yangilash",
@@ -305,7 +306,7 @@ export default {
       unblockedTime: "Blokdan chiqarilgan sana vaqti",
       status: "Holat",
       save: "saqlash",
-      home: "Bosh sahifa",
+      home: "Asosiy",
       account: "Hisob",
       details: "Tafsilotlar",
     },
@@ -1079,7 +1080,7 @@ export default {
       dialogs: {
         create: "Tarkibni yaratish",
         select: "Tarkibni tanlash",
-
+        descriptionPlacholder: "Hamkor turi tavsifini kiriting",
         deleteDialog: "Tarkibni o'chirish",
         deleteText: "Haqiqatan ham bu Tarkibni oʻchirib tashlamoqchimisiz?",
         edit: "Tarkibni tahrirlash",
@@ -1237,11 +1238,11 @@ export default {
 
   },
    canvasType:{
-    idCanvasType:"ID Canvas type"
+    idCanvasType:"id kanvas turi"
   },
-  yarnNamber:{
-    idYArnNumber:"ID Yarn Number",
-    yarnType:"Yarn Type",
+  yarnNumber:{
+    idYarnNumber:"id ip raqami",
+   
 
   },
 
@@ -1264,7 +1265,7 @@ export default {
           "Bitta yetkazib beruvchiga buyurtma qilingan matolar ro'yxati ",
         recievedFabrics: "Qabul qilingan matolar",
         recievedFabricsSub:
-          "Bitta etkazib beruvchidan olingan matolar ro'yxati",
+          "Bitta yetkazib beruvchidan olingan matolar ro'yxati",
         orderedFabricsAmount: "Buyurtma qilingan matolar miqdori",
         orderedFabricsAmountSub:
           "Joriy modellarning barcha buyurtma qilingan matolar miqdori ",
@@ -1345,8 +1346,8 @@ export default {
       brandName: "Brend nomi",
       shippingDateFrom: "Yetkazib berish sanasidan",
       shippingDateTo: "Yetkazib berish sanasigacha",
-      shippingDate: "Oylik etkazib berish sanasi",
-      shippingDateYear: "Yillik etkazib berish sanasi",
+      shippingDate: "Oylik yetkazib berish sanasi",
+      shippingDateYear: "Yillik yetkazib berish sanasi",
       fabricStatus: "Mato holati",
       accessoryStatus: "Aksessuar holati",
       modelStatus: "Model holati",
@@ -1562,7 +1563,7 @@ export default {
    
         supply: "Ta'minot",
         cuttingInfo: "Kesish ma'lumotlari",
-        addRow: "Qator qo'shish",
+        addRow: "Qo'shish",
         totalQuantities: "Jami miqdorlar",
         artwork: "Artwork (Qo'shimcha aksessuarlar)",
         create: "Yaratish",
@@ -1715,7 +1716,7 @@ export default {
   },
    fabricOrderingBox:{
     index:{
-      deliveyTime: "Etkazib berish vaqti",
+      deliveyTime: "Yetkazib berish vaqti",
       peachEffect: "Peach effecti",
       generateOrder: "Mato tartibini yarating",
       title: "Yaratilgan buyurtmalar",
@@ -1823,6 +1824,7 @@ export default {
     },
   },
   samplesBox:{
+    finishSample: "Namunani tugatish",
     samples: "Namunalar",
     addSample: "Namunalar qo'shish",
    id:{
@@ -1839,7 +1841,7 @@ export default {
    },
    sampleTabs:{
     bodyPartColor: "Asosiy rang",
-  fabricSupplierName: "Matolar etkazib beruvchi nomi",
+  fabricSupplierName: "Matolar yetkazib beruvchi nomi",
   fqsSentDate: "FQS yuborilgan sana",
   result: "Natija",
   reason: "Sababi",
@@ -1861,7 +1863,7 @@ export default {
   centralWarehouse:{
     productName: "Mahsulot nomi",
   department: "Bo'lim",
-  supplier: "Etkazib beruvchi",
+  supplier: "Yetkazib beruvchi",
   specification: "Texnik xususiyatlar",
   quantity: "Miqdor",
   price: "Narx",
@@ -2036,7 +2038,7 @@ size: "Hajmi / m",
       name: "Kompozitsiya",
       enterMainName: "Kompozitsiyani kiriting",
       description: "Tavsif",
-      descriptionPlaceholder: "Kompozitsiya tavsifi",
+      descriptionPlacholder: "Kompozitsiya tavsifi",
       cancelBtn: "Bekor qilish",
       createBtn: "Saqlash",
       editDialog: "Kompozitsiyani tahrirlash",
@@ -2604,4 +2606,21 @@ received:"Qabul qilindi",
     deleteFabricWarehouseRow: "Mato ombor qatorini o'chirish",
     areYouSureYouWantToDeleteFabricWarehouseRow: "Mato ombor qatorini o'chirishni xohlaysizmi?"
 },
+ calculationStatus:{
+   title: "Narxlar",
+    costSubtotal: "Dastlabgi tannarx",
+    overproduction: "Ortiqcha ishlab chiqarish %",
+    lostResource: "Yo`qotilgan resurslar %",
+    generalExpenses: "Umumiy xarajatlar %",
+    extraExpenses: "Qo'shimcha xarajatlar %",
+    costPrice: "Tannarx",
+    targetProfit: "Ko`zlangan foyda%",
+    clientTargetPrice: "Mijozlarning maqsadli narxi ",
+    givenPrice: "Taqdim qilingan narx",
+    discount: "Chegirma %",
+    priceWithDiscount: "Chegirmadagi narx",
+    actualProfit: "Sof foyda %",
+    actualProfitAmount: "Sof foyda miqdori",
+    soldPrice: "Sotish narxi",
+  },
 };

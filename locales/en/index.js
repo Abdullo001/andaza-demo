@@ -6,6 +6,7 @@ export default {
   to: "To",
   update: "Update",
   sidebar: {
+    ok: "OK",
     byModels:"By Model",
     catalogs:"Catalogs",
     setting: "Settings",
@@ -1237,8 +1238,8 @@ export default {
   canvasType:{
     idCanvasType:"ID Canvas type"
   },
-  yarnNamber:{
-    idYArnNumber:"ID Yarn Number",
+  yarnNumber:{
+    idYarnNumber:"ID Yarn Number",
     
 
   },
@@ -1926,6 +1927,7 @@ export default {
 
 },
   samplesBox:{
+    finishSample: "Finish Sample",
     samples: "Samples",
     addSample: "Add Samples",
    id:{
@@ -2608,5 +2610,22 @@ wastes:{
     deleteFabricWarehouseRow:"Delete fabric warehouse row",
     areYouSureYouWantToDeleteFabricWarehouseRow:"Are you sure you want to delete fabric warehouse row?"
 
+  },
+  calculationStatus:{
+     title: "Prices",
+    costSubtotal: "Cost subtotal",
+    overproduction: "Overproduction %",
+    lostResource: "Lost resource %",
+    generalExpenses: "General expenses %",
+    extraExpenses: "Extra expenses %",
+    costPrice: "Cost price",
+    targetProfit: "Target profit %",
+    clientTargetPrice: "Client target price",
+    givenPrice: "Given price",
+    discount: "Discount %",
+    priceWithDiscount: "Price with discount",
+    actualProfit: "Actual profit %",
+    actualProfitAmount: "Actual profit amount",
+    soldPrice: "Sold price",
   },
 };

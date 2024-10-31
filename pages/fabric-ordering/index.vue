@@ -36,7 +36,7 @@
                 class="rounded-lg base  d-flex align-center justify-center mr-2"
                 :return-object="true"
                 dense
-                placeholder="Order name"
+                :placeholder=" $t('orderBox.index.orderNum')"
                 prepend-icon=""
               >
                 <template #append>
@@ -705,7 +705,7 @@ export default {
 
   mounted(){
     this.getPartnerList({page:0,size:10})
-    this.$store.commit('setPageTitle', 'Fabric Ordering');
+    this.$store.commit('setPageTitle', this.$t('sidebar.fabricOrdering'));
   }
 }
 

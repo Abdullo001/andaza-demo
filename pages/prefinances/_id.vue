@@ -342,7 +342,7 @@
                   <v-toolbar-title
                     class="d-flex justify-space-between w-full align-center"
                   >
-                    <div class="text-h6">Details</div>
+                    <div class="text-h6">{{$t('userManagement.child.details')}}</div>
                     <v-btn
                       class="text-capitalize font-weight-bold rounded-lg"
                       color="#544B99"
@@ -563,7 +563,7 @@
               min-width="130"
               @click="generatePdf"
             >
-              Generate PDF
+             {{$t('production.oneSort.generatePdf')}}
             </v-btn>
             <v-btn
               color="#544B99"
@@ -601,7 +601,7 @@
                   {{ $t("prefinances.child.expenseGroup") }}
                 </div>
                 <v-combobox
-                  placeholder="Select expense group"
+                  :placeholder="$t('prefinances.child.expenseGroup') "
                   dense
                   append-icon="mdi-chevron-down"
                   :items="expenseGroup"
@@ -621,7 +621,7 @@
               <v-col cols="12" lg="4">
                 <div class="label">{{ $t("prefinances.child.expense") }}</div>
                 <v-select
-                  placeholder="Select expense"
+                  :placeholder="$t('prefinances.child.expense')"
                   append-icon="mdi-chevron-down"
                   outlined
                   hide-details
@@ -641,7 +641,7 @@
               <v-col cols="12" lg="4">
                 <div class="label">{{ $t("prefinances.child.quantity") }}</div>
                 <v-text-field
-                  placeholder="Enter quantity"
+                  :placeholder=" $t('prefinances.child.quantity')"
                   outlined
                   hide-details
                   height="44"
@@ -658,7 +658,7 @@
                   {{ $t("prefinances.child.measurementunit") }}
                 </div>
                 <v-select
-                  placeholder="Select measurement unit"
+                  :placeholder="$t('prefinances.child.measurementunit')"
                   append-icon="mdi-chevron-down"
                   outlined
                   hide-details
@@ -679,7 +679,7 @@
                   {{ $t("prefinances.child.pricePerUnit") }}
                 </div>
                 <v-text-field
-                  placeholder="Enter price per unit"
+                  :placeholder=" $t('prefinances.child.pricePerUnit')"
                   outlined
                   hide-details
                   height="44"
@@ -1015,7 +1015,7 @@ export default {
       calculation: [
         {
           id: 1,
-          name: "Cost subtotal",
+          name: this.$t('calculationStatus.costSubtotal'),
           editable: "-",
           firstCurrency: 0,
           secondCurrency: 0,
@@ -1026,7 +1026,7 @@ export default {
         },
         {
           id: 2,
-          name: "Overproduction %",
+          name: this.$t('calculationStatus.overproduction'),
           editable: "",
           firstCurrency: "0.0",
           secondCurrency: "0.0",
@@ -1037,7 +1037,7 @@ export default {
         },
         {
           id: 3,
-          name: "Lost resource %",
+          name:  this.$t('calculationStatus.lostResource'),
           editable: "",
           firstCurrency: "0.0",
           secondCurrency: "0.0",
@@ -1048,7 +1048,7 @@ export default {
         },
         {
           id: 4,
-          name: "General expenses %",
+          name: this.$t('calculationStatus.generalExpenses'),
           editable: "",
           firstCurrency: "0.0",
           secondCurrency: "0.0",
@@ -1059,7 +1059,7 @@ export default {
         },
         {
           id: 5,
-          name: "Extra expenses %",
+          name:  this.$t('calculationStatus.extraExpenses'),
           editable: "",
           firstCurrency: "0.0",
           secondCurrency: "0.0",
@@ -1070,7 +1070,7 @@ export default {
         },
         {
           id: 6,
-          name: "Cost price",
+          name:this.$t('calculationStatus.costPrice'),
           editable: "-",
           firstCurrency: "0.0",
           secondCurrency: "0.0",
@@ -1081,7 +1081,7 @@ export default {
         },
         {
           id: 7,
-          name: "Target profit %",
+          name: this.$t('calculationStatus.targetProfit'),
           editable: "",
           firstCurrency: "0.0",
           secondCurrency: "0.0",
@@ -1092,7 +1092,7 @@ export default {
         },
         {
           id: 8,
-          name: "Client target price",
+          name:this.$t('calculationStatus.clientTargetPrice'),
           editable: "-",
           firstCurrency: "",
           secondCurrency: "0.0",
@@ -1103,7 +1103,7 @@ export default {
         },
         {
           id: 9,
-          name: "Given price",
+          name: this.$t('calculationStatus.givenPrice'),
           editable: "-",
           firstCurrency: "",
           secondCurrency: "0.0",
@@ -1114,7 +1114,7 @@ export default {
         },
         {
           id: 10,
-          name: "Discount %",
+          name:this.$t('calculationStatus.discount'),
           editable: "",
           firstCurrency: "0.0",
           secondCurrency: "0.0",
@@ -1125,7 +1125,7 @@ export default {
         },
         {
           id: 11,
-          name: "Price with discount",
+          name: this.$t('calculationStatus.priceWithDiscount'),
           editable: "-",
           firstCurrency: "0.0",
           secondCurrency: "0.0",
@@ -1136,7 +1136,7 @@ export default {
         },
         {
           id: 12,
-          name: "Actual profit %",
+          name: this.$t('calculationStatus.actualProfit'),
           editable: "",
           firstCurrency: "0.0",
           secondCurrency: "0.0",
@@ -1147,7 +1147,7 @@ export default {
         },
         {
           id: 13,
-          name: "Actual profit amount",
+          name:  this.$t('calculationStatus.actualProfitAmount'),
           editable: "-",
           firstCurrency: "0.0",
           secondCurrency: "0.0",
@@ -1158,7 +1158,7 @@ export default {
         },
         {
           id: 14,
-          name: "Sold price",
+          name:this.$t('calculationStatus.soldPrice'),
           editable: "-",
           firstCurrency: "",
           secondCurrency: "0.0",
@@ -1169,7 +1169,7 @@ export default {
         },
       ],
       tab: null,
-      items: ["Details", "Documents"],
+      items: [this.$t('userManagement.child.details'),this.$t('prefinances.child.documents')],
       count: 1,
       allDocuments: [{type: "word"}],
       model_first: null,
