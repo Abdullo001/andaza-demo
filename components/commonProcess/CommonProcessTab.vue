@@ -4,6 +4,7 @@
     :headers="headers"
     :items="items"
     item-key="cuttingTable"
+    hide-default-footer
     
   >
     <template #top>
@@ -89,6 +90,21 @@
           </template>
           <span class="text-capitalize">delete</span>
         </v-tooltip>
+    </template>
+    <template v-slot:body.append>
+      <tr>
+        <td></td>
+        <td
+          :colspan="ownList[0]?.sizeDistributionList?.length"
+          class="text-capitalize text-body-1 font-weight-bold"
+        >
+            {{ $t('orderBox.colorSize.totalQuantities') }}
+        </td>
+        <td>
+          {{totalQuantity}}
+        </td>
+        <td></td>
+      </tr>
     </template>
   </v-data-table>
 
@@ -382,7 +398,7 @@ export default {
 
       historyList: [],
       classificationEnums: ['DEFECT', 'PHOTO', 'PHOTO_SAMPLE', 'SAMPLE', 'LOST', 'OTHERS'],
-
+      totalQuantity:null,
 
     }
   },
@@ -413,8 +429,9 @@ export default {
         {text: 'Produced total', sortable: false, align: 'start', value: 'totalCutQuantity'},
         {text: 'Actions', sortable: false, align: 'start', value: 'actions'},
       )
-
+      let totalQuantity=0
       const specialList = list.map(function (el) {
+        totalQuantity+=el.totalCutQuantity
         const value = {};
         const sizesList = [];
         el?.sizeDistributionList.forEach((item) => {
@@ -429,6 +446,7 @@ export default {
 
         }
       })
+      this.totalQuantity=totalQuantity
       this.items = JSON.parse(JSON.stringify(specialList))
     },
 
@@ -446,7 +464,7 @@ export default {
         {text: 'Done By', sortable: false, align: 'center', value: 'createdBy'},
       )
 
-      const specialList = list.map(function (el) {
+      const specialList = list.map(function (el) { 
         const value = {};
         const sizesList = [];
         el?.sizeDistributions.forEach((item) => {

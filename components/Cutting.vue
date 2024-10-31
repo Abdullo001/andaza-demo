@@ -7,6 +7,7 @@
       show-select
       :single-select="singleSelect"
       v-model="selected"
+      hide-default-footer
 
     >
       <template #top>
@@ -125,6 +126,21 @@
           <span class="text-capitalize">delete</span>
         </v-tooltip>
 
+      </template>
+      <template v-slot:body.append>
+        <tr>
+          <td colspan="5"></td>
+          <td
+            :colspan="cuttingList[0]?.sizeDistributionList?.length+2"
+            class="text-capitalize text-body-1 font-weight-bold"
+          >
+              {{ $t('orderBox.colorSize.totalQuantities') }}
+          </td>
+          <td>
+            {{totalQuantity}}
+          </td>
+          <td></td>
+        </tr>
       </template>
       <template #[`header.data-table-select`]="{ props, on }">
         <v-simple-checkbox
@@ -509,7 +525,7 @@ export default {
       historyHeaders: [],
       historyList: [],
       cuttingId: null,
-
+      totalQuantity:null,
     }
   },
 
@@ -545,10 +561,11 @@ export default {
         {text: 'Waste fabric', sortable: false, align: 'center', value: 'wasteFabric', width: "150"},
         {text: 'Actions', sortable: false, align: 'center', value: 'actions', width: "250"},
       ]
-
+      let totalQuantity=0
       const specialList = list.map(function (el) {
         const value = {};
         const sizesList = [];
+        totalQuantity+=el.totalCutQuantity
         el?.sizeDistributionList.forEach((item) => {
           value[item.size] = item.quantity
           sizesList.push({size: item.size, quantity: null})
@@ -561,7 +578,7 @@ export default {
 
         }
       })
-      
+      this.totalQuantity=totalQuantity
       this.items = JSON.parse(JSON.stringify(specialList))
     },
 
