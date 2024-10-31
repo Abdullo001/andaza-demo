@@ -28,7 +28,6 @@ export const actions={
     this.$axios.get(`/api/v1/common-operations?commonProcessDetailsId=${id}&commonOperationType=FIRST_CLASS`)
     .then((res)=>{
       commit("setHistoryList",res.data.data)
-      console.log(res);
       
     })
     .catch((res)=>{
