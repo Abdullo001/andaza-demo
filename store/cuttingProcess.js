@@ -40,8 +40,6 @@ export const actions = {
     if(!!state.planningProcessId)
     this.$axios.get(`/api/v1/process-details/list-own?planningProcessId=${state.planningProcessId}`)
       .then((res) => {
-        console.log(res);
-        
         commit("setCuttingList", res.data.data)
       })
       .catch((res) => {
