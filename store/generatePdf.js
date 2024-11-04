@@ -154,7 +154,7 @@ export const actions = {
       });
   },
   getDailyProductionPdfList({ commit }, data) {
-    this.$axios.put(`/api/v1/production/production-quantity-pdf?dateTime=${data.dateTime}`)
+    this.$axios.put(`/api/v1/production/production-quantity-pdf?from=${data.from}&to=${data.to}`)
       .then((res) => {
         const binaryCode = atob(res.data);
         commit("setDailyProductionPdfList", binaryCode);

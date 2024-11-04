@@ -263,7 +263,7 @@
                 placeholder="dd.MM.yyyy"
                 style="width: 100%; height: 100%"
                 type="date"
-                value-format="dd.MM.yyyy"
+                value-format="timestamp"
               >
               </el-date-picker>
             </div>

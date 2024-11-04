@@ -416,7 +416,7 @@ export default {
       get(){
         return{
           modelId:!!this.modelInfo.modelId?this.modelInfo.modelId:0,
-          propertyName:"PACKAGING",
+          propertyName:"IRONING",
         }
       }
     },
