@@ -7,7 +7,7 @@
             <v-col cols="12" lg="2" md="2">
               <v-text-field
                 v-model="filters.id"
-                placeholder="ID yarn number"
+                :placeholder="$t('yarnNumber.idYarnNumber')"
                 outlined
                 validate-on-blur
                 dense

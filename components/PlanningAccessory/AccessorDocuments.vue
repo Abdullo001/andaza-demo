@@ -20,7 +20,7 @@
               @click="newDialog = true"
               dark
             >
-              Upload document
+               {{ $t('modelBox.documentBox.uploadDocument') }}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>

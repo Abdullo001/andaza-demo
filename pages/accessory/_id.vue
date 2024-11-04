@@ -59,7 +59,7 @@
             <v-text-field
               v-model="accessoryDetail.modelName"
               validate-on-blur
-              placeholder="Enter Model name"
+              :placeholder="$t('prefinances.child.enterModelNumber')"
               outlined
               hide-details
               height="44"

@@ -6,8 +6,9 @@ export default {
   to: "С",
   update: "Обновлять",
   sidebar: {
-    byModels: "По модели",
-    catalogs: "Каталоги",
+     ok: "OK",
+     byModels: "По модели",
+      catalogs:"Каталоги",
     setting: "Настройки",
     report: "Отчет",
     warehouse: "Склад",
@@ -89,7 +90,7 @@ export default {
       phoneNumber: "Номер телефона",
       status: "Статус",
       save: "Сохранять",
-      home: "Дом",
+      home: "Основной",
       userManagement: "Управление пользователями",
       details: "Подробности",
       update: "Обновить пароль",
@@ -297,7 +298,7 @@ export default {
       unblockedTime: "Дата и время разблокировки",
       status: "Статус",
       save: "сохранять",
-      home: "Домашняя страница",
+      home: "Основной",
       account: "Счет",
       details: "Подробности",
     },
@@ -1067,9 +1068,8 @@ export default {
       dialogs: {
         create: "Создать Состав",
         select: "Выберите Состав",
-
+        descriptionPlacholder: "Введите описание типа партнера",
         edit: "Изменить Состав",
-
         deleteDialog: "Удалить Состав",
         deleteText: "Вы уверены, что хотите удалить этот Состав?",
         description: "Описание",
@@ -1219,12 +1219,13 @@ export default {
       selectMeasurementUnit: "Выберите единицу измерения",
     },
   },
-  canvasType: {
-    idCanvasType: "ID Canvas type",
+   canvasType:{
+    idCanvasType:"тип холста"
   },
-  yarnNamber: {
-    idYArnNumber: "ID Yarn Number",
-    yarnType: "Yarn Type",
+  yarnNumber:{
+    idYarnNumber:"Номер пряжи id",
+    yarnType:"Тип пряжи",
+
   },
 
   forms: {
@@ -1529,7 +1530,7 @@ export default {
     colorSize: {
       supply: "Поставка",
       cuttingInfo: "Информация о резке",
-      addRow: "Добавить строку",
+      addRow: "Добавить",
       totalQuantities: "Общие количества",
       artwork: "Artwork (Дополнительные аксессуары)",
       create: "Создать",
@@ -1787,7 +1788,8 @@ export default {
       deadlineForFabric: "Срок для ткани",
     },
   },
-  samplesBox: {
+  samplesBox:{
+     finishSample: "Завершить образец",
     samples: "Образцы",
     addSample: "Добавить образцы",
     id: {
@@ -2567,8 +2569,22 @@ export default {
     givingFabricQuantity: "Количество передаваемой ткани",
     fabricGivingToSubcontractor: "Передача ткани субподрядчику",
     deleteFabricWarehouseRow: "Удалить строку склада ткани",
-    areYouSureYouWantToDeleteFabricWarehouseRow:
-      "Вы уверены, что хотите удалить строку склада ткани?",
+    areYouSureYouWantToDeleteFabricWarehouseRow: "Вы уверены, что хотите удалить строку склада ткани?"
+},
+ calculationStatus:{
+    costSubtotal: "Начальная себестоимость",
+    overproduction: "Избыточное производство %",
+    lostResource: "Потерянные ресурсы %",
+    generalExpenses: "Общие затраты %",
+    extraExpenses: "Дополнительные затраты %",
+    costPrice: "Себестоимость",
+    targetProfit: "Планируемая прибыль %",
+    clientTargetPrice: "Целевая цена клиента",
+    givenPrice: "Представленная цена",
+    discount: "Скидка %",
+    priceWithDiscount: "Цена со скидкой",
+    actualProfit: "Чистая прибыль %",
+    actualProfitAmount: "Сумма чистой прибыли",
+    soldPrice: "Цена продажи",
   },
-  alertText:"Пожалуйста, выберите хотя бы один элемент для оформления заказа"
 };

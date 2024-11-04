@@ -17,7 +17,7 @@
               :disabled="!(modelId !== '')"
             >
               <v-icon class="mr-2">mdi-plus</v-icon>
-              add row
+             {{$t('orderBox.colorSize.addRow')}}
             </v-btn>
           </v-toolbar-title>
         </v-toolbar>
@@ -56,7 +56,9 @@
       <v-card>
         <v-card-title class="d-flex">
           <div class="title">
-            {{ dialog_title }} row
+           <p v-if="dialog_title=='Add'">{{ $t('orderBox.colorSize.addRow') }}</p>
+           <p v-else>{{ $t('userManagement.child.edit') }}</p>
+
           </div>
           <v-spacer/>
           <v-btn icon color="#544B99" @click="new_dialog = false">
@@ -67,7 +69,7 @@
           <v-form lazy-validation ref="new_validate">
             <v-row>
               <v-col lg="6">
-                <div class="label">Part name</div>
+                <div class="label">{{ $t('orderBox.modelPrint.partnerName') }}</div>
                 <v-select
                   :items="modelPartsList"
                   item-text="bodyPart"
@@ -75,7 +77,7 @@
                   outlined
                   hide-details
                   height="44"
-                  placeholder="Select part name"
+                  :placeholder="$t('orderBox.modelPrint.partnerName')"
                   class="rounded-lg base"
                   dense
                   validate-on-blur
@@ -86,13 +88,13 @@
                 />
               </v-col>
               <v-col lg="6">
-                <div class="label">Quantity</div>
+                <div class="label">{{ $t('orderBox.modelPrint.quantity') }}</div>
                 <v-text-field
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base" dense
-                  placeholder="Enter quantity"
+                  :placeholder="$t('orderBox.modelPrint.quantity')"
                   validate-on-blur
                   color="#544B99"
                   v-model="fabric_planning.quantity"
@@ -100,7 +102,7 @@
                 />
               </v-col>
               <v-col lg="6">
-                <div class="label">Width type</div>
+                <div class="label">{{$t('planning.planningChart.widthType') }}</div>
                 <v-select
                   :items="withTypeEnum"
                   outlined
@@ -108,14 +110,14 @@
                   height="44"
                   class="rounded-lg base" dense
                   validate-on-blur
-                  placeholder="Select width type"
+                  :placeholder="$t('planning.planningChart.widthType')"
                   append-icon="mdi-chevron-down"
                   color="#544B99"
                   v-model="fabric_planning.widthType"
                 />
               </v-col>
               <v-col lg="6">
-                <div class="label">Measurement unit</div>
+                <div class="label">{{ $t('sidebar.measurementUnit')}}</div>
                 <v-select
                   :items="measurementUnit"
                   item-text="name"
@@ -125,7 +127,7 @@
                   height="44"
                   class="rounded-lg base" dense
                   validate-on-blur
-                  placeholder="Select measurement unit"
+                  :placeholder="$t('sidebar.measurementUnit')"
                   append-icon="mdi-chevron-down"
                   color="#544B99"
                   v-model="fabric_planning.quantityUnitId"
@@ -133,21 +135,21 @@
                 />
               </v-col>
               <v-col lg="6">
-                <div class="label">Width(cm)</div>
+                <div class="label">{{$t('planning.planningChart.widthCm') }}</div>
                 <v-text-field
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base" dense
                   validate-on-blur
-                  placeholder="Enter width(cm)"
+                  :placeholder="$t('planning.planningChart.widthCm')"
                   color="#544B99"
                   v-model="fabric_planning.width"
                   :rules="[formRules.required]"
                 />
               </v-col>
               <v-col lg="6">
-                <div class="label">Density gr/m2</div>
+                <div class="label">{{$t('planning.planningChart.densityGrM2')}}</div>
                 <v-text-field
                   outlined
                   hide-details
@@ -155,20 +157,20 @@
                   class="rounded-lg base" dense
                   validate-on-blur
                   color="#544B99"
-                  placeholder="Enter density gr/m2"
+                  :placeholder="$t('planning.planningChart.densityGrM2')"
                   v-model="fabric_planning.density"
                   :rules="[formRules.required]"
                 />
               </v-col>
               <v-col lg="6">
-                <div class="label">Comment</div>
+                <div class="label">{{$t('workingProcess.working.comment')}}</div>
                 <v-text-field
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base" dense
                   validate-on-blur
-                  placeholder="Enter comment"
+                  :placeholder="$t('workingProcess.working.comment')"
                   color="#544B99"
                   v-model="fabric_planning.description"
                 />
@@ -176,14 +178,14 @@
             </v-row>
             <v-row>
               <v-col cols="12" lg="6" class="d-flex align-center">
-                <div class="body-1 font-weight-medium">Fleece</div>
+                <div class="body-1 font-weight-medium">{{$t('planning.planningChart.fleece')}}</div>
                 <v-spacer/>
                 <v-switch v-model="fabric_planning.withFleece"
                           inset color="#4F46E5"
                 />
               </v-col>
               <v-col cols="12" lg="6" class="d-flex align-center">
-                <div class="body-1 font-weight-medium">Peach effect</div>
+                <div class="body-1 font-weight-medium">{{$t('planning.planningChart.peachEffect')}}</div>
                 <v-spacer/>
                 <v-switch v-model="fabric_planning.peachEffectEnabled"
                           inset color="#4F46E5"
@@ -201,7 +203,7 @@
             color="#544B99"
             @click="new_dialog=false"
           >
-            Cancel
+           {{$t('userManagement.dialog.cancel')}}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-8"
@@ -209,7 +211,7 @@
             color="#544B99" dark
             @click="createChart"
           >
-            {{ dialog_btn }}
+            {{ dialog_btn==="Add"?$t('orderBox.colorSize.addRow'):$t('update') }}
           </v-btn>
         </v-card-actions>
       </v-card>

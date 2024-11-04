@@ -5,7 +5,7 @@
     <v-card elevation="0">
       <v-card-title>
         <div>
-          Samples
+         {{ $t('samplesBox.samples') }}
         </div>
         <v-spacer/>
       </v-card-title>
@@ -306,7 +306,7 @@
           width="200"
           @click="finisSample"
         >
-          Finish Sample
+          {{ $t('samplesBox.finishSample') }}
         </v-btn>
       </div>
     </v-card>
@@ -357,19 +357,19 @@ export default {
       purpose:'',
       map_links: [
         {
-          text: "Home",
+          text: this.$t('billingCompany.child.home'),
           disabled: false,
           to: "/",
           icon: true,
         },
         {
-          text: "Samples",
+          text: this.$t('sidebar.samples'),
           disabled: false,
           to: "/samples",
           icon: true,
         },
         {
-          text: "add samples",
+          text: this.$t('samplesBox.addSample'),
           disabled: true,
           to: "/samples/7",
           icon: false,

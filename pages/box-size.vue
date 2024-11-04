@@ -118,7 +118,7 @@
                   height="44"
                   class="base rounded-lg"
                   v-model="create_boxSize.size"
-                  placeholder="Enter sizes of box sites"
+                  :placeholder=" $t('accessoryWarehouse.size')"
                   dense
                   color="#544B99"
                 />
@@ -143,7 +143,7 @@
                   hide-details
                   class="base rounded-lg"
                   v-model="create_boxSize.description"
-                  placeholder="Enter sizes  description"
+                  :placeholder="$t('prefinances.child.description')"
                   dense
                   color="#544B99"
                 />

@@ -244,7 +244,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.commit("setPageTitle", "Planning");
+    this.$store.commit("setPageTitle", this.$t('sidebar.planning'));
   },
 };
 </script>
