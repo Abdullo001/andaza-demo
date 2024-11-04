@@ -11,7 +11,7 @@
       <v-card-text>
         <v-form lazy-validation v-model="filter_form" ref="filters">
           <v-row class="mb-5">
-            <v-col cols="12" lg="3">
+            <!-- <v-col cols="12" lg="3">
               <div class="label">
                 {{ $t("forms.dailyProductionQuantity.daily") }}
               </div>
@@ -61,6 +61,36 @@
                 >
                 </el-date-picker>
               </div>
+            </v-col> -->
+            <v-col cols="12" lg="3">
+              <div class="label">
+                {{ $t("forms.placedOrdersBox.fromDate") }}
+              </div>
+              <div style="height: 40px !important">
+                <el-date-picker
+                  v-model="filters.from"
+                  type="datetime"
+                  style="width: 100%; height: 100%"
+                  placeholder="dd.MM.yyyy HH:mm:ss"
+                  :picker-options="pickerShortcuts"
+                  value-format="timestamp"
+                >
+                </el-date-picker>
+              </div>
+            </v-col>
+            <v-col cols="12" lg="3">
+              <div class="label">{{ $t("forms.placedOrdersBox.toDate") }}</div>
+              <div style="height: 40px !important">
+                <el-date-picker
+                  v-model="filters.to"
+                  type="datetime"
+                  style="width: 100%; height: 100%"
+                  placeholder="dd.MM.yyyy HH:mm:ss"
+                  :picker-options="pickerShortcuts"
+                  value-format="timestamp"
+                >
+                </el-date-picker>
+              </div>
             </v-col>
           </v-row>
           <div class="d-flex justify-center">
@@ -106,9 +136,8 @@ export default {
     return {
       filter_form: true,
       filters: {
-        monthly: "",
-        daily: "",
-        yearly: "",
+        to: "",
+        from: "",
       },
       isLoad: false,
 
@@ -148,13 +177,13 @@ export default {
 
     resetFilter() {
       this.$refs.filters.reset();
-      this.filters.daily = "";
-      this.filters.monthly = "";
-      this.filters.yearly = "";
+      this.filters.to = "";
+      this.filters.from = "";
     },
     filter() {
       const data = {
-        dateTime: "",
+        from:this.filters.from,
+        to:this.filters.to,
       };
       if (!!this.filters.daily) {
         data.dateTime = this.filters.daily;
