@@ -118,7 +118,7 @@ export const actions = {
   },
 
   setUpdateSizes({dispatch,state},data){
-    this.$axios.put(`/api/v1/process-details/update`,data)
+    this.$axios.put(`/api/v1/process-details/${data.id}`,data)
     .then((res)=>{
       dispatch("getSubcontractsList")
     })
@@ -218,7 +218,7 @@ export const actions = {
   },
 
   setMainColor({dispatch},id){
-    this.$axios.put(`/api/v1/process-details/set-main?id=${id}`)
+    this.$axios.put(`/api/v1/process-details/set-main?fabricProcessDetailsId=${id}`)
     .then((res)=>{
       dispatch("getSubcontractsList")
       this.$toast.success(res.data.message)

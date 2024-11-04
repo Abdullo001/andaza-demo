@@ -54,7 +54,7 @@ export const actions={
   },
 
   deleteHistoryItem({dispatch},{id,processId}){
-    this.$axios.delete(`/api/v1/common-operation/delete?id=${id}`)
+    this.$axios.delete(`/api/v1/common-operations/${id}`)
     .then((res)=>{
       dispatch("getHistoryList",processId)
       dispatch("commonProcess/getOwnList",'',{root:true})
@@ -68,7 +68,7 @@ export const actions={
   },
 
   editHistoryItem({dispatch},data){
-    this.$axios.put(`/api/v1/common-operation/update`,data)
+    this.$axios.put(`/api/v1/common-operations/${data.id}`,data)
     .then((res)=>{
       dispatch("commonProcess/getOwnList",'',{root:true})
       dispatch("commonProcess/getSubcontarctList",'',{root:true})
@@ -80,7 +80,7 @@ export const actions={
     })
   },
   editHistorySecondClassItem({dispatch},data){
-    this.$axios.put(`/api/v1/common-operation/update`,data)
+    this.$axios.put(`/api/v1/common-operations/${data.id}`,data)
     .then((res)=>{
       dispatch("commonProcess/getSecondClassList",'',{root:true})
       dispatch("commonProcess/getSubcontarctSecondClassList",'',{root:true})

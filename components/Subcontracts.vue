@@ -133,7 +133,7 @@
 
           <v-tooltip
             top
-            color="green"
+            color="#544B99"
             class="pointer"
             v-if="Object.keys(item).length > 2"
           >
@@ -142,10 +142,10 @@
                 icon
                 v-bind="attrs"
                 v-on="on"
-                color="green"
+                color="#544B99"
                 @click="editParts(item)"
               >
-                <v-img src="/edit-active.svg" max-width="22"/>
+                <v-img src="/daily.svg" max-width="25"/>
               </v-btn>
             </template>
             <span class="text-capitalize">edit</span>
@@ -172,6 +172,21 @@
           </v-tooltip>
         </div>
       </template>
+    <template v-slot:body.append>
+      <tr>
+        <td colspan="5"></td>
+        <td
+          :colspan="setSubcontractsList[0]?.sizeDistributionList?.length + 2"
+          class="text-capitalize text-body-1 font-weight-bold"
+        >
+            {{ $t('orderBox.colorSize.totalQuantities') }}
+        </td>
+        <td>
+          {{totalQuantity}}
+        </td>
+        <td colspan="6"></td>
+      </tr>
+    </template>
       <template #expanded-item="{headers, item}">
         <td :colspan="headers.length">
           <v-card flat>
@@ -201,10 +216,10 @@
     </v-data-table>
 
 
-    <v-dialog v-model="edit_dialog" max-width="572">
+    <v-dialog v-model="edit_dialog" max-width="800">
       <v-card>
         <v-card-title class="w-full d-flex text-capitalize text-h6 justify-space-between">
-          <div>Edit Subcontract</div>
+          <div>Enter daily works Subcontract</div>
           <v-btn @click="edit_dialog = !edit_dialog" icon>
             <v-icon color="#544B99">mdi-close</v-icon>
           </v-btn>
@@ -243,6 +258,7 @@
                   </el-date-picker>
                 </div>
               </v-col>
+
               <v-col cols="12" lg="6">
                 <div class="label">Deadline</div>
                 <div style="height: 40px !important">
@@ -258,7 +274,40 @@
                   </el-date-picker>
                 </div>
               </v-col>
-              <v-col cols="12" lg="6"></v-col>
+              <v-col cols="6">
+                <div class="label">Stream Number</div>
+                <v-select
+                  :items="streamList"
+                  v-model.trim="subcontractsDetail.streamId"
+                  append-icon="mdi-chevron-down"
+                  item-text="streamNumber"
+                  item-value="streamId"
+                  outlined
+                  hide-details
+                  dense
+                  height="44"
+                  class="rounded-lg base" color="#544B99"
+                  placeholder="Select reason"
+                />
+              </v-col>
+              <v-col cols="6">
+                <div class="label">Work date</div>
+                <el-date-picker 
+                    v-model="subcontractsDetail.workDate"
+                    type="date"
+                    style="width: 100%; height: 44px !important;"
+                    :placeholder="$t('fabricOrderingBox.plannedAccessoryOrderBox.deliveryTime')"
+                    :picker-options="pickerShortcuts"
+                    value-format="timestamp"
+                    class="base_picker"
+                    :rules="[formRules.required]"
+                    validate-on-blur
+                  >
+                </el-date-picker>
+              </v-col>
+            </v-row>
+            <v-row>
+              
 
               <v-col cols="12" lg="3" v-for="(item,idx) in subcontractsDetail.sizeDistributions" :key="idx">
                 <div class="label">{{item.size}}</div>
@@ -519,7 +568,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="history_dialog" max-width="600">
+    <v-dialog v-model="history_dialog" max-width="800">
       <v-card flat>
         <v-card-title>
           <div class="title">History</div>
@@ -580,6 +629,7 @@ export default {
       subcontractsList: [],
       subcontractsDetail: {},
       selectedSubcontract: {},
+      totalQuantity:null,
     };
   },
 
@@ -587,7 +637,7 @@ export default {
     ...mapGetters({
       setSubcontractsList: "subcontracts/subcontractsList",
       historyListDate:"cuttingProcess/historyList",
-
+      streamList:"commonProcess/streamList",
     }),
   },
   watch: {
@@ -615,13 +665,14 @@ export default {
         {text: "Action", sortable: false, value: "actions",width:"250"},
         {text: '', value: 'data-table-expand'},
       )
-
+      let totalQuantity=0
       const specialList = list.map(function (el) {
         const value = {};
         const sizesList=[];
+        totalQuantity+=el.receivedQuantity
         el?.sizeDistributionList.forEach((item) => {
           value[item.size]=item.quantity
-          sizesList.push({size:item.size,quantity:0})
+          sizesList.push({size:item.size,quantity:null})
         });
         return{
           ...el,
@@ -629,16 +680,17 @@ export default {
           sizeDistributions:[...sizesList],
         }
       })
-
+      this.totalQuantity=totalQuantity
       this.subcontractsList = JSON.parse(JSON.stringify(specialList));
 
     },
 
     historyListDate(list){
       this.historyHeaders= [
-        {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
+        {text: 'Date', sortable: true, align: 'start', value: 'workDate'},
+        {text: 'Stream number', sortable: true, align: 'start', value: 'streamNumber'},
       ],
-      list[0]?.sizeDistributionList?.forEach((item)=>{
+      list[0]?.sizeDistributions?.forEach((item)=>{
         this.historyHeaders.push({
           text: item.size, sortable: false, align: 'start', value: item.size
         })
@@ -650,7 +702,7 @@ export default {
 
       const specialList=list.map(function(el){
         const value = {};
-        el?.sizeDistributionList.forEach((item) => {
+        el?.sizeDistributions.forEach((item) => {
           value[item.size]=item.quantity
         });
         return{
@@ -677,7 +729,7 @@ export default {
       setHistoryItem: "cuttingProcess/setHistoryItem",
       setMainColorFunc: "subcontracts/setMainColor",
       setWasteFabric: "subcontracts/setWasteFabric",
-
+      getPatokList:"commonProcess/getPatokList",
     }),
     setWasteFabricFunc(item){
       const data={
@@ -760,7 +812,6 @@ export default {
 
 
     async updateSubcontractsView() {
-      console.log(this.subcontractsDetail);
       if(this.subcontractsDetail.status==="editHistory"){
         const data={
           id:this.subcontractsDetail.id,
@@ -769,11 +820,16 @@ export default {
         this.editHistory(data)
       }else{
         const data={
-          sizeDistributions:[...this.subcontractsDetail.sizeDistributions],
+          sizeDistributions:this.subcontractsDetail.sizeDistributions.map((item)=>({
+            size:item.size,
+            quantity: item.quantity?item.quantity:0
+          })),
           deadline:this.subcontractsDetail.deadline,
           sentDate:this.subcontractsDetail.sentDate,
           pricePerWork:this.subcontractsDetail.pricePerWork,
           id:this.subcontractsDetail.id,
+          workDate:this.subcontractsDetail.workDate,
+          streamId: this.subcontractsDetail.streamId
         }
         this.setUpdateSizes(data);
       }
@@ -799,7 +855,7 @@ export default {
   async mounted() {
     const id = this.$route.params.id;
     await this.getSubcontractsList();
-
+    this.getPatokList()
     this.setClassification()
   },
 };

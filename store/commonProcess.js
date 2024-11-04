@@ -195,7 +195,7 @@ export const actions = {
     })
   },
   getSubcontarctList({commit,state}){
-    this.$axios.get(`/api/v1/common-process-details/list-subcontractor?planningProcessId=${state.planningProcessId}&operationType=FIRST_CLASS`)
+    this.$axios.get(`/api/v1/common-process-details/list-subcontractor?planningProcessId=${state.planningProcessId}&commonOperationType=FIRST_CLASS`)
     .then((res)=>{
       commit("setSubcontractList",res.data.data)
     })
