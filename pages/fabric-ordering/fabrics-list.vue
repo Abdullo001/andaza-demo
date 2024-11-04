@@ -176,6 +176,7 @@ export default {
         status: ''
       },
       headers:[
+        {text:"Id",value:"orderNo",sortable:false},
         {text:this.$t('fabricOrderingBox.index.sipNumber'),value:"sipNumber",sortable:false},
         {text:this.$t('orderBox.index.orderNum'),value:"orderNumber",sortable:false},
         {text:this.$t('planning.listFabric.modelNumber'),value:"modelNumbers",sortable:false},
@@ -197,7 +198,6 @@ export default {
   },
 
   async created(){
-    await this.getClient()
     await this.getModelsList({
       page: 0,
       size: 10,
@@ -216,7 +216,6 @@ export default {
       },
     })
     await this.getSipNumbers("");
-    await this.getFabricsList({page: 0, size: 10});
   },
 
   computed:{
@@ -226,7 +225,7 @@ export default {
       ordersList: "orders/ordersList",
       sipNumbers: "fabricWarehouse/sipNumbers",
       fabricsList: "fabricsList/fabricsList",
-      totalElements: 'fabricsList/totalElements'
+      totalElements: "fabricsList/totalElements"
     })
   },
 
@@ -243,9 +242,6 @@ export default {
         });
       }
     },
-    // fabricsList(items){
-    //   this.totalElements = items.length
-    // }
     sipNumberSearch(val) {
         if(!!val) {
           this.getSipNumbers("")
@@ -307,7 +303,7 @@ export default {
   },
 
   mounted(){
-    this.getFabricsList({page: this.current_page, size: this.totalElements})
+    this.getFabricsList({page: 0, size: 10})
     this.$store.commit('setPageTitle', 'Fabrics List');
   }
 }

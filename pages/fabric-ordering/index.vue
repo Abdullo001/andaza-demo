@@ -388,6 +388,7 @@ export default {
       edit_dialog: false,
       new_form: true,
       headers:[
+        {text: "Id",value:"id",sortable:false},
         {text: this.$t('planning.listFabric.modelNumber'),value:"modelNumber",sortable:false},
         {text: this.$t('planning.listFabric.fabricSpecification'),value:"specification",sortable:false},
         {text: this.$t('planning.planningChart.densityGrM2'),value:"density",sortable:false},
@@ -398,11 +399,12 @@ export default {
       ],
       genHeaders:[
         {text: "", value:"isOrder",sortable:false},
+        {text: "Id",value:"id",sortable:false},
         {text: this.$t('fabricOrderingBox.index.sipNumber'), value:"sipNumber",sortable:false},
         {text:  this.$t('planning.listFabric.modelNumber'), value:"modelNumbers",sortable:false},
         {text:this.$t('fabricOrderingBox.index.fabricDesign'), value: "fabricDesignPhoto", sortable: false},
-        {text: this.$t('fabricOrderingBox.index.queue'), value:"queue",sortable:false,width:150},
-        {text:  this.$t('planning.listFabric.fabricSpecification'),value:"fabricSpecification",sortable:false},
+        {text: this.$t('fabricOrderingBox.index.queue'), value:"queue",sortable:false},
+        {text:  this.$t('planning.listFabric.fabricSpecification'),value:"fabricSpecification",sortable:false,width:200},
         {text:this.$t('planning.listFabric.color'),value:"color",sortable:false},
         {text: this.$t('fabricOrderingBox.index.status'),value:"status",sortable:false},
         {text: this.$t('fabricOrderingBox.index.supplier'),value:"supplier",sortable:false},
@@ -472,16 +474,19 @@ export default {
   watch:{
     partnerName(val) {
       this.getPartnerList({page:0, size:10,partnerName:val});
-
     },
 
     generatedFabricOrdering(val){
-      this.generatedList=JSON.parse(JSON.stringify(val))
+      const specialList=[]
+      val.forEach((item,id)=>{
+        specialList.push({...item,id:id+1})
+      })
+      this.generatedList=JSON.parse(JSON.stringify(specialList))
     },
     sampleFabricOrdering(val){
       const specialList=[]
-      val.forEach((item)=>{
-        specialList.push({...item,isChecked:JSON.parse(JSON.stringify(item.isOrdered))})
+      val.forEach((item,id)=>{
+        specialList.push({...item,isChecked:JSON.parse(JSON.stringify(item.isOrdered)),id:id+1})
       })
       this.sampleList=JSON.parse(JSON.stringify(specialList))
     },
