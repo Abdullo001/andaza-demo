@@ -50,7 +50,7 @@
                   style="width: 100%; height: 100%"
                   placeholder="dd.MM.yyyy HH:mm:ss"
                   :picker-options="pickerShortcuts"
-                  value-format="dd.MM.yyyy HH:mm:ss"
+                  value-format="timestamp"
                 >
                 </el-date-picker>
               </div>
@@ -64,7 +64,7 @@
                   style="width: 100%; height: 100%"
                   placeholder="dd.MM.yyyy HH:mm:ss"
                   :picker-options="pickerShortcuts"
-                  value-format="dd.MM.yyyy HH:mm:ss"
+                  value-format="timestamp"
                 >
                 </el-date-picker>
               </div>
@@ -87,6 +87,35 @@
                 :return-object="true"
                 dense
                 placeholder="Country"
+                prepend-icon=""
+              >
+                <template #append>
+                  <v-icon class="d-inline-block" color="#544B99">
+                    mdi-magnify
+                  </v-icon>
+                </template>
+              </v-combobox>
+            </v-col>
+            <v-col cols="12" lg="3">
+              <div class="label">
+                {{ $t("workingProcess.dialog.invoiceNumber") }}
+              </div>
+              <v-combobox
+                v-model="filters.invoiceNumber"
+                :items="shippingList"
+                :search-input.sync="invoiceSearch"
+                item-text="invoiceNumber"
+                item-value="invoiceNumber"
+                validate-on-blur
+                outlined
+                hide-details
+                height="44"
+                class="rounded-lg filter d-flex align-center justify-center mr-2"
+                :return-object="true"
+                dense
+                :placeholder="
+                  $t('workingProcess.dialog.invoiceNumber')
+                "
                 prepend-icon=""
               >
                 <template #append>
@@ -162,12 +191,18 @@ export default {
       creatorSearch: "",
       users: [],
       pdfServe: "",
+      invoiceSearch:"",
     };
   },
   created() {
     this.getClient();
     this.getCountryList({ name: this.countryIdSearch });
     this.getUsersList();
+    this.getShippingList({
+      invoiceNumber: "",
+      page: 0,
+      size: 10,
+    });
   },
 
   computed: {
@@ -176,10 +211,18 @@ export default {
       countryList: "partners/countryList",
       usersList: "orders/usersList",
       pdfList: "generatePdf/pdfData",
+      shippingList: "shipping/shippingList",
     }),
   },
 
   watch: {
+    invoiceSearch(val){
+      this.getShippingList({
+        invoiceNumber: val,
+        page: 0,
+        size: 10,
+      });
+    },
     pdfList(val) {
       const blob = new Blob(
         [new Uint8Array([...val].map((char) => char.charCodeAt(0)))],
@@ -218,6 +261,7 @@ export default {
       getCountryList: "partners/getCountryList",
       getUsersList: "orders/getUsersList",
       getPdfList: "generatePdf/getShipmentPdf",
+      getShippingList: "shipping/getShippingList",
     }),
 
     resetFilter() {
@@ -227,12 +271,13 @@ export default {
     },
     filter() {
       const data = {
-        clientName: !!this.filters.clientName?.name
-          ? this.filters.clientName?.name
-          : "",
-        country: !!this.filters.country?.name ? this.filters.country?.name : "",
-        fromDate: !!this.filters.fromDate ? this.filters.fromDate : null,
-        toDate: !!this.filters.toDate ? this.filters.toDate : null,
+        clientId: !!this.filters.clientName?.id
+          ? this.filters.clientName?.id
+          : null,
+        countryId: !!this.filters.country?.id ? this.filters.country?.id : null,
+        from: !!this.filters.fromDate ? this.filters.fromDate : null,
+        to: !!this.filters.toDate ? this.filters.toDate : null,
+        invoiceNumber: !!this.filters.invoiceNumber?.invoiceNumber ? this.filters.invoiceNumber?.invoiceNumber : null,
       };
       this.getPdfList(data);
       this.isLoad = true;

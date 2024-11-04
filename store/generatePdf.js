@@ -196,7 +196,7 @@ export const actions = {
       });
   },
   getShipmentPdf({commit},data){
-    this.$axios.put(`/api/v1/shipping/form`,data)
+    this.$axios.post(`/api/v1/shipping-form`,data)
     .then((res)=>{
       const binaryCode = atob(res.data);
       commit("setPdfData", binaryCode);
