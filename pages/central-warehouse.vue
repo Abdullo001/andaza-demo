@@ -158,7 +158,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
-          {{$t('centralWarehouse.newArrivedFabric')}}
+          {{$t('centralWarehouse.addProduct')}}
           </div>
           <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -180,33 +180,50 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">{{ $t('centralWarehouse.productName') }}</div>
-                <v-combobox
-                  v-model="selectedItem.departmentId"
-                  :items="departmentList"
-                  :search-input.sync="searchDepartment"
-                  item-text="name"
-                  item-value="departmentId"
-                  validate-on-blur
+                <div class="label">{{ $t('centralWarehouse.specification') }}</div>
+                <v-text-field
+                  v-model="selectedItem.specification"
                   outlined
                   hide-details
-                  height="44"
-                  class="rounded-lg base d-flex align-center justify-center mr-2"
-                  :return-object="true"
                   dense
-                  :placeholder="$t('centralWarehouse.sipNumber')"
-                  prepend-icon=""
-                >
-                  <template #append>
-                    <v-icon class="d-inline-block" color="#544B99">
-                      mdi-magnify
-                    </v-icon>
-                  </template>
-                </v-combobox>
+                  class="rounded-lg base"
+                  :placeholder="$t('centralWarehouse.specification')"
+                  color="#544B99"
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <div class="label"> {{ $t('centralWarehouse.quantity') }}</div>
+                  <div class="d-flex align-center">
+                    <v-text-field
+                      v-model="selectedItem.quantity"
+                      class="rounded-lg base rounded-l-lg rounded-r-0"
+                      color="#544B99"
+                      dense
+                      height="44"
+                      hide-details
+                      outlined
+                      :placeholder="0"
+                      validate-on-blur
+                    />
+                    <v-select
+                      v-model="selectedItem.measurementUnitId"
+                      append-icon="mdi-chevron-down"
+                      class="rounded-lg base rounded-r-lg rounded-l-0"
+                      color="#544B99"
+                      :items="measurementUnitList"
+                      item-text="name"
+                      item-value="id"
+                      dense
+                      height="44"
+                      hide-details
+                      outlined
+                      style="max-width: 100px"
+                      validate-on-blur
+                    />
+                  </div>
               </v-col>
               <v-col cols="12" lg="6" md="6" sm="6">
-                <div class="label">{{ $t("listsModels.child.partner") }}</div>
-
+                <div class="label">{{ $t("fabricOrderingBox.index.supplier") }}</div>
                 <v-combobox
                   v-model="selectedItem.supplierId"
                   :items="partner_enums"
@@ -229,50 +246,6 @@
                     <v-icon color="#544B99">mdi-magnify</v-icon>
                   </template>
                 </v-combobox>
-              </v-col>
-              <v-col cols="12" lg="6">
-                <div class="label">{{ $t('centralWarehouse.specification') }}</div>
-                <v-text-field
-                  v-model="selectedItem.specification"
-                  outlined
-                  hide-details
-                  dense
-                  class="rounded-lg base"
-                  :placeholder="$t('centralWarehouse.specification')"
-                  color="#544B99"
-                />
-              </v-col>
-
-              <v-col cols="12" lg="6">
-                <div class="label"> {{ $t('centralWarehouse.quantity') }}</div>
-                  <div class="d-flex align-center">
-                    <v-text-field
-                      v-model="selectedItem.quantity"
-                      class="rounded-lg base rounded-l-lg rounded-r-0"
-                      color="#544B99"
-                      dense
-                      height="44"
-                      hide-details
-                      outlined
-                      :placeholder=" $t('centralWarehouse.quantity')"
-                      validate-on-blur
-                    />
-                    <v-select
-                      v-model="selectedItem.measurementUnitId"
-                      append-icon="mdi-chevron-down"
-                      class="rounded-lg base rounded-r-lg rounded-l-0"
-                      color="#544B99"
-                      :items="measurementUnitList"
-                      item-text="name"
-                      item-value="id"
-                      dense
-                      height="44"
-                      hide-details
-                      outlined
-                      style="max-width: 100px"
-                      validate-on-blur
-                    />
-                  </div>
               </v-col>
               <v-col cols="12" lg="6" md="6" sm="6">
                 <div class="label">{{  $t('centralWarehouse.price') }}</div>
@@ -304,6 +277,31 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
+                <div class="label">{{ $t('sidebar.department') }}</div>
+                <v-combobox
+                  v-model="selectedItem.departmentId"
+                  :items="departmentList"
+                  :search-input.sync="searchDepartment"
+                  item-text="name"
+                  item-value="departmentId"
+                  validate-on-blur
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base d-flex align-center justify-center mr-2"
+                  :return-object="true"
+                  dense
+                  :placeholder="$t('sidebar.department')"
+                  prepend-icon=""
+                >
+                  <template #append>
+                    <v-icon class="d-inline-block" color="#544B99">
+                      mdi-magnify
+                    </v-icon>
+                  </template>
+                </v-combobox>
+              </v-col>
+              <v-col cols="12" lg="12">
                 <div class="label"> {{  $t('centralWarehouse.description') }}</div>
                 <v-text-field
                   v-model="selectedItem.description"
@@ -574,6 +572,9 @@ export default {
   },
 
   watch: {
+    searchDepartment(val){
+      this.getDepartmentList({page:0,size:10,name:val})
+    },
     warehouseList(val){
       this.current_list=JSON.parse(JSON.stringify(val))
     },

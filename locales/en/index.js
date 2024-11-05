@@ -5,6 +5,7 @@ export default {
   from: "From",
   to: "To",
   update: "Update",
+  enter: "Enter",
   sidebar: {
     ok: "OK",
     byModels:"By Model",
@@ -1940,6 +1941,7 @@ export default {
     completeProcess: "  Are you sure you want to complete this process?",
   },
   centralWarehouse: {
+    addProduct:"Add product",
     newArrivedFabric: "New Arrived Fabric",
     productName: "Product name",
     enterProductName: "Enter product name",
