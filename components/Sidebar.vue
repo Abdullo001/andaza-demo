@@ -792,8 +792,8 @@ export default {
       console.log("hello search");
     },
     setLocalStorage(item){
-      localStorage.setItem("lang",item.code)
-      this.changeLang({userId:this.currentUser.id, lang:item.code})
+      localStorage.setItem("lang",this.$i18n.locale)
+      this.changeLang({userId:this.currentUser.id, lang:this.$i18n.locale})
     },
 
     getMessageInfo(item){
