@@ -5,6 +5,7 @@ export default {
   from: "Dan",
   to: "Gacha",
   update: "Yangilash",
+  enter: "Kiriting",
   sidebar: {
     ok:"OK",
      byModels: "Model bo'yicha",
@@ -1838,6 +1839,7 @@ yarnNumber:{
     completeProcess: " Haqiqatan ham bu jarayonni yakunlamoqchimisiz?",
   },
   centralWarehouse: {
+    addProduct:"Mahsulot qo'shish",
     productName: "Mahsulot nomi",
   department: "Bo'lim",
   supplier: "Yetkazib beruvchi",

@@ -181,11 +181,11 @@ export default {
     },
     filter() {
       const data = {
-        supplierName: !!this.filters.supplierName?.name
-          ? this.filters.supplierName?.name
+        supplierId: !!this.filters.supplierName?.id
+          ? this.filters.supplierName?.id
           : null,
-        modelNumber: this.filters.modelNumber?.modelNumber
-          ? this.filters.modelNumber?.modelNumber
+          modelId: this.filters.modelNumber?.id
+          ? this.filters.modelNumber?.id
           : null,
       };
       this.getPdfList(data);

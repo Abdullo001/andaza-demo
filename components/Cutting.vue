@@ -744,6 +744,7 @@ export default {
   mounted() {
     this.getCuttingList()
     this.getClassificationList()
+    this.getPatokList()
   }
 }
 </script>

@@ -5,6 +5,7 @@ export default {
   from: "От",
   to: "С",
   update: "Обновлять",
+  enter: "Введите",
   sidebar: {
      ok: "OK",
      byModels: "По модели",
@@ -1825,6 +1826,7 @@ export default {
     completeProcess: "Вы уверены, что хотите завершить этот процесс?",
   },
   centralWarehouse: {
+    addProduct:"Добавить продукт",
     newArrivedFabric: "Новая поступившая ткань",
     productName: "Название продукта",
     enterProductName: "Введите название продукта",

@@ -176,7 +176,7 @@
       <tr>
         <td colspan="5"></td>
         <td
-          :colspan="setSubcontractsList[0]?.sizeDistributionList?.length + 2"
+          :colspan="subcontractsList[0]?.sizeDistributionList?.length + 2"
           class="text-capitalize text-body-1 font-weight-bold"
         >
             {{ $t('orderBox.colorSize.totalQuantities') }}

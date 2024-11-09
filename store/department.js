@@ -22,6 +22,7 @@ export const mutations={
 
 export const actions={
   getDepartmentList({commit},{page,size,name=""}){
+    name=name??""
     this.$axios.get(`/api/v1/departments?page=${page}&size=${size}&name=${name}`)
     .then((res)=>{
       commit("setDepartmentList",res.data.data)
