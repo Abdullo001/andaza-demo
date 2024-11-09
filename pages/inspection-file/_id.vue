@@ -372,6 +372,7 @@ export default {
     oneModel(val){
       this.model={...val}
       this.modelNumber={id:val.id,modelNumber:val.modelNumber}
+      this.model.inspectionDate=this.formatLong(val.inspectionDate)
     },
     inspectionFileList(val) {
       this.items = [];
