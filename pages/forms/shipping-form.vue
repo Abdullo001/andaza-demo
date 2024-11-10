@@ -46,11 +46,12 @@
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="filters.fromDate"
-                  type="datetime"
+                  type="date"
                   style="width: 100%; height: 100%"
                   placeholder="dd.MM.yyyy HH:mm:ss"
                   :picker-options="pickerShortcuts"
                   value-format="timestamp"
+                  format="dd.MM.yyyy"
                 >
                 </el-date-picker>
               </div>
@@ -60,11 +61,12 @@
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="filters.toDate"
-                  type="datetime"
+                  type="date"
                   style="width: 100%; height: 100%"
-                  placeholder="dd.MM.yyyy HH:mm:ss"
+                  placeholder="dd.MM.yyyy"
                   :picker-options="pickerShortcuts"
                   value-format="timestamp"
+                  format="dd.MM.yyyy"
                 >
                 </el-date-picker>
               </div>
