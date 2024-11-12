@@ -885,9 +885,7 @@ export default {
   },
   async created() {
     await this.getPartnerList({page: 0, size: 10});
-    // await this.getPartnerType({page: 0, size: 50});
     this.getCountryList({name: ""});
-    // this.getCooperationType();
   },
   computed: {
     ...mapGetters({

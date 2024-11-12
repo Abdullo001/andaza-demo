@@ -649,15 +649,8 @@ export default {
           valueSizes[item] = orderedSizeDistribution[item];
           valueSizesList.push(sizeObj);
         }
-        
-
-        
-        
-
         totalObj = totalObj + el.total;
-        totalPriceWithDiscount =
-          totalPriceWithDiscount + el.totalWithOverproductionPercent;
-
+        totalPriceWithDiscount =totalPriceWithDiscount + el.totalWithOverproductionPercent;
         return {
           ...value,
           ...valueSizes,
@@ -672,7 +665,6 @@ export default {
         };
       });
       this.orderSizeList = JSON.parse(JSON.stringify(specialList));
-
       this.totalSizes.sizesList = [...totalSizes];
       this.totalSizes.total = totalObj;
       this.totalSizes.totalPriceWithDiscount = totalPriceWithDiscount;

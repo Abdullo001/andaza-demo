@@ -239,6 +239,10 @@ export default (context, inject) => {
       formatLong(value) {
         return new Date(value).toLocaleString("en-GB").replace('/', '.').replace('/', '.')
       },
+      extractNumber(str){
+        const cleanedStr = str.replace(/[^0-9.]/g, ""); 
+        return parseFloat(cleanedStr);
+      }
     }
   })
 }
