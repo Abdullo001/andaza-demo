@@ -501,10 +501,9 @@ export default {
         invoiceId: this.shippingInvoiceList.id,
         shippingId: Number(this.shippingId),
         total: this.sumTotal,
-        totalAmount: this.sumAmountTotal,
+        totalAmount: parseFloat(this.shippingInvoiceItemList.totalAmount.replace(/[$,]/g, '')),
       }
       this.generateInvoicePdf(data)
-      this.isLoad = true
     },
     updateInvoice() {
       const data = {

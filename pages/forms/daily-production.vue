@@ -69,11 +69,12 @@
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="filters.from"
-                  type="datetime"
+                  type="date"
                   style="width: 100%; height: 100%"
-                  placeholder="dd.MM.yyyy HH:mm:ss"
+                  placeholder="dd.MM.yyyy"
                   :picker-options="pickerShortcuts"
                   value-format="timestamp"
+                  format="dd.MM.yyyy"
                 >
                 </el-date-picker>
               </div>
@@ -83,11 +84,12 @@
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="filters.to"
-                  type="datetime"
+                  type="date"
                   style="width: 100%; height: 100%"
-                  placeholder="dd.MM.yyyy HH:mm:ss"
+                  placeholder="dd.MM.yyyy"
                   :picker-options="pickerShortcuts"
                   value-format="timestamp"
+                  format="dd.MM.yyyy"
                 >
                 </el-date-picker>
               </div>
@@ -185,17 +187,10 @@ export default {
         from:this.filters.from,
         to:this.filters.to,
       };
-      if (!!this.filters.daily) {
-        data.dateTime = this.filters.daily;
+      if(data.from&&data.to){
+        this.getPdfList(data);
+        this.isLoad = true;
       }
-      if (!!this.filters.monthly) {
-        data.dateTime = this.filters.monthly;
-      }
-      if (!!this.filters.yearly) {
-        data.dateTime = this.filters.yearly;
-      }
-      this.getPdfList(data);
-      this.isLoad = true;
     },
   },
 };

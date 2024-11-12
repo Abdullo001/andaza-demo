@@ -102,7 +102,7 @@
               color="#544B99"
               class="rounded-lg text-capitalize"
               dark
-              @click="new_dialog = true"
+              @click="$router.push('/partners/add-partner')"
             >
               <v-icon>mdi-plus</v-icon>
               {{ $t("partners.table.mainMenu") }}
@@ -143,6 +143,18 @@
           <v-btn icon color="red" @click.stop="getDeleteItem(item)">
             <v-img src="/delete.svg" max-width="27"/>
           </v-btn>
+          <v-tooltip top color="#544B99">
+            <template v-slot:activator="{on, attrs}">
+              <v-btn
+                icon color="#544B99"
+                v-on="on" v-bind="attrs"
+                @click="viewDetails(item)"
+              >
+                <v-icon>mdi-chevron-right</v-icon>
+              </v-btn>
+            </template>
+            <span>Details</span>
+          </v-tooltip>
         </div>
       </template>
     </v-data-table>
@@ -861,9 +873,7 @@ export default {
     partner_one_list(val) {
       const item = JSON.parse(JSON.stringify(val));
       this.edit_partner = {...item};
-      
       this.countryIdSearch = item.country
-      
     },
 
     "create_partner.brandName"(value) {
@@ -875,9 +885,9 @@ export default {
   },
   async created() {
     await this.getPartnerList({page: 0, size: 10});
-    await this.getPartnerType({page: 0, size: 50});
+    // await this.getPartnerType({page: 0, size: 50});
     this.getCountryList({name: ""});
-    this.getCooperationType();
+    // this.getCooperationType();
   },
   computed: {
     ...mapGetters({
@@ -903,6 +913,7 @@ export default {
       deletePartnerList: "partners/deletePartnerList",
       getCountryList: "partners/getCountryList",
       getCooperationType: "partners/getCooperationType",
+      getPartnersType: "partners/getPartnersType",
     }),
     remove(item) {
       const index = this.brandNameList.indexOf(item)
@@ -1095,9 +1106,14 @@ export default {
 
       await this.getPartnerList({page:0,size:10,...this.filters});
     },
+    viewDetails(item){
+      this.$router.push(`/partners/${item.id}`)
+      this.$store.commit("partners/setPartnerId",item.id)
+    }
   },
   async mounted() {
     await this.$store.commit("setPageTitle", this.$t('sidebar.catalogs'));
+    this.getPartnersType()
   },
 };
 </script>
