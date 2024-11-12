@@ -5,6 +5,11 @@ export const state = () => ({
   cooperationType:[],
   partner_one_list: [],
   countryList:[],
+  partnerTypes:[],
+  partnerId:null,
+  partnerContractList:[],
+  deliveryTermList:[],
+  currencyList:[],
 });
 export const getters = {
   loading: state => state.loading,
@@ -14,8 +19,16 @@ export const getters = {
   partner_one_list: state => state.partner_one_list,
   cooperationType: state=>state.cooperationType,
   countryList: state=>state.countryList,
+  partnerTypes: state=> state.partnerTypes,
+  partnerId: state=> state.partnerId,
+  partnerContractList: state=> state.partnerContractList,
+  deliveryTermList: state=> state.deliveryTermList,
+  currencyList: state=> state.currencyList,
 };
 export const mutations = {
+  setPartnerId(state, item) {
+    state.partnerId = item
+  },
   setLoading(state, loadings) {
     state.loading = loadings
   },
@@ -33,7 +46,19 @@ export const mutations = {
   },
   setCountryList(state,item){
     state.countryList=item
-  }
+  },
+  setPartnerTypes(state,item){
+    state.partnerTypes=item
+  },
+  setPartnerContractList(state,item){
+    state.partnerContractList=item
+  },
+  setDeliveryTermList(state,item){
+    state.deliveryTermList=item
+  },
+  setCurrencyList(state,item){
+    state.currencyList=item
+  },
 };
 export const actions = {
 
@@ -107,7 +132,6 @@ export const actions = {
     await this.$axios.get(`/api/v1/partners/${id}`)
       .then(res => {
         commit("setPartnerOneList", res.data.data)
-        
       })
       .catch(({response}) => {
         console.log(response)
@@ -180,13 +204,100 @@ export const actions = {
     })
   },
 
-  async getCooperationType({commit}){
-    await this.$axios.get(`/api/v1/cooperation-types/thin-list`)
+  async getCooperationType({commit},code){
+    await this.$axios.get(`/api/v1/cooperation-types?partnerTypeCode=${code}`)
     .then((res)=>{
       commit("setCooperationType",res.data.data)
     })
     .catch((res)=>{
       console.log(res);
     })
+  },
+  async getPartnersType({commit}){
+    await this.$axios.get(`/api/v1/partner-types`)
+    .then((res)=>{
+      commit("setPartnerTypes",res.data.data)
+      // console.log(res); 
+    })
+    .catch((res)=>{
+      console.log(res);
+    })
+  },
+  getPartnersWithTypes({commit},types){
+    const data={
+      partnerTypeCodes:[
+        ...types
+      ]
+    }
+    this.$axios.post(`/api/v1/partners/partners-by-partner-type-codes`,data)
+    .then((res)=>{
+      // console.log(res);
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+
+  createPartnerContract({dispatch},{data,partnerId}){
+    this.$axios.post(`/api/v1/partner-contracts`,data)
+    .then((res)=>{
+      this.$toast.success(res.data.code)
+      dispatch("getPartnerContractList",partnerId)
+
+    })
+    .catch(({response})=>{
+      console.log(response);
+    })
+  },
+
+  getPartnerContractList({commit},id){
+    this.$axios.get(`/api/v1/partner-contracts/partners/${id}`)
+    .then((res)=>{
+      commit("setPartnerContractList",res.data.data)
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+
+  getDeliveryTermList({commit}){
+    this.$axios.get(`/api/v1/enums/delivery-terms`)
+    .then((res)=>{
+      commit("setDeliveryTermList",res.data.data)
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+
+  getCurrencyList({commit}){
+    this.$axios.get(`/api/v1/enums/currencies`)
+    .then((res)=>{
+      commit("setCurrencyList",res.data.data)
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+
+  getContractFile({commit},contractId){
+    this.$axios.get(`/api/v1/partner-contracts/${contractId}`)
+    .then((res)=>{
+      console.log(res);
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+
+  deleteContract({dispatch},{contractId,partnerId}){
+    this.$axios.delete(`/api/v1/partner-contracts/${contractId}`)
+    .then((res)=>{
+      dispatch("getPartnerContractList",partnerId)
+    })
+    .catch(({response})=>{
+      console.log(response);
+    })
   }
+
 };
