@@ -136,6 +136,7 @@ export const actions = {
       mainFabricDensity:data.mainFabricDensity,
       inspectionDate:data.inspectionDate,
       orderedQuantity:Number(data.orderedQuantity),
+      partnerContractId:data.partnerContractId,
     }
     this.$axios.$post('/api/v1/models/create', model)
       .then(res => {
@@ -166,7 +167,7 @@ export const actions = {
       mainFabricDensity:data.mainFabricDensity,
       inspectionDate:data.inspectionDate,
       orderedQuantity:Number(data.orderedQuantity),
-
+      partnerContractId:data.partnerContractId
     }
     this.$axios.$put('/api/v1/models/update', model)
       .then(res => {

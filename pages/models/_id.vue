@@ -55,7 +55,7 @@
 
             <v-combobox
                   v-model="model.groupId"
-                  :items="modelGroups"
+                  :items="modelGroupList"
                   :search-input.sync="groupSearch"
                   item-text="name"
                   item-value="id"
@@ -121,6 +121,24 @@
               color="#544B99"
             />
           </v-col>
+          <v-col>
+            <div class="label">{{ $t("modelBox.dialog.partnerContract") }}</div>
+            <v-select
+              v-model="model.partnerContractId"
+              :items="partnerContractList"
+              item-text="contractNumber"
+              item-value="partnerContractId"
+              outlined
+              hide-details
+              class="rounded-lg base mb-4"
+              height="44"
+              dense
+              append-icon="mdi-chevron-down"
+              style="max-width: 400px"
+              :placeholder="$t('modelBox.dialog.selectPartnerContract')"
+              color="#544B99"
+            />
+          </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t("modelBox.dialog.fabricName") }}</div>
             <v-combobox
@@ -148,22 +166,6 @@
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t("modelBox.dialog.composition") }}</div>
-            <!-- <v-select
-              :items="compositionList"
-              item-text="name"
-              item-value="id"
-              v-model="model.compositionId"
-              :return-object="false"
-              outlined
-              hide-details
-              class="rounded-lg base mb-4"
-              height="44"
-              dense
-              style="max-width: 400px"
-              :placeholder="$t('listsModels.child.entermodelComposition')"
-              color="#544B99"
-              append-icon="mdi-chevron-down"
-            /> -->
             <v-combobox
                   v-model="model.compositionId"
                   :items="compositionList"
@@ -584,13 +586,13 @@ export default {
       brandList: 'models/brandList',
       canvasTypeList: 'canvasType/canvas_type_list',
       reworkThinList: 'fabricRework/reworkThinList',
+      partnerContractList:'partners/partnerContractList',
+      modelGroupList:'model/modelGroupList',
     }),
   },
   watch: {
     compositionSearch(val){
-    this.getCompositionList({page:0, size:10,name:val});
-      
-      
+      this.getCompositionList({page:0, size:10,name:val});
     },
     partnerName(val) {
       this.getPartnerList({page:0, size:10,partnerName:val});
@@ -599,7 +601,7 @@ export default {
       this.filterCanvasTypeList({id:"",name:val, createdAt:"", updatedAt:""});
     },
     groupSearch(val){
-      this.getModelGroup(val);
+      this.getModelGroupList({page:0,size:10,modelGroupName:val})
     },
     oneModel(val) {
       const model = this.model;
@@ -623,10 +625,12 @@ export default {
       model.canvasTypeId = {id:val.canvasTypeId,name:val.canvasType}
       model.inspectionDate=val.inspectionDate
       model.orderedQuantity=val.orderedQuantity
+      model.partnerContractId=val.partnerContractId
     },
     "model.partnerId"(val){
       if(!!val){
         this.getBrandList(val?.id)
+        this.getPartnerContractList(val?.id)
       }
     }
 
@@ -644,7 +648,8 @@ export default {
       filterCanvasTypeList: 'canvasType/filterCanvasTypeList',
       getReworkThinList: 'fabricRework/getReworkThinList',
       changePageStatus: 'changePageStatus',
-
+      getPartnerContractList: 'partners/getPartnerContractList',
+      getModelGroupList: 'model/getModelGroupList'
     }),
     clickBtn(){
       this.show_btn = !this.show_btn
@@ -658,9 +663,6 @@ export default {
       data.groupId=this.model.groupId?.id
       data.compositionId=this.model.compositionId?.id
       data.canvasTypeId=this.model.canvasTypeId?.id
-
-
-      
       await this.createModel(data)
     },
     async updateModels() {
@@ -686,7 +688,7 @@ export default {
       await this.getOneModel(id);
       this.modelStatus = 'Edit'
     } else this.modelStatus = 'Add'
-    await this.getModelGroup("")
+    this.getModelGroupList({page:0,size:10})
   }
 }
 </script>

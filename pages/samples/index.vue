@@ -401,7 +401,6 @@ export default {
       filterOrderList: "orders/filterOrderList",
       getModelsList: "models/getModelsList",
       getSamplesList: "accessorySamples/getSamplesList",
-      getModelId: "orders/getModelId",
     }),
     viewDetails(item) {
       this.$router.push(localePath(`/samples/${item.id}`));

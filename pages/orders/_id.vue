@@ -572,7 +572,6 @@ export default {
   },
   created() {
     this.getUsersList();
-    this.getClient();
     this.getModelId();
   },
   computed: {
@@ -593,7 +592,6 @@ export default {
       orderDetail: "orders/oneOrder",
       modelId: "orders/modelId",
       usersList: "orders/usersList",
-      clientList: "orders/clientList",
       modelList: "orders/modelList",
       infoToOrder: "orders/infoToOrder",
       expenseForProduction: "expenseGroup/expenseForProduction",
@@ -608,7 +606,6 @@ export default {
       this.expense=JSON.parse(JSON.stringify(val))
     },
     orderDetail(item) {
-      console.log(item);
       this.order=JSON.parse(JSON.stringify(item))
       this.order.createdTime = item.createdAt;
       this.order.creator = item.createdBy;
@@ -656,9 +653,7 @@ export default {
             return (
               this.order.priceWithDiscount = this.orderDetail.priceWithDiscountUSD,
                 this.order.totalPrice = this.orderDetail.totalPriceUSD
-
             );
-
           case 'RUB':
             return (
               this.order.priceWithDiscount = this.orderDetail.priceWithDiscountRUB,
@@ -668,10 +663,8 @@ export default {
             return (
               this.order.priceWithDiscount = this.orderDetail.priceWithDiscountUZS,
                 this.order.totalPrice = this.orderDetail.totalPriceUZS
-
             );
         }
-
       }
     }
   },
@@ -680,7 +673,6 @@ export default {
       getOneOrder: "orders/getOneOrder",
       createdOrder: "orders/createdOrder",
       getUsersList: "orders/getUsersList",
-      getClient: "orders/getClient",
       getModelId: "orders/getModelId",
       updateOrder: "orders/updateOrder",
       getGivePrice: "orders/getGivePrice",
