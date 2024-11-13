@@ -10,6 +10,7 @@ export const state = () => ({
   partnerContractList:[],
   deliveryTermList:[],
   currencyList:[],
+  contractByModelList:[],
 });
 export const getters = {
   loading: state => state.loading,
@@ -24,6 +25,7 @@ export const getters = {
   partnerContractList: state=> state.partnerContractList,
   deliveryTermList: state=> state.deliveryTermList,
   currencyList: state=> state.currencyList,
+  contractByModelList: state=> state.contractByModelList,
 };
 export const mutations = {
   setPartnerId(state, item) {
@@ -58,6 +60,9 @@ export const mutations = {
   },
   setCurrencyList(state,item){
     state.currencyList=item
+  },
+  setContractByModelList(state,item){
+    state.contractByModelList=item
   },
 };
 export const actions = {
@@ -308,5 +313,15 @@ export const actions = {
       console.log(response);
     })
   },
+
+  getContractsByModel({commit},modelId){
+    this.$axios.get(`/api/v1/partner-contracts/models/${modelId}`)
+    .then((res)=>{
+      commit("setContractByModelList",res.data.data)
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  }
 
 };
