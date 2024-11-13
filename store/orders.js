@@ -4,7 +4,6 @@ export const state = () => ({
   oneOrder: {},
   newOrderId: null,
   newModelId: null,
-  modelGroups: [],
   usersList: [],
   clientList: [],
   modelList: [],
@@ -19,7 +18,6 @@ export const getters = {
   totalElements: (state) => state.ordersList.totalElements,
   oneOrder: (state) => state.oneOrder,
   newOrderId: (state) => state.newOrderId,
-  modelGroups: (state) => state.modelGroups,
   usersList: (state) => state.usersList.content,
   clientList: (state) => state.clientList.data,
   modelList: (state) => state.modelList.data,
@@ -43,9 +41,6 @@ export const mutations = {
   },
   setNewModelId(state, modelId) {
     state.newModelId = modelId;
-  },
-  setModelGroups(state, group) {
-    state.modelGroups = group;
   },
   setUsersList(state, item) {
     state.usersList = item;
@@ -248,29 +243,6 @@ export const actions = {
       .then((res) => {
         commit("setOrders", res.data);
         commit("setLoading", false);
-      })
-      .catch(({ response }) => {
-        commit("setLoading", false);
-        console.log(response);
-      });
-  },
-  async getModelGroup({ commit },{name}) {
-    const body = {
-      filter: [
-        {
-          key:"name",
-          operator:"LIKE",
-          propertyType:"STRING",
-          value:name,
-        }
-      ],
-      sorts: [],
-      page: 0,
-      size: 50,
-    };
-    await this.$axios.$put(`/api/v1/model-groups/list`, body)
-      .then((res) => {
-        commit("setModelGroups", res.data.content);
       })
       .catch(({ response }) => {
         commit("setLoading", false);

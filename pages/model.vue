@@ -3,17 +3,7 @@
     <v-card color="#fff" elevation="0" class="rounded-t-lg">
       <v-form lazy-validation v-model="valid_search" ref="filter_form">
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
-          <v-col cols="12" lg="2" md="2">
-            <v-text-field
-              v-model.trim="filter_model.id"
-              :label="$t('catalogsPartnerType.child.idPartnerType')"
-              outlined
-              class="rounded-lg filter"
-              hide-details
-              dense
-              @keydown.enter="filterData"
-            />
-          </v-col>
+          
           <v-col cols="12" lg="2" md="2">
             <v-text-field
               v-model.trim="filter_model.name"
@@ -24,28 +14,6 @@
               dense
               @keydown.enter="filterData"
             />
-          </v-col>
-          <v-col cols="12" lg="2" md="2" style="max-width: 240px">
-            <el-date-picker
-              v-model.trim="filter_model.createdAt"
-              type="datetime"
-              class="filter_picker"
-              :placeholder="$t('catalogsModelGroup.child.created')"
-              :picker-options="pickerShortcuts"
-              format="dd.MM.yyyy HH:mm:ss"
-            >
-            </el-date-picker>
-          </v-col>
-          <v-col cols="12" lg="2" md="2">
-            <el-date-picker
-              v-model.trim="filter_model.updatedAt"
-              type="datetime"
-              class="filter_picker"
-              :placeholder="$t('catalogsPartnerType.child.updated')"
-              :picker-options="pickerShortcuts"
-              value-format="dd.MM.yyyy HH:mm:ss"
-            >
-            </el-date-picker>
           </v-col>
           <v-spacer />
           <v-col cols="12" lg="2" md="2">
@@ -78,7 +46,7 @@
     <v-data-table
       class="mt-4 rounded-lg"
       :headers="headers"
-      :items="modelData"
+      :items="allItems"
       :loading="loading"
       :options.sync="options"
       :server-items-length="modelTotalElements"
@@ -340,9 +308,13 @@ export default {
         id: "",
       },
       options: {},
+      allItems:[],
     };
   },
   watch: {
+    modelGroupList(val){
+      this.allItems=JSON.parse(JSON.stringify(val))
+    },
     async "options.sortBy"(elem) {
       if (elem[0] !== undefined) {
         if (this.options.sortDesc[0] !== undefined) {
@@ -360,21 +332,18 @@ export default {
     },
   },
   async created() {
-    await this.$store.dispatch("model/getAllModelData", {
-      page: this.current_page,
-      size: this.itemPrePage,
-    });
+    this.getModelGroupList({page:0,size:10})
   },
   computed: {
     ...mapGetters({
       loading: "model/loading",
-      modelData: "model/modelData",
+      modelGroupList: "model/modelGroupList",
       modelTotalElements: "model/modelTotalElements",
     }),
   },
   methods: {
     ...mapActions({
-      getAllModelData: "model/getAllModelData",
+      getModelGroupList: "model/getModelGroupList",
       createModelData: "model/createModelData",
       updateModelData: "model/updateModelData",
       deleteModelData: "model/deleteModelData",
@@ -402,14 +371,14 @@ export default {
     },
     async page(value) {
       this.current_page = value - 1;
-      await this.getAllModelData({
+      await this.getModelGroupList({
         page: this.current_page,
         size: this.itemPrePage,
       });
     },
     async size(value) {
       this.itemPrePage = value;
-      await this.getAllModelData({
+      await this.getModelGroupList({
         page: this.current_page,
         size: this.itemPrePage,
       });
@@ -425,7 +394,7 @@ export default {
       this.edit_dialog = true;
     },
     async resetFilters() {
-      await this.getAllModelData({ page: 0, size: 10 });
+      await this.getModelGroupList({ page: 0, size: 10 });
       this.filter_model = {
         description: "",
         createdAt: "",
@@ -435,7 +404,7 @@ export default {
       };
     },
     async filterData() {
-      await this.filterModelData(this.filter_model);
+      await this.getModelGroupList({ page: 0, size: 10, modelGroupName:this.filter_model.name })
     },
   },
 

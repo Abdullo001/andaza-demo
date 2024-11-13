@@ -185,9 +185,9 @@ export default {
     filter() {
       const data = {
         from:this.filters.from,
-        to:this.filters.to,
+        to:this.filters.to?this.filters.to:0,
       };
-      if(data.from&&data.to){
+      if(data.from){
         this.getPdfList(data);
         this.isLoad = true;
       }

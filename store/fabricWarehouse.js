@@ -3,6 +3,7 @@ export const state = () => ({
   sipNumbers: [],
   toSipNumbers: [],
   historyList:[],
+  modelParts:[],
 });
 
 export const getters = {
@@ -11,6 +12,7 @@ export const getters = {
   sipNumbers: (state) => state.sipNumbers.content,
   toSipNumbers: (state) => state.toSipNumbers,
   historyList: (state) => state.historyList,
+  modelParts: (state) => state.modelParts,
 };
 
 export const mutations = {
@@ -25,6 +27,9 @@ export const mutations = {
   },
   setHistoryList(state, item) {
     state.historyList = item;
+  },
+  setModelParts(state, item) {
+    state.modelParts = item;
   },
 };
 
@@ -159,7 +164,6 @@ export const actions = {
     this.$axios
       .put(`/api/v1/fabric-warehouse/give-own-cutting`, data)
       .then((res) => {
-        console.log(res);
         this.$toast.success(res.data.message);
         dispatch("getFabricWarehouseList", {
           sipNumber: "",
@@ -179,7 +183,6 @@ export const actions = {
     this.$axios
       .put(`/api/v1/fabric-warehouse/give-subcontractor`, data)
       .then((res) => {
-        console.log(res);
         this.$toast.success(res.data.message);
         dispatch("getFabricWarehouseList", {
           sipNumber: "",
@@ -199,6 +202,17 @@ export const actions = {
     this.$axios.get(`/api/v1/fabric-warehouse/history?warehouseId=${id}`)
     .then((res)=>{
       commit("setHistoryList",res.data.data)
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+
+  getModelPartsList({commit},modelNumber){
+    this.$axios.get(`/api/v1/model-parts/by-model-number?modelNumber=${modelNumber}`)
+    .then((res)=>{
+      commit("setModelParts",res.data.data)
+      
     })
     .catch((response)=>{
       console.log(response);
