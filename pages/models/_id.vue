@@ -638,7 +638,6 @@ export default {
   methods: {
     ...mapActions({
       getOneModel: 'models/getOneModel',
-      getModelGroup: 'models/getModelGroup',
       createModel: 'models/createModel',
       updateModel: 'models/updateModel',
       getCompositionList: 'composition/getCompositionList',

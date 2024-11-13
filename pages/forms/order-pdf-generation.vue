@@ -408,7 +408,7 @@ export default {
       partner: "",
       status: "ACTIVE",
     });
-    this.getModelGroup({ name: this.modelGroupSearch });
+    this.getModelGroupList({page:0,size:10})
     this.getClient();
     this.getCountryList({ name: this.countryIdSearch });
     this.getUsersList();
@@ -418,7 +418,7 @@ export default {
     ...mapGetters({
       ordersList: "orders/ordersList",
       modelsList: "models/modelsList",
-      modelGroups: "orders/modelGroups",
+      modelGroups: "model/modelGroupList",
       clientList: "orders/clientList",
       brandList: "models/brandList",
       countryList: "partners/countryList",
@@ -475,9 +475,7 @@ export default {
       }
     },
     modelGroupSearch(val) {
-      if (!!val) {
-        this.getModelGroup({ name: val });
-      }
+      this.getModelGroupList({page:0,size:10,modelGroupName:val})
     },
     "filters.clientName"(val) {
       if (typeof val === "object" && !!val) {
@@ -493,7 +491,7 @@ export default {
     ...mapActions({
       filterOrderList: "orders/filterOrderList",
       getModelsList: "models/getModelsList",
-      getModelGroup: "orders/getModelGroup",
+      getModelGroupList: "model/getModelGroupList",
       getClient: "orders/getClient",
       getBrandList: "models/getBrandList",
       getCountryList: "partners/getCountryList",

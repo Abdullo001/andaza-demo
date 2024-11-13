@@ -28,6 +28,8 @@
               :items="modelGroups"
               v-model="filters.modelGroup"
                :placeholder="$t('orderBox.index.modelGroup')"
+              item-text="name"
+              item-value="name"
               dense
               outlined
               height="44"
@@ -266,7 +268,7 @@ export default {
     };
   },
   created() {
-    this.getModelGroup({ name: "" });
+    this.getModelGroupList({page:0,size:10})
     this.getUsersList();
     this.getClient();
   },
@@ -274,7 +276,7 @@ export default {
     ...mapGetters({
       loading: "orders/loading",
       ordersList: "orders/ordersList",
-      modelGroups: "orders/modelGroups",
+      modelGroups: "model/modelGroupList",
       totalElements: "orders/totalElements",
       usersList: "orders/usersList",
       clientList: "orders/clientList",
@@ -300,7 +302,7 @@ export default {
       filterOrderList: "orders/filterOrderList",
       getUsersList: "orders/getUsersList",
       getClient: "orders/getClient",
-      getModelGroup: "orders/getModelGroup",
+      getModelGroupList: "model/getModelGroupList",
     }),
     async page(value) {
       this.current_page = value - 1;

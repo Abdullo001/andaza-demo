@@ -133,14 +133,14 @@ export default {
   },
 
   created() {
-    this.getModelGroup();
+    this.getModelGroupList({page:0,size:10})
   },
 
   computed: {
     ...mapGetters({
       modelId: "orders/modelId",
       detailInfo: "detailInfo/detailInfo",
-      modelGroups: "detailInfo/modelGroups",
+      modelGroups: "model/modelGroupList",
     }),
   },
 
@@ -166,7 +166,7 @@ export default {
   methods: {
     ...mapActions({
       getDetailInfo: "detailInfo/getDetailInfo",
-      getModelGroup: "detailInfo/getModelGroup",
+      getModelGroupList: "model/getModelGroupList"
     }),
   },
 

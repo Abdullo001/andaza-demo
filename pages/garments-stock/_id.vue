@@ -690,14 +690,14 @@ export default {
   },
 
   created() {
-    this.getModelGroup();
+    this.getModelGroupList({page:0,size:10})
     this.getCompositionList();
     this.getReworkThinList();
   },
 
   computed: {
     ...mapGetters({
-      modelGroups: "models/modelGroups",
+      modelGroups: "model/modelGroupList",
       compositionList: "models/compositionList",
       reworkThinList: "fabricRework/reworkThinList",
       stockItem: "garmentStock/stockItem",
@@ -712,7 +712,7 @@ export default {
 
   methods: {
     ...mapActions({
-      getModelGroup: "models/getModelGroup",
+      getModelGroupList: "model/getModelGroupList",
       getCompositionList: "models/getCompositionList",
       getReworkThinList: "fabricRework/getReworkThinList",
       createStock: "garmentStock/createStock",
