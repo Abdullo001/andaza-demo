@@ -3,35 +3,41 @@
     <v-data-table
       item-key="calculation"
       :headers="headers"
-      :items="items"
+      :items="contractByModelList"
       >
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="w-full d-flex">
             <div class="title">{{ $t('orderBox.dialog.contract') }}</div>
             <v-spacer />
-            <v-btn
-              class="rounded-lg text-capitalize"
-              color="#544B99"
-              width="160"
-              height="36"
-              @click="newDialog = true"
-              dark
-            >
-               {{$t('orderBox.contractBox.addContract')}}
-            </v-btn>
           </v-toolbar-title>
         </v-toolbar>
       </template>
 
+      <template #item.contractDate="{item}">
+        {{ formatLong(item.contractDate) }}
+      </template>
+      <template #item.contractDeadline="{item}">
+        {{ formatLong(item.contractDeadline) }}
+      </template>
+
       <template #item.actions="{ item }">
         <div>
-          <v-btn icon @click="openEditDialog(item)">
-            <v-img src="/edit-green.svg" max-width="20" />
-          </v-btn>
-          <v-btn icon @click="currentPrint(item)">
-            <v-img src="/delete.svg" max-width="24" />
-          </v-btn>
+          <v-tooltip top color="#544B99">
+            <template #activator="{on, attrs}">
+              <v-btn
+                icon
+                :href="item.contractFilePath"
+                :download="`Document.${item.contractNumber}`"
+                v-on="on"
+                v-bind="attrs"
+                @click.stop
+              >
+                <v-img src="/download.svg" max-width="24"/>
+              </v-btn>
+            </template>
+            <span>Download</span>
+          </v-tooltip>
         </div>
       </template>
     </v-data-table>
@@ -422,11 +428,11 @@ export default {
       conditionList: ["CIF", "CIP", "CPT", "EXW", "FCA", "FOB"],
       headers: [
         { text: this.$t('orderBox.contractBox.contractNo'), sortable: false, align: "center", value: "contractNumber" },
+        { text: "Partner name", sortable: false, align: "center", value: "partnerName" },
         { text: this.$t('orderBox.contractBox.contractDate'), sortable: false, align: "center", value: "contractDate" },
-        { text:this.$t('orderBox.contractBox.deadline'), sortable: false, align: "center", value: "deadline" },
-        { text: this.$t('orderBox.contractBox.sumOfContract'), sortable: false, align: "center", value: "sum" },
-        { text: this.$t('orderBox.contractBox.clientCountry'), sortable: false, align: "center", value: "clientCountry" },
-        { text: this.$t('orderBox.contractBox.deliveryCondition'), sortable: false, align: "center", value: "condition" },
+        { text:this.$t('orderBox.contractBox.deadline'), sortable: false, align: "center", value: "contractDeadline" },
+        { text: this.$t('orderBox.contractBox.sumOfContract'), sortable: false, align: "center", value: "contractAmount" },
+        { text: "Delivery terms", sortable: false, align: "center", value: "deliveryTerms" },
         { text: this.$t("catalogGroups.tabs.table.actions"), sortable: false, align: "center", value: "actions" },
       ],
       items: [],
@@ -446,6 +452,7 @@ export default {
   computed:{
     ...mapGetters({
       contractList:"orderContract/contractList",
+      contractByModelList:"partners/contractByModelList",
     })
   },
 
@@ -461,6 +468,7 @@ export default {
       getContractList: "orderContract/getContractList",
       deleteContract: "orderContract/deleteContract",
       getOneContract: "orderContract/getOneContract",
+      getContractsByModel: "partners/getContractsByModel",
     }),
 
     onChangeFile(e) {
@@ -522,7 +530,10 @@ export default {
 
   mounted(){
     const id = this.$route.params.id
-    this.getContractList(id)
+    if(id!=="add-order"){
+      const modelId = this.$route.query.modelId;
+      this.getContractsByModel(modelId)
+    }
   }
 };
 </script>

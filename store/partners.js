@@ -217,7 +217,6 @@ export const actions = {
     await this.$axios.get(`/api/v1/partner-types`)
     .then((res)=>{
       commit("setPartnerTypes",res.data.data)
-      // console.log(res); 
     })
     .catch((res)=>{
       console.log(res);
@@ -231,7 +230,6 @@ export const actions = {
     }
     this.$axios.post(`/api/v1/partners/partners-by-partner-type-codes`,data)
     .then((res)=>{
-      // console.log(res);
     })
     .catch((response)=>{
       console.log(response);
@@ -298,6 +296,17 @@ export const actions = {
     .catch(({response})=>{
       console.log(response);
     })
-  }
+  },
+
+  updateContract({dispatch},{contractId,partnerId,data}){
+    this.$axios.put(`/api/v1/partner-contracts/${contractId}`,data)
+    .then((res)=>{
+      dispatch("getPartnerContractList",partnerId)
+      this.$toast.success(res.data.code)
+    })
+    .catch(({response})=>{
+      console.log(response);
+    })
+  },
 
 };

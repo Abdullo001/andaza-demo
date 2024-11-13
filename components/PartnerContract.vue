@@ -16,7 +16,7 @@
               class="rounded-lg text-capitalize"
               color="#544B99"
               width="160" height="36"
-              @click="newDialog = true"
+              @click="newDialog = true; dialogStatus='add'"
               dark
             >
               {{ $t("modelBox.documentBox.uploadDocument") }}
@@ -78,7 +78,7 @@
     <v-dialog max-width="900" v-model="newDialog">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between mb-6">
-          <div class="title text-capitalize">{{ $t("modelBox.documentBox.addDocument") }}</div>
+          <div class="title text-capitalize">{{dialogStatus==="add"?"Add contract":"Edit contract" }}</div>
           <v-btn icon color="#544B99" @click="newDialog=false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -127,7 +127,7 @@
                     class="rounded-lg rounded-l-0 base"
                     append-icon="mdi-chevron-down"
                     dense
-                    placeholder="USD"
+                    placeholder="Select"
                     color="#544B99"
                     style="max-width: 100px"
                   />
@@ -198,7 +198,6 @@
                   color="#544B99"
                   v-model="newDocument.contractFile"
                   validate-on-blur
-                  :rules="[formRules.required]"
                 />
               </v-col>
             </v-row>
@@ -220,7 +219,7 @@
             width="140" height="40"
             @click="addDocument"
           >
-            {{ $t("userManagement.dialog.add") }}
+            {{this.dialogStatus!=="edit"?$t("userManagement.dialog.add"):"Edit" }}
           </v-btn>
           <v-spacer/>
         </v-card-actions>
@@ -381,6 +380,13 @@ export default {
   watch:{
     partnerContractList(val){
       this.documentList=JSON.parse(JSON.stringify(val))
+    },
+    newDialog(val){
+      if(!val){
+        this.$refs.new_validate.reset();
+        this.newDocument.contractDeadline=null
+        this.newDocument.contractDate=null
+      }
     }
   },
   methods: {
@@ -395,10 +401,13 @@ export default {
       getDeliveryTermList:"partners/getDeliveryTermList",
       getCurrencyList:"partners/getCurrencyList",
       deleteContract:"partners/deleteContract",
+      updateContract:"partners/updateContract",
     }),
     editDocument(item) {
       this.newDocument={...item}
+      this.newDocument.contractAmount=this.extractNumber(item.contractAmount)
       this.newDialog = true;
+      this.dialogStatus="edit"
     },
     async docUpdate() {
       await this.updateDocument(this.edit_document);
@@ -420,13 +429,13 @@ export default {
           formData.append(key, value);
         });
         formData.append("partnerId",this.partnerId)
-        this.createPartnerContract({data:formData,partnerId:this.partnerId})
-        this.$refs.new_validate.reset();
+        if(this.dialogStatus==="add"){
+          this.createPartnerContract({data:formData,partnerId:this.partnerId})
+        }
+        if(this.dialogStatus==="edit"){
+          this.updateContract({data:formData,partnerId:this.partnerId,contractId:this.newDocument.partnerContractId})
+        }
         this.newDialog = false
-
-        this.newDocument.currency="USD"
-        this.newDocument.contractDeadline=null
-        this.newDocument.contractDate=null
       }
     }
   },

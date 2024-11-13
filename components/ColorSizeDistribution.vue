@@ -522,8 +522,7 @@ export default {
       newModelIdServer: "orders/newModelId",
       newOrderIdServer: "orders/newOrderId",
       overproductionPercent: "sizeDistribution/overproductionPercent",
-      totalWithOverproductionPercent:
-        "sizeDistribution/totalWithOverproductionPercent",
+      totalWithOverproductionPercent:"sizeDistribution/totalWithOverproductionPercent",
       colorsList: "sizeDistribution/colorsList",
       sizeDistributionList: "sizeDistribution/sizeDistributionList",
     }),
@@ -578,7 +577,6 @@ export default {
           val = { bodyPart: item, bodyPartId: items[item], colorId: null };
         }
         this.newSizeDistirbution.modelBodyParts.push(val);
-
         this.headerBodyPart.push(res);
       }
     },
@@ -599,8 +597,7 @@ export default {
           ...this.headerBodyPart,
           ...this.headerSizes,
           ...this.templeHeaders,
-        ];
-        
+        ]; 
     },
 
     sizeDistributionList(list) {
@@ -630,8 +627,6 @@ export default {
             if(orderedItemList[orderedItem]===item){
               orderedSizeDistribution[item]=el.sizeDistributions[item]
             }
-            
-            
           }
         }
 
@@ -649,15 +644,8 @@ export default {
           valueSizes[item] = orderedSizeDistribution[item];
           valueSizesList.push(sizeObj);
         }
-        
-
-        
-        
-
         totalObj = totalObj + el.total;
-        totalPriceWithDiscount =
-          totalPriceWithDiscount + el.totalWithOverproductionPercent;
-
+        totalPriceWithDiscount =totalPriceWithDiscount + el.totalWithOverproductionPercent;
         return {
           ...value,
           ...valueSizes,
@@ -672,7 +660,6 @@ export default {
         };
       });
       this.orderSizeList = JSON.parse(JSON.stringify(specialList));
-
       this.totalSizes.sizesList = [...totalSizes];
       this.totalSizes.total = totalObj;
       this.totalSizes.totalPriceWithDiscount = totalPriceWithDiscount;
