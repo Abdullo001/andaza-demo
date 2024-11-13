@@ -597,7 +597,24 @@
                   :placeholder="$t('readyWarehouse.id.modelNo')"
                 />
               </v-col>
-
+              <v-col cols="12">
+                <div class="label">Body parts</div>
+                <v-select
+                  append-icon="mdi-chevron-down"
+                  v-model="workshop.modelPartId"
+                  :rules="[formRules.required]"
+                  :items="modelParts"
+                  item-text="modelPartName"
+                  item-value="modelPartId"
+                  hide-details
+                  color="#544B99"
+                  class="base rounded-lg"
+                  rounded
+                  outlined
+                  dense
+                  placeholder="Select body part"
+                />
+              </v-col>
               <v-col cols="12">
                 <div class="label">{{$t('spending.givingFabricQuantity')}}</div>
                 <v-text-field
@@ -698,7 +715,24 @@
                   :placeholder=" $t('readyWarehouse.id.modelNo')"
                 />
               </v-col>
-
+              <v-col cols="12">
+                <div class="label">Body parts</div>
+                <v-select
+                  append-icon="mdi-chevron-down"
+                  v-model="subcontractor.modelPartId"
+                  :rules="[formRules.required]"
+                  :items="modelParts"
+                  item-text="modelPartName"
+                  item-value="modelPartId"
+                  hide-details
+                  color="#544B99"
+                  class="base rounded-lg"
+                  rounded
+                  outlined
+                  dense
+                  placeholder="Select body part"
+                />
+              </v-col>
               <v-col cols="12">
                 <div class="label">{{ $t('spending.givingFabricQuantity')}}</div>
                 <v-text-field
@@ -908,15 +942,22 @@ export default {
   computed: {
     ...mapGetters({
       fabricWarehouseList: "fabricWarehouse/fabricWarehouseList",
-      sipNumbers: "fabricWarehouse/sipNumbers",
+      sipNumbers: "fabricsList/fabricsList",
       toSipNumbers: "fabricWarehouse/toSipNumbers",
       totalElements: "fabricWarehouse/totalElements",
       historyList: "fabricWarehouse/historyList",
+      modelParts: "fabricWarehouse/modelParts",
       partnerList: "partners/partnerList",
     }),
   },
 
   watch: {
+    "workshop.modelNumber"(val){
+      this.getModelPartsList(val)
+    },
+    "subcontractor.modelNumber"(val){
+      this.getModelPartsList(val)
+    },
     partnerName(val) {
       this.getPartnerList({page:0, size:10,partnerName:val});
     },
@@ -951,7 +992,7 @@ export default {
     ...mapActions({
       getFabricWarehouseList: "fabricWarehouse/getFabricWarehouseList",
       createFabricWarehouse: "fabricWarehouse/createFabricWarehouse",
-      getSipNumbers: "fabricWarehouse/getSipNumbers",
+      getSipNumbers: "fabricsList/getFabricsList",
       getWarehouseHistory: "fabricWarehouse/getHistory",
       updateFabricWarehouse: "fabricWarehouse/updateFabricWarehouse",
       deleteFabricWarehouse: "fabricWarehouse/deleteFabricWarehouse",
@@ -959,6 +1000,7 @@ export default {
       setSpendingFabric: "fabricWarehouse/setSpendingFabric",
       setFabricToWorkshop: "fabricWarehouse/setFabricToWorkshop",
       setFabricToSubcontract: "fabricWarehouse/setFabricToSubcontract",
+      getModelPartsList: "fabricWarehouse/getModelPartsList",
       getPartnerList: "partners/getPartnerList",
 
     }),
@@ -1066,6 +1108,7 @@ export default {
       const data = {
         modelNumber: this.workshop.modelNumber,
         quantity: this.workshop.quantity,
+        modelPartId: this.workshop.modelPartId,
         fabricWarehouseId: this.workshop.fabricWarehouseId,
       };
       this.setFabricToWorkshop(data);
@@ -1078,6 +1121,7 @@ export default {
       const data = {
         modelNumber: this.subcontractor.modelNumber,
         quantity: this.subcontractor.quantity,
+        modelPartId:this.subcontractor.modelPartId,
         fabricWarehouseId: this.subcontractor.fabricWarehouseId,
         partnerId: this.subcontractor.partnerId?.id,
       };

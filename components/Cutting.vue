@@ -4,9 +4,6 @@
       :headers="headers"
       :items="items"
       item-key="id"
-      show-select
-      :single-select="singleSelect"
-      v-model="selected"
       hide-default-footer
 
     >
@@ -505,6 +502,7 @@ export default {
         {text: 'Sip №', sortable: false, align: 'start', value: 'sipNumber'},
         {text: 'Batch №', sortable: false, align: 'start', value: 'batchNumber'},
         {text: 'Fabric specification', sortable: false, align: 'start', value: 'fabricSpecification'},
+        {text: 'Body part', sortable: false, align: 'start', value: 'modelPartName'},
         {text: 'Given fabric quantity for cut.', sortable: false, align: 'start', value: 'givenFabricQuantity'},
         {text: 'Used fabric', sortable: false, align: 'start', value: 'usedFabricQuantity'},
         {text: 'Color', sortable: false, align: 'start', value: 'color'},
@@ -544,6 +542,7 @@ export default {
         {text: 'Sip №', sortable: false, align: 'start', value: 'sipNumber'},
         {text: 'Batch №', sortable: false, align: 'start', value: 'batchNumber'},
         {text: 'Fabric specification', sortable: false, align: 'start', value: 'fabricSpecification'},
+        {text: 'Body part', sortable: false, align: 'start', value: 'modelPartName'},
         {text: 'Given fabric quantity for cut.', sortable: false, align: 'start', value: 'givenFabricQuantity'},
         {text: 'Used fabric', sortable: false, align: 'start', value: 'usedFabricQuantity'},
         {text: 'Color', sortable: false, align: 'start', value: 'color'},

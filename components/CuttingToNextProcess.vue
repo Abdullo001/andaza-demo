@@ -343,6 +343,8 @@ export default {
     passingList(list) {
       this.headers = [
         { text: "Color", align: "start", sortable: false, value: "color" },
+        { text: "Body part", align: "start", sortable: false, value: "modelPartName" },
+
       ];
 
       list[0]?.sizeDistributionList.forEach((item) => {
