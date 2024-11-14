@@ -1,11 +1,15 @@
 export const state=()=>({
   shortcomingsList:[],
   type:{},
+  allClassificationList:[],
+  allSubcontractClassificationList:[],
 })
 
 export const getters={
   shortcomingsList: state=>state.shortcomingsList,
   type: state=>state.type,
+  allClassificationList: state=>state.allClassificationList,
+  allSubcontractClassificationList: state=>state.allSubcontractClassificationList,
 }
 
 export const mutations={
@@ -14,6 +18,12 @@ export const mutations={
   },
   setType(state,item){
     state.type=item
+  },
+  setAllSubcontractClassificationList(state,item){
+    state.allSubcontractClassificationList=item
+  },
+  setAllClassificationList(state,item){
+    state.allClassificationList=item
   },
 }
 
@@ -34,6 +44,27 @@ export const actions={
     })
     .catch((res)=>{
       console.log(res);
+    })
+  },
+
+  getAllClassificationList({commit},productionId){
+    this.$axios.get(`/api/v1/classification/list-all?productionId=${productionId}`)
+    .then((res)=>{
+      commit("setAllClassificationList",res.data.data)
+    })
+    .catch((response)=>{
+      console.log(response);
+      
+    })
+  },
+  getAllSubcontractClassificationList({commit},productionId){
+    this.$axios.get(`/api/v1/classification/list-subcontractor-all?productionId=${productionId}`)
+    .then((res)=>{
+      commit("setAllSubcontractClassificationList",res.data.data)
+    })
+    .catch((response)=>{
+      console.log(response);
+      
     })
   },
 
