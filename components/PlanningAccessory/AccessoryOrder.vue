@@ -50,8 +50,7 @@
                   <div class="label">{{ $t('fabricOrderingBox.plannedAccessoryOrderBox.partnerName') }}</div>
                   <v-combobox
                     v-model="details.partnerName"
-                    :items="partnerLists"
-                    :search-input.sync="partnerName"
+                    :items="partnerWithTypes"
                     item-text="name"
                     item-value="id"
                     outlined
@@ -203,6 +202,9 @@ export default {
       selectedItems: [],
     };
   },
+  created(){
+    this.getPartnersWithTypes(["supplier"])
+  },
   computed: {
     hasSelectedItems() {
       return this.selectedItems.length > 0;
@@ -212,14 +214,12 @@ export default {
       accessoryData: "accessory/accessoryData",
       plannedOrderList: "accessoryOrder/plannedOrderList",
       modelId: "accessory/newId",
+      partnerWithTypes: "partners/partnerWithTypes",
     }),
   },
   watch: {
     plannedOrderList(val) {
       this.allPlannerOrder = JSON.parse(JSON.stringify(val));
-    },
-    partnerName(val) {
-      this.getPartnerList({ page: 0, size: 10, partnerName: val });
     },
     accessoryData(val) {
       this.getPlannedOrderList({ id: val.id });
@@ -227,10 +227,10 @@ export default {
   },
   methods: {
     ...mapActions({
-      getPartnerList: "partners/getPartnerList",
       getPlannedOrderList: "accessoryOrder/getPlannedOrderList",
       createPlanningOrder: "accessoryOrder/createPlanningOrder",
       changeStatus: "accessoryOrder/changeStatus",
+      getPartnersWithTypes: "partners/getPartnersWithTypes",
     }),
     handleRowSelect(value, select) {
       select(value);

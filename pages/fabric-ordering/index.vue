@@ -65,8 +65,7 @@
                 <div class="label">{{$t('forms.orderedFabrics.supplier')}}</div>
                 <v-combobox
                   v-model="partnerId"
-                  :items="partnerLists"
-                  :search-input.sync="partnerName"
+                  :items="partnerWithTypes"
                   item-text="name"
                   item-value="id"
                   outlined
@@ -460,6 +459,7 @@ export default {
         clientName: "",
       },
     });
+    this.getPartnersWithTypes(["supplier"])
   },
 
   computed:{
@@ -468,14 +468,11 @@ export default {
       sampleFabricOrdering:"fabricOrdering/sampleFabricOrdering",
       partnerLists: "partners/partnerList",
       generatedFabricOrdering: "fabricOrdering/generatedFabricOrdering",
+      partnerWithTypes: "partners/partnerWithTypes",
     })
   },
 
   watch:{
-    partnerName(val) {
-      this.getPartnerList({page:0, size:10,partnerName:val});
-    },
-
     generatedFabricOrdering(val){
       const specialList=[]
       val.forEach((item,id)=>{
@@ -512,7 +509,6 @@ export default {
       filterOrderList: "orders/filterOrderList",
       getOrdersList:"orders/getOrdersList",
       getSampleFabricOrdering:"fabricOrdering/getSampleFabricOrdering",
-      getPartnerList: "partners/getPartnerList",
       generateFabricOrder: 'fabricOrdering/generateFabricOrder',
       getGeneratedFabricOrdering: 'fabricOrdering/getGeneratedFabricOrdering',
       setFabricOrder: 'fabricOrdering/setFabricOrder',
@@ -520,7 +516,8 @@ export default {
       changeStatus: 'fabricOrdering/changeStatus',
       returnOrders: 'fabricOrdering/returnOrders',
       setQueue: 'fabricOrdering/setQueue',
-      updateGeneratedOrders: 'fabricOrdering/updateGeneratedOrders'
+      updateGeneratedOrders: 'fabricOrdering/updateGeneratedOrders',
+      getPartnersWithTypes: "partners/getPartnersWithTypes",
     }),
 
     firstFileChanged(e) {
@@ -690,7 +687,6 @@ export default {
 
 
   mounted(){
-    this.getPartnerList({page:0,size:10})
     this.$store.commit('setPageTitle', this.$t('sidebar.fabricOrdering'));
   }
 }

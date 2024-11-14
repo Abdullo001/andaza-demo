@@ -337,7 +337,6 @@ export default {
     ...mapActions({
       filterOrderList: "orders/filterOrderList",
       getModelsList: "models/getModelsList",
-      getClient: "orders/getClient",
       getBrandList: "models/getBrandList",
       getCountryList: "partners/getCountryList",
       getUsersList: "orders/getUsersList",

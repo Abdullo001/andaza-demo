@@ -15,8 +15,7 @@
               </div>
               <v-combobox
                 v-model="filters.clientName"
-                :items="clientList"
-                :search-input.sync="clientSearch"
+                :items="partnerWithTypes"
                 item-text="name"
                 item-value="name"
                 validate-on-blur
@@ -252,14 +251,14 @@ export default {
     };
   },
   created() {
-    this.getClient();
     this.getCountryList({ name: this.countryIdSearch });
     this.getUsersList();
+    this.getPartnersWithTypes(["buyer"])
   },
 
   computed: {
     ...mapGetters({
-      clientList: "orders/clientList",
+      partnerWithTypes: "partners/partnerWithTypes",
       countryList: "partners/countryList",
       usersList: "orders/usersList",
       pdfList: "generatePdf/calculationsPdfList",
@@ -289,11 +288,6 @@ export default {
       });
     },
 
-    "filters.clientName"(val) {
-      if (typeof val === "object" && !!val) {
-        this.getBrandList(val?.id);
-      }
-    },
     countryIdSearch(val) {
       this.getCountryList({ name: val });
     },
@@ -301,7 +295,7 @@ export default {
 
   methods: {
     ...mapActions({
-      getClient: "orders/getClient",
+      getPartnersWithTypes: "partners/getPartnersWithTypes",
       getCountryList: "partners/getCountryList",
       getUsersList: "orders/getUsersList",
       getPdfList: "generatePdf/getCalculationsPdfList",

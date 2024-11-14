@@ -110,7 +110,6 @@ export default {
 
   methods: {
     ...mapActions({
-      getClient: "orders/getClient",
       getCountryList: "partners/getCountryList",
       getUsersList: "orders/getUsersList",
       getPdfList: "generatePdf/getOrderedFabricPdfList",
