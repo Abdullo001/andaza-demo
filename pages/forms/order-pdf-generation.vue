@@ -117,8 +117,7 @@
               </div>
               <v-combobox
                 v-model="filters.clientName"
-                :items="clientList"
-                :search-input.sync="clientSearch"
+                :items="partnerWithTypes"
                 item-text="name"
                 item-value="name"
                 validate-on-blur
@@ -409,7 +408,7 @@ export default {
       status: "ACTIVE",
     });
     this.getModelGroupList({page:0,size:10})
-    this.getClient();
+    this.getPartnersWithTypes(["buyer"])
     this.getCountryList({ name: this.countryIdSearch });
     this.getUsersList();
   },
@@ -419,7 +418,7 @@ export default {
       ordersList: "orders/ordersList",
       modelsList: "models/modelsList",
       modelGroups: "model/modelGroupList",
-      clientList: "orders/clientList",
+      partnerWithTypes: "partners/partnerWithTypes",
       brandList: "models/brandList",
       countryList: "partners/countryList",
       usersList: "orders/usersList",
@@ -492,7 +491,7 @@ export default {
       filterOrderList: "orders/filterOrderList",
       getModelsList: "models/getModelsList",
       getModelGroupList: "model/getModelGroupList",
-      getClient: "orders/getClient",
+      getPartnersWithTypes: "partners/getPartnersWithTypes",
       getBrandList: "models/getBrandList",
       getCountryList: "partners/getCountryList",
       getUsersList: "orders/getUsersList",

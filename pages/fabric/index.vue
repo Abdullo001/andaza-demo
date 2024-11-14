@@ -54,31 +54,6 @@
               </template>
             </v-combobox>
           </v-col>
-          <v-col cols="2">
-            <v-combobox
-              v-model="filters.clientName"
-              :items="clientList"
-              :search-input.sync="clientSearch"
-              item-text="name"
-              item-value="id"
-              validate-on-blur
-              outlined
-              hide-details
-              height="44"
-              class="rounded-lg filter d-flex align-center justify-center"
-              :return-object="true"
-              dense
-              :placeholder="$t('inspectionBox.clientName')"
-              prepend-icon=""
-              @keydown.enter="filterData"
-            >
-              <template #append>
-                <v-icon class="d-inline-block" color="#544B99">
-                  mdi-magnify
-                </v-icon>
-              </template>
-            </v-combobox>
-          </v-col>
           <v-spacer />
           <v-col cols="12" lg="4">
             <div class="d-flex justify-end">
@@ -192,14 +167,12 @@ export default {
   created() {
     this.getFabricList({ page: 0, size: 10, data: { ...this.filters } });
     this.getUsersList();
-    this.getClient();
   },
   computed: {
     ...mapGetters({
       fabricList: "fabric/fabricList",
       totalElements: "fabric/totalElements",
       usersList: "orders/usersList",
-      clientList: "orders/clientList",
     }),
   },
   watch: {
@@ -216,7 +189,6 @@ export default {
     ...mapActions({
       getFabricList: "fabric/getFabricList",
       getUsersList: "orders/getUsersList",
-      getClient: "orders/getClient",
     }),
     filterData() {
       this.getFabricList({ page: 0, size: 10, data: { ...this.filters } });

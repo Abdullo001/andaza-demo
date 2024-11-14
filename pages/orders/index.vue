@@ -60,28 +60,7 @@
                 </v-icon>
               </template>
             </v-combobox>
-            <v-combobox
-              v-model="filters.clientName"
-              :items="clientList"
-              :search-input.sync="clientSearch"
-              item-text="name"
-              item-value="id"
-              validate-on-blur
-              outlined
-              hide-details
-              height="44"
-              class="rounded-lg filter d-flex align-center justify-center"
-              :return-object="true"
-              dense
-              :placeholder="$t('inspectionBox.clientName')"
-              prepend-icon=""
-            >
-              <template #append>
-                <v-icon class="d-inline-block" color="#544B99">
-                  mdi-magnify
-                </v-icon>
-              </template>
-            </v-combobox>
+            
           </div>
           <div class="d-flex justify-center">
             <v-btn
@@ -270,7 +249,6 @@ export default {
   created() {
     this.getModelGroupList({page:0,size:10})
     this.getUsersList();
-    this.getClient();
   },
   computed: {
     ...mapGetters({
@@ -279,7 +257,6 @@ export default {
       modelGroups: "model/modelGroupList",
       totalElements: "orders/totalElements",
       usersList: "orders/usersList",
-      clientList: "orders/clientList",
     }),
   },
   watch: {
@@ -301,7 +278,6 @@ export default {
       changeStatusOrder: "orders/changeStatusOrder",
       filterOrderList: "orders/filterOrderList",
       getUsersList: "orders/getUsersList",
-      getClient: "orders/getClient",
       getModelGroupList: "model/getModelGroupList",
     }),
     async page(value) {

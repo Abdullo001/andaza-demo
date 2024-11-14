@@ -305,10 +305,13 @@
           <v-tab-item>
             <PassingToNextProcess/>
           </v-tab-item>
+          <v-tab-item>
+            <AllClassification/>
+          </v-tab-item>
         </v-tabs-items>
       </v-card-text>
     </v-card>
-    <v-row class="mt-2" v-if="tab!==2">
+    <v-row class="mt-2" v-if="tab<2">
       <v-col cols="6">
         <CalculationShortcomings v-bind="classificationData"/>
       </v-col>
@@ -334,6 +337,7 @@ import OrderQuantities from "@/components/commonProcess/OrderQuantities.vue";
 import GivenAccessoryQuantity from "@/components/GivenAccessoryQuantity.vue";
 import PassingToNextProcess from "@/components/PassingToNextProcess.vue";
 import CommonProcessTab from "@/components/commonProcess/CommonProcessTab.vue";
+import AllClassification from "@/components/commonProcess/AllClassification.vue";
 import CommonSubcontractProcessTab from "@/components/commonProcess/CommonSubcontractProcessTab.vue";
 import FinishProcessBtn from "@/components/FinishProcessBtn.vue";
 
@@ -349,12 +353,13 @@ export default {
     CommonProcessTab,
     CommonSubcontractProcessTab,
     FinishProcessBtn,
+    AllClassification,
 },
   data() {
     return {
       show_btn: true,
       tab: null,
-      items: ["Packaging", "Subcontracts","Output to waybill"],
+      items: ["Packaging", "Subcontracts","Output to waybill","All classification"],
       title: "Add",
       currentImage: '',
       image_dialog: false,
@@ -475,6 +480,10 @@ export default {
       if(val===2){
         this.getPassingList(this.planningProcessId)
       }
+      if(val===3){
+        this.getAllClassificationList(this.productionId)
+        this.getAllSubcontractClassificationList(this.productionId)
+      }
     }
   },
   methods: {
@@ -487,6 +496,8 @@ export default {
       getProcessingList: 'production/planning/getProcessingList',
       getShortcomingsList:'commonCalculationsShortcomings/getShortcomingsList',
       getSubcontractShortcomingsList:'commonCalculationsShortcomings/getSubcontractShortcomingsList',
+      getAllClassificationList:'commonCalculationsShortcomings/getAllClassificationList',
+      getAllSubcontractClassificationList:'commonCalculationsShortcomings/getAllSubcontractClassificationList',
       getPassingList:'cuttingToNextProcess/getPassingList',
       getAccessoryOwnList:'givenAccessoryQuantity/getAccessoryOwnList',
       getAccessorySubcontractList:'givenAccessoryQuantity/getAccessorySubcontractList',

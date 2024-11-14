@@ -16,8 +16,7 @@
               </div>
               <v-combobox
                 v-model="filters.supplier"
-                :items="partnerLists"
-                :search-input.sync="partnerName"
+                :items="partnerWithTypes"
                 item-text="name"
                 item-value="id"
                 outlined
@@ -156,16 +155,14 @@ export default {
     };
   },
   created() {
-    this.getClient();
     this.getCountryList({ name: this.countryIdSearch });
     this.getUsersList();
-    this.getPartnerList({page:0, size:10});
+    this.getPartnersWithTypes(["supplier"])
   },
 
   computed: {
     ...mapGetters({
-      partnerLists: "partners/partnerList",
-      clientList: "orders/clientList",
+      partnerWithTypes: "partners/partnerWithTypes",
       countryList: "partners/countryList",
       usersList: "orders/usersList",
       pdfList: "generatePdf/orderedFabricPdfList",
@@ -173,9 +170,6 @@ export default {
   },
 
   watch: {
-    partnerName(val) {
-      this.getPartnerList({page:0, size:10,partnerName:val});
-    },
     pdfList(val) {
       const blob = new Blob(
         [new Uint8Array([...val].map((char) => char.charCodeAt(0)))],
@@ -210,11 +204,10 @@ export default {
 
   methods: {
     ...mapActions({
-      getClient: "orders/getClient",
+      getPartnersWithTypes: "partners/getPartnersWithTypes",
       getCountryList: "partners/getCountryList",
       getUsersList: "orders/getUsersList",
       getPdfList: "generatePdf/getOrderedFabricPdfList",
-      getPartnerList: "partners/getPartnerList",
     }),
 
     resetFilter() {

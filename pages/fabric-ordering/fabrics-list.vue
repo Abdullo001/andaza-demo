@@ -252,7 +252,6 @@ export default {
 
   methods:{
     ...mapActions({
-      getClient: "orders/getClient",
       getModelsList: "models/getModelsList",
       filterOrderList: "orders/filterOrderList",
       getSipNumbers: "fabricWarehouse/getSipNumbers",
