@@ -72,6 +72,7 @@ export default {
     ppg: "ППО",
     centralWarehouse: "Центральный склад",
     department: "Отделx",
+    bankDetails:"Банковские реквизиты"
   },
   appBar: {
     search: "Поиск",
@@ -2588,5 +2589,25 @@ export default {
     actualProfit: "Чистая прибыль %",
     actualProfitAmount: "Сумма чистой прибыли",
     soldPrice: "Цена продажи",
+  },
+  bankDetails: {
+    table: {
+      bankName: "Название банка",
+      bankCode: "Код банка",
+      bankAddress: "Адрес банка",
+      currency: "Валюта",
+      accountNumber: "Номер счета",
+      created: "Создано",
+      createdBy: "Создано пользователем",
+      actions: "Действия",
+    },
+    dialog: {
+      bankCode: "Код банка (МФО)",
+      swift: "SWIFT",
+      updateBankDetails: "Обновить данные банка"
+    },
+    cancel: "Отмена",
+    save: "Сохранить",
+    update: "Обновить",
   },
 };

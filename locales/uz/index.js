@@ -79,6 +79,7 @@ export default {
     ppg: "PPG",
     centralWarehouse: "Markaziy ombor",
     department: "Kafedra",
+    bankDetails:"Bank tafsilotlari"
   },
   appBar: {
     search: "Qidirmoq",
@@ -2602,5 +2603,25 @@ yarnNumber:{
     actualProfit: "Sof foyda %",
     actualProfitAmount: "Sof foyda miqdori",
     soldPrice: "Sotish narxi",
+  },
+  bankDetails: {
+    table: {
+      bankName: "Bank nomi",
+      bankCode: "Bank kodi",
+      bankAddress: "Bank manzili",
+      currency: "Valyuta",
+      accountNumber: "Hisob raqami",
+      created: "Yaratilgan",
+      createdBy: "Yaratgan",
+      actions: "Harakatlar",
+    },
+    dialog: {
+      bankCode: "Bank kodi (MFO)",
+      swift: "SWIFT",
+      updateBankDetails: "Bank ma'lumotlarini yangilash"
+    },
+    cancel: "Bekor qilish",
+    save: "Saqlash",
+    update: "Yangilash",
   },
 };
