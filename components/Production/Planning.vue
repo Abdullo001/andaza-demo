@@ -129,7 +129,7 @@
             class="rounded-lg text-capitalize font-weight-bold ml-8"
             color="#544B99" dark
             width="163" height="44"
-            @click="saveProcessing()"
+            @click="createProcess"
           >
             {{ btnText }}
           </v-btn>
@@ -168,14 +168,19 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <WarningDialog v-bind="warningDate" />
   </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+import WarningDialog from "../WarningDialog.vue";
 
 export default {
   name: 'ProductionPlanningComponent',
+  components: {
+    WarningDialog,
+  },
   data() {
     return {
       btn_disabled: true,
@@ -205,14 +210,30 @@ export default {
       currentProcessId: '',
       processList:["CUTTING","PRINTING","SEWING","IRONING","QUALITY_CONTROL","PACKAGING"],
       workshopList:["SUBCONTRACTOR", "OWN_WORKSHOP", "BOTH"],
+      lastItem:{},
+      warningState:false,
+      warningText:""
     }
   },
   computed: {
+    warningDate: {
+      get() {
+        return {
+          dialogState: this.warningState,
+          voidFunction: this.saveProcessing,
+          dialogCloser: () => {
+            this.warningState = false;
+          },
+          dialogText: this.warningText,
+        };
+      },
+    },
     ...mapGetters({
       colorsList: 'production/planning/colorsList',
       productionId: 'production/planning/productionId',
       processingList: 'production/planning/processingList',
-      processingTotalElements: 'production/planning/processingTotalElements'
+      processingTotalElements: 'production/planning/processingTotalElements',
+      planningProcessId: "cuttingProcess/planningProcessId",
     })
   },
   watch: {
@@ -225,6 +246,7 @@ export default {
     },
     processingList(val) {
       this.planningList = JSON.parse(JSON.stringify(val));
+      this.lastItem=this.planningList[0]
     },
     productionId(val) {
       this.btn_disabled = false;
@@ -234,7 +256,7 @@ export default {
     ...mapActions({
       createProcessing: 'production/planning/createProcessing',
       updateProcessing: 'production/planning/updateProcessing',
-      deleteProcessing: 'production/planning/deleteProcessing'
+      deleteProcessing: 'production/planning/deleteProcessing',
     }),
     async saveProcessing() {
       if (this.title === this.$t('planningProduction.dialog.add')) {
@@ -252,6 +274,16 @@ export default {
         await this.updateProcessing(this.new_process);
         this.dialog = false;
         this.$refs.processing.reset();
+      }
+      this.warningState=false
+    },
+
+    createProcess(){
+      if(this.lastItem.status==="Finished"){
+        this.saveProcessing()
+      } else {
+        this.warningText=`The previous <strong>${this.lastItem.process.toUpperCase()}</strong> process has not yet been completed. Are you sure you want to continue?`
+        this.warningState=true
       }
     },
     openDialog(title) {
