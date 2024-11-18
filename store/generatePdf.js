@@ -11,7 +11,7 @@ export const state = () => ({
   productionPdfList:[],
   cuttingPdfList:[],
   productionStatusList:[],
-  pdfData:{},
+  pdfData:"",
 });
 
 export const getters = {
@@ -221,6 +221,58 @@ export const actions = {
     this.$axios.get(`/api/v1/warehouse/warehouse-remains`)
     .then((res)=>{
 
+      const binaryCode = atob(res.data);
+      commit("setPdfData", binaryCode);
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+
+  getSubcontractorFormPdf({commit},data){
+    this.$axios.put(`/api/v1/cutting/subcontractor-form`,data)
+    .then((res)=>{
+      const binaryCode = atob(res.data);
+      commit("setPdfData", binaryCode);
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+
+  getPrintingSubcontractorFormPdf({commit},data){
+    this.$axios.put(`/api/v1/printing/subcontractor-form`,data)
+    .then((res)=>{
+      const binaryCode = atob(res.data);
+      commit("setPdfData", binaryCode);
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+  getIncomingPrintingSubconPdf({commit},data){
+    this.$axios.put(`/api/v1/common-process-details/print/incoming/subcontractor/form`,data)
+    .then((res)=>{
+      const binaryCode = atob(res.data);
+      commit("setPdfData", binaryCode);
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+  getSewingListSubconPdf({commit},data){
+    this.$axios.put(`/api/v1/sewing/subcontractor-form`,data)
+    .then((res)=>{
+      const binaryCode = atob(res.data);
+      commit("setPdfData", binaryCode);
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+  getIncomingSewingSubconPdf({commit},data){
+    this.$axios.put(`/api/v1/sewing/incoming/subcontractor-form`,data)
+    .then((res)=>{
       const binaryCode = atob(res.data);
       commit("setPdfData", binaryCode);
     })
