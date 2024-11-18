@@ -484,6 +484,11 @@ export default {
                 to: this.localePath("/department"),
                 localization: "department",
               },
+              {
+                title: "Bank details",
+                to: this.localePath("/bank-details"),
+                localization: "bankDetails",
+              },
             ],
           },
           {

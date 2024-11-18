@@ -74,6 +74,7 @@ export default {
     ppg: "PPG",
     centralWarehouse: "Central warehouse",
     department: "Department",
+    bankDetails:"Bank details"
   },
   appBar: {
     search: "Search",
@@ -2602,5 +2603,25 @@ export default {
     actualProfit: "Actual profit %",
     actualProfitAmount: "Actual profit amount",
     soldPrice: "Sold price",
+  },
+  bankDetails:{
+    table:{
+      bankName: "Bank name",
+      bankCode: "Bank code",
+      bankAddress: "Bank address",
+      currency: "Currency",
+      accountNumber: "Account number",
+      created: "Created",
+      createdBy: "Created by",
+      actions: "Actions",
+    },
+    dialog:{
+      bankCode: "Bank code (MFO)",
+      swift: "SWIFT",
+      updateBankDetails:"Update Bank details"
+    },
+    cancel: "Cancel",
+    save: "Save",
+    update: "Update",
   },
 };
