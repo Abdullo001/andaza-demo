@@ -53,7 +53,7 @@
         </v-tooltip>
         <v-tooltip
           top
-          color="green"
+          color="#544B99"
           class="pointer"
           v-if="Object.keys(item).length > 2"
         >
@@ -62,10 +62,10 @@
               icon
               v-bind="attrs"
               v-on="on"
-              color="green"
+              color="#544B99"
               @click="editItem(item)"
             >
-              <v-img src="/edit-active.svg" max-width="21"/>
+              <v-img src="/daily.svg" max-width="24"/>
             </v-btn>
           </template>
           <span class="text-capitalize">edit</span>
@@ -116,7 +116,7 @@
                 dense
                 height="44"
                 class="rounded-lg base" color="#544B99"
-                placeholder="Enter branch number"
+                placeholder="0"
                 v-model.trim="item.quantity"
               />
             </v-col>
@@ -246,6 +246,87 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form ref="edit_form" v-model="edit_validate" lazy-validation>
+            <v-row class="mb-4">
+              <!-- <v-col cols="12" lg="6" v-if="this.statusTab==='SUB'">
+                <div class="label">Price per work</div>
+                <div class="d-flex align-center">
+                  <v-text-field
+                    v-model="selectedItem.pricePerWork"
+                    placeholder="0.00"
+                    outlined
+                    hide-details
+                    height="44"
+                    class="rounded-lg base rounded-l-lg rounded-r-0"
+                    validate-on-blur
+                    dense
+                    color="#544B99"
+                    :suffix="selectedItem.currency"
+                  />
+                </div>
+              </v-col>
+
+              <v-col cols="12" lg="6" v-if="this.statusTab==='SUB'">
+                <div class="label">Sent date</div>
+                <div style="height: 40px !important">
+                  <el-date-picker
+                    v-model="selectedItem.sentDate"
+                    type="datetime"
+                    style="width: 100%; height: 100%"
+                    placeholder="dd.MM.yyyy HH:mm:ss"
+                    :picker-options="pickerShortcuts"
+                    value-format="dd.MM.yyyy HH:mm:ss"
+                    class="base_picker"
+                  >
+                  </el-date-picker>
+                </div>
+              </v-col>
+              <v-col cols="12" lg="6" v-if="this.statusTab==='SUB'">
+                <div class="label">Deadline</div>
+                <div style="height: 40px !important">
+                  <el-date-picker
+                    v-model="selectedItem.deadline"
+                    type="datetime"
+                    style="width: 100%; height: 100%"
+                    placeholder="dd.MM.yyyy HH:mm:ss"
+                    :picker-options="pickerShortcuts"
+                    value-format="dd.MM.yyyy HH:mm:ss"
+                    class="base_picker"
+                  >
+                  </el-date-picker>
+                </div>
+              </v-col> -->
+              <v-col cols="6">
+                <div class="label">Stream Number</div>
+                <v-select
+                  :items="streamList"
+                  v-model.trim="selectedItem.streamId"
+                  append-icon="mdi-chevron-down"
+                  item-text="streamNumber"
+                  item-value="streamId"
+                  outlined
+                  hide-details
+                  dense
+                  height="44"
+                  class="rounded-lg base" color="#544B99"
+                  placeholder="Select reason"
+                />
+              </v-col>
+              <v-col cols="6">
+                <div class="label">Work date</div>
+                <el-date-picker 
+                    v-model="selectedItem.workDate"
+                    type="date"
+                    style="width: 100%; height: 44px !important;"
+                    :placeholder="$t('fabricOrderingBox.plannedAccessoryOrderBox.deliveryTime')"
+                    :picker-options="pickerShortcuts"
+                    value-format="timestamp"
+                    class="base_picker"
+                    :rules="[formRules.required]"
+                    validate-on-blur
+                  >
+                </el-date-picker>
+              </v-col>
+            </v-row>
             <v-row>
               <v-col cols="12" lg="3" v-for="(item,idx) in selectedItem.sizeDistributions" :key="idx">
                 <div class="label">{{ item.size }}</div>
@@ -255,7 +336,7 @@
                   dense
                   height="44"
                   class="rounded-lg base" color="#544B99"
-                  placeholder="Enter branch number"
+                  placeholder="0"
                   v-model.trim="item.quantity"
                 />
               </v-col>
@@ -357,7 +438,7 @@ export default {
       secondClassList:"commonProcess/secondClassList",
       historySecondList:"history/historySecondList",
       planningProcessId:"commonProcess/planningProcessId",
-
+      streamList:"commonProcess/streamList",
     }),
   },
 
@@ -383,7 +464,7 @@ export default {
         const sizesList = [];
         el?.sizeDistributionList.forEach((item) => {
           value[item.size] = item.quantity
-          sizesList.push({size: item.size, quantity: 0})
+          sizesList.push({size: item.size, quantity: null})
         });
 
         return {
@@ -398,9 +479,10 @@ export default {
 
     historySecondList(list){
       this.historyHeaders = [
-        {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
+        {text: 'Date', sortable: false, align: 'start', value: 'workDate'},
+        {text: 'Stream Number', sortable: false, align: 'start', value: 'streamNumber'},
       ],
-        list[0]?.sizeDistributionList?.forEach((item) => {
+        list[0]?.sizeDistributions?.forEach((item) => {
           this.historyHeaders.push({
             text: item.size, sortable: false, align: 'start', value: item.size
           })
@@ -412,7 +494,7 @@ export default {
       const specialList = list.map(function (el) {
         const value = {};
         const sizesList = [];
-        el?.sizeDistributionList.forEach((item) => {
+        el?.sizeDistributions.forEach((item) => {
           value[item.size] = item.quantity
           sizesList.push({size: item.size, quantity: item.quantity})
         });
@@ -477,7 +559,12 @@ export default {
         const data={
           id:this.selectedItem.id,
           operationType:"SECOND_CLASS",
-          sizeDistributions:[...this.selectedItem.sizeDistributions]
+          sizeDistributions:this.selectedItem.sizeDistributions.map((item)=>({
+            size:item.size,
+            quantity: item.quantity?item.quantity:0
+          })),
+          workDate:this.selectedItem.workDate,
+          streamId: this.selectedItem.streamId
         }
         if(this.statusTab==="SUB"){
           data.operationType="SECOND_CLASS_SUBCONTRACTOR"

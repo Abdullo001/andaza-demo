@@ -101,7 +101,7 @@ export const actions = {
       })
   },
   updateSecondClassProcess({dispatch}, data) {
-    this.$axios.put(`/api/v1/common-process-details/update`, data)
+    this.$axios.put(`/api/v1/common-process-details/${data.id}`, data)
       .then((res) => {
         if(data.operationType!=="SECOND_CLASS_SUBCONTRACTOR"){
           dispatch("getSecondClassList")
@@ -115,7 +115,7 @@ export const actions = {
       })
   },
   updateSentToAlterationProcess({dispatch}, data) {
-    this.$axios.put(`/api/v1/common-process-details/update`, data)
+    this.$axios.put(`/api/v1/common-process-details/${data.id}`, data)
       .then((res) => {
         if(data.operationType!=="SENT_TO_ALTERATION_SUBCONTRACTOR"){
           dispatch("getSentToAlterationList")
@@ -177,7 +177,7 @@ export const actions = {
   },
 
   getSubcontarctSecondClassList({commit,state}){
-    this.$axios.get(`/api/v1/common-process-details/list-subcontractor?planningProcessId=${state.planningProcessId}&operationType=SECOND_CLASS_SUBCONTRACTOR`)
+    this.$axios.get(`/api/v1/common-process-details/list-subcontractor?planningProcessId=${state.planningProcessId}&commonOperationType=SECOND_CLASS_SUBCONTRACTOR`)
     .then((res)=>{
       commit("setSecondClassList",res.data.data)
     })
@@ -186,7 +186,7 @@ export const actions = {
     })
   },
   getSubcontractSentToAlterationList({commit,state}){
-    this.$axios.get(`/api/v1/common-process-details/list-subcontractor?planningProcessId=${state.planningProcessId}&operationType=SENT_TO_ALTERATION_SUBCONTRACTOR`)
+    this.$axios.get(`/api/v1/common-process-details/list-subcontractor?planningProcessId=${state.planningProcessId}&commonOperationType=SENT_TO_ALTERATION_SUBCONTRACTOR`)
     .then((res)=>{
       commit("setSentToAlterationList",res.data.data)
     })
