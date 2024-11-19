@@ -261,7 +261,34 @@
       </v-col>
     </v-row>
     <div>
-      <div class="label ml-5 font-weight-bold">{{ $t('shipping.invoice.bankInformation') }}</div>
+      <v-row>
+        <v-col cols="7" lg="3">
+          <div class="label ml-5 font-weight-bold">{{ $t('shipping.invoice.bankInformation') }}</div>
+        </v-col>
+        <v-col cols="7" lg="4">
+          <v-combobox
+            v-model="bankInfo"
+            :items="bankDetailsList"
+            :search-input.sync="bankInfoSearch"
+            item-text="name"
+            item-value="name"
+            validate-on-blur
+            outlined
+            hide-details
+            height="44"
+            class="rounded-lg base  d-flex align-center justify-center mr-2"
+            :return-object="true"
+            dense
+            placeholder="Bank name"
+          >
+            <template #append>
+              <v-icon class="d-inline-block" color="#544B99">
+                mdi-magnify
+              </v-icon>
+            </template>
+          </v-combobox>
+        </v-col>
+      </v-row>
       <v-row>
         <v-col cols="8">
           <v-form lazy-validation>
@@ -274,6 +301,7 @@
                     color="#544B99"
                     dense
                     height="70"
+                    :disabled="editable"
                     v-model="invoiceList.bankName"
                     hide-details
                     outlined
@@ -288,6 +316,7 @@
                       class="rounded-lg base mb-4"
                       color="#544B99"
                       dense
+                      :disabled="editable"
                       v-model="invoiceList.bankCode"
                       height="44"
                       hide-details
@@ -302,6 +331,7 @@
                       class="rounded-lg base mb-4"
                       color="#544B99"
                       dense
+                      :disabled="editable"
                       v-model="invoiceList.swift"
                       height="44"
                       hide-details
@@ -318,6 +348,7 @@
                   <v-textarea
                     rows="1"
                     auto-grow
+                    :disabled="editable"
                     v-model="invoiceList.bankAddress"
                     filled
                     height="170"
@@ -343,6 +374,7 @@
                 class="rounded-lg base mb-4"
                 color="#544B99"
                 dense
+                :disabled="editable"
                 v-model="invoiceList.accountNumberUSD"
                 height="44"
                 hide-details
@@ -360,6 +392,7 @@
                 height="44"
                 hide-details
                 outlined
+                :disabled="editable"
                 v-model="invoiceList.accountNumberRUB"
                 :placeholder="$t('shipping.invoice.bankAccountNumberRUB')"
                 validate-on-blur
@@ -374,7 +407,23 @@
                 height="44"
                 hide-details
                 outlined
+                :disabled="editable"
                 v-model="invoiceList.accountNumberUZS"
+                :placeholder="$t('shipping.invoice.bankAccountNumberUZS')"
+                validate-on-blur
+              />
+            </v-col>
+            <v-col class="d-flex align-center pt-0" cols="12">
+              <div class="label mr-1" style="color: #BEBEBE">EUR</div>
+              <v-text-field
+                class="rounded-lg base mb-4"
+                color="#544B99"
+                dense
+                height="44"
+                hide-details
+                outlined
+                :disabled="editable"
+                v-model="invoiceList.accountNumberEUR"
                 :placeholder="$t('shipping.invoice.bankAccountNumberUZS')"
                 validate-on-blur
               />
@@ -449,10 +498,13 @@ export default {
       sumTotal: null,
       sumAmountTotal: null,
       editable:false,
+      bankInfoSearch: "",
+      bankInfo: null,
     }
   },
   created() {
     this.getMeasurementUnit();
+    this.getBankDetailsList({ page: 0, size: 10 });
   },
   computed: {
     ...mapGetters({
@@ -460,6 +512,7 @@ export default {
       shippingInvoiceItemList: "shippingInvoice/shippingInvoiceItemList",
       measurementUnitList: "shippingInfo/measurementUnitList",
       isLoad: "shippingInvoice/isLoad",
+      bankDetailsList: "bankDetails/bankDetailsList",
     })
   },
   watch: {
@@ -483,6 +536,24 @@ export default {
       }
       
     },
+    bankInfoSearch(val){
+      if (!!val) {
+        this.getBankDetailsList({ page: 0, size: 10, bankName: val });
+      }
+    },
+    bankInfo(val){
+      if(!!val){
+        console.log(val)
+        this.invoiceList.bankName = val.name
+        this.invoiceList.bankCode = val.mfo
+        this.invoiceList.swift = val.swift
+        this.invoiceList.bankAddress = val.address
+        this.invoiceList.accountNumberUSD = val.accountNumberUSD
+        this.invoiceList.accountNumberRUB = val.accountNumberRUB
+        this.invoiceList.accountNumberUZS = val.accountNumberUZS
+        this.invoiceList.accountNumberEUR = val.accountNumberEUR
+      }
+    }
   },
   methods: {
     ...mapActions({
@@ -491,7 +562,8 @@ export default {
       updateInvoiceList: "shippingInvoice/updateInvoiceList",
       getMeasurementUnit: "shippingInfo/getMeasurementUnit",
       updateInvoiceItem: "shippingInvoice/updateInvoiceItem",
-      generateInvoicePdf: 'shippingInvoice/generateInvoicePdf'
+      generateInvoicePdf: 'shippingInvoice/generateInvoicePdf',
+      getBankDetailsList: "bankDetails/getBankDetailsList",
     }),
     editBtn(){
       this.editable=!this.editable
@@ -510,6 +582,7 @@ export default {
         accountNumberRUB: this.invoiceList.accountNumberRUB,
         accountNumberUSD: this.invoiceList.accountNumberUSD,
         accountNumberUZS: this.invoiceList.accountNumberUZS,
+        accountNumberEUR: this.invoiceList.accountNumberEUR,
         bankAddress: this.invoiceList.bankAddress,
         bankCode: this.invoiceList.bankCode,
         bankName: this.invoiceList.bankName,
@@ -521,7 +594,7 @@ export default {
         paymentTerms: this.invoiceList.paymentTerms,
         swift: this.invoiceList.swift
       }
-      this.updateInvoiceList({data, id: this.shippingId})
+      this.updateInvoiceList({data, id: this.shippingId, invoiceId: this.shippingInvoiceList.id})
     },
     editInvoiceItem(item) {
       this.invoiceItem = {...item}
