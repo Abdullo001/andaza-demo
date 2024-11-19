@@ -1413,6 +1413,8 @@ export default {
       add: "Добавить",
       enterPartnerName: " Введите имя партнера",
       brandName: "Название бренда",
+      partnerContract:"Партнерский контракт",
+      selectPartnerContract:"Выберите партнерский контракт",
       selectBrandName: "Выберите название бренда",
       fabricName: "Название ткани",
       enterCanvasType: "Введите тип ткани",
