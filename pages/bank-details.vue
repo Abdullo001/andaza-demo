@@ -3,18 +3,7 @@
     <v-card color="#fff" elevation="0" class="rounded-t-lg">
       <v-form lazy-validation>
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
-          <v-col cols="12" lg="2" md="2">
-            <v-text-field
-              :placeholder="$t('bankDetails.table.accountNumber')"
-              outlined
-              class="rounded-lg filter"
-              v-model.trim="filterBanks.accountNumber"
-              hide-details
-              dense
-              @keydown.enter="filterData"
-            />
-          </v-col>
-          <v-col cols="12" lg="2" md="2">
+          <v-col cols="12" lg="2">
             <v-text-field
               :placeholder="$t('bankDetails.table.bankName')"
               outlined
@@ -27,21 +16,21 @@
           </v-col>
           <v-col cols="12" lg="2">
             <v-text-field
+            :placeholder="$t('bankDetails.dialog.swift')"
+            outlined
+            class="rounded-lg filter"
+            v-model.trim="filterBanks.swift"
+            hide-details
+            dense
+            @keydown.enter="filterData"
+            />
+          </v-col>
+          <v-col cols="12" lg="3">
+            <v-text-field
               :placeholder="$t('bankDetails.dialog.bankCode')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filterBanks.mfo"
-              hide-details
-              dense
-              @keydown.enter="filterData"
-            />
-          </v-col>
-          <v-col cols="12" lg="2">
-            <v-text-field
-              :placeholder="$t('bankDetails.dialog.swift')"
-              outlined
-              class="rounded-lg filter"
-              v-model.trim="filterBanks.swift"
               hide-details
               dense
               @keydown.enter="filterData"
@@ -159,7 +148,7 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="12" lg="12">
+              <v-col cols="12" lg="9">
                 <div class="label">{{ $t('bankDetails.table.bankAddress') }}</div>
                 <v-text-field
                   v-model="createBankDetails.address"
@@ -169,23 +158,6 @@
                   height="44"
                   class="rounded-lg base"
                   :placeholder="$t('bankDetails.table.bankAddress')"
-                  color="#544B99"
-                />
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12" lg="3">
-                <div class="label">{{ $t('bankDetails.table.currency') }}</div>
-                <v-select
-                  v-model="createBankDetails.currency"
-                  :items="currencyList"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  dense
-                  :placeholder="$t('bankDetails.table.currency')"
-                  append-icon="mdi-chevron-down"
                   color="#544B99"
                 />
               </v-col>
@@ -202,10 +174,53 @@
                   color="#544B99"
                 />
               </v-col>
+            </v-row>
+            <v-row>
               <v-col cols="12" lg="6">
-                <div class="label">{{$t('bankDetails.table.accountNumber')}}</div>
+                <div class="label">UZS</div>
                 <v-text-field
-                  v-model="createBankDetails.accountNumber"
+                  v-model="createBankDetails.accountNumberUZS"
+                  dense
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :placeholder="$t('bankDetails.table.accountNumber')"
+                  color="#544B99"
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <div class="label">USD</div>
+                <v-text-field
+                  v-model="createBankDetails.accountNumberUSD"
+                  dense
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :placeholder="$t('bankDetails.table.accountNumber')"
+                  color="#544B99"
+                />
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" lg="6">
+                <div class="label">RUB</div>
+                <v-text-field
+                  v-model="createBankDetails.accountNumberRUB"
+                  dense
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :placeholder="$t('bankDetails.table.accountNumber')"
+                  color="#544B99"
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <div class="label">EURO</div>
+                <v-text-field
+                  v-model="createBankDetails.accountNumberEUR"
                   dense
                   outlined
                   hide-details
@@ -281,7 +296,7 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="12" lg="12">
+              <v-col cols="12" lg="9">
                 <div class="label">{{$t('bankDetails.table.bankAddress')}}</div>
                 <v-text-field
                   v-model="editBankDetails.address"
@@ -291,23 +306,6 @@
                   height="44"
                   class="rounded-lg base"
                   :placeholder="$t('bankDetails.table.bankAddress')"
-                  color="#544B99"
-                />
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12" lg="3">
-                <div class="label">{{$t('bankDetails.table.currency')}}</div>
-                <v-select
-                  v-model="editBankDetails.currency"
-                  :items="currencyList"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  dense
-                  :placeholder="$t('bankDetails.table.currency')"
-                  append-icon="mdi-chevron-down"
                   color="#544B99"
                 />
               </v-col>
@@ -324,10 +322,53 @@
                   color="#544B99"
                 />
               </v-col>
+            </v-row>
+            <v-row>
               <v-col cols="12" lg="6">
-                <div class="label">{{$t('bankDetails.table.accountNumber')}}</div>
+                <div class="label">UZS</div>
                 <v-text-field
-                  v-model="editBankDetails.accountNumber"
+                  v-model="editBankDetails.accountNumberUZS"
+                  dense
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :placeholder="$t('bankDetails.table.accountNumber')"
+                  color="#544B99"
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <div class="label">USD</div>
+                <v-text-field
+                  v-model="editBankDetails.accountNumberUSD"
+                  dense
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :placeholder="$t('bankDetails.table.accountNumber')"
+                  color="#544B99"
+                />
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" lg="6">
+                <div class="label">RUB</div>
+                <v-text-field
+                  v-model="editBankDetails.accountNumberRUB"
+                  dense
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :placeholder="$t('bankDetails.table.accountNumber')"
+                  color="#544B99"
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <div class="label">EURO</div>
+                <v-text-field
+                  v-model="editBankDetails.accountNumberEUR"
                   dense
                   outlined
                   hide-details
@@ -393,19 +434,8 @@ export default {
           sortable: false,
         },
         {
-          text: this.$t('bankDetails.table.currency'),
-          value: "currency",
-          align: "center",
-        },
-        {
-          text: this.$t('bankDetails.table.accountNumber'),
-          value: "accountNumber",
-          sortable: false,
-        },
-        {
           text: this.$t('bankDetails.table.created'),
           value: "createdAt",
-          width: "100",
           sortable: false,
         },
         {
@@ -429,19 +459,22 @@ export default {
         mfo: "",
         name: "",
         address: "",
-        currency: "",
         swift: "",
-        accountNumber: "",
+        accountNumberUZS:"",
+        accountNumberUSD:"",
+        accountNumberRUB:"",
+        accountNumberEUR:"",
       },
       editBankDetails: {
         mfo: "",
         name: "",
         address: "",
-        currency: "",
         swift: "",
-        accountNumber: "",
+        accountNumberUZS:"",
+        accountNumberUSD:"",
+        accountNumberRUB:"",
+        accountNumberEUR:"",
       },
-      currencyList: ["USD", "RUB", "UZS"],
       updateBankId: null,
       deleteDialog: false,
       deleteBankId: null,

@@ -55,8 +55,8 @@ export const actions = {
       console.log(res)
     })
   },
-  updateInvoiceList({dispatch}, {data, id}) {
-    this.$axios.put('/api/v1/invoice/update', data).then(res => {
+  updateInvoiceList({dispatch}, {data, id, invoiceId}) {
+    this.$axios.put(`/api/v1/invoice/update/${invoiceId}`, data).then(res => {
       this.$toast.success(res.data.message)
       dispatch('getInvoiceList', id)
     }).catch(res => {
