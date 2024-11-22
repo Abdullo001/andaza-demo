@@ -23,7 +23,7 @@ export const actions={
     })
   },
   giveReadyWarehouse({dispatch},{data,id}){
-    this.$axios.put(`/api/v1/processable-entity/give-ready-garment`,data)
+    this.$axios.put(`/api/v1/common-process-details/transfer/ready-garment-warehouse`,data)
     .then((res)=>{
       dispatch("getSecondList",id)
       this.$toast.success(res.data.message)
@@ -32,5 +32,5 @@ export const actions={
       console.log(res);
       this.$toast.error(res.data.message)
     })
-  }
+  },
 }

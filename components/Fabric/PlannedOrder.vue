@@ -31,12 +31,17 @@
           :hide-details="!enterError[item.plannedFabricOrderId]"
           height="32"
           class="rounded-lg base my-2" 
+          error-color="orange"
           dense
           :disabled="item.status === 'ORDERED'"
           :error-messages="enterError[item.plannedFabricOrderId]"
-          color="#544B99"
+          :color="!enterError[item.plannedFabricOrderId]?'#544B99':'orange'"
           v-model="item.actualFabricTotal"
-        />
+        >
+        <template v-slot:message="{ message }">
+          <span class="custom-error-message" style="color: orange;">{{ message }}</span>
+        </template>
+        </v-text-field>
       </template>
     </v-data-table>
     <v-divider/>
@@ -242,6 +247,21 @@ export default {
   .date-input{
     height: 44px !important;
     width:293px;
+  }
+  .custom-error {
+    // error-messages rangini o'zgartirish
+    :deep(.v-messages__message) {
+      color: orange !important; // yoki o'zingiz xohlagan rang
+    }
+  }
+  .custom-error-message {
+    color: orange !important;
+  }
+  .v-application .error--text {
+    color: orange !important;
+  }
+  .orange-border >>> .v-input__control .v-input__slot {
+    border-color: orange !important;
   }
 }
 </style>
