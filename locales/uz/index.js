@@ -1423,6 +1423,8 @@ yarnNumber:{
       add: "Qo'shish",
       enterPartnerName: "Hamkor nomini kiriting",
       brandName: "Brend nomi",
+      partnerContract:"Hamkorlik shartnomasi",
+      selectPartnerContract:"Hamkorlik shartnomasini tanlang",
       selectBrandName: "Brend nomini tanlang",
       fabricName: "Mato nomi",
       enterCanvasType: "Mato turini kiriting",

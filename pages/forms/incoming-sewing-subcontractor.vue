@@ -30,7 +30,7 @@
       </v-col>
       <v-col cols="12" lg="3">
         <div class="label">
-          Subcontractor<span style="color: red">*</span>
+          Subcontractor
         </div>
         <v-combobox
           v-model="filters.subcontractorId"
@@ -93,7 +93,6 @@ export default {
           title:"Incoming from sewing subcontractor",
           pdfList:this.$store.state.generatePdf.pdfData,
           filterFunc:this.generatePdf,
-          funcState:this.isload
         };
       },
     },
@@ -132,10 +131,7 @@ export default {
         modelId: this.filters.modelNumber?.id?this.filters.modelNumber?.id:null,
         subcontractorId: this.filters.subcontractorId?.id?this.filters.subcontractorId?.id:null,
       };
-      if(this.filters.subcontractorId){
-        this.isload=true
-        this.pdfFunc(data)
-      }
+      this.pdfFunc(data)
     },
 
     stopLoading(){

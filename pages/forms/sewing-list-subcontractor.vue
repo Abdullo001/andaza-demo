@@ -92,7 +92,6 @@ export default {
           title:"Sewing list of subcontractor",
           pdfList:this.$store.state.generatePdf.pdfData,
           filterFunc:this.generatePdf,
-          funcState:this.isload
         };
       },
     },
@@ -131,10 +130,7 @@ export default {
         modelId: this.filters.modelNumber?.id?this.filters.modelNumber?.id:null,
         subcontractorId: this.filters.subcontractorId?.id?this.filters.subcontractorId?.id:null,
       };
-      if(this.filters.subcontractorId){
-        this.isload=true
-        this.pdfFunc(data)
-      }
+      this.pdfFunc(data)
     },
     stopLoading(){
       this.isload=false

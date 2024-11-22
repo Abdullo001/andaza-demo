@@ -116,6 +116,9 @@
         </v-toolbar>
         <v-divider/>
       </template>
+      <template #item.deadline="{item}">
+        {{ item.deadline?formatLong(item.deadline):"" }}
+      </template>
       <template #item.actions="{item}">
         <v-tooltip top color="#544B99">
           <template v-slot:activator="{on, attrs}">

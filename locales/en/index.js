@@ -1528,6 +1528,8 @@ export default {
       add: "Add",
       enterPartnerName: "Enter partner name",
       brandName: "Brand name",
+      partnerContract:"Partner contract",
+      selectPartnerContract:"Select partner contract",
       selectBrandName: "Select brand name",
       fabricName: "Fabric name",
       enterCanvasType: "Enter canvas type",

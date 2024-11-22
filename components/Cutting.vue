@@ -12,9 +12,12 @@
       </template>
       <template #item.wasteFabric="{item}">
         <v-text-field
-          @keyup.enter="setWasteFabricFunc(item)"
+          @keyup.enter="handleEnter(item)"
+          @focus="handleKeyEvent(item.id, $event)"
+          @keyup="handleKeyEvent(item.id, $event)"
+          :hide-details="!enterError[item.id]"
+          :error-messages="enterError[item.id]"
           outlined
-          hide-details
           height="32"
           class="rounded-lg base my-2" dense
           :rules="[formRules.required]"
@@ -515,6 +518,7 @@ export default {
         type: 'KG'
       },
       classification_shortcom: {},
+      enterError: {},
 
       classificationEnums: ['DEFECT', 'PHOTO', 'PHOTO_SAMPLE', 'SAMPLE', 'LOST', 'OTHERS'],
       selected: [],
@@ -557,7 +561,7 @@ export default {
       this.headers = [
         ...this.headers,
         {text: 'Produced total', sortable: false, align: 'start', value: 'totalCutQuantity'},
-        {text: 'Waste fabric', sortable: false, align: 'center', value: 'wasteFabric', width: "150"},
+        {text: 'Waste fabric', sortable: false, align: 'center', value: 'wasteFabric', width: "200"},
         {text: 'Actions', sortable: false, align: 'center', value: 'actions', width: "250"},
       ]
       let totalQuantity=0
@@ -628,6 +632,18 @@ export default {
       setWasteFabric: "cuttingProcess/setWasteFabric",
       getPatokList:"commonProcess/getPatokList",
     }),
+    handleKeyEvent(id, event) {
+      if (event.keyCode !== 13) {
+        this.enterError[id] = 'Please confirm with Enter';
+      } else {
+        this.enterError[id] = '';
+      }
+    },
+    handleEnter(item) {
+      if (item.wasteFabric && item.wasteFabric.trim() !== '') {
+        this.setWasteFabricFunc(item);
+      } 
+    },
     setWasteFabricFunc(item){
       const data={
         id:item.id,

@@ -141,11 +141,14 @@
       <template #item.deliveredQuantity="{item}">
         <v-text-field
           outlined
-          hide-details
           height="32"
           class="rounded-lg base my-2" dense
           :rules="[formRules.required]"
-          @keydown.enter="setDeliviredQuantity(item)"
+          @keydown.enter="handleEnter(item)"
+          @focus="handleKeyEvent(item.accessoryId, $event)"
+          @keyup="handleKeyEvent(item.accessoryId, $event)"
+          :hide-details="!enterError[item.accessoryId]"
+          :error-messages="enterError[item.accessoryId]"
           validate-on-blur
           color="#544B99"
           v-model="item.deliveredQuantity"
@@ -746,7 +749,7 @@ export default {
         {text: "Accessory name", value: "name", sortable: false},
         {text: "Specification", value: "specification", sortable: false},
         {text: "Ordered quantity", value: "orderedQuantity", sortable: false},
-        {text: "Delivered fact quantity", value: "deliveredQuantity", sortable: false},
+        {text: "Delivered fact quantity", value: "deliveredQuantity", sortable: false, width:200},
         {text: "Spent quantity", value: "spentQuantity", sortable: false},
         {text: "Remaining quantity", value: "remainingQuantity", sortable: false},
         {text: "Price per unit", value: "perUnitPrice", sortable: false},
@@ -774,6 +777,7 @@ export default {
       ],
       historyList:[],
       partnerName:"",
+      enterError: {},
     }
   },
 
@@ -808,7 +812,7 @@ export default {
         this.orderNumber=val.orderNumber
         this.modelNumber=val.modelNumber
         this.filters.plannedAt=val.plannedAt
-      this.filters.plannedBy=val.plannedBy
+        this.filters.plannedBy=val.plannedBy
         this.filters.orderId={id:id,orderNumber:val.orderNumber}
         this.filters.modelId={id:val.modelId,modelNumber:val.modelNumber}
         if(id!=="add-accessory-warehouse"){
@@ -875,11 +879,18 @@ export default {
       getPartnerList: "partners/getPartnerList",
       giveToAccessoryStock: "accessoryWarehouse/giveToAccessoryStock",
     }),
-
-    search(){
-      this.searchAccessory({orderId:this.filters.orderId.id,modelId:this.filters.modelId.id})
+    handleKeyEvent(id, event) {
+      if (event.keyCode !== 13) {
+        this.enterError[id] = 'Please confirm with Enter';
+      } else {
+        this.enterError[id] = '';
+      }
     },
-
+    handleEnter(item) {
+      if (item.deliveredQuantity && item.deliveredQuantity.trim() !== '') {
+        this.setDeliviredQuantity(item);
+      } 
+    },
     setDeliviredQuantity(item){
       const data={
         warehouseId:item.warehouseId,
@@ -887,7 +898,9 @@ export default {
       }
       this.setDelivered({data,modelId:this.filters.modelId?.id,orderId:this.filters.orderId?.id})
     },
-
+    search(){
+      this.searchAccessory({orderId:this.filters.orderId.id,modelId:this.filters.modelId.id})
+    },
     saveAccessory(){
       this.createAccessoryWarehouse({modelId:this.filters.modelId.id,orderId:this.filters.orderId.id})
     },
