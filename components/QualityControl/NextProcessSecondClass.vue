@@ -67,7 +67,7 @@
               <v-img src="/warehouse.svg" max-width="21"/>
             </v-btn>
           </template>
-          <span class="text-capitalize">edit</span>
+          <span class="text-capitalize">Send to warehouse</span>
         </v-tooltip>
       </template>
     </v-data-table>
@@ -254,7 +254,7 @@
     <v-dialog v-model="nextProcessDialog" width="1200">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Edit Cutting info</div>
+          <div class="text-capitalize font-weight-bold">Send to garment warehouse</div>
           <v-btn icon color="#544B99" @click="nextProcessDialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -420,7 +420,7 @@ export default {
         const sizesList = [];
         el?.sizeDistributionList.forEach((item) => {
           value[item.size] = item.quantity;
-          sizesList.push({ size: item.size, quantity: 0 });
+          sizesList.push({ size: item.size, quantity: null });
         });
 
         return {
@@ -509,7 +509,10 @@ export default {
         entityId: this.selectedItem.entityId,
         operationType:"SECOND_CLASS",
         productionId: this.productionId,
-        sizeDistributionList: [...this.selectedItem.sizeDistributions],
+        sizeDistributionList: this.selectedItem.sizeDistributions.map((item)=>({
+          size:item.size,
+          quantity: item.quantity?item.quantity:0
+        })),
       }
 
       this.giveReadyWarehouse({data,id:this.planningProcessId})
