@@ -186,6 +186,12 @@ export default {
           status: "PRODUCTION",
           to: this.localePath("/forms/warehouse-remaining"),
         },
+        {
+          title: "Shortcoming classification",
+          subtitle: this.$t("forms.index.cards.inconmingSewingSub"),
+          status: "PRODUCTION",
+          to: this.localePath("/forms/shortcoming-classification"),
+        },
       ],
       filteredButtons: [],
     };

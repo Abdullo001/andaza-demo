@@ -280,4 +280,14 @@ export const actions = {
       console.log(response);
     })
   },
+  getClassificationPdf({commit},data){
+    this.$axios.put(`/api/v1/classification/generate-pdf`,data)
+    .then((res)=>{
+      const binaryCode = atob(res.data);
+      commit("setPdfData", binaryCode);
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
 };
