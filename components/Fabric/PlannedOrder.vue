@@ -24,14 +24,16 @@
       
       <template #item.actualTotalFabric="{item}">
         <v-text-field
-          @keyup.enter="setActualFabric(item)"
+          @focus="handleKeyEvent(item.plannedFabricOrderId, $event)"
+          @keyup="handleKeyEvent(item.plannedFabricOrderId, $event)"
+          @keyup.enter="handleEnter(item)"
           outlined
-          hide-details
+          :hide-details="!enterError[item.plannedFabricOrderId]"
           height="32"
-          class="rounded-lg base my-2" dense
-          :disabled="item.status==='ORDERED'"
-          :rules="[formRules.required]"
-          validate-on-blur
+          class="rounded-lg base my-2" 
+          dense
+          :disabled="item.status === 'ORDERED'"
+          :error-messages="enterError[item.plannedFabricOrderId]"
           color="#544B99"
           v-model="item.actualFabricTotal"
         />
@@ -73,7 +75,7 @@ export default {
         { text:  this.$t('planning.listFabric.quantity'), value: 'quantity', sortable: false },
         { text:  this.$t('planning.listFabric.fabricPerPiece'), value: 'quantityOnePc', sortable: false },
         { text:  this.$t('planning.listFabric.totalFabric'), value: 'total', sortable: false },
-        { text:this.$t('planning.listFabric.actualTotalFabric'), value: 'actualTotalFabric', sortable: false,width: 110  },
+        { text:this.$t('planning.listFabric.actualTotalFabric'), value: 'actualTotalFabric', sortable: false,width: 200 },
 
       ],
       status_enums: ["ORDERED", "CANCELLED", "PENDING","FABRIC_GENERATED"],
@@ -89,6 +91,7 @@ export default {
       allPlannerOrder: [],
       new_valid: true,
       price_valid:true,
+      enterError: {},
     }
   },
   computed: {
@@ -139,6 +142,18 @@ export default {
       setActualTotalFunc: 'plannedOrder/setActualTotalFunc',
       getDocuments: "documents/getDocuments",
     }),
+    handleKeyEvent(id, event) {
+      if (event.keyCode !== 13) {
+        this.enterError[id] = 'Please confirm with Enter';
+      } else {
+        this.enterError[id] = '';
+      }
+    },
+    handleEnter(item) {
+      if (item.actualFabricTotal && item.actualFabricTotal.trim() !== '') {
+        this.setActualFabric(item);
+      } 
+    },
     savePlanningOrder() {
       const valid = this.$refs.valid.validate();
       if(valid) {
