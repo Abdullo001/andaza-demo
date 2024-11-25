@@ -48,7 +48,7 @@
                 @click="()=>{getStockAccessoryPdf();  isLoad=true}"
                 :loading="isLoad"
               >
-                Generate PDF
+                {{ $t('production.oneSort.generatePdf') }}
               </v-btn>
             <v-btn color="#544B99" dark class="text-capitalize rounded-lg" @click="addArrivedAccessoryStock">
               <v-icon>mdi-plus</v-icon>
@@ -75,7 +75,7 @@
                 <v-img src="/cut-icon.svg" max-width="22" />
               </v-btn>
             </template>
-            <span class="text-capitalize">Workshop</span>
+            <span class="text-capitalize">{{$t('warehouseId.workShop')}}</span>
           </v-tooltip>
           <v-tooltip top color="#544B99" class="pointer" v-if="Object.keys(item).length > 2">
             <template #activator="{ on, attrs }">
@@ -83,7 +83,7 @@
                 <v-img src="/bag-icon.svg" max-width="22" />
               </v-btn>
             </template>
-            <span class="text-capitalize">subcontractor</span>
+            <span class="text-capitalize">{{$t('warehouseId.subcontractor')}}</span>
           </v-tooltip>
           <v-tooltip top color="#544B99">
             <template #activator="{ on, attrs }" >
@@ -103,7 +103,7 @@
                 max-width="24" />
               </v-btn>
             </template>
-            <span>Download</span>
+            <span>{{$t('prefinances.child.download')}}</span>
           </v-tooltip>
           <v-btn icon color="green" @click="editItem(item)">
             <v-img src="/edit-active.svg" max-width="22" />
@@ -363,7 +363,7 @@
           color="#544B99"
           dark width="163"
           @click="editArrivedAccessoryStock">
-            Edit
+            {{$t('userManagement.child.edit')}}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -373,7 +373,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
-            Accessory giving to own workshop
+           {{$t('warehouseId.accessoryGivingWork')}}
           </div>
           <v-btn icon color="#544B99" @click="workshop_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -384,7 +384,7 @@
           <v-form ref="workshop_form" v-model="workshop_validate" lazy-validation>
             <v-row>
              <v-col cols="12">
-                <div class="label">Model number</div>
+                <div class="label">{{ $t('planningProduction.dialog.modelNumber') }}</div>
                 <v-combobox
                   v-model="workshop.modelNumber"
                   :items="modelsList"
@@ -399,7 +399,7 @@
                   class="rounded-lg filter d-flex align-center justify-center mr-2"
                   :return-object="true"
                   dense
-                  placeholder="Model number"
+                  :placeholder="$t('planningProduction.dialog.modelNumber')"
                   prepend-icon=""
                 >
                   <template #append>
@@ -411,7 +411,7 @@
               </v-col>
 
               <v-col cols="12">
-                <div class="label">Process</div>
+                <div class="label">{{ $t('sidebar.process') }}</div>
                 <v-select
                 append-icon="mdi-chevron-down"
                 v-model="workshop.process"
@@ -422,17 +422,17 @@
                 rounded
                 outlined
                 dense
-                placeholder="Select Model №" />
+                :placeholder="$t('sidebar.process')" />
               </v-col>
 
               <v-col cols="12">
-                <div class="label">Giving fabric quantity</div>
+                <div class="label">{{ $t('spending.givingFabricQuantity') }}</div>
                 <v-text-field
                 :rules="[formRules.required]"
                 v-model="workshop.givingQuantity"
                 outlined hide-details dense
                 class="rounded-lg base"
-                placeholder="Enter giving fabric quantity"
+                :placeholder="$t('spending.givingFabricQuantity') "
                 color="#544B99"
                 :suffix="workshop.measurement" />
               </v-col>
@@ -442,11 +442,11 @@
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn class="rounded-lg text-capitalize font-weight-bold" outlined color="#544B99" width="130"
             @click="workshop_dialog = false">
-            cancel
+              {{$t('userManagement.dialog.cancel')}}
           </v-btn>
           <v-btn class="rounded-lg text-capitalize ml-4 font-weight-bold" color="#544B99" dark width="130"
             @click="workshopSureFunc">
-            save
+             {{$t('userManagement.child.save')}}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -456,7 +456,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
-            Accessory giving to Subcontractor
+          {{$t('warehouseId.accessoryGivingSub')}}
           </div>
           <v-btn icon color="#544B99" @click="subcontractor_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -467,7 +467,7 @@
           <v-form ref="subcontractor_form" v-model="subcontractor_validate" lazy-validation>
             <v-row>
               <v-col cols="12">
-                <div class="label">Model number</div>
+                <div class="label">{{ $t('planningProduction.dialog.modelNumber') }}</div>
                 <v-combobox
                   v-model="subcontractor.modelNumber"
                   :items="modelsList"
@@ -482,7 +482,7 @@
                   class="rounded-lg filter d-flex align-center justify-center mr-2"
                   :return-object="true"
                   dense
-                  placeholder="Model number"
+                  :placeholder=" $t('planningProduction.dialog.modelNumber') "
                   prepend-icon=""
                 >
                   <template #append>
@@ -494,7 +494,7 @@
               </v-col>
 
               <v-col cols="12">
-                <div class="label">Process</div>
+                <div class="label">{{$t('sidebar.process')}}</div>
                 <v-select
                 append-icon="mdi-chevron-down"
                 v-model="subcontractor.process"
@@ -505,11 +505,11 @@
                 rounded
                 outlined
                 dense
-                placeholder="Select Process" />
+                :placeholder="$t('sidebar.process')" />
               </v-col>
 
               <v-col cols="12">
-                <div class="label">Partner name</div>
+                <div class="label">{{$t('orderBox.modelPrint.partnerName')}}</div>
                 <v-combobox
                   v-model="subcontractor.partnerId"
                   :rules="[formRules.required]"
@@ -524,7 +524,7 @@
                   :return-object="true"
                   color="#544B99"
                   dense
-                  placeholder="Enter partner name"
+                  :placeholder="$t('orderBox.modelPrint.partnerName')"
                   append-icon="mdi-chevron-down"
                   validate-on-blur
                 >
@@ -535,7 +535,7 @@
               </v-col>
 
               <v-col cols="12">
-                <div class="label">Giving fabric quantity</div>
+                <div class="label">{{$t('spending.givingFabricQuantity')}} </div>
                 <v-text-field
                 :rules="[formRules.required]"
                 v-model="subcontractor.givingQuantity"
@@ -543,7 +543,7 @@
                 hide-details
                 dense
                 class="rounded-lg base"
-                placeholder="Enter giving fabric quantity"
+                :placeholder="$t('spending.givingFabricQuantity')"
                 color="#544B99"
                 :suffix="subcontractor.measurement" />
               </v-col>
@@ -553,11 +553,11 @@
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn class="rounded-lg text-capitalize font-weight-bold" outlined color="#544B99" width="130"
             @click="subcontractor_dialog = false">
-            cancel
+               {{$t('userManagement.dialog.cancel')}}
           </v-btn>
           <v-btn class="rounded-lg text-capitalize ml-4 font-weight-bold" color="#544B99" dark width="130"
             @click="subcontractorSureFunc">
-            save
+             {{$t('userManagement.child.save')}}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -568,19 +568,19 @@
         <div class="d-flex justify-center mb-2">
           <v-img src="/error-icon.svg" max-width="40" />
         </div>
-        <v-card-title class="d-flex justify-center">Delete accessory stock row</v-card-title>
+        <v-card-title class="d-flex justify-center">{{ $t('warehouseId.deleteStock') }}</v-card-title>
         <v-card-text>
-          Are you sure you want to Delete accessory stock row?
+          {{ $t('warehouseId.wantToDelete') }}
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn outlined class="rounded-lg text-capitalize font-weight-bold" color="#777C85" width="140"
             @click.stop="delete_dialog = false">
-            cancel
+              {{$t('userManagement.dialog.cancel')}}
           </v-btn>
           <v-spacer />
           <v-btn class="rounded-lg text-capitalize font-weight-bold" color="#FF4E4F" width="140" elevation="0" dark
             @click="deleteItem">
-            delete
+            {{ $t('userManagement.child.delete') }}
           </v-btn>
         </v-card-actions>
       </v-card>
