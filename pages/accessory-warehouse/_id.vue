@@ -8,7 +8,7 @@
     >
       <v-card-title>
         <div>
-          Accessory warehouse
+          {{ $t('sidebar.accessoryWarehouse') }}
           <v-chip color="#10BF41" dark class="font-weight-bold ml-5">{{stateStatus}}</v-chip>
         </div>
         <v-spacer/>
@@ -17,7 +17,7 @@
       <v-form lazy-validation v-model="valid_search" ref="filter_form" >
         <v-row class="mx-0 px-0 mb-2 mt-4  pa-4 w-full" justify="start">
           <v-col cols="12" lg="3" md="3">
-            <div class="label">Order number</div>
+            <div class="label">{{ $t('planningProduction.dialog.orderNumber') }}</div>
               <v-combobox
                 v-model="filters.orderId"
                 :items="ordersList"
@@ -32,7 +32,7 @@
                 :return-object="true"
                 color="#544B99"
                 dense
-                placeholder="Enter order number"
+                :placeholder=" $t('planningProduction.dialog.orderNumber') "
                 prepend-icon=""
               >
                 <template #append>
@@ -43,7 +43,7 @@
               </v-combobox>
           </v-col>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">Model number</div>
+            <div class="label">{{ $t('planningProduction.dialog.modelNumber') }}</div>
               <v-combobox
                 v-model="filters.modelId"
                 :items="modelsList"
@@ -58,7 +58,7 @@
                 :return-object="true"
                 color="#544B99"
                 dense
-                placeholder="Enter model number"
+                :placeholder=" $t('planningProduction.dialog.modelNumber') "
                 prepend-icon=""
               >
                 <template #append>
@@ -69,9 +69,9 @@
               </v-combobox>
           </v-col>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">Planned at</div>
+            <div class="label">{{$t('accessoryWarehouse.plannedAt')}}</div>
               <v-text-field
-                placeholder="Planned at"
+                :placeholder="$t('accessoryWarehouse.plannedAt')"
                 outlined
                 hide-details
                 height="44"
@@ -91,9 +91,9 @@
               </v-text-field>
           </v-col>
           <v-col cols="12" lg="3" md="3">
-            <div class="label">Planned by</div>
+            <div class="label">{{ $t('accessoryWarehouse.plannedBy') }}</div>
             <v-text-field
-              placeholder="creator"
+              :placeholder=" $t('readyWarehouse.measurementList.creator')"
               outlined
               hide-details
               height="44"
@@ -122,7 +122,7 @@
               @click="search"
               :disabled="stateStatus==='Edit'"
             >
-              Search
+              {{ $t('readyWarehouse.id.search') }}
             </v-btn>
         </div>
       </v-form>
@@ -174,7 +174,7 @@
                 <v-img src="/spend-icon.svg" max-width="22"/>
               </v-btn>
             </template>
-            <span class="text-capitalize">Spend</span>
+            <span class="text-capitalize">{{$t('warehouseId.spend')}}</span>
           </v-tooltip>
 
           <v-tooltip
@@ -194,7 +194,7 @@
               <v-img src="/history.svg" max-width="20"/>
               </v-btn>
             </template>
-            <span class="text-capitalize">History</span>
+            <span class="text-capitalize">{{$t('warehouseId.history')}}</span>
           </v-tooltip>
 
           <v-tooltip
@@ -214,7 +214,7 @@
                 <v-img src="/cut-icon.svg" max-width="22"/>
               </v-btn>
             </template>
-            <span class="text-capitalize">Workshop</span>
+            <span class="text-capitalize">{{$t('warehouseId.workshop')}}</span>
           </v-tooltip>
 
           <v-tooltip
@@ -234,7 +234,7 @@
                 <v-img src="/bag-icon.svg" max-width="22"/>
               </v-btn>
             </template>
-            <span class="text-capitalize">subcontractor</span>
+            <span class="text-capitalize">{{$t('warehouseId.subcontractor')}}</span>
           </v-tooltip>
           <v-tooltip
             top
@@ -253,7 +253,7 @@
                 <v-img src="/stock-icon.svg" max-width="22" />
               </v-btn>
             </template>
-            <span class="text-capitalize">Stock</span>
+            <span class="text-capitalize">{{$t('warehouseId.stock')}}</span>
           </v-tooltip>
           
         </div>
@@ -272,7 +272,7 @@
         width="133"
         @click="saveAccessory"
       >
-        save
+        {{$t('userManagement.child.save')}}
       </v-btn>
     </div>
 
@@ -281,9 +281,9 @@
         <div class="d-flex justify-center mb-2">
           <v-img src="/error-icon.svg" max-width="40"/>
         </div>
-        <v-card-title class="d-flex justify-center">Delete fabric warehouse row</v-card-title>
+        <v-card-title class="d-flex justify-center"> {{$t('spending.deleteFabricWarehouseRow')}}</v-card-title>
         <v-card-text>
-          Are you sure you want to Delete fabric warehouse row?
+          {{$t('spending.areYouSureYouWantToDeleteFabricWarehouseRow')}}
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -293,7 +293,7 @@
             width="140"
             @click.stop="delete_dialog = false"
           >
-            cancel
+            {{$t('userManagement.dialog.cancel')}}
           </v-btn>
           <v-spacer/>
           <v-btn
@@ -304,7 +304,7 @@
             dark
             @click="deleteItem"
           >
-            delete
+             {{$t('userManagement.child.delete')}}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -313,7 +313,7 @@
     <v-dialog v-model="spend_dialog" width="500">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Spending fabric</div>
+          <div class="text-capitalize font-weight-bold">{{$t('spending.spendingFabric')}}</div>
           <v-btn icon color="#544B99" @click="spend_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -323,7 +323,7 @@
           <v-form ref="spend_form" v-model="spend_validate" lazy-validation>
             <v-row class="mx-0 px-0 mb-2 mt-4  pa-4 w-full" justify="start">
               <v-col cols="12" lg="6" md="3">
-                <div class="label">Order number</div>
+                <div class="label">{{$t('orderBox.index.orderNumber')}}</div>
                   <v-combobox
                     v-model="spend.orderId"
                     :items="ordersListSpend"
@@ -337,7 +337,7 @@
                     :return-object="true"
                     color="#544B99"
                     dense
-                    placeholder="Enter order number"
+                    :placeholder="$t('orderBox.index.orderNumber')"
                     prepend-icon=""
                   >
                     <template #append>
@@ -348,7 +348,7 @@
                   </v-combobox>
               </v-col>
               <v-col cols="12" lg="6" md="3">
-                <div class="label">Model number</div>
+                <div class="label">{{$t('prefinances.child.modelNumber')}}</div>
                   <v-combobox
                     v-model="spend.modelId"
                     :items="modelsListSpend"
@@ -362,7 +362,7 @@
                     :return-object="true"
                     color="#544B99"
                     dense
-                    placeholder="Enter model number"
+                    :placeholder="$t('prefinances.child.modelNumber')"
                     prepend-icon=""
                   >
                     <template #append>
@@ -373,7 +373,7 @@
                   </v-combobox>
               </v-col>
               <v-col cols="12" lg="6" md="3">
-                <div class="label">Accessory</div>
+                <div class="label">{{$t('catalogAccessory.dialog.accessory')}}</div>
                   <v-combobox
                     v-model="spend.accessoryIdTo"
                     :items="accessoriesSpendList"
@@ -387,7 +387,7 @@
                     :return-object="true"
                     color="#544B99"
                     dense
-                    placeholder="Enter accessory"
+                    :placeholder="$t('catalogAccessory.dialog.accessory')"
                     prepend-icon=""
                   >
                     <template #append>
@@ -398,7 +398,7 @@
                   </v-combobox>
               </v-col>
               <v-col cols="12" lg="6" md="3">
-                <div class="label">Specification</div>
+                <div class="label">{{$t('catalogAccessory.table.specification')}}</div>
                 <v-combobox
                     v-model="spend.accessoryIdTo"
                     :items="accessoriesSpendList"
@@ -412,7 +412,7 @@
                     :return-object="true"
                     color="#544B99"
                     dense
-                    placeholder="Enter accessory"
+                    :placeholder="$t('catalogAccessory.table.specification')"
                     prepend-icon=""
                   >
                     <template #append>
@@ -423,7 +423,7 @@
                   </v-combobox>
               </v-col>
               <v-col cols="12" lg="6" md="3">
-                <div class="label">Spending quantity</div>
+                <div class="label">{{$t('spending.spendingQuantity')}}</div>
                 <v-text-field
                 outlined
                 hide-details
@@ -431,7 +431,7 @@
                 class="rounded-lg base my-2" dense
                 :rules="[formRules.required]"
                 validate-on-blur
-                placeholder="Enter spending quantity"
+                :placeholder="$t('spending.spendingQuantity')"
                 color="#544B99"
                 v-model="spend.spendingQuantity"
               />
@@ -446,7 +446,7 @@
             width="130"
             @click="spend_dialog = false"
           >
-            cancel
+            {{$t('userManagement.dialog.cancel')}}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -454,7 +454,7 @@
             width="130"
             @click="saveSpending"
           >
-            save
+           {{$t('userManagement.child.save')}}
           </v-btn>
 
         </v-card-actions>
@@ -464,7 +464,7 @@
     <v-dialog v-model="history_dialog" max-width="800">
       <v-card flat>
         <v-card-title>
-          <div class="title">History</div>
+          <div class="title">{{$t('warehouseId.history')}}</div>
           <v-spacer/>
           <v-btn
             icon
@@ -491,7 +491,7 @@
     <v-dialog v-model="workshop_dialog" width="500">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Accessory giving to own workshop</div>
+          <div class="text-capitalize font-weight-bold">{{$t('warehouseId.accessoryGivingWork')}}</div>
           <v-btn icon color="#544B99" @click="workshop_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -520,7 +520,7 @@
                 </v-radio-group>
               </v-col>
               <v-col cols="12">
-                <div class="label">Quantity</div>
+                <div class="label">{{$t('planningProduction.planning.quantity')}}</div>
                 <v-text-field
                 :rules="[formRules.required]"
                 v-model="selectedItem.quantity"
@@ -528,7 +528,7 @@
                 hide-details
                 dense
                 class="rounded-lg base "
-                placeholder="Enter giving quantity"
+                :placeholder="$t('planningProduction.planning.quantity')"
                 color="#544B99"
               />
               </v-col>
@@ -542,7 +542,7 @@
             width="130"
             @click="workshop_dialog = false"
           >
-            cancel
+             {{$t('userManagement.dialog.cancel')}}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -550,7 +550,7 @@
             width="130"
             @click="saveWorkshop"
           >
-            save
+           {{$t('userManagement.child.save')}}
           </v-btn>
 
         </v-card-actions>
@@ -559,7 +559,7 @@
     <v-dialog v-model="subcontract_dialog" width="500">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Accessory giving to Subcontractor</div>
+          <div class="text-capitalize font-weight-bold">{{$t('warehouseId.accessoryGivingSub')}}</div>
           <v-btn icon color="#544B99" @click="subcontract_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -587,7 +587,7 @@
                 </v-radio-group>
               </v-col>
               <v-col cols="6" >
-                <div class="label">Partner</div>
+                <div class="label">{{$t('orderBox.modelPrint.partner')}}</div>
                 <v-combobox
                   v-model="subcontractor.partnerId"
                   :items="partnerList"
@@ -612,7 +612,7 @@
                 </v-combobox>
               </v-col>
               <v-col cols="6">
-                <div class="label">Quantity</div>
+                <div class="label">{{ $t('planningProduction.planning.quantity') }}</div>
                 <v-text-field
                 :rules="[formRules.required]"
                 v-model="subcontractor.quantity"
@@ -620,7 +620,7 @@
                 hide-details
                 dense
                 class="rounded-lg base "
-                placeholder="Enter giving quantity"
+                :placeholder="$t('planningProduction.planning.quantity')"
                 color="#544B99"
               />
               </v-col>
@@ -634,7 +634,7 @@
             width="130"
             @click="subcontract_dialog = false"
           >
-            cancel
+           {{$t('userManagement.dialog.cancel')}}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -642,7 +642,7 @@
             width="130"
             @click="saveSubcontract"
           >
-            save
+           {{$t('userManagement.child.save')}}
           </v-btn>
 
         </v-card-actions>
@@ -654,10 +654,10 @@
           <v-img src="/error-icon.svg" max-width="40" />
         </div>
         <v-card-title class="d-flex justify-center font-weight-bold"
-        >Are you sure ?</v-card-title
+        >{{$t('warehouseId.areYouSure')}}</v-card-title
         >
         <v-card-text>
-          You want to giving the current accessory to accessory stock ?
+          {{$t('warehouseId.want')}}
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -667,7 +667,7 @@
             width="135"
             @click.stop="giveSure_dialog = false"
           >
-            Cancel
+           {{$t('userManagement.dialog.cancel')}}
           </v-btn>
           <v-spacer />
           <v-btn
@@ -678,7 +678,7 @@
             dark
             @click="giveStock"
           >
-            Giving to stock
+         {{$t('warehouseId.givingStock ')}}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -746,17 +746,17 @@ export default {
       selectedItem:null,
 
       headers:[
-        {text: "Accessory name", value: "name", sortable: false},
-        {text: "Specification", value: "specification", sortable: false},
-        {text: "Ordered quantity", value: "orderedQuantity", sortable: false},
-        {text: "Delivered fact quantity", value: "deliveredQuantity", sortable: false, width:200},
-        {text: "Spent quantity", value: "spentQuantity", sortable: false},
-        {text: "Remaining quantity", value: "remainingQuantity", sortable: false},
-        {text: "Price per unit", value: "perUnitPrice", sortable: false},
-        {text: "Total price", value: "totalPrice", sortable: false},
-        {text: "Supplier name", value: "supplier", sortable: false},
-        {text: "Ordered date", value: "orderedDate", sortable: false},
-        {text: "Actions", value: "actions", sortable: false},
+        {text: this.$t('warehouseId.name'), value: "name", sortable: false},
+        {text: this.$t('warehouseId.specification'), value: "specification", sortable: false},
+        {text: this.$t('warehouseId.orderedQuantity'), value: "orderedQuantity", sortable: false},
+        {text: this.$t('warehouseId.deliveredQuantity'), value: "deliveredQuantity", sortable: false, width:200},
+        {text: this.$t('warehouseId.spentQuantity'), value: "spentQuantity", sortable: false},
+        {text: this.$t('warehouseId.remainingQuantity'), value: "remainingQuantity", sortable: false},
+        {text: this.$t('warehouseId.perUnitPrice'), value: "perUnitPrice", sortable: false},
+        {text: this.$t('warehouseId.totalPrice'), value: "totalPrice", sortable: false},
+        {text: this.$t('fabricOrderingBox.index.supplier'), value: "supplier", sortable: false},
+        {text: this.$t('warehouseId.orderedDate'), value: "orderedDate", sortable: false},
+        {text: this.$t('warehouseId.actions'), value: "actions", sortable: false},
 
       ],
       selectedItem:{},
