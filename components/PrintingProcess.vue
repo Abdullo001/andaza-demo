@@ -536,6 +536,7 @@ export default {
         const data={
           id:this.selectedItem.id,
           operationType:"FIRST_CLASS",
+          color:this.selectedItem.color,
           sizeDistributions:[...this.selectedItem.sizeDistributions]
         }
         this.updateCommonProcess(data)

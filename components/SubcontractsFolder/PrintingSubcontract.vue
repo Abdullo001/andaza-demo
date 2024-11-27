@@ -578,6 +578,7 @@ export default {
           pricePerWork:this.selectedSubcontract.pricePerWork,
           sentDate:this.selectedSubcontract.sentDate,
           operationType:"FIRST_CLASS",
+          color:this.selectedItem.color,
           sizeDistributions:[...this.selectedSubcontract.sizeDistributions],
         }
         this.updateCommonProcess(data)

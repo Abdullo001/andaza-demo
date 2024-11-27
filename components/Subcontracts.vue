@@ -830,7 +830,9 @@ export default {
           pricePerWork:this.subcontractsDetail.pricePerWork,
           id:this.subcontractsDetail.id,
           workDate:this.subcontractsDetail.workDate,
-          streamId: this.subcontractsDetail.streamId
+          streamId: this.subcontractsDetail.streamId,
+          color:this.subcontractsDetail.color,
+
         }
         this.setUpdateSizes(data);
       }

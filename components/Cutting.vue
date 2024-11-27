@@ -686,6 +686,7 @@ export default {
             size:item.size,
             quantity: item.quantity?item.quantity:0
           })),
+          color:this.selectedItem.color,
           streamId:this.selectedItem.streamId,
           workDate:this.selectedItem.workDate,
         }
