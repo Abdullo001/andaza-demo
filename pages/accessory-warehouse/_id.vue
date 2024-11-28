@@ -214,7 +214,7 @@
                 <v-img src="/cut-icon.svg" max-width="22"/>
               </v-btn>
             </template>
-            <span class="text-capitalize">{{$t('warehouseId.workshop')}}</span>
+            <span class="text-capitalize">{{$t('warehouseId.workShop')}}</span>
           </v-tooltip>
 
           <v-tooltip

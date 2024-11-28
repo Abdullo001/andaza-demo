@@ -33,7 +33,7 @@ export default {
     orders: "Orders",
     partnersType: "Partners type",
     boxSize: "Box Size",
-    modelGroups: "Model groups",
+    modelGroups: "Model categories",
     samplePurposes: "Sample purposes",
     bodyParts: "Body Parts",
     cooperationType: "Cooperation type",
@@ -45,13 +45,13 @@ export default {
     catalogGroups: "Catalog Groups",
     partners: "Partners",
     sizeTemplate: "Size",
-    canvasType: "Canvas Type",
+    canvasType: "Fabric Type",
     colors: "Colors",
     accessoryType: "Accessory Type",
     composition: "Composition",
-    printType: "Print type",
+    printType: "Artwork",
     process: "Process",
-    accessory: "Accessory",
+    accessory: "Accessories",
     planning: "Planning",
     fabric: "Fabric",
     fabricOrdering: "Fabric ordering",
@@ -66,14 +66,14 @@ export default {
     production: "Production",
     planningOfProduction: "Planning of production",
     workingOperations: "Working operations",
-    yarnNumbers: "Yarn number",
+    yarnNumbers: "Yarn ",
     composition: "Composition",
     notification: "Notification",
-    fabricRework: "Fabric rework",
-    inspection: "Inspection",
+    fabricRework: "Garment rework",
+    inspection: "Final inspection",
     ppg: "PPG",
     centralWarehouse: "Central warehouse",
-    department: "Department",
+    department: "Production departments",
     bankDetails:"Bank details"
   },
   appBar: {
@@ -205,7 +205,7 @@ export default {
       download: "Download",
       photosModels: "Photos of models",
       calculations: "Calculations",
-      create: "create",
+      create: "Create",
       newDetails: "New details",
       editDetails: "Edit details",
       updateBtn: "Update",
@@ -237,7 +237,7 @@ export default {
       },
     },
     dialog: {
-      refinanceNumber: "Calculation number",
+      refinanceNumber: "Calculation №",
       modelN: "Model №",
       partner: "Client",
       reset: "Reset",
@@ -340,7 +340,7 @@ export default {
       enterPermissionDescription: "Enter permission description",
       enterPermissionPath: "Enter permission path",
       cancel: "cancel",
-      create: "create",
+      create: "Create",
       editUser: "Edit user",
       selectStatus: "Select status",
       deleteDialog: "Delete Permission",
@@ -362,7 +362,7 @@ export default {
       roleId: "Role ID",
       roleName: "Role name",
       status: "Status",
-      createdAt: "Created at",
+      createdAt: "Created",
       reset: "Reset",
       search: "Search",
       role: "Role",
@@ -423,7 +423,7 @@ export default {
     dialog: {
       companyName: "Company name",
       status: "Status",
-      createdAt: "Created at",
+      createdAt: "Created",
       reset: "Reset",
       search: "Search",
       company: "Company",
@@ -669,7 +669,7 @@ export default {
 
   catalogsPartnerType: {
     child: {
-      idPartnerType: "Id partner type",
+      idPartnerType: "ID partner type",
       namePartnerType: "Name partner type",
       created: "Created",
       updated: "Updated",
@@ -677,11 +677,11 @@ export default {
       search: "Search",
     },
     table: {
-      id: "Id",
+      id: "ID",
       name: "Name",
       description: "Description",
-      createdAt: "Created At",
-      updatedAt: "Updated At",
+      createdAt: "Created",
+      updatedAt: "Updated",
       actions: "Actions",
     },
     dialog: {
@@ -702,7 +702,7 @@ export default {
 
   catalogsModelGroup: {
     child: {
-      idPartnerType: "Id model group",
+      idPartnerType: "ID model group",
       namePartnerType: "Name model group",
       created: "Created",
       updated: "Updated",
@@ -710,11 +710,11 @@ export default {
       search: "Search",
     },
     table: {
-      id: "Id",
+      id: "ID",
       name: "Name",
       description: "Description",
-      createdAt: "Created At",
-      updatedAt: "Updated At",
+      createdAt: "Created ",
+      updatedAt: "Updated ",
       actions: "Actions",
     },
 
@@ -736,7 +736,7 @@ export default {
 
   samplePurposes: {
     child: {
-      idSearch: "Id sample purpose",
+      idSearch: "ID sample purpose",
       name: "Name ",
       created: "Created",
       updated: "Updated",
@@ -745,11 +745,11 @@ export default {
     },
 
     table: {
-      id: "Id",
+      id: "ID",
       name: "Name",
       description: "Description",
-      createdAt: "Created At",
-      updatedAt: "Updated At",
+      createdAt: "Created ",
+      updatedAt: "Updated ",
       actions: "Actions",
       expenses: "Expenses",
     },
@@ -776,7 +776,7 @@ export default {
 
   bodyParts: {
     child: {
-      idSearch: "Id body parts",
+      idSearch: "ID body parts",
       name: "Name ",
       created: "Created",
       updated: "Updated",
@@ -785,11 +785,11 @@ export default {
     },
 
     table: {
-      id: "Id",
+      id: "ID",
       name: "Name",
       description: "Description",
-      createdAt: "Created At",
-      updatedAt: "Updated At",
+      createdAt: "Created ",
+      updatedAt: "Updated ",
       actions: "Actions",
     },
 
@@ -812,7 +812,7 @@ export default {
 
   cooperationType: {
     child: {
-      idSearch: "Id cooperation type",
+      idSearch: "ID cooperation type",
       name: "Name ",
       created: "Created",
       updated: "Updated",
@@ -821,11 +821,11 @@ export default {
     },
 
     table: {
-      id: "Id",
+      id: "ID",
       name: "Name",
       description: "Description",
-      createdAt: "Created At",
-      updatedAt: "Updated At",
+      createdAt: "Created ",
+      updatedAt: "Updated ",
       actions: "Actions",
     },
 
@@ -848,7 +848,7 @@ export default {
 
   expenseGroup: {
     child: {
-      idSearch: "Id Expense group",
+      idSearch: "ID Expense group",
       name: "Name ",
       created: "Created",
       updated: "Updated",
@@ -857,11 +857,11 @@ export default {
     },
 
     table: {
-      id: "Id",
+      id: "ID",
       name: "Name",
       description: "Description",
-      createdAt: "Created At",
-      updatedAt: "Updated At",
+      createdAt: "Created ",
+      updatedAt: "Updated ",
       actions: "Actions",
     },
 
@@ -886,7 +886,7 @@ export default {
 
   measurementUnit: {
     child: {
-      idSearch: "Id measurement unit",
+      idSearch: "ID measurement unit",
       name: "Name ",
       created: "Created",
       updated: "Updated",
@@ -895,11 +895,11 @@ export default {
     },
 
     table: {
-      id: "Id",
+      id: "ID",
       name: "Name",
       description: "Description",
-      createdAt: "Created At",
-      updatedAt: "Updated At",
+      createdAt: "Created ",
+      updatedAt: "Updated ",
       actions: "Actions",
     },
 
@@ -922,7 +922,7 @@ export default {
 
   packageType: {
     child: {
-      idSearch: "Id package type",
+      idSearch: "ID package type",
       name: "Name ",
       created: "Created",
       updated: "Updated",
@@ -931,11 +931,11 @@ export default {
     },
 
     table: {
-      id: "Id",
+      id: "ID",
       name: "Name",
       description: "Description",
-      createdAt: "Created At",
-      updatedAt: "Updated At",
+      createdAt: "Created ",
+      updatedAt: "Updated ",
       actions: "Actions",
     },
 
@@ -960,7 +960,7 @@ export default {
 
   catalogGroups: {
     child: {
-      idSearch: "Id catalog group",
+      idSearch: "ID catalog group",
       name: "Name ",
       created: "Created",
       updated: "Updated",
@@ -971,11 +971,11 @@ export default {
     },
 
     table: {
-      id: "Id",
+      id: "ID",
       name: "Group name",
       code: "Group code",
-      createdAt: "Created At",
-      updatedAt: "Updated At",
+      createdAt: "Created ",
+      updatedAt: "Updated ",
       actions: "Actions",
     },
 
@@ -997,44 +997,44 @@ export default {
       updated: "Updated date",
 
       save: "save",
-      canvasType: "Canvas Type",
+      canvasType: "Fabric type",
       yarnType: "Yarn type",
-      yarnNumber: "Yarn number",
+      yarnNumber: "Yarn ",
       composition: "Composition",
     },
 
     tabs: {
-      canvasType: "Canvas Type",
+      canvasType: "Fabric type",
       yarnType: "Yarn type",
-      yarnNumber: "Yarn number",
+      yarnNumber: "Yarn ",
       composition: "Composition",
 
       table: {
-        id: "Id",
+        id: "ID",
         name: "Name",
         code: "Catalog group code",
         groupName: "Catalog group name",
         description: "Description",
-        createdAt: "Created at",
-        updatedAt: "Updated at",
+        createdAt: "Created ",
+        updatedAt: "Updated ",
         actions: "Actions",
       },
     },
 
     canvasType: {
       dialogs: {
-        createCanvas: "Create Canvas Type",
-        selectCanvas: "Select canvas type",
-        specification: "Canvas type specification",
-        enterSpecification: "Enter Canvas type specification",
+        createCanvas: "Create Fabric type",
+        selectCanvas: "Select Fabric type",
+        specification: "Fabric type specification",
+        enterSpecification: "Enter Fabric type specification",
         description: "Description",
         enterDescription: "Enter description",
         cancelBtn: "Cancel",
         createBtn: "Create",
-        editCanvas: "Edit Canvas type",
+        editCanvas: "Edit Fabric type",
         saveBtn: "save",
-        deleteDialog: "Delete Canvas type",
-        deleteText: "Are you sure you want to Delete this Canvas type?",
+        deleteDialog: "Delete Fabric type",
+        deleteText: "Are you sure you want to Delete this Fabric type?",
         deleteBtn: "Delete",
       },
     },
@@ -1105,15 +1105,15 @@ export default {
     table: {
       mainMenu: "Partners",
       cooperationType: "Cooperation type",
-      id: "Id",
+      id: "ID",
       name: "Name",
-      address: "Addres",
+      address: "Address",
       email: "Email",
       partnerType: "Partner type",
       pNumber: "Phone number",
       status: "status",
-      createdAt: "Created at",
-      updatedAt: "Updated at",
+      createdAt: "Created",
+      updatedAt: "Updated",
       actions: "Actions",
       brandName: "Brand name",
       addBrandName: "Add brand name",
@@ -1129,8 +1129,8 @@ export default {
       pNumber: "Phone number",
       email: "Email",
       emailText: "Enter email",
-      addres: "Addres",
-      addresText: "Enter addres",
+      addres: "Address",
+      addresText: "Enter address",
       contractNumber: "Contract number",
       contractNumberText: "Enter contract number",
       download: "Download",
@@ -1154,7 +1154,7 @@ export default {
 
   sizeTemplate: {
     child: {
-      idSize: "Id size",
+      idSize: "ID size",
       sizeName: "Size name",
       created: "Created",
       Updated: "Updated",
@@ -1165,12 +1165,12 @@ export default {
     table: {
       mainMenu: "size template",
       addSizeTemplate: "Add Size Template",
-      id: "id",
+      id: "ID",
       sizes: "Sizes",
       isTem: "is Template",
       isRoman: "is Roman",
-      createdAt: "Created At",
-      updatedAt: "Updated at",
+      createdAt: "Created ",
+      updatedAt: "Updated ",
       actions: "Actions",
     },
 
@@ -1178,7 +1178,7 @@ export default {
       addSizeTemp: "Add Size Template",
       roman: "Roman",
       template: "Template",
-      size: "size",
+      sizes: "Sizes",
       selectSize: "Select size",
       addSize: "Add size",
       enterAddsize: "Enter add size",
@@ -1220,7 +1220,7 @@ export default {
       description: "Description",
     },
     dialog: {
-      accessory: "Accessory",
+      accessory: "Accessories",
       addAccessory: "Add Accessory",
       nameAccessory: "Name Accessory",
       enterNameAccessory: "Enter Name Accessory",
@@ -1232,17 +1232,17 @@ export default {
     },
   },
   canvasType: {
-    idCanvasType: "ID Canvas type",
+    idCanvasType: "ID Fabric type",
   },
   yarnNumber:{
-    idYarnNumber:"ID Yarn Number",
+    idYarnNumber:"Yarn ID",
     
 
   },
 
   composition: {
     child: {
-      idSearch: "Id composition",
+      idSearch: "ID composition",
       name: "Composition ",
       created: "Created",
       createdBy: "Created by",
@@ -1251,7 +1251,7 @@ export default {
     },
 
     table: {
-      id: "Id",
+      id: "ID",
       name: "Composition",
       description: "Description",
       created: "Created",
@@ -1278,7 +1278,7 @@ export default {
 
   printType: {
     child: {
-      idSearch: "Id print type",
+      idSearch: "ID print type",
       name: "Name ",
       created: "Created",
       createdBy: "Created by",
@@ -1287,7 +1287,7 @@ export default {
     },
 
     table: {
-      id: "Id",
+      id: "ID",
       name: "Name",
       description: "Description",
       created: "Created",
@@ -1313,7 +1313,7 @@ export default {
   },
   process: {
     child: {
-      idSearch: "Id working process",
+      idSearch: "ID working process",
       name: "Name ",
       created: "Created",
       createdBy: "Created by",
@@ -1322,7 +1322,7 @@ export default {
     },
 
     table: {
-      id: "Id",
+      id: "ID",
       name: "Name",
       description: "Description",
       created: "Created",
@@ -1373,8 +1373,8 @@ export default {
         recievedAccessories: "Recieved accessories",
         recievedAccessoriesSub:
           "All received accessories list of the current models",
-        inspectionFiles: "Inspection files",
-        inspectionFilesSub: "Inspection files of each model",
+        inspectionFiles: "Final inspection files",
+        inspectionFilesSub: "Final inspection files of each model",
         shipping: "Shipping",
         shippingSub: "Basic informations about shipped models",
         cutting: "Cutting form",
@@ -1387,7 +1387,7 @@ export default {
         productionStatus: "Production status",
         productionStatusSub:
           "Production information with status related to all models of one client",
-        dailyProduction: "Daily/Monthly production q-ty",
+        dailyProduction: "Daily/Monthly production quantity",
         dailyProductionSub:
           "Daily/monthly/annual production quantity information",
         cuttingSubcontractor: "Cuttings list of subcontractor",
@@ -1454,7 +1454,7 @@ export default {
     },
     printBox: {
       title: "Prints",
-      printType: "Print Type",
+      printType: "Artwork",
     },
     orderedFabrics: {
       title: "Ordered Fabric from",
@@ -1478,7 +1478,7 @@ export default {
     },
     inspectionFiles: {
       title: "Placed orders",
-      inspection: "Inspection file",
+      inspection: "Final inspection file",
       documentName: "Document name",
       description: "Description",
       actions: "Actions",
@@ -1506,8 +1506,8 @@ export default {
       client: "Client",
       style: " Style",
       category: " Category",
-      inspectionDate: "Inspection date",
-      daysLeftFl: "Days left Fl",
+      inspectionDate: "Final inspection date",
+      daysLeftFl: "Days left to FI",
       modelCreating: "Model creating",
       priceCalculation: " Price calculation",
       orderForming: "Oreder forming",
@@ -1532,11 +1532,11 @@ export default {
       selectPartnerContract:"Select partner contract",
       selectBrandName: "Select brand name",
       fabricName: "Fabric name",
-      enterCanvasType: "Enter canvas type",
+      enterCanvasType: "Enter Fabric type",
       composition: "Composition",
       mainFabricDensity: "Main fabric density",
       density: "Density",
-      inspectionDate: "Inspection date",
+      inspectionDate: "Final inspection date",
       plannedOrderQuality: "Planned order quality",
       enterPlannedOrderQuality: "Enter planned order quality",
       showDetail: "Show detail",
@@ -1547,15 +1547,15 @@ export default {
       modelParts: "Model parts",
       addPart: "Add part",
       partName: "Part name",
-      yarnNumber: "Yarn number",
-      canvasType: "Canvas type",
+      yarnNumber: "Yarn",
+      canvasType: "Fabric type",
       comment: "Comment",
       creator: "Creator",
       addModelPart: "Add model parts",
       enterBodyPart: "Enter body part",
       enterPartName: "Enter part name",
-      enterYarnNumber: "Enter yarn number",
-      enterCanvasType: "Enter canvas type",
+      enterYarnNumber: "Enter yarn",
+      enterCanvasType: "Enter Fabric type",
       enterComposition: "Enter composition",
       enterDescription: "Enter description",
     },
@@ -1574,12 +1574,12 @@ export default {
     printingBox: {
       printing: "Printing",
       photoModel: "Photo of model",
-      printType: "Print type",
+      printType: "Artwork",
       colorQuality: "Color quality",
       printPartnerName: "Print partner name",
       price: "Price",
       currency: "Currency",
-      simpleSendDate: "Simple send date",
+      simpleSendDate: "Sample sent date",
     },
     documentBox: {
       document: "Document",
@@ -1608,7 +1608,7 @@ export default {
   inspectionBox: {
     clientName: "Client name",
     plannedInspectionDate: "Planned inspection date",
-    inspectionDate: "Inspection date",
+    inspectionDate: "Final inspection date",
     titleDoc: "Title of document",
     model: "Model No",
     clientName: "Client name",
@@ -1641,7 +1641,7 @@ export default {
     },
     dialog: {
       colorDist: "Color/Size distribution",
-      modelPrints: "Model prints",
+      modelPrints: "Model artworks",
       contract: "Contract",
       detailInfo: "Detail info",
       documents: "Documents",
@@ -1656,10 +1656,10 @@ export default {
       cencel: "Cancel",
     },
     modelPrint: {
-      modelPrints: "Model prints",
+      modelPrints: "Model artworks",
       mainColor: "Main color",
       printPhoto: "Print photo",
-      printType: "Print type",
+      printType: "Artwork",
       colorQuantity: "Color quantity",
       pricePerDesign: "Price per design",
       quantity: "Quantity",
@@ -1667,13 +1667,13 @@ export default {
       partner: "Partner",
       description: "Description",
       creator: "Creator",
-      createdAt: "Created at",
-      addPrint: "Add Print",
+      createdAt: "Created",
+      addPrint: "Add Artwork",
       actions: "Actions",
-      addModelPrint: "Add Model Print",
+      addModelPrint: "Add Model artworks",
       mainColor: "Main Color",
       colorQuantity: "Color Quantity",
-      printType: "Print Type",
+      printType: "Artwork",
       partnerName: "Partner Name",
       price: "Price",
       currency: "Currency",
@@ -1706,8 +1706,8 @@ export default {
   },
   planning: {
     index: {
-      modelId: "Model Id",
-      orderId: "Order Id",
+      modelId: "Model ID",
+      orderId: "Order ID",
       updated: "Updated",
       fabric: "Fabric",
     },
@@ -1794,7 +1794,7 @@ export default {
       title: "Expense group",
       name: "Name",
       price: "Price (USD)",
-      quantity: "Q-ty (kg)",
+      quantity: "Quantity (kg)",
       noData: "No data available",
     },
   },
@@ -1869,7 +1869,7 @@ export default {
     productionQuantity: "Production quantity",
     enterProductionQuantity: "Enter production quantity",
     description: "Description",
-    enterCanvasType: "Enter Canvas type",
+    enterCanvasType: "Enter Fabric type",
     specification: "Specification",
     selectSpecification: "Select Specification",
     quantityPerUnit: "Quantity per unit",
@@ -1895,7 +1895,7 @@ export default {
     accessNameSpecification: "Access name and specification",
     status: "Status",
     producing: "Producing",
-    measurementUnit: "M/U",
+    measurementUnit: "Measurement unit",
     quantityForOnePiece: "Quantity for 1 pc",
     totalAccessory: "Total accessory",
     pricePerUnit: "Price per unit",
@@ -1914,8 +1914,8 @@ export default {
     id: {
       orderQuantity: "Order quantity",
       createdBy: "Created by",
-      createdAt: "Created at",
-      updatedAt: "Updated at",
+      createdAt: "Created ",
+      updatedAt: "Updated",
       updatedBy: "Updated by",
       enterCreator: "Enter creator",
       enterModifiedPerson: "Enter modified person",
@@ -1954,7 +1954,7 @@ export default {
     enterQuantity: "Enter quantity",
     description: "Description",
     enterDescription: "Enter description",
-    department: "Department",
+    department: "Production departments",
     sipNumber: "Sip number",
     specification: "Specification",
     enterSpecification: "Enter specification",
@@ -1963,7 +1963,7 @@ export default {
     cancel: "Cancel",
     save: "Save",
     productName: "Product name",
-    department: "Department",
+    department: "Production departments",
     supplier: "Supplier",
     specification: "Specification",
     quantity: "Quantity",
@@ -1985,9 +1985,9 @@ export default {
     fabricSpecification: "Fabric specification",
     color: "Color",
     receivedNettoWeight: "Fact received Netto weight",
-    givenToCutting: "Given to cutting",
+    givenToCutting: "Transferred to cutting",
     fabricStock: "Fabric Stock",
-    remainingQuantity: "Remaining q-ty in warehouse",
+    remainingQuantity: "Remaining quantity in warehouse",
     production: "Production",
     action: "Action",
     reset: "Reset",
@@ -2010,7 +2010,7 @@ export default {
     enterActualUnitPrice: "Enter actual unit price",
     cancel: "Cancel",
     save: "Save",
-    remainingQuantity: "Remaining q-ty",
+    remainingQuantity: "Remaining quantity",
     pricePerUnit: "Price P/U",
     totalPrice: "Total price",
   },
@@ -2051,7 +2051,7 @@ export default {
     orderNumber: "Order №",
     accessorySpecification: "Accessory specification",
     accessoryPhoto: "Accessory photo",
-    remainingQuantity: "Remaining q-ty",
+    remainingQuantity: "Remaining quantity",
     pricePerUnit: "Price P/U",
     totalPrice: "Total price",
     action: "Action",
@@ -2078,7 +2078,7 @@ export default {
       modelNo: "Model No.",
       orderNo: "Order No.",
       subconName: "Subcon. name",
-      createdAt: "Created at",
+      createdAt: "Created ",
       rgIncomeWithWaybill: "RG income with waybill",
       waybillNo: "Waybill No.",
       branchName: "Branch name",
@@ -2324,8 +2324,8 @@ export default {
     branchAddress: "Address of branch/subcontractor",
     date: "Date of waybill",
     creator: "Creator",
-    createdAt: "Created at",
-    updatedAt: "Updated at",
+    createdAt: "Created ",
+    updatedAt: "Updated ",
     save: "Save",
     waybills: "Waybills",
     no: "No.",
@@ -2368,7 +2368,7 @@ export default {
       overproductionsQuantity: "Overproductions quantity",
       sewedBy: "Sewed by",
       createdBy: "Created by",
-      createdAt: "Created at",
+      createdAt: "Created ",
       action: "Action",
       addGarments: "Add Garments",
     },
@@ -2461,7 +2461,7 @@ export default {
       receiver: "Receiver",
       checkedBy: "Checked by",
       creator: "Creator",
-      createdAt: "Created at",
+      createdAt: "Created ",
       enterWaybillNo: "Enter waybill No.",
       enterSenderFrom: "Enter sender from",
       enterPosition: "Enter position",
@@ -2579,7 +2579,7 @@ export default {
     toBatchNo: "To Batch No",
     doneBy: "Done by",
     warehouseOperations: "Warehouse operations",
-    operationId: "Operation Id",
+    operationId: "Operation ID",
     quantity: "Quantity",
     fabricGivingToOwnWorkshop: "Fabric giving to own workshop",
     givingFabricQuantity: "Giving fabric quantity",
