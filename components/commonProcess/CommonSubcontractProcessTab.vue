@@ -618,6 +618,7 @@ export default {
             size:item.size,
             quantity: item.quantity?item.quantity:0
           })),
+          color:this.selectedItem.color,
           workDate:this.selectedSubcontract.workDate,
           streamId: this.selectedSubcontract.streamId
         }
