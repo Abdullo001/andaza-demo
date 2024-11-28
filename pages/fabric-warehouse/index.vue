@@ -962,9 +962,7 @@ export default {
       this.getPartnerList({page:0, size:10,partnerName:val});
     },
     sipNumberSearch(val){
-      if(!!val){
-        this.getSipNumbers(val);
-      }
+      this.getSipNumbers({page:0,size:10,sipNumber:val});
     },
     fabricWarehouseList(val) {
       this.current_list = JSON.parse(JSON.stringify(val));
@@ -983,7 +981,7 @@ export default {
   },
 
   created() {
-    this.getSipNumbers("");
+    this.getSipNumbers({page:0,size:10});
     this.getToSipNumbers();
     this.getPartnerList({page:0, size:10});
   },
