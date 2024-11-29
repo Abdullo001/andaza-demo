@@ -97,7 +97,7 @@
     :footer-props="{
       itemsPerPageOptions: [10, 20, 50, 100],
     }"
-    @click:row="(item) => $router.push(localePath(`/accessory/${item.id}`))"
+    @click:row="(item) => viewDetail(item)"
   >
       <template #top>
         <v-toolbar elevation="0">
@@ -118,7 +118,7 @@
             <v-btn
               icon color="#544B99"
               v-on="on" v-bind="attrs"
-              @click="$router.push(localePath(`/accessory/${item.id}`))"
+              @click="viewDetail(item)"
             >
               <v-icon>mdi-chevron-right</v-icon>
             </v-btn>
@@ -198,7 +198,10 @@ export default {
       const data = {...this.filters};
       this.itemPrePage = value;
       this.getAccessoryList({page: 0, size: this.itemPrePage,data});
-
+    },
+    viewDetail(item){
+      this.$router.push(this.localePath(`/accessory/${item.id}`))
+      this.$store.commit("accessoryChart/setSelectedAccessory",item)
     },
     async filterBtn() {
       const data = {...this.filters};
@@ -224,6 +227,7 @@ export default {
 
     addOrder() {
       this.$router.push(this.localePath(`/accessory/create`));
+      this.$store.commit("accessoryChart/setSelectedAccessory",{})
     },
   },
 

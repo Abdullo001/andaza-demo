@@ -9,7 +9,7 @@
       show-select
       color="#544b99"
       hide-default-footer
-      item-key="planningChartId"
+      item-key="accessoryPlanningChartId"
     >
       <!-- Select all checkbox in header -->
       <template v-slot:[`header.data-table-select`]="{ props, on }">
@@ -25,16 +25,16 @@
       <template v-slot:item.data-table-select="{item, isSelected, select }">
         <div :class="{'checkbox-warning': showAlert && item.status !== 'ORDERED'}">
           <v-simple-checkbox
-            v-if="item.status !== 'ORDERED'"
+            v-if="!item.plannedOrderStatus || item.plannedOrderStatus==='PENDING'"
             :value="isSelected"
-            :disabled="item.status === 'ORDERED'"
+            :disabled="item.plannedOrderStatus || item.plannedOrderStatus==='PENDING'"
             color="#544B99"
             @input="(value) => handleRowSelect(value, select)"
           />
           <v-simple-checkbox
             v-else
             :value="true"
-            :disabled="item.status === 'ORDERED'"
+            :disabled="!item.plannedOrderStatus || item.plannedOrderStatus!=='PENDING'"
             color="#544B99"
             @input="(value) => handleRowSelect(value, select)"
           />
@@ -91,6 +91,16 @@
           </v-card-text>
         </v-card>
       </template>
+      <template #item.accessoryPhoto="{item}">
+        <v-img
+        v-if="!!item.accessoryPhoto"
+        :src="item?.accessoryPhoto"
+        class="mr-2"
+        width="40"
+        height="40"
+        @click="showImage(item.accessoryPhoto)"
+      />
+      </template>
 
       <template #item.deadline="{ item }">
         {{ formatLong(item.deadline) }}
@@ -98,11 +108,11 @@
 
       <template #item.status="{ item }">
         <v-select
-          :background-color="statusColor.fabricOrderedStatus(item.status)"
+          :background-color="statusColor.fabricOrderedStatus(item.plannedOrderStatus)"
           :items="status_enums"
           @change="changeStatusFunc(item)"
           append-icon="mdi-chevron-down"
-          v-model="item.status"
+          v-model="item.plannedOrderStatus"
           hide-details
           class="mt-n2"
           rounded
@@ -153,6 +163,19 @@
         {{ $t('fabricOrderingBox.plannedAccessoryOrderBox.order') }}
       </v-btn>
     </div>
+    <v-dialog max-width="590" v-model="image_dialog">
+      <v-card >
+        <v-card-title class="d-flex">
+          <v-spacer/>
+          <v-btn icon color="#544B99" large @click="image_dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text>
+          <v-img :src="currentImage" height="500" class="mb-4" contain/>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -172,25 +195,14 @@ export default {
           sortable: false,
           value: "deadline",
         },
-        { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.orderNumber'), value: "orderNumber", sortable: false },
-        { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.modelNumber'), value: "modelNumber", sortable: false },
-        { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.client'), value: "client", sortable: false },
-        { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.supplierName'), value: "supplierName", sortable: false },
-        {
-          text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.accessNameSpecification'),
-          value: "accessNameAndSpecification",
-          sortable: false,
-          width: "200",
-        },
-        { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.status'), value: "status", sortable: false, width: 200 },
-        { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.producing'), value: "producingQuantity", sortable: false },
-        { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.measurementUnit'), value: "producingQuantityMUnit", sortable: false },
-        { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.quantityForOnePiece'), value: "quantityOnePc", sortable: false },
-        { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.measurementUnit'), value: "quantityOnePcUnit", sortable: false },
-        { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.totalAccessory'), value: "totalAccessory", sortable: false },
+        { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.supplierName'), value: "supplier", sortable: false },
+        { text: "Name and Specification", value: "accessNameAndSpecification", sortable: false, width: 200 },
+        { text:this.$t('fabricOrderingBox.addAccessoryBox.accessoryPhoto'), value: "accessoryPhoto", sortable:false },
+        { text: "M/U", value: "measurementUnit", sortable:false },
         { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.pricePerUnit'), value: "pricePerUnit", sortable: false },
-        { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.orderingQuantity'), value: "orderedQuantity", sortable: false, width: 150 },
+        { text: "Actual order quantity of acc", value: "actualOrderQuantity", sortable: false },
         { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.totalPrice'), value: "totalPrice", sortable: false },
+        { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.status'), value: "status", sortable: false, width: 200 },
       ],
       details: {
         partnerName: "",
@@ -200,6 +212,8 @@ export default {
       allPlannerOrder: [],
       new_valid: true,
       selectedItems: [],
+      currentImage:"",
+      image_dialog:false,
     };
   },
   created(){
@@ -215,14 +229,65 @@ export default {
       plannedOrderList: "accessoryOrder/plannedOrderList",
       modelId: "accessory/newId",
       partnerWithTypes: "partners/partnerWithTypes",
+      sizes: "sizeDistribution/sizes",
+      selectedAccessory: "accessoryChart/selectedAccessory",
     }),
   },
   watch: {
-    plannedOrderList(val) {
-      this.allPlannerOrder = JSON.parse(JSON.stringify(val));
+    plannedOrderList(list) {
+      const specialList = list.map(function (el) {
+        const value = {};
+        const sizesList = [];
+        el?.sizeDistributions?.forEach((item) => {
+          value[item.size] = item.quantity
+          sizesList.push({size: item.size, quantity: item.quantity})
+        });
+
+        return {
+          ...value,
+          ...el,
+          sizeDistributions: [...sizesList],
+
+        }
+      })
+      this.allPlannerOrder = JSON.parse(JSON.stringify(specialList));
     },
     accessoryData(val) {
       this.getPlannedOrderList({ id: val.id });
+    },
+    sizes(val){
+      const items=[]
+      this.headers= [
+        {
+          text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.deadline'),
+          align: "start",
+          sortable: false,
+          value: "deadline",
+        },
+        { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.supplierName'), value: "supplier", sortable: false },
+        { text: "Name and Specification", value: "accessNameAndSpecification", sortable: false, width: 200 },
+        { text:this.$t('fabricOrderingBox.addAccessoryBox.accessoryPhoto'), value: "accessoryPhoto", sortable:false },
+        { text: "M/U", value: "measurementUnit", sortable:false },
+        { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.pricePerUnit'), value: "pricePerUnit", sortable: false },
+      ],
+      val.forEach((item)=>{
+        items.push(
+          {
+            size:item,
+            quantity:null,
+          }
+        )
+        this.headers.push({
+          text: item, sortable: false, align: 'start', value: item
+        })
+      })
+      this.sizeDistributions=JSON.parse(JSON.stringify(items))
+
+      this.headers.push(
+        { text: "Actual order quantity of acc", value: "actualOrderQuantity", sortable: false },
+        { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.totalPrice'), value: "totalPrice", sortable: false },
+        { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.status'), value: "status", sortable: false, width: 200 },
+      )
     },
   },
   methods: {
@@ -231,6 +296,7 @@ export default {
       createPlanningOrder: "accessoryOrder/createPlanningOrder",
       changeStatus: "accessoryOrder/changeStatus",
       getPartnersWithTypes: "partners/getPartnersWithTypes",
+      getSizeDistribution: "sizeDistribution/getSizeDistribution",
     }),
     handleRowSelect(value, select) {
       select(value);
@@ -252,6 +318,10 @@ export default {
         this.savePlanningOrder();
       }
     },
+    showImage(photo) {
+      this.currentImage = photo;
+      this.image_dialog = true;
+    },
     handleCheckboxChange() {
       this.$nextTick(() => {
         if (this.hasSelectedItems) {
@@ -268,7 +338,7 @@ export default {
         deliveryTime: this.details.deliveryTime,
         partnerId: this.details.partnerName.id,
         planningOrderRequests: planningOrderRequests.map(item=>({
-          chartId:item.planningChartId,
+          chartId:item.accessoryPlanningChartId,
           orderedQuantity:item.orderedQuantity
         })),
       };
@@ -287,6 +357,8 @@ export default {
   mounted() {
     const id = this.$route.params.id;
     this.getPlannedOrderList(id !== "create" ? id : this.$store.getters["accessory/newId"]);
+    this.getSizeDistribution({modelId:this.selectedAccessory.modelId})
+
   },
 };
 </script>

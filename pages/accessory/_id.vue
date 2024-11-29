@@ -571,6 +571,7 @@ export default {
           modelId: this.accessoryDetail.modelId,
           orderId: this.accessoryDetail.orderId,
         });
+        this.$store.commit("accessoryChart/setSelectedAccessory",this.accessoryDetail)
       } else if (this.title === "Edit") {
         await this.updatePlanningAccessory({
 

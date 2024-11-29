@@ -4,13 +4,15 @@ export const state = () => ({
   specificationData:[],
   accessoryAllData: [],
   colorsList: [],
+  selectedAccessory:{},
 })
 export const getters = {
   loading: state => state.loading,
   nameData: state => state.nameData,
   specificationData: state => state.specificationData,
   accessoryAllData: state => state.accessoryAllData,
-  colorsList: state => state.colorsList
+  colorsList: state => state.colorsList,
+  selectedAccessory: state => state.selectedAccessory,
 }
 export const mutations = {
   setLoading(state, status) {
@@ -27,7 +29,10 @@ export const mutations = {
   },
   setColorList(state, items){
     state.colorsList=items
-  }
+  },
+  setSelectedAccessory(state, items){
+    state.selectedAccessory=items
+  },
 }
 export const actions = {
   async deleteChartAccessory({dispatch}, {id, accessoryPlanningId}){
@@ -45,7 +50,7 @@ export const actions = {
     await this.$axios.$put(`/api/v1/accessory-planning-charts/${accessoryPlanningChartId}`, data)
       .then(res => {
         dispatch("getChartAllData", id);
-        this.$toast.success(res.message);
+        this.$toast.success(res.code);
       })
       .catch(({response}) => {
         console.log(response)
@@ -57,11 +62,10 @@ export const actions = {
     await this.$axios.$post('/api/v1/accessory-planning-charts', data)
       .then(res => {
         dispatch("getChartAllData", id);
-        this.$toast.success(res.data.code);
+        this.$toast.success(res.code);
       })
       .catch(({response}) => {
         console.log(response)
-        this.$toast.error(response.data.message)
       })
   },
 

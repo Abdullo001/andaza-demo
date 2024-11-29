@@ -154,6 +154,31 @@
           v-model="item.deliveredQuantity"
         />
       </template>
+      <template #item.sizes="{ item }">
+        <table style="width: 100% !important">
+          <thead>
+            <tr>
+              <th
+                class="mr-2"
+                v-for="(el, idx) in item.sizeDistributions"
+                :key="`${el.size}-${idx}`"
+              >
+                {{ el.size }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                v-for="(el, idx) in item.sizeDistributions"
+                :key="`${el.size}` + `${idx}`"
+              >
+                {{ el.quantity }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </template>
 
       <template #item.actions="{item}">
         <div class="d-flex ">
@@ -258,9 +283,15 @@
           
         </div>
       </template>
-
-      
-
+      <template #item.accessoryPhoto="{item}">
+        <v-img
+        v-if="!!item.accessoryPhoto"
+        :src="item?.accessoryPhoto"
+        class="mr-2"
+        width="40"
+        height="40"
+      />
+      </template>
     </v-data-table>
     <div class="d-flex mt-4">
       <v-spacer />
@@ -488,7 +519,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="workshop_dialog" width="500">
+    <v-dialog v-model="workshop_dialog" width="700">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">{{$t('warehouseId.accessoryGivingWork')}}</div>
@@ -531,6 +562,36 @@
                 :placeholder="$t('planningProduction.planning.quantity')"
                 color="#544B99"
               />
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" class="d-flex align-center ">
+                <v-simple-checkbox
+                  color="#544B99"
+                  v-model="withSizes"
+                ></v-simple-checkbox>
+                <div class="">
+                  Quantity by Sizes
+                </div>
+              </v-col>
+            </v-row>
+            <v-row v-if="withSizes">
+              <v-col v-for="(item,idx) in selectedItem.editableSizeDistributions" :key="idx" cols="3">
+                <div class="label">{{ item.size }}</div>
+                <v-text-field
+                  v-model="item.quantity"
+                  :rules="[formRules.onlyNumber, formRules.required]"
+                  single-line
+                  outlined
+                  hide-details
+                  height="44"
+                  validate-on-blur
+                  dense
+                  class="rounded-lg base"
+                  color="#544B99"
+                  background-color="#F8F4FE"
+                  placeholder="0"
+                />
               </v-col>
             </v-row>
           </v-form>
@@ -623,6 +684,36 @@
                 :placeholder="$t('planningProduction.planning.quantity')"
                 color="#544B99"
               />
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" class="d-flex align-center ">
+                <v-simple-checkbox
+                  color="#544B99"
+                  v-model="withSizes"
+                ></v-simple-checkbox>
+                <div class="">
+                  Quantity by Sizes
+                </div>
+              </v-col>
+            </v-row>
+            <v-row v-if="withSizes">
+              <v-col v-for="(item,idx) in subcontractor.editableSizeDistributions" :key="idx" cols="3">
+                <div class="label">{{ item.size }}</div>
+                <v-text-field
+                  v-model="item.quantity"
+                  :rules="[formRules.onlyNumber, formRules.required]"
+                  single-line
+                  outlined
+                  hide-details
+                  height="44"
+                  validate-on-blur
+                  dense
+                  class="rounded-lg base"
+                  color="#544B99"
+                  background-color="#F8F4FE"
+                  placeholder="0"
+                />
               </v-col>
             </v-row>
           </v-form>
@@ -746,13 +837,14 @@ export default {
       selectedItem:null,
 
       headers:[
-        {text: this.$t('warehouseId.name'), value: "name", sortable: false},
+        {text: this.$t('warehouseId.name'), value: "accessoryName", sortable: false},
         {text: this.$t('warehouseId.specification'), value: "specification", sortable: false},
+        {text: "Accessory photo", value: "accessoryPhoto", sortable: false},
         {text: this.$t('warehouseId.orderedQuantity'), value: "orderedQuantity", sortable: false},
         {text: this.$t('warehouseId.deliveredQuantity'), value: "deliveredQuantity", sortable: false, width:200},
+        {text: "Remaing quantity", value: "sizes", sortable: false, width:300, align:"center"},
         {text: this.$t('warehouseId.spentQuantity'), value: "spentQuantity", sortable: false},
-        {text: this.$t('warehouseId.remainingQuantity'), value: "remainingQuantity", sortable: false},
-        {text: this.$t('warehouseId.perUnitPrice'), value: "perUnitPrice", sortable: false},
+        {text: this.$t('warehouseId.perUnitPrice'), value: "price", sortable: false},
         {text: this.$t('warehouseId.totalPrice'), value: "totalPrice", sortable: false},
         {text: this.$t('fabricOrderingBox.index.supplier'), value: "supplier", sortable: false},
         {text: this.$t('warehouseId.orderedDate'), value: "orderedDate", sortable: false},
@@ -768,6 +860,7 @@ export default {
       subcontractor:{
         partnerId:null,
       },
+      withSizes:false,
 
       historyHeaders:[
         {text: "Date", value: "createdAt", sortable: false},
@@ -851,8 +944,23 @@ export default {
       }
     },
 
-    accessoriesDetailList(val){
-      this.accessoryList=JSON.parse(JSON.stringify(val))
+    accessoriesDetailList(list){
+      const specialList = list.map(function (el) {
+        const value = {};
+        const sizesList = [];
+        el?.sizeDistributions?.forEach((item) => {
+          value[item.size] = item.quantity
+          sizesList.push({size: item.size, quantity: null})
+        });
+
+        return {
+          ...value,
+          ...el,
+          editableSizeDistributions: [...sizesList],
+        }
+      })
+      this.accessoryList=JSON.parse(JSON.stringify(specialList))
+
     },
 
     historyServerList(list){
@@ -893,7 +1001,7 @@ export default {
     },
     setDeliviredQuantity(item){
       const data={
-        warehouseId:item.warehouseId,
+        warehouseId:item.accessoryWarehouseId,
         deliveredQuantity:item.deliveredQuantity
       }
       this.setDelivered({data,modelId:this.filters.modelId?.id,orderId:this.filters.orderId?.id})
@@ -919,7 +1027,7 @@ export default {
     },
 
     giveSureStock(item) {
-      this.selectedWarehouseId = item.warehouseId;
+      this.selectedWarehouseId = item.accessoryWarehouseId;
       this.giveSure_dialog = true;
     },
 
@@ -952,7 +1060,7 @@ export default {
     },
     getHistory(item){
       this.history_dialog=true
-      this.getHistoryList(item.warehouseId)
+      this.getHistoryList(item.accessoryWarehouseId)
     },
     workshopFunc(item){
       this.workshop_dialog=true
@@ -962,24 +1070,44 @@ export default {
       const data={
         process:this.selectedItem.process,
         quantity:this.selectedItem.quantity,
-        warehouseId:this.selectedItem.warehouseId,
+        accessoryWarehouseId:this.selectedItem.accessoryWarehouseId,
       }
+      data.sizeDistributions=[]
+        if(this.withSizes){
+          data.sizeDistributions=this.selectedItem.editableSizeDistributions.map((item)=>({
+            size:item.size,
+            quantity: item.quantity?item.quantity:0
+          }))
+        }
       await this.giveOwn({data,modelId:this.filters.modelId?.id,orderId:this.filters.orderId?.id})
       this.workshop_dialog=false
 
       await this.$refs.workshop_form.reset()
+      this.withSizes=false
     },
     subcontractorFunc(item){
-      this.subcontractor.warehouseId=item.warehouseId
+      this.subcontractor={...item}
       this.subcontract_dialog=true
     },
 
     async saveSubcontract(){
-      const data={...this.subcontractor}
+      const data={
+        process:this.subcontractor.process,
+        quantity:this.subcontractor.quantity,
+        accessoryWarehouseId:this.subcontractor.accessoryWarehouseId,
+      }
+      data.sizeDistributions=[]
+        if(this.withSizes){
+          data.sizeDistributions=this.subcontractor.editableSizeDistributions.map((item)=>({
+            size:item.size,
+            quantity: item.quantity?item.quantity:0
+          }))
+        }
       data.partnerId=this.subcontractor.partnerId?.id
       await this.giveSubcontractor({data,modelId:this.filters.modelId?.id,orderId:this.filters.orderId?.id})
       this.subcontract_dialog=false
       await this.$refs.subcontractor_form.reset()
+      this.withSizes=false
     },
 
   },

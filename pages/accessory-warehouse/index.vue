@@ -58,6 +58,7 @@
       class="mt-4 rounded-lg pt-4"
       :headers="headers"
       :items="accessoryList"
+      :server-items-length="totalElements"
       :items-per-page="10"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100],
@@ -200,6 +201,7 @@ export default {
   computed: {
     ...mapGetters({
       accessoryList: "accessoryWarehouse/accessoryList",
+      totalElements: "accessoryWarehouse/totalElements",
     }),
   },
   methods: {
