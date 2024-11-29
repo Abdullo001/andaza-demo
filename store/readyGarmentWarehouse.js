@@ -156,4 +156,14 @@ export const actions={
         this.$toast.error(response.message)
       })
   },
+  giveGarmentStock({commit, dispatch}, data) {
+    this.$axios.post(`/api/v1/ready-garment-operation/give-garment-stock`, data)
+      .then(res => {
+        this.$toast.success(res.message)
+        dispatch("getWarehouseListEachSort", {warehouseId:data.readyGarmentWarehouseId,operationType:"FIRST_CLASS"})
+      })
+      .catch(({response}) => {
+        this.$toast.error(response.message)
+      })
+  },
 }

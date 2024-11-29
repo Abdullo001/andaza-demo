@@ -7,7 +7,7 @@
       :items="items"
       :items-per-page="10"
       :footer-props="{
-          itemsPerPageOptions: [10, 20, 50, 100],
+        itemsPerPageOptions: [10, 20, 50, 100],
       }"
     >
       <template #top>
@@ -15,12 +15,8 @@
           <div class="title mt-0 ma-4">1-sort</div>
         </v-card>
       </template>
-      <template #item.actions="{item}">
-        <v-tooltip
-          top
-          color="#544B99"
-          class="pointer"
-        >
+      <template #item.actions="{ item }">
+        <v-tooltip top color="#544B99" class="pointer">
           <template #activator="{ on, attrs }">
             <v-btn
               icon
@@ -29,16 +25,12 @@
               color="#544B99"
               @click="showHistory(item)"
             >
-              <v-img src="/history.svg" max-width="21"/>
+              <v-img src="/history.svg" max-width="21" />
             </v-btn>
           </template>
           <span class="text-capitalize">History</span>
         </v-tooltip>
-        <v-tooltip
-          top
-          color="#544B99"
-          class="pointer"
-        >
+        <v-tooltip top color="#544B99" class="pointer">
           <template #activator="{ on, attrs }">
             <v-btn
               icon
@@ -47,10 +39,29 @@
               color="#544B99"
               @click="shippingBtn(item)"
             >
-              <v-img src="/car.svg" max-width="21"/>
+              <v-img src="/car.svg" max-width="21" />
             </v-btn>
           </template>
           <span class="text-capitalize">Shipping</span>
+        </v-tooltip>
+        <v-tooltip
+          top
+          color="#544B99"
+          class="pointer"
+          v-if="Object.keys(item).length > 2"
+        >
+          <template #activator="{ on, attrs }">
+            <v-btn
+              icon
+              v-bind="attrs"
+              v-on="on"
+              color="#544B99"
+              @click="openWarningDialog(item)"
+            >
+              <v-img src="/warehouse.svg" max-width="22" />
+            </v-btn>
+          </template>
+          <span class="text-capitalize">Send garment stock</span>
         </v-tooltip>
       </template>
     </v-data-table>
@@ -59,12 +70,8 @@
       <v-card flat>
         <v-card-title>
           <div class="title">History</div>
-          <v-spacer/>
-          <v-btn
-            icon
-            @click="history_dialog=false"
-            color="#544B99"
-          >
+          <v-spacer />
+          <v-btn icon @click="history_dialog = false" color="#544B99">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -74,7 +81,7 @@
             hide-default-footer
             :items="historyList"
             class="mt-4 rounded-lg"
-            style="border: 1px solid #E9EAEB"
+            style="border: 1px solid #e9eaeb"
           >
           </v-data-table>
         </v-card-text>
@@ -91,7 +98,12 @@
         <v-card-text class="mt-4">
           <v-form ref="edit_form" v-model="shipping_validate" lazy-validation>
             <v-row>
-              <v-col cols="12" lg="3" v-for="(item, idx) in selectedItem.sizeDistributions" :key="`_cutting_${idx}`">
+              <v-col
+                cols="12"
+                lg="3"
+                v-for="(item, idx) in selectedItem.sizeDistributions"
+                :key="`_cutting_${idx}`"
+              >
                 <div class="label">{{ item.size }}</div>
                 <v-text-field
                   v-model="item.quantity"
@@ -99,7 +111,7 @@
                   outlined
                   hide-details
                   height="44"
-                  class="rounded-lg base "
+                  class="rounded-lg base"
                   validate-on-blur
                   dense
                   color="#544B99"
@@ -138,7 +150,8 @@
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
-            outlined color="#544B99"
+            outlined
+            color="#544B99"
             width="130"
             @click="shipping_dialog = false"
           >
@@ -146,7 +159,8 @@
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
-            color="#544B99" dark
+            color="#544B99"
+            dark
             width="130"
             @click="save"
           >
@@ -155,52 +169,99 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <WarningDialog v-bind="warningDate" />
   </div>
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import shipping from "@/pages/shipping/index.vue";
 
 export default {
-  name: 'SortOne',
+  name: "SortOne",
   data() {
     return {
-      history_dialog:'',
+      history_dialog: "",
       shipping_validate: true,
       shippingInvoice: "",
       selectedItem: {
         shippingId: null,
         warehouseId: null,
       },
+      selectedGarment: {},
       headers: [
-        {text: this.$t('orderBox.modelPrint.mainColor'), align: 'start', sortable: false, value: 'mainColors'},
-        {text: this.$t('readyWarehouse.readyGarments.total'), align: 'start', sortable: false, value: 'total'},
-        {text: this.$t('prefinances.child.detailsHeaders.price'), align: 'start', sortable: false, value: 'price'},
-        {text:  this.$t('prefinances.child.totalPrice'), align: 'start', sortable: false, value: 'totalPrice'},
-        {text: this.$t('userManagement.table.actions'), align: 'end', sortable: false, value: 'actions'},
+        {
+          text: this.$t("orderBox.modelPrint.mainColor"),
+          align: "start",
+          sortable: false,
+          value: "mainColors",
+        },
+        {
+          text: this.$t("readyWarehouse.readyGarments.total"),
+          align: "start",
+          sortable: false,
+          value: "total",
+        },
+        {
+          text: this.$t("prefinances.child.detailsHeaders.price"),
+          align: "start",
+          sortable: false,
+          value: "price",
+        },
+        {
+          text: this.$t("prefinances.child.totalPrice"),
+          align: "start",
+          sortable: false,
+          value: "totalPrice",
+        },
+        {
+          text: this.$t("userManagement.table.actions"),
+          align: "end",
+          sortable: false,
+          value: "actions",
+        },
       ],
-      historyHeaders:[
-        {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
+      historyHeaders: [
+        { text: "Date", sortable: false, align: "start", value: "createdDate" },
 
-        {text: 'Done By', sortable: false, align: 'center', value: 'createdBy'},
+        {
+          text: "Done By",
+          sortable: false,
+          align: "center",
+          value: "createdBy",
+        },
       ],
-      historyList:[],
+      historyList: [],
 
       items: [],
       shippingItem: {
         shippingId: null,
       },
       shipping_dialog: false,
-    }
+      warningState: false,
+      warningText:
+        "Are you sure you want to transfer this model item to garment stock?",
+    };
   },
-  computed:{
+  computed: {
     ...mapGetters({
-      firstClassList:"readyGarmentWarehouse/firstClassList",
-      historyServerList:"readyGarmentWarehouse/historyList",
+      firstClassList: "readyGarmentWarehouse/firstClassList",
+      historyServerList: "readyGarmentWarehouse/historyList",
       shippingInvoiceList: "shipping/shippingInvoiceList",
       giveShipping: "readyGarmentWarehouse/giveShipping",
-    })
+    }),
+    warningDate: {
+      get() {
+        return {
+          dialogState: this.warningState,
+          voidFunction: this.sendGarmentStock,
+          dialogCloser: () => {
+            this.warningState = false;
+          },
+          dialogText: this.warningText,
+        };
+      },
+    },
   },
 
   created() {
@@ -211,8 +272,8 @@ export default {
     });
   },
 
-  watch:{
-    "shippingItem.shippingId"(val){
+  watch: {
+    "shippingItem.shippingId"(val) {
       this.selectedItem.shippingId = val?.id;
     },
     shippingInvoice(val) {
@@ -224,114 +285,176 @@ export default {
         });
       }
     },
-    firstClassList(list){
-      list.forEach((item)=>{
-        this.headers= [
-          {text:  this.$t('orderBox.modelPrint.mainColor'), sortable: false, align: 'start', value: 'colorSpecification'},
-        ],
-
-      list[0]?.sizeDistributionList?.forEach((item) => {
-          this.headers.push({
-            text: item.size, sortable: false, align: 'start', value: item.size
-          })
-        })
+    firstClassList(list) {
+      list.forEach((item) => {
+        (this.headers = [
+          {
+            text: this.$t("orderBox.modelPrint.mainColor"),
+            sortable: false,
+            align: "start",
+            value: "colorSpecification",
+          },
+        ]),
+          list[0]?.sizeDistributionList?.forEach((item) => {
+            this.headers.push({
+              text: item.size,
+              sortable: false,
+              align: "start",
+              value: item.size,
+            });
+          });
 
         this.headers.push(
-          {text: this.$t('readyWarehouse.productDetails.producedTotal'), sortable: false, align: 'start', value: 'total'},
-          {text:this.$t('prefinances.child.detailsHeaders.price'), sortable: false, align: 'start', value: 'price'},
-          {text: this.$t('prefinances.child.totalPrice'), sortable: false, align: 'start', value: 'totalPrice'},
-          {text: this.$t('userManagement.table.actions'),sortable: false, align: 'start', value: 'actions'},
-        )
+          {
+            text: this.$t("readyWarehouse.productDetails.producedTotal"),
+            sortable: false,
+            align: "start",
+            value: "total",
+          },
+          {
+            text: this.$t("prefinances.child.detailsHeaders.price"),
+            sortable: false,
+            align: "start",
+            value: "price",
+          },
+          {
+            text: this.$t("prefinances.child.totalPrice"),
+            sortable: false,
+            align: "start",
+            value: "totalPrice",
+          },
+          {
+            text: this.$t("userManagement.table.actions"),
+            sortable: false,
+            align: "start",
+            value: "actions",
+            width: 180,
+          }
+        );
         const specialList = list.map(function (el) {
           const value = {};
           const sizesList = [];
           el?.sizeDistributionList.forEach((item) => {
-            value[item.size] = item.quantity
-            sizesList.push({size: item.size, quantity: 0})
+            value[item.size] = item.quantity;
+            sizesList.push({ size: item.size, quantity: 0 });
           });
 
           return {
             ...value,
             ...el,
             sizeDistributions: [...sizesList],
-
-          }
-        })
-        this.items = JSON.parse(JSON.stringify(specialList))
-      })
+          };
+        });
+        this.items = JSON.parse(JSON.stringify(specialList));
+      });
     },
-    historyServerList(list){
-      this.historyHeaders = [
-        {text: 'Date', sortable: false, align: 'start', value: 'createdDate'},
-      ],
+    historyServerList(list) {
+      (this.historyHeaders = [
+        { text: "Date", sortable: false, align: "start", value: "createdDate" },
+      ]),
         list[0]?.sizeDistributionList?.forEach((item) => {
           this.historyHeaders.push({
-            text: item.size, sortable: false, align: 'start', value: item.size
-          })
-        })
+            text: item.size,
+            sortable: false,
+            align: "start",
+            value: item.size,
+          });
+        });
       this.historyHeaders.push(
-        {text: 'Total', sortable: false, align: 'center', value: 'total'},
-        {text: 'Done By', sortable: false, align: 'center', value: 'createdBy'},
-
-      )
+        { text: "Total", sortable: false, align: "center", value: "total" },
+        {
+          text: "Done By",
+          sortable: false,
+          align: "center",
+          value: "createdBy",
+        }
+      );
       const specialList = list.map(function (el) {
         const value = {};
         const sizesList = [];
         el?.sizeDistributionList.forEach((item) => {
-          value[item.size] = item.quantity
-          sizesList.push({size: item.size, quantity: item.quantity})
+          value[item.size] = item.quantity;
+          sizesList.push({ size: item.size, quantity: item.quantity });
         });
         return {
           ...el,
           ...value,
           sizeDistributions: [...sizesList],
-        }
-      })
-      this.historyList = JSON.parse(JSON.stringify(specialList))
-    }
+        };
+      });
+      this.historyList = JSON.parse(JSON.stringify(specialList));
+    },
   },
 
-  methods:{
+  methods: {
     ...mapActions({
-      getWarehouseListEachSort:"readyGarmentWarehouse/getWarehouseListEachSort",
-      getWarehouseHistoryList:"readyGarmentWarehouse/getWarehouseHistoryList",
+      getWarehouseListEachSort:
+        "readyGarmentWarehouse/getWarehouseListEachSort",
+      getWarehouseHistoryList: "readyGarmentWarehouse/getWarehouseHistoryList",
       getShippingInvoiceList: "shipping/getShippingInvoiceList",
-      putGiveShipping: "readyGarmentWarehouse/putGiveShipping"
+      putGiveShipping: "readyGarmentWarehouse/putGiveShipping",
+      giveGarmentStock: "readyGarmentWarehouse/giveGarmentStock",
     }),
-    showHistory(item){
-      const id =this.$route.params.id
-      this.getWarehouseHistoryList({warehouseId:id,operationType:"FIRST_CLASS",color:item.colorSpecification})
-      this.history_dialog=true
+    openWarningDialog(item) {
+      this.selectedGarment = { ...item };
+      this.warningState = true;
+    },
+    sendGarmentStock() {
+      const id = this.$route.params.id;
+      const data = {
+        colorCode: "",
+        entityId: this.selectedGarment.entityId,
+        mainColor:  this.selectedGarment.colorSpecification,
+        readyGarmentWarehouseId: id,
+        sellingPrice: this.extractNumber(this.selectedGarment.price),
+        sellingPriceCurrency: this.selectedGarment.currency,
+        sizeDistributions: this.selectedGarment.sizeDistributionList,
+      };
+      this.giveGarmentStock(data);
+      this.warningState=false
+    },
+    showHistory(item) {
+      const id = this.$route.params.id;
+      this.getWarehouseHistoryList({
+        warehouseId: id,
+        operationType: "FIRST_CLASS",
+        color: item.colorSpecification,
+      });
+      this.history_dialog = true;
     },
     shippingBtn(item) {
       this.shipping_dialog = true;
-      this.selectedItem = {...item};
-      this.selectedItem.status="editProcess";
+      this.selectedItem = { ...item };
+      this.selectedItem.status = "editProcess";
     },
-    save(){
-      const id=this.$route.params.id
-      if(this.selectedItem.status==="editProcess"){
+    save() {
+      const id = this.$route.params.id;
+      if (this.selectedItem.status === "editProcess") {
         let data = {
           colorSpecification: this.selectedItem.colorSpecification,
           warehouseId: id,
           sizeDistributions: [...this.selectedItem.sizeDistributions],
           shippingId: this.selectedItem.shippingId,
-        }
-        this.putGiveShipping({data, warehouseId: id, operationType: "FIRST_CLASS"});
+        };
+        this.putGiveShipping({
+          data,
+          warehouseId: id,
+          operationType: "FIRST_CLASS",
+        });
         this.shipping_dialog = false;
-        this.shippingInvoice = ''
+        this.shippingInvoice = "";
       }
-    }
+    },
   },
 
-  mounted(){
-    const id=this.$route.params.id
-    this.getWarehouseListEachSort({warehouseId:id,operationType:"FIRST_CLASS"})
-  }
-
-}
+  mounted() {
+    const id = this.$route.params.id;
+    this.getWarehouseListEachSort({
+      warehouseId: id,
+      operationType: "FIRST_CLASS",
+    });
+  },
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
