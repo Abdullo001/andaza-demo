@@ -51,7 +51,7 @@
       </template>
     </v-data-table>
 
-    <v-dialog v-model="new_dialog" width="580">
+    <v-dialog v-model="new_dialog" width="700">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold"> {{  $t('fabricOrderingBox.addAccessoryBox.addAccessory')}}</div>
@@ -62,7 +62,7 @@
         <v-card-text class="mt-4">
           <v-form ref="new_form" lazy-validation v-model="validate">
             <v-row>
-              <v-col cols="12" md="6">
+              <v-col cols="5" >
                 <div class="label"> {{  $t('fabricOrderingBox.addAccessoryBox.name')}}</div>
                 <v-combobox
                   v-model="create_accessory_chart.accessoryId"
@@ -87,7 +87,7 @@
                   </template>
                 </v-combobox>
               </v-col>
-              <v-col cols="12" md="6">
+              <v-col cols="4" >
                 <div class="label">{{  $t('fabricOrderingBox.addAccessoryBox.specification') }}</div>
                 <v-select
                   :disabled="!create_accessory_chart.accessoryId"
@@ -104,51 +104,8 @@
                   :rules="[formRules.required]"
                 />
               </v-col>
-              <v-col cols="12" md="6">
-                <div class="label">{{  $t('fabricOrderingBox.addAccessoryBox.pricePerUnit') }}</div>
-                <div class="d-flex align-center">
-                  <v-text-field
-                    v-model="create_accessory_chart.accessoryPricePerUnit"
-                    outlined
-                    hide-details
-                    height="44"
-                    class="rounded-lg base rounded-l-lg rounded-r-0"
-                    placeholder="0.0"
-                    dense
-                    color="#544B99"
-                    :rules="[formRules.required]"
-                  />
-                  <v-select
-                    :items="currency_enums"
-                    style="max-width: 100px"
-                    outlined
-                    hide-details
-                    height="44"
-                    dense
-                    v-model="create_accessory_chart.accessoryPricePerCurrency"
-                    class="rounded-lg base rounded-r-lg rounded-l-0"
-                    append-icon="mdi-chevron-down"
-                    color="#544B99"
-                    :rules="[formRules.required]"
-                  />
-                </div>
-              </v-col>
-              <v-col cols="12" md="6">
-                <div class="label">{{  $t('fabricOrderingBox.addAccessoryBox.quantityPerUnit') }}</div>
-                <v-text-field
-                  v-model="create_accessory_chart.quantity"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  :placeholder="$t('fabricOrderingBox.addAccessoryBox.quantityPerUnit')"
-                  dense
-                  color="#544B99"
-                  :rules="[formRules.required]"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <div class="label">{{ $t('fabricOrderingBox.addAccessoryBox.measurementUnit') }}</div>
+              <v-col cols="3" >
+                <div class="label">M/U</div>
                 <v-select
                   :items="nameData"
                   v-model="create_accessory_chart.accessoryId"
@@ -166,34 +123,155 @@
                   :rules="[formRules.required]"
                 />
               </v-col>
-              <v-col cols="12" md="6">
-                <div class="label">{{$t('fabricOrderingBox.addAccessoryBox.wastage')}}</div>
+              
+              <v-col cols="5">
+                <div class="label">1 unit for how many products</div>
                 <v-text-field
-                  v-model="create_accessory_chart.wastage"
+                  v-model="create_accessory_chart.quantityPerUnit"
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  :placeholder="$t('fabricOrderingBox.addAccessoryBox.wastage')"
+                  placeholder="0"
+                  dense
+                  color="#544B99"
+                  :rules="[formRules.required,formRules.onlyNumber]"
+                />
+              </v-col>
+              <v-col cols="4">
+                <div class="label">Counted accessory quantity</div>
+                <v-text-field
+                  v-model="create_accessory_chart.countedAccessoryQuantity"
+                  disabled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  placeholder="0"
                   dense
                   color="#544B99"
                   :rules="[formRules.required]"
                 />
               </v-col>
-              <v-col cols="12" md="6">
-                <div class="label">{{ $t('fabricOrderingBox.addAccessoryBox.productionQuantity') }}</div>
+              <v-col cols="3">
+                <div class="label">Order quantity</div>
                 <v-text-field
-                  v-model="create_accessory_chart.productionQuantity"
+                  v-model="oneOrder.totalQuantityWithOverProduction"
+                  disabled
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  :placeholder="$t('fabricOrderingBox.addAccessoryBox.productionQuantity') "
+                  :placeholder="$t('fabricOrderingBox.addAccessoryBox.quantityPerUnit')"
                   dense
                   color="#544B99"
                   :rules="[formRules.required]"
                 />
               </v-col>
+              
+              <v-col cols="5" class="d-flex ">
+                <div class="mr-2">
+                  <div class="label">{{$t('fabricOrderingBox.addAccessoryBox.wastage')}} %</div>
+                  <v-text-field
+                    v-model="create_accessory_chart.wastage"
+                    outlined
+                    hide-details
+                    height="44"
+                    class="rounded-lg base"
+                    placeholder="0"
+                    dense
+                    color="#544B99"
+                    :rules="[formRules.required]"
+                  />
+                </div>
+                <div>
+                  <div class="label">With wastage</div>
+                  <v-text-field
+                    v-model="create_accessory_chart.wastageWithPercent"
+                    outlined
+                    hide-details
+                    height="44"
+                    class="rounded-lg base"
+                    placeholder="0"
+                    dense
+                    color="#544B99"
+                    disabled
+                  />
+                </div>
+              </v-col>
+              <v-col cols="4">
+                <div class="label">Actual order quantity</div>
+                <v-text-field
+                  v-model="create_accessory_chart.actualOrderQuantity"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  placeholder="0"
+                  dense
+                  color="#544B99"
+                  :rules="[formRules.required]"
+                />
+              </v-col>
+              <v-col cols="3">
+                <div class="label">{{  $t('fabricOrderingBox.addAccessoryBox.pricePerUnit') }}</div>
+                <div class="d-flex align-center">
+                  <v-text-field
+                    v-model="create_accessory_chart.price"
+                    outlined
+                    hide-details
+                    height="44"
+                    class="rounded-lg base rounded-l-lg rounded-r-0"
+                    placeholder="0.0"
+                    dense
+                    color="#544B99"
+                    :rules="[formRules.required]"
+                  />
+                  <v-select
+                    :items="currency_enums"
+                    style="max-width: 100px"
+                    outlined
+                    hide-details
+                    height="44"
+                    dense
+                    v-model="create_accessory_chart.currency"
+                    class="rounded-lg base rounded-r-lg rounded-l-0"
+                    append-icon="mdi-chevron-down"
+                    color="#544B99"
+                    :rules="[formRules.required]"
+                  />
+                </div>
+              </v-col>
+              <v-col cols="12" class="d-flex align-center ">
+                <v-simple-checkbox
+                  color="#544B99"
+                  v-model="withSizes"
+                ></v-simple-checkbox>
+                <div class="">
+                  Quantity by Sizes
+                </div>
+              </v-col>
+            </v-row>
+            <v-row v-if="withSizes">
+              <v-col v-for="(item,idx) in this.sizeDistributions" :key="idx" cols="3">
+                <div class="label">{{ item.size }}</div>
+                <v-text-field
+                  v-model="item.quantity"
+                  :rules="[formRules.onlyNumber, formRules.required]"
+                  single-line
+                  outlined
+                  hide-details
+                  height="44"
+                  validate-on-blur
+                  dense
+                  class="rounded-lg base"
+                  color="#544B99"
+                  background-color="#F8F4FE"
+                  placeholder="0"
+                />
+              </v-col>
+            </v-row>
+            <v-row>
               <v-col cols="12">
                 <div class="label">{{ $t('fabricOrderingBox.addAccessoryBox.description')  }}</div>
                 <v-textarea
@@ -205,33 +283,6 @@
                   dense
                   color="#544B99"
                 />
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="6">
-                <div class="big__image overflow-hidden relative " >
-                  <input
-                    ref="uploaderFirst"
-                    class="d-none"
-                    type="file"
-                    @change="(e)=>firstFileChanged(e)"
-                    accept="image/*"
-                  />
-
-
-                  <v-img
-                    :src="create_accessory_chart.accessoryId?.accessoryPhoto"
-                    v-if="!!create_accessory_chart.accessoryId?.accessoryPhoto"
-                    lazy-src="/model-image.jpg"
-                     width="100%"
-                    @click="showImage(images[0].photo)"
-                  />
-
-                  <div class="default__box" v-else>
-                    <v-img src="/default-image.svg" width="70"/>
-                  </div>
-
-                </div>
               </v-col>
             </v-row>
           </v-form>
@@ -251,14 +302,14 @@
             color="#544B99"
             dark
             width="163"
-            @click="create"
+            @click="createAccessoryChart"
           >
             {{ $t('billingCompany.dialog.add') }}
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="edit_dialog" width="580">
+    <v-dialog v-model="edit_dialog" width="700">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">Edit Accessory</div>
@@ -269,41 +320,163 @@
         <v-card-text class="mt-4">
           <v-form ref="edit_form">
             <v-row>
-              <v-col cols="12" md="6">
-                <div class="label">Name</div>
-                <v-text-field
-                  v-model="edit_accessory_chart.name"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  disabled
-                  placeholder="Select Name"
-                  dense
-                  append-icon="mdi-chevron-down"
+              <v-col cols="5" >
+                <div class="label"> {{  $t('fabricOrderingBox.addAccessoryBox.name')}}</div>
+                <v-combobox
+                  v-model="edit_accessory_chart.accessoryId"
+                  :items="nameData"
+                  :return-object="true"
+                  :search-input.sync="accessorySearch"
+                  class="rounded-lg base d-flex align-center justify-center mb-4"
                   color="#544B99"
-                />
+                  dense
+                  disabled
+                  height="44"
+                  hide-details
+                  item-text="name"
+                  item-value="id"
+                  outlined
+                  :placeholder="$t('accessoryWarehouse.accessoryName')"
+                  prepend-icon=""
+                >
+                  <template #append>
+                    <v-icon class="d-inline-block" color="#544B99">
+                      mdi-magnify
+                    </v-icon>
+                  </template>
+                </v-combobox>
               </v-col>
-              <v-col cols="12" md="6">
-                <div class="label">Specification</div>
-                <v-text-field
+              <v-col cols="4" >
+                <div class="label">{{  $t('fabricOrderingBox.addAccessoryBox.specification') }}</div>
+                <v-select
+                  disabled
                   v-model="edit_accessory_chart.specification"
+                  :items="edit_accessory_chart.accessoryId?.specification"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :placeholder=" $t('fabricOrderingBox.addAccessoryBox.selectSpecification')"
+                  dense
+                  append-icon="mdi-chevron-down"
+                  color="#544B99"
+                  :rules="[formRules.required]"
+                />
+              </v-col>
+              <v-col cols="3" >
+                <div class="label">M/U</div>
+                <v-select
+                  :items="nameData"
+                  v-model="edit_accessory_chart.accessoryId"
+                  item-text="measurementUnit"
+                  disabled
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :placeholder="$t('fabricOrderingBox.addAccessoryBox.selectMeasurementUnit')"
+                  dense
+                  append-icon="mdi-chevron-down"
+                  color="#544B99"
+                  :rules="[formRules.required]"
+                />
+              </v-col>
+              
+              <v-col cols="5">
+                <div class="label">1 unit for how many products</div>
+                <v-text-field
+                  v-model="edit_accessory_chart.quantityPerUnit"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  placeholder="0"
+                  dense
+                  color="#544B99"
+                  :rules="[formRules.required,formRules.onlyNumber]"
+                />
+              </v-col>
+              <v-col cols="4">
+                <div class="label">Counted accessory quantity</div>
+                <v-text-field
+                  v-model="edit_accessory_chart.countedAccessoryQuantity"
                   disabled
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  placeholder="Select Specification"
+                  placeholder="0"
                   dense
-                  append-icon="mdi-chevron-down"
                   color="#544B99"
+                  :rules="[formRules.required]"
                 />
               </v-col>
-              <v-col cols="12" md="6">
-                <div class="label">Price per unit</div>
+              <v-col cols="3">
+                <div class="label">Order quantity</div>
+                <v-text-field
+                  v-model="oneOrder.totalQuantityWithOverProduction"
+                  disabled
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :placeholder="$t('fabricOrderingBox.addAccessoryBox.quantityPerUnit')"
+                  dense
+                  color="#544B99"
+                  :rules="[formRules.required]"
+                />
+              </v-col>
+              
+              <v-col cols="5" class="d-flex ">
+                <div class="mr-2">
+                  <div class="label">{{$t('fabricOrderingBox.addAccessoryBox.wastage')}} %</div>
+                  <v-text-field
+                    v-model="edit_accessory_chart.wastage"
+                    outlined
+                    hide-details
+                    height="44"
+                    class="rounded-lg base"
+                    placeholder="0"
+                    dense
+                    color="#544B99"
+                    :rules="[formRules.required]"
+                  />
+                </div>
+                <div>
+                  <div class="label">With wastage</div>
+                  <v-text-field
+                    v-model="edit_accessory_chart.wastageWithPercent"
+                    outlined
+                    hide-details
+                    height="44"
+                    class="rounded-lg base"
+                    placeholder="0"
+                    dense
+                    color="#544B99"
+                    disabled
+                  />
+                </div>
+              </v-col>
+              <v-col cols="4">
+                <div class="label">Actual order quantity</div>
+                <v-text-field
+                  v-model="edit_accessory_chart.actualOrderQuantity"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  placeholder="0"
+                  dense
+                  color="#544B99"
+                  :rules="[formRules.required]"
+                />
+              </v-col>
+              <v-col cols="3">
+                <div class="label">{{  $t('fabricOrderingBox.addAccessoryBox.pricePerUnit') }}</div>
                 <div class="d-flex align-center">
                   <v-text-field
-                    v-model="edit_accessory_chart.pricePerUnit"
+                    v-model="edit_accessory_chart.price"
                     outlined
                     hide-details
                     height="44"
@@ -320,7 +493,7 @@
                     hide-details
                     height="44"
                     dense
-                    v-model="edit_accessory_chart.pricePerUnitCurrency"
+                    v-model="edit_accessory_chart.currency"
                     class="rounded-lg base rounded-r-lg rounded-l-0"
                     append-icon="mdi-chevron-down"
                     color="#544B99"
@@ -328,103 +501,25 @@
                   />
                 </div>
               </v-col>
-              <v-col cols="12" md="6">
-                <div class="label">Quantity</div>
-                <v-text-field
-                  v-model="edit_accessory_chart.quantity"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  placeholder="Enter Quantity"
-                  dense
-                  color="#544B99"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <div class="label">Measurement unit</div>
-                <v-select
-                  :items="nameData"
-                  v-model="edit_accessory_chart.accessoryId"
-                  item-text="measurementUnit"
-                  item-value="id"
-                  disabled
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  placeholder="Select Measurement unit"
-                  dense
-                  append-icon="mdi-chevron-down"
-                  color="#544B99"
-                  :rules="[formRules.required]"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <div class="label">Wastage</div>
-                <v-text-field
-                  v-model="edit_accessory_chart.wastage"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  placeholder="Enter Wastage"
-                  dense
-                  color="#544B99"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <div class="label">Production quantity</div>
-                <v-text-field
-                  v-model="edit_accessory_chart.productionQuantity"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  placeholder="Enter production quantity"
-                  dense
-                  color="#544B99"
-                  :rules="[formRules.required]"
-                />
-              </v-col>
-              <v-col cols="12">
-                <div class="label">Description</div>
-                <v-textarea
-                  v-model="edit_accessory_chart.description"
-                  outlined
-                  hide-details
-                  class="rounded-lg base"
-                  placeholder="Enter description"
-                  dense
-                  color="#544B99"
-                />
-              </v-col>
+              
             </v-row>
-            <v-row>
-              <v-col cols="6">
-                <div class="big__image overflow-hidden relative " >
-                  <input
-                    ref="uploaderFirst"
-                    class="d-none"
-                    type="file"
-                    @change="(e)=>firstFileChanged(e)"
-                    accept="image/*"
-                  />
-
-
-                  <v-img
-                    :src="edit_accessory_chart.accessoryPhoto"
-                    v-if="!!edit_accessory_chart.accessoryPhoto"
-                    lazy-src="/model-image.jpg"
-                     width="100%"
-                    @click="showImage(edit_accessory_chart.accessoryPhoto)"
-                  />
-
-                  <div class="default__box" v-else>
-                    <v-img src="/default-image.svg" width="70"/>
-                  </div>
-
-                </div>
+            <v-row >
+              <v-col v-for="(item,idx) in edit_accessory_chart.sizeDistributions" :key="idx" cols="3">
+                <div class="label">{{ item.size }}</div>
+                <v-text-field
+                  v-model="item.quantity"
+                  :rules="[formRules.onlyNumber, formRules.required]"
+                  single-line
+                  outlined
+                  hide-details
+                  height="44"
+                  validate-on-blur
+                  dense
+                  class="rounded-lg base"
+                  color="#544B99"
+                  background-color="#F8F4FE"
+                  placeholder="0"
+                />
               </v-col>
             </v-row>
           </v-form>
@@ -512,15 +607,12 @@ export default {
     return {
       validate: true,
       accessorySearch:"",
+      withSizes:false,
       create_accessory_chart: {
         specification: null,
         accessoryId: null,
         accessoryPlanningId: null,
-        accessoryPricePerCurrency: "",
-        accessoryPricePerUnit: "",
         description: "",
-        quantity: "",
-        color:"",
         wastage: "",
       },
       edit_accessory_chart: {
@@ -532,17 +624,14 @@ export default {
       new_dialog: false,
       delete_dialog: false,
       headers: [
-        { text: this.$t('fabricOrderingBox.addAccessoryBox.name'), value: "name" },
-        { text: this.$t('fabricOrderingBox.addAccessoryBox.specification'), value: "specification" },
-        { text: this.$t('fabricOrderingBox.addAccessoryBox.pricePerUnit'), value: "pricePerUnit" },
-        { text: this.$t('fabricOrderingBox.id.currency'), value: "pricePerUnitCurrency" },
-        { text:this.$t('fabricOrderingBox.addAccessoryBox.accessoryPhoto'), value: "accessoryPhoto" },
-        { text: this.$t('fabricOrderingBox.addAccessoryBox.quantity'), value: "quantity" },
-        { text: "M/U", value: "quantityUnitName" },
-        { text: this.$t('fabricOrderingBox.addAccessoryBox.wastage'), value: "wastage" },
-        { text: this.$t('fabricOrderingBox.addAccessoryBox.productionQuantity'), value: "productionQuantity" },
-        { text: this.$t('fabricOrderingBox.addAccessoryBox.totalAccessory'), value: "totalAccessory" },
-        { text: this.$t('fabricOrderingBox.addAccessoryBox.description'), value: "description" },
+        { text: this.$t('fabricOrderingBox.addAccessoryBox.name'), value: "accessoryName", sortable:false },
+        { text: this.$t('fabricOrderingBox.addAccessoryBox.specification'), value: "specification", sortable:false },
+        { text:this.$t('fabricOrderingBox.addAccessoryBox.accessoryPhoto'), value: "accessoryPhoto", sortable:false },
+        { text: "M/U", value: "measurementUnit", sortable:false },
+        { text: this.$t('fabricOrderingBox.addAccessoryBox.pricePerUnit'), value: "pricePerUnit", sortable:false },
+        { text: "Actual order quantity", value: "actualOrderQuantity",sortable:false },
+        { text: this.$t('fabricOrderingBox.addAccessoryBox.wastage'), value: "wastage", sortable:false },
+        { text: "Total price", value: "totalPrice", sortable:false },
         { text: this.$t('fabricOrderingBox.addAccessoryBox.actions'), value: "actions", align: "center", sortable: false , width: 150},
       ],
       items:[],
@@ -561,18 +650,8 @@ export default {
       ],
       currentImage:"",
       image_dialog:false,
+      sizeDistributions:[],
     };
-  },
-  watch: {
-    newId(val){
-      this.accessoryId=val
-    },
-    accessoryAllData(val){
-      this.items=JSON.parse(JSON.stringify(val))
-    },
-    accessorySearch(val){
-      this.getAccessoryList({page:0,size:10,name:val});
-    }
   },
   created() {
     this.getMeasurementUnit({ page: 0, size: 20 });
@@ -580,12 +659,15 @@ export default {
   },
   computed: {
     ...mapGetters({
-      accessoryData: "accessory/accessoryData",
+      accessoryData: "accessory/oneData",
       measurementUnit: "measurement/measurementUnit",
       nameData: "catalogAccessory/accessory_list",
       accessoryAllData: "accessoryChart/accessoryAllData",
       specificationData: "accessoryChart/specificationData",
       newId: "accessory/newId",
+      sizes: "sizeDistribution/sizes",
+      selectedAccessory: "accessoryChart/selectedAccessory",
+      oneOrder: "orders/oneOrder",
     }),
     checkId() {
       const param = this.$route.params.id;
@@ -595,8 +677,80 @@ export default {
       } else return false
     }
   },
+  watch: {
+    sizes(val){
+      const items=[]
+      this.headers= [
+        { text: this.$t('fabricOrderingBox.addAccessoryBox.name'), value: "accessoryName", sortable:false },
+        { text: this.$t('fabricOrderingBox.addAccessoryBox.specification'), value: "specification", sortable:false },
+        { text:this.$t('fabricOrderingBox.addAccessoryBox.accessoryPhoto'), value: "accessoryPhoto", sortable:false },
+        { text: "M/U", value: "measurementUnit", sortable:false },
+        { text: this.$t('fabricOrderingBox.addAccessoryBox.pricePerUnit'), value: "pricePerUnit", sortable:false },
+      ],
+      val.forEach((item)=>{
+        items.push(
+          {
+            size:item,
+            quantity:null,
+          }
+        )
+        this.headers.push({
+          text: item, sortable: false, align: 'start', value: item
+        })
+      })
+      this.sizeDistributions=JSON.parse(JSON.stringify(items))
 
-  
+      this.headers.push(
+        { text: "Actual order quantity", value: "actualOrderQuantity", sortable:false },
+        { text: this.$t('fabricOrderingBox.addAccessoryBox.wastage'), value: "wastage", sortable:false },
+        { text: "Total price", value: "totalPrice", sortable:false },
+        { text: this.$t('fabricOrderingBox.addAccessoryBox.actions'), value: "actions", align: "center", sortable: false , width: 150},
+      )
+    },
+    selectedAccessory(val){
+      this.getSizeDistribution({modelId:val.modelId})
+      this.getOneOrder({id:val.orderId,modelId:val.modelId})
+    },
+    newId(val){
+      this.accessoryId=val
+    },
+    accessoryAllData(list){
+      const specialList = list.map(function (el) {
+        const value = {};
+        const sizesList = [];
+        el?.sizeDistributions?.forEach((item) => {
+          value[item.size] = item.quantity
+          sizesList.push({size: item.size, quantity: item.quantity})
+        });
+
+        return {
+          ...value,
+          ...el,
+          sizeDistributions: [...sizesList],
+
+        }
+      })
+      this.items=JSON.parse(JSON.stringify(specialList))
+    },
+    accessorySearch(val){
+      this.getAccessoryList({page:0,size:10,name:val});
+    },
+    "create_accessory_chart.quantityPerUnit"(val){
+      if(/^\d+$/.test(val)){
+        this.create_accessory_chart.countedAccessoryQuantity=Math.ceil(this.oneOrder.totalQuantityWithOverProduction/val)
+      }else{
+        this.create_accessory_chart.countedAccessoryQuantity=null
+      }
+    },
+    "create_accessory_chart.wastage"(val){
+      if(/^\d+$/.test(val) && /^\d+$/.test(this.create_accessory_chart.countedAccessoryQuantity)){
+        this.create_accessory_chart.wastageWithPercent=Math.ceil(this.create_accessory_chart.countedAccessoryQuantity*(1+val/100))
+      }else{
+        this.create_accessory_chart.wastageWithPercent=null
+      }
+    },
+
+  },
   methods: {
     ...mapActions({
       getMeasurementUnit: "measurement/getMeasurementUnit",
@@ -605,6 +759,8 @@ export default {
       updateChartAccessory: "accessoryChart/updateChartAccessory",
       deleteChartAccessory: "accessoryChart/deleteChartAccessory",
       getChartAllData: "accessoryChart/getChartAllData",
+      getSizeDistribution: "sizeDistribution/getSizeDistribution",
+      getOneOrder: "orders/getOneOrder",
     }),
     handlePaste(event) {
       const items = (event.clipboardData || event.originalEvent.clipboardData).items;
@@ -617,7 +773,6 @@ export default {
     },
 
     processImage(file) {
-      // Find the first empty slot
       const emptyIndex = this.files.findIndex(f => !f.file);
       if (emptyIndex === -1) {
         alert('All image slots are full. Please delete an image before pasting a new one.');
@@ -679,72 +834,53 @@ export default {
       this.delete_dialog = false;
     },
     async update() {
-      const edit_validate = this.$refs.edit_form.validate();
-      const {
-        specification,
-        accessoryId,
-        pricePerUnitCurrency,
-        pricePerUnit,
-        description,
-        quantity,
-        id,
-        color,
-        productionQuantity,
-        wastage,
-      }=this.edit_accessory_chart
       let accessoryPlanningId=this.$route.params.id!=='create'?this.$route.params.id:this.accessoryId
-      if (edit_validate) {
+        const data=JSON.parse(JSON.stringify(this.edit_accessory_chart))
+        data.accessoryId=data.accessoryId?.id
+        data.accessoryPlanningId=accessoryPlanningId
         
-        const data={
-          accessoryId: accessoryId,
-          accessoryPlanningId: this.$route.params.id!=='create'?this.$route.params.id:this.accessoryId,
-          currency: pricePerUnitCurrency,
-          accessoryPricePerUnit: pricePerUnit,
-          description: description,
-          productionQuantity: productionQuantity,
-          quantity: quantity,
-          specification: specification,
-          wastage: wastage
-        }
-        await this.updateChartAccessory({data,id:accessoryPlanningId,accessoryPlanningChartId:id});
+        await this.updateChartAccessory({data,id:accessoryPlanningId,accessoryPlanningChartId:data.id});
+
         this.edit_dialog = false;
-      }
+        this.clearFields(this.edit_accessory_chart)
     },
-    async create() {
-      const validate = this.$refs.new_form.validate();
-      const {
-        specification,
-        accessoryId,
-        accessoryPricePerCurrency,
-        accessoryPricePerUnit,
-        description,
-        quantity,
-        color,
-        productionQuantity,
-        wastage,
-      }=this.create_accessory_chart
-      let accessoryPlanningId=this.$route.params.id!=='create'?this.$route.params.id:this.accessoryId
-      if (validate) {
-        const data={
-          accessoryId: accessoryId.id,
-          accessoryPlanningId: this.$route.params.id!=='create'?this.$route.params.id:this.accessoryId,
-          currency: accessoryPricePerCurrency,
-          accessoryPricePerUnit: accessoryPricePerUnit,
-          description: description,
-          productionQuantity: productionQuantity,
-          quantity: quantity,
-          specification: specification,
-          wastage: wastage
+    clearFields(obj) {
+      Object.keys(obj).forEach((key) => {
+        if (typeof obj[key] === 'string') {
+          obj[key] = ''; 
+        } else if (typeof obj[key] === 'number') {
+          obj[key] = 0; 
+        } else if (typeof obj[key] === 'boolean') {
+          obj[key] = false; 
+        } else if (Array.isArray(obj[key])) {
+          obj[key] = []; 
+        } else {
+          obj[key] = null; 
         }
+      });
+    },
+    async createAccessoryChart() {
+      let accessoryPlanningId=this.$route.params.id!=='create'?this.$route.params.id:this.accessoryId
+        const data=JSON.parse(JSON.stringify(this.create_accessory_chart))
+        data.accessoryId=data.accessoryId?.id
+        data.accessoryPlanningId=accessoryPlanningId
+        data.sizeDistributions=[]
+        if(this.withSizes){
+          data.sizeDistributions=this.sizeDistributions.map((item)=>({
+            size:item.size,
+            quantity: item.quantity?item.quantity:0
+          }))
+        }
+        await this.createChartAccessory({data,id:accessoryPlanningId});
 
-          await this.createChartAccessory({data,id:accessoryPlanningId});
-          this.new_dialog = false;
-          this.$refs.new_form.reset();
-
-      }
+        this.new_dialog = false;
+        this.clearFields(this.create_accessory_chart)
+      
     },
     editItem(item) {
       this.edit_accessory_chart = { ...item };
+      this.edit_accessory_chart.accessoryId={id:item.accessoryId, name:item.accessoryName}
+      this.edit_accessory_chart.price=this.extractNumber(item.pricePerUnit)
       this.edit_dialog = true;
     },
     getDeleteItem(item) {
@@ -756,6 +892,11 @@ export default {
   },
   mounted() {
     const id = this.$route.params.id;
+    if(this.selectedAccessory.modelId&&this.selectedAccessory.orderId){
+      this.getSizeDistribution({modelId:this.selectedAccessory.modelId})
+      this.getOneOrder({id:this.selectedAccessory.orderId,modelId:this.selectedAccessory.modelId})
+    }
+    
     if (id !== "create") {
       this.getChartAllData(id);
     }

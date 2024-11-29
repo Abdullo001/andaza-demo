@@ -55,6 +55,31 @@
           </v-tooltip>
         </div>
       </template>
+      <template #item.sizes="{ item }">
+        <table style="width: 100% !important">
+          <thead>
+            <tr>
+              <th
+                class="mr-2"
+                v-for="(el, idx) in item.sizeDistributions"
+                :key="`${el.size}-${idx}`"
+              >
+                {{ el.size }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                v-for="(el, idx) in item.sizeDistributions"
+                :key="`${el.size}` + `${idx}`"
+              >
+                {{ el.quantity }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </template>
 
     </v-data-table>
     <v-dialog max-width="500" v-model="return_dialog">
@@ -243,7 +268,7 @@ export default {
           align: 'start',
           value: 'measurementUnit'
         },
-
+        {text: "Sizes", value: "sizes", sortable: false, width:300, align:"center"},
         {
           text: 'Actions',
           sortable: false,

@@ -12,6 +12,7 @@ export const state = () => ({
 
 export const getters = {
   accessoryList: state => state.accessoryList.content,
+  totalElements: state => state.accessoryList.totalElements,
   ordersList: state=>state.ordersList.content,
   ordersListSpend: state=>state.ordersListSpend.content,
   modelsList: state=>state.modelsList,
