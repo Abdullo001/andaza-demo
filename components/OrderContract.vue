@@ -428,11 +428,11 @@ export default {
       conditionList: ["CIF", "CIP", "CPT", "EXW", "FCA", "FOB"],
       headers: [
         { text: this.$t('orderBox.contractBox.contractNo'), sortable: false, align: "center", value: "contractNumber" },
-        { text: "Partner name", sortable: false, align: "center", value: "partnerName" },
+        { text:  this.$t('orderBox.modelPrint.partnerName'), sortable: false, align: "center", value: "partnerName" },
         { text: this.$t('orderBox.contractBox.contractDate'), sortable: false, align: "center", value: "contractDate" },
         { text:this.$t('orderBox.contractBox.deadline'), sortable: false, align: "center", value: "contractDeadline" },
         { text: this.$t('orderBox.contractBox.sumOfContract'), sortable: false, align: "center", value: "contractAmount" },
-        { text: "Delivery terms", sortable: false, align: "center", value: "deliveryTerms" },
+        { text:  this.$t('shipping.invoice.deliveryTerms'), sortable: false, align: "center", value: "deliveryTerms" },
         { text: this.$t("catalogGroups.tabs.table.actions"), sortable: false, align: "center", value: "actions" },
       ],
       items: [],

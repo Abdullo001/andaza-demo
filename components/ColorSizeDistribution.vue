@@ -144,7 +144,7 @@
                   </v-col>
                   <v-col cols="6" v-if="item.bodyPartId !== 0">
                     <div>
-                      <div class="label">Panton code</div>
+                      <div class="label">{{ $t('colorsBox.table.pantoneCode') }}</div>
                       <div class="d-flex align-center">
                         <v-text-field
                           v-model="item.pantoneCode"
@@ -160,7 +160,7 @@
                         <v-select
                           :items="enums"
                           v-model="item.pantoneType"
-                          style="max-width: 100px"
+                          style="max-width: 100px" 
                           dense
                           outlined
                           hide-details
@@ -247,7 +247,7 @@
     <v-dialog v-model="edit_dialog" max-width="572">
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
-          <div>Edit color/Size</div>
+          <div>{{ $t('orderBox.colorSize.editColorSize') }}</div>
           <v-btn @click="edit_dialog = !edit_dialog" icon>
             <v-icon color="#544B99">mdi-close</v-icon>
           </v-btn>
@@ -306,7 +306,7 @@
                   </v-col>
                   <v-col cols="6" v-if="!item.colorCode">
                     <div>
-                      <div class="label">Panton code</div>
+                      <div class="label">{{ $t('colorsBox.table.pantoneCode') }}</div>
                       <div class="d-flex align-center">
                         <v-text-field
                           v-model="item.pantoneCode"
@@ -342,7 +342,7 @@
 
             <v-row>
               <v-col cols="12" >
-                <div class="label">Artwork (Additional Accessories)</div>
+                <div class="label">{{ $t('orderBox.colorSize.artwork') }}</div>
                 <v-text-field
                       v-model="oneSizeDistirbution.artwork"
                       placeholder=""
@@ -387,7 +387,7 @@
                 color="#544B99"
                 width="163"
                 @click="edit_dialog = !edit_dialog"
-                >cancel
+                >{{$t('localization.dialog.cancel')}}
               </v-btn>
               <v-btn
                 class="text-capitalize rounded-lg font-weight-bold"
@@ -396,7 +396,7 @@
                 v-if="this.$route.params.id !== `add-order`"
                 width="163"
                 @click="update"
-                >update
+                >{{$t('update')}}
               </v-btn>
               <v-btn
                 class="text-capitalize rounded-lg font-weight-bold"
@@ -405,7 +405,7 @@
                 v-else
                 width="163"
                 @click="updateNewOrder"
-                >save
+                >{{$t('localization.dialog.cancel')}}
               </v-btn>
             </v-card-actions>
           </v-form>
@@ -419,10 +419,10 @@
           <v-img src="/error-icon.svg" max-width="40" />
         </div>
         <v-card-title class="d-flex justify-center"
-          >Delete Color/Size distribution
+          >{{$t('orderBox.colorSize.delete')}}
         </v-card-title>
         <v-card-text>
-          Are you sure you want to Delete Color/Size distribution?
+          {{$t('orderBox.colorSize.sure')}}
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -432,7 +432,7 @@
             width="140"
             @click.stop="delete_dialog = false"
           >
-            cancel
+            {{$t('localization.dialog.cancel')}}
           </v-btn>
           <v-spacer />
           <v-btn
@@ -443,7 +443,7 @@
             dark
             @click="deleteSizeDistribution"
           >
-            delete
+              {{$t('localization.dialog.delete')}}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -463,19 +463,19 @@ export default {
       new_validate: true,
 
       templeHeaders: [
-        { text: "Total", sortable: false, value: "total" },
+        { text: this.$t('orderBox.add.total'), sortable: false, value: "total" },
         {
-          text: "Over-production %",
+          text: this.$t('orderBox.add.overProduct'),
           sortable: false,
           value: "overproductionPercent",
         },
         {
-          text: "Total with overproduction",
+          text:  this.$t('orderBox.add.totalWithOver'),
           sortable: false,
           value: "totalWithOverproductionPercent",
         },
-        { text: "Artwork", sortable: false, align: "center", value: "artwork" },
-        { text: "Actions", sortable: false, align: "center", value: "actions" },
+        { text:this.$t('forms.printBox.printType'), sortable: false, align: "center", value: "artwork" },
+        { text:this.$t('userManagement.table.actions'), sortable: false, align: "center", value: "actions" },
       ],
       enums: ["TPX", "TCX", "TPG", "C", "MELANGE"],
       headerSizes: [],

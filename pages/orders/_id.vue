@@ -406,7 +406,7 @@
                 width="130"
                 @click="updateOrderFunc"
               >
-                Update
+                {{$t('update')}}
               </v-btn>
             </v-col>
           </v-row>
