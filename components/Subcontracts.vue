@@ -5,8 +5,6 @@
       :items="subcontractsList"
       :items-per-page="50"
       item-key="id"
-      show-select
-      :single-select="singleSelect"
       show-expand
       :single-expand="singleExpand"
       :expanded.sync="expanded"
@@ -292,7 +290,7 @@
               </v-col>
               <v-col cols="6">
                 <div class="label">Work date</div>
-                <el-date-picker 
+                <el-date-picker
                     v-model="subcontractsDetail.workDate"
                     type="date"
                     style="width: 100%; height: 44px !important;"
@@ -307,7 +305,7 @@
               </v-col>
             </v-row>
             <v-row>
-              
+
 
               <v-col cols="12" lg="3" v-for="(item,idx) in subcontractsDetail.sizeDistributions" :key="idx">
                 <div class="label">{{item.size}}</div>
@@ -836,12 +834,12 @@ export default {
         }
         this.setUpdateSizes(data);
       }
-        
-      
+
+
 
       this.edit_dialog = false;
 
-      
+
     },
 
     deleteSubcontractOne(item) {
