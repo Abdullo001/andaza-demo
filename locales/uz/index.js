@@ -1399,7 +1399,7 @@ yarnNumber:{
   },
   modelBox: {
     table: {
-      no: "No",
+      no: "№",
       client: "Mijoz",
       style: "Uslub",
       category: "Turkum",
@@ -1526,6 +1526,7 @@ yarnNumber:{
       headProductDep: "Ishlab chiqarish bo'limi boshlig'i",
       enterRespPerson: "Mas'ul shaxsni kiriting",
       overProduct: "Ortiqcha ishlab chiqarish",
+      totalWithOver:"Jami (ortiqcha ishlab chiqarish bilan)",
       enterOverproduction: "Ortiqcha ishlab chiqarishni kiriting",
       priceDiscount: "Chegirma bilan narxi",
       total: "Jami",
@@ -1545,7 +1546,9 @@ yarnNumber:{
 
   },
      colorSize:{
-   
+        delete:"Rang/oʻlcham taqsimotini oʻchirish",
+        sure:"Rang/oʻlcham taqsimotini oʻchirishni xohlaysizmi?",
+        editColorSize: "Rang/O'lchamni tahrirlash",
         supply: "Ta'minot",
         cuttingInfo: "Bichim ma'lumotlari",
         addRow: "Qator qo'shish",

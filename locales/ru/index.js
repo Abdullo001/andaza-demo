@@ -1515,6 +1515,7 @@ export default {
       headProductDep: "Начальник производственного отдела",
       enterRespPerson: "Введите ответственное лицо",
       overProduct: "Перепроизводство",
+      totalWithOver:" Итого с перепроизводством",
       enterOverproduction: "Введите перепроизводство",
       priceDiscount: "Цена со скидкой",
       total: "Итого",
@@ -1533,6 +1534,9 @@ export default {
       documents: "Документы",
     },
     colorSize: {
+      delete:"Удалить распределение цвета/размера",
+      sure:"Вы уверены, что хотите удалить распределение по цвету/размеру?",
+      editColorSize: "Редактировать цвета/размеры",
       supply: "Поставка",
       cuttingInfo: "Информация о резке",
       addRow: "Добавить",
