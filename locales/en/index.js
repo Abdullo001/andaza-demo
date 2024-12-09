@@ -74,7 +74,8 @@ export default {
     ppg: "PPG",
     centralWarehouse: "Central warehouse",
     department: "Production departments",
-    bankDetails:"Bank details"
+    bankDetails:"Bank details",
+    listOfWorkers:"Employee list"
   },
   appBar: {
     search: "Search",
@@ -2625,6 +2626,35 @@ export default {
     cancel: "Cancel",
     save: "Save",
     update: "Update",
+  },
+  listOfWorkers:{
+    headers:{
+      name:"Employee name",
+      lastname:"Employee's last name",
+      sallary:"Salary calculation procedure",
+      contact:"Contact",
+      status:"Status",
+      actions:"Actions"
+    },
+    filter:{
+      firstName:"First name",
+      lastName:"Last name",
+      contact:"Contact",
+      paymentType:"Payment type",
+    },
+    dialog:{
+      birthDate:"Date of birth: year/month/day",
+      background:"Education",
+      address:"Address",
+      hiredDate:"Hired date",
+      speciality:"Speciality",
+      firedDate:"Fired date",
+      paymentType:"Payment type",
+      fixed:"Fixed",
+      donabay:"Per work",
+    },
+    fired:"Fired",
+    working:"Currently working",
   },
   warehouseId:{
    spend:"Spend",

@@ -74,6 +74,7 @@ export default {
     department: "Отделы производства",
     bankDetails:"Банковские реквизиты",
     process:"Процесс",
+    listOfWorkers:"Список сотрудников"
   },
   appBar: {
     search: "Поиск",
@@ -2612,6 +2613,35 @@ export default {
     cancel: "Отмена",
     save: "Сохранить",
     update: "Обновить",
+  },
+  listOfWorkers:{
+    headers:{
+      name:"Имя сотрудника",
+      lastname:"Фамилия сотрудника",
+      sallary:"Порядок расчета заработной платы",
+      contact:"Контакт",
+      status:"Статус",
+      actions:"Действия"
+    },
+    filter:{
+      firstName:"Имя",
+      lastName:"Фамилия",
+      contact:"Контакт",
+      paymentType:"Тип оплаты",
+    },
+    dialog:{
+      birthDate:"Дата рождения: год/месяц/день",
+      background:"Образование",
+      address:"Адрес",
+      hiredDate:"Дата приема на работу",
+      speciality:"Специальность",
+      firedDate:"Дата увольнения",
+      paymentType:"Тип оплаты",
+      fixed:"Зафиксированный",
+      donabay:"За работу",
+    },
+    fired:"Уволен",
+    working:"В настоящее время работает",
   },
   warehouseId:{
    spend:"Расход",
