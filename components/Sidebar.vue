@@ -489,6 +489,11 @@ export default {
                 to: this.localePath("/bank-details"),
                 localization: "bankDetails",
               },
+              {
+                title: "List of workers",
+                to: this.localePath("/list-of-workers"),
+                localization: "listOfWorkers",
+              },
             ],
           },
           {

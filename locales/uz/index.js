@@ -81,6 +81,7 @@ export default {
     department: "Ishlab chiqarish bo'limlari",
     bankDetails:"Bank tafsilotlari",
     process:"Jarayon",
+    listOfWorkers:"Xodimlar royxati"
   },
   appBar: {
     search: "Qidirmoq",
@@ -2630,6 +2631,35 @@ yarnNumber:{
     cancel: "Bekor qilish",
     save: "Saqlash",
     update: "Yangilash",
+  },
+  listOfWorkers:{
+    headers:{
+      name:"Xodimning Ismi",
+      lastname:"Xodimning familiyasi",
+      sallary:"Maosh hisoblash tartibi",
+      contact:"Kontakti",
+      status:"Holati",
+      actions:"Amallar"
+    },
+    filter:{
+      firstName:"Ism",
+      lastName:"Familiya",
+      contact:"Kontakti",
+      paymentType:"Maosh hisoblash tartibi",
+    },
+    dialog:{
+      birthDate:"Tug'ilgan yil/oy/kun",
+      background:"Ma'lumoti",
+      address:"Yashash manzilli",
+      hiredDate:"Ishga qabul qilinagn sana",
+      speciality:"Mutaxassisligi",
+      firedDate:"Ishdan bo'shalgan sana",
+      paymentType:"Maosh to'lash tartibi",
+      fixed:"Odatiy",
+      donabay:"Donabay",
+    },
+    fired:"Ishdan bo`shagan",
+    working:"Faoliyat yutitmoqda",
   },
   warehouseId:{
    spend:"Sarf",
