@@ -148,30 +148,30 @@
         </v-text-field>
       </div> -->
       <v-spacer />
-      
+
       <template>
         <div class="text-center">
           <v-menu
-            
+
             v-model="menu"
             transition="slide-y-transition"
-            
+
           >
             <template v-slot:activator="{ props }">
-              
+
               <v-btn icon class="mr-6" color="indigo" v-bind="props" @click="menu=!menu">
                 <v-badge :content="countUnreadNotification" v-if="!!countUnreadNotification" color="red">
                   <v-icon color="#544B99">mdi-bell-ring</v-icon>
                 </v-badge>
                 <v-icon v-if="!countUnreadNotification" color="#544B99">mdi-bell-ring</v-icon>
-                
+
               </v-btn>
             </template>
-      
+
             <v-card min-width="300"  class="" >
               <v-card-title class="d-flex align-center justify-center">
                 <div class="d-flex align-center justify-center">
-                  Notifications 
+                  Notifications
                   <v-chip
                     dark
                     color="#544B99"
@@ -180,8 +180,8 @@
                     {{ countUnreadNotification }}
                   </v-chip></div>
               </v-card-title>
-      
-              
+
+
               <v-data-table
                   :headers="headers"
                   :items="recivedNotificationList"
@@ -189,7 +189,7 @@
                   hide-default-header
                   hide-default-footer
                   class="mt-4 rounded-lg notification-list"
-                  
+
                   @click:row="(item) => getMessageInfo(item)"
                 >
                   <template #item.mainPart="{item}">
@@ -197,7 +197,7 @@
                       <v-col cols="2" class=" "><div  :class="!item.read?'dot':''"></div></v-col>
                       <v-col cols="10" class="me-auto">
                         <span class="notification-creator">{{ item.createdBy }}:</span>{{ item.title }}
-                        <div class="sent-time d-flex justify-end"> 
+                        <div class="sent-time d-flex justify-end">
                           {{$timeElapsedFromGivenDate($dateToISOFormat(item.sentTime))}}
                         </div>
                       </v-col>
@@ -205,8 +205,8 @@
                     <v-divider></v-divider>
                   </template>
                 </v-data-table>
-              
-              
+
+
               <v-divider></v-divider>
               <v-card-actions>
                 <v-spacer></v-spacer>
@@ -330,7 +330,7 @@
             @click:row="(item) => getMessageInfo(item)"
             :item-class="rowClass"
           >
-          
+
           <template #item.read="{item}">
             <div :class="!item.read?'unread':''" v-if="!item.read">
               *
@@ -395,11 +395,6 @@ export default {
             child: [],
             children: [
               {
-                title: this.$t("sidebar.partnersType"),
-                to: this.localePath("/partner"),
-                localization: "partnersType",
-              },
-              {
                 title: this.$t("sidebar.modelGroups"),
                 to: this.localePath("/model"),
                 localization: "modelGroups",
@@ -408,11 +403,6 @@ export default {
                 title: this.$t("sidebar.bodyParts"),
                 to: this.localePath("/body-parts"),
                 localization: "bodyParts",
-              },
-              {
-                title: this.$t("sidebar.cooperationType"),
-                to: this.localePath("/cooperation-type"),
-                localization: "cooperationType",
               },
               {
                 title: this.$t("sidebar.expenseGroup"),
@@ -862,7 +852,7 @@ export default {
         }
         this.idToken=token
         console.log("FCM Token:", token);
-        
+
       } catch (e) {
         console.error("Failed to get token:", e);
       }
@@ -872,7 +862,7 @@ export default {
     let afterPermissionList = [];
     const permissionList =
       JSON.parse(window.localStorage.getItem("permissionList")) || [];
-    
+
     this.startListeners();
 
 
@@ -881,7 +871,7 @@ export default {
       permissionList.forEach(perName=>{
         if(item.name===perName.permissionName && perName.canRead){
           item.disabledMenu=true
-          
+
         }
         if(item.name===perName.permissionName && !perName.canRead){
           item.disabledMenu=false
@@ -896,7 +886,7 @@ export default {
             permissionList.forEach(perName=>{
               if(!!child.name && child.name===perName.permissionName && perName.canRead){
                 child.disabledMenu=true
-                
+
               }
               if(!!child.name && child.name===perName.permissionName && !perName.canRead){
                 child.disabledMenu=false
@@ -910,7 +900,7 @@ export default {
     })
     this.checkedSidebarItems = JSON.parse(JSON.stringify(this.items));
 
-    
+
   },
 };
 </script>
