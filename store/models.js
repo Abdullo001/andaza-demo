@@ -6,6 +6,8 @@ export const state = () => ({
   compositions: [],
   brandList:[],
   pdfLoading:false,
+  modelTemplatesList:[],
+  modelTemplateItem:{},
 })
 
 export const getters = {
@@ -17,6 +19,8 @@ export const getters = {
   compositionList: state => state.compositions,
   brandList: state => state.brandList,
   pdfLoading: state => state.pdfLoading,
+  modelTemplatesList: state => state.modelTemplatesList,
+  modelTemplateItem: state => state.modelTemplateItem,
 }
 
 export const mutations = {
@@ -40,6 +44,12 @@ export const mutations = {
   },
   setPdfLoading(state, item) {
     state.pdfLoading = item;
+  },
+  setModelTemplatesList(state, item) {
+    state.modelTemplatesList = item;
+  },
+  setModelTemplateItem(state, item) {
+    state.modelTemplateItem = item;
   },
 }
 
@@ -169,7 +179,7 @@ export const actions = {
     commit("setPdfLoading",true)
     this.$axios.get(`/api/v1/models/generate-model-passport/${id}`)
     .then((res)=>{
-      commit("setPdfLoading",false) 
+      commit("setPdfLoading",false)
       const binaryCode = atob(res.data);
       const blob = new Blob(
         [new Uint8Array([...binaryCode].map((char) => char.charCodeAt(0)))],
@@ -184,7 +194,29 @@ export const actions = {
     .catch((response)=>{
       console.log(response);
       commit("setPdfLoading",false)
-      
+
     })
-  }
+  },
+
+  getModelTemplates({commit}){
+    this.$axios.get(`/api/v1/templates/model`)
+    .then((res)=>{
+      commit("setModelTemplatesList",res.data.data)
+    })
+    .catch((response)=>{
+      console.log(response);
+
+    })
+  },
+  getModelTemplateWithId({commit},templateId){
+    this.$axios.get(`/api/v1/templates/model/${templateId}`)
+    .then((res)=>{
+      console.log(res);
+      commit("setModelTemplateItem",res.data.data)
+    })
+    .catch((response)=>{
+      console.log(response);
+
+    })
+  },
 }
