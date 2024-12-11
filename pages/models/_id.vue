@@ -393,6 +393,15 @@
           </v-col>
           <v-col cols="12" class="d-flex justify-end align-center">
             <v-spacer />
+            <v-btn
+              color="#544B99"
+              class="text-capitalize rounded-lg mr-4"
+              height="44"
+              outlined
+              @click="templateDialog=true"
+              >
+              Save as template
+            </v-btn>
             <FinishProcessBtn v-bind="finishDate" />
             <v-btn
               v-if="modelStatus === 'Add'"
@@ -485,6 +494,53 @@
         </v-tabs-items>
       </v-tabs>
     </v-card>
+    <v-dialog v-model="templateDialog" max-width="500">
+      <v-card class="pa-4 text-center">
+        <v-card-title class="d-flex justify-center"
+          >Save as template
+        </v-card-title>
+        <v-card-text>
+          <v-row>
+            <v-col cols="12" >
+              <div class="label">Template name</div>
+              <v-text-field
+                v-model="model.templateName"
+                outlined
+                hide-details
+                class="rounded-lg base mb-4"
+                height="44"
+                dense
+                style="max-width: 400px"
+                placeholder="Enter template name"
+                color="#544B99"
+              />
+            </v-col>
+          </v-row>
+        </v-card-text>
+        <v-card-actions class="px-16">
+          <v-btn
+            outlined
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#777C85"
+            width="140"
+            @click.stop="templateDialog = false"
+          >
+            {{$t('localization.dialog.cancel')}}
+          </v-btn>
+          <v-spacer />
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#544B99"
+            width="140"
+            elevation="0"
+            dark
+            @click="saveTemplate"
+          >
+              Save
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -520,6 +576,7 @@ export default {
   },
   data() {
     return {
+      templateDialog:false,
       modelTemplate: null,
       compositionSearch: "",
       show_btn: true,
@@ -635,7 +692,7 @@ export default {
       model.number = val.modelNumber;
       model.name = val.modelName;
       model.groupId = { id: val.modelGroupId, name: val.modelGroup };
-      model.compositionId =val.compositionId ? { id: val.compositionId, name: val.composition }:null;
+      model.compositionId =val.modelCompositionId ? { id: val.modelCompositionId, name: val.modelComposition }:null;
       model.season = val.season;
       model.licence = val.isLicenseRequired;
       model.gender = val.gender;
@@ -713,7 +770,23 @@ export default {
       getModelGroupList: "model/getModelGroupList",
       getModelTemplates: "models/getModelTemplates",
       getModelTemplateWithId: "models/getModelTemplateWithId",
+      createModelTemplate: "models/createModelTemplate",
     }),
+    saveTemplate(){
+      const data = { ...this.model };
+      data.modelNumber=data.number
+      data.partnerId = this.model.partnerId?.id;
+      data.groupId = this.model.groupId?.id;
+      data.compositionId = this.model.compositionId?.id;
+      data.canvasTypeId = this.model.canvasTypeId?.id;
+      data.modelOperationId=1
+      data.licenseRequired=data.licence
+      delete data.number
+      this.createModelTemplate(data)
+
+      this.templateDialog=false
+      this.model.templateName=""
+    },
     clickBtn() {
       this.show_btn = !this.show_btn;
     },
@@ -726,6 +799,7 @@ export default {
       data.groupId = this.model.groupId?.id;
       data.compositionId = this.model.compositionId?.id;
       data.canvasTypeId = this.model.canvasTypeId?.id;
+      data.modelOperationId=1
       await this.createModel(data);
     },
     async updateModels() {
