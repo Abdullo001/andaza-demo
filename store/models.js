@@ -119,6 +119,8 @@ export const actions = {
       inspectionDate:data.inspectionDate,
       orderedQuantity:Number(data.orderedQuantity),
       partnerContractId:data.partnerContractId,
+      modelOperationId:data.modelOperationId,
+
     }
     this.$axios.$post('/api/v1/models/create', model)
       .then(res => {
@@ -211,7 +213,6 @@ export const actions = {
   getModelTemplateWithId({commit},templateId){
     this.$axios.get(`/api/v1/templates/model/${templateId}`)
     .then((res)=>{
-      console.log(res);
       commit("setModelTemplateItem",res.data.data)
     })
     .catch((response)=>{
@@ -219,4 +220,14 @@ export const actions = {
 
     })
   },
+  createModelTemplate({dispatch},data){
+    this.$axios.post(`/api/v1/templates/model`,data)
+    .then((res)=>{
+      dispatch("getModelTemplates")
+    })
+    .catch(({response})=>{
+      console.log(response);
+
+    })
+  }
 }
