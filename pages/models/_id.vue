@@ -51,7 +51,7 @@
               v-model="model.number"
               outlined
               hide-details
-              class="rounded-lg base mb-4"
+              :class="`rounded-lg  mb-4 ${model.number===templateItem?.modelNumber?'border-required':'base'}`"
               height="44"
               dense
               style="max-width: 400px"
@@ -65,7 +65,7 @@
               v-model="model.name"
               outlined
               hide-details
-              class="rounded-lg base mb-4"
+              :class="`rounded-lg base mb-4 ${model.name===templateItem?.modelName?'border-optional':''}`"
               height="44"
               dense
               style="max-width: 400px"
@@ -98,6 +98,7 @@
                 <v-icon color="#544B99">mdi-magnify</v-icon>
               </template>
             </v-combobox>
+            <!-- <CustomCombobox :items="canvasTypeList || []" itemText="name" placeholder="Select model group"  v-model="selectedValue"/> -->
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">{{ $t("listsModels.child.partner") }}</div>
@@ -111,7 +112,7 @@
               outlined
               hide-details
               height="44"
-              class="rounded-lg base"
+              :class="`rounded-lg base ${model.partnerId.id&&model.partnerId.id===templateItem?.partnerId?'border-optional':''}`"
               :return-object="true"
               color="#544B99"
               dense
@@ -134,7 +135,7 @@
               :items="brandList"
               outlined
               hide-details
-              class="rounded-lg base mb-4"
+              :class="`rounded-lg base ${model.brandName&&model.brandName===templateItem?.brandName?'border-optional':''}`"
               height="44"
               dense
               append-icon="mdi-chevron-down"
@@ -152,7 +153,7 @@
               item-value="partnerContractId"
               outlined
               hide-details
-              class="rounded-lg base mb-4"
+              :class="`rounded-lg base mb-4 ${model.partnerContractId&&model.partnerContractId===templateItem?.partnerContractId?'border-optional':''}`"
               height="44"
               dense
               append-icon="mdi-chevron-down"
@@ -286,7 +287,7 @@
               <el-date-picker
                 v-model="model.inspectionDate"
                 :picker-options="pickerShortcuts"
-                class="base_picker"
+                :class="`rounded-lg base_picker ${model.inspectionDate&&model.inspectionDate===templateItem?.inspectionTime?'border-optional':''}`"
                 placeholder="dd.MM.yyyy"
                 style="width: 100%; height: 100%"
                 type="date"
@@ -302,7 +303,7 @@
             <v-text-field
               v-model="model.orderedQuantity"
               outlined
-              class="rounded-lg base"
+              :class="`rounded-lg base ${model.orderedQuantity&&model.orderedQuantity===templateItem?.orderedQuantity?'border-optional':''}`"
               hide-details
               height="44"
               color="#544B99"
@@ -558,6 +559,8 @@ import InspectionComponent from "@/components/InspectionFile.vue";
 import composition from "@/components/FabricCatalogs/Composition.vue";
 import ShowBtnComponent from "../../components/ShowComponentBtn/ShowBtn.vue";
 import FinishProcessBtn from "@/components/FinishProcessBtn.vue";
+import CustomCombobox from "../../components/UI/CustomCombobox.vue";
+import { computed } from "vue";
 
 export default {
   name: "addOrEditModelsPage",
@@ -573,6 +576,7 @@ export default {
     Breadcrumbs,
     InspectionComponent,
     FinishProcessBtn,
+    CustomCombobox,
   },
   data() {
     return {
@@ -640,6 +644,8 @@ export default {
       ],
       gander_enums: ["MALE", "FEMALE", "BOY", "GIRL", "UNISEX"],
       groupSearch: "",
+      selectedValue:"",
+      templateItem:{}
     };
   },
   created() {
@@ -682,16 +688,22 @@ export default {
     }),
   },
   watch: {
+
+    selectedValue(item){
+      console.log(item);
+
+    },
     modelTemplate(val) {
       this.getModelTemplateWithId(val.templateId);
       // console.log(val);
     },
     modelTemplateItem(item) {
+      this.templateItem=JSON.parse(JSON.stringify(item))
       const val=JSON.parse(JSON.stringify(item))
       const model = this.model;
       model.number = val.modelNumber;
       model.name = val.modelName;
-      model.groupId = { id: val.modelGroupId, name: val.modelGroup };
+      model.groupId = { id: val.modelCategoryId, name: val.modelCategory };
       model.compositionId =val.modelCompositionId ? { id: val.modelCompositionId, name: val.modelComposition }:null;
       model.season = val.season;
       model.licence = val.isLicenseRequired;
