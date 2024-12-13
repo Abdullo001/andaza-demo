@@ -31,6 +31,12 @@ html, body, .v-application {
 .border {
   border: 2px solid #544B99;
 }
+.border-required {
+  border: 2px solid #FF0000;
+}
+.border-optional {
+  border: 2px solid #E69C53;
+}
 .border-grey {
   border: 1px solid #E9EAEB;
 }

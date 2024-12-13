@@ -16,66 +16,8 @@ export const mutations = {
   },
 }
 export const actions = {
-  async sortModelData({commit}, {data, page, size}){
-    const body = {
-      filters: [],
-      sorts: [
-        {
-          key: data.sortBy,
-          direction: !data.sortDesc ? "DESC" : "ASC",
-        }
-      ],
-      page: page,
-      size: size,
-    };
-    await this.$axios.$put(`/api/v1/model-groups/list`, body)
-      .then(res => {
-        commit('setModelGroupList', res.data);
-      })
-      .catch(({response}) => {
-        console.log(response);
-      })
-  },
-  async filterModelData({commit}, data) {
-    const body = {
-      filters: [
-        {
-          key: 'id',
-          operator: 'EQUAL',
-          propertyType: 'LONG',
-          value: data.id
-        },
-        {
-          key: 'name',
-          operator: 'LIKE',
-          propertyType: 'STRING',
-          value: data.name
-        },
-        {
-          key: 'createdAt',
-          operator: 'BETWEEN',
-          propertyType: 'DATE',
-          value: data.createdAt,
-          valueTo: data.updatedAt
-        },
-      ],
-      sorts: [],
-      page: 0,
-      size: 10,
-    }
-    body.filters = body.filters.filter(item => item.value !== '' && item.value !== null)
-    await this.$axios.$put(`/api/v1/model-groups/list`, body)
-      .then(res => {
-        commit('setModelGroupList', res.data);
-        commit('setLoading', false);
-      })
-      .catch(({response}) => {
-        console.log(response);
-        commit('setLoading', false);
-      })
-  },
   async deleteModelData({dispatch}, id) {
-    await this.$axios.$delete(`/api/v1/model-groups/delete?groupId=${id}`)
+    await this.$axios.$delete(`/api/v1/model-category/${id}`)
       .then(res => {
         dispatch('getModelGroupList', {page: 0, size: 10});
         this.$toast.success(res.message);
@@ -85,7 +27,7 @@ export const actions = {
       })
   },
   async updateModelData({dispatch}, data) {
-    await this.$axios.$put("/api/v1/model-groups/update", data)
+    await this.$axios.$put(`/api/v1/model-category/${data.id}`, data)
       .then(res => {
         dispatch('getModelGroupList', {page: 0, size: 10});
         this.$toast.success(res.message);
@@ -95,7 +37,7 @@ export const actions = {
       })
   },
   async createModelData({dispatch}, data) {
-    await this.$axios.$post("/api/v1/model-groups/create", data)
+    await this.$axios.$post("/api/v1/model-category", data)
       .then(res => {
         dispatch('getModelGroupList', {page: 0, size: 10});
         this.$toast.success(res.message);
@@ -107,7 +49,7 @@ export const actions = {
   },
   async getModelGroupList({commit}, {page, size,modelGroupName="",}) {
     modelGroupName=modelGroupName??""
-    await this.$axios.get(`/api/v1/model-groups?modelGroupName=${modelGroupName}&page=${page}&size=${size}`)
+    await this.$axios.get(`/api/v1/model-category?name=${modelGroupName}&page=${page}&size=${size}`)
       .then(res => {
         commit('setModelGroupList', res.data.data);
         commit('setLoading', false);
