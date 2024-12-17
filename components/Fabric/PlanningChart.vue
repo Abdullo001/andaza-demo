@@ -9,7 +9,9 @@
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="text-h6">{{ $t('planning.planningChart.fabricPlanningChart') }}</div>
-            <v-btn
+            <div class="d-flex ">
+              <VuetifyCombobox v-model="cloningTemplate" class="mr-4" :itemsList="planningchartTemplatesList" :itemText="'templateName'" :itemValue="'templateName'" :placeholder="'Select template'"/>
+              <v-btn
               class="rounded-lg white--text text-capitalize"
               color="#544B99"
               width="150" height="36"
@@ -19,6 +21,7 @@
               <v-icon class="mr-2">mdi-plus</v-icon>
              {{$t('orderBox.colorSize.addRow')}}
             </v-btn>
+            </div>
           </v-toolbar-title>
         </v-toolbar>
       </template>
@@ -48,6 +51,9 @@
 
       </template>
     </v-data-table>
+    <div class="d-flex justify-end mt-4">
+      <SaveClonComponent @saveTemplate="saveFabricTemlate"/>
+    </div>
     <v-dialog
       v-model="new_dialog"
       max-width="800"
@@ -223,10 +229,16 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import DeleteDialog from "../DeleteDialog.vue";
+import VuetifyCombobox from "../UI/VuetifyCombobox.vue";
+import SaveClonComponent from "../ClonningComponents/SaveClonComponent.vue";
 
 export default {
   name: 'PrintingChartComponent',
-  components: {DeleteDialog},
+  components: {
+    DeleteDialog,
+    VuetifyCombobox,
+    SaveClonComponent,
+  },
   data() {
     return {
       delete_dialog: false,
@@ -262,7 +274,9 @@ export default {
       withTypeEnum: ['TUP2', 'A/E'],
       selected_id: '',
       dialog_title: '',
-      dialog_btn: ''
+      dialog_btn: '',
+      cloningTemplate:null,
+      planningId:null,
     }
   },
   created() {
@@ -275,9 +289,20 @@ export default {
       measurementUnit: 'measurement/measurementUnit',
       fabricPlanningId: 'fabric/fabricPlanningId',
       planningChartList: 'fabric/planningChartList',
+      planningchartTemplatesList: 'fabric/planningchartTemplatesList',
     })
   },
   watch: {
+    fabricPlanningId(id){
+      this.planningId=id
+    },
+    cloningTemplate(val){
+      const data={
+        fabricPlanningId:this.planningId,
+        templateName:val.templateName
+      }
+      this.setPlanningChartTemplate(data)
+    },
     modelId(val) {
       this.getModelPart(val);
     },
@@ -306,8 +331,18 @@ export default {
       createPlanningChart: 'fabric/createPlanningChart',
       getMeasurementUnit: 'measurement/getMeasurementUnit',
       deleteFabricPlanningChart: 'fabric/deleteFabricPlanningChart',
-      updatePlanningChart: 'fabric/updatePlanningChart'
+      updatePlanningChart: 'fabric/updatePlanningChart',
+      getPlanningChartTemplates: 'fabric/getPlanningChartTemplates',
+      setPlanningChartTemplate: 'fabric/setPlanningChartTemplate',
+      createPlanningChartTemplate: 'fabric/createPlanningChartTemplate',
     }),
+    saveFabricTemlate(templateName){
+      const data={
+        fabricPlanningId:this.planningId,
+        templateName
+      }
+      this.createPlanningChartTemplate(data)
+    },
     getRow(val) {
       this.dialog_btn = 'Update'
       this.fabric_planning = {
@@ -335,7 +370,7 @@ export default {
       this.new_dialog = true;
     },
     removeItem() {
-      const fabricId = this.$route.params.id;
+      const fabricId = this.planningId;
       this.deleteFabricPlanningChart({itemId: this.selected_id, fabricId});
       this.delete_dialog = false;
     },
@@ -352,13 +387,13 @@ export default {
         this.fabric_planning.fabricPlanningId = this.fabricPlanningId;
         await this.createPlanningChart({
           data: this.fabric_planning,
-          id: this.$route.params.id
+          id: this.planningId,
         });
         this.new_dialog = false;
         this.$refs.new_validate.reset();
       } else if (valid && this.dialog_title === 'Edit') {
         await this.updatePlanningChart({
-          id: this.$route.params.id,
+          id: this.planningId,
           data: this.fabric_planning
         });
         this.new_dialog = false;
@@ -367,6 +402,11 @@ export default {
     },
   },
   mounted() {
+    const id =this.$route.params.id
+    if(id!=="create"){
+      this.planningId=id
+    }
+    this.getPlanningChartTemplates()
   }
 }
 </script>

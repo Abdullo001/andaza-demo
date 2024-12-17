@@ -12,7 +12,9 @@
           <v-toolbar-title class="w-full d-flex">
            {{ $t("modelBox.modelPartsBox.modelParts") }}
             <v-spacer/>
-            <v-btn
+            <div class="d-flex">
+              <VuetifyCombobox v-model="cloningTemplate" class="mr-4" :itemsList="modelPartsTemplates" :itemText="'templateName'" :itemValue="'templateName'" :placeholder="'Select template'"/>
+              <v-btn
               class="rounded-lg text-capitalize"
               color="#544B99"
               width="160" height="36"
@@ -22,6 +24,7 @@
               <v-icon>mdi-plus</v-icon>
               {{ $t("modelBox.modelPartsBox.addPart") }}
             </v-btn>
+            </div>
           </v-toolbar-title>
         </v-toolbar>
       </template>
@@ -37,6 +40,9 @@
       </template>
     </v-data-table>
     <v-divider/>
+    <div class="d-flex justify-end mt-4">
+      <SaveClonComponent @saveTemplate="saveFabricTemlate"/>
+    </div>
     <v-dialog v-model="partsDialog" max-width="900">
       <v-card>
         <v-card-title>
@@ -246,11 +252,18 @@
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+import VuetifyCombobox from "@/components/UI/VuetifyCombobox.vue";
+import SaveClonComponent from "@/components/ClonningComponents/SaveClonComponent.vue";
 
 export default {
   name: 'ModelPartsComponent',
+  components:{
+    VuetifyCombobox,
+    SaveClonComponent,
+  },
   data() {
     return {
+      cloningTemplate:null,
       headers: [
         {text: this.$t('modelBox.modelPartsBox.partName'), align: 'start', sortable: false, value: 'bodyPart'},
         {text: this.$t('modelBox.modelPartsBox.yarnNumber'), sortable: false, value: 'yarnNumber'},
@@ -298,10 +311,18 @@ export default {
       canvasTypeList: "canvasType/canvas_type_list",
       yarnTypeList: "modelParts/yarnType",
       compositionList: "composition/composition_list",
-      oneModelParts: "modelParts/oneModelParts"
+      oneModelParts: "modelParts/oneModelParts",
+      modelPartsTemplates: "modelParts/modelPartsTemplates",
     }),
   },
   watch: {
+    cloningTemplate(val){
+      const data={
+        modelId:this.$route.params.id!=='add-model'?this.$route.params.id:this.newModelId,
+        templateName:val.templateName
+      }
+      this.setModelPartsTemplate(data)
+    },
     yarnSearch(val){
       this.getYarnNumbers({page:0,size:10,name:val})
     },
@@ -350,14 +371,24 @@ export default {
       getCanvasType: 'canvasType/getCanvasTypeList',
       getYarnType: 'modelParts/getYarnType',
       getComposition: 'composition/getCompositionList',
-      getOneModelParts: 'modelParts/getOneModelParts'
+      getOneModelParts: 'modelParts/getOneModelParts',
+      getModelPartsTemplates: "modelParts/getModelPartsTemplates",
+      setModelPartsTemplate: "modelParts/setModelPartsTemplate",
+      createModelPartsTemplate: "modelParts/createModelPartsTemplate",
     }),
+    saveFabricTemlate(templateName){
+      const data={
+        templateName,
+        modelId:this.$route.params.id!=='add-model'?this.$route.params.id:this.newModelId
+      }
+      this.createModelPartsTemplate(data)
+    },
     async saveModelParts() {
       const id = this.$route.params.id;
       if(id === 'add-model') {
         this.newModelParts.modelId = this.newModelId;
         await this.createModelParts(this.newModelParts);
-        
+
         this.partsDialog = false
       } else {
         this.newModelParts.modelId = id
@@ -401,6 +432,7 @@ export default {
   },
   async mounted() {
     const id = this.$route.params.id;
+    this.getModelPartsTemplates()
     if(id !== 'add-model') {
       await this.getModelPart(id)
     }else {

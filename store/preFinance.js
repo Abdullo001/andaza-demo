@@ -10,6 +10,7 @@ export const state = () => ({
   onePreFinance: {},
   selectedModelNumber: '',
   prefinancePdf:'',
+  detailsTemplatesList:[]
 })
 export const getters = {
   preFinancesContent: state => state.preFinances.content,
@@ -25,6 +26,7 @@ export const getters = {
   onePreFinance: state => state.onePreFinance,
   selectedModelNumber: state => state.selectedModelNumber,
   prefinancePdf: state => state.prefinancePdf,
+  detailsTemplatesList: state => state.detailsTemplatesList,
 }
 
 export const mutations = {
@@ -60,6 +62,9 @@ export const mutations = {
   },
   setPrefinancePdf(state, item) {
     state.prefinancePdf = item;
+  },
+  setDetailsTemplatesList(state, item) {
+    state.detailsTemplatesList = item;
   },
 };
 export const actions = {
@@ -201,7 +206,7 @@ export const actions = {
       .$get(`/api/v1/possible-expense/list?preFinanceId=${id}`)
       .then((res) => {
         commit("setDetailsList", res.data);
-        
+
       })
       .catch(({response}) => console.log(response));
   },
@@ -290,6 +295,34 @@ export const actions = {
     .catch(({res})=>{
       console.log(res);
       this.$toast.error(res.data.message)
+    })
+  },
+  async getPrefinanceTemplates({commit}){
+    this.$axios.get(`/api/v1/templates/pre-finance`)
+    .then((res)=>{
+      commit("setDetailsTemplatesList",res.data.data)
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+  async setPrefinanceTemplate({dispatch},{preFinanceId,templateName}){
+    this.$axios.put(`/api/v1/templates/pre-finance`,{preFinanceId,templateName})
+    .then((res)=>{
+      dispatch("getAllDetails",preFinanceId)
+      this.$toast.succes(res.data.succes)
+    })
+    .catch(({response})=>{
+      console.log(response);
+    })
+  },
+  async createPrefinanceTemplate({dispatch},{preFinanceId,templateName}){
+    this.$axios.post(`/api/v1/templates/pre-finance`,{preFinanceId,templateName})
+    .then((_res)=>{
+      dispatch("getPrefinanceTemplates")
+    })
+    .catch(({response})=>{
+      console.log(response);
     })
   }
 };

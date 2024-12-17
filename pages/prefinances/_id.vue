@@ -15,24 +15,6 @@
           </v-chip>
         </div>
         <v-spacer/>
-        <!-- <v-btn
-          class="rounded-lg text-capitalize font-weight-bold mr-4"
-          color="#544B99"
-          width="140"
-          elevation="0"
-          outlined
-        >
-          Models
-        </v-btn>
-        <v-btn
-          class="rounded-lg text-capitalize font-weight-bold"
-          color="#544B99"
-          width="140"
-          elevation="0"
-          outlined
-        >
-          Orders
-        </v-btn> -->
       </v-card-title>
       <v-divider/>
       <v-card-text class="pb-0">
@@ -343,17 +325,20 @@
                     class="d-flex justify-space-between w-full align-center"
                   >
                     <div class="text-h6">{{$t('userManagement.child.details')}}</div>
-                    <v-btn
-                      class="text-capitalize font-weight-bold rounded-lg"
-                      color="#544B99"
-                      min-width="170"
-                      :dark="!!preFinanceId"
-                      @click="new_details = true"
-                      :disabled="!preFinanceId"
-                    >
-                      <v-icon class="mr-2">mdi-plus</v-icon>
-                      {{ $t("prefinances.child.details") }}
-                    </v-btn>
+                    <div class="d-flex">
+                      <VuetifyCombobox v-model="cloningTemplate" class="mr-4" :itemsList="detailsTemplatesList" :itemText="'templateName'" :itemValue="'templateName'" :placeholder="'Select template'"/>
+                      <v-btn
+                        class="text-capitalize font-weight-bold rounded-lg"
+                        color="#544B99"
+                        min-width="170"
+                        :dark="!!preFinanceId"
+                        @click="new_details = true"
+                        :disabled="!preFinanceId"
+                      >
+                        <v-icon class="mr-2">mdi-plus</v-icon>
+                        {{ $t("prefinances.child.details") }}
+                      </v-btn>
+                    </div>
                   </v-toolbar-title>
                 </v-toolbar>
               </template>
@@ -409,6 +394,9 @@
                 </div>
               </template>
             </v-data-table>
+            <div class="d-flex justify-end mt-4">
+              <SaveClonComponent @saveTemplate="saveFabricTemlate"/>
+            </div>
           </v-tab-item>
           <v-tab-item>
             <v-data-table
@@ -866,13 +854,23 @@ import DefaultLayout from "@/layouts/default.vue";
 import Breadcrumbs from "../../components/Breadcrumbs.vue";
 import ShowBtnComponent from "../../components/ShowComponentBtn/ShowBtn.vue";
 import FinishProcessBtn from "@/components/FinishProcessBtn.vue";
+import VuetifyCombobox from "@/components/UI/VuetifyCombobox.vue";
+import SaveClonComponent from "@/components/ClonningComponents/SaveClonComponent.vue";
 
 
 export default {
   name: "CreatePreFinancePage",
-  components: {ShowBtnComponent, Breadcrumbs, DefaultLayout,FinishProcessBtn},
+  components: {
+    ShowBtnComponent,
+    Breadcrumbs,
+    DefaultLayout,
+    FinishProcessBtn,
+    VuetifyCombobox,
+    SaveClonComponent,
+  },
   data() {
     return {
+      cloningTemplate:null,
       isLoad:false,
       show_btn: true,
       hide_calc: true,
@@ -1217,6 +1215,7 @@ export default {
       onePreFinance: "preFinance/onePreFinance",
       selectedModelNumber: "preFinance/selectedModelNumber",
       prefinancePdf: "preFinance/prefinancePdf",
+      detailsTemplatesList: "preFinance/detailsTemplatesList",
     }),
     title() {
       const id = this.$route.params.id;
@@ -1230,6 +1229,13 @@ export default {
     },
   },
   watch: {
+    cloningTemplate(val){
+      const data={
+        preFinanceId:this.preFinanceId,
+        templateName:val.templateName
+      }
+      this.setPrefinanceTemplate(data)
+    },
     detailsList(val){
       this.detailItems=JSON.parse(JSON.stringify(val))
       this.totalPrice=0
@@ -1264,7 +1270,6 @@ export default {
     onePreFinance(val) {
       if (Object.keys(val).length) {
         const data = JSON.parse(JSON.stringify(val));
-        
 
         this.getImages(val.modelId);
         this.getDocuments({modelId: val.modelId});
@@ -1278,7 +1283,6 @@ export default {
         this.headers[2].text=data.primaryCurrency
         this.headers[3].text=data.secondaryCurrency
         this.headers[4].text=data.tertiaryCurrency
-        
         if (val?.overProductionPercent >= 0) {
           this.calculation[1].editable = val?.overProductionPercent;
           this.calculation[2].editable = val?.lossPercent;
@@ -1464,8 +1468,18 @@ export default {
       deleteDetails: "preFinance/deleteDetails",
       updateDetails: "preFinance/updateDetails",
       updatePreFinance: "preFinance/updatePreFinance",
-      getPrefinanceGeneratePdf:"preFinance/getPrefinanceGeneratePdf"
+      getPrefinanceGeneratePdf:"preFinance/getPrefinanceGeneratePdf",
+      getPrefinanceTemplates: "preFinance/getPrefinanceTemplates",
+      setPrefinanceTemplate: "preFinance/setPrefinanceTemplate",
+      createPrefinanceTemplate: "preFinance/createPrefinanceTemplate",
     }),
+    saveFabricTemlate(templateName){
+      const data={
+        templateName,
+        preFinanceId:this.preFinanceId,
+      }
+      this.createPrefinanceTemplate(data)
+    },
     generatePdf(){
       this.isLoad = true;
       const id=this.$route.params.id
@@ -1554,6 +1568,7 @@ export default {
     },
   },
   mounted() {
+    this.getPrefinanceTemplates()
     this.getExpenseGroup({page:0,size:10});
     this.getMeasurementUnit();
     const param = this.$route.params.id;

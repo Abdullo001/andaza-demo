@@ -15,16 +15,19 @@
             <div class="font-weight-medium text-capitalize">
               {{ $t('fabricOrderingBox.id.accessoryPlanningChart') }}
             </div>
-            <v-btn
-              color="#544B99"
-              class="rounded-lg white--text text-capitalize"
-              @click="new_dialog = true"
-              :disabled="checkId"
-              :dark="!checkId"
-            >
-              <v-icon>mdi-plus</v-icon>
-             {{  $t('fabricOrderingBox.addAccessoryBox.addAccessory')}}
-            </v-btn>
+            <div class="d-flex">
+              <VuetifyCombobox v-model="cloningTemplate" class="mr-4" :itemsList="planningchartTemplatesList" :itemText="'templateName'" :itemValue="'templateName'" :placeholder="'Select template'"/>
+              <v-btn
+                color="#544B99"
+                class="rounded-lg white--text text-capitalize"
+                @click="new_dialog = true"
+                :disabled="checkId"
+                :dark="!checkId"
+              >
+                <v-icon>mdi-plus</v-icon>
+               {{  $t('fabricOrderingBox.addAccessoryBox.addAccessory')}}
+              </v-btn>
+            </div>
           </v-toolbar-title>
         </v-toolbar>
         <v-divider />
@@ -50,7 +53,9 @@
         </div>
       </template>
     </v-data-table>
-
+    <div class="d-flex justify-end mt-4">
+      <SaveClonComponent @saveTemplate="saveFabricTemlate"/>
+    </div>
     <v-dialog v-model="new_dialog" width="700">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
@@ -123,7 +128,7 @@
                   :rules="[formRules.required]"
                 />
               </v-col>
-              
+
               <v-col cols="5">
                 <div class="label">1 unit for how many products</div>
                 <v-text-field
@@ -168,7 +173,7 @@
                   :rules="[formRules.required]"
                 />
               </v-col>
-              
+
               <v-col cols="5" class="d-flex ">
                 <div class="mr-2">
                   <div class="label">{{$t('fabricOrderingBox.addAccessoryBox.wastage')}} %</div>
@@ -382,7 +387,7 @@
                   :rules="[formRules.required]"
                 />
               </v-col>
-              
+
               <v-col cols="5">
                 <div class="label">1 unit for how many products</div>
                 <v-text-field
@@ -427,7 +432,7 @@
                   :rules="[formRules.required]"
                 />
               </v-col>
-              
+
               <v-col cols="5" class="d-flex ">
                 <div class="mr-2">
                   <div class="label">{{$t('fabricOrderingBox.addAccessoryBox.wastage')}} %</div>
@@ -501,7 +506,7 @@
                   />
                 </div>
               </v-col>
-              
+
             </v-row>
             <v-row >
               <v-col v-for="(item,idx) in edit_accessory_chart.sizeDistributions" :key="idx" cols="3">
@@ -581,7 +586,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
     <v-dialog max-width="590" v-model="image_dialog">
       <v-card >
         <v-card-title class="d-flex">
@@ -600,11 +604,18 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import VuetifyCombobox from "../UI/VuetifyCombobox.vue";
+import SaveClonComponent from "../ClonningComponents/SaveClonComponent.vue";
 
 export default {
   name: "AccessoryChartPages",
+  components:{
+    SaveClonComponent,
+    VuetifyCombobox,
+  },
   data() {
     return {
+      cloningTemplate:null,
       validate: true,
       accessorySearch:"",
       withSizes:false,
@@ -668,6 +679,7 @@ export default {
       sizes: "sizeDistribution/sizes",
       selectedAccessory: "accessoryChart/selectedAccessory",
       oneOrder: "orders/oneOrder",
+      planningchartTemplatesList: "accessoryChart/planningchartTemplatesList",
     }),
     checkId() {
       const param = this.$route.params.id;
@@ -678,6 +690,13 @@ export default {
     }
   },
   watch: {
+    cloningTemplate(val){
+      const data={
+        accessoryPlanningId:this.$route.params.id!=='create'?this.$route.params.id:this.accessoryId,
+        templateName:val.templateName
+      }
+      this.setPlanningChartTemplate(data)
+    },
     sizes(val){
       const items=[]
       this.headers= [
@@ -761,7 +780,17 @@ export default {
       getChartAllData: "accessoryChart/getChartAllData",
       getSizeDistribution: "sizeDistribution/getSizeDistribution",
       getOneOrder: "orders/getOneOrder",
+      getPlanningChartTemplates: "accessoryChart/getPlanningChartTemplates",
+      setPlanningChartTemplate: "accessoryChart/setPlanningChartTemplate",
+      createPlanningChartTemplate: "accessoryChart/createPlanningChartTemplate",
     }),
+    saveFabricTemlate(templateName){
+      const data={
+        templateName,
+        accessoryPlanningId:this.$route.params.id!=='create'?this.$route.params.id:this.accessoryId
+      }
+      this.createPlanningChartTemplate(data)
+    },
     handlePaste(event) {
       const items = (event.clipboardData || event.originalEvent.clipboardData).items;
       for (const item of items) {
@@ -838,7 +867,7 @@ export default {
         const data=JSON.parse(JSON.stringify(this.edit_accessory_chart))
         data.accessoryId=data.accessoryId?.id
         data.accessoryPlanningId=accessoryPlanningId
-        
+
         await this.updateChartAccessory({data,id:accessoryPlanningId,accessoryPlanningChartId:data.id});
 
         this.edit_dialog = false;
@@ -847,15 +876,15 @@ export default {
     clearFields(obj) {
       Object.keys(obj).forEach((key) => {
         if (typeof obj[key] === 'string') {
-          obj[key] = ''; 
+          obj[key] = '';
         } else if (typeof obj[key] === 'number') {
-          obj[key] = 0; 
+          obj[key] = 0;
         } else if (typeof obj[key] === 'boolean') {
-          obj[key] = false; 
+          obj[key] = false;
         } else if (Array.isArray(obj[key])) {
-          obj[key] = []; 
+          obj[key] = [];
         } else {
-          obj[key] = null; 
+          obj[key] = null;
         }
       });
     },
@@ -875,7 +904,7 @@ export default {
 
         this.new_dialog = false;
         this.clearFields(this.create_accessory_chart)
-      
+
     },
     editItem(item) {
       this.edit_accessory_chart = { ...item };
@@ -896,10 +925,11 @@ export default {
       this.getSizeDistribution({modelId:this.selectedAccessory.modelId})
       this.getOneOrder({id:this.selectedAccessory.orderId,modelId:this.selectedAccessory.modelId})
     }
-    
+
     if (id !== "create") {
       this.getChartAllData(id);
     }
+    this.getPlanningChartTemplates()
     document.addEventListener('paste', this.handlePaste);
   },
 
