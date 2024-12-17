@@ -5,6 +5,7 @@ export const state = () => ({
   accessoryAllData: [],
   colorsList: [],
   selectedAccessory:{},
+  planningchartTemplatesList:[],
 })
 export const getters = {
   loading: state => state.loading,
@@ -13,6 +14,7 @@ export const getters = {
   accessoryAllData: state => state.accessoryAllData,
   colorsList: state => state.colorsList,
   selectedAccessory: state => state.selectedAccessory,
+  planningchartTemplatesList: state => state.planningchartTemplatesList,
 }
 export const mutations = {
   setLoading(state, status) {
@@ -32,6 +34,9 @@ export const mutations = {
   },
   setSelectedAccessory(state, items){
     state.selectedAccessory=items
+  },
+  setPlanningchartTemplatesList(state, items){
+    state.planningchartTemplatesList=items
   },
 }
 export const actions = {
@@ -58,7 +63,7 @@ export const actions = {
       })
   },
   async createChartAccessory({dispatch}, {data,id}){
-    
+
     await this.$axios.$post('/api/v1/accessory-planning-charts', data)
       .then(res => {
         dispatch("getChartAllData", id);
@@ -74,7 +79,7 @@ export const actions = {
     await this.$axios.get(`/api/v1/accessory-planning-charts/list/${id}`)
       .then(res => {
         commit("setAllChartAccessory", res.data.data);
-        
+
       })
       .catch(({response}) => {
         console.log(response)
@@ -91,5 +96,33 @@ export const actions = {
       .catch((res)=>{
         console.log(res)
       })
+  },
+  async getPlanningChartTemplates({commit}){
+    this.$axios.get(`/api/v1/templates/accessory-planning-chart`)
+    .then((res)=>{
+      commit("setPlanningchartTemplatesList",res.data.data)
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+  async setPlanningChartTemplate({dispatch},{accessoryPlanningId,templateName}){
+    this.$axios.put(`/api/v1/templates/accessory-planning-chart`,{accessoryPlanningId,templateName})
+    .then((res)=>{
+      dispatch("getChartAllData",accessoryPlanningId)
+      this.$toast.succes(res.data.succes)
+    })
+    .catch(({response})=>{
+      console.log(response);
+    })
+  },
+  async createPlanningChartTemplate({dispatch},{accessoryPlanningId,templateName}){
+    this.$axios.post(`/api/v1/templates/accessory-planning-chart`,{accessoryPlanningId,templateName})
+    .then((_res)=>{
+      dispatch("getPlanningChartTemplates")
+    })
+    .catch(({response})=>{
+      console.log(response);
+    })
   }
 }

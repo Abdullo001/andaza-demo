@@ -5,7 +5,8 @@ export const state = () => ({
   canvasTypeList: [],
   yarnType: [],
   compositionList: [],
-  oneModelParts: {}
+  oneModelParts: {},
+  modelPartsTemplates:[],
 
 });
 export const getters = {
@@ -16,6 +17,7 @@ export const getters = {
   yarnType: state => state.yarnType,
   compositionList: state => state.compositionList,
   oneModelParts: state => state.oneModelParts,
+  modelPartsTemplates: state => state.modelPartsTemplates,
 
 }
 export const mutations = {
@@ -40,6 +42,9 @@ export const mutations = {
   setOneModelParts(state, elem) {
     state.oneModelParts = elem;
   },
+  setModelPartsTemplates(state, elem) {
+    state.modelPartsTemplates = elem;
+  },
 };
 export const actions = {
   getPartName({commit},name) {
@@ -51,7 +56,6 @@ export const actions = {
           propertyType: 'STRING',
           value: name
         },
-        
       ],
       sorts: [],
       page: 0,
@@ -185,5 +189,33 @@ export const actions = {
       .then(res => {
         commit('setOneModelParts', res.data)
       }).catch(({response}) => console.log(response))
+  },
+  async getModelPartsTemplates({commit}){
+    this.$axios.get(`/api/v1/templates/model-part`)
+    .then((res)=>{
+      commit("setModelPartsTemplates",res.data.data)
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+  async setModelPartsTemplate({dispatch},{modelId,templateName}){
+    this.$axios.put(`/api/v1/templates/model-part`,{modelId,templateName})
+    .then((res)=>{
+      dispatch("getModelPart",modelId)
+      this.$toast.succes(res.data.succes)
+    })
+    .catch(({response})=>{
+      console.log(response);
+    })
+  },
+  async createModelPartsTemplate({dispatch},{modelId,templateName}){
+    this.$axios.post(`/api/v1/templates/model-part`,{modelId,templateName})
+    .then((_res)=>{
+      dispatch("getModelPartsTemplates")
+    })
+    .catch(({response})=>{
+      console.log(response);
+    })
   }
 };

@@ -4,7 +4,8 @@ export const state = () => ({
   modelId: '',
   fabricPlanningId: '',
   planningChartList: [],
-  onePlanningChart: {}
+  onePlanningChart: {},
+  planningchartTemplatesList:[],
 });
 
 export const getters = {
@@ -14,7 +15,8 @@ export const getters = {
   modelId: state => state.modelId,
   fabricPlanningId: state => state.fabricPlanningId,
   planningChartList: state => state.planningChartList,
-  onePlanningChart: state => state.onePlanningChart
+  onePlanningChart: state => state.onePlanningChart,
+  planningchartTemplatesList: state => state.planningchartTemplatesList,
 };
 export const mutations = {
   setFabricList(state, fabric) {
@@ -34,7 +36,10 @@ export const mutations = {
   },
   setOnePlanningChart(state, item) {
     state.onePlanningChart = item;
-  }
+  },
+  setPlanningchartTemplatesList(state, item) {
+    state.planningchartTemplatesList = item;
+  },
 };
 export const actions = {
   async getFabricList({commit}, {page, size, data}) {
@@ -104,5 +109,33 @@ export const actions = {
         dispatch('fabricOrdered/getFabricOrdered',id,{root:true})
         this.$toast.success(res.message);
       }).catch(({response}) => console.log(response));
+  },
+  async getPlanningChartTemplates({commit}){
+    this.$axios.get(`/api/v1/templates/fabric-planning-chart`)
+    .then((res)=>{
+      commit("setPlanningchartTemplatesList",res.data.data)
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+  async setPlanningChartTemplate({dispatch},{fabricPlanningId,templateName}){
+    this.$axios.put(`/api/v1/templates/fabric-planning-chart`,{fabricPlanningId,templateName})
+    .then((res)=>{
+      dispatch("getPlanningChartList",fabricPlanningId)
+      this.$toast.succes(res.data.succes)
+    })
+    .catch(({response})=>{
+      console.log(response);
+    })
+  },
+  async createPlanningChartTemplate({dispatch},{fabricPlanningId,templateName}){
+    this.$axios.post(`/api/v1/templates/fabric-planning-chart`,{fabricPlanningId,templateName})
+    .then((_res)=>{
+      dispatch("getPlanningChartTemplates")
+    })
+    .catch(({response})=>{
+      console.log(response);
+    })
   }
 };

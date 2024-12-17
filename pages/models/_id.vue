@@ -695,7 +695,6 @@ export default {
     },
     modelTemplate(val) {
       this.getModelTemplateWithId(val.templateId);
-      // console.log(val);
     },
     modelTemplateItem(item) {
       this.templateItem=JSON.parse(JSON.stringify(item))
@@ -740,7 +739,7 @@ export default {
       model.id = val.id;
       model.number = val.modelNumber;
       model.name = val.name;
-      model.groupId = { id: val.modelGroupId, name: val.modelGroup };
+      model.groupId = { id: val.modelCategoryId, name: val.modelCategory };
       model.compositionId = { id: val.compositionId, name: val.composition };
       model.season = val.season;
       model.licence = val.licenceRequired;
