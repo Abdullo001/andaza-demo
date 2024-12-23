@@ -494,6 +494,11 @@ export default {
                 to: this.localePath("/list-of-workers"),
                 localization: "listOfWorkers",
               },
+              {
+                title: "Model operations",
+                to: this.localePath("/model-operations"),
+                localization: "modelOperations",
+              },
             ],
           },
           {

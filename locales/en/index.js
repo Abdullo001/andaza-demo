@@ -75,7 +75,8 @@ export default {
     centralWarehouse: "Central warehouse",
     department: "Production departments",
     bankDetails:"Bank details",
-    listOfWorkers:"Employee list"
+    listOfWorkers:"Employee list",
+    modelOperations: "Model Operations",
   },
   appBar: {
     search: "Search",
@@ -2685,4 +2686,13 @@ export default {
    wantToDelete:"Are you sure you want to delete this accessory stock row?",
   
   },
+  modelOperations:{
+    modelOperation: "Model operation",
+    operationName:"Operation name",
+    enterOperationName:"Enter operation name",
+    description: "Description",
+    enterDescription:"Enter description",
+    createdAt:"Created at",
+    creator: "Creator",
+  }
 };

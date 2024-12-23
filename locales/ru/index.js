@@ -74,7 +74,8 @@ export default {
     department: "Отделы производства",
     bankDetails:"Банковские реквизиты",
     process:"Процесс",
-    listOfWorkers:"Список сотрудников"
+    listOfWorkers:"Список сотрудников",
+    modelOperations: "Модельные операции",
   },
   appBar: {
     search: "Поиск",
@@ -2671,4 +2672,13 @@ export default {
    deleteStock:"Удалить строку сток Фурнитураов",
    wantToDelete:"Вы уверены, что хотите удалить эту строку запасов Фурнитураов?",
   },
+  modelOperations: {
+    modelOperation: "Операция модели",
+    operationName:"Название операции",
+    enterOperationName: "Введите название операции",
+    description: "Описание",
+    enterDescription: "Введите описание",
+    createdAt: "Создано",
+    creator: "Создатель",
+  }
 };
