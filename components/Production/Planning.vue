@@ -15,16 +15,28 @@
         <v-card-title class="d-flex">
           <div class="title">{{$t('secondaryWarehouse.productionProcesses')}}</div>
           <v-spacer/>
-          <v-btn
-            color="#544B99" dark
-            class="rounded-lg text-capitalize font-weight-bold"
-            height="40"
-            :disabled="btn_disabled"
-            @click="openDialog($t('planningProduction.dialog.add'))"
-          >
-            <v-icon>mdi-plus</v-icon>
-            {{ $t('planningProduction.planning.process') }}
-          </v-btn>
+          <div>
+            <v-btn
+              color="#544B99"
+              outlined
+              class="rounded-lg text-capitalize font-weight-bold"
+              height="40"
+              :disabled="btn_disabled"
+              @click="openDailyTask"
+            >
+              Daily tasks
+            </v-btn>
+            <v-btn
+              color="#544B99" dark
+              class="rounded-lg text-capitalize font-weight-bold"
+              height="40"
+              :disabled="btn_disabled"
+              @click="openDialog(add)"
+            >
+              <v-icon>mdi-plus</v-icon>
+              {{ $t('planningProduction.planning.process') }}
+            </v-btn>
+          </div>
         </v-card-title>
       </template>
       <template #item.totalPrice="{item}">
@@ -196,7 +208,7 @@ export default {
       ],
       planningList: [],
       dialog: false,
-      title: this.$t('planningProduction.dialog.add'),
+      title: "add",
       btnText: this.$t('planningProduction.dialog.save'),
       currencyEnums: ['UZS', 'RUB', 'USD'],
       new_process: {
@@ -259,7 +271,7 @@ export default {
       deleteProcessing: 'production/planning/deleteProcessing',
     }),
     async saveProcessing() {
-      if (this.title === this.$t('planningProduction.dialog.add')) {
+      if (this.title === "add") {
         this.new_process.productionId = this.productionId;
         let item={}
         for(let el in this.new_process) {
@@ -286,6 +298,10 @@ export default {
         this.warningState=true
       }
     },
+    openDailyTask(){
+      const id = this.$route.params.id;
+      this.$router.push(`/production/daily-works/${id}`)
+    },
     openDialog(title) {
       this.title = title;
       this.dialog = true;
@@ -303,7 +319,7 @@ export default {
     },
     editItem(item) {
       this.dialog = true;
-      this.title = this.$t('planningProduction.dialog.edit');
+      this.title = "edit";
       this.btnText = this.$t('planningProduction.dialog.update');
       this.new_process = {
         process: item.process,

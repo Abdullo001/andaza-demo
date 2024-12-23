@@ -79,7 +79,7 @@ export default {
         url: 'https://localhost:8000'
       }
     ],
-    fcmPublicVapidKey: "BMMSXnJHVcOkKOQgbdszWNf7GnQZF27_Et_FJWmBFwsO59Yx4MvDth-dSLiN-_MKBPwyrwnoM5An1NdiX9H0e4o" 
+    fcmPublicVapidKey: "BMMSXnJHVcOkKOQgbdszWNf7GnQZF27_Et_FJWmBFwsO59Yx4MvDth-dSLiN-_MKBPwyrwnoM5An1NdiX9H0e4o"
   },
 
   pwa: {
