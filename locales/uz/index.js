@@ -81,7 +81,8 @@ export default {
     department: "Ishlab chiqarish bo'limlari",
     bankDetails:"Bank tafsilotlari",
     process:"Jarayon",
-    listOfWorkers:"Xodimlar royxati"
+    listOfWorkers:"Xodimlar royxati",
+    modelOperations: "Model operatsiyalari",
   },
   appBar: {
     search: "Qidirmoq",
@@ -2689,4 +2690,13 @@ yarnNumber:{
    deleteStock:"Furnituralar stokini o`chirish",
    wantToDelete:"Haqiqatan ham bu Furnitura stokini  oʻchirib tashlamoqchimisiz?",
   },
+  modelOperations: {
+    modelOperation: "Model operatsiyasi",
+    operationName:"Operatsiya nomi",
+    enterOperationName: "Operatsiya nomini kiriting",
+    description: "Tavsif",
+    enterDescription: "Tavsifni kiriting",
+    createdAt: "Yaratilgan vaqt",
+    creator: "Yaratuvchi",
+  }
 };
