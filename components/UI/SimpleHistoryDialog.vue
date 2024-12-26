@@ -20,6 +20,7 @@
             :items="itemsList"
             class="mt-4 rounded-lg"
             style="border: 1px solid #E9EAEB"
+            :loading="loadingState"
           >
           </v-data-table>
         </v-card-text>
@@ -42,6 +43,10 @@ export default {
       type:Boolean,
       required:true,
     },
+    loadingState:{
+      type:Boolean,
+      default:false,
+    }
   },
 
   data(){

@@ -77,6 +77,7 @@ export default {
     bankDetails:"Bank details",
     listOfWorkers:"Employee list",
     modelOperations: "Model Operations",
+    monthlySalary: "Salary",
   },
   appBar: {
     search: "Search",
@@ -1238,7 +1239,7 @@ export default {
   },
   yarnNumber:{
     idYarnNumber:"Yarn ID",
-    
+
 
   },
 
@@ -1865,7 +1866,7 @@ export default {
       accessoryPlanningChart: "Accessory planning chart",
       accessoryPlannedOrder: "Planned accessory order",
     },
-  addAccessoryBox:{ 
+  addAccessoryBox:{
     addAccessory: "Add Accessory",
     name: "Name",
     selectName: "Select Name",
@@ -1890,7 +1891,7 @@ export default {
     description: "Description",
     actions: "Actions",
   },
-  plannedAccessoryOrderBox:{  
+  plannedAccessoryOrderBox:{
     partnerName: "Partner name",
     deliveryTime: "Delivery time",
     deadline: "Deadline",
@@ -2684,11 +2685,11 @@ export default {
    givingStock:"Giving to stock",
    orderedQuantity:"Ordered quantity",
    deliveredQuantity:"Delivered quantity",
-   spentQuantity:"Spent quantity", 
+   spentQuantity:"Spent quantity",
    perUnitPrice:"Price per unit",
    deleteStock:"Delete accessory stock row",
    wantToDelete:"Are you sure you want to delete this accessory stock row?",
-  
+
   },
   modelOperations:{
     modelOperation: "Model operation",

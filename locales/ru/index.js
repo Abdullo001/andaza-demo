@@ -76,6 +76,7 @@ export default {
     process:"Процесс",
     listOfWorkers:"Список сотрудников",
     modelOperations: "Модельные операции",
+    monthlySalary: "Зарплата",
   },
   appBar: {
     search: "Поиск",
@@ -2671,7 +2672,7 @@ export default {
    givingStock:"Трансфер на сток",
    orderedQuantity:"Заказанное количество",
    deliveredQuantity:"Доставленное количество",
-   spentQuantity:"Потраченное количество", 
+   spentQuantity:"Потраченное количество",
    perUnitPrice:"Цена за единицу",
    deleteStock:"Удалить строку сток Фурнитураов",
    wantToDelete:"Вы уверены, что хотите удалить эту строку запасов Фурнитураов?",
