@@ -42,7 +42,6 @@ export const actions = {
       page,
       size,
     };
-
     this.$axios
       .put(`/api/v1/fabric-warehouse/list`, body)
       .then((res) => {
@@ -212,7 +211,16 @@ export const actions = {
     this.$axios.get(`/api/v1/model-parts/by-model-number?modelNumber=${modelNumber}`)
     .then((res)=>{
       commit("setModelParts",res.data.data)
-      
+
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+  transferToStock({dispatch},fabricWarehouseId){
+    this.$axios.put(`/api/v1/fabric-warehouse/give/fabric-stock/${fabricWarehouseId}`)
+    .then((_res)=>{
+      dispatch("getFabricWarehouseList",{page:0,size:10})
     })
     .catch((response)=>{
       console.log(response);
