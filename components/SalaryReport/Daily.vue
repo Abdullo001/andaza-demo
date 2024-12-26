@@ -101,6 +101,21 @@
           <span>Generate PDF</span>
         </v-tooltip>
       </template>
+      <template v-slot:body.append>
+        <tr>
+          <td></td>
+          <td
+            class="text-capitalize text-body-1 font-weight-bold"
+          >
+              Total
+          </td>
+          <td colspan="2"></td>
+          <td >{{paymentsList.totalWage}}</td>
+          <td >{{paymentsList.totalAdvance}}</td>
+          <td >{{paymentsList.totalLeftAmount}}</td>
+          <td colspan="2"></td>
+        </tr>
+      </template>
     </v-data-table>
     <div class="d-flex justify-end">
       <v-btn
@@ -146,6 +161,7 @@ export default {
         { text: "Monthly payment", value: "monthlyPayment", sortable: false },
         { text: "Advance payment", value: "advancePayment", sortable: false },
         { text: "Left amount", value: "leftAmount", sortable: false },
+        { text: "Currency", value: "currency", sortable: false },
         { text: "Actions", value: "actions", sortable: false },
       ],
       items: [],
