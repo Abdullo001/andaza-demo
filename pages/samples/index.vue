@@ -403,9 +403,8 @@ export default {
       getSamplesList: "accessorySamples/getSamplesList",
     }),
     viewDetails(item) {
-      this.$router.push(localePath(`/samples/${item.id}`));
+      this.$router.push(this.localePath(`/samples/${item.id}`));
     },
-
     filterOrder() {
       this.getSamplesList({
         page: 0,
