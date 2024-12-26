@@ -189,6 +189,25 @@
             </template>
             <span class="text-capitalize">subcontractor</span>
           </v-tooltip>
+          <v-tooltip
+            top
+            color="#544B99"
+            class="pointer"
+            v-if="Object.keys(item).length > 2"
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+                color="#544B99"
+                @click="tansferStock(item)"
+              >
+                <v-img src="/stock-icon.svg" max-width="22" />
+              </v-btn>
+            </template>
+            <span class="text-capitalize">To Stock</span>
+          </v-tooltip>
         </div>
       </template>
       <template #item.actions="{ item }">
@@ -830,14 +849,20 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <WarningDialog :dialogState="toStockState" :voidFunction="transferFunc" :dialogCloser="dialogCloser" :dialogText="'Do you really want to stock this fabric?'"/>
   </div>
 </template>
 <script>
 import { mapActions, mapGetters } from "vuex";
+import WarningDialog from "@/components/WarningDialog.vue";
 
 export default {
+  components:{
+    WarningDialog,
+  },
   data() {
     return {
+      toStockState:false,
       sipNumberSearch:"",
       headers: [
         { text: this.$t('fabricWarehouse.sipNumber'), value: "sipNumber", sortable: false },
@@ -970,7 +995,7 @@ export default {
       this.current_list.forEach((item,idx)=>{
         item.modelNumber=val[idx].modelNumber.split("$")
       })
-      
+
     },
 
     new_dialog(val){
@@ -999,11 +1024,15 @@ export default {
       setFabricToWorkshop: "fabricWarehouse/setFabricToWorkshop",
       setFabricToSubcontract: "fabricWarehouse/setFabricToSubcontract",
       getModelPartsList: "fabricWarehouse/getModelPartsList",
+      transferToStock: "fabricWarehouse/transferToStock",
       getPartnerList: "partners/getPartnerList",
 
     }),
     loadDetails({ item }) {
       // current opened || choose object ^
+    },
+    dialogCloser(){
+      this.toStockState=false
     },
     async page(value) {
       this.current_page = value - 1;
@@ -1027,7 +1056,7 @@ export default {
     },
 
     addArrivedFabric() {
-      
+
       this.arrivedFabric={}
       this.title = "New";
       this.new_dialog = true;
@@ -1064,6 +1093,14 @@ export default {
       this.updateFabricWarehouse(data);
       this.new_dialog = false;
     },
+    tansferStock(item){
+      this.deletedId = item.id;
+      this.toStockState=true
+    },
+    transferFunc(){
+      this.transferToStock(this.deletedId)
+      this.toStockState=false
+    },
 
     spendFunc(item) {
       this.spendingFabric.idFrom = item.id;
@@ -1095,7 +1132,7 @@ export default {
       if(typeof item.modelNumber==="string"){
         this.modelNumbers.push(item.modelNumber)
       }
-      
+
       if(typeof item.modelNumber==="object"){
         this.modelNumbers=[...item.modelNumber]
       }
@@ -1137,7 +1174,7 @@ export default {
       if(typeof item.modelNumber==="string"){
         this.modelNumbers.push(item.modelNumber)
       }
-      
+
       if(typeof item.modelNumber==="object"){
         this.modelNumbers=[...item.modelNumber]
       }
