@@ -83,6 +83,7 @@ export default {
     process:"Jarayon",
     listOfWorkers:"Xodimlar royxati",
     modelOperations: "Model operatsiyalari",
+    monthlySalary: "Maosh hisoboti",
   },
   appBar: {
     search: "Qidirmoq",
@@ -1193,7 +1194,7 @@ export default {
       deleteDialog: "O'lchamni o'chirish",
       deleteText: "O'lchamni o'chirishni istaysizmi?",
       delete: "O'chirish",
-      
+
     },
   },
   colorsBox: {
@@ -1842,7 +1843,7 @@ yarnNumber:{
   commentDate: "Izoh qabul qilingan sana",
   chemicalProcess: "Kimyoviy jarayon",
    },
-    
+
   },
   finishProcess: {
     finish: "Tugatish",
@@ -2685,7 +2686,7 @@ yarnNumber:{
    givingStock:"Stokga o`tkazish",
    orderedQuantity:"Buyurtma miqdori",
    deliveredQuantity:"Yetkazib berilgan miqdor",
-   spentQuantity:"Sarflangan miqdor", 
+   spentQuantity:"Sarflangan miqdor",
    perUnitPrice:"Donasining narxi",
    deleteStock:"Furnituralar stokini o`chirish",
    wantToDelete:"Haqiqatan ham bu Furnitura stokini  oʻchirib tashlamoqchimisiz?",

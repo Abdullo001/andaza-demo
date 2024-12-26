@@ -646,6 +646,11 @@ export default {
                 localization: "report",
               },
               {
+                title: "Monthly salary",
+                to: this.localePath("/monthly-salary"),
+                localization: "monthlySalary",
+              },
+              {
                 title: "PPG",
                 to: this.localePath("/ppg"),
                 localization: "ppg",

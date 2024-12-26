@@ -182,6 +182,7 @@ export default {
           return acc.concat(operationsData);
         }, []),
         modelCategoryId: this.workLogsInfo.modelCategoryId,
+        modelId: this.$route.params.id,
       };
 
       this.saveDailyWorkLogs({data:payload,modelId:this.$route.params.id})

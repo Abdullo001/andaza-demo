@@ -108,7 +108,7 @@
               </v-row>
             </v-col>
             <v-col cols="4">
-              <v-img v-if="modelDetail.photo" :src="link.filePath"/>
+              <v-img v-if="modelImages.length" :src="modelImages[0].filePath"/>
               <div v-else class="default-data" v-ripple>
                 <div
                   class="d-flex justify-center flex-column align-center h-full"
@@ -168,6 +168,7 @@ export default {
   computed:{
     ...mapGetters({
       workLogsInfo:"dailyWorkTable/workLogsInfo",
+      modelImages: "modelPhoto/modelImages",
     })
   },
   watch:{
@@ -178,11 +179,13 @@ export default {
   methods:{
     ...mapActions({
       getWorkLogsInfo:"dailyWorkTable/getWorkLogsInfo",
+      getImages: "modelPhoto/getImages",
     }),
   },
   mounted(){
     const modelId=this.$route.params.id
     this.getWorkLogsInfo(modelId)
+    this.getImages(modelId)
   }
 };
 </script>
