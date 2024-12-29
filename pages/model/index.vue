@@ -56,6 +56,7 @@
       }"
       @update:items-per-page="size"
       @update:page="page"
+      @click:row="(item) => viewDetails(item)"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -84,6 +85,18 @@
           <v-btn icon color="red" @click.stop="getDeleteItem(item)">
             <v-img src="delete.svg" max-width="27" />
           </v-btn>
+          <v-tooltip top color="#544B99">
+            <template v-slot:activator="{on, attrs}">
+              <v-btn
+                icon color="#544B99"
+                v-on="on" v-bind="attrs"
+                @click="viewDetails(item)"
+              >
+                <v-icon>mdi-chevron-right</v-icon>
+              </v-btn>
+            </template>
+            <span>Details</span>
+          </v-tooltip>
         </div>
       </template>
     </v-data-table>
@@ -405,6 +418,9 @@ export default {
     },
     async filterData() {
       await this.getModelGroupList({ page: 0, size: 10, modelGroupName:this.filter_model.name })
+    },
+    viewDetails(item){
+      this.$router.push(this.localePath(`/model/${item.id}`))
     },
   },
 

@@ -410,11 +410,6 @@ export default {
                 localization: "expenseGroup",
               },
               {
-                title: this.$t("sidebar.measurementUnit"),
-                to: this.localePath("/measurement"),
-                localization: "measurementUnit",
-              },
-              {
                 title: this.$t("sidebar.packageShape"),
                 to: this.localePath("/package-shape"),
                 localization: "packageShape",
