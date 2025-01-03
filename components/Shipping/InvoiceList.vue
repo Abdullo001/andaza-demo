@@ -198,7 +198,7 @@
           <v-col cols="12" lg="12" md="3" sm="6">
             <div class="label">{{ $t('shipping.invoice.letterOfCreditNo') }}</div>
             <v-text-field
-              :disabled="editable"  
+              :disabled="editable"
               class="rounded-lg base mb-4"
               color="#544B99"
               v-model="invoiceList.creditNumber"
@@ -510,7 +510,7 @@ export default {
     ...mapGetters({
       shippingInvoiceList: "shippingInvoice/shippingInvoiceList",
       shippingInvoiceItemList: "shippingInvoice/shippingInvoiceItemList",
-      measurementUnitList: "shippingInfo/measurementUnitList",
+      measurementUnitList: "measurement/measurementUnit",
       isLoad: "shippingInvoice/isLoad",
       bankDetailsList: "bankDetails/bankDetailsList",
     })
@@ -534,7 +534,7 @@ export default {
         this.sumAmountTotal = list.reduce((acc, el) => acc + el.totalAmount, 0)
         this.invoiceListItem=JSON.parse(JSON.stringify(specialList))
       }
-      
+
     },
     bankInfoSearch(val){
       if (!!val) {
@@ -560,7 +560,7 @@ export default {
       getInvoiceList: "shippingInvoice/getInvoiceList",
       getInvoiceItemList: "shippingInvoice/getInvoiceItemList",
       updateInvoiceList: "shippingInvoice/updateInvoiceList",
-      getMeasurementUnit: "shippingInfo/getMeasurementUnit",
+      getMeasurementUnit: "measurement/getMeasurementUnit",
       updateInvoiceItem: "shippingInvoice/updateInvoiceItem",
       generateInvoicePdf: 'shippingInvoice/generateInvoicePdf',
       getBankDetailsList: "bankDetails/getBankDetailsList",

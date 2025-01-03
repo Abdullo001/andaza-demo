@@ -245,7 +245,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      measurementUnitList: "shippingInfo/measurementUnitList",
+      measurementUnitList: "measurement/measurementUnit",
       shippingInfoDetail: "shippingInfo/shippingInfoDetail",
     }),
 
@@ -271,7 +271,7 @@ export default {
   methods: {
     ...mapActions({
       getShippingInfo: "shippingInfo/getShippingInfo",
-      getMeasurementUnit: "shippingInfo/getMeasurementUnit",
+      getMeasurementUnit: "measurement/getMeasurementUnit",
       createShippingInfo: "shippingInfo/createShippingInfo",
     }),
 

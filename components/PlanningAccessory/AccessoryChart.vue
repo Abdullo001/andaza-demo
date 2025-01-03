@@ -665,7 +665,7 @@ export default {
     };
   },
   created() {
-    this.getMeasurementUnit({ page: 0, size: 20 });
+    this.getMeasurementUnit();
     this.getAccessoryList({page:0,size:10,});
   },
   computed: {

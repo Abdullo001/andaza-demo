@@ -560,7 +560,7 @@ export default {
       filters: {},
       currentItem: {},
       current_list: [
-        
+
       ],
       headers: [
         { text: this.$t('wastes.wastesWarehouse.no'), value: "id", sortable: false },
@@ -620,7 +620,7 @@ export default {
   },
 
   created() {
-    this.getMeasurementUnit({ page: 0, size: 20 });
+    this.getMeasurementUnit();
     this.getModelsList({
       page: 0,
       size: 10,

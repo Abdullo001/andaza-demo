@@ -519,7 +519,7 @@
                   </template>
                 </v-combobox>
               </v-col>
-              
+
               <v-col cols="4" class="d-flex align-center">
                 <v-switch inset v-model="autoFilling" color="#4F46E5" />
                 <div class="label mr-5 ">Aut.Filling</div>
@@ -542,8 +542,8 @@
               </v-col>
             </v-row>
             <v-row>
-             
-              
+
+
             </v-row>
 
           </v-form>
@@ -641,7 +641,7 @@ export default {
       itemList:"garment/garmentList",
       modelsList: "models/modelsList",
       colorList: "accessorySamples/colorList",
-      measurementUnitList: "preFinance/measurementUnit",
+      measurementUnitList: "measurement/measurementUnit",
       shippingInvoiceList: "shipping/shippingInvoiceList",
 
 
@@ -737,7 +737,7 @@ export default {
       getModelSizes:"garment/getModelsizes",
       getModelsList: "models/getModelsList",
       modelColor: "accessorySamples/modelColor",
-      getMeasurementUnit: "preFinance/getMeasurementUnit",
+      getMeasurementUnit: "measurement/getMeasurementUnit",
       getShippingInvoiceList: "shipping/getShippingInvoiceList",
 
     }),
@@ -807,7 +807,7 @@ export default {
         warehouseId:this.id,
       }
       delete data.sizesNoQuantity
-      
+
 
       this.sellGarmentInCentral({data,id:this.selectForSell.garmentId})
       this.spendDialog=false
@@ -826,5 +826,5 @@ export default {
 }
 </script>
 <style lang="">
-  
+
 </style>

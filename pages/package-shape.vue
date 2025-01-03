@@ -406,14 +406,14 @@ export default {
       page: 0,
       size: 10,
     });
-    await this.$store.dispatch("packageshape/getMeasurementUnit");
+    this.getMeasurementUnit();
   },
   computed: {
     ...mapGetters({
       loading: "packageshape/loading",
       packageShape: "packageshape/packageShape",
       totalElements: "packageshape/totalElements",
-      measurement: "packageshape/measurement",
+      measurement: "measurement/measurementUnit",
     }),
   },
   methods: {
@@ -424,6 +424,7 @@ export default {
       deletePackageShape: "packageshape/deletePackageShape",
       filterPackageShape: "packageshape/filterPackageShape",
       sortPackageShape: "packageshape/sortPackageShape",
+      getMeasurementUnit: "measurement/getMeasurementUnit",
     }),
     async size(val) {
       this.itemPrePage = val;

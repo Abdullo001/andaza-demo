@@ -526,7 +526,7 @@
           <v-img :src="currentImage" height="500" class="mb-4" contain/>
         </v-card-text>
       </v-card>
-    </v-dialog> 
+    </v-dialog>
   </div>
 </template>
 
@@ -537,7 +537,7 @@ export default {
   name: "CatalogAccessoryPage",
   data() {
     return {
-      
+
       itemPrePage: 10,
       current_page: 0,
       delete_accessory_id: "",
@@ -591,14 +591,14 @@ export default {
   },
   async created() {
     await this.getAccessoryList({ page: 0, size: 10 });
-    await this.$store.dispatch("packageshape/getMeasurementUnit");
+    this.getMeasurementUnit();
     await this.getAccessoryTypeId({ page: 0, size: 50 });
   },
   computed: {
     ...mapGetters({
       loading: "catalogAccessory/loading",
       accessory_list: "catalogAccessory/accessory_list",
-      measurement: "packageshape/measurement",
+      measurement: "measurement/measurementUnit",
       totalElements: "catalogAccessory/totalElements",
       accessory_type_id: "catalogAccessory/accessory_type_id",
     }),
@@ -621,6 +621,7 @@ export default {
       updateAccessoryList: "catalogAccessory/updateAccessoryList",
       deleteAccessoryList: "catalogAccessory/deleteAccessoryList",
       filterAccessoryList: "catalogAccessory/filterAccessoryList",
+      getMeasurementUnit: "measurement/getMeasurementUnit",
     }),
 
     handlePaste(event) {
@@ -703,7 +704,7 @@ export default {
         formData.append("measurementUnitId",this.create_accessory.measurementUnitId)
         formData.append("specification",this.create_accessory.specification)
         formData.append("description",this.create_accessory.description)
-        
+
         if(!!this.files[0]?.file){
           formData.append("accessoryPhoto",this.files[0]?.file)
         }

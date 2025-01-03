@@ -4,7 +4,6 @@ export const state = () => ({
   preFinanceId: "",
   expenseGroup: {},
   expenseList: [],
-  measurementUnit: [],
   detailsList: [{totalPrice: 0}],
   loading: true,
   onePreFinance: {},
@@ -19,7 +18,6 @@ export const getters = {
   preFinanceId: state => state.preFinanceId,
   expenseGroup: state => state.expenseGroup.content,
   expenseList: state => state.expenseList,
-  measurementUnit: state => state.measurementUnit,
   detailsList: state => state.detailsList,
   loading: state => state.loading,
   totalElements: state => state.preFinances.totalElements,
@@ -47,9 +45,6 @@ export const mutations = {
   },
   setExpenseList(state, item) {
     state.expenseList = item;
-  },
-  setMeasurementUnit(state, item) {
-    state.measurementUnit = item;
   },
   setDetailsList(state, detail) {
     state.detailsList = detail;
@@ -184,20 +179,6 @@ export const actions = {
       .$get(`api/v1/expense/list?groupId=${id}`)
       .then((res) => {
         commit("setExpenseList", res.data);
-      })
-      .catch(({response}) => console.log(response));
-  },
-  async getMeasurementUnit({commit}) {
-    const body = {
-      filters: [],
-      posts: [],
-      page: 0,
-      size: 50,
-    };
-    await this.$axios
-      .$put(`api/v1/measurement-unit/list`, body)
-      .then((res) => {
-        commit("setMeasurementUnit", res.data.content);
       })
       .catch(({response}) => console.log(response));
   },

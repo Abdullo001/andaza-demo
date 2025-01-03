@@ -528,7 +528,7 @@ export default {
       partnerList: "partners/partnerList",
       historyListServer: "passingToNextProcess/historyProcessableList",
       nextProcessList: "passingToNextProcess/nextProcessList",
-      measurementUnitList: "preFinance/measurementUnit",
+      measurementUnitList: "measurement/measurementUnit",
       waybillList: "waybill/waybillList",
     }),
     warningDate: {
@@ -670,7 +670,7 @@ export default {
       setHistoryProcessable: "passingToNextProcess/setHistoryProcessable",
       getNextProcessList: "passingToNextProcess/getNextProcessList",
       setReadyGarmentWarehouse: "passingToNextProcess/setReadyGarmentWarehouse",
-      getMeasurementUnit: "preFinance/getMeasurementUnit",
+      getMeasurementUnit: "measurement/getMeasurementUnit",
       getWaybillList: "waybill/getWaybillList",
       productionToWaybill: "generalWarehouse/productionToWaybill",
     }),

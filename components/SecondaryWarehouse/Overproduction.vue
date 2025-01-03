@@ -495,7 +495,7 @@
                   />
                 </div>
               </v-col>
-              
+
               <v-col cols="12" lg="6">
                 <div class="label">Buyer name</div>
                 <v-text-field
@@ -524,7 +524,7 @@
                   validate-on-blur
                 />
               </v-col>
-              
+
               <v-col cols="4" class="d-flex align-center">
                 <v-switch inset v-model="autoFilling" color="#4F46E5" />
                 <div class="label mr-5 ">Aut.Filling</div>
@@ -665,7 +665,7 @@ export default {
       itemList:"garment/itemList",
       modelsList: "models/modelsList",
       colorList: "accessorySamples/colorList",
-      measurementUnitList: "preFinance/measurementUnit",
+      measurementUnitList: "measurement/measurementUnit",
 
     }),
     deleteData: {
@@ -744,7 +744,7 @@ export default {
       getModelSizes:"garment/getModelsizes",
       getModelsList: "models/getModelsList",
       modelColor: "accessorySamples/modelColor",
-      getMeasurementUnit: "preFinance/getMeasurementUnit",
+      getMeasurementUnit: "measurement/getMeasurementUnit",
     }),
     addGarment(){
       this.newDialog=true
@@ -826,5 +826,5 @@ export default {
 }
 </script>
 <style lang="">
-  
+
 </style>
