@@ -211,7 +211,7 @@
             </table>
           </template>
           </v-data-table>
-        
+
 
         <v-data-table
           class="rounded-lg mt-6"
@@ -417,7 +417,7 @@
             />
           </v-col>
           <v-col cols="8">
-            
+
             <v-row>
               <v-col cols="3">
                 <div class="label">{{ $t('waybillForm.givenBy') }}</div>
@@ -782,7 +782,7 @@ export default {
       status: "ACTIVE",
     });
     this.getMeasurementUnit();
-    
+
   },
 
   computed: {
@@ -790,7 +790,7 @@ export default {
       partnerLists: "partners/partnerList",
       modelsList: "models/modelsList",
       colorList: "accessorySamples/colorList",
-      measurementUnitList: "preFinance/measurementUnit",
+      measurementUnitList: "measurement/measurementUnit",
       waybillInfo:"waybill/waybillInfo",
       additionListStore:"waybill/additionList",
       oneWaybill:"waybill/oneWaybill",
@@ -881,7 +881,7 @@ export default {
       getPartnerList: "partners/getPartnerList",
       getModelsList: "models/getModelsList",
       modelColor: "accessorySamples/modelColor",
-      getMeasurementUnit: "preFinance/getMeasurementUnit",
+      getMeasurementUnit: "measurement/getMeasurementUnit",
       getWaybilForm:"waybill/getWaybilForm",
 
     }),

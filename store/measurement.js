@@ -4,7 +4,7 @@ export const state = () => ({
 })
 export const getters = {
   loading: state => state.loading,
-  measurementUnit: state => state.measurementUnit.content,
+  measurementUnit: state => state.measurementUnit,
   totalElements: state => state.measurementUnit.totalElements,
 }
 export const mutations = {
@@ -102,16 +102,11 @@ export const actions = {
         console.log(response)
       })
   },
-  async getMeasurementUnit({commit}, {page, size}) {
-    const body = {
-      filters: [],
-      sorts: [],
-      page: page,
-      size: size,
-    }
-    await this.$axios.$put('/api/v1/measurement-unit/list', body)
+  async getMeasurementUnit({commit}) {
+
+    await this.$axios.get('/api/v1/measurement-units')
       .then(res => {
-          commit('setMeasurementUnit', res.data)
+          commit('setMeasurementUnit', res.data.data)
           commit("setLoading", false)
       })
       .catch(({response}) => {

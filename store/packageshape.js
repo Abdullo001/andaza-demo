@@ -1,13 +1,11 @@
 export const state = () => ({
   loading: true,
   packageShape: [],
-  measurement: [],
 })
 export const getters = {
   loading: state => state.loading,
   packageShape: state => state.packageShape.content,
   totalElements: state => state.packageShape.totalElements,
-  measurement: state => state.measurement,
 }
 export const mutations = {
   setLoading(state, loadings) {
@@ -16,9 +14,6 @@ export const mutations = {
   setPackageShape(state, packageShapes) {
     state.packageShape = packageShapes
   },
-  setMeasurementUnit(state, item) {
-    state.measurement = item
-  }
 }
 export const actions = {
   async sortPackageShape({commit}, {data, page, size}) {
@@ -122,15 +117,6 @@ export const actions = {
       .catch(({response}) => {
         console.log(response)
         commit("setLoading", false)
-      })
-  },
-  async getMeasurementUnit({commit}) {
-    await this.$axios.get('/api/v1/measurement-unit/thin-list')
-      .then(res => {
-        commit("setMeasurementUnit", res.data.data)
-      })
-      .catch(({response}) => {
-        console.log(response)
       })
   },
 }

@@ -280,7 +280,7 @@ export default {
     }
   },
   created() {
-    this.getMeasurementUnit({page: 0, size: 20});
+    this.getMeasurementUnit();
   },
   computed: {
     ...mapGetters({

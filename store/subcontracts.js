@@ -1,7 +1,6 @@
 export const state = () => ({
   cooperation_type: [],
   partnerList: [],
-  measurementUnitList: [],
   subcontractsList: [],
   modelList: {},
   planningProcessId:null,
@@ -10,7 +9,6 @@ export const state = () => ({
 export const getters = {
   cooperation_type: (state) => state.cooperation_type.data,
   partnerList: (state) => state.partnerList.content,
-  measurementUnitList: (state) => state.measurementUnitList.data,
   subcontractsList: (state) => state.subcontractsList.data,
   modelList: (state) => state.modelList.content,
 };
@@ -21,9 +19,6 @@ export const mutations = {
   },
   setPartnerList(state, item) {
     state.partnerList = item;
-  },
-  getMeasurementUnitList(state, data) {
-    state.measurementUnitList = data;
   },
   setSubcontractsList(state, data) {
     state.subcontractsList = data;
@@ -75,18 +70,6 @@ export const actions = {
         console.log(res);
       });
   },
-
-  async getMeasurementUnit({ commit }) {
-    await this.$axios
-      .get(`/api/v1/measurement-unit/thin-list`)
-      .then((res) => {
-        commit("getMeasurementUnitList", res.data);
-      })
-      .catch((res) => {
-        console.log(res);
-      });
-  },
-
   async createSubcontracts({ dispatch }, data) {
     await this.$axios
       .post("/api/v1/subcontracts/create", data)

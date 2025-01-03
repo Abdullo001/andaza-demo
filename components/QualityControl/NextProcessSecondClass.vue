@@ -372,7 +372,7 @@ export default {
       productionId: "production/planning/productionId",
       partnerList: "subcontracts/partnerList",
       historyListServer: "passingToNextProcess/historyProcessableList",
-      measurementUnitList: "preFinance/measurementUnit",
+      measurementUnitList: "measurement/measurementUnit",
       waybillList: "waybill/waybillList",
     }),
   },
@@ -388,7 +388,7 @@ export default {
           item.quantity=0
         })
       }
-      
+
     },
     passingList(list) {
       this.headers = [
@@ -496,7 +496,7 @@ export default {
       giveReadyWarehouse: "nextProcessSecondClass/giveReadyWarehouse",
       getPartnerList: "subcontracts/getPartnerList",
       getHistoryList: "passingToNextProcess/getHistoryProcessableList",
-      getMeasurementUnit: "preFinance/getMeasurementUnit",
+      getMeasurementUnit: "measurement/getMeasurementUnit",
       getWaybillList: "waybill/getWaybillList",
       productionToWaybill: "generalWarehouse/productionToWaybill",
     }),

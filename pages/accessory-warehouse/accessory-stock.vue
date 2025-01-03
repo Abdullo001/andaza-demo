@@ -761,7 +761,7 @@ export default {
       accessoryStockList: "accessoryStock/accessoryStockList",
       partnerLists: "partners/partnerList",
       modelsList: "models/modelsList",
-      measurementUnitList: "shippingInfo/measurementUnitList",
+      measurementUnitList: "measurement/measurementUnit",
       pdfList: "generatePdf/pdfData",
     } ),
   },
@@ -783,7 +783,7 @@ export default {
       this.current_list = JSON.parse( JSON.stringify( val ) );
     },
     partnerName( val ) {
-      
+
       this.getPartnerList({page:0, size:10,partnerName:val});
 
     },
@@ -832,7 +832,7 @@ export default {
         "accessoryStock/setAccessoryStockToSubcontract",
         getPartnerList: "partners/getPartnerList",
       getModelsList: "models/getModelsList",
-      getMeasurementUnit: "shippingInfo/getMeasurementUnit",
+      getMeasurementUnit: "measurement/getMeasurementUnit",
       getStockAccessoryPdf:"generatePdf/getStockAccessoryPdf"
     } ),
 

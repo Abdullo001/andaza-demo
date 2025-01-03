@@ -139,7 +139,7 @@
             <span class="text-capitalize">History</span>
           </v-tooltip>
 
-          
+
         </div>
       </template>
       <template #item.actions="{ item }">
@@ -448,7 +448,7 @@
                   color="#544B99"
                 />
               </v-col>
-              
+
             </v-row>
           </v-form>
         </v-card-text>
@@ -475,7 +475,7 @@
       </v-card>
     </v-dialog>
 
-    
+
 
   </div>
 </template>
@@ -516,7 +516,7 @@ export default {
         { text: "Quantity", value: "quantity", sortable: false },
         { text: "Description", value: "description", sortable: false },
       ],
-      
+
 
       filters: {
         department: "",
@@ -562,7 +562,7 @@ export default {
     ...mapGetters({
       departmentList: "department/departmentList",
       partner_enums: "partners/partnerList",
-      measurementUnitList: "preFinance/measurementUnit",
+      measurementUnitList: "measurement/measurementUnit",
       warehouseList: "centralWarehouse/warehouseList",
       totalElements: "centralWarehouse/totalElements",
       historyList: "centralWarehouse/historyList",
@@ -594,7 +594,7 @@ export default {
     ...mapActions({
       getDepartmentList: "department/getDepartmentList",
       getPartnerList: "partners/getPartnerList",
-      getMeasurementUnit: "preFinance/getMeasurementUnit",
+      getMeasurementUnit: "measurement/getMeasurementUnit",
       createWarehouseItem: "centralWarehouse/createWarehouseItem",
       getWarehouseList: "centralWarehouse/getWarehouseList",
       deleteWarehouseItem: "centralWarehouse/deleteWarehouseItem",
@@ -625,7 +625,7 @@ export default {
       this.selectedItem={...item}
       this.selectedItem.supplierId={id:item.supplierId,name:item.supplier}
       this.selectedItem.departmentId={departmentId:item.departmentId,name:item.department}
-    
+
       this.new_dialog = true;
     },
 
@@ -633,7 +633,7 @@ export default {
       const data={...this.selectedItem}
       data.departmentId=this.selectedItem.departmentId?.departmentId
       data.supplierId=this.selectedItem.supplierId?.id
-      
+
       this.updateWarehouseItem({centralWarehouseId:this.selectedItem.itemId,data})
 
       this.new_dialog=false

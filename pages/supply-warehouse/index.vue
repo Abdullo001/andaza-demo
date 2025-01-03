@@ -327,7 +327,7 @@
                   color="#544B99"
                 />
               </v-col>
-              
+
             </v-row>
             <v-row>
               <v-col cols="12" lg="3">
@@ -435,7 +435,7 @@
                   placeholder="Select partner"
                 />
               </v-col> -->
-            
+
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
@@ -467,7 +467,7 @@
             class="mt-4 rounded-lg"
             style="border: 1px solid #E9EAEB"
           >
-            
+
           </v-data-table>
         </div>
       </v-card>
@@ -593,7 +593,7 @@ export default {
       historyListStore: "supply/historyList",
       totalElements: "supply/totalElements",
       waybillList: "waybill/waybillList",
-      measurementUnitList: "preFinance/measurementUnit",
+      measurementUnitList: "measurement/measurementUnit",
       expenseForProduction: "expenseGroup/expenseForProduction",
       expenseGroup: "expenseGroup/expenseGroup",
     }),
@@ -685,7 +685,7 @@ export default {
       getSupplyHistory: "supply/getSupplyHistory",
       spendSupply: "supply/spendSupply",
       getWaybillList: "waybill/getWaybillList",
-      getMeasurementUnit: "preFinance/getMeasurementUnit",
+      getMeasurementUnit: "measurement/getMeasurementUnit",
       filterExpenseGroup: "expenseGroup/filterExpenseGroup",
       getExpenseProduction: "expenseGroup/getExpenseProduction",
     }),
@@ -738,7 +738,7 @@ export default {
     },
     finishFunc(){
       console.log("hello");
-      
+
     }
   },
   mounted() {
