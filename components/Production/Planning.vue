@@ -257,8 +257,6 @@ export default {
       }
     },
     processingList(val) {
-      console.log(val);
-
       this.planningList = JSON.parse(JSON.stringify(val));
       this.lastItem=this.planningList[0]
     },
