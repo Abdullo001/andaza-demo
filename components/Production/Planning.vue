@@ -31,7 +31,7 @@
               class="rounded-lg text-capitalize font-weight-bold"
               height="40"
               :disabled="btn_disabled"
-              @click="openDialog(add)"
+              @click="openDialog('add')"
             >
               <v-icon>mdi-plus</v-icon>
               {{ $t('planningProduction.planning.process') }}
@@ -291,10 +291,10 @@ export default {
     },
 
     createProcess(){
-      if(this.lastItem.status==="Finished"){
+      if(this.lastItem?.status==="Finished"|| !this.lastItem){
         this.saveProcessing()
       } else {
-        this.warningText=`The previous <strong>${this.lastItem.process.toUpperCase()}</strong> process has not yet been completed. Are you sure you want to continue?`
+        this.warningText=`The previous <strong>${this.lastItem.process?.toUpperCase()}</strong> process has not yet been completed. Are you sure you want to continue?`
         this.warningState=true
       }
     },

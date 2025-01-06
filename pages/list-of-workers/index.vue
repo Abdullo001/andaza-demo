@@ -149,7 +149,7 @@
         </div>
       </template>
     </v-data-table>
-    <v-dialog v-model="new_user" max-width="680" persistent>
+    <v-dialog v-model="new_user" max-width="800" persistent>
       <v-card>
         <v-card-title class="w-full d-flex justify-space-between">
           <div>{{ $t("userManagement.dialog.addUser") }}</div>
@@ -220,23 +220,18 @@
               </v-col>
               <v-col cols="12" lg="6">
                 <div class="label">{{$t('listOfWorkers.dialog.birthDate')}}</div>
-                <v-text-field
-                  v-model="birthDate"
-                  :placeholder="$t('listOfWorkers.dialog.birthDate')"
-                  outlined
-                  hide-details
-                  class="rounded-lg base"
-                  validate-on-blur
-                  dense
-                  color="#544B99"
-                  background-color="#F8F4FE"
-                  :rules="[formRules.required]"
-                  v-mask="`##.##.####`"
-                >
-                  <template #append>
-                    <v-img src="/date-icon.svg" />
-                  </template>
-                </v-text-field>
+                <div style="height: 40px !important">
+                  <el-date-picker
+                    v-model="user_data.birthDate"
+                    :picker-options="pickerShortcuts"
+                    class="base_picker"
+                    placeholder="dd.MM.yyyy"
+                    style="width: 100%; height: 100%"
+                    type="date"
+                    value-format="timestamp"
+                  >
+                  </el-date-picker>
+                </div>
               </v-col>
               <v-col cols="12" lg="6">
                 <div class="label">{{$t('listOfWorkers.dialog.background')}}</div>
@@ -254,13 +249,15 @@
               </v-col>
               <v-col cols="12" lg="6">
                 <div class="label">
-                  {{ $t("userManagement.dialog.phoneNumber") }}
+                  {{ $t('userManagement.dialog.phoneNumber') }}
                 </div>
-                <vue-phone-number-input
-                  default-country-code="UZ"
-                  v-model="user_data.phone"
-                  :color="'#544B99'"
-                />
+                <div>
+                  <vue-phone-number-input
+                    default-country-code="UZ"
+                    v-model="user_data.phone"
+                    :color="'#544B99'"
+                  />
+                </div>
               </v-col>
               <v-col cols="12" lg="6">
                 <div class="label">{{$t('listOfWorkers.dialog.address')}}</div>
@@ -278,23 +275,18 @@
               </v-col>
               <v-col cols="12" lg="6">
                 <div class="label">{{$t('listOfWorkers.dialog.hiredDate')}}</div>
-                <v-text-field
-                  v-model="hiredDate"
-                  :placeholder="$t('listOfWorkers.dialog.hiredDate')"
-                  outlined
-                  hide-details
-                  class="rounded-lg base"
-                  validate-on-blur
-                  dense
-                  color="#544B99"
-                  background-color="#F8F4FE"
-                  :rules="[formRules.required]"
-                  v-mask="`##.##.####`"
-                >
-                  <template #append>
-                    <v-img src="/date-icon.svg" />
-                  </template>
-                </v-text-field>
+                <div style="height: 40px !important">
+                  <el-date-picker
+                    v-model="user_data.hiredDate"
+                    :picker-options="pickerShortcuts"
+                    class="base_picker"
+                    placeholder="dd.MM.yyyy"
+                    style="width: 100%; height: 100%"
+                    type="date"
+                    value-format="timestamp"
+                  >
+                  </el-date-picker>
+                </div>
               </v-col>
               <v-col cols="12" lg="6">
                 <div class="label">{{$t('listOfWorkers.dialog.speciality')}}</div>
@@ -330,23 +322,19 @@
               </v-col>
               <v-col cols="12" lg="6">
                 <div class="label">{{$t('listOfWorkers.dialog.firedDate')}}</div>
-                <v-text-field
-                  v-model="firedDate"
-                  :placeholder="$t('listOfWorkers.dialog.firedDate')"
-                  outlined
-                  hide-details
-                  class="rounded-lg base"
-                  validate-on-blur
-                  dense
-                  color="#544B99"
-                  background-color="#F8F4FE"
-                  v-mask="`##.##.####`"
-                  :disabled="user_data.employmentStatus == 'CURRENTLY_WORKING'"
-                >
-                  <template #append>
-                    <v-img src="/date-icon.svg" />
-                  </template>
-                </v-text-field>
+                <div style="height: 40px !important">
+                  <el-date-picker
+                    v-model="user_data.firedDate"
+                    :picker-options="pickerShortcuts"
+                    class="base_picker"
+                    placeholder="dd.MM.yyyy"
+                    style="width: 100%; height: 100%"
+                    type="date"
+                    value-format="timestamp"
+                    :disabled="user_data.employmentStatus == 'CURRENTLY_WORKING'"
+                  >
+                  </el-date-picker>
+                </div>
               </v-col>
               <v-col cols="12" lg="8" class="d-flex align-center">
                 <div class="label mr-5">{{$t('listOfWorkers.dialog.paymentType')}}</div>
@@ -520,15 +508,11 @@ export default {
           delete this.user_data.photo;
         }
         this.user_data.phone = `998${this.user_data.phone}`;
-        this.user_data.birthDate = this.convertDate(this.birthDate);
-        this.user_data.hiredDate = this.convertDate(this.hiredDate);
-        if (this.firedDate) {
-          this.user_data.firedDate = this.convertDate(this.firedDate);
-        }
+
         const data = { ...this.user_data };
 
         await this.createEmployee(data);
-        
+
         (this.new_user = false), (this.avatar = "");
         this.birthDate = "";
         this.hiredDate = "";

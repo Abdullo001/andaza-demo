@@ -1128,7 +1128,7 @@ export default {
     workshopFunc(item) {
       this.workshop_dialog = true;
       this.workshop.fabricWarehouseId = item.id;
-      this.workshop.measurement = item.factReceivedNettoWeight.split(" ")[1];
+      this.workshop.measurement = item.measurementUnit;
       if(typeof item.modelNumber==="string"){
         this.modelNumbers.push(item.modelNumber)
       }
@@ -1167,8 +1167,7 @@ export default {
     async subcontractorFunc(item) {
       this.modelNumbers=[]
       this.subcontractor_dialog = true;
-      this.subcontractor.measurement =
-        item.factReceivedNettoWeight.split(" ")[1];
+      this.subcontractor.measurement = item.measurementUnit;
       this.subcontractor.fabricWarehouseId = item.id;
 
       if(typeof item.modelNumber==="string"){

@@ -251,11 +251,11 @@
       </v-card>
       <div class="profile">
         <div class="mr-3">
-          <div class="profile__title">{{ currentUser?.fullName }}</div>
+          <div class="profile__title">{{ `${currentUser?.firstName} ${currentUser?.lastName}` }}</div>
           <div class="profile__role">{{ currentUser?.username }}</div>
         </div>
         <v-img
-          :src="currentUser?.photoUrl"
+          :src="currentUser?.photo"
           width="52"
           height="52"
           class="rounded-pill"
