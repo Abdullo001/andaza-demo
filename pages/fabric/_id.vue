@@ -347,7 +347,7 @@
           </v-card-text>
         </v-card>
       </v-col>
-      
+
       <v-col cols="12" lg="6">
         <v-card class="mt-3 rounded-lg elevation-0">
           <v-card-text>
@@ -489,8 +489,8 @@ export default {
       data.headOfProduction = val.headOfProduction;
       data.clientName = val.clientName;
       data.orderPriority = val.orderPriority;
-      data.deadlineOfOrder = val.deadlineOfOrder;
-      data.actualShippingDate = val.actualShippingDate;
+      data.deadlineOfOrder = val.deadlineOfOrder?this.formatLong(val.deadlineOfOrder):'';
+      data.actualShippingDate = val.actualShippingDate?this.formatLong(val.actualShippingDate):'';
       data.permission = 'Edit';
       data.deadlineForFabric = val.deadlineOfFabricPlanning;
       data.creatorOfPlanning = val.creatorOfPlanning;
