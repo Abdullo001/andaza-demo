@@ -304,7 +304,7 @@
                       />
                     </div>
                   </v-col>
-                  <v-col cols="6" v-if="!item.colorCode">
+                  <v-col cols="6" v-if="item.bodyPartId">
                     <div>
                       <div class="label">{{ $t('colorsBox.table.pantoneCode') }}</div>
                       <div class="d-flex align-center">
