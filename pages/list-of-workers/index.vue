@@ -479,11 +479,11 @@ export default {
     }),
     async size(val) {
       this.itemPrePage = val;
-      await this.getBankDetailsList({ page: 0, size: this.itemPrePage });
+      await this.getListOfWorkers({ page: 0, size: this.itemPrePage });
     },
     async page(val) {
       this.current_page = val - 1;
-      await this.getBankDetailsList({
+      await this.getListOfWorkers({
         page: this.current_page,
         size: this.itemPrePage,
       });

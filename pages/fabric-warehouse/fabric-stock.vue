@@ -68,7 +68,10 @@
       class="mt-4 rounded-lg pt-4"
       :headers="headers"
       :items="current_list"
-      :items-per-page="10"
+      :items-per-page="itemsPerPage"
+      :server-items-length="totalElements"
+      @update:page="page"
+      @update:items-per-page="size"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100],
       }"
@@ -823,6 +826,8 @@ export default {
         { text: this.$t('fabricWarehouse.production'), value: "production", sortable: false, align: "center" },
         { text: this.$t('fabricWarehouse.action'), value: "actions", sortable: false, align: "center" },
       ],
+      itemsPerPage:10,
+      currentPage:0,
       enums: ["TPX", "TCX", "TPG", "C", "MELANGE"],
       priceEnums: ["USD", "UZS", "RUB"],
       valid_search: "",
@@ -882,6 +887,7 @@ export default {
   computed: {
     ...mapGetters({
       fabricStockList: "fabricStock/fabricStockList",
+      totalElements: "fabricStock/totalElements",
       colorsList: "accessoryChart/colorsList",
       partnerLists: "partners/partnerList",
       partnerList: "fabricStock/partnerList",
@@ -966,7 +972,18 @@ export default {
       getFabricProcessDetails: "fabricStock/getFabricProcessDetails",
     }),
     loadDetails({ item }) {
-      // current opened || choose object ^
+
+    },
+    async page(value) {
+      this.currentPage = value - 1;
+      await this.getFabricStockList({
+        page: this.currentPage,
+        size: this.itemPerPage,
+      });
+    },
+    async size(value) {
+      this.itemPrePage = value;
+      await this.getFabricStockList({ page: 0, size: this.itemPerPage });
     },
 
     addArrivedFabricStock() {
@@ -1123,6 +1140,8 @@ export default {
 
     filterData() {
       this.getFabricStockList({
+        page:0,
+        size:10,
         sipNumber: this.filters.sipNumber,
         modelNumber: this.filters.modelNumber,
         supplierName: this.filters.supplierName,
@@ -1131,6 +1150,8 @@ export default {
 
     async resetFilters() {
       await this.getFabricStockList({
+        page:0,
+        size:10,
         sipNumber: "",
         modelNumber: "",
         supplierName: "",
@@ -1141,6 +1162,8 @@ export default {
 
   mounted() {
     this.getFabricStockList({
+      page:0,
+      size:10,
       sipNumber: "",
       modelNumber: "",
       supplierName: "",
