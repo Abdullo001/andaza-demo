@@ -17,7 +17,7 @@ export default {
 
 <style scoped lang="scss">
 .hero{
-  width: 100vw;
+  width: 100%;
   height: 90vh;
   background-image: url('~/assets/images/welcome.webp');
   background-repeat: no-repeat;
