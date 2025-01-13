@@ -76,43 +76,33 @@
             <div class="label mt-5">
               {{ $t("listOfWorkers.dialog.birthDate") }}
             </div>
-            <v-text-field
-              v-model="birthDate"
-              :placeholder="$t('listOfWorkers.dialog.birthDate')"
-              outlined
-              hide-details
-              class="rounded-lg base"
-              validate-on-blur
-              dense
-              height="44"
-              color="#544B99"
-              background-color="#F8F4FE"
-              v-mask="`##.##.####`"
-            >
-              <template #append>
-                <v-img src="/date-icon.svg" />
-              </template>
-            </v-text-field>
+            <div style="height: 40px !important">
+              <el-date-picker
+                v-model="employeeInfo.birthDate"
+                :picker-options="pickerShortcuts"
+                class="base_picker"
+                placeholder="yyyy.MM.dd"
+                style="width: 100%; height: 100%"
+                type="date"
+                value-format="timestamp"
+              >
+              </el-date-picker>
+            </div>
             <div class="label mt-7">
               {{ $t("listOfWorkers.dialog.hiredDate") }}
             </div>
-            <v-text-field
-              v-model="hiredDate"
-              :placeholder="$t('listOfWorkers.dialog.hiredDate')"
-              outlined
-              hide-details
-              class="rounded-lg base"
-              validate-on-blur
-              dense
-              height="44"
-              color="#544B99"
-              background-color="#F8F4FE"
-              v-mask="`##.##.####`"
-            >
-              <template #append>
-                <v-img src="/date-icon.svg" />
-              </template>
-            </v-text-field>
+            <div style="height: 40px !important">
+              <el-date-picker
+                v-model="employeeInfo.hiredDate"
+                :picker-options="pickerShortcuts"
+                class="base_picker"
+                placeholder="yyyy.MM.dd"
+                style="width: 100%; height: 100%"
+                type="date"
+                value-format="timestamp"
+              >
+              </el-date-picker>
+            </div>
             <div class="label mt-7">
               {{ $t("listOfWorkers.dialog.address") }}
             </div>
@@ -175,23 +165,19 @@
             <div class="label mt-9">
               {{ $t("listOfWorkers.dialog.firedDate") }}
             </div>
-            <v-text-field
-              v-model="firedDate"
-              :placeholder="$t('listOfWorkers.dialog.firedDate')"
-              outlined
-              hide-details
-              class="rounded-lg base"
-              validate-on-blur
-              dense
-              color="#544B99"
-              background-color="#F8F4FE"
-              v-mask="`##.##.####`"
-              :disabled="employeeInfo.employmentStatus == 'CURRENTLY_WORKING'"
-            >
-              <template #append>
-                <v-img src="/date-icon.svg" />
-              </template>
-            </v-text-field>
+            <div style="height: 40px !important">
+              <el-date-picker
+                v-model="employeeInfo.firedDate"
+                :picker-options="pickerShortcuts"
+                class="base_picker"
+                placeholder="yyyy.MM.dd"
+                style="width: 100%; height: 100%"
+                type="date"
+                value-format="timestamp"
+                :disabled="employeeInfo.employmentStatus == 'CURRENTLY_WORKING'"
+              >
+              </el-date-picker>
+            </div>
             <div class="label mt-7">
               {{ $t("listOfWorkers.dialog.paymentType") }}
             </div>

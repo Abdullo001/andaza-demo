@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <h2>Hello home page</h2>
+  <div class="hero">
   </div>
 </template>
 
@@ -16,6 +15,13 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.hero{
+  width: 100vw;
+  height: 90vh;
+  background-image: url('~/assets/images/welcome.webp');
+  background-repeat: no-repeat;
+  background-size: 100vw 90vh;
+  background-position: center;
+}
 </style>
