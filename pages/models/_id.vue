@@ -787,7 +787,7 @@ export default {
       const data = { ...this.model };
       data.modelNumber=data.number
       data.partnerId = this.model.partnerId?.id;
-      data.groupId = this.model.groupId?.id;
+      data.modelCategoryId = this.model.groupId?.id;
       data.compositionId = this.model.compositionId?.id;
       data.canvasTypeId = this.model.canvasTypeId?.id;
       data.modelOperationId=1
