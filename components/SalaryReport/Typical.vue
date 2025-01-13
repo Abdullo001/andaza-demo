@@ -9,6 +9,7 @@
       :items="items"
       item-key="cuttingTable"
       hide-default-footer
+      :items-per-page="items.length"
     >
       <template #top>
         <div class="d-flex justify-space-between align-center mb-4 mt-2">
