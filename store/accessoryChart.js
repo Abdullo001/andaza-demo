@@ -91,7 +91,6 @@ export const actions = {
     await this.$axios.get('/api/v1/colors/thin-list')
       .then((res) =>{
         commit("setColorList",res.data.data)
-        console.log(res)
       })
       .catch((res)=>{
         console.log(res)

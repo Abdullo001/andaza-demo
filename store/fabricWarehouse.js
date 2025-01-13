@@ -82,7 +82,7 @@ export const actions = {
       status: "",
       supplierName: ""
     }
-    this.$axios.put(`/api/v1/fabric-order/list`,data)
+    this.$axios.put(`/api/v1/fabric-order/fabric-list`,data)
       .then((res) => {
         commit("setSipNumbers", res.data.data);
       })

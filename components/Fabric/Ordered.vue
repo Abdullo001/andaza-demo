@@ -6,7 +6,11 @@
       :items-per-page="100"
       class="elevation-0"
       hide-default-footer
-    ></v-data-table>
+    >
+    <template #item.deadline="{item}">
+      {{item.deadline?formatLong(item.deadline):''}}
+    </template>
+  </v-data-table>
   </div>
 </template>
 

@@ -6,7 +6,8 @@ export const state = () => ( {
 } );
 
 export const getters = {
-  fabricStockList: ( state ) => state.fabricStockList.content,
+  fabricStockList: ( state ) => state.fabricStockList.items,
+  totalElements: ( state ) => state.fabricStockList.totalElements,
   partnerList: ( state ) => state.partnerList,
   partnerLists: ( state ) => state.partnerLists,
   processDetails: ( state ) => state.processDetails,
@@ -32,16 +33,13 @@ export const mutations = {
 };
 
 export const actions = {
-  getFabricStockList( { commit }, { sipNumber, modelNumber, supplierName } ) {
-    const body = {
-      modelNumber: modelNumber,
-      sipNumber: sipNumber,
-      supplierName: supplierName,
-      page: 0,
-      size: 50,
-    };
-    this.$axios
-      .put( `/api/v1/fabric-stocks/list`, body )
+  getFabricStockList( { commit }, { page, size, sipNumber="", modelNumber="", supplierName="",batchNumber="" } ) {
+    modelNumber = modelNumber??"",
+    sipNumber = sipNumber??"",
+    supplierName = supplierName??"",
+    batchNumber = batchNumber??"",
+
+    this.$axios.get( `/api/v1/fabric-stocks?page=${page}&size=${size}&batchNumber=${batchNumber}&sipNumber=${sipNumber}&modelNumber=${modelNumber}&supplierName=${supplierName}`)
       .then( ( res ) => {
         commit( "setFabricStockList", res.data.data );
       } )

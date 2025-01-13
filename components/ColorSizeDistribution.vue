@@ -160,7 +160,7 @@
                         <v-select
                           :items="enums"
                           v-model="item.pantoneType"
-                          style="max-width: 100px" 
+                          style="max-width: 100px"
                           dense
                           outlined
                           hide-details
@@ -175,7 +175,7 @@
                     </div>
                   </v-col>
 
-                 
+
                 </v-row>
               </v-col>
             </v-row>
@@ -260,11 +260,11 @@
                 v-for="(item, idx) in oneSizeDistirbution?.modelBodyParts
                   ?.slice()
                   ?.reverse()"
-                :cols="!item.colorCode ? '12' : '6'"
+                :cols="item.bodyPartId ? '12' : '6'"
                 :key="idx"
               >
                 <v-row>
-                  <v-col cols="6" v-if="!item.colorCode">
+                  <v-col cols="6" v-if="item.bodyPartId">
                     <div>
                       <div class="label">{{ item.bodyPart }}</div>
                       <v-select
@@ -304,7 +304,7 @@
                       />
                     </div>
                   </v-col>
-                  <v-col cols="6" v-if="!item.colorCode">
+                  <v-col cols="6" v-if="item.bodyPartId">
                     <div>
                       <div class="label">{{ $t('colorsBox.table.pantoneCode') }}</div>
                       <div class="d-flex align-center">
@@ -597,7 +597,7 @@ export default {
           ...this.headerBodyPart,
           ...this.headerSizes,
           ...this.templeHeaders,
-        ]; 
+        ];
     },
 
     sizeDistributionList(list) {
@@ -607,7 +607,7 @@ export default {
       let totalPriceWithDiscount = 0;
       const orderedItemList = this.sizes
       const orderedSizeDistribution = {}
-      
+
 
       const specialList = list.map(function (el) {
         const value = {};
