@@ -2699,5 +2699,8 @@ yarnNumber:{
     enterDescription: "Tavsifni kiriting",
     createdAt: "Yaratilgan vaqt",
     creator: "Yaratuvchi",
+    laborCost:"Ishchi kuchi xarajatlari",
+    operationExpense:"Operatsiya bo'yicha xarajatlar",
+    totalIn:"Jami xarajat",
   }
 };

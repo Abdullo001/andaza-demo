@@ -2685,5 +2685,8 @@ export default {
     enterDescription: "Введите описание",
     createdAt: "Создано",
     creator: "Создатель",
+    laborCost:"Стоимость рабочей силы",
+    operationExpense:"Эксплуатационные расходы",
+    totalIn:"Всего в",
   }
 };

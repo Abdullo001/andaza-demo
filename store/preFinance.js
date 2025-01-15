@@ -9,7 +9,8 @@ export const state = () => ({
   onePreFinance: {},
   selectedModelNumber: '',
   prefinancePdf:'',
-  detailsTemplatesList:[]
+  detailsTemplatesList:[],
+  totalWorkPrice:[]
 })
 export const getters = {
   preFinancesContent: state => state.preFinances.content,
@@ -25,6 +26,7 @@ export const getters = {
   selectedModelNumber: state => state.selectedModelNumber,
   prefinancePdf: state => state.prefinancePdf,
   detailsTemplatesList: state => state.detailsTemplatesList,
+  totalWorkPrice: state => state.totalWorkPrice,
 }
 
 export const mutations = {
@@ -60,6 +62,9 @@ export const mutations = {
   },
   setDetailsTemplatesList(state, item) {
     state.detailsTemplatesList = item;
+  },
+  setTotalWorkPrice(state, item) {
+    state.totalWorkPrice = item;
   },
 };
 export const actions = {
@@ -305,5 +310,14 @@ export const actions = {
     .catch(({response})=>{
       console.log(response);
     })
-  }
+  },
+  async getModelOperationsList({commit},preFinanceId){
+    this.$axios.get(`/api/v1/pre-finances/workforce-expenses/${preFinanceId}`)
+    .then((res)=>{
+      commit("setTotalWorkPrice",res.data.data)
+    })
+    .catch(({response})=>{
+      console.log(response);
+    })
+  },
 };
