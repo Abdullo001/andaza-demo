@@ -150,9 +150,9 @@ export default {
       detail.orderNumber = item.orderNumber;
       detail.prefinanceNumber = item.preFinanceNumber;
       detail.specificationNumber = item.specificationNumber;
-      detail.orderGroup = item.modelGroup;
+      detail.orderGroup = item.modelCategory;
       detail.season = item.season;
-      detail.deadline = item.deadline;
+      detail.deadline = this.formatLong(item.deadline);
       detail.responsipblePerson = item.responsiblePerson;
     },
 

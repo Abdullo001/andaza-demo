@@ -113,7 +113,23 @@
                 />
               </div>
             </v-col>
-            <v-col cols="12">
+            <v-col cols="12" class="d-flex align-center justify-space-between">
+              <v-radio-group
+                row
+                v-model.trim="fileType"
+                class="mb-4"
+              >
+                <v-radio
+                  color="#544B99"
+                  label="PDF"
+                  value="PDF"
+                ></v-radio>
+                <v-radio
+                  color="#544B99"
+                  label="Excel"
+                  value="EXCEL"
+                ></v-radio>
+              </v-radio-group>
               <v-checkbox
                 v-model="filters.isPriceEnabled"
                 color="#544B99"
@@ -163,6 +179,7 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
+      fileType:"PDF",
       filter_form: true,
       fabricStatus: ["NOT_PLANNED", "PLANNED", "GENERATED_FABRIC", "ORDERED"],
       accessoryStatus: ["NOT_PLANNED", "PLANNED", "ORDERED"],
@@ -228,18 +245,7 @@ export default {
 
   watch: {
     pdfList(val) {
-      console.log(val);
-      const blob = new Blob(
-        [new Uint8Array([...val].map((char) => char.charCodeAt(0)))],
-        { type: "application/pdf" }
-      );
-      const objectUrl = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.setAttribute("target", "_blank");
-      a.setAttribute("href", objectUrl);
-      a.click();
-      this.pdfServe = objectUrl;
-      this.isLoad = false;
+      this.downloadFile(val, this.fileType);
     },
 
     orderNumSearch(val) {
@@ -283,6 +289,35 @@ export default {
       getPartnerList: "partners/getPartnerList",
       getSipNumbers: "fabricWarehouse/getSipNumbers",
     }),
+    downloadFile(val, fileType) {
+      const fileTypes = {
+        PDF: "application/pdf",
+        EXCEL: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      };
+
+      const mimeType = fileTypes[fileType];
+      if (!mimeType) {
+        console.error("Invalid file type");
+        return;
+      }
+
+      const blob = new Blob(
+        [new Uint8Array([...val].map((char) => char.charCodeAt(0)))],
+        { type: mimeType }
+      );
+      const objectUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.setAttribute("target", "_blank");
+      a.setAttribute("href", objectUrl);
+
+      const fileName = `download.${fileType === "PDF" ? "pdf" : "xlsx"}`;
+      a.setAttribute("download", fileName);
+
+      a.click();
+      this.isLoad = false;
+
+    },
+
 
     resetFilter() {
       this.$refs.filters.reset();
@@ -305,7 +340,7 @@ export default {
           ? this.filters.shippingDate
           : null,
       };
-      this.getPdfList(data);
+      this.getPdfList({data, fileType: this.fileType});
       this.isLoad = true;
     },
   },

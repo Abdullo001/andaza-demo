@@ -163,8 +163,8 @@ export const actions = {
         console.log(res);
       });
   },
-  getProductionPdfList({ commit },data) {
-    this.$axios.put(`/api/v1/production/production-list-form`,data)
+  getProductionPdfList({ commit },{data, fileType}) {
+    this.$axios.put(`/api/v1/production/production-list-form/${fileType}`,data)
       .then((res) => {
         const binaryCode = atob(res.data);
         commit("setProductionPdfList", binaryCode);
