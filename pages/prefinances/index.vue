@@ -76,7 +76,7 @@
           itemsPerPageOptions: [10, 20, 50, 100],
       }"
       :options.sync="options"
-      @click:row="(item) => $router.push(localePath(`/prefinances/${item.id}`))"
+      @click:row="(item) => viewDetails(item)"
     >
       <template #top>
         <v-toolbar elevation="0">
@@ -118,7 +118,7 @@
             <v-btn
               icon color="#544B99"
               v-on="on" v-bind="attrs"
-              @click="$router.push(localePath(`/prefinances/${item.id}`))"
+              @click.stop="viewDetails(item)"
             >
               <v-icon>mdi-chevron-right</v-icon>
             </v-btn>
@@ -220,6 +220,10 @@ export default {
       changePreFinanceStatus: "preFinance/changeStatus",
       getPrefinanceGeneratePdf:"preFinance/getPrefinanceGeneratePdf"
     }),
+    viewDetails(item) {
+      this.$router.push(this.localePath(`/prefinances/${item.id}`))
+      this.$store.commit("preFinance/setPreFinanceId", item.id);
+    },
     generatePdf(item){
       this.$set(this.loadingStates, item.id, true);
       this.currentLoadingId = item.id;

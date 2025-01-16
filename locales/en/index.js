@@ -2699,5 +2699,8 @@ export default {
     enterDescription:"Enter description",
     createdAt:"Created at",
     creator: "Creator",
+    laborCost:"Labor cost",
+    operationExpense:"Operation expense",
+    totalIn:"Total in",
   }
 };

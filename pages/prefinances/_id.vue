@@ -442,6 +442,12 @@
       </v-card-text>
     </v-card>
 
+    <v-card class="mt-4">
+      <v-card-title>
+        <PriceWorkProcess :id="preFinanceId?preFinanceId:0" :modelCategoryId="addPreFinances.modelCategoryId?addPreFinances.modelCategoryId:0"/>
+      </v-card-title>
+    </v-card>
+
     <!--    TODO: Photo of Models -->
     <v-row>
       <v-col cols="12" lg="5" class="mb-4">
@@ -856,6 +862,7 @@ import ShowBtnComponent from "../../components/ShowComponentBtn/ShowBtn.vue";
 import FinishProcessBtn from "@/components/FinishProcessBtn.vue";
 import VuetifyCombobox from "@/components/UI/VuetifyCombobox.vue";
 import SaveClonComponent from "@/components/ClonningComponents/SaveClonComponent.vue";
+import PriceWorkProcess from "@/components/Calculation/PriceWorkProcess.vue";
 
 
 export default {
@@ -867,6 +874,7 @@ export default {
     FinishProcessBtn,
     VuetifyCombobox,
     SaveClonComponent,
+    PriceWorkProcess,
   },
   data() {
     return {

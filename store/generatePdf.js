@@ -163,8 +163,8 @@ export const actions = {
         console.log(res);
       });
   },
-  getProductionPdfList({ commit },data) {
-    this.$axios.put(`/api/v1/production/production-list-form`,data)
+  getProductionPdfList({ commit },{data, fileType}) {
+    this.$axios.put(`/api/v1/production/production-list-form/${fileType}`,data)
       .then((res) => {
         const binaryCode = atob(res.data);
         commit("setProductionPdfList", binaryCode);
@@ -184,11 +184,11 @@ export const actions = {
       });
   },
   getProductionStatusPdf({ commit },data) {
-    
+
     this.$axios.post(`/api/v1/production/production-status-form`,data)
       .then((res) => {
         const binaryCode = atob(res.data);
-        
+
         commit("setProductionStatusList", binaryCode);
       })
       .catch((res) => {
@@ -282,6 +282,16 @@ export const actions = {
   },
   getClassificationPdf({commit},data){
     this.$axios.put(`/api/v1/classification/generate-pdf`,data)
+    .then((res)=>{
+      const binaryCode = atob(res.data);
+      commit("setPdfData", binaryCode);
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+  getSewingListPdf({commit},modelId){
+    this.$axios.get(`/api/v1/common-process-details/sewing-pdf?modelId=${modelId}`)
     .then((res)=>{
       const binaryCode = atob(res.data);
       commit("setPdfData", binaryCode);

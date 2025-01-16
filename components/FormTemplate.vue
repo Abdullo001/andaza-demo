@@ -39,14 +39,7 @@
       </v-card-text>
     </v-card>
 
-    <v-overlay v-model="funcState" v-if="!funcState" class="align-center justify-center">
-      <v-progress-circular
-        color="#544B99"
-        indeterminate
-        size="80"
-      ></v-progress-circular>
-    </v-overlay>
-    <v-overlay v-model="isLoad" v-else class="align-center justify-center">
+    <v-overlay v-model="isLoad" v-if="funcState" class="align-center justify-center">
       <v-progress-circular
         color="#544B99"
         indeterminate
@@ -76,10 +69,6 @@ export default {
       type:Boolean,
       default: true,
     }
-    // resetFunc:{
-    //   type:Function,
-    //   default:()=>{}
-    // }
 
   },
   data() {
@@ -107,7 +96,6 @@ export default {
       this.pdfServe = objectUrl;
       this.isLoad = false;
       this.$emit("loadingDisabler");
-
     },
   },
 

@@ -130,7 +130,7 @@ export default {
           title: this.$t("forms.index.cards.sewing"),
           subtitle: this.$t("forms.index.cards.sewingSub"),
           status: "PRODUCTION",
-          to: this.localePath("/forms/print-pdf-generation"),
+          to: this.localePath("/forms/sewing-list"),
         },
         {
           title: this.$t("forms.index.cards.productionList"),
