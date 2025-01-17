@@ -71,29 +71,9 @@ export const actions = {
         console.log(res);
       });
   },
-
-  getSipNumbers({ commit },sipNumber) {
-    const data={
-      sipNumber:sipNumber,
-      modelNumber: "",
-      orderNumber: "",
-      page: 0,
-      size: 20,
-      status: "",
-      supplierName: ""
-    }
-    this.$axios.put(`/api/v1/fabric-order/fabric-list`,data)
-      .then((res) => {
-        commit("setSipNumbers", res.data.data);
-      })
-      .catch((res) => {
-        console.log(res);
-      });
-  },
-
   updateFabricWarehouse({ dispatch }, data) {
     this.$axios
-      .put(`/api/v1/fabric-warehouse/update`, data)
+      .put(`/api/v1/fabric-warehouse/${data.id}`, data)
       .then((res) => {
         this.$toast.success(res.data.message);
         dispatch("getFabricWarehouseList", {

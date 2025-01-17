@@ -405,15 +405,31 @@
               </v-col>
               <v-col cols="12" lg="6">
                 <div class="label">{{ $t('fabricWarehouse.actualUnitPrice') }}</div>
-                <v-text-field
+                <div class="d-flex align-center">
+                  <v-text-field
                   v-model="arrivedFabric.actualUnitPrice"
                   outlined
                   hide-details
                   dense
-                  class="rounded-lg base"
+                  class="rounded-lg rounded-r-0 base"
                   :placeholder=" $t('fabricWarehouse.actualUnitPrice') "
                   color="#544B99"
                 />
+                <v-select
+                  v-model="arrivedFabric.currency"
+                  :items="currencyList"
+                  item-text="key"
+                  item-value="key"
+                  append-icon="mdi-chevron-down"
+                  class="rounded-lg base rounded-r-lg rounded-l-0"
+                  color="#544B99"
+                  dense
+                  hide-details
+                  outlined
+                  style="max-width: 100px"
+                  validate-on-blur
+                />
+                </div>
               </v-col>
             </v-row>
           </v-form>
@@ -973,6 +989,7 @@ export default {
       historyList: "fabricWarehouse/historyList",
       modelParts: "fabricWarehouse/modelParts",
       partnerList: "partners/partnerList",
+      currencyList: "partners/currencyList",
     }),
   },
 
@@ -991,11 +1008,9 @@ export default {
     },
     fabricWarehouseList(val) {
       this.current_list = JSON.parse(JSON.stringify(val));
-
       this.current_list.forEach((item,idx)=>{
         item.modelNumber=val[idx].modelNumber.split("$")
       })
-
     },
 
     new_dialog(val){
@@ -1009,6 +1024,7 @@ export default {
     this.getSipNumbers({page:0,size:10});
     this.getToSipNumbers();
     this.getPartnerList({page:0, size:10});
+    this.getCurrencyList();
   },
 
   methods: {
@@ -1026,7 +1042,7 @@ export default {
       getModelPartsList: "fabricWarehouse/getModelPartsList",
       transferToStock: "fabricWarehouse/transferToStock",
       getPartnerList: "partners/getPartnerList",
-
+      getCurrencyList: "partners/getCurrencyList",
     }),
     loadDetails({ item }) {
       // current opened || choose object ^
@@ -1072,7 +1088,6 @@ export default {
       this.title = "Edit";
       this.arrivedFabric = { ...item };
       this.arrivedFabric.fabricOrderId={fabricOrderId: item.fabricOrderId,sipNumber:item.sipNumber}
-      // this.arrivedFabric.actualUnitPrice=this.arrivedFabric.actualUnitPrice.split(" ")[0]
       this.new_dialog = true;
     },
 
@@ -1083,11 +1098,12 @@ export default {
         fabricOrderId: this.arrivedFabric.fabricOrderId?.fabricOrderId,
         fabricWidthInFact: this.arrivedFabric.fabricWidthInFact.split(" ")[0],
         factReceivedGrossWeight:
-          this.arrivedFabric.factReceivedGrossWeight.split(" ")[0],
+          this.arrivedFabric.factReceivedGrossWeight,
         factReceivedNettoWeight:
-          this.arrivedFabric.factReceivedNettoWeight.split(" ")[0],
+          this.arrivedFabric.factReceivedNettoWeight,
         id: this.arrivedFabric.id,
-        actualUnitPrice:this.arrivedFabric.actualUnitPrice.split(" ")[0]
+        actualUnitPrice:this.arrivedFabric.actualUnitPrice,
+        currency:this.arrivedFabric.currency,
 
       };
       this.updateFabricWarehouse(data);
