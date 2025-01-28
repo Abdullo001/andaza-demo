@@ -503,14 +503,6 @@ export default {
             localization: "calculations",
           },
           {
-            icon: ["inspection.svg", "orders-active.svg"],
-            title: this.$t("sidebar.inspection"),
-            to: this.localePath("/inspection-file"),
-            has_child: false,
-            name: "INSPECTION",
-            localization: "inspection",
-          },
-          {
             icon: ["orders.svg", "orders-active.svg"],
             title: this.$t("sidebar.orders"),
             to: this.localePath("/orders"),
@@ -609,6 +601,14 @@ export default {
             has_child: false,
             name: "PRODUCTION",
             localization: "production",
+          },
+          {
+            icon: ["inspection.svg", "orders-active.svg"],
+            title: this.$t("sidebar.inspection"),
+            to: this.localePath("/inspection-file"),
+            has_child: false,
+            name: "INSPECTION",
+            localization: "inspection",
           },
           {
             icon: ["shipping.svg", "shipping-active.svg"],
