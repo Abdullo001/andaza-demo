@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card elevation="0" class="rounded-lg">
+    <v-card elevation="0" class="rounded-lg mb-4">
       <v-card-text>
         <v-form lazy-validation v-model="filter_form" ref="filters">
           <v-row>
@@ -62,22 +62,9 @@
         </v-form>
       </v-card-text>
     </v-card>
-    <v-data-table
-      class="mt-4 rounded-lg pt-4"
-      :headers="headers"
-      :items="allModels"
-      :items-per-page="itemPrePage"
-      :footer-props="{
-          itemsPerPageOptions: [10, 20, 50, 100],
-      }"
-      @click:row="(item) => viewDetails(item)"
-      :server-items-length="totalElements"
-      @update:page="page"
-      @update:items-per-page="size"
-      :loading="pdfLoading"
-    >
+    <VDataTableWrapper :headers="headers" :items="allModels" :totalElements="totalElements" :callerFunction="getModelsList" >
       <template #top>
-        <v-toolbar elevation="0">
+        <v-toolbar elevation="0" class="rounded-lg">
           <v-toolbar-title class="d-flex w-full align-center justify-space-between">
             <div>{{ $t('listsModels.dialog.models') }}</div>
             <v-btn
@@ -153,7 +140,6 @@
       </template>
       <template #item.modelCreating="{ item }">
         <v-chip :color="statusColor.commonStatus(item.modelCreating)" dark>
-          <!-- {{ item.modelCreating }} -->
           {{ $t(`statusItems.${item.modelCreating.toLowerCase()}`) }}
         </v-chip>
       </template>
@@ -167,7 +153,6 @@
            {{ $t(`statusItems.${item.orderForming.toLowerCase()}`) }}
         </v-chip>
       </template>
-      
       <template #item.printAdding="{ item }">
         <v-chip :color="statusColor.commonStatus(item.printAdding)" dark>
           {{ $t(`statusItems.${item.printAdding.toLowerCase()}`) }}
@@ -218,21 +203,23 @@
            {{ $t(`statusItems.${item.shipment.toLowerCase()}`) }}
         </v-chip>
       </template>
-    </v-data-table>
+    </VDataTableWrapper>
   </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+import VDataTableWrapper from "../../components/UI/VDataTableWrapper.vue";
 
 export default {
   name: 'ModelMainPage',
+  components: {
+    VDataTableWrapper
+  },
   data() {
     return {
       new_dialog: false,
       filter_form: true,
-      itemPrePage: 10,
-      current_page: 0,
       filters: {
         modelNumber: '',
         partner: '',
@@ -244,7 +231,7 @@ export default {
         {text: this.$t('modelBox.table.no'), value: 'ordinalNumber', sortable:false},
         {text: this.$t('modelBox.table.client'), value: 'partner', sortable:false},
         {text: this.$t('modelBox.table.style'), align: 'start', sortable: false, value: 'modelNumber'},
-        {text: this.$t('modelBox.table.category'), value: 'modelGroup', sortable:false},
+        {text: this.$t('modelBox.table.category'), value: 'modelCategory', sortable:false},
         {text: this.$t('modelBox.table.inspectionDate'), value: 'inspectionDate', sortable:false},
         {text: this.$t('modelBox.table.daysLeftFl'), value: 'differDays', width: 120 },
         {text:this.$t('modelBox.table.modelCreating'), value: 'modelCreating',sortable:false},
@@ -266,7 +253,6 @@ export default {
         {text: this.$t('listsModels.table.actions'), value: 'actions',width: 120, sortable:false},
       ],
       allModels: [],
-      
     }
   },
   computed: {
@@ -289,16 +275,6 @@ export default {
       changeStatusModel: 'models/changeStatusModel',
       getModelPassport: 'models/getModelPassport',
     }),
-    async page(value) {
-      this.current_page = value - 1;
-      await this.getModelsList({page: this.current_page, size: this.itemPrePage, modelNumber: '', partner: '', status: ''})
-
-    },
-    async size(value) {
-      this.itemPrePage = value;
-      await this.getModelsList({page: 0, size: this.itemPrePage, modelNumber: '', partner: '', status: ''})
-
-    },
     async changeStatus(item) {
       await this.changeStatusModel(
         {id: item.id, status: item.status})
@@ -324,7 +300,6 @@ export default {
   },
   async mounted() {
     this.$store.commit('setPageTitle', this.$t('listsModels.dialog.lists'));
-    await this.getModelsList({page: 0, size: 10, modelNumber: '', partner: '', status: ''})
   }
 }
 </script>

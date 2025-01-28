@@ -64,22 +64,9 @@
         </v-row>
       </v-form>
     </v-card>
-    <v-data-table
-      :headers="headers"
-      :items="preFinanceList"
-      :items-per-page="10"
-      :loading="loading"
-      @update:items-per-page="getItemSize"
-      @update:page="page"
-      :server-items-length="totalElements"
-      :footer-props="{
-          itemsPerPageOptions: [10, 20, 50, 100],
-      }"
-      :options.sync="options"
-      @click:row="(item) => viewDetails(item)"
-    >
+    <VDataTableWrapper :headers="headers" :items="preFinanceList" :loading="loading" :totalElements="totalElements" :callerFunction="getReFinancesList" >
       <template #top>
-        <v-toolbar elevation="0">
+        <v-toolbar elevation="0" class="rounded-lg">
           <v-toolbar-title class="d-flex justify-space-between w-full">
             <div class="font-weight-medium">{{ $t('sidebar.calculations') }}</div>
             <v-btn
@@ -140,14 +127,18 @@
           <span>Generate PDF</span>
         </v-tooltip>
       </template>
-    </v-data-table>
+    </VDataTableWrapper>
   </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+import VDataTableWrapper from "@/components/UI/VDataTableWrapper.vue";
 
 export default {
+  components: {
+    VDataTableWrapper,
+  },
   data() {
     return {
       options: {},
@@ -177,16 +168,6 @@ export default {
       loadingStates: {},
       currentLoadingId: null,
     }
-  },
-  created() {
-    this.getReFinancesList(
-      {
-        page: 0,
-        size: 10,
-        preFinanceNumber: '',
-        modelNumber: '',
-        partner: ''
-      })
   },
   computed: {
     ...mapGetters({
@@ -231,45 +212,15 @@ export default {
         preFinanceId:item.id,
       }
       this.getPrefinanceGeneratePdf(data)
-
     },
     resetFilters() {
       this.$refs.filter_form.reset();
-      this.getReFinancesList(
-        {
-          page: 0,
-          size: 10,
-          preFinanceNumber: '',
-          modelNumber: '',
-          partner: ''
-        })
-
+      this.getReFinancesList({page: 0, size: 10, preFinanceNumber: '', modelNumber: '', partner: ''})
     },
     changeStatus(item) {
       this.changePreFinanceStatus({
         id: item.id,
         status: item.status
-      })
-    },
-    async getItemSize(val) {
-      this.itemPerPage = val;
-      await this.getReFinancesList({
-        page: this.current_page,
-        size: this.itemPerPage,
-        modelNumber: this.filters.modelId,
-        preFinanceNumber: this.filters.financeNumber,
-        partner: this.filters.partnerId
-      })
-    },
-    async page(val) {
-      // arrows < > value page
-      this.current_page = val - 1
-      await this.getReFinancesList({
-        page: this.current_page,
-        size: this.itemPerPage,
-        modelNumber: this.filters.modelId,
-        preFinanceNumber: this.filters.financeNumber,
-        partner: this.filters.partnerId
       })
     },
     async filterData() {
