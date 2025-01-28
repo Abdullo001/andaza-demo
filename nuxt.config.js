@@ -22,6 +22,7 @@ export default {
   ssr:false,
 
   plugins: [
+    { src: '~/plugins/quill-editor.js', mode: 'client' },
     {src: '~/plugins/chart.js', mode: 'client'},
     {src: '~/plugins/vue-apexchart.js', mode: 'client'},
     {src: "~/plugins/axios.js"},

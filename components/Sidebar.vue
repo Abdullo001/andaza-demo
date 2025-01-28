@@ -285,9 +285,9 @@
 
           <v-divider class="mb-6"/>
 
-          <p class="text-body-1">
-            {{ selectedMessage.body }}
-          </p>
+
+          <div v-html="selectedMessage.body"></div>
+
         </v-card-text>
 
         <v-card-actions>
@@ -335,6 +335,9 @@
             <div :class="!item.read?'unread':''" v-if="!item.read">
               *
             </div>
+          </template>
+          <template #item.body="{item}">
+            <div v-html="item.body"></div>
           </template>
           </v-data-table>
         </v-card-text>

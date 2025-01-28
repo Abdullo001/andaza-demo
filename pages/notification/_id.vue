@@ -144,16 +144,7 @@
                   hide-details
                 />
                 <div class="label">Message body</div>
-                <v-textarea
-                  placeholder="Enter the message body"
-                  v-model="selectedItem.body"
-                  outlined
-                  hide-details
-                  background-color="#F8F4FE"
-                  color="#544B99"
-                  rows="8"
-                  class="rounded-lg base mb-4"
-                />
+                <quill-editor v-model="selectedItem.body" :options="editorOptions" class="bg-white p-2 rounded shadow-md" />
               </v-col>
             </v-row>
           </v-card-text>
@@ -188,7 +179,7 @@
                 <div class="font-weight-medium">
                   Select receivers
                 </div>
-                
+
               </v-toolbar-title>
             </v-toolbar>
             <v-divider />
@@ -269,7 +260,7 @@
           Sending notification
         </v-card-title>
         <v-card-text>
-          Are you sure you want to send this notification? 
+          Are you sure you want to send this notification?
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -307,7 +298,6 @@
           You have sent notification successfully
         </v-card-text>
         <v-card-actions class="px-16">
-          
           <v-spacer/>
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
@@ -361,6 +351,19 @@ export default {
           value: "phoneNumber",
         },
       ],
+      editorOptions: {
+        theme: 'snow',
+        modules: {
+          toolbar: [
+            ['bold', 'italic', 'underline'],
+            [{ 'color': [] }, { 'background': [] }],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            [{ 'align': [] }],
+            ['clean']
+          ]
+        },
+        formats: ['bold', 'italic', 'underline', 'size', 'color', 'background', 'list', 'align']
+      },
       itemPerPage: 10,
       current_page: 0,
       users: [],
@@ -442,14 +445,14 @@ export default {
       this.selectedItems.forEach((item)=>{
         receivers.push(item.id)
       })
-      
+
       const data ={
         body:this.selectedItem.body,
         title:this.selectedItem.title,
         type:this.selectedItem.type,
         receivers,
         channels,
-        
+
       }
       this.createNotification(data)
     },
