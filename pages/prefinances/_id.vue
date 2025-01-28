@@ -1224,6 +1224,7 @@ export default {
       selectedModelNumber: "preFinance/selectedModelNumber",
       prefinancePdf: "preFinance/prefinancePdf",
       detailsTemplatesList: "preFinance/detailsTemplatesList",
+      totalWorkPrice: "preFinance/totalWorkPrice",
     }),
     title() {
       const id = this.$route.params.id;
@@ -1248,9 +1249,8 @@ export default {
       this.detailItems=JSON.parse(JSON.stringify(val))
       this.totalPrice=0
       if(this.detailItems.length>0){
-        const totalPrice=this.detailItems[0].totalPrice
+        const totalPrice=this.detailItems[0].totalPrice + Number(this.totalWorkPrice.reduce((acc,item)=> item.currency==="USD" ? acc+item.amount : acc,0))
         this.totalPrice=totalPrice
-
         let data = this.calculation[0];
         data.firstCurrency = +totalPrice.toFixed(2);
         data.secondCurrency = (+totalPrice * +this.addPreFinances.secondaryRate).toFixed(2);

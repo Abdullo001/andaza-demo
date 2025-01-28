@@ -476,7 +476,8 @@ export default {
     generatedFabricOrdering(val){
       const specialList=[]
       val.forEach((item,id)=>{
-        specialList.push({...item,id:id+1})
+        let modelNumber=item?.modelNumber&&item.modelNumber.includes("$")?item.modelNumber.split("$"):item.modelNumber
+        specialList.push({...item,id:id+1,modelNumber})
       })
       this.generatedList=JSON.parse(JSON.stringify(specialList))
     },
