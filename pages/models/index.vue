@@ -129,79 +129,49 @@
         </v-chip>
       </template>
       <template #item.fabricStatus="{ item }">
-        <v-chip :color="statusColor.fabricModelStatus(item.fabricStatus)" dark>
-         {{ $t(`statusItems.${item.fabricStatus.toLowerCase()}`) }}
-        </v-chip>
+        <StatusBtn :status="item.fabricStatus" :url="`/fabric`" :param="item.fabricPlanningId ? `${item.fabricPlanningId}`:'create'" />
       </template>
       <template #item.accessoryStatus="{ item }">
-        <v-chip :color="statusColor.fabricModelStatus(item.accessoryStatus)" dark>
-        {{ $t(`statusItems.${item.accessoryStatus.toLowerCase()}`) }}
-        </v-chip>
+        <StatusBtn :status="item.accessoryStatus" :url="`/accessory`" :param="item.accessoryPlanningId ? `${item.accessoryPlanningId}`:'create'" />
       </template>
       <template #item.modelCreating="{ item }">
-        <v-chip :color="statusColor.commonStatus(item.modelCreating)" dark>
-          {{ $t(`statusItems.${item.modelCreating.toLowerCase()}`) }}
-        </v-chip>
+        <StatusBtn :status="item.modelCreating" :url="`/models`" :param="`${item.id}`" />
       </template>
       <template #item.calculation="{ item }">
-        <v-chip :color="statusColor.commonStatus(item.calculation)" dark>
-           {{ $t(`statusItems.${item.calculation.toLowerCase()}`) }}
-        </v-chip>
+        <StatusBtn :status="item.calculation" :url="`/prefinances`" :param="item.preFinanceId?`${item.preFinanceId}`:'create'" />
       </template>
       <template #item.orderForming="{ item }">
-        <v-chip :color="statusColor.commonStatus(item.orderForming)" dark>
-           {{ $t(`statusItems.${item.orderForming.toLowerCase()}`) }}
-        </v-chip>
+        <StatusBtn :status="item.orderForming" :url="`/orders`" :param="item.orderId?`${item.orderId}?modelId=${item.id}`:'add-order'" />
       </template>
       <template #item.printAdding="{ item }">
-        <v-chip :color="statusColor.commonStatus(item.printAdding)" dark>
-          {{ $t(`statusItems.${item.printAdding.toLowerCase()}`) }}
-        </v-chip>
+        <StatusBtn :status="item.orderForming" :url="`/orders`" :param="item.orderId?`${item.orderId}?modelId=${item.id}`:'add-order'" />
       </template>
       <template #item.sampleStatus="{ item }">
-        <v-chip :color="statusColor.commonStatus(item.sampleStatus)" dark>
-         {{ $t(`statusItems.${item.sampleStatus.toLowerCase()}`) }}
-        </v-chip>
+        <StatusBtn :status="item.sampleStatus" :url="`/samples`" :param="item.samplePlanningId?`${item.samplePlanningId}`:'create-sample'" />
       </template>
       <template #item.cutting="{ item }">
-        <v-chip :color="statusColor.commonStatus(item.cutting)" dark>
-          {{ $t(`statusItems.${item.cutting.toLowerCase()}`) }}
-        </v-chip>
+        <StatusBtn :status="item.cutting" :url="`/production`" :param="item.productionId?`${item.id}`:'create'" :productionId="item.productionId"/>
       </template>
       <template #item.printing="{ item }">
-        <v-chip :color="statusColor.commonStatus(item.printing)" dark>
-          {{ $t(`statusItems.${item.printing.toLowerCase()}`) }}
-        </v-chip>
+        <StatusBtn :status="item.printing" :url="`/production`" :param="item.productionId?`${item.id}`:'create'" :productionId="item.productionId"/>
       </template>
       <template #item.supplyWarehouse="{ item }">
-        <v-chip :color="statusColor.commonStatus(item.supplyWarehouse)" dark>
-         {{ $t(`statusItems.${item.supplyWarehouse.toLowerCase()}`) }}
-        </v-chip>
+        <StatusBtn :status="item.supplyWarehouse" :url="`/supply-warehouse`" :param="''" />
       </template>
       <template #item.sewing="{ item }">
-        <v-chip :color="statusColor.commonStatus(item.sewing)" dark>
-             {{ $t(`statusItems.${item.sewing.toLowerCase()}`) }}
-        </v-chip>
+        <StatusBtn :status="item.sewing" :url="`/production`" :param="item.productionId?`${item.id}`:'create'" :productionId="item.productionId"/>
       </template>
       <template #item.packaging="{ item }">
-        <v-chip :color="statusColor.commonStatus(item.packaging)" dark>
-            {{ $t(`statusItems.${item.packaging.toLowerCase()}`) }}
-        </v-chip>
+        <StatusBtn :status="item.packaging" :url="`/production`" :param="item.productionId?`${item.id}`:'create'" :productionId="item.productionId"/>
       </template>
       <template #item.readyGarmentWarehouse="{ item }">
-        <v-chip :color="statusColor.commonStatus(item.readyGarmentWarehouse)" dark>
-            {{ $t(`statusItems.${item.readyGarmentWarehouse.toLowerCase()}`) }}
-        </v-chip>
+        <StatusBtn :status="item.readyGarmentWarehouse" :url="`/ready-warehouse`" :param="''" />
       </template>
       <template #item.finalInspection="{ item }">
-        <v-chip :color="statusColor.commonStatus(item.finalInspection)" dark>
-           {{ $t(`statusItems.${item.finalInspection.toLowerCase()}`) }}
-        </v-chip>
+        <StatusBtn :status="item.finalInspection" :url="`/inspection-file`" :param="item.id ? `${item.id}`:''" />
       </template>
       <template #item.shipment="{ item }">
-        <v-chip :color="statusColor.commonStatus(item.shipment)" dark>
-           {{ $t(`statusItems.${item.shipment.toLowerCase()}`) }}
-        </v-chip>
+        <StatusBtn :status="item.shipment" :url="`/shipping`" :param="''" />
       </template>
     </VDataTableWrapper>
   </div>
@@ -210,11 +180,13 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import VDataTableWrapper from "../../components/UI/VDataTableWrapper.vue";
+import StatusBtn from "../../components/Model/StatusBtn.vue";
 
 export default {
   name: 'ModelMainPage',
   components: {
-    VDataTableWrapper
+    VDataTableWrapper,
+    StatusBtn
   },
   data() {
     return {

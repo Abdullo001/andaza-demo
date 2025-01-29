@@ -76,7 +76,6 @@ export default {
     }
   },
   created(){
-    console.log(this.$route.fullPath.split('/').filter(item => item !== ''));
     if(this.pageName !== this.$route.fullPath.split('/').filter(item => item !== '')[0]){
       this.$store.commit("dataTable/setPageName", this.$route.fullPath.split('/').filter(item => item !== '')[0]);
       this.$store.commit("dataTable/setPageNumber", 0);
@@ -85,10 +84,10 @@ export default {
   },
   mounted(){
     if(this.callerFunction){
+      this.loader = true;
       this.callerFunction({page: this.pageNumber, size: this.pageSize});
       this.currentPage = this.pageNumber+1;
       this.itemsPerPage = this.pageSize;
-      this.loader = false;
     }
   }
 };
