@@ -24,7 +24,7 @@ export default (context, inject) => {
           amount: (sum) => (sum / 100).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$& ,')
         }
       },
-      
+
       statusEnums() {
         return ['ACTIVE', 'DISABLED', 'PENDING']
       },
@@ -57,7 +57,7 @@ export default (context, inject) => {
               case 'CANCELED':
                 return '#FF4E4F'
             }
-            
+
           },
 
           licenseColor(color) {
@@ -199,8 +199,15 @@ export default (context, inject) => {
                 return 'amber'
               case 'CANCELLED':
                 return '#FF4E4F'
+              case 'NOT_PLANNED':
+                return '#FF4E4F'
+              case 'PLANNED':
+                return 'amber'
+              case 'GENERATED_FABRIC':
+                return '#6df291'
+              case 'ORDERED':
+                return '#10BF41'
               default : return '#c2c8d1'
-
             }
           },
         }
@@ -240,7 +247,7 @@ export default (context, inject) => {
         return new Date(value).toLocaleString("en-GB").replace('/', '.').replace('/', '.')
       },
       extractNumber(str){
-        const cleanedStr = str.replace(/[^0-9.]/g, ""); 
+        const cleanedStr = str.replace(/[^0-9.]/g, "");
         return parseFloat(cleanedStr);
       }
     }
