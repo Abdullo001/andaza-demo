@@ -2,6 +2,7 @@ export const state=()=>({
   notificationList:[],
   countUnreadNotification:null,
   recivedNotificationList:[],
+  notification:{},
 })
 
 export const getters={
@@ -10,6 +11,7 @@ export const getters={
   recivedNotificationList:(state)=>state.recivedNotificationList.content,
   recivedNotificationListTotalElements:(state)=>state.recivedNotificationList.totalElements,
   countUnreadNotification:(state)=>state.countUnreadNotification,
+  notification:(state)=>state.notification,
 }
 
 export const mutations={
@@ -22,6 +24,9 @@ export const mutations={
   setCountUnreadNotification(state,item){
     state.countUnreadNotification=item
   },
+  setNotification(state,item){
+    state.notification=item
+  }
 }
 
 export const actions={
@@ -40,7 +45,6 @@ export const actions={
     .catch((response)=>{
       console.log(response);
     })
-
   },
 
   createNotification({dispatch},data){
@@ -51,6 +55,16 @@ export const actions={
     .catch(({response})=>{
       console.log(response);
       this.$toast.error(response.data.message)
+    })
+  },
+
+  getNotification({commit},id){
+    this.$axios.get(`/api/v1/notification/get/${id}`)
+    .then((res)=>{
+      commit("setNotification",res.data.data)
+    })
+    .catch((response)=>{
+      console.log(response);
     })
   },
 
