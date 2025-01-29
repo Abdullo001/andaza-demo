@@ -235,15 +235,17 @@
             width="200"
             class="text-capitalize rounded-lg mr-6"
             @click="resetAll"
+            :disabled="this.$route.params.id!=='add-notification'"
           >
             Cancel
           </v-btn>
           <v-btn
             color="#544B99"
             width="200"
-            dark
+            :dark="this.$route.params.id=='add-notification'"
             class="text-capitalize rounded-lg"
             @click="saveAll"
+            :disabled="this.$route.params.id!=='add-notification'"
           >
             Send
           </v-btn>
@@ -364,7 +366,7 @@ export default {
         },
         formats: ['bold', 'italic', 'underline', 'size', 'color', 'background', 'list', 'align']
       },
-      itemPerPage: 10,
+      itemPerPage: 50,
       current_page: 0,
       users: [],
       pushNot: false,
@@ -399,6 +401,7 @@ export default {
       all_users: "users/users",
       loading: "users/loading",
       totalElements: "users/totalElements",
+      notification: "notification/notification",
     }),
   },
 
@@ -406,19 +409,39 @@ export default {
     all_users(val) {
       this.users = JSON.parse(JSON.stringify(val));
     },
+    notification(val){
+      this.selectedItem.body=val.body
+      this.selectedItem.title=val.title
+      val.channels.forEach((item)=>{
+        switch(item){
+          case "PUSH":
+            this.pushNot=true
+          break
+        case "MAIL":
+          this.mailNot=true
+          break
+        case "BOT":
+          this.botNot=true
+          break
+        }
+      })
+      this.selectedItems = this.users.filter(user =>
+        val.receiverIds.some(id => id === user.id)
+      );
+    },
   },
 
   methods: {
     ...mapActions({
       getUsers: "users/getUsers",
       createNotification: "notification/createNotification",
+      getNotification: "notification/getNotification",
     }),
     getItemSize(val) {
       this.itemPerPage = val;
       this.getUsers({ page: this.current_page, size: this.itemPerPage });
     },
     page(val) {
-      // arrows < > value page
       this.current_page = val - 1;
       this.getUsers({ page: this.current_page, size: this.itemPerPage });
     },
@@ -452,7 +475,6 @@ export default {
         type:this.selectedItem.type,
         receivers,
         channels,
-
       }
       this.createNotification(data)
     },
@@ -468,6 +490,10 @@ export default {
       page: this.current_page,
       size: this.itemPerPage,
     });
+    const id=this.$route.params.id
+    if(id!=="add-notification"){
+      this.getNotification(id)
+    }
   },
 };
 </script>

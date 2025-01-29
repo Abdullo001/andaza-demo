@@ -59,7 +59,6 @@
             </v-btn>
           </div>
           <div class="d-flex justify-center">
-            
           </div>
         </v-form>
       </v-card-text>
@@ -86,7 +85,6 @@
           >
             <div>Notifications</div>
             <div>
-              
               <v-btn
                 color="#544B99"
                 dark
@@ -100,7 +98,6 @@
           </v-toolbar-title>
         </v-toolbar>
       </template>
-     
       <template #item.type="{ item }">
         <div class="d-flex align-start m-0 p-0">
           <v-img
@@ -109,7 +106,6 @@
             :width="38"
             :height="38"
           />
-          
         </div>
       </template>
       <template #item.action="{ item }">
@@ -176,6 +172,9 @@ export default {
     async size(value) {
       this.itemPrePage = value;
       await this.getOrdersList({ page: 0, size: this.itemPrePage });
+    },
+    viewDetails(item){
+      this.$router.push(this.localePath(`/notification/${item.id}`))
     },
 
     filterOrder(){},
