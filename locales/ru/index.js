@@ -6,6 +6,7 @@ export default {
   to: "С",
   update: "Обновлять",
   enter: "Введите",
+  save: "Сохранять",
   sidebar: {
     ok: "OK",
     byModels: "По модели",
@@ -1647,6 +1648,8 @@ export default {
       densityGrM2: "Плотность г/м²",
       addRow: "+ Добавить строку",
       actions: "Действия",
+      modelPart: "Часть модели",
+      fabricPlanning: "Планирование ткани",
     },
 
     listFabric: {

@@ -6,6 +6,7 @@ export default {
   to: "To",
   update: "Update",
   enter: "Enter",
+  save: "Save",
   sidebar: {
     ok: "OK",
     byModels:"By Model",
@@ -1760,6 +1761,8 @@ export default {
       actions: "Actions",
       listOfFabrics: "List of fabrics",
       plannedFabricOrder: "Planned fabric order",
+      modelPart: "Model part",
+      fabricPlanning: "Fabric planning",
     },
     listFabric: {
       listOfFabrics: "List of fabrics to be ordered",
