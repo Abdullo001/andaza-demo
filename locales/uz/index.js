@@ -6,6 +6,7 @@ export default {
   to: "Gacha",
   update: "Yangilash",
   enter: "Kiriting",
+  save: "Saqlash",
   sidebar: {
     ok:"OK",
     byModels: "Model bo'yicha",
@@ -1654,11 +1655,13 @@ yarnNumber:{
       fleece: "Jun",
       peachEffect: "Peach effekti",
       quantity: "Miqdor",
-      widthType: "Kenglik turi",
-      widthCm: "Kenglik (sm)",
+      widthType: "Mato eni turi",
+      widthCm: "Mato eni (sm)",
       densityGrM2: "Zichlik gr/m²",
       addRow: "Qator qo'shish",
       actions: "amallar",
+      modelPart: "Model qismi",
+      fabricPlanning: "Mato rejalashtirish",
     },
     listFabric: {
       deadline: "Muddat",
@@ -2661,7 +2664,7 @@ yarnNumber:{
       donabay:"Donabay",
     },
     fired:"Ishdan bo`shagan",
-    working:"Faoliyat yutitmoqda",
+    working:"Faoliyat yuritmoqda",
   },
   warehouseId:{
    spend:"Sarf",

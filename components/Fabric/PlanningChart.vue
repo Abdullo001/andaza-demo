@@ -14,12 +14,12 @@
               <v-btn
               class="rounded-lg white--text text-capitalize"
               color="#544B99"
-              width="150" height="36"
+              height="36"
               @click="openDialog"
               :disabled="!(modelId !== '')"
             >
               <v-icon class="mr-2">mdi-plus</v-icon>
-             {{$t('orderBox.colorSize.addRow')}}
+             {{$t('planning.planningChart.fabricPlanning')}}
             </v-btn>
             </div>
           </v-toolbar-title>
@@ -62,9 +62,8 @@
       <v-card>
         <v-card-title class="d-flex">
           <div class="title">
-           <p v-if="dialog_title=='Add'">{{ $t('orderBox.colorSize.addRow') }}</p>
+           <p v-if="dialog_title=='Add'">{{ $t('planning.planningChart.fabricPlanning') }}</p>
            <p v-else>{{ $t('userManagement.child.edit') }}</p>
-
           </div>
           <v-spacer/>
           <v-btn icon color="#544B99" @click="new_dialog = false">
@@ -75,7 +74,7 @@
           <v-form lazy-validation ref="new_validate">
             <v-row>
               <v-col lg="6">
-                <div class="label">{{ $t('orderBox.modelPrint.partnerName') }}</div>
+                <div class="label">{{ $t('planning.planningChart.modelPart') }}</div>
                 <v-select
                   :items="modelPartsList"
                   item-text="bodyPart"
@@ -83,7 +82,7 @@
                   outlined
                   hide-details
                   height="44"
-                  :placeholder="$t('orderBox.modelPrint.partnerName')"
+                  :placeholder="$t('planning.planningChart.modelPart')"
                   class="rounded-lg base"
                   dense
                   validate-on-blur
@@ -217,7 +216,7 @@
             color="#544B99" dark
             @click="createChart"
           >
-            {{ dialog_btn==="Add"?$t('orderBox.colorSize.addRow'):$t('update') }}
+            {{ dialog_btn==="Add"?$t('save'):$t('update') }}
           </v-btn>
         </v-card-actions>
       </v-card>
