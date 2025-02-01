@@ -1,17 +1,18 @@
 <template>
-  <div>
-    <v-card class="py-4">
-      <table cellspacing="0" >
+  <v-card class="py-4">
+    <div style="overflow-x: auto;">
+      <v-simple-table class="min-w-800" dense>
         <thead>
           <tr class="text-center">
-            <th v-for="(header, idx) in headers" :key="idx" class="">
+            <th v-for="(header, idx) in headers" :key="idx" :class="`th-text ${idx<2?`sticky-column`:``}`" >
               {{ header.text }}
             </th>
           </tr>
         </thead>
         <tbody>
           <tr v-if="mainList.length" class="text-center">
-            <td colspan="2">Payment amount per operation</td>
+            <td  class="sticky-column" style="border-right: 0;"></td>
+            <td class="sticky-column" style="border-left: 0;">Payment amount per operation</td>
             <td v-for="(operation, idx) in mainList[0].operations" :key="idx">
               {{ operation.amount }}
             </td>
@@ -19,12 +20,12 @@
             <td></td>
           </tr>
           <tr v-for="(item, idx) in mainList" :key="idx">
-            <td>{{ item.id }}</td>
-            <td>{{ item.fullName }}</td>
+            <td class="sticky-column">{{ item.id }}</td>
+            <td class="sticky-column">{{ item.fullName }}</td>
             <td
-              v-for="(operation, idx) in item.operations"
-              :key="idx"
-              class="p-1"
+              v-for="(operation, opIdx) in item.operations"
+              :key="opIdx"
+              class="p0"
             >
               <div class="h-100 d-flex align-center">
                 <v-text-field
@@ -44,7 +45,7 @@
             </td>
             <td>{{ sumAllOperation(item.operations) }}</td>
             <td>
-              <v-tooltip top color="#544B99" class="pointer">
+              <v-tooltip top color="#544B99">
                 <template #activator="{ on, attrs }">
                   <v-btn
                     icon
@@ -56,12 +57,12 @@
                     <v-img src="/history.svg" max-width="22" />
                   </v-btn>
                 </template>
-                <span class="text-capitalize">History</span>
+                <span>History</span>
               </v-tooltip>
             </td>
           </tr>
         </tbody>
-      </table>
+      </v-simple-table>
       <div class="d-flex mt-4 mr-4">
         <v-spacer />
         <v-btn
@@ -75,10 +76,9 @@
           Close daily report
         </v-btn>
       </div>
-    </v-card>
-
     <SimpleHistoryDialog :historyDialog.sync="historyDialog" :itemsList="workLogsHistory" :headers="historyHeaders"   />
-  </div>
+    </div>
+  </v-card>
 </template>
 <script>
 import { mapActions, mapGetters } from "vuex";
@@ -201,8 +201,8 @@ td {
   border: 1px solid #ebebeb;
   border-collapse: collapse;
 }
-
 table {
+  overflow: scroll;
   tr {
     border: none;
   }
@@ -215,7 +215,6 @@ table:nth-child(odd) {
 table {
   line-height: 30px;
   font-size: 16px;
-  width: 100%;
 
   th,
   td {
@@ -243,5 +242,24 @@ table {
   .p0 {
     padding: 0 !important;
   }
+}
+.sticky-column {
+  position: sticky;
+  left: 0;
+  background-color: white;
+  z-index: 2;
+  min-width: 150px;
+  border-right: 1px solid #e0e0e0;
+}
+
+/* 2-ustun ham harakatsiz qolishi uchun */
+.sticky-column:nth-child(2) {
+  left: 80px; /* 1-ustun kengligi */
+}
+
+.th-text {
+  min-width: 100px;
+  font-size: 16px !important;
+  font-weight: 500;
 }
 </style>
