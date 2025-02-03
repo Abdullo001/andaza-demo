@@ -108,7 +108,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      listOfWorkers: "listOfWorkers/listOfWorkers",
+      listOfWorkers: "listOfWorkers/employees",
       workLogsInfo: "dailyWorkTable/workLogsInfo",
       modelCategoryList: "dailyWorkTable/modelCategoryList",
       workLogsHistory: "dailyWorkTable/workLogsHistory",
@@ -153,7 +153,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      getListOfWorkers: "listOfWorkers/getListOfWorkers",
+      getEmployeesWithOutPagination: "listOfWorkers/getEmployeesWithOutPagination",
       getWorkLogsReport: "dailyWorkTable/getWorkLogsReport",
       getModelCategoryList: "dailyWorkTable/getModelCategoryList",
       getWorkLogsHistory: "dailyWorkTable/getWorkLogsHistory",
@@ -208,8 +208,7 @@ export default {
     },
   },
   mounted() {
-    const modelId = this.$route.params.id;
-    this.getListOfWorkers({ paymentType: "PER_WORK" });
+    this.getEmployeesWithOutPagination("PER_WORK");
   },
 };
 </script>

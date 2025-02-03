@@ -2,12 +2,14 @@ export const state = () => ({
   loading: true,
   listOfWorkers: [],
   selectedEmployeeInfo: [],
+  employees:[],
 });
 export const getters = {
   loading: (state) => state.loading,
   listOfWorkers: (state) => state.listOfWorkers.items,
   totalElements: (state) => state.listOfWorkers.totalElements,
   selectedEmployeeInfo: (state) => state.selectedEmployeeInfo,
+  employees: (state) => state.employees,
 };
 export const mutations = {
   setLoading(state, loadings) {
@@ -19,6 +21,9 @@ export const mutations = {
   setSelectedEmployeeInfo(state, data) {
     state.selectedEmployeeInfo = data;
   },
+  setEmployees(state, data) {
+    state.employees = data;
+  },
 };
 export const actions = {
   async getListOfWorkers({ commit },{ page, size, paymentType, firstName, lastName, phone }){
@@ -27,10 +32,7 @@ export const actions = {
     lastName = lastName ?? "";
     phone = phone ?? "";
     commit("setLoading", true);
-    await this.$axios
-      .get(
-        `/api/v1/employees?page=${page}&size=${size}&firstName=${firstName}&lastName=${lastName}&phone=${phone}&paymentType=${paymentType}`
-      )
+    await this.$axios.get(`/api/v1/employees?page=${page}&size=${size}&firstName=${firstName}&lastName=${lastName}&phone=${phone}&paymentType=${paymentType}`)
       .then((res) => {
         commit("setListOfWorkers", res.data.data);
         commit("setLoading", false);
@@ -59,8 +61,7 @@ export const actions = {
     const config = {
       headers: { "Content-Type": "multipart/form-data" },
     };
-    await this.$axios
-      .post("/api/v1/employees", formData, config)
+    await this.$axios.post("/api/v1/employees", formData, config)
       .then((res) => {
         this.$toast.success(res.data.code);
         dispatch("getListOfWorkers", { page: 0, size: 10 });
@@ -71,8 +72,7 @@ export const actions = {
       });
   },
   async getSelectedEmployee({ commit }, id) {
-    await this.$axios
-      .get(`/api/v1/employees/${id}`)
+    await this.$axios.get(`/api/v1/employees/${id}`)
       .then((res) => {
         commit("setSelectedEmployeeInfo", res.data.data);
       })
@@ -101,8 +101,7 @@ export const actions = {
     const config = {
       headers: { "Content-Type": "multipart/form-data" },
     };
-    await this.$axios
-      .put(`/api/v1/employees/${id}`, formData, config)
+    await this.$axios.put(`/api/v1/employees/${id}`, formData, config)
       .then((res) => {
         this.$toast.success(res.data.code);
       })
@@ -110,4 +109,13 @@ export const actions = {
         console.log(response);
       });
   },
+  getEmployeesWithOutPagination({commit}, paymentType){
+    this.$axios.get(`/api/v1/employees/list?paymentType=${paymentType}`)
+    .then((res)=>{
+      commit("setEmployees",res.data.data)
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
+  }
 };
