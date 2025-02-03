@@ -40,6 +40,8 @@
                   placeholder="0"
                   validate-on-blur
                   :rules="[formRules.onlyNumber]"
+                  :ref="`input-${idx}-${opIdx}`"
+                  @keydown="handleKeydown($event, idx, opIdx)"
                 />
               </div>
             </td>
@@ -157,6 +159,23 @@ export default {
       getWorkLogsHistory: "dailyWorkTable/getWorkLogsHistory",
       saveDailyWorkLogs: "dailyWorkTable/saveDailyWorkLogs",
     }),
+    handleKeydown(event, rowIdx, colIdx) {
+      const key = event.key;
+      let newRow = rowIdx;
+      let newCol = colIdx;
+
+      if (key === "ArrowUp") newRow = rowIdx > 0 ? rowIdx - 1 : rowIdx;
+      if (key === "ArrowDown") newRow = rowIdx < this.mainList.length - 1 ? rowIdx + 1 : rowIdx;
+      if (key === "ArrowLeft") newCol = colIdx > 0 ? colIdx - 1 : colIdx;
+      if (key === "ArrowRight") newCol = colIdx < this.mainList[0].operations.length - 1 ? colIdx + 1 : colIdx;
+
+      this.$nextTick(() => {
+        const nextInput = this.$refs[`input-${newRow}-${newCol}`];
+        if (nextInput && nextInput[0]) {
+          nextInput[0].focus();
+        }
+      });
+    },
     closer(){
       this.historyDialog=false
     },
