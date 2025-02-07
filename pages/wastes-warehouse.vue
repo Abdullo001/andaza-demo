@@ -241,6 +241,7 @@
       <template v-slot:body.append>
         <tr>
           <td></td>
+          <td></td>
           <td class="text-capitalize text-body-1 font-weight-bold">total:</td>
           <td colspan="4"></td>
           <td class="font-weight-bold text-body-1" style="color: #f2c62c">
@@ -271,7 +272,6 @@
         </tr>
       </template>
     </v-data-table>
-
     <v-dialog v-model="dialog" width="800">
       <v-card elevation="0">
         <v-card-title class="d-flex justify-space-between w-full">
@@ -721,12 +721,11 @@ export default {
     page(value) {
       this.current_page = value - 1;
       this.getWastesList({ page: this.current_page, size: this.itemPerPage });
-
     },
 
-    size() {
+    size(value) {
+      this.itemPerPage=value
       this.getWastesList({ page: 0, size: this.itemPerPage });
-
     },
     addWastes() {
       this.dialog = true;
@@ -782,9 +781,13 @@ export default {
       const data={
         quantity:this.sellingWastes.quantity,
         description:this.sellingWastes.description,
+        partner:this.sellingWastes.customer,
       }
-
       this.sellWaste({data,id:this.sellingWastes.id})
+      this.sellingDialog=false
+      this.sellingWastes.quantity=""
+      this.sellingWastes.customer=""
+      this.sellingWastes.description=""
     }
   },
 

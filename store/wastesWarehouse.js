@@ -56,7 +56,7 @@ export const actions = {
     })
     .catch(({response})=>{
       this.$toast.error(response.data.message)
-      
+
     })
   },
 
