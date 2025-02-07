@@ -188,7 +188,7 @@ export const actions = {
   },
 
   getModelPartsList({commit},modelNumber){
-    this.$axios.get(`/api/v1/model-parts/by-model-number?modelNumber=${modelNumber}`)
+    this.$axios.get(`/api/v1/model-parts/by-model-number?modelNumber=${encodeURIComponent(modelNumber)}`)
     .then((res)=>{
       commit("setModelParts",res.data.data)
 

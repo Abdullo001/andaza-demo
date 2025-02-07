@@ -655,7 +655,7 @@ export default {
               },
               {
                 title: "By models",
-                to: this.localePath("/ppg"),
+                to: this.localePath("/income-by-models"),
                 localization: "byModels",
               },
             ]
