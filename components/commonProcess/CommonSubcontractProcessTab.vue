@@ -236,7 +236,7 @@
               </v-col>
               <v-col cols="6">
                 <div class="label">Work date</div>
-                <el-date-picker 
+                <el-date-picker
                     v-model="selectedSubcontract.workDate"
                     type="date"
                     style="width: 100%; height: 44px !important;"
@@ -562,7 +562,7 @@ export default {
       const specialList = list.map(function (el) {
         const value = {};
         const sizesList = [];
-        el?.sizeDistributions.forEach((item) => {
+        el?.sizeDistributions?.forEach((item) => {
           value[item.size] = item.quantity
           sizesList.push({size: item.size, quantity: item.quantity})
         });
@@ -618,7 +618,7 @@ export default {
             size:item.size,
             quantity: item.quantity?item.quantity:0
           })),
-          color:this.selectedItem.color,
+          color:this.selectedSubcontract.color,
           workDate:this.selectedSubcontract.workDate,
           streamId: this.selectedSubcontract.streamId
         }

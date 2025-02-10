@@ -300,10 +300,10 @@
         <v-divider/>
         <v-tabs-items v-model="tab">
           <v-tab-item>
-            <PrintingProcess/>
+            <CommonProcessTab/>
           </v-tab-item>
           <v-tab-item>
-            <PrintingSubcontract/>
+            <CommonSubcontractProcessTab/>
           </v-tab-item>
           <v-tab-item>
             <PassingToNextProcess :passSupplyWarehouse="true"/>
@@ -321,7 +321,6 @@
     </v-row>
     <div class="text-right mt-5 mb-8">
       <FinishProcessBtn v-bind="finishDate"/>
-      
     </div>
   </div>
 </template>
@@ -336,6 +335,8 @@ import OrderQuantities from "@/components/commonProcess/OrderQuantities.vue";
 import PrintingSubcontract from "@/components/SubcontractsFolder/PrintingSubcontract.vue";
 import PassingToNextProcess from "@/components/PassingToNextProcess.vue";
 import FinishProcessBtn from "@/components/FinishProcessBtn.vue";
+import CommonSubcontractProcessTab from "@/components/commonProcess/CommonSubcontractProcessTab.vue";
+import CommonProcessTab from "@/components/commonProcess/CommonProcessTab.vue";
 
 export default {
   name: 'ProductionOfPlanningPage',
@@ -347,7 +348,9 @@ export default {
     PrintingProcess,
     PrintingSubcontract,
     PassingToNextProcess,
-    FinishProcessBtn
+    FinishProcessBtn,
+    CommonSubcontractProcessTab,
+    CommonProcessTab,
   },
   data() {
     return {
