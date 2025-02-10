@@ -32,6 +32,7 @@ export default {
     {src: '~/plugins/timeElapsed.js'},
     {src: '~/plugins/dateToISO.js'},
     {src: '~/plugins/clipboard.js'},
+    { src: '~/plugins/firebase.js', mode: 'client' }
   ],
 
   components: true,
@@ -54,34 +55,36 @@ export default {
     '@nuxtjs/pwa',
   ],
 
-  firebase: {
-    lazy: true,
-    config: {
-      apiKey: "AIzaSyBBTwVdvR26nnycC2IaaAV5uD0sDU34XU0",
-      authDomain: "andaza-d9c48.firebaseapp.com",
-      projectId: "andaza-d9c48",
-      storageBucket: "andaza-d9c48.appspot.com",
-      messagingSenderId: "613085841293",
-      appId: "1:613085841293:web:ddd54438996b3ff6db9fc4",
-      measurementId: "G-8KCZDLR1W2"
-    },
-    onFirebaseHosting: false,
-    services: {
-      messaging: true,
-    }
-  },
+  // firebase: {
+  //   lazy: false, // lazy yuklashni o‘chirib qo‘yish kerak
+  //   config: {
+  //     apiKey: "AIzaSyBBTwVdvR26nnycC2IaaAV5uD0sDU34XU0",
+  //     authDomain: "andaza-d9c48.firebaseapp.com",
+  //     projectId: "andaza-d9c48",
+  //     storageBucket: "andaza-d9c48.firebasestorage.app",
+  //     messagingSenderId: "613085841293",
+  //     appId: "1:613085841293:web:ddd54438996b3ff6db9fc4",
+  //     measurementId: "G-8KCZDLR1W2"
+  //   },
+  //   services: {
+  //     messaging: {
+  //       createServiceWorker: true, // BU YERDA createServiceWorker qo‘shildi
+  //       initializeOnClient: true
+  //     }
+  //   }
+  // },
 
 
-  messaging: {
-    createServiceWorker: true,
-    actions: [
-      {
-        action: 'goHome',
-        url: 'https://localhost:8000'
-      }
-    ],
-    fcmPublicVapidKey: "BMMSXnJHVcOkKOQgbdszWNf7GnQZF27_Et_FJWmBFwsO59Yx4MvDth-dSLiN-_MKBPwyrwnoM5An1NdiX9H0e4o"
-  },
+  // messaging: {
+  //   createServiceWorker: true,
+  //   actions: [
+  //     {
+  //       action: 'goHome',
+  //       url: 'https://localhost:8000'
+  //     }
+  //   ],
+  //   fcmPublicVapidKey: "BMMSXnJHVcOkKOQgbdszWNf7GnQZF27_Et_FJWmBFwsO59Yx4MvDth-dSLiN-_MKBPwyrwnoM5An1NdiX9H0e4o"
+  // },
 
   pwa: {
     manifest: {
@@ -117,7 +120,7 @@ export default {
     workbox: {
       navigateFallback: '/',
       importScripts: [
-        '/static/firebase-messaging-sw.js'
+        '/firebase-messaging-sw.js'
       ],
     },
     devOptions: {
