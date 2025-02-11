@@ -3,7 +3,7 @@
     <v-card color="#fff" elevation="0" class="rounded-t-lg">
       <v-form lazy-validation v-model="valid_search" ref="filter_form">
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
-          
+
           <v-col cols="12" lg="2" md="2">
             <v-text-field
               v-model.trim="filter_model.name"
@@ -80,10 +80,10 @@
       <template #item.actions="{ item }">
         <div class="d-flex justify-center">
           <v-btn icon color="green" @click.stop="editItem(item)">
-            <v-img src="edit-active.svg" max-width="22" />
+            <v-img src="/edit-active.svg" max-width="22" />
           </v-btn>
           <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-            <v-img src="delete.svg" max-width="27" />
+            <v-img src="/delete.svg" max-width="27" />
           </v-btn>
           <v-tooltip top color="#544B99">
             <template v-slot:activator="{on, attrs}">

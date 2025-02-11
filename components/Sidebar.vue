@@ -929,7 +929,7 @@ export default {
         const messaging = getMessaging();
 
         const token = await getToken(messaging, {
-          vapidKey: 'SIZNING_VAPID_KEYINGIZ' // Firebase Console dan olingan VAPID key
+          vapidKey: 'BMMSXnJHVcOkKOQgbdszWNf7GnQZF27_Et_FJWmBFwsO59Yx4MvDth-dSLiN-_MKBPwyrwnoM5An1NdiX9H0e4o' // Firebase Console dan olingan VAPID key
         });
 
         if (!token) {
@@ -959,32 +959,32 @@ export default {
     //   console.error("❌ Firebase hali yuklanmadi!");
     // }
     // this.startListeners();
-    try {
-    const messaging = getMessaging();
-    const permission = await Notification.requestPermission();
+  //   try {
+  //   const messaging = getMessaging();
+  //   const permission = await Notification.requestPermission();
 
-    if (permission === 'granted') {
-      const token = await getToken(messaging, {
-        vapidKey: 'BMMSXnJHVcOkKOQgbdszWNf7GnQZF27_Et_FJWmBFwsO59Yx4MvDth-dSLiN-_MKBPwyrwnoM5An1NdiX9H0e4o'
-      });
-      console.log(token);
+  //   if (permission === 'granted') {
+  //     const token = await getToken(messaging, {
+  //       vapidKey: 'BMMSXnJHVcOkKOQgbdszWNf7GnQZF27_Et_FJWmBFwsO59Yx4MvDth-dSLiN-_MKBPwyrwnoM5An1NdiX9H0e4o'
+  //     });
+  //     console.log(token);
 
-      this.idToken = token;
+  //     this.idToken = token;
 
-      onMessage(messaging, (payload) => {
-          console.log('Xabar keldi:', payload);
-          this.getCountUnreadNotification(this.currentUser.id);
-          this.getRecivedNotification({
-            id: this.currentUser.id,
-            page: 0,
-            size: 5
-          });
+  //     onMessage(messaging, (payload) => {
+  //         console.log('Xabar keldi:', payload);
+  //         this.getCountUnreadNotification(this.currentUser.id);
+  //         this.getRecivedNotification({
+  //           id: this.currentUser.id,
+  //           page: 0,
+  //           size: 5
+  //         });
 
-      });
-    }
-  } catch (error) {
-    console.error('Error:', error);
-  }
+  //     });
+  //   }
+  // } catch (error) {
+  //   console.error('Error:', error);
+  // }
 
 
     this.items.forEach(item=>{
@@ -1020,7 +1020,7 @@ export default {
         }
     })
     this.checkedSidebarItems = JSON.parse(JSON.stringify(this.items));
-
+    this.startListeners();
 
   },
 };
