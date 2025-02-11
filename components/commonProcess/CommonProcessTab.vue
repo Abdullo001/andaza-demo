@@ -5,7 +5,7 @@
     :items="items"
     item-key="cuttingTable"
     hide-default-footer
-    
+
   >
     <template #top>
       <div class="title ma-4">Done works’ quantities</div>
@@ -265,7 +265,7 @@
             </v-col>
             <v-col cols="3">
               <div class="label">Work date</div>
-              <el-date-picker 
+              <el-date-picker
                   v-model="selectedItem.workDate"
                   type="date"
                   style="width: 100%; height: 44px !important;"
@@ -464,7 +464,7 @@ export default {
         {text: 'Done By', sortable: false, align: 'center', value: 'createdBy'},
       )
 
-      const specialList = list.map(function (el) { 
+      const specialList = list.map(function (el) {
         const value = {};
         const sizesList = [];
         el?.sizeDistributions.forEach((item) => {
@@ -509,7 +509,6 @@ export default {
     getClassification(item) {
       this.classification_dialog = true;
       this.classification_shortcom=JSON.parse(JSON.stringify(item))
-      
     },
     async saveShortcom(){
       const data={
@@ -524,7 +523,6 @@ export default {
         }
       })
       await this.createShortcomingsList({data,id:this.planningProcessId})
-      
       this.classification_dialog=false
       this.classification_shortcom=[]
 
@@ -550,7 +548,6 @@ export default {
           streamId:this.selectedItem.streamId,
           workDate:this.selectedItem.workDate,
         }
-        
         this.updateCommonProcess(data)
       }
       if(this.selectedItem.status==="editHistory"){

@@ -348,6 +348,8 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { getToken, onMessage,getMessaging } from 'firebase/messaging'
+import { messaging } from '~/plugins/firebase'
 
 export default {
   name: "SidebarComponent",
@@ -820,58 +822,169 @@ export default {
       return !item.read ? 'notification-item' : ''
     },
 
-    async startListeners() {
-      await this.requestPermission();
-      await this.getIdToken();
+    // async startListeners() {
+    //   await this.requestPermission();
+    //   await this.getIdToken();
 
-      await this.startOnMessageListener();
-      this.listenersStarted = true;
+    //   await this.startOnMessageListener();
+    //   this.listenersStarted = true;
+    // },
+    // startOnMessageListener() {
+    //   try {
+    //     if (this.$fire && this.$fire.messaging) {
+    //       this.$fire.messaging.onMessage((payload) => {
+    //         console.info("Message received:", payload);
+    //         if (payload.notification) {
+    //           console.log(payload.notification.body);
+    //         }
+    //         this.getCountUnreadNotification(this.currentUser.id);
+    //         this.getRecivedNotification({ id: this.currentUser.id, page: 0, size: 5 });
+    //       });
+    //     } else {
+    //       console.error("Firebase Messaging yuklanmagan!");
+    //     }
+    //   } catch (e) {
+    //     console.error("Error:", e);
+    //   }
+    // },
+    // async requestPermission() {
+    //   try {
+    //     const permission = await Notification.requestPermission();
+    //     console.log("GIVEN notify perms");
+    //     console.log(permission);
+    //   } catch (e) {
+    //     console.error("Error : ", e);
+    //   }
+    // },
+    // async getIdToken() {
+    //   try {
+    //     if (!this.$fire || !this.$fire.messaging) {
+    //       console.error("❌ Firebase Messaging hali yuklanmagan.");
+    //       return;
+    //     }
+
+    //     const token = await this.$fire.messaging.getToken();
+    //     if (!token) {
+    //       console.log("⚠️ Token olinmadi, service worker va ruxsatlarni tekshiring.");
+    //       return;
+    //     }
+
+    //     this.idToken = token;
+    //     console.log("✅ FCM Token:", token);
+    //   } catch (e) {
+    //     console.error("🚨 Token olishda xatolik:", e);
+    //   }
+    // }
+    async startListeners() {
+      try {
+        await this.requestPermission();
+        await this.getIdToken();
+        await this.startOnMessageListener();
+        this.listenersStarted = true;
+      } catch (error) {
+        console.error("Listener start xatosi:", error);
+      }
     },
+
     startOnMessageListener() {
       try {
-        this.$fire.messaging.onMessage((payload) => {
-          console.info("Message received : ", payload);
-          console.log(payload.notification.body);
-          this.getCountUnreadNotification(this.currentUser.id)
-          this.getRecivedNotification({id:this.currentUser.id,page:0,size:5})
+        const messaging = getMessaging();
+
+        onMessage(messaging, (payload) => {
+          console.info("Message received:", payload);
+
+          if (payload.notification) {
+            console.log(payload.notification.body);
+
+            // Ixtiyoriy: Toast notification
+            this.$toast.info(payload.notification.body);
+          }
+
+          // Notification count va list yangilash
+          this.getCountUnreadNotification(this.currentUser.id);
+          this.getRecivedNotification({
+            id: this.currentUser.id,
+            page: 0,
+            size: 5
+          });
         });
       } catch (e) {
-        console.error("Error : ", e);
+        console.error("Xabarlarni eshitishda xatolik:", e);
       }
     },
 
     async requestPermission() {
       try {
         const permission = await Notification.requestPermission();
-        console.log("GIVEN notify perms");
-        console.log(permission);
+        console.log("Notification ruxsati:", permission);
+        return permission;
       } catch (e) {
-        console.error("Error : ", e);
+        console.error("Ruxsat so'rashda xatolik:", e);
+        throw e;
       }
     },
+
     async getIdToken() {
       try {
-        const token = await this.$fire.messaging.getToken();
+        const messaging = getMessaging();
+
+        const token = await getToken(messaging, {
+          vapidKey: 'SIZNING_VAPID_KEYINGIZ' // Firebase Console dan olingan VAPID key
+        });
+
         if (!token) {
-          console.log(
-            "No token received, check service worker and permissions"
-          );
+          console.warn("Token olinmadi, service worker va ruxsatlarni tekshiring.");
           return;
         }
-        this.idToken=token
+
+        this.idToken = token;
         console.log("FCM Token:", token);
 
+        // Tokenni backendga saqlash
       } catch (e) {
-        console.error("Failed to get token:", e);
+        console.error("Token olishda xatolik:", e);
+        throw e;
       }
     },
+
   },
-  mounted() {
+  async mounted() {
     let afterPermissionList = [];
     const permissionList =
       JSON.parse(window.localStorage.getItem("permissionList")) || [];
+    // console.log("🔍 Nuxt Firebase:", this.$fire);
+    // if (this.$fire) {
+    //   console.log("📌 Firebase Messaging mavjud:", this.$fire.messaging);
+    // } else {
+    //   console.error("❌ Firebase hali yuklanmadi!");
+    // }
+    // this.startListeners();
+    try {
+    const messaging = getMessaging();
+    const permission = await Notification.requestPermission();
 
-    this.startListeners();
+    if (permission === 'granted') {
+      const token = await getToken(messaging, {
+        vapidKey: 'BMMSXnJHVcOkKOQgbdszWNf7GnQZF27_Et_FJWmBFwsO59Yx4MvDth-dSLiN-_MKBPwyrwnoM5An1NdiX9H0e4o'
+      });
+      console.log(token);
+
+      this.idToken = token;
+
+      onMessage(messaging, (payload) => {
+          console.log('Xabar keldi:', payload);
+          this.getCountUnreadNotification(this.currentUser.id);
+          this.getRecivedNotification({
+            id: this.currentUser.id,
+            page: 0,
+            size: 5
+          });
+
+      });
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
 
 
     this.items.forEach(item=>{

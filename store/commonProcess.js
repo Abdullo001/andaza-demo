@@ -89,7 +89,7 @@ export const actions = {
   updateCommonProcess({dispatch}, data) {
     this.$axios.put(`/api/v1/common-process-details/${data.id}`, data)
       .then((res) => {
-        if(Object.keys(data).length===5){
+        if(Object.keys(data).length===6){
           dispatch("getOwnList")
         }else{
           dispatch("getSubcontarctList")
@@ -249,11 +249,9 @@ export const actions = {
     this.$axios.get(`/api/v1/streams`)
     .then((res)=>{
       commit("setStreamList",res.data.data)
-      
     })
     .catch((response)=>{
       console.log(response);
-      
     })
   }
 
