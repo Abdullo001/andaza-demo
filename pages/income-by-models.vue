@@ -126,16 +126,30 @@
 
     <v-card>
       <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
-        <v-col cols="12" lg="3" md="3">
-          <v-text-field
-            :label="$t('listsModels.table.clientName')"
+        <v-col cols="12" lg="3">
+          <v-combobox
+            v-model="filter.clientName"
+            :items="partnerWithTypes"
+            item-text="name"
+            item-value="name"
+            validate-on-blur
             outlined
-            class="rounded-lg filter"
-            v-model.trim="filter.clientName"
             hide-details
+            height="44"
+            class="rounded-lg filter d-flex align-center justify-center mr-2"
+            :return-object="false"
             dense
-            @keydown.enter="filterData"
-          />
+            :placeholder="
+              $t('forms.calculationsList.clientNamePlaceholder')
+            "
+            prepend-icon=""
+          >
+            <template #append>
+              <v-icon class="d-inline-block" color="#544B99">
+                mdi-magnify
+              </v-icon>
+            </template>
+          </v-combobox>
         </v-col>
         <v-col cols="12" lg="2" md="2" class="" style="max-width: 240px">
           <el-date-picker
@@ -344,6 +358,7 @@ export default {
       totalAnalysis: 'incomeByModels/totalAnalysis',
       modelsAnalysisList: 'incomeByModels/modelsAnalysisList',
       modelsAnalysis: 'incomeByModels/modelsAnalysis',
+      partnerWithTypes: 'partners/partnerWithTypes',
     })
   },
   watch:{
@@ -355,6 +370,7 @@ export default {
     ...mapActions({
       getTotalAnalysis: 'incomeByModels/getTotalAnalysis',
       getModalsAnalytics: 'incomeByModels/getModalsAnalytics',
+      getPartnersWithTypes: "partners/getPartnersWithTypes",
     }),
     showImage(photo) {
       this.currentImage = photo;
@@ -371,6 +387,7 @@ export default {
   },
   mounted(){
     this.getTotalAnalysis(this.pageType)
+    this.getPartnersWithTypes(["buyer"])
   }
 };
 </script>
