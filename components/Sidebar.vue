@@ -895,12 +895,8 @@ export default {
 
           if (payload.notification) {
             console.log(payload.notification.body);
-
-            // Ixtiyoriy: Toast notification
             this.$toast.info(payload.notification.body);
           }
-
-          // Notification count va list yangilash
           this.getCountUnreadNotification(this.currentUser.id);
           this.getRecivedNotification({
             id: this.currentUser.id,
@@ -940,7 +936,6 @@ export default {
         this.idToken = token;
         console.log("FCM Token:", token);
 
-        // Tokenni backendga saqlash
       } catch (e) {
         console.error("Token olishda xatolik:", e);
         throw e;
@@ -952,41 +947,6 @@ export default {
     let afterPermissionList = [];
     const permissionList =
       JSON.parse(window.localStorage.getItem("permissionList")) || [];
-    // console.log("🔍 Nuxt Firebase:", this.$fire);
-    // if (this.$fire) {
-    //   console.log("📌 Firebase Messaging mavjud:", this.$fire.messaging);
-    // } else {
-    //   console.error("❌ Firebase hali yuklanmadi!");
-    // }
-    // this.startListeners();
-  //   try {
-  //   const messaging = getMessaging();
-  //   const permission = await Notification.requestPermission();
-
-  //   if (permission === 'granted') {
-  //     const token = await getToken(messaging, {
-  //       vapidKey: 'BMMSXnJHVcOkKOQgbdszWNf7GnQZF27_Et_FJWmBFwsO59Yx4MvDth-dSLiN-_MKBPwyrwnoM5An1NdiX9H0e4o'
-  //     });
-  //     console.log(token);
-
-  //     this.idToken = token;
-
-  //     onMessage(messaging, (payload) => {
-  //         console.log('Xabar keldi:', payload);
-  //         this.getCountUnreadNotification(this.currentUser.id);
-  //         this.getRecivedNotification({
-  //           id: this.currentUser.id,
-  //           page: 0,
-  //           size: 5
-  //         });
-
-  //     });
-  //   }
-  // } catch (error) {
-  //   console.error('Error:', error);
-  // }
-
-
     this.items.forEach(item=>{
       item.disabledMenu=true
       permissionList.forEach(perName=>{
