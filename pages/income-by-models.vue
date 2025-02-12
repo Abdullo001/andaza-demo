@@ -124,93 +124,155 @@
       </v-col>
     </v-row>
 
-    <div class="table-container">
-      <v-simple-table class="min-w-800" dense>
-        <thead>
-          <tr class="text-center">
-            <th v-for="(header, idx) in headers"
-                :key="`header-${idx}`"
-                :class="`th-text ${header.fixed ? 'sticky-column' : ''}`">
-              {{ header.text }}
-            </th>
-          </tr>
-        </thead>
+    <v-card>
+      <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
+        <v-col cols="12" lg="3" md="3">
+          <v-text-field
+            :label="$t('listsModels.table.clientName')"
+            outlined
+            class="rounded-lg filter"
+            v-model.trim="filter.clientName"
+            hide-details
+            dense
+            @keydown.enter="filterData"
+          />
+        </v-col>
+        <v-col cols="12" lg="2" md="2" class="" style="max-width: 240px">
+          <el-date-picker
+            v-model="filter.from"
+            type="date"
+            class="filter_picker"
+            :placeholder="$t('from')"
+            :picker-options="pickerShortcuts"
+            value-format="timestamp"
+          >
+          </el-date-picker>
+        </v-col>
+        <v-col cols="12" lg="2" md="2">
+          <el-date-picker
+            v-model="filter.to"
+            type="date"
+            class="filter_picker"
+            :placeholder="$t('to')"
+            :picker-options="pickerShortcuts"
+            value-format="timestamp"
+          >
+          </el-date-picker>
+        </v-col>
+        <v-spacer />
+        <v-col cols="12" lg="2" md="2">
+          <div class="d-flex justify-end">
+            <v-btn
+              width="140"
+              outlined
+              color="#544B99"
+              elevation="0"
+              class="text-capitalize mr-4 rounded-lg"
+              @click.stop="resetFilters"
+            >
+              {{ $t("catalogsPartnerType.child.reset") }}
+            </v-btn>
+            <v-btn
+              width="140"
+              color="#544B99"
+              dark
+              elevation="0"
+              class="text-capitalize rounded-lg"
+              @click="filterData"
+            >
+              {{ $t("catalogsPartnerType.child.search") }}
+            </v-btn>
+          </div>
+        </v-col>
+      </v-row>
+      <div class="table-container">
+        <v-simple-table class="min-w-800" dense>
+          <thead>
+            <tr class="text-center">
+              <th v-for="(header, idx) in headers"
+                  :key="`header-${idx}`"
+                  :class="`th-text ${header.fixed ? 'sticky-column' : ''}`">
+                {{ header.text }}
+              </th>
+            </tr>
+          </thead>
 
-        <tbody>
-          <tr v-for="(obj, rowIdx) in modelsAnalysisList" :key="`row-${rowIdx}`">
-            <td class="sticky-column">{{rowIdx + 1}}</td>
-            <td class="sticky-column">{{ obj.orderNumber }}</td>
-            <td class="sticky-column">
-              <v-img
-                :src="obj.photo"
-                width="40"
-                height="40"
-                @click="showImage(obj.photo)"
-              />
-            </td>
-            <td class="sticky-column">{{ obj.modelNumber }}</td>
-            <td>{{ obj.modelName }}</td>
-            <td>{{ obj.soldPrice }}</td>
-            <td>{{ obj.orderQuantity }}</td>
-            <td>{{ obj.overProdQuantity }}</td>
-            <td>{{ obj.quantityWithOverProd }}</td>
-            <td>{{ obj.shippedQuantity }}</td>
-            <td>{{ obj.totalPriceOfModel }}</td>
-            <td>{{ obj.shippedTotalPrice }}</td>
-            <td>{{ obj.calculatedFabricKg }}</td>
-            <td>{{ obj.fabricPrice }}</td>
-            <td>{{ obj.totalFabricPrice }}</td>
-            <td>{{ obj.receivedFabricKg }}</td>
-            <td>{{ obj.factPrice }}</td>
-            <td>{{ obj.receivedFabricTotalPrice }}</td>
-            <td>{{ obj.fabricDifferenceKg }}</td>
-            <td>{{ obj.differenceTotalPrice }}</td>
-            <td>{{ obj.fabricSupplier }}</td>
-            <td>{{ obj.planningAccessoryExpenses }}</td>
-            <td>{{ obj.receivedAccessoryPrice }}</td>
-            <td>{{ obj.differenceAccessoryPrice }}</td>
-            <td>{{ obj.plannedPrintExpenses }}</td>
-            <td>{{ obj.factPrintExpenses }}</td>
-            <td>{{ obj.differencePrintExpenses }}</td>
-            <td>{{ obj.currency }}</td>
-            <td>-</td>
-            <td class="sticky-column">-</td>
-          </tr>
+          <tbody>
+            <tr v-for="(obj, rowIdx) in modelsAnalysisList" :key="`row-${rowIdx}`">
+              <td class="sticky-column">{{rowIdx + 1}}</td>
+              <td class="sticky-column">{{ obj.orderNumber }}</td>
+              <td class="sticky-column">
+                <v-img
+                  :src="obj.photo"
+                  width="40"
+                  height="40"
+                  @click="showImage(obj.photo)"
+                />
+              </td>
+              <td class="sticky-column">{{ obj.modelNumber }}</td>
+              <td>{{ obj.modelName }}</td>
+              <td>{{ obj.soldPrice }}</td>
+              <td>{{ obj.orderQuantity }}</td>
+              <td>{{ obj.overProdQuantity }}</td>
+              <td>{{ obj.quantityWithOverProd }}</td>
+              <td>{{ obj.shippedQuantity }}</td>
+              <td>{{ obj.totalPriceOfModel }}</td>
+              <td>{{ obj.shippedTotalPrice }}</td>
+              <td>{{ obj.calculatedFabricKg }}</td>
+              <td>{{ obj.fabricPrice }}</td>
+              <td>{{ obj.totalFabricPrice }}</td>
+              <td>{{ obj.receivedFabricKg }}</td>
+              <td>{{ obj.factPrice }}</td>
+              <td>{{ obj.receivedFabricTotalPrice }}</td>
+              <td>{{ obj.fabricDifferenceKg }}</td>
+              <td>{{ obj.differenceTotalPrice }}</td>
+              <td>{{ obj.fabricSupplier }}</td>
+              <td>{{ obj.planningAccessoryExpenses }}</td>
+              <td>{{ obj.receivedAccessoryPrice }}</td>
+              <td>{{ obj.differenceAccessoryPrice }}</td>
+              <td>{{ obj.plannedPrintExpenses }}</td>
+              <td>{{ obj.factPrintExpenses }}</td>
+              <td>{{ obj.differencePrintExpenses }}</td>
+              <td>{{ obj.currency }}</td>
+              <td>-</td>
+              <td class="sticky-column">-</td>
+            </tr>
 
-          <tr>
-            <td class="sticky-column"></td>
-            <td class="sticky-column"></td>
-            <td class="sticky-column"></td>
-            <td class="sticky-column">Total</td>
-            <td></td>
-            <td>{{ modelsAnalysis.totalSoldPrice }}</td>
-            <td>{{ modelsAnalysis.totalOrderQuantity }}</td>
-            <td></td>
-            <td>{{ modelsAnalysis.totalWithOverProd }}</td>
-            <td>{{ modelsAnalysis.totalShippedQuantity }}</td>
-            <td>{{ modelsAnalysis.totalPriceOfModel }}</td>
-            <td>{{ modelsAnalysis.shippedTotalPrice }}</td>
-            <td>{{ modelsAnalysis.totalCalculatedFabricKg }}</td>
-            <td>{{ modelsAnalysis.totalFabricPrice }}</td>
-            <td></td>
-            <td>{{ modelsAnalysis.totalReceivedFabricKg }}</td>
-            <td>{{ modelsAnalysis.factTotalFabricPrice }}</td>
-            <td></td>
-            <td>{{ modelsAnalysis.totalFabricDifferenceKg }}</td>
-            <td>{{ modelsAnalysis.totalFabricDifferencePrice }}</td>
-            <td></td>
-            <td>{{ modelsAnalysis.totalPlanningAccessoryExpense }}</td>
-            <td>{{ modelsAnalysis.totalReceivedAccessoryPrice }}</td>
-            <td>{{ modelsAnalysis.totalDifferenceAccessoryPrice }}</td>
-            <td>{{ modelsAnalysis.totalPlannedPrintExpenses }}</td>
-            <td>{{ modelsAnalysis.totalFactPrintExpenses }}</td>
-            <td>{{ modelsAnalysis.totalDifferencePrintExpenses }}</td>
-            <td>-</td>
-            <td class="sticky-column">-</td>
-          </tr>
-        </tbody>
-      </v-simple-table>
-    </div>
+            <tr>
+              <td class="sticky-column"></td>
+              <td class="sticky-column"></td>
+              <td class="sticky-column"></td>
+              <td class="sticky-column">Total</td>
+              <td></td>
+              <td>{{ modelsAnalysis.totalSoldPrice }}</td>
+              <td>{{ modelsAnalysis.totalOrderQuantity }}</td>
+              <td></td>
+              <td>{{ modelsAnalysis.totalWithOverProd }}</td>
+              <td>{{ modelsAnalysis.totalShippedQuantity }}</td>
+              <td>{{ modelsAnalysis.totalPriceOfModel }}</td>
+              <td>{{ modelsAnalysis.shippedTotalPrice }}</td>
+              <td>{{ modelsAnalysis.totalCalculatedFabricKg }}</td>
+              <td>{{ modelsAnalysis.totalFabricPrice }}</td>
+              <td></td>
+              <td>{{ modelsAnalysis.totalReceivedFabricKg }}</td>
+              <td>{{ modelsAnalysis.factTotalFabricPrice }}</td>
+              <td></td>
+              <td>{{ modelsAnalysis.totalFabricDifferenceKg }}</td>
+              <td>{{ modelsAnalysis.totalFabricDifferencePrice }}</td>
+              <td></td>
+              <td>{{ modelsAnalysis.totalPlanningAccessoryExpense }}</td>
+              <td>{{ modelsAnalysis.totalReceivedAccessoryPrice }}</td>
+              <td>{{ modelsAnalysis.totalDifferenceAccessoryPrice }}</td>
+              <td>{{ modelsAnalysis.totalPlannedPrintExpenses }}</td>
+              <td>{{ modelsAnalysis.totalFactPrintExpenses }}</td>
+              <td>{{ modelsAnalysis.totalDifferencePrintExpenses }}</td>
+              <td>-</td>
+              <td class="sticky-column">-</td>
+            </tr>
+          </tbody>
+        </v-simple-table>
+      </div>
+    </v-card>
     <v-dialog max-width="590" v-model="image_dialog">
       <v-card >
         <v-card-title class="d-flex">
@@ -231,6 +293,11 @@ import { mapActions, mapGetters } from 'vuex';
 export default {
   data(){
     return{
+      filter:{
+        to: "",
+        from: "",
+        clientName: "",
+      },
       pageType:"YEARLY",
       headers:[
         {text:"No.",value:"orderedNumber", fixed: true},
@@ -293,10 +360,17 @@ export default {
       this.currentImage = photo;
       this.image_dialog = true;
     },
+    resetFilters(){
+      this.filter={}
+    },
+    filterData(){
+      if((this.filter.from&&this.filter.to) || (!this.filter.from&&!this.filter.to)){
+        this.getModalsAnalytics(this.filter)
+      }
+    }
   },
   mounted(){
     this.getTotalAnalysis(this.pageType)
-    this.getModalsAnalytics()
   }
 };
 </script>

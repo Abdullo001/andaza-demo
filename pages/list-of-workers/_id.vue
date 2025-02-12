@@ -155,10 +155,9 @@
               item-text="text"
               item-value="val"
               outlined
-              hide-details
               dense
-              label="Status"
-              class="rounded-lg"
+              hide-details
+              class="rounded-lg base"
               color="#544B99"
               background-color="#F8F4FE"
             />
@@ -188,11 +187,10 @@
               item-text="text"
               item-value="val"
               outlined
+              color="#544B99"
               hide-details
               dense
-              :label="$t('listOfWorkers.dialog.paymentType')"
-              class="rounded-lg"
-              color="#544B99"
+              class="rounded-lg base"
               background-color="#F8F4FE"
             />
           </v-col>
@@ -270,15 +268,6 @@ export default {
     selectedEmployeeInfo(val) {
       this.employeeInfo = JSON.parse(JSON.stringify(val));
       this.avatar = this.employeeInfo?.photo;
-      this.employeeInfo.birthDate
-        ? (this.birthDate = this.convertDate(this.employeeInfo.birthDate))
-        : "";
-      this.employeeInfo.hiredDate
-        ? (this.hiredDate = this.convertDate(this.employeeInfo.hiredDate))
-        : "";
-      this.employeeInfo.firedDate
-        ? (this.firedDate = this.convertDate(this.employeeInfo.firedDate))
-        : "";
     },
   },
   methods: {
@@ -308,16 +297,6 @@ export default {
       return formattedDate;
     },
     saveBtn() {
-      this.birthDate
-        ? (this.employeeInfo.birthDate = this.convertInitDate(this.birthDate))
-        : "";
-      this.hiredDate
-        ? (this.employeeInfo.hiredDate = this.convertInitDate(this.hiredDate))
-        : "";
-      this.firedDate
-        ? (this.employeeInfo.firedDate = this.convertInitDate(this.firedDate))
-        : (this.employeeInfo.firedDate = "");
-
       delete this.employeeInfo.id;
       this.employeeInfo.photo === this.selectedEmployeeInfo.photo
         ? (this.employeeInfo.photo = "")

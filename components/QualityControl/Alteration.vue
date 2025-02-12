@@ -119,7 +119,7 @@
               </v-col>
               <v-col cols="6">
                 <div class="label">Work date</div>
-                <el-date-picker 
+                <el-date-picker
                     v-model="selectedItem.workDate"
                     type="date"
                     style="width: 100%; height: 44px !important;"
@@ -335,12 +335,12 @@ export default {
             quantity: item.quantity?item.quantity:0
           })),
           workDate:this.selectedItem.workDate,
-          streamId: this.selectedItem.streamId
-
+          streamId: this.selectedItem.streamId,
+          color: this.selectedItem.color,
         }
         if(this.statusTab==="SUB"){
           data.operationType="SENT_TO_ALTERATION_SUBCONTRACTOR"
-          
+
         }
         this.updateSentToAlterationProcess(data)
       }
