@@ -28,7 +28,7 @@ export const actions = {
         console.log(response);
       });
   },
-  getModalsAnalytics({commit},clientName="",from="",to=""){
+  getModalsAnalytics({commit},{clientName="",from="",to=""}){
     const body = {
       clientName: clientName?? "",
       from: from?? "",
