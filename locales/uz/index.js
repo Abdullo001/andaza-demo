@@ -7,6 +7,15 @@ export default {
   update: "Yangilash",
   enter: "Kiriting",
   save: "Saqlash",
+  autoFilling: "Aut.To'ldirish",
+  history: "Tarix",
+  edit: "Tahrirlash",
+  total:"Jami",
+  historyTable: {
+    toProcess: "Yuborilgan jarayon",
+    date: "Sana",
+    doneBy: "Bajaruvchi",
+  },
   sidebar: {
     ok:"OK",
     byModels: "Model bo'yicha",
@@ -521,10 +530,24 @@ export default {
   },
 
   planningProduction: {
+    process: {
+      cutting: "Kesim",
+      printing: "Print bosish",
+      sewing: "Tikish",
+      ironing: "Dazmollash",
+      packaging: "Qadoqlash",
+      quality_control: "Sifatni nazorati",
+    },
+    workShopType: {
+      own: "Fabrikada",
+      own_workshop: "Fabrikada",
+      subcontractor: "Autsorsing",
+      both: "Aralash"
+    },
     planning: {
       planningProduction: "Ishlab chiqarishni rejalashtirish",
       addProcessing: "ishlov berishni qo'shing",
-      process: "jarayon",
+      process: "Jarayon",
       workingProcess: "Ish jarayoni",
       selectWorkingProcess: "Ish jarayonini tanlang",
       workshop: "Fabrika",
@@ -545,6 +568,14 @@ export default {
       totalPrice: "Umumiy narx",
       createdDate: "Yaratilgan sana",
       actions: "Amallar",
+      nextProcess: "Keyingi jarayonga o'tish",
+      wastes: "Chiqindilar",
+      outputWaybill: "Yoʻl varaqasiga chiqish",
+      allClassification: "Barcha tasnif",
+      dailyTasks: "Kundalik bajarilgan ishlar",
+      passingTab: "Keyingi jarayonga o‘tish",
+      sendWaybill: "Yoʻl varaqasiga yuborish",
+      nextP: "Keyingi jarayonga o'tgazish",
     },
     dialog: {
       planningId: "ID rejalashtirish",

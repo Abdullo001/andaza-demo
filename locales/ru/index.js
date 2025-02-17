@@ -7,6 +7,15 @@ export default {
   update: "Обновлять",
   enter: "Введите",
   save: "Сохранять",
+  autoFilling: "Автозаполнение",
+  history: "История",
+  edit: "Редактировать",
+  total:"Общий",
+  historyTable: {
+    toProcess: "К процессу",
+    date: "Дата",
+    doneBy: "Выполнено",
+  },
   sidebar: {
     ok: "OK",
     byModels: "По модели",
@@ -515,6 +524,20 @@ export default {
   },
 
   planningProduction: {
+    process: {
+      cutting: "Раскрой",
+      printing: "Печать",
+      sewing: "Пошив",
+      ironing: "Глажка",
+      packaging: "Упаковка",
+      quality_control: "Контроль качества",
+    },
+    workShopType: {
+      own: "На фабрике",
+      own_workshop: "На фабрике",
+      subcontractor: "Аутсорсинг",
+      both: "Разделенное"
+    },
     planning: {
       planningProduction: "Планирование производства",
       addProcessing: "добавить обработку",
@@ -539,6 +562,14 @@ export default {
       totalPrice: "Итоговая цена",
       createdDate: "Дата создания",
       actions: "Действия",
+      nextProcess: "Переходим к следующему процессу",
+      wastes: "Отходы",
+      outputWaybill: "Вывод в накладную",
+      allClassification: "Вся классификация",
+      dailyTasks: "Ежедневные задания",
+      passingTab: "Переход к следующему процессу",
+      sendWaybill: "Отправить в накладную",
+      nextP: "Следующий процесс",
     },
     dialog: {
       planningId: "Планирование ID",

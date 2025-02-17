@@ -375,7 +375,7 @@ export default {
     return {
       show_btn: true,
       tab: null,
-      items: ["Quality control", "Subcontractor", "Output to waybill"],
+      items: [this.$t('planningProduction.process.quality_control'), this.$t('planningProduction.workShopType.subcontractor'), this.$t('planningProduction.planning.outputWaybill')],
       title: "Add",
       currentImage: '',
       image_dialog: false,

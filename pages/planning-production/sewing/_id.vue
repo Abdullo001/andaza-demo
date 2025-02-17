@@ -355,7 +355,7 @@ export default {
       show_btn: true,
       tab: null,
       tabStatus:"OWN",
-      items: ["Sewing", "Subcontracts","Passing to next process"],
+      items: [this.$t('planningProduction.process.sewing'), this.$t('planningProduction.workShopType.subcontractor'), this.$t('planningProduction.planning.nextProcess')],
       title: "Add",
       currentImage: '',
       image_dialog: false,

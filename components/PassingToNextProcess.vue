@@ -8,7 +8,7 @@
     >
       <template #top>
         <v-card flat>
-          <v-card-title>Passing to next process</v-card-title>
+          <v-card-title>{{ $t('planningProduction.planning.passingTab') }}</v-card-title>
         </v-card>
       </template>
       <template #item.actions="{ item }">
@@ -29,7 +29,7 @@
               <v-img src="/history.svg" max-width="22" />
             </v-btn>
           </template>
-          <span class="text-capitalize">History</span>
+          <span class="text-capitalize">{{ $t('history') }}</span>
         </v-tooltip>
         <v-tooltip
           top
@@ -48,7 +48,7 @@
               <v-img src="/table-icon.svg" max-width="21" />
             </v-btn>
           </template>
-          <span class="text-capitalize">Send to waybill</span>
+          <span class="text-capitalize">{{ $t('planningProduction.planning.sendWaybill') }}</span>
         </v-tooltip>
         <v-tooltip top color="#544B99" class="pointer">
           <template #activator="{ on, attrs }">
@@ -62,8 +62,12 @@
               <v-img src="/right-icon.svg" max-width="21" />
             </v-btn>
           </template>
-          <span class="text-capitalize">edit</span>
+          <span class="text-capitalize">{{ $t('planningProduction.planning.nextP') }}</span>
         </v-tooltip>
+      </template>
+
+      <template #item.workshop="{item}">
+        {{ item.workshop==='OWN_WORKSHOP'? $t('planningProduction.workShopType.own') : item.workshop}}
       </template>
     </v-data-table>
 
@@ -286,25 +290,25 @@
                   <v-radio
                     :aria-disabled="selectedItem.status === 'edit_history'"
                     color="#544B99"
-                    label="Own workshop"
+                    :label="$t('planningProduction.workShopType.own')"
                     value="OWN_WORKSHOP"
                   ></v-radio>
                   <v-radio
                     color="#544B99"
-                    label="Subcontractor"
+                    :label="$t('planningProduction.workShopType.subcontractor')"
                     value="SUBCONTRACTOR"
                   ></v-radio>
                   <v-radio
                     v-if="passSupplyWarehouse"
                     color="#544B99"
-                    label="Supply warehouse"
+                    :label="$t('sidebar.supplyWarehouse')"
                     value="SUPPLY_WAREHOUSE"
                   ></v-radio>
                 </v-radio-group>
               </v-col>
               <v-col cols="4" class="d-flex align-center">
                 <v-switch inset v-model="autoFilling" color="#4F46E5" />
-                <div class="label mr-5">Aut.Filling</div>
+                <div class="label mr-5">{{ $t('autoFilling') }}</div>
               </v-col>
               <v-col cols="12" lg="6">
                 <div class="label">Select the next process</div>
@@ -330,22 +334,6 @@
                 v-if="selectedItem.workshopType === 'SUBCONTRACTOR'"
               >
                 <div class="label">Partner</div>
-                <!-- <v-select
-                  append-icon="mdi-chevron-down"
-                  v-model="selectedItem.partnerId"
-                  :items="partnerList"
-                  :rules="[formRules.required]"
-                  item-text="name"
-                  item-value="id"
-                  hide-details
-                  color="#544B99"
-                  class=" base rounded-lg"
-                  rounded
-                  outlined
-                  dense
-                  placeholder="Select partner"
-                /> -->
-
                 <v-combobox
                   v-model="selectedItem.partnerId"
                   :items="partnerList"
@@ -443,6 +431,9 @@
             class="mt-4 rounded-lg"
             style="border: 1px solid #e9eaeb"
           >
+          <template #item.toProcess="{ item }">
+            <div class="text-capitalize">{{ $t(`planningProduction.process.${item.toProcess.toLowerCase()}`) }}</div>
+          </template>
           </v-data-table>
         </v-card-text>
       </v-card>
@@ -485,27 +476,27 @@ export default {
         "PACKAGING",
       ],
       headers: [
-        { text: "Color", align: "start", sortable: false, value: "color" },
-        { text: "Total", align: "start", sortable: false, value: "total" },
+        { text: this.$t('planningProduction.planning.color'), align: "start", sortable: false, value: "color" },
+        { text: this.$t('total'), align: "start", sortable: false, value: "total" },
         {
-          text: "Workshop",
+          text: this.$t('planningProduction.planning.workshop'),
           align: "start",
           sortable: false,
           value: "workshop",
         },
-        { text: "Actions", align: "end", sortable: false, value: "actions" },
+        { text: this.$t('planningProduction.planning.actions'), align: "end", sortable: false, value: "actions" },
       ],
       checkedList: [],
       historyHeaders: [
         {
-          text: "To process",
+          text: this.$t('historyTable.toProcess'),
           sortable: false,
           align: "start",
           value: "toProcess",
         },
-        { text: "Date", sortable: false, align: "start", value: "createdBy" },
+        { text: this.$t('historyTable.date'), sortable: false, align: "start", value: "createdBy" },
         {
-          text: "Done By",
+          text: this.$t('historyTable.doneBy'),
           sortable: false,
           align: "center",
           value: "createdDate",
@@ -565,7 +556,7 @@ export default {
     },
     passingList(list) {
       this.headers = [
-        { text: "Color", align: "start", sortable: false, value: "color" },
+        { text: this.$t('planningProduction.planning.color'), align: "start", sortable: false, value: "color" },
       ];
 
       list[0]?.sizeDistributionList.forEach((item) => {
@@ -578,14 +569,14 @@ export default {
       });
 
       this.headers.push(
-        { text: "Total", align: "start", sortable: false, value: "total" },
+        { text: this.$t('total'), align: "start", sortable: false, value: "total" },
         {
-          text: "Workshop",
+          text: this.$t('planningProduction.planning.workshop'),
           align: "start",
           sortable: false,
           value: "workshop",
         },
-        { text: "Actions", align: "end", sortable: false, value: "actions" }
+        { text: this.$t('planningProduction.planning.actions'), align: "end", sortable: false, value: "actions" }
       );
 
       const specialList = list.map(function (el) {
@@ -609,7 +600,7 @@ export default {
     historyListServer(list) {
       this.historyHeaders = [
         {
-          text: "To process",
+          text: this.$t('historyTable.toProcess'),
           sortable: false,
           align: "start",
           value: "toProcess",
@@ -626,9 +617,9 @@ export default {
       });
 
       this.historyHeaders.push(
-        { text: "Date", sortable: false, align: "start", value: "createdDate" },
+        { text: this.$t('historyTable.date'), sortable: false, align: "start", value: "createdDate" },
         {
-          text: "Done By",
+          text: this.$t('historyTable.doneBy'),
           sortable: false,
           align: "center",
           value: "createdBy",
@@ -805,7 +796,7 @@ export default {
   },
 
   mounted() {
-    this.title = this.$route.path.split("/")[2];
+    this.title = this.$route.path.split("/")[2]==='planning-production'?this.$route.path.split("/")[3]:this.$route.path.split("/")[2];
     this.getPassingList(this.planningProcessId);
     this.getNextProcessList(this.planningProcessId);
   },

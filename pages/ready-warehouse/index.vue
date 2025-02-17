@@ -87,6 +87,9 @@
           </v-toolbar-title>
         </v-toolbar>
       </template>
+      <template #item.deadline="{ item }">
+        {{ formatLong(item.deadline) }}
+      </template>
       <template #item.status="{ item }">
         <v-select
           @click.stop
