@@ -74,7 +74,7 @@
     <v-dialog v-model="waybillDialog" width="1200">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Output of waybill</div>
+          <div class="text-capitalize font-weight-bold">{{ $t('planningProduction.planning.outputOfWaybill') }}</div>
           <v-btn icon color="#544B99" @click="waybillDialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -83,7 +83,7 @@
           <v-form ref="edit_form" v-model="edit_validate" lazy-validation>
             <v-row>
               <v-col cols="12" lg="6">
-                <div class="label">Waybill number</div>
+                <div class="label">{{ $t('planningProduction.planning.waybillNumber') }}</div>
                 <div class="search-field">
                   <v-combobox
                     v-model="selectedItem.waybillId"
@@ -98,7 +98,7 @@
                     height="44"
                     hide-details
                     outlined
-                    placeholder="Select waybill No."
+                    :placeholder="$t('planningProduction.planning.selectWaybillN')"
                     prepend-icon=""
                     style="margin-bottom: 22px"
                   >
@@ -111,7 +111,7 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Good and products name</div>
+                <div class="label">{{ $t('planningProduction.planning.productsName') }}</div>
                 <v-text-field
                   v-model="selectedItem.name"
                   class="rounded-lg base mb-4"
@@ -120,12 +120,12 @@
                   height="44"
                   hide-details
                   outlined
-                  placeholder="Enter name"
+                  :placeholder="$t('enterName')"
                   validate-on-blur
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Total quantity</div>
+                <div class="label">{{ $t('totalQuantity') }}</div>
                 <div class="d-flex align-center">
                   <v-text-field
                     v-model="selectedItem.totalQuantity"
@@ -135,7 +135,7 @@
                     height="44"
                     hide-details
                     outlined
-                    placeholder="Enter quantity"
+                    :placeholder="$t('enterQuantity')"
                     validate-on-blur
                   />
                   <v-select
@@ -156,7 +156,7 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Service price</div>
+                <div class="label">{{ $t('servicePrice') }}</div>
                 <div class="d-flex align-center">
                   <v-text-field
                     v-model="selectedItem.price"
@@ -185,7 +185,7 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Box quantity</div>
+                <div class="label">{{ $t('production.oneSort.boxQuantity') }}</div>
                 <v-text-field
                   v-model="selectedItem.boxQuantity"
                   class="rounded-lg base mb-4"
@@ -194,13 +194,13 @@
                   height="44"
                   hide-details
                   outlined
-                  placeholder="Enter quantity"
+                  :placeholder="$t('enterQuantity')"
                   validate-on-blur
                 />
               </v-col>
               <v-col cols="4" class="d-flex align-center">
                 <v-switch inset v-model="autoFilling" color="#4F46E5" />
-                <div class="label mr-5">Aut.Filling</div>
+                <div class="label mr-5">{{ $t('autoFilling') }}</div>
               </v-col>
             </v-row>
             <v-row>
@@ -234,7 +234,7 @@
             width="130"
             @click="waybillDialog = false"
           >
-            cancel
+            {{ $t('cancel') }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -243,7 +243,7 @@
             width="130"
             @click="send"
           >
-            save
+            {{ $t('save') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -252,7 +252,7 @@
     <v-dialog v-model="edit_dialog" width="1200">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Edit Cutting info</div>
+          <div class="text-capitalize font-weight-bold">{{ $t('planningProduction.planning.sendToNextP') }}</div>
           <v-btn icon color="#544B99" @click="closeDialog">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -311,7 +311,7 @@
                 <div class="label mr-5">{{ $t('autoFilling') }}</div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Select the next process</div>
+                <div class="label">{{ $t('planningProduction.planning.nextP') }}</div>
                 <v-select
                   :items="nextProcessList"
                   item-text="process"
@@ -325,7 +325,7 @@
                   height="44"
                   class="rounded-lg base"
                   color="#544B99"
-                  placeholder="Select process type"
+                  :placeholder="$t('planningProduction.planning.selectNextProcess')"
                 />
               </v-col>
               <v-col
@@ -333,7 +333,7 @@
                 lg="6"
                 v-if="selectedItem.workshopType === 'SUBCONTRACTOR'"
               >
-                <div class="label">Partner</div>
+                <div class="label">{{ $t('prefinances.child.partner') }}</div>
                 <v-combobox
                   v-model="selectedItem.partnerId"
                   :items="partnerList"
@@ -368,7 +368,7 @@
             width="130"
             @click="closeDialog"
           >
-            cancel
+          {{ $t(`cancel`) }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -377,7 +377,7 @@
             width="130"
             @click="save"
           >
-            save
+          {{ $t(`save`) }}
           </v-btn>
         </v-card-actions>
 
@@ -386,7 +386,7 @@
             :headers="[
               ...historyHeaders,
               {
-                text: 'Actions',
+                text: $t('planningProduction.planning.actions'),
                 sortable: false,
                 align: 'center',
                 value: 'actions',
@@ -399,7 +399,10 @@
             style="border: 1px solid #e9eaeb"
           >
             <template #top>
-              <div class="title ma-4">History</div>
+              <div class="title ma-4">{{ $t(`history`) }}</div>
+            </template>
+            <template #item.toProcess="{ item }">
+              <div class="text-capitalize">{{ $t(`planningProduction.process.${item.toProcess.toLowerCase()}`) }}</div>
             </template>
             <template #item.actions="{ item }">
               <v-btn icon color="green" @click.stop="editHistoryItem(item)">
@@ -417,7 +420,7 @@
     <v-dialog v-model="history_dialog" max-width="1200">
       <v-card flat>
         <v-card-title>
-          <div class="title">History</div>
+          <div class="title">{{ $t(`history`) }}</div>
           <v-spacer />
           <v-btn icon @click="history_dialog = false" color="#544B99">
             <v-icon>mdi-close</v-icon>

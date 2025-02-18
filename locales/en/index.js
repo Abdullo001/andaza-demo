@@ -7,10 +7,16 @@ export default {
   update: "Update",
   enter: "Enter",
   save: "Save",
+  cancel: "Cancel",
   autoFilling: "Aut.Filling",
   history: "History",
   edit: "Edit",
   total: "Total",
+  enterQuantity: "Enter quantity",
+  totalQuantity: "Total quantity",
+  servicePrice: "Service price",
+  enterName: "Enter name",
+  bodyPart: "Body part",
 
   historyTable: {
     toProcess: "To process",
@@ -536,6 +542,7 @@ export default {
       ironing: "Ironing",
       packaging: "Packaging",
       quality_control: "Quality control",
+      waybill: "Waybill",
     },
     workShopType: {
       own: "In-house",
@@ -572,9 +579,14 @@ export default {
       allClassification: "All classification",
       dailyTasks: "Daily tasks",
       passingTab: "Passing to next process",
-
       sendWaybill: "Send to waybill",
       nextP: "Next process",
+      selectNextProcess: "Select the next process",
+      sendToNextP: "Send to next process",
+      productsName: "Good and products name",
+      waybillNumber: "Waybill number",
+      selectWaybillN: "Select waybill No.",
+      outputOfWaybill: "Output of waybill",
     },
     dialog: {
       planningId: "ID planning",
