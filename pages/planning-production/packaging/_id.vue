@@ -359,7 +359,7 @@ export default {
     return {
       show_btn: true,
       tab: null,
-      items: [this.$t('planningProduction.process.ironing'), this.$t('planningProduction.workShopType.subcontractor'), this.$t('planningProduction.planning.outputWaybill'), this.$t('planningProduction.planning.allClassification')],
+      items: [this.$t('planningProduction.process.packaging'), this.$t('planningProduction.workShopType.subcontractor'), this.$t('planningProduction.planning.outputWaybill'), this.$t('planningProduction.planning.allClassification')],
       title: "Add",
       currentImage: '',
       image_dialog: false,
