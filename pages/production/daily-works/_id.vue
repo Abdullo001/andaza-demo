@@ -105,6 +105,21 @@
                     validate-on-blur
                   />
                 </v-col>
+                <v-col cols="12" lg="4">
+                  <div class="label">Actual cut quantity</div>
+                  <v-text-field
+                    v-model="modelDetail.actualCutQuantity"
+                    disabled
+                    class="rounded-lg base mb-4"
+                    color="#544B99"
+                    dense
+                    height="44"
+                    hide-details
+                    outlined
+                    placeholder="0"
+                    validate-on-blur
+                  />
+                </v-col>
               </v-row>
             </v-col>
             <v-col cols="4">
@@ -120,7 +135,6 @@
                   />
                 </div>
               </div>
-              <!-- <v-img src="/default-image.svg" max-width="56" max-height="56" /> -->
             </v-col>
           </v-row>
         </v-form>

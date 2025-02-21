@@ -16,7 +16,7 @@
             <td v-for="(operation, idx) in mainList[0].operations" :key="idx">
               {{ operation.amount }}
             </td>
-            <td></td>
+            <td>{{ sumAllOperationPrice(mainList[0].operations) }}</td>
             <td></td>
           </tr>
           <tr v-for="(item, idx) in mainList" :key="idx">
@@ -186,6 +186,11 @@ export default {
     sumAllOperation(operations) {
       return operations.reduce((sum, item) => {
         return sum + (item.quantity ? item.quantity * item.amount : 0);
+      }, 0);
+    },
+    sumAllOperationPrice(operations) {
+      return operations.reduce((sum, item) => {
+        return sum + (item.amount ? item.amount : 0);
       }, 0);
     },
     saveDailyReport() {
