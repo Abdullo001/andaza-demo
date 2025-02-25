@@ -1,7 +1,7 @@
 <template>
   <v-card class="py-4">
     <div style="overflow-x: auto;">
-      <v-simple-table class="min-w-800" dense>
+      <v-simple-table class="min-w-800" height="100vh" fixed-header dense>
         <thead>
           <tr class="text-center">
             <th v-for="(header, idx) in headers" :key="idx" :class="`th-text ${idx<2?`sticky-column`:``}`" >
@@ -11,8 +11,8 @@
         </thead>
         <tbody>
           <tr v-if="mainList.length" class="text-center">
-            <td  class="sticky-column" style="border-right: 0;"></td>
-            <td class="sticky-column" style="border-left: 0;">Payment amount per operation</td>
+            <td  class="sticky-column z-5" style="border-right: 0;"></td>
+            <td class="sticky-column z-5" style="border-left: 0;">Payment amount per operation</td>
             <td v-for="(operation, idx) in mainList[0].operations" :key="idx">
               {{ operation.amount }}
             </td>
@@ -20,8 +20,8 @@
             <td></td>
           </tr>
           <tr v-for="(item, idx) in mainList" :key="idx">
-            <td class="sticky-column">{{ item.id }}</td>
-            <td class="sticky-column">{{ item.fullName }}</td>
+            <td class="sticky-column z-5">{{ item.orderNo }}</td>
+            <td class="sticky-column z-5">{{ item.fullName }}</td>
             <td
               v-for="(operation, opIdx) in item.operations"
               :key="opIdx"
@@ -103,7 +103,8 @@ export default {
         {text:"Done work quantity",value:"doneWorkQuantity",sortable:false},
         {text:"Done work amount",value:"doneWorkAmount",sortable:false},
         {text:"Created by",value:"createdBy",sortable:false},
-      ]
+      ],
+      loading:true
     };
   },
   computed: {
@@ -136,15 +137,17 @@ export default {
       this.mainList.forEach((employee) => {
         employee.operations = JSON.parse(JSON.stringify(list));
       });
+      this.loading=false
+
     },
     workLogsInfo(val) {
       this.getModelCategoryList(val.modelCategoryId);
     },
     listOfWorkers(list) {
-      const specialList = list.map((item) => {
+      const specialList = list.map((item,idx) => {
         return {
           fullName: `${item.lastName} ${item.firstName}`,
-          id: item.id,
+          orderNo: idx+1,
           operations: [],
         };
       });
@@ -257,9 +260,6 @@ table {
 
   tfoot {
     font-weight: 700;
-    //th:nth-child(-n+3), td:nth-child(-n+3) {
-    //  border: none;
-    //}
   }
 
   .p0 {
@@ -270,7 +270,7 @@ table {
   position: sticky;
   left: 0;
   background-color: white;
-  z-index: 2;
+  z-index: 5 !important;
   min-width: 150px;
   border-right: 1px solid #e0e0e0;
 }
@@ -284,5 +284,8 @@ table {
   min-width: 100px;
   font-size: 16px !important;
   font-weight: 500;
+}
+.z-5{
+  z-index: 3 !important;
 }
 </style>
