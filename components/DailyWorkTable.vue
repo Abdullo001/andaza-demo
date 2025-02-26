@@ -1,5 +1,8 @@
 <template>
   <v-card class="py-4">
+    <v-overlay :value="loading" absolute style="z-index: 6">
+      <v-progress-circular color="#544B99" indeterminate size="80" />
+    </v-overlay>
     <div style="overflow-x: auto;">
       <v-simple-table class="min-w-800" height="100vh" fixed-header dense>
         <thead>
@@ -24,24 +27,20 @@
             <td class="sticky-column z-5">{{ item.fullName }}</td>
             <td
               v-for="(operation, opIdx) in item.operations"
-              :key="opIdx"
+              :key="`td-${opIdx}`"
               class="p0"
             >
               <div class="h-100 d-flex align-center">
-                <v-text-field
-                  v-model="operation.quantity"
-                  class="base text-center"
-                  :disabled="workLogsInfo.isFinished"
-                  color="#544B99"
-                  dense
-                  height="44"
-                  hide-details
-                  outlined
-                  placeholder="0"
-                  validate-on-blur
-                  :rules="[formRules.onlyNumber]"
-                  :ref="`input-${idx}-${opIdx}`"
+                <input
+                  type="text"
+                  :value="operation.quantity"
+                  @input="updateQuantity($event, idx, opIdx)"
                   @keydown="handleKeydown($event, idx, opIdx)"
+                  @keypress="onlyNumbers"
+                  :ref="`input-${idx}-${opIdx}`"
+                  :disabled="workLogsInfo.isFinished"
+                  class="cell"
+                  placeholder="0"
                 />
               </div>
             </td>
@@ -104,6 +103,7 @@ export default {
         {text:"Done work amount",value:"doneWorkAmount",sortable:false},
         {text:"Created by",value:"createdBy",sortable:false},
       ],
+      savedTable:[],
       loading:true
     };
   },
@@ -113,6 +113,7 @@ export default {
       workLogsInfo: "dailyWorkTable/workLogsInfo",
       modelCategoryList: "dailyWorkTable/modelCategoryList",
       workLogsHistory: "dailyWorkTable/workLogsHistory",
+      temporaryTable: "dailyWorkTable/temporaryTable",
     }),
   },
   watch: {
@@ -135,7 +136,7 @@ export default {
       );
 
       this.mainList.forEach((employee) => {
-        employee.operations = JSON.parse(JSON.stringify(list));
+        employee.operations = employee.operations.length>0 ? employee.operations : JSON.parse(JSON.stringify(list));
       });
       this.loading=false
 
@@ -144,20 +145,18 @@ export default {
       this.getModelCategoryList(val.modelCategoryId);
     },
     listOfWorkers(list) {
-      const specialList = list.map((item,idx) => {
-        return {
-          fullName: `${item.lastName} ${item.firstName}`,
-          orderNo: idx+1,
-          operations: [],
-        };
-      });
-      this.mainList = JSON.parse(JSON.stringify(specialList));
+      const hasSavedTable = this.savedTable.length === list.length;
+      this.mainList = list.map((item, idx) => ({
+        fullName: `${item.lastName} ${item.firstName}`,
+        orderNo: idx + 1,
+        id: item.id,
+        operations: hasSavedTable ? this.savedTable[idx].operations : [],
+      }));
     },
   },
   methods: {
     ...mapActions({
       getEmployeesWithOutPagination: "listOfWorkers/getEmployeesWithOutPagination",
-      getWorkLogsReport: "dailyWorkTable/getWorkLogsReport",
       getModelCategoryList: "dailyWorkTable/getModelCategoryList",
       getWorkLogsHistory: "dailyWorkTable/getWorkLogsHistory",
       saveDailyWorkLogs: "dailyWorkTable/saveDailyWorkLogs",
@@ -211,13 +210,42 @@ export default {
         modelCategoryId: this.workLogsInfo.modelCategoryId,
         modelId: this.$route.params.id,
       };
+      console.log(payload);
 
-      this.saveDailyWorkLogs({data:payload,modelId:this.$route.params.id})
+
+      // this.saveDailyWorkLogs({data:payload,modelId:this.$route.params.id})
     },
+    updateQuantity(event, idx, opIdx) {
+      const value = event.target.value.replace(/\D/g, "");
+      this.mainList[idx].operations[opIdx].quantity = value;
+    },
+    onlyNumbers(event) {
+      if (!/[0-9]/.test(event.key)) {
+        event.preventDefault();
+      }
+    },
+    dataChecker(arr){
+      return arr.some(employee => {
+        const temp = employee.operations.filter(operation => operation.quantity);
+        if (temp.length > 0) {
+          return true;
+        }
+        return false;
+      });
+    }
+  },
+  created(){
+    this.savedTable=JSON.parse(JSON.stringify(this.temporaryTable))
+
   },
   mounted() {
     this.getEmployeesWithOutPagination("PER_WORK");
   },
+  beforeDestroy(){
+    if(this.dataChecker(this.mainList)){
+      this.$store.commit("dailyWorkTable/setTemporaryTable",this.mainList)
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -287,5 +315,18 @@ table {
 }
 .z-5{
   z-index: 3 !important;
+}
+.cell{
+  width: 100%;
+  height: 44px;
+  background-color: #F7F4FE;
+  padding: 10px 5px;
+  font-size: 16px;
+  will-change: transform, opacity;
+  contain: layout paint;
+
+  &:focus{
+    outline-color: #544B99;
+  }
 }
 </style>

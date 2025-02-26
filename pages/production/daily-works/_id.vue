@@ -196,11 +196,11 @@ export default {
       getImages: "modelPhoto/getImages",
     }),
   },
-  mounted(){
+  created(){
     const modelId=this.$route.params.id
     this.getWorkLogsInfo(modelId)
     this.getImages(modelId)
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>
