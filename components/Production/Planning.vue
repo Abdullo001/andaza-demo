@@ -24,7 +24,7 @@
               :disabled="btn_disabled"
               @click="openDailyTask"
             >
-              Daily tasks
+              {{ $t('planningProduction.planning.dailyTasks') }}
             </v-btn>
             <v-btn
               color="#544B99" dark
@@ -38,6 +38,12 @@
             </v-btn>
           </div>
         </v-card-title>
+      </template>
+      <template #item.process="{item}">
+        {{ $t(`planningProduction.process.${item.process.toLowerCase()}`) }}
+      </template>
+      <template #item.workshopType="{item}">
+        {{ $t(`planningProduction.workShopType.${item.workshopType.toLowerCase()}`) }}
       </template>
       <template #item.totalPrice="{item}">
         {{ item.totalPrice.toLocaleString() }}
@@ -100,6 +106,8 @@
                 <div class="label">{{ $t('planningProduction.planning.workshop') }}<span style="color: red" >*</span></div>
                 <v-select
                   :items="workshopList"
+                  item-text="name"
+                  item-value="id"
                   outlined
                   hide-details
                   height="44"
@@ -122,8 +130,6 @@
                   v-model="new_process.description"
                 />
               </v-col>
-
-
             </v-row>
           </v-form>
         </v-card-text>
@@ -220,8 +226,19 @@ export default {
       },
       selectedProcess: [],
       currentProcessId: '',
-      processList:["CUTTING","PRINTING","SEWING","IRONING","QUALITY_CONTROL","PACKAGING"],
-      workshopList:["SUBCONTRACTOR", "OWN_WORKSHOP", "BOTH"],
+      processList:[
+        {id:"CUTTING", name:this.$t('planningProduction.process.cutting')},
+        {id:"PRINTING", name:this.$t('planningProduction.process.printing')},
+        {id:"SEWING", name:this.$t('planningProduction.process.sewing')},
+        {id:"IRONING", name:this.$t('planningProduction.process.ironing')},
+        {id:"QUALITY_CONTROL", name:this.$t('planningProduction.process.quality_control')},
+        {id:"PACKAGING", name:this.$t('planningProduction.process.packaging')},
+      ],
+      workshopList:[
+        {id:"SUBCONTRACTOR", name:this.$t('planningProduction.workShopType.subcontractor')},
+        {id:"OWN_WORKSHOP", name:this.$t('planningProduction.workShopType.own')},
+        {id:"BOTH", name:this.$t('planningProduction.workShopType.both')},
+      ],
       lastItem:{},
       warningState:false,
       warningText:""

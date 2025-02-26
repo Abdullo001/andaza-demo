@@ -8,7 +8,7 @@
 
     >
       <template #top>
-        <div class="title ma-4">Cutting</div>
+        <div class="title ma-4">{{ $t('planningProduction.process.cutting') }}</div>
       </template>
       <template #item.wasteFabric="{item}">
         <v-text-field
@@ -209,7 +209,7 @@
               </v-col>
               <v-col cols="3">
                 <div class="label">Work date</div>
-                <el-date-picker 
+                <el-date-picker
                     v-model="selectedItem.workDate"
                     type="date"
                     style="width: 100%; height: 44px !important;"
@@ -222,7 +222,7 @@
                   >
                 </el-date-picker>
               </v-col>
-  
+
             </v-row>
           </v-form>
         </v-card-text>
@@ -642,7 +642,7 @@ export default {
     handleEnter(item) {
       if (item.wasteFabric && item.wasteFabric.trim() !== '') {
         this.setWasteFabricFunc(item);
-      } 
+      }
     },
     setWasteFabricFunc(item){
       const data={
@@ -690,7 +690,7 @@ export default {
           streamId:this.selectedItem.streamId,
           workDate:this.selectedItem.workDate,
         }
-        
+
         this.setUpdateSizes(data)
       }
       if (this.selectedItem.status === "historyEdit") {

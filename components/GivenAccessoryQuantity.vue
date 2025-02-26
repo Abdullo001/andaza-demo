@@ -82,7 +82,7 @@
       </template>
 
     </v-data-table>
-    <v-dialog max-width="500" v-model="return_dialog">
+    <v-dialog max-width="800" v-model="return_dialog">
       <v-card>
         <v-card-title class="d-flex align-center w-full">
           <div class="title">Returned accessory</div>
@@ -96,34 +96,57 @@
           </v-btn>
         </v-card-title>
         <v-card-text>
-          <v-col cols="12">
-            <div class="label">Accessory name</div>
-            <v-text-field
-              outlined
-              hide-details
-              dense
-              height="44"
-              class="rounded-lg base" color="#544B99"
-              placeholder="Enter spin number"
-              v-model.trim="selectedItem.name"
-              readonly
-            />
-          </v-col>
-          <v-col cols="12">
-            <div class="label">Returned accessory quantity</div>
-            <div class="d-flex align-center">
+          <v-row>
+            <v-col cols="12">
+              <div class="label">Accessory name</div>
               <v-text-field
                 outlined
                 hide-details
                 dense
                 height="44"
-                class="rounded-l-lg base" color="#544B99"
-                placeholder="Enter returned fabric quantity"
-                v-model.trim="selectedItem.returnedQuantity"
-                :suffix="selectedItem.measurementUnit"
+                class="rounded-lg base" color="#544B99"
+                placeholder="Enter spin number"
+                v-model.trim="selectedItem.name"
+                readonly
               />
-            </div>
-          </v-col>
+            </v-col>
+          </v-row>
+          <v-row v-if="selectedItem.editableSizeDistribution<=0">
+            <v-col cols="12">
+              <div class="label">Returned accessory quantity</div>
+              <div class="d-flex align-center">
+                <v-text-field
+                  outlined
+                  hide-details
+                  dense
+                  height="44"
+                  class="rounded-l-lg base" color="#544B99"
+                  placeholder="Enter returned fabric quantity"
+                  v-model.trim="selectedItem.returnedQuantity"
+                  :suffix="selectedItem.measurementUnit"
+                />
+              </div>
+            </v-col>
+          </v-row>
+          <v-row v-else>
+            <v-col v-for="(item,idx) in selectedItem.editableSizeDistribution" :key="idx" cols="3">
+              <div class="label">{{ item.size }}</div>
+              <v-text-field
+                v-model="item.quantity"
+                :rules="[formRules.onlyNumber, formRules.required]"
+                single-line
+                outlined
+                hide-details
+                height="44"
+                validate-on-blur
+                dense
+                class="rounded-lg base"
+                color="#544B99"
+                background-color="#F8F4FE"
+                placeholder="0"
+              />
+            </v-col>
+          </v-row>
         </v-card-text>
         <v-card-actions class="px-10 pb-5">
           <v-btn
@@ -286,10 +309,20 @@ export default {
           },
         )
       }
-
-      this.items=JSON.parse(JSON.stringify(val))
+      const specialList = val.map((item)=>{
+        const editableSizeDistribution=item.sizeDistributions.length?item.sizeDistributions.map((el)=>{
+          return{
+            quantity: null,
+            size: el.size,
+          }
+        }) : []
+        return{
+          ...item,
+          editableSizeDistribution,
+        }
+      })
+      this.items=JSON.parse(JSON.stringify(specialList))
     },
-
   },
 
   methods:{
@@ -306,6 +339,14 @@ export default {
       const data={
         id:this.selectedItem.id,
         quantity:this.selectedItem.returnedQuantity,
+      }
+      if(this.selectedItem.editableSizeDistribution.length!=0){
+        data.sizeDistributions = this.selectedItem.editableSizeDistribution.map((item)=>({
+          size:item.size,
+          quantity: item.quantity?item.quantity:0
+        }))
+      }else{
+        data.quantity = this.selectedItem.returnedQuantity
       }
       const isSubcontract=this.selectedItem.partner?true:false
       this.setAccessoryReturn({data,isSubcontract,processPlaningId:this.planningProcessId})

@@ -7,6 +7,23 @@ export default {
   update: "Update",
   enter: "Enter",
   save: "Save",
+  cancel: "Cancel",
+  autoFilling: "Aut.Filling",
+  history: "History",
+  edit: "Edit",
+  total: "Total",
+  enterQuantity: "Enter quantity",
+  totalQuantity: "Total quantity",
+  servicePrice: "Service price",
+  enterName: "Enter name",
+  bodyPart: "Body part",
+
+  historyTable: {
+    toProcess: "To process",
+    date: "Date",
+    doneBy: "Done by",
+  },
+
   sidebar: {
     ok: "OK",
     byModels:"By Model",
@@ -518,6 +535,21 @@ export default {
   },
 
   planningProduction: {
+    process: {
+      cutting: "Cutting",
+      printing: "Printing",
+      sewing: "Sewing",
+      ironing: "Ironing",
+      packaging: "Packaging",
+      quality_control: "Quality control",
+      waybill: "Waybill",
+    },
+    workShopType: {
+      own: "In-house",
+      own_workshop: "In-house",
+      subcontractor: "Outsourcing",
+      both: "Combined"
+    },
     planning: {
       planningProduction: "Planning of production",
       process: "Process",
@@ -541,6 +573,20 @@ export default {
       totalPrice: "Total price",
       createdDate: "Created date",
       actions: "Actions",
+      nextProcess: "Passing to the next process",
+      wastes: "Wastes",
+      outputWaybill: "Output to waybill",
+      allClassification: "All classification",
+      dailyTasks: "Daily tasks",
+      passingTab: "Passing to next process",
+      sendWaybill: "Send to waybill",
+      nextP: "Next process",
+      selectNextProcess: "Select the next process",
+      sendToNextP: "Send to next process",
+      productsName: "Good and products name",
+      waybillNumber: "Waybill number",
+      selectWaybillN: "Select waybill No.",
+      outputOfWaybill: "Output of waybill",
     },
     dialog: {
       planningId: "ID planning",

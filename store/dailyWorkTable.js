@@ -3,6 +3,7 @@ export const state=()=>({
   workLogsReport:{},
   modelCategoryList:[],
   workLogsHistory:[],
+  temporaryTable:[],
 })
 
 export const getters={
@@ -10,6 +11,7 @@ export const getters={
   workLogsReport:(state)=>state.workLogsReport,
   modelCategoryList:(state)=>state.modelCategoryList,
   workLogsHistory:(state)=>state.workLogsHistory,
+  temporaryTable: (state)=>state.temporaryTable,
 }
 
 export const mutations={
@@ -25,6 +27,10 @@ export const mutations={
   setWorkLogsHistory(state,item){
     state.workLogsHistory=item
   },
+  setTemporaryTable(state,list){
+    state.temporaryTable=list
+    // console.log(state.temporaryTable);
+  }
 }
 
 export const actions={

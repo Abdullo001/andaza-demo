@@ -312,6 +312,7 @@
             <v-data-table
               :headers="detailsHeaders"
               :items="detailItems"
+              :server-items-length="detailItems.length || 0"
               hide-default-footer
               :no-data-text="$t('noDataText')"
               :footer-props="{

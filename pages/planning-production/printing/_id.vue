@@ -356,7 +356,7 @@ export default {
     return {
       show_btn: true,
       tab: null,
-      items: ["Printing", "Subcontracts", "Passing to next process"],
+      items: [this.$t('planningProduction.process.printing'), this.$t('planningProduction.workShopType.subcontractor'), this.$t('planningProduction.planning.nextProcess')],
       title: "Add",
       currentImage: '',
       image_dialog: false,

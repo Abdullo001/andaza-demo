@@ -8,7 +8,7 @@
     >
       <template #top>
         <v-card flat>
-          <v-card-title>Passing to next process</v-card-title>
+          <v-card-title>{{ $t('planningProduction.planning.passingTab') }}</v-card-title>
         </v-card>
       </template>
       <template #item.actions="{ item }">
@@ -29,7 +29,7 @@
               <v-img src="/history.svg" max-width="22" />
             </v-btn>
           </template>
-          <span class="text-capitalize">History</span>
+          <span class="text-capitalize">{{ $t('history') }}</span>
         </v-tooltip>
         <v-tooltip
           top
@@ -48,7 +48,7 @@
               <v-img src="/table-icon.svg" max-width="21" />
             </v-btn>
           </template>
-          <span class="text-capitalize">Send to waybill</span>
+          <span class="text-capitalize">{{ $t('planningProduction.planning.sendWaybill') }}</span>
         </v-tooltip>
         <v-tooltip top color="#544B99" class="pointer">
           <template #activator="{ on, attrs }">
@@ -62,15 +62,19 @@
               <v-img src="/right-icon.svg" max-width="21" />
             </v-btn>
           </template>
-          <span class="text-capitalize">edit</span>
+          <span class="text-capitalize">{{ $t('planningProduction.planning.nextP') }}</span>
         </v-tooltip>
+      </template>
+
+      <template #item.workshop="{item}">
+        {{ item.workshop==='OWN_WORKSHOP'? $t('planningProduction.workShopType.own') : item.workshop}}
       </template>
     </v-data-table>
 
     <v-dialog v-model="waybillDialog" width="1200">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Output of waybill</div>
+          <div class="text-capitalize font-weight-bold">{{ $t('planningProduction.planning.outputOfWaybill') }}</div>
           <v-btn icon color="#544B99" @click="waybillDialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -79,7 +83,7 @@
           <v-form ref="edit_form" v-model="edit_validate" lazy-validation>
             <v-row>
               <v-col cols="12" lg="6">
-                <div class="label">Waybill number</div>
+                <div class="label">{{ $t('planningProduction.planning.waybillNumber') }}</div>
                 <div class="search-field">
                   <v-combobox
                     v-model="selectedItem.waybillId"
@@ -94,7 +98,7 @@
                     height="44"
                     hide-details
                     outlined
-                    placeholder="Select waybill No."
+                    :placeholder="$t('planningProduction.planning.selectWaybillN')"
                     prepend-icon=""
                     style="margin-bottom: 22px"
                   >
@@ -107,7 +111,7 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Good and products name</div>
+                <div class="label">{{ $t('planningProduction.planning.productsName') }}</div>
                 <v-text-field
                   v-model="selectedItem.name"
                   class="rounded-lg base mb-4"
@@ -116,12 +120,12 @@
                   height="44"
                   hide-details
                   outlined
-                  placeholder="Enter name"
+                  :placeholder="$t('enterName')"
                   validate-on-blur
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Total quantity</div>
+                <div class="label">{{ $t('totalQuantity') }}</div>
                 <div class="d-flex align-center">
                   <v-text-field
                     v-model="selectedItem.totalQuantity"
@@ -131,7 +135,7 @@
                     height="44"
                     hide-details
                     outlined
-                    placeholder="Enter quantity"
+                    :placeholder="$t('enterQuantity')"
                     validate-on-blur
                   />
                   <v-select
@@ -152,7 +156,7 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Service price</div>
+                <div class="label">{{ $t('servicePrice') }}</div>
                 <div class="d-flex align-center">
                   <v-text-field
                     v-model="selectedItem.price"
@@ -181,7 +185,7 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Box quantity</div>
+                <div class="label">{{ $t('production.oneSort.boxQuantity') }}</div>
                 <v-text-field
                   v-model="selectedItem.boxQuantity"
                   class="rounded-lg base mb-4"
@@ -190,13 +194,13 @@
                   height="44"
                   hide-details
                   outlined
-                  placeholder="Enter quantity"
+                  :placeholder="$t('enterQuantity')"
                   validate-on-blur
                 />
               </v-col>
               <v-col cols="4" class="d-flex align-center">
                 <v-switch inset v-model="autoFilling" color="#4F46E5" />
-                <div class="label mr-5">Aut.Filling</div>
+                <div class="label mr-5">{{ $t('autoFilling') }}</div>
               </v-col>
             </v-row>
             <v-row>
@@ -230,7 +234,7 @@
             width="130"
             @click="waybillDialog = false"
           >
-            cancel
+            {{ $t('cancel') }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -239,7 +243,7 @@
             width="130"
             @click="send"
           >
-            save
+            {{ $t('save') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -248,7 +252,7 @@
     <v-dialog v-model="edit_dialog" width="1200">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">Edit Cutting info</div>
+          <div class="text-capitalize font-weight-bold">{{ $t('planningProduction.planning.sendToNextP') }}</div>
           <v-btn icon color="#544B99" @click="closeDialog">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -286,28 +290,28 @@
                   <v-radio
                     :aria-disabled="selectedItem.status === 'edit_history'"
                     color="#544B99"
-                    label="Own workshop"
+                    :label="$t('planningProduction.workShopType.own')"
                     value="OWN_WORKSHOP"
                   ></v-radio>
                   <v-radio
                     color="#544B99"
-                    label="Subcontractor"
+                    :label="$t('planningProduction.workShopType.subcontractor')"
                     value="SUBCONTRACTOR"
                   ></v-radio>
                   <v-radio
                     v-if="passSupplyWarehouse"
                     color="#544B99"
-                    label="Supply warehouse"
+                    :label="$t('sidebar.supplyWarehouse')"
                     value="SUPPLY_WAREHOUSE"
                   ></v-radio>
                 </v-radio-group>
               </v-col>
               <v-col cols="4" class="d-flex align-center">
                 <v-switch inset v-model="autoFilling" color="#4F46E5" />
-                <div class="label mr-5">Aut.Filling</div>
+                <div class="label mr-5">{{ $t('autoFilling') }}</div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Select the next process</div>
+                <div class="label">{{ $t('planningProduction.planning.nextP') }}</div>
                 <v-select
                   :items="nextProcessList"
                   item-text="process"
@@ -321,7 +325,7 @@
                   height="44"
                   class="rounded-lg base"
                   color="#544B99"
-                  placeholder="Select process type"
+                  :placeholder="$t('planningProduction.planning.selectNextProcess')"
                 />
               </v-col>
               <v-col
@@ -329,23 +333,7 @@
                 lg="6"
                 v-if="selectedItem.workshopType === 'SUBCONTRACTOR'"
               >
-                <div class="label">Partner</div>
-                <!-- <v-select
-                  append-icon="mdi-chevron-down"
-                  v-model="selectedItem.partnerId"
-                  :items="partnerList"
-                  :rules="[formRules.required]"
-                  item-text="name"
-                  item-value="id"
-                  hide-details
-                  color="#544B99"
-                  class=" base rounded-lg"
-                  rounded
-                  outlined
-                  dense
-                  placeholder="Select partner"
-                /> -->
-
+                <div class="label">{{ $t('prefinances.child.partner') }}</div>
                 <v-combobox
                   v-model="selectedItem.partnerId"
                   :items="partnerList"
@@ -380,7 +368,7 @@
             width="130"
             @click="closeDialog"
           >
-            cancel
+          {{ $t(`cancel`) }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -389,7 +377,7 @@
             width="130"
             @click="save"
           >
-            save
+          {{ $t(`save`) }}
           </v-btn>
         </v-card-actions>
 
@@ -398,7 +386,7 @@
             :headers="[
               ...historyHeaders,
               {
-                text: 'Actions',
+                text: $t('planningProduction.planning.actions'),
                 sortable: false,
                 align: 'center',
                 value: 'actions',
@@ -411,7 +399,10 @@
             style="border: 1px solid #e9eaeb"
           >
             <template #top>
-              <div class="title ma-4">History</div>
+              <div class="title ma-4">{{ $t(`history`) }}</div>
+            </template>
+            <template #item.toProcess="{ item }">
+              <div class="text-capitalize">{{ $t(`planningProduction.process.${item.toProcess.toLowerCase()}`) }}</div>
             </template>
             <template #item.actions="{ item }">
               <v-btn icon color="green" @click.stop="editHistoryItem(item)">
@@ -429,7 +420,7 @@
     <v-dialog v-model="history_dialog" max-width="1200">
       <v-card flat>
         <v-card-title>
-          <div class="title">History</div>
+          <div class="title">{{ $t(`history`) }}</div>
           <v-spacer />
           <v-btn icon @click="history_dialog = false" color="#544B99">
             <v-icon>mdi-close</v-icon>
@@ -443,6 +434,9 @@
             class="mt-4 rounded-lg"
             style="border: 1px solid #e9eaeb"
           >
+          <template #item.toProcess="{ item }">
+            <div class="text-capitalize">{{ $t(`planningProduction.process.${item.toProcess.toLowerCase()}`) }}</div>
+          </template>
           </v-data-table>
         </v-card-text>
       </v-card>
@@ -485,27 +479,27 @@ export default {
         "PACKAGING",
       ],
       headers: [
-        { text: "Color", align: "start", sortable: false, value: "color" },
-        { text: "Total", align: "start", sortable: false, value: "total" },
+        { text: this.$t('planningProduction.planning.color'), align: "start", sortable: false, value: "color" },
+        { text: this.$t('total'), align: "start", sortable: false, value: "total" },
         {
-          text: "Workshop",
+          text: this.$t('planningProduction.planning.workshop'),
           align: "start",
           sortable: false,
           value: "workshop",
         },
-        { text: "Actions", align: "end", sortable: false, value: "actions" },
+        { text: this.$t('planningProduction.planning.actions'), align: "end", sortable: false, value: "actions" },
       ],
       checkedList: [],
       historyHeaders: [
         {
-          text: "To process",
+          text: this.$t('historyTable.toProcess'),
           sortable: false,
           align: "start",
           value: "toProcess",
         },
-        { text: "Date", sortable: false, align: "start", value: "createdBy" },
+        { text: this.$t('historyTable.date'), sortable: false, align: "start", value: "createdBy" },
         {
-          text: "Done By",
+          text: this.$t('historyTable.doneBy'),
           sortable: false,
           align: "center",
           value: "createdDate",
@@ -565,7 +559,7 @@ export default {
     },
     passingList(list) {
       this.headers = [
-        { text: "Color", align: "start", sortable: false, value: "color" },
+        { text: this.$t('planningProduction.planning.color'), align: "start", sortable: false, value: "color" },
       ];
 
       list[0]?.sizeDistributionList.forEach((item) => {
@@ -578,14 +572,14 @@ export default {
       });
 
       this.headers.push(
-        { text: "Total", align: "start", sortable: false, value: "total" },
+        { text: this.$t('total'), align: "start", sortable: false, value: "total" },
         {
-          text: "Workshop",
+          text: this.$t('planningProduction.planning.workshop'),
           align: "start",
           sortable: false,
           value: "workshop",
         },
-        { text: "Actions", align: "end", sortable: false, value: "actions" }
+        { text: this.$t('planningProduction.planning.actions'), align: "end", sortable: false, value: "actions" }
       );
 
       const specialList = list.map(function (el) {
@@ -609,7 +603,7 @@ export default {
     historyListServer(list) {
       this.historyHeaders = [
         {
-          text: "To process",
+          text: this.$t('historyTable.toProcess'),
           sortable: false,
           align: "start",
           value: "toProcess",
@@ -626,9 +620,9 @@ export default {
       });
 
       this.historyHeaders.push(
-        { text: "Date", sortable: false, align: "start", value: "createdDate" },
+        { text: this.$t('historyTable.date'), sortable: false, align: "start", value: "createdDate" },
         {
-          text: "Done By",
+          text: this.$t('historyTable.doneBy'),
           sortable: false,
           align: "center",
           value: "createdBy",
@@ -805,7 +799,7 @@ export default {
   },
 
   mounted() {
-    this.title = this.$route.path.split("/")[2];
+    this.title = this.$route.path.split("/")[2]==='planning-production'?this.$route.path.split("/")[3]:this.$route.path.split("/")[2];
     this.getPassingList(this.planningProcessId);
     this.getNextProcessList(this.planningProcessId);
   },
