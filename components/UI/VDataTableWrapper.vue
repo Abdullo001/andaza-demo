@@ -1,35 +1,39 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="items"
-    :items-per-page="itemsPerPage"
-    :loading="loader"
-    :server-items-length="totalElements"
-    :page="currentPage"
-    @update:items-per-page="updateItemsPerPage"
-    @update:page="updatePage"
-    class="elevation-1 rounded-lg"
-    :footer-props="{
-      itemsPerPageOptions: [10, 20, 50, 100],
-    }"
-  >
-    <!-- Dinamik top slot -->
-    <template v-if="$slots.top" #top>
-      <slot name="top"></slot>
-    </template>
+  <div>
+    <v-skeleton-loader v-if="loader" type="table"></v-skeleton-loader>
+    <v-data-table
+      v-else
+      :item-value="uniqKey"
+      :headers="headers"
+      :items="items"
+      :items-per-page="itemsPerPage"
+      :server-items-length="totalElements"
+      :page="currentPage"
+      @update:items-per-page="updateItemsPerPage"
+      @update:page="updatePage"
+      class="elevation-1 rounded-lg"
+      :footer-props="{
+        itemsPerPageOptions: [10, 20, 50, 100],
+      }"
+    >
+      <!-- Dinamik top slot -->
+      <template v-if="$slots.top" #top>
+        <slot name="top"></slot>
+      </template>
 
-    <!-- Dinamik qator maydonlari -->
-    <template v-for="header in headers" v-slot:[`item.${header.value}`]="{ item }">
-      <slot :name="`item.${header.value}`" :item="item">
-        {{ item[header.value] }}
-      </slot>
-    </template>
+      <!-- Dinamik qator maydonlari -->
+      <template v-for="header in headers" v-slot:[`item.${header.value}`]="{ item }">
+        <slot :name="`item.${header.value}`" :item="item">
+          {{ item[header.value] }}
+        </slot>
+      </template>
 
-    <!-- Dinamik actions qatori -->
-    <template v-if="$slots['item.actions']" #item.actions="{ item }">
-      <slot name="item.actions" :item="item"></slot>
-    </template>
-  </v-data-table>
+      <!-- Dinamik actions qatori -->
+      <template v-if="$slots['item.actions']" #item.actions="{ item }">
+        <slot name="item.actions" :item="item"></slot>
+      </template>
+    </v-data-table>
+  </div>
 </template>
 
 <script>
@@ -41,6 +45,11 @@ export default {
     loading: Boolean,
     totalElements: Number,
     callerFunction: Function,
+    uniqKey:{
+      type: String,
+      default: "id",
+      required: false,
+    }
   },
   data() {
     return {
@@ -63,16 +72,35 @@ export default {
   },
   methods: {
     async updateItemsPerPage(val) {
+      const prevPageSize = this.itemsPerPage
       this.loader = true;
-      this.itemsPerPage = val;
-      this.$store.commit("dataTable/setPageSize", this.itemsPerPage);
-      await this.callerFunction({page: 0, size: this.pageSize});
+
+      try{
+        this.itemsPerPage = val;
+        this.$store.commit("dataTable/setPageSize", this.itemsPerPage);
+        await this.callerFunction({page: 0, size: this.pageSize});
+      }catch(error){
+        console.log(error);
+        this.itemsPerPage = prevPageSize;
+        this.$store.commit("dataTable/setPageSize", prevPageSize);
+      }finally{
+        this.loader = false;
+      }
     },
     async updatePage(val) {
+      const prevPage = this.currentPage
       this.loader = true;
-      this.currentPage = val;
-      this.$store.commit("dataTable/setPageNumber", this.currentPage-1);
-      await this.callerFunction({page: this.pageNumber, size: this.pageSize});
+      try{
+        this.currentPage = val;
+        this.$store.commit("dataTable/setPageNumber", this.currentPage-1);
+        await this.callerFunction({page: this.pageNumber, size: this.pageSize});
+      }catch(error){
+        console.log(error);
+        this.currentPage = prevPage;
+        this.$store.commit("dataTable/setPageNumber", prevPage-1);
+      }finally{
+        this.loader = false;
+      }
     }
   },
   created(){
@@ -85,7 +113,11 @@ export default {
   mounted(){
     if(this.callerFunction){
       this.loader = true;
-      this.callerFunction({page: this.pageNumber, size: this.pageSize});
+      try{
+        this.callerFunction({page: this.pageNumber, size: this.pageSize});
+      }finally{
+        this.loader = false;
+      }
       this.currentPage = this.pageNumber+1;
       this.itemsPerPage = this.pageSize;
     }

@@ -119,7 +119,7 @@ export const actions = {
           { orderId: res.data.data.id, modelId: res.data.data.modelId },
           { root: true }
         );
-        
+
         dispatch(
           "documents/getDocuments",
           { modelId: res.data.data.modelId },
@@ -244,9 +244,5 @@ export const actions = {
         commit("setOrders", res.data);
         commit("setLoading", false);
       })
-      .catch(({ response }) => {
-        commit("setLoading", false);
-        console.log(response);
-      });
   },
 };

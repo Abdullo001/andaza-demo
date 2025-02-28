@@ -92,6 +92,7 @@
       :loading="loading"
       :totalElements="totalElements"
       :callerFunction="getOrdersList"
+      :uniqKey="`modelId`"
     >
       <template #top>
         <v-toolbar elevation="0" class="rounded-lg">
@@ -222,6 +223,7 @@ export default {
       status_enums: ["FINISHED", "CANCELED", "PENDING", "IN_PROCESS"],
       modelGroup_enums: [],
       headers: [
+        { text: "Model ID", value: "modelId" },
         {
           text: this.$t("orderBox.index.orderNum"),
           value: "orderNumber",
@@ -261,7 +263,13 @@ export default {
   },
   watch: {
     ordersList(val) {
-      this.list = JSON.parse(JSON.stringify(val));
+
+      this.list = val.map(item => ({
+        ...item,
+        orderId:item.id,
+        id:item.modelId,
+      }));
+
     },
     usersList(list) {
       list.map((item) => {
@@ -289,7 +297,7 @@ export default {
     },
     async changeStatus(item) {
       await this.changeStatusOrder({
-        id: item.id,
+        id: item.orderId,
         status: item.status,
         modelId: item.modelId,
       });
@@ -299,7 +307,7 @@ export default {
     },
     async viewDetails(item) {
       await this.$router.push(
-        this.localePath(`/orders/${item.id}?modelId=${item.modelId}`)
+        this.localePath(`/orders/${item.orderId}?modelId=${item.modelId}`)
       );
       await this.$store.commit("orders/setModelId", item.modelId);
     },
