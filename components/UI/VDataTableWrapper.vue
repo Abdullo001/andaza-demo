@@ -16,19 +16,16 @@
         itemsPerPageOptions: [10, 20, 50, 100],
       }"
     >
-      <!-- Dinamik top slot -->
       <template v-if="$slots.top" #top>
         <slot name="top"></slot>
       </template>
 
-      <!-- Dinamik qator maydonlari -->
       <template v-for="header in headers" v-slot:[`item.${header.value}`]="{ item }">
         <slot :name="`item.${header.value}`" :item="item">
           {{ item[header.value] }}
         </slot>
       </template>
 
-      <!-- Dinamik actions qatori -->
       <template v-if="$slots['item.actions']" #item.actions="{ item }">
         <slot name="item.actions" :item="item"></slot>
       </template>
@@ -66,15 +63,14 @@ export default {
     }),
   },
   watch: {
-    items(val){
-      this.loader = false;
-    }
+    // items(val){
+    //   this.loader = false;
+    // }
   },
   methods: {
     async updateItemsPerPage(val) {
       const prevPageSize = this.itemsPerPage
       this.loader = true;
-
       try{
         this.itemsPerPage = val;
         this.$store.commit("dataTable/setPageSize", this.itemsPerPage);
@@ -104,19 +100,22 @@ export default {
     }
   },
   created(){
+    this.loader = true
     if(this.pageName !== this.$route.fullPath.split('/').filter(item => item !== '')[0]){
       this.$store.commit("dataTable/setPageName", this.$route.fullPath.split('/').filter(item => item !== '')[0]);
       this.$store.commit("dataTable/setPageNumber", 0);
       this.$store.commit("dataTable/setPageSize", 10);
     }
   },
-  mounted(){
+  async mounted(){
     if(this.callerFunction){
       this.loader = true;
       try{
-        this.callerFunction({page: this.pageNumber, size: this.pageSize});
+        await this.callerFunction({page: this.pageNumber, size: this.pageSize});
+      }catch(error){
+        console.log(error);
       }finally{
-        this.loader = false;
+        this.loader = false
       }
       this.currentPage = this.pageNumber+1;
       this.itemsPerPage = this.pageSize;

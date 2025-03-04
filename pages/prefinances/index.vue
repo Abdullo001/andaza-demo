@@ -64,7 +64,7 @@
         </v-row>
       </v-form>
     </v-card>
-    <VDataTableWrapper :headers="headers" :items="preFinanceList" :loading="loading" :totalElements="totalElements" :callerFunction="getReFinancesList" >
+    <VDataTableWrapper :headers="headers" :items="preFinanceList" :totalElements="totalElements" :callerFunction="getReFinancesList" >
       <template #top>
         <v-toolbar elevation="0" class="rounded-lg">
           <v-toolbar-title class="d-flex justify-space-between w-full">
