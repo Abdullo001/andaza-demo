@@ -93,52 +93,89 @@
             <div class="label">
               {{ $t("prefinances.child.primaryCurrency") }}
             </div>
-            <v-select
-              v-model="addPreFinances.primaryCurrency"
-              :items="currency_enums"
-              placeholder="Select primary Currency"
-              outlined
-              height="44"
-              class="rounded-lg base"
-              hide-details
-              color="#544B99"
-              dense
-              append-icon="mdi-chevron-down"
-            />
+            <div class="d-flex">
+              <v-text-field
+                v-model="addPreFinances.primaryRate"
+                outlined
+                height="44"
+                class="rounded-lg rounded-r-0 base"
+                hide-details
+                color="#544B99"
+                dense
+                placeholder="0"
+              />
+              <v-select
+                v-model="addPreFinances.primaryCurrency"
+                :items="currency_enums"
+                placeholder="Select primary Currency"
+                outlined
+                height="44"
+                class="rounded-lg rounded-l-0 base w-100"
+                hide-details
+                color="#544B99"
+                dense
+                append-icon="mdi-chevron-down"
+              />
+            </div>
+
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">
               {{ $t("prefinances.child.secondaryCurrency") }}
             </div>
-            <v-select
-              v-model="addPreFinances.secondaryCurrency"
-              :items="currency_enums"
-              placeholder="Select secondary currency"
-              outlined
-              height="44"
-              class="rounded-lg base"
-              hide-details
-              dense
-              color="#544B99"
-              append-icon="mdi-chevron-down"
-            />
+            <div class="d-flex">
+              <v-text-field
+                v-model="addPreFinances.secondaryRate"
+                outlined
+                height="44"
+                class="rounded-lg rounded-r-0 base"
+                hide-details
+                color="#544B99"
+                dense
+                placeholder="0"
+              />
+              <v-select
+                v-model="addPreFinances.secondaryCurrency"
+                :items="currency_enums"
+                placeholder="Select secondary currency"
+                outlined
+                height="44"
+                class="rounded-lg rounded-l-0 base w-100"
+                hide-details
+                dense
+                color="#544B99"
+                append-icon="mdi-chevron-down"
+              />
+            </div>
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">
               {{ $t("prefinances.child.tertiaryCurrency") }}
             </div>
-            <v-select
-              v-model="addPreFinances.tertiaryCurrency"
-              :items="currency_enums"
-              placeholder="Select tertiary currency"
-              outlined
-              height="44"
-              class="rounded-lg base"
-              hide-details
-              color="#544B99"
-              dense
-              append-icon="mdi-chevron-down"
-            />
+            <div class="d-flex">
+              <v-text-field
+                v-model="addPreFinances.tertiaryRate"
+                outlined
+                height="44"
+                class="rounded-lg rounded-r-0 base"
+                hide-details
+                color="#544B99"
+                dense
+                placeholder="0"
+              />
+              <v-select
+                v-model="addPreFinances.tertiaryCurrency"
+                :items="currency_enums"
+                placeholder="Select tertiary currency"
+                outlined
+                height="44"
+                class="rounded-lg rounded-l-0 base w-100"
+                hide-details
+                color="#544B99"
+                dense
+                append-icon="mdi-chevron-down"
+              />
+            </div>
           </v-col>
 
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -154,45 +191,6 @@
               dense
               placeholder="Enter the planned order quantity"
               append-icon=""
-            />
-          </v-col>
-          <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">{{ $t("prefinances.child.primaryRare") }}</div>
-            <v-text-field
-              v-model="addPreFinances.primaryRate"
-              outlined
-              height="44"
-              class="rounded-lg base"
-              hide-details
-              color="#544B99"
-              dense
-              placeholder="0"
-            />
-          </v-col>
-          <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">{{ $t("prefinances.child.secondaryRate") }}</div>
-            <v-text-field
-              v-model="addPreFinances.secondaryRate"
-              outlined
-              height="44"
-              class="rounded-lg base"
-              hide-details
-              color="#544B99"
-              dense
-              placeholder="0"
-            />
-          </v-col>
-          <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">{{ $t("prefinances.child.tertiaryRate") }}</div>
-            <v-text-field
-              v-model="addPreFinances.tertiaryRate"
-              outlined
-              height="44"
-              class="rounded-lg base"
-              hide-details
-              color="#544B99"
-              dense
-              placeholder="0"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -1288,8 +1286,6 @@ export default {
       this.setPrefinanceTemplate(data);
     },
     detailsList(val) {
-      console.log(val);
-
       this.detailItems = JSON.parse(JSON.stringify(val));
       this.totalPrice = 0;
       if (this.detailItems.length > 0) {
