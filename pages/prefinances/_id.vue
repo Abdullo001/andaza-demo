@@ -1342,14 +1342,14 @@ export default {
         this.headers[3].text = data.secondaryCurrency;
         this.headers[4].text = data.tertiaryCurrency;
         if (val?.overProductionPercent >= 0) {
-          this.calculation[1].editable = val?.overProductionPercent;
-          this.calculation[2].editable = val?.lossPercent;
-          this.calculation[3].editable = val?.generalExpensePercent;
-          this.calculation[4].editable = val?.extraExpensePercent;
-          this.calculation[6].editable = val?.targetProfitPercent;
-          this.calculation[7].firstCurrency = val?.clientTargetPrice;
-          this.calculation[9].editable = val?.discountPercent;
-          this.calculation[13].firstCurrency = val?.soldPrice;
+          this.calculation[1].editable = val?.overProductionPercent && 0;
+          this.calculation[2].editable = val?.lossPercent ? val?.lossPercent : 0;
+          this.calculation[3].editable = val?.generalExpensePercent ? val?.generalExpensePercent : 0;
+          this.calculation[4].editable = val?.extraExpensePercent ? val?.extraExpensePercent : 0;
+          this.calculation[6].editable = val?.targetProfitPercent ? val?.targetProfitPercent : 0;
+          this.calculation[7].firstCurrency = val?.clientTargetPrice ? val?.clientTargetPrice : 0;
+          this.calculation[9].editable = val?.discountPercent ? val?.discountPercent : 0;
+          this.calculation[13].firstCurrency = val?.soldPrice ? val?.soldPrice : 0;
         }
       }
     },

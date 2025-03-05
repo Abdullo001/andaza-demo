@@ -68,7 +68,7 @@ export const mutations = {
   },
 };
 export const actions = {
-  getPreFinancesList({commit}, {size, page, preFinanceNumber, modelNumber , partner }) {
+  async getPreFinancesList({commit}, {size, page, preFinanceNumber, modelNumber , partner }) {
     const body = {
       calculationNumber:preFinanceNumber,
       client:partner,
@@ -76,9 +76,8 @@ export const actions = {
       size,
       page,
     };
-    this.$axios.$put(`/api/v1/pre-finances/list`, body)
+    await this.$axios.$put(`/api/v1/pre-finances/list`, body)
       .then((res) => {
-        commit("changeLoading", false);
         commit("setRefinances", res.data);
       })
 
