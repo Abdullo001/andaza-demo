@@ -68,7 +68,7 @@ export const mutations = {
   },
 };
 export const actions = {
-  getPreFinancesList({commit}, {size, page, preFinanceNumber, modelNumber , partner }) {
+  async getPreFinancesList({commit}, {size, page, preFinanceNumber, modelNumber , partner }) {
     const body = {
       calculationNumber:preFinanceNumber,
       client:partner,
@@ -76,15 +76,11 @@ export const actions = {
       size,
       page,
     };
-    this.$axios.$put(`/api/v1/pre-finances/list`, body)
+    await this.$axios.$put(`/api/v1/pre-finances/list`, body)
       .then((res) => {
-        commit("changeLoading", false);
         commit("setRefinances", res.data);
       })
-      .catch(({response}) => {
-        commit("changeLoading", false);
-        console.log(response);
-      });
+
   },
   async getModelName({commit}, name) {
     const body = {
@@ -139,25 +135,8 @@ export const actions = {
         this.$toast.error(response.data.message, {theme: "toasted-primary"});
       });
   },
-  async saveCalculation({commit}, {data, id, currency}) {
-    const body = {
-      overProductionPercent: data[0].editable,
-      lossPercent: data[1].editable,
-      generalExpensePercent: data[2].editable,
-      extraExpensePercent: data[3].editable,
-      targetProfitPercent: data[4].editable,
-      clientTargetPrice: data[5].firstCurrency,
-      givenPrice: data[6].firstCurrency,
-      discountPercent: data[7].editable,
-      soldPrice: data[8].firstCurrency,
-      givenPriceCurrency: currency,
-      preFinanceId: id,
-      priceWithDiscountUSD: data.priceWithDiscountUSD,
-      priceWithDiscountRUB: data.priceWithDiscountRUB,
-      priceWithDiscountUZS: data.priceWithDiscountUZS,
-    };
-    await this.$axios
-      .$put(`/api/v1/pre-finances/prefinance-calculations`, body)
+  async saveCalculation({commit}, data) {
+    await this.$axios.$put(`/api/v1/pre-finances/prefinance-calculations`, data)
       .then((res) => {
         this.$toast.success(res.message, {theme: "toasted-primary"});
       })

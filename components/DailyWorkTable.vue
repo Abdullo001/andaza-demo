@@ -210,10 +210,8 @@ export default {
         modelCategoryId: this.workLogsInfo.modelCategoryId,
         modelId: this.$route.params.id,
       };
-      console.log(payload);
 
-
-      // this.saveDailyWorkLogs({data:payload,modelId:this.$route.params.id})
+      this.saveDailyWorkLogs({data:payload,modelId:this.$route.params.id})
     },
     updateQuantity(event, idx, opIdx) {
       const value = event.target.value.replace(/\D/g, "");

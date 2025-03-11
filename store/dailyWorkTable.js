@@ -29,7 +29,6 @@ export const mutations={
   },
   setTemporaryTable(state,list){
     state.temporaryTable=list
-    // console.log(state.temporaryTable);
   }
 }
 

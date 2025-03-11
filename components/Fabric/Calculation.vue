@@ -162,10 +162,10 @@ export default {
   watch: {
     calculation: {
       handler(val) {
-        val[0].third = (+val[0].first + +val[0].second).toFixed(2);
-        val[1].third = (+val[1].first + +val[1].second).toFixed(2);
+        val[0].third = (+val[0].first + +val[0].second).toFixed(3);
+        val[1].third = (+val[1].first + +val[1].second).toFixed(3);
         if(!!val[4].first) {
-          val[5].first = (val[0].third * val[1].third * val[2].first / val[3].first * (1 + val[4].first / 100)).toFixed(3);
+          val[5].first = (val[0].third * val[1].third * val[2].first / val[3].first * (1 + val[4].first / 100)).toFixed(4)
         }
       }, deep: true
     }

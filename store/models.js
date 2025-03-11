@@ -60,15 +60,10 @@ export const actions = {
       modelNumber:modelNumber,
       page,
       size,
-
     }
-    partner = partner === null ? '' : partner
     await this.$axios.$put(`/api/v1/models/list`, body)
       .then(res => {
         commit('setModels', res.data)
-      })
-      .catch(({response}) => {
-        console.log(response);
       })
   },
   async getOneModel({commit}, id) {

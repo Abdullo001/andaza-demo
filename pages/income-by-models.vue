@@ -19,7 +19,7 @@
 
     <v-row class="mb-6">
       <v-col cols="12" lg="3" md="6" >
-        <v-card elevation="0">
+        <v-card elevation="0" v-if="!loader">
           <v-card-text>
             <div class="d-flex justify-space-between align-center mb-2">
               <div>
@@ -34,7 +34,7 @@
                 <div class="text-h6 font-weight-bold">{{totalAnalysis.shippedModelsRate}}</div>
               </div>
               <div v-else class="rounded-lg py-2 px-2 d-flex align-center justify-space-between" style="background-color: #FFB6B6; width: 100px; color: #A90F0F;" >
-                <v-icon color="#A90F0F">mdi-chevron-up</v-icon>
+                <v-icon color="#A90F0F">mdi-chevron-down</v-icon>
                 <div class="text-h6 font-weight-bold">{{totalAnalysis.shippedModelsRate}}</div>
               </div>
               <div class="text-subtitle-2 ">
@@ -43,14 +43,21 @@
             </div>
           </v-card-text>
         </v-card>
+        <v-skeleton-loader
+          v-else
+          class="mx-auto"
+          height="100%"
+          type="article, table-heading"
+
+        ></v-skeleton-loader>
       </v-col>
       <v-col cols="12" lg="3" md="6" >
-        <v-card elevation="0">
+        <v-card elevation="0" v-if="!loader">
           <v-card-text>
             <div class="d-flex justify-space-between align-center mb-2">
               <div>
                 <div class="text-subtitle-1 mb-1">Total works</div>
-                <div class="text-h4 font-weight-bold" style="color:black">{{totalAnalysis.totalWorks}}</div>
+                <div class="text-h4 font-weight-bold" style="color:black">{{moneyFormatter(totalAnalysis.totalWorks, true)}}</div>
               </div>
               <img src="/modelReport/total.svg" alt="pic">
             </div>
@@ -60,7 +67,7 @@
                 <div class="text-h6 font-weight-bold">{{totalAnalysis.totalWorksRate}}</div>
               </div>
               <div v-else class="rounded-lg py-2 px-2 d-flex align-center justify-space-between" style="background-color: #FFB6B6; width: 100px; color: #A90F0F;" >
-                <v-icon color="#A90F0F">mdi-chevron-up</v-icon>
+                <v-icon color="#A90F0F">mdi-chevron-down</v-icon>
                 <div class="text-h6 font-weight-bold">{{totalAnalysis.totalWorksRate}}</div>
               </div>
               <div class="text-subtitle-2 ">
@@ -69,9 +76,16 @@
             </div>
           </v-card-text>
         </v-card>
+        <v-skeleton-loader
+          v-else
+          class="mx-auto"
+          height="100%"
+          type="article, table-heading"
+
+        ></v-skeleton-loader>
       </v-col>
       <v-col cols="12" lg="3" md="6" >
-        <v-card elevation="0">
+        <v-card elevation="0" v-if="!loader">
           <v-card-text>
             <div class="d-flex justify-space-between align-center mb-2">
               <div>
@@ -86,7 +100,7 @@
                 <div class="text-h6 font-weight-bold">{{totalAnalysis.totalPriceRate}}</div>
               </div>
               <div v-else class="rounded-lg py-2 px-2 d-flex align-center justify-space-between" style="background-color: #FFB6B6; width: 100px; color: #A90F0F;" >
-                <v-icon color="#A90F0F">mdi-chevron-up</v-icon>
+                <v-icon color="#A90F0F">mdi-chevron-down</v-icon>
                 <div class="text-h6 font-weight-bold">{{totalAnalysis.totalPriceRate}}</div>
               </div>
               <div class="text-subtitle-2 ">
@@ -95,9 +109,15 @@
             </div>
           </v-card-text>
         </v-card>
+        <v-skeleton-loader
+          v-else
+          class="mx-auto"
+          height="100%"
+          type="article, table-heading"
+        ></v-skeleton-loader>
       </v-col>
       <v-col cols="12" lg="3" md="6" >
-        <v-card elevation="0">
+        <v-card elevation="0" v-if="!loader">
           <v-card-text>
             <div class="d-flex justify-space-between align-center mb-2">
               <div>
@@ -112,7 +132,7 @@
                 <div class="text-h6 font-weight-bold">{{totalAnalysis.totalProfitRate}}</div>
               </div>
               <div v-else class="rounded-lg py-2 px-2 d-flex align-center justify-space-between" style="background-color: #FFB6B6; width: 100px; color: #A90F0F;" >
-                <v-icon color="#A90F0F">mdi-chevron-up</v-icon>
+                <v-icon color="#A90F0F">mdi-chevron-down</v-icon>
                 <div class="text-h6 font-weight-bold">{{totalAnalysis.totalProfitRate}}</div>
               </div>
               <div class="text-subtitle-2 ">
@@ -121,6 +141,12 @@
             </div>
           </v-card-text>
         </v-card>
+        <v-skeleton-loader
+          v-else
+          class="mx-auto"
+          height="100%"
+          type="article, table-heading"
+        ></v-skeleton-loader>
       </v-col>
     </v-row>
 
@@ -313,6 +339,7 @@ export default {
         clientName: "",
       },
       pageType:"YEARLY",
+      loader: true,
       headers:[
         {text:"No.",value:"orderedNumber", fixed: true},
         {text:"Order No.",value:"orderNumber", fixed: true},
@@ -363,8 +390,12 @@ export default {
   },
   watch:{
     pageType(){
+      this.loader=true
       this.getTotalAnalysis(this.pageType)
     },
+    totalAnalysis(val){
+      this.loader=false
+    }
   },
   methods:{
     ...mapActions({

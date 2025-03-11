@@ -250,11 +250,12 @@
         </div>
       </v-card>
       <div class="profile">
-        <div class="mr-3">
+        <div class="mr-3" @click="toUserDetail">
           <div class="profile__title">{{ `${currentUser?.firstName} ${currentUser?.lastName}` }}</div>
           <div class="profile__role">{{ currentUser?.username }}</div>
         </div>
         <v-img
+          @click="toUserDetail"
           :src="currentUser?.photo"
           width="52"
           height="52"
@@ -685,26 +686,26 @@ export default {
                 has_child: false,
                 localization: "localization",
               },
-              {
-                title: this.$t("sidebar.permission"),
-                to: this.localePath("/permission"),
-                localization: "permission",
-              },
-              {
-                title: this.$t("sidebar.role"),
-                to: this.localePath("/role"),
-                localization: "role",
-              },
-              {
-                title: this.$t("sidebar.devices"),
-                to: this.localePath("/fraud-devices"),
-                localization: "devices",
-              },
-              {
-                title: this.$t("sidebar.users"),
-                to: this.localePath("/fraud-users"),
-                localization: "users",
-              },
+              // {
+              //   title: this.$t("sidebar.permission"),
+              //   to: this.localePath("/permission"),
+              //   localization: "permission",
+              // },
+              // {
+              //   title: this.$t("sidebar.role"),
+              //   to: this.localePath("/role"),
+              //   localization: "role",
+              // },
+              // {
+              //   title: this.$t("sidebar.devices"),
+              //   to: this.localePath("/fraud-devices"),
+              //   localization: "devices",
+              // },
+              // {
+              //   title: this.$t("sidebar.users"),
+              //   to: this.localePath("/fraud-users"),
+              //   localization: "users",
+              // },
               {
                 title: this.$t("sidebar.notification"),
                 to: this.localePath("/notification"),
@@ -908,7 +909,6 @@ export default {
         console.error("Xabarlarni eshitishda xatolik:", e);
       }
     },
-
     async requestPermission() {
       try {
         const permission = await Notification.requestPermission();
@@ -919,29 +919,26 @@ export default {
         throw e;
       }
     },
-
     async getIdToken() {
       try {
         const messaging = getMessaging();
-
         const token = await getToken(messaging, {
           vapidKey: 'BMMSXnJHVcOkKOQgbdszWNf7GnQZF27_Et_FJWmBFwsO59Yx4MvDth-dSLiN-_MKBPwyrwnoM5An1NdiX9H0e4o' // Firebase Console dan olingan VAPID key
         });
-
         if (!token) {
           console.warn("Token olinmadi, service worker va ruxsatlarni tekshiring.");
           return;
         }
-
         this.idToken = token;
         console.log("FCM Token:", token);
-
       } catch (e) {
         console.error("Token olishda xatolik:", e);
         throw e;
       }
     },
-
+    toUserDetail(){
+      this.$router.push(`/user-management/${this.currentUser.id}`)
+    }
   },
   async mounted() {
     let afterPermissionList = [];
@@ -958,7 +955,6 @@ export default {
           item.disabledMenu=false
         }
       })
-
       if(!!item.has_child){
           item.children.forEach(child=>{
             if(!child.name){
@@ -967,14 +963,10 @@ export default {
             permissionList.forEach(perName=>{
               if(!!child.name && child.name===perName.permissionName && perName.canRead){
                 child.disabledMenu=true
-
               }
               if(!!child.name && child.name===perName.permissionName && !perName.canRead){
                 child.disabledMenu=false
-
               }
-
-
             })
           })
         }

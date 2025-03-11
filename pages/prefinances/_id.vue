@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Breadcrumbs :maps="map_links"/>
+    <Breadcrumbs :maps="map_links" />
 
     <v-card elevation="0" class="mt-2 rounded-lg">
       <v-card-title>
@@ -14,13 +14,15 @@
             {{ title }}
           </v-chip>
         </div>
-        <v-spacer/>
+        <v-spacer />
       </v-card-title>
-      <v-divider/>
+      <v-divider />
       <v-card-text class="pb-0">
         <v-row>
           <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">{{ $t("prefinances.child.prefinanceNumber") }}</div>
+            <div class="label">
+              {{ $t("prefinances.child.prefinanceNumber") }}
+            </div>
             <v-text-field
               outlined
               class="rounded-lg base"
@@ -91,52 +93,89 @@
             <div class="label">
               {{ $t("prefinances.child.primaryCurrency") }}
             </div>
-            <v-select
-              v-model="addPreFinances.primaryCurrency"
-              :items="currency_enums"
-              placeholder="Select primary Currency"
-              outlined
-              height="44"
-              class="rounded-lg base"
-              hide-details
-              color="#544B99"
-              dense
-              append-icon="mdi-chevron-down"
-            />
+            <div class="d-flex">
+              <v-text-field
+                v-model="addPreFinances.primaryRate"
+                outlined
+                height="44"
+                class="rounded-lg rounded-r-0 base"
+                hide-details
+                color="#544B99"
+                dense
+                placeholder="0"
+              />
+              <v-select
+                v-model="addPreFinances.primaryCurrency"
+                :items="currency_enums"
+                placeholder="Select primary Currency"
+                outlined
+                height="44"
+                class="rounded-lg rounded-l-0 base w-100"
+                hide-details
+                color="#544B99"
+                dense
+                append-icon="mdi-chevron-down"
+              />
+            </div>
+
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">
               {{ $t("prefinances.child.secondaryCurrency") }}
             </div>
-            <v-select
-              v-model="addPreFinances.secondaryCurrency"
-              :items="currency_enums"
-              placeholder="Select secondary currency"
-              outlined
-              height="44"
-              class="rounded-lg base"
-              hide-details
-              dense
-              color="#544B99"
-              append-icon="mdi-chevron-down"
-            />
+            <div class="d-flex">
+              <v-text-field
+                v-model="addPreFinances.secondaryRate"
+                outlined
+                height="44"
+                class="rounded-lg rounded-r-0 base"
+                hide-details
+                color="#544B99"
+                dense
+                placeholder="0"
+              />
+              <v-select
+                v-model="addPreFinances.secondaryCurrency"
+                :items="currency_enums"
+                placeholder="Select secondary currency"
+                outlined
+                height="44"
+                class="rounded-lg rounded-l-0 base w-100"
+                hide-details
+                dense
+                color="#544B99"
+                append-icon="mdi-chevron-down"
+              />
+            </div>
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
             <div class="label">
               {{ $t("prefinances.child.tertiaryCurrency") }}
             </div>
-            <v-select
-              v-model="addPreFinances.tertiaryCurrency"
-              :items="currency_enums"
-              placeholder="Select tertiary currency"
-              outlined
-              height="44"
-              class="rounded-lg base"
-              hide-details
-              color="#544B99"
-              dense
-              append-icon="mdi-chevron-down"
-            />
+            <div class="d-flex">
+              <v-text-field
+                v-model="addPreFinances.tertiaryRate"
+                outlined
+                height="44"
+                class="rounded-lg rounded-r-0 base"
+                hide-details
+                color="#544B99"
+                dense
+                placeholder="0"
+              />
+              <v-select
+                v-model="addPreFinances.tertiaryCurrency"
+                :items="currency_enums"
+                placeholder="Select tertiary currency"
+                outlined
+                height="44"
+                class="rounded-lg rounded-l-0 base w-100"
+                hide-details
+                color="#544B99"
+                dense
+                append-icon="mdi-chevron-down"
+              />
+            </div>
           </v-col>
 
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -152,45 +191,6 @@
               dense
               placeholder="Enter the planned order quantity"
               append-icon=""
-            />
-          </v-col>
-          <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">{{ $t("prefinances.child.primaryRare") }}</div>
-            <v-text-field
-              v-model="addPreFinances.primaryRate"
-              outlined
-              height="44"
-              class="rounded-lg base"
-              hide-details
-              color="#544B99"
-              dense
-              placeholder="0"
-            />
-          </v-col>
-          <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">{{ $t("prefinances.child.secondaryRate") }}</div>
-            <v-text-field
-              v-model="addPreFinances.secondaryRate"
-              outlined
-              height="44"
-              class="rounded-lg base"
-              hide-details
-              color="#544B99"
-              dense
-              placeholder="0"
-            />
-          </v-col>
-          <v-col cols="12" lg="3" md="3" sm="6">
-            <div class="label">{{ $t("prefinances.child.tertiaryRate") }}</div>
-            <v-text-field
-              v-model="addPreFinances.tertiaryRate"
-              outlined
-              height="44"
-              class="rounded-lg base"
-              hide-details
-              color="#544B99"
-              dense
-              placeholder="0"
             />
           </v-col>
           <v-col cols="12" lg="3" md="3" sm="6">
@@ -235,7 +235,7 @@
               disabled
             >
               <template #append>
-                <v-img src="/date-icon.svg"/>
+                <v-img src="/date-icon.svg" />
               </template>
             </v-text-field>
           </v-col>
@@ -271,12 +271,12 @@
               disabled
             >
               <template #append>
-                <v-img src="/date-icon.svg"/>
+                <v-img src="/date-icon.svg" />
               </template>
             </v-text-field>
           </v-col>
           <v-col cols="12" class="d-flex justify-end align-center">
-            <FinishProcessBtn v-bind="finishDate"/>
+            <FinishProcessBtn v-bind="finishDate" />
             <v-btn
               color="#544B99"
               dark
@@ -291,12 +291,9 @@
         </v-row>
       </v-card-text>
       <v-card-actions class="py-6">
-        <v-spacer/>
-        <ShowBtnComponent
-          :click-btn="clickBtn"
-          :show_btn_value="show_btn"
-        />
-        <v-spacer/>
+        <v-spacer />
+        <ShowBtnComponent :click-btn="clickBtn" :show_btn_value="show_btn" />
+        <v-spacer />
       </v-card-actions>
     </v-card>
     <v-card class="mt-4 rounded-lg" elevation="0">
@@ -320,14 +317,23 @@
               }"
             >
               <template #top>
-                <v-divider/>
+                <v-divider />
                 <v-toolbar elevation="0">
                   <v-toolbar-title
                     class="d-flex justify-space-between w-full align-center"
                   >
-                    <div class="text-h6">{{$t('userManagement.child.details')}}</div>
+                    <div class="text-h6">
+                      {{ $t("userManagement.child.details") }}
+                    </div>
                     <div class="d-flex">
-                      <VuetifyCombobox v-model="cloningTemplate" class="mr-4" :itemsList="detailsTemplatesList" :itemText="'templateName'" :itemValue="'templateName'" :placeholder="'Select template'"/>
+                      <VuetifyCombobox
+                        v-model="cloningTemplate"
+                        class="mr-4"
+                        :itemsList="detailsTemplatesList"
+                        :itemText="'templateName'"
+                        :itemValue="'templateName'"
+                        :placeholder="'Select template'"
+                      />
                       <v-btn
                         class="text-capitalize font-weight-bold rounded-lg"
                         color="#544B99"
@@ -348,7 +354,6 @@
                   <v-tooltip
                     top
                     color="green"
-
                     class="pointer"
                     v-if="Object.keys(item).length > 2"
                   >
@@ -360,11 +365,12 @@
                         color="green"
                         @click="editRow(item, index)"
                       >
-                        <v-img src="/edit-active.svg" max-width="22"/>
+                        <v-img src="/edit-active.svg" max-width="22" />
                       </v-btn>
-
                     </template>
-                    <span class="text-capitalize">{{ $t("prefinances.child.edit") }}</span>
+                    <span class="text-capitalize">{{
+                      $t("prefinances.child.edit")
+                    }}</span>
                   </v-tooltip>
 
                   <v-tooltip
@@ -378,10 +384,9 @@
                         v-bind="attrs"
                         v-on="on"
                         color="red"
-
                         @click="deleteRow(item, index)"
                       >
-                        <v-img src="/delete.svg" max-width="27"/>
+                        <v-img src="/delete.svg" max-width="27" />
                       </v-btn>
                     </template>
                     <span>{{ $t("prefinances.child.delete") }}</span>
@@ -389,14 +394,18 @@
                 </div>
               </template>
               <template #footer>
-                <v-divider/>
+                <v-divider />
                 <div class="d-flex justify-end mt-4 mr-2 text-body-1">
-                  {{ $t("prefinances.child.totalPrice") }}: {{ !!detailItems.length?detailItems[0]?.totalPrice:"0" }} USD
+                  {{ $t("prefinances.child.totalPrice") }}:
+                  {{
+                    !!detailItems.length ? detailItems[0]?.totalPrice : "0"
+                  }}
+                  USD
                 </div>
               </template>
             </v-data-table>
             <div class="d-flex justify-end mt-4">
-              <SaveClonComponent @saveTemplate="saveFabricTemlate"/>
+              <SaveClonComponent @saveTemplate="saveFabricTemlate" />
             </div>
           </v-tab-item>
           <v-tab-item>
@@ -431,7 +440,7 @@
                       v-bind="attrs"
                       @click.stop
                     >
-                      <v-img src="/download.svg" max-width="24"/>
+                      <v-img src="/download.svg" max-width="24" />
                     </v-btn>
                   </template>
                   <span>{{ $t("prefinances.child.download") }}</span>
@@ -445,7 +454,12 @@
 
     <v-card class="mt-4">
       <v-card-title>
-        <PriceWorkProcess :id="preFinanceId?preFinanceId:0" :modelCategoryId="addPreFinances.modelCategoryId?addPreFinances.modelCategoryId:0"/>
+        <PriceWorkProcess
+          :id="preFinanceId ? preFinanceId : 0"
+          :modelCategoryId="
+            addPreFinances.modelCategoryId ? addPreFinances.modelCategoryId : 0
+          "
+        />
       </v-card-title>
     </v-card>
 
@@ -456,7 +470,7 @@
           <v-card-title>
             {{ $t("prefinances.child.photosModels") }}
           </v-card-title>
-          <v-divider/>
+          <v-divider />
           <v-card-text class="mt-4">
             <v-row>
               <v-col
@@ -487,7 +501,7 @@
                 :key="`images_${idx}`"
               >
                 <div class="rounded-lg model-images overflow-hidden">
-                  <v-img :src="link.filePath"/>
+                  <v-img :src="link.filePath" />
                 </div>
               </v-col>
             </v-row>
@@ -498,9 +512,9 @@
         <v-card class="mt-4 rounded-lg" elevation="0">
           <v-card-title>
             {{ $t("prefinances.child.calculations") }}
-            <v-spacer/>
+            <v-spacer />
             <v-btn outlined class="text-capitalize rounded-lg">
-              <v-img src="/clear.svg" max-width="16" class="mr-2"/>
+              <v-img src="/clear.svg" max-width="16" class="mr-2" />
               {{ $t("prefinances.child.clear") }}
             </v-btn>
           </v-card-title>
@@ -515,8 +529,14 @@
                 itemsPerPageText: this.$t('allDataTableText'),
               }"
             >
-              <template #item.name="{item}">
-                <div :class="item.id === 14?'text-body-1 font-weight-bold':null">{{ item.name }}</div>
+              <template #item.name="{ item }">
+                <div
+                  :class="
+                    item.id === 14 ? 'text-body-1 font-weight-bold' : null
+                  "
+                >
+                  {{ item.name }}
+                </div>
               </template>
               <template #item.editable="{ item }">
                 <v-text-field
@@ -527,7 +547,7 @@
                   hide-details
                   :background-color="!item.status ? '#F8F4FE' : 'transparent'"
                   :disabled="item.status"
-                  :readonly="totalPrice===0"
+                  :readonly="totalPrice === 0"
                   class="pa-0 ma-0"
                 />
               </template>
@@ -538,27 +558,29 @@
                   hide-details
                   placeholder="0.0"
                   flat
-                  :background-color="!item.usd_disabled && !item.readonly ? '#F8F4FE': 'transparent'"
+                  :background-color="
+                    !item.usd_disabled && !item.readonly
+                      ? '#F8F4FE'
+                      : 'transparent'
+                  "
                   :disabled="item.usd_disabled"
                   class="pa-0 ma-0"
-                  :readonly="
-                    totalPrice===0 || item.readonly
-                  "
+                  :readonly="totalPrice === 0 || item.readonly"
                 />
               </template>
             </v-data-table>
-            <v-divider/>
+            <v-divider />
           </v-card-text>
           <v-card-actions>
-            <v-spacer/>
-             <v-btn
+            <v-spacer />
+            <v-btn
               color="#544B99"
               class="text-capitalize rounded-lg"
               outlined
               min-width="130"
               @click="generatePdf"
             >
-             {{$t('production.oneSort.generatePdf')}}
+              {{ $t("production.oneSort.generatePdf") }}
             </v-btn>
             <v-btn
               color="#544B99"
@@ -573,7 +595,6 @@
                   : $t("prefinances.child.save")
               }}
             </v-btn>
-
           </v-card-actions>
         </v-card>
       </v-col>
@@ -596,7 +617,7 @@
                   {{ $t("prefinances.child.expenseGroup") }}
                 </div>
                 <v-combobox
-                  :placeholder="$t('prefinances.child.expenseGroup') "
+                  :placeholder="$t('prefinances.child.expenseGroup')"
                   dense
                   append-icon="mdi-chevron-down"
                   :items="expenseGroup"
@@ -636,7 +657,7 @@
               <v-col cols="12" lg="4">
                 <div class="label">{{ $t("prefinances.child.quantity") }}</div>
                 <v-text-field
-                  :placeholder=" $t('prefinances.child.quantity')"
+                  :placeholder="$t('prefinances.child.quantity')"
                   outlined
                   hide-details
                   height="44"
@@ -674,7 +695,7 @@
                   {{ $t("prefinances.child.pricePerUnit") }}
                 </div>
                 <v-text-field
-                  :placeholder=" $t('prefinances.child.pricePerUnit')"
+                  :placeholder="$t('prefinances.child.pricePerUnit')"
                   outlined
                   hide-details
                   height="44"
@@ -690,20 +711,20 @@
           </v-form>
         </v-card-text>
         <v-card-actions class="py-4">
-          <v-spacer/>
+          <v-spacer />
           <v-btn
             color="amber"
             text
             class="text-capitalize font-weight-bold"
             @click="new_details = false"
-          >{{ $t("prefinances.child.cancel") }}
+            >{{ $t("prefinances.child.cancel") }}
           </v-btn>
           <v-btn
             color="#544B99"
             text
             class="text-capitalize font-weight-bold"
             @click="createDetailsNew"
-          >{{ $t("prefinances.child.save") }}
+            >{{ $t("prefinances.child.save") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -793,20 +814,20 @@
           </v-form>
         </v-card-text>
         <v-card-actions class="py-4">
-          <v-spacer/>
+          <v-spacer />
           <v-btn
             color="amber"
             text
             class="text-capitalize font-weight-bold"
             @click="cancelFunc"
-          >{{ $t("prefinances.child.cancel") }}
+            >{{ $t("prefinances.child.cancel") }}
           </v-btn>
           <v-btn
             color="#544B99"
             text
             class="text-capitalize font-weight-bold"
             @click="updateDetailsFunc"
-          >{{ $t("prefinances.child.updateBtn") }}
+            >{{ $t("prefinances.child.updateBtn") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -815,7 +836,7 @@
     <v-dialog v-model="delete_dialog" max-width="500">
       <v-card class="pa-4 text-center">
         <div class="d-flex justify-center mb-2">
-          <v-img src="/error-icon.svg" max-width="40"/>
+          <v-img src="/error-icon.svg" max-width="40" />
         </div>
         <v-card-title class="d-flex justify-center">
           Delete detail row
@@ -831,7 +852,7 @@
           >
             cancel
           </v-btn>
-          <v-spacer/>
+          <v-spacer />
           <v-btn
             class="rounded-lg text-capitalize font-weight-bold"
             color="#FF4E4F"
@@ -856,7 +877,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import DefaultLayout from "@/layouts/default.vue";
 import Breadcrumbs from "../../components/Breadcrumbs.vue";
 import ShowBtnComponent from "../../components/ShowComponentBtn/ShowBtn.vue";
@@ -864,7 +885,6 @@ import FinishProcessBtn from "@/components/FinishProcessBtn.vue";
 import VuetifyCombobox from "@/components/UI/VuetifyCombobox.vue";
 import SaveClonComponent from "@/components/ClonningComponents/SaveClonComponent.vue";
 import PriceWorkProcess from "@/components/Calculation/PriceWorkProcess.vue";
-
 
 export default {
   name: "CreatePreFinancePage",
@@ -879,8 +899,8 @@ export default {
   },
   data() {
     return {
-      cloningTemplate:null,
-      isLoad:false,
+      cloningTemplate: null,
+      isLoad: false,
       show_btn: true,
       hide_calc: true,
       new_details: false,
@@ -953,10 +973,10 @@ export default {
           align: "start",
           sortable: false,
         },
-        {text: "", value: "editable", sortable: false, width: 110},
-        {text: "USD", value: "firstCurrency", sortable: false, width: 110},
-        {text: "UZS", value: "secondCurrency", sortable: false, width: 110},
-        {text: "RUB", value: "tertiaryCurrency", sortable: false, width: 110},
+        { text: "", value: "editable", sortable: false, width: 110 },
+        { text: "USD", value: "firstCurrency", sortable: false, width: 110 },
+        { text: "UZS", value: "secondCurrency", sortable: false, width: 110 },
+        { text: "RUB", value: "tertiaryCurrency", sortable: false, width: 110 },
       ],
       detailsHeaders: [
         {
@@ -993,7 +1013,7 @@ export default {
           text: this.$t("prefinances.child.detailsHeaders.price"),
           value: "price",
         },
-        {text: "", value: "delete", sortable: false},
+        { text: "", value: "delete", sortable: false },
       ],
       documentsHeaders: [
         {
@@ -1022,7 +1042,8 @@ export default {
       calculation: [
         {
           id: 1,
-          name: this.$t('calculationStatus.costSubtotal'),
+          key:"costSubtotal",
+          name: this.$t("calculationStatus.costSubtotal"),
           editable: "-",
           firstCurrency: 0,
           secondCurrency: 0,
@@ -1033,7 +1054,8 @@ export default {
         },
         {
           id: 2,
-          name: this.$t('calculationStatus.overproduction'),
+          key:"overProduction",
+          name: this.$t("calculationStatus.overproduction"),
           editable: "",
           firstCurrency: "0.0",
           secondCurrency: "0.0",
@@ -1044,7 +1066,8 @@ export default {
         },
         {
           id: 3,
-          name:  this.$t('calculationStatus.lostResource'),
+          key:"loss",
+          name: this.$t("calculationStatus.lostResource"),
           editable: "",
           firstCurrency: "0.0",
           secondCurrency: "0.0",
@@ -1055,7 +1078,8 @@ export default {
         },
         {
           id: 4,
-          name: this.$t('calculationStatus.generalExpenses'),
+          key:"generalExpense",
+          name: this.$t("calculationStatus.generalExpenses"),
           editable: "",
           firstCurrency: "0.0",
           secondCurrency: "0.0",
@@ -1066,7 +1090,8 @@ export default {
         },
         {
           id: 5,
-          name:  this.$t('calculationStatus.extraExpenses'),
+          key:"extraExpense",
+          name: this.$t("calculationStatus.extraExpenses"),
           editable: "",
           firstCurrency: "0.0",
           secondCurrency: "0.0",
@@ -1077,7 +1102,8 @@ export default {
         },
         {
           id: 6,
-          name:this.$t('calculationStatus.costPrice'),
+          key:"costPrice",
+          name: this.$t("calculationStatus.costPrice"),
           editable: "-",
           firstCurrency: "0.0",
           secondCurrency: "0.0",
@@ -1088,7 +1114,8 @@ export default {
         },
         {
           id: 7,
-          name: this.$t('calculationStatus.targetProfit'),
+          key:"targetProfit",
+          name: this.$t("calculationStatus.targetProfit"),
           editable: "",
           firstCurrency: "0.0",
           secondCurrency: "0.0",
@@ -1099,7 +1126,8 @@ export default {
         },
         {
           id: 8,
-          name:this.$t('calculationStatus.clientTargetPrice'),
+          key:"clientTargetPrice",
+          name: this.$t("calculationStatus.clientTargetPrice"),
           editable: "-",
           firstCurrency: "",
           secondCurrency: "0.0",
@@ -1110,7 +1138,8 @@ export default {
         },
         {
           id: 9,
-          name: this.$t('calculationStatus.givenPrice'),
+          key:"givenPrice",
+          name: this.$t("calculationStatus.givenPrice"),
           editable: "-",
           firstCurrency: "",
           secondCurrency: "0.0",
@@ -1121,7 +1150,8 @@ export default {
         },
         {
           id: 10,
-          name:this.$t('calculationStatus.discount'),
+          key:"discount",
+          name: this.$t("calculationStatus.discount"),
           editable: "",
           firstCurrency: "0.0",
           secondCurrency: "0.0",
@@ -1132,7 +1162,8 @@ export default {
         },
         {
           id: 11,
-          name: this.$t('calculationStatus.priceWithDiscount'),
+          key:"priceWithDiscount",
+          name: this.$t("calculationStatus.priceWithDiscount"),
           editable: "-",
           firstCurrency: "0.0",
           secondCurrency: "0.0",
@@ -1143,7 +1174,8 @@ export default {
         },
         {
           id: 12,
-          name: this.$t('calculationStatus.actualProfit'),
+          key:"actualProfit",
+          name: this.$t("calculationStatus.actualProfit"),
           editable: "",
           firstCurrency: "0.0",
           secondCurrency: "0.0",
@@ -1154,7 +1186,8 @@ export default {
         },
         {
           id: 13,
-          name:  this.$t('calculationStatus.actualProfitAmount'),
+          key:"actualProfitAmount",
+          name: this.$t("calculationStatus.actualProfitAmount"),
           editable: "-",
           firstCurrency: "0.0",
           secondCurrency: "0.0",
@@ -1165,7 +1198,8 @@ export default {
         },
         {
           id: 14,
-          name:this.$t('calculationStatus.soldPrice'),
+          key:"soldPrice",
+          name: this.$t("calculationStatus.soldPrice"),
           editable: "-",
           firstCurrency: "",
           secondCurrency: "0.0",
@@ -1176,9 +1210,12 @@ export default {
         },
       ],
       tab: null,
-      items: [this.$t('userManagement.child.details'),this.$t('prefinances.child.documents')],
+      items: [
+        this.$t("userManagement.child.details"),
+        this.$t("prefinances.child.documents"),
+      ],
       count: 1,
-      allDocuments: [{type: "word"}],
+      allDocuments: [{ type: "word" }],
       model_first: null,
       model_second: null,
       model_third: null,
@@ -1192,24 +1229,24 @@ export default {
       currency_enums: ["USD", "UZS", "RUB"],
       expense_status: true,
       modelSearch: "",
-      expenseNameSearch:"",
-      detailItems:[],
-      totalPrice:0,
+      expenseNameSearch: "",
+      detailItems: [],
+      totalPrice: 0,
     };
   },
   computed: {
-    finishDate:{
-      get(){
-        return{
-          modelId:!!this.modelData[0]?.id?this.modelData[0].id:0,
-          propertyName:"CALCULATION",
-        }
-      }
+    finishDate: {
+      get() {
+        return {
+          modelId: !!this.modelData[0]?.id ? this.modelData[0].id : 0,
+          propertyName: "CALCULATION",
+        };
+      },
     },
     showObject() {
       return {
-        show_active: this.show_btn
-      }
+        show_active: this.show_btn,
+      };
     },
     ...mapGetters({
       modelNames: "preFinance/modelNames",
@@ -1235,33 +1272,41 @@ export default {
       const id = this.$route.params.id;
       return id === "create"
         ? this.$t("prefinances.child.save")
-        : id === "creating" ? this.$t("prefinances.child.save") : this.$t("update");
+        : id === "creating"
+        ? this.$t("prefinances.child.save")
+        : this.$t("update");
     },
   },
   watch: {
-    cloningTemplate(val){
-      const data={
-        preFinanceId:this.preFinanceId,
-        templateName:val.templateName
-      }
-      this.setPrefinanceTemplate(data)
+    cloningTemplate(val) {
+      const data = {
+        preFinanceId: this.preFinanceId,
+        templateName: val.templateName,
+      };
+      this.setPrefinanceTemplate(data);
     },
-    detailsList(val){
-      this.detailItems=JSON.parse(JSON.stringify(val))
-      this.totalPrice=0
-      if(this.detailItems.length>0){
-        const totalPrice=this.detailItems[0].totalPrice + Number(this.totalWorkPrice.reduce((acc,item)=> item.currency==="USD" ? acc+item.amount : acc,0))
-        this.totalPrice=totalPrice
+    detailsList(val) {
+      this.detailItems = JSON.parse(JSON.stringify(val));
+      this.totalPrice = 0;
+      if (this.detailItems.length > 0) {
+        const totalPrice =
+          this.detailItems[0].totalPrice +
+          Number(
+            this.totalWorkPrice.reduce(
+              (acc, item) => item.currency === this.addPreFinances.primaryCurrency ? acc + item.amount : acc, 0)
+          );
+
+        this.totalPrice = totalPrice;
         let data = this.calculation[0];
-        data.firstCurrency = +totalPrice.toFixed(2);
-        data.secondCurrency = (+totalPrice * +this.addPreFinances.secondaryRate).toFixed(2);
-        data.tertiaryCurrency = (+totalPrice * +this.addPreFinances.tertiaryRate).toFixed(2);
+        data.firstCurrency = +totalPrice.toFixed(3);
+        data.secondCurrency = (+totalPrice * +this.addPreFinances.secondaryRate).toFixed(3);
+        data.tertiaryCurrency = (+totalPrice * +this.addPreFinances.tertiaryRate).toFixed(3);
       }
     },
-    expenseNameSearch(val){
-      this.getExpenseGroup({page:0,size:10,expenseGroupName:val});
+    expenseNameSearch(val) {
+      this.getExpenseGroup({ page: 0, size: 10, expenseGroupName: val });
     },
-    prefinancePdf(val){
+    prefinancePdf(val) {
       const blob = new Blob(
         [new Uint8Array([...val].map((char) => char.charCodeAt(0)))],
         { type: "application/pdf" }
@@ -1273,7 +1318,7 @@ export default {
       a.click();
       this.isLoad = false;
     },
-    modelSearch(val){
+    modelSearch(val) {
       this.getModelName(val);
     },
     onePreFinance(val) {
@@ -1281,26 +1326,30 @@ export default {
         const data = JSON.parse(JSON.stringify(val));
 
         this.getImages(val.modelId);
-        this.getDocuments({modelId: val.modelId});
+        this.getDocuments({ modelId: val.modelId });
 
         this.addPreFinances = data;
         this.addPreFinances.modelNames = data.modelName;
         this.$store.commit("preFinance/setPreFinanceId", data.id);
         this.addPreFinances.owner = data.createdBy;
-        this.calculation[0].secondCurrency = (this.totalPrice * val?.secondaryRate).toFixed(2);
-        this.calculation[0].tertiaryCurrency = (this.totalPrice * val?.tertiaryRate).toFixed(2);
-        this.headers[2].text=data.primaryCurrency
-        this.headers[3].text=data.secondaryCurrency
-        this.headers[4].text=data.tertiaryCurrency
+        this.calculation[0].secondCurrency = (
+          this.totalPrice * val?.secondaryRate
+        ).toFixed(2);
+        this.calculation[0].tertiaryCurrency = (
+          this.totalPrice * val?.tertiaryRate
+        ).toFixed(2);
+        this.headers[2].text = data.primaryCurrency;
+        this.headers[3].text = data.secondaryCurrency;
+        this.headers[4].text = data.tertiaryCurrency;
         if (val?.overProductionPercent >= 0) {
-          this.calculation[1].editable = val?.overProductionPercent;
-          this.calculation[2].editable = val?.lossPercent;
-          this.calculation[3].editable = val?.generalExpensePercent;
-          this.calculation[4].editable = val?.extraExpensePercent;
-          this.calculation[6].editable = val?.targetProfitPercent;
-          this.calculation[7].firstCurrency = val?.clientTargetPrice;
-          this.calculation[9].editable = val?.discountPercent;
-          this.calculation[13].firstCurrency = val?.soldPrice;
+          this.calculation[1].editable = val?.overProductionPercent && 0;
+          this.calculation[2].editable = val?.lossPercent ? val?.lossPercent : 0;
+          this.calculation[3].editable = val?.generalExpensePercent ? val?.generalExpensePercent : 0;
+          this.calculation[4].editable = val?.extraExpensePercent ? val?.extraExpensePercent : 0;
+          this.calculation[6].editable = val?.targetProfitPercent ? val?.targetProfitPercent : 0;
+          this.calculation[7].firstCurrency = val?.clientTargetPrice ? val?.clientTargetPrice : 0;
+          this.calculation[9].editable = val?.discountPercent ? val?.discountPercent : 0;
+          this.calculation[13].firstCurrency = val?.soldPrice ? val?.soldPrice : 0;
         }
       }
     },
@@ -1313,7 +1362,7 @@ export default {
       }
 
       if (this.$route.params.id === "creating") {
-        const data = {...val[0]};
+        const data = { ...val[0] };
         this.addPreFinances = {
           id: data.id,
           modelNames: data.name,
@@ -1336,8 +1385,14 @@ export default {
       if (!(elem === "null" || typeof elem === "object")) {
         this.getModelName(elem);
       }
-      const {modelNumber, name, partner, id} = this.addPreFinances?.modelNumber;
-      if ((Object.keys(this.addPreFinances.modelNumber).length > 3 && modelNumber) || name || partner !== undefined) {
+      const { modelNumber, name, partner, id } =
+        this.addPreFinances?.modelNumber;
+      if (
+        (Object.keys(this.addPreFinances.modelNumber).length > 3 &&
+          modelNumber) ||
+        name ||
+        partner !== undefined
+      ) {
         this.addPreFinances.partner = partner;
         this.addPreFinances.id = id;
         this.addPreFinances.modelNames = name;
@@ -1346,10 +1401,10 @@ export default {
     },
     "details.expenseGroup": {
       async handler(val) {
-        if(!!val?.id){
+        if (!!val?.id) {
           Object.keys(val).length > 1
-          ? (this.expense_status = false)
-          : (this.expense_status = true);
+            ? (this.expense_status = false)
+            : (this.expense_status = true);
 
           await this.getExpenseItems(val.id);
         }
@@ -1358,10 +1413,10 @@ export default {
     },
     "selectDetail.expenseGroup": {
       async handler(val) {
-        if(!!val?.id){
+        if (!!val?.id) {
           Object.keys(val).length > 1
-          ? (this.expense_status = false)
-          : (this.expense_status = true);
+            ? (this.expense_status = false)
+            : (this.expense_status = true);
 
           await this.getExpenseItems(val.id);
         }
@@ -1373,19 +1428,46 @@ export default {
       handler(val) {
         if (val[0].firstCurrency > 0) {
           const overproduction = val[1].editable;
-          val[1].firstCurrency = ((this.totalPrice / 100) * overproduction).toFixed(2);
-          val[1].secondCurrency = ((this.calculation[0].secondCurrency / 100) * overproduction).toFixed(2);
-          val[1].tertiaryCurrency = ((this.calculation[0].tertiaryCurrency / 100) * overproduction).toFixed(2);
+          val[1].firstCurrency = (
+            (this.totalPrice / 100) *
+            overproduction
+          ).toFixed(2);
+          val[1].secondCurrency = (
+            (this.calculation[0].secondCurrency / 100) *
+            overproduction
+          ).toFixed(2);
+          val[1].tertiaryCurrency = (
+            (this.calculation[0].tertiaryCurrency / 100) *
+            overproduction
+          ).toFixed(2);
 
           const lostResource = val[2].editable;
-          val[2].firstCurrency = ((this.totalPrice / 100) * lostResource).toFixed(2);
-          val[2].secondCurrency = ((this.calculation[0].secondCurrency / 100) * lostResource).toFixed(2);
-          val[2].tertiaryCurrency = ((this.calculation[0].tertiaryCurrency / 100) * lostResource).toFixed(2);
+          val[2].firstCurrency = (
+            (this.totalPrice / 100) *
+            lostResource
+          ).toFixed(2);
+          val[2].secondCurrency = (
+            (this.calculation[0].secondCurrency / 100) *
+            lostResource
+          ).toFixed(2);
+          val[2].tertiaryCurrency = (
+            (this.calculation[0].tertiaryCurrency / 100) *
+            lostResource
+          ).toFixed(2);
 
           const generalExpenses = val[3].editable;
-          val[3].firstCurrency = ((this.totalPrice / 100) * generalExpenses).toFixed(2);
-          val[3].secondCurrency = ((this.calculation[0].secondCurrency / 100) * generalExpenses).toFixed(2);
-          val[3].tertiaryCurrency = ((this.calculation[0].tertiaryCurrency / 100) * generalExpenses).toFixed(2);
+          val[3].firstCurrency = (
+            (this.totalPrice / 100) *
+            generalExpenses
+          ).toFixed(2);
+          val[3].secondCurrency = (
+            (this.calculation[0].secondCurrency / 100) *
+            generalExpenses
+          ).toFixed(2);
+          val[3].tertiaryCurrency = (
+            (this.calculation[0].tertiaryCurrency / 100) *
+            generalExpenses
+          ).toFixed(2);
 
           const extraExpenses = val[4].editable;
           val[4].firstCurrency = (
@@ -1425,36 +1507,72 @@ export default {
           ).toFixed(2);
 
           const targetProfit = val[6].editable;
-          val[6].firstCurrency = (+val[8].firstCurrency - +val[5].firstCurrency).toFixed(2);
-          val[6].secondCurrency = (val[6].firstCurrency * this.addPreFinances.secondaryRate).toFixed(2);
-          val[6].tertiaryCurrency = (val[6].firstCurrency * this.addPreFinances.tertiaryRate).toFixed(2);
+          val[6].firstCurrency = (
+            +val[8].firstCurrency - +val[5].firstCurrency
+          ).toFixed(2);
+          val[6].secondCurrency = (
+            val[6].firstCurrency * this.addPreFinances.secondaryRate
+          ).toFixed(2);
+          val[6].tertiaryCurrency = (
+            val[6].firstCurrency * this.addPreFinances.tertiaryRate
+          ).toFixed(2);
 
-          val[7].secondCurrency = (val[7].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2);
-          val[7].tertiaryCurrency = (val[7].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2);
+          val[7].secondCurrency = (
+            val[7].firstCurrency * +this.addPreFinances.secondaryRate
+          ).toFixed(2);
+          val[7].tertiaryCurrency = (
+            val[7].firstCurrency * +this.addPreFinances.tertiaryRate
+          ).toFixed(2);
 
           const target = 100 / (100 - Number(val[6].editable));
-          val[8].firstCurrency = (Number(val[5].firstCurrency) * target).toFixed(2);
-          val[8].secondCurrency = (val[8].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2);
-          val[8].tertiaryCurrency = (val[8].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2);
+          val[8].firstCurrency = (
+            Number(val[5].firstCurrency) * target
+          ).toFixed(2);
+          val[8].secondCurrency = (
+            val[8].firstCurrency * +this.addPreFinances.secondaryRate
+          ).toFixed(2);
+          val[8].tertiaryCurrency = (
+            val[8].firstCurrency * +this.addPreFinances.tertiaryRate
+          ).toFixed(2);
 
-          val[9].firstCurrency = (val[8].firstCurrency - val[10].firstCurrency).toFixed(2);
-          val[9].secondCurrency = (val[9].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2);
-          val[9].tertiaryCurrency = (val[9].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2);
+          val[9].firstCurrency = (
+            val[8].firstCurrency - val[10].firstCurrency
+          ).toFixed(2);
+          val[9].secondCurrency = (
+            val[9].firstCurrency * +this.addPreFinances.secondaryRate
+          ).toFixed(2);
+          val[9].tertiaryCurrency = (
+            val[9].firstCurrency * +this.addPreFinances.tertiaryRate
+          ).toFixed(2);
 
           const a = 100 - val[11].editable;
           const b = 100 / a;
-          val[10].firstCurrency = ( b * val[5].firstCurrency).toFixed(2);
-          val[10].secondCurrency = (val[8].secondCurrency - val[9].secondCurrency).toFixed(2);
-          val[10].tertiaryCurrency = (val[8].tertiaryCurrency - val[9].tertiaryCurrency).toFixed(2);
+          val[10].firstCurrency = (b * val[5].firstCurrency).toFixed(2);
+          val[10].secondCurrency = (
+            val[8].secondCurrency - val[9].secondCurrency
+          ).toFixed(2);
+          val[10].tertiaryCurrency = (
+            val[8].tertiaryCurrency - val[9].tertiaryCurrency
+          ).toFixed(2);
 
-          val[12].firstCurrency = (val[10].firstCurrency - val[5].firstCurrency).toFixed(2);
-          val[12].secondCurrency = (val[12].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2);
-          val[12].tertiaryCurrency = (val[12].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2);
+          val[12].firstCurrency = (
+            val[10].firstCurrency - val[5].firstCurrency
+          ).toFixed(2);
+          val[12].secondCurrency = (
+            val[12].firstCurrency * +this.addPreFinances.secondaryRate
+          ).toFixed(2);
+          val[12].tertiaryCurrency = (
+            val[12].firstCurrency * +this.addPreFinances.tertiaryRate
+          ).toFixed(2);
 
           val[11].editable = (val[6].editable - val[9].editable).toFixed(2);
 
-          val[13].secondCurrency = (val[13].firstCurrency * +this.addPreFinances.secondaryRate).toFixed(2);
-          val[13].tertiaryCurrency = (val[13].firstCurrency * +this.addPreFinances.tertiaryRate).toFixed(2);
+          val[13].secondCurrency = (
+            val[13].firstCurrency * +this.addPreFinances.secondaryRate
+          ).toFixed(2);
+          val[13].tertiaryCurrency = (
+            val[13].firstCurrency * +this.addPreFinances.tertiaryRate
+          ).toFixed(2);
         }
       },
       deep: true,
@@ -1477,42 +1595,52 @@ export default {
       deleteDetails: "preFinance/deleteDetails",
       updateDetails: "preFinance/updateDetails",
       updatePreFinance: "preFinance/updatePreFinance",
-      getPrefinanceGeneratePdf:"preFinance/getPrefinanceGeneratePdf",
+      getPrefinanceGeneratePdf: "preFinance/getPrefinanceGeneratePdf",
       getPrefinanceTemplates: "preFinance/getPrefinanceTemplates",
       setPrefinanceTemplate: "preFinance/setPrefinanceTemplate",
       createPrefinanceTemplate: "preFinance/createPrefinanceTemplate",
     }),
-    saveFabricTemlate(templateName){
-      const data={
+    saveFabricTemlate(templateName) {
+      const data = {
         templateName,
-        preFinanceId:this.preFinanceId,
-      }
-      this.createPrefinanceTemplate(data)
+        preFinanceId: this.preFinanceId,
+      };
+      this.createPrefinanceTemplate(data);
     },
-    generatePdf(){
+    generatePdf() {
       this.isLoad = true;
-      const id=this.$route.params.id
-      const data={
-        preFinanceId:id,
-      }
-      this.getPrefinanceGeneratePdf(data)
-
+      const id = this.$route.params.id;
+      const data = {
+        preFinanceId: id,
+      };
+      this.getPrefinanceGeneratePdf(data);
     },
     clickBtn() {
-      this.show_btn = !this.show_btn
+      this.show_btn = !this.show_btn;
     },
     saveCalculation() {
-      const calcVal = this.calculation.filter(
-        (el) => el.status === false || el.usd_disabled === false
-      );
-      calcVal.priceWithDiscountUSD = this.calculation[10].firstCurrency;
-      calcVal.priceWithDiscountUZS = this.calculation[10].secondCurrency;
-      calcVal.priceWithDiscountRUB = this.calculation[10].tertiaryCurrency;
-      this.saveCalculations({
-        data: calcVal,
-        id: this.preFinanceId,
-        currency: 2,
-      });
+      const data = this.calculation
+
+      const body = {
+        overProductionPercent: data[1].editable,
+        lossPercent: data[2].editable,
+        generalExpensePercent: data[3].editable,
+        extraExpensePercent: data[4].editable,
+        targetProfitPercent: data[6].editable,
+        discountPercent: data[9].editable,
+        soldPrice: data[13].firstCurrency,
+        givenPriceCurrency: "USD",
+        preFinanceId: this.preFinanceId,
+      };
+      data.forEach((item) => {
+        body[item.key] = {
+          primaryCurrencyValue: item.firstCurrency,
+          secondaryCurrencyValue:item.secondCurrency,
+          tertiaryCurrencyValue: item.tertiaryCurrency,
+        }
+      })
+
+      this.saveCalculations(body);
     },
     async createDetailsNew() {
       const data = {
@@ -1532,11 +1660,33 @@ export default {
     },
     async createNewPreFinance() {
       const params = this.$route.params.id;
-      if (params === "create"){
+      if (params === "create") {
         await this.createPreFinance(this.addPreFinances);
       } else {
-        const { description, id, modelId, primaryCurrency, orderedQuantity, primaryRate, secondaryCurrency, secondaryRate,  tertiaryCurrency, tertiaryRate  } = this.addPreFinances;
-        const item = { description, id, modelId, primaryCurrency, orderedQuantity, primaryRate, secondaryCurrency, secondaryRate,  tertiaryCurrency, tertiaryRate  }
+        const {
+          description,
+          id,
+          modelId,
+          primaryCurrency,
+          orderedQuantity,
+          primaryRate,
+          secondaryCurrency,
+          secondaryRate,
+          tertiaryCurrency,
+          tertiaryRate,
+        } = this.addPreFinances;
+        const item = {
+          description,
+          id,
+          modelId,
+          primaryCurrency,
+          orderedQuantity,
+          primaryRate,
+          secondaryCurrency,
+          secondaryRate,
+          tertiaryCurrency,
+          tertiaryRate,
+        };
         await this.updatePreFinance(item);
       }
     },
@@ -1545,7 +1695,7 @@ export default {
       this.deletedDetailId = item.id;
     },
     deleteFunc() {
-      this.deleteDetails({id: this.deletedDetailId});
+      this.deleteDetails({ id: this.deletedDetailId });
       this.delete_dialog = false;
     },
     editRow(item, index) {
@@ -1554,8 +1704,7 @@ export default {
         id: item.expenseGroupId,
         name: item.expenseGroup,
       };
-      this.selectDetail = {...item};
-
+      this.selectDetail = { ...item };
     },
     updateDetailsFunc() {
       const data = {
@@ -1577,8 +1726,8 @@ export default {
     },
   },
   mounted() {
-    this.getPrefinanceTemplates()
-    this.getExpenseGroup({page:0,size:10});
+    this.getPrefinanceTemplates();
+    this.getExpenseGroup({ page: 0, size: 10 });
     this.getMeasurementUnit();
     const param = this.$route.params.id;
 
@@ -1601,4 +1750,8 @@ export default {
 };
 </script>
 
-<style lang="scss" src="../../assets/abstracts/_prefinances.scss" scoped></style>
+<style
+  lang="scss"
+  src="../../assets/abstracts/_prefinances.scss"
+  scoped
+></style>

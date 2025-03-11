@@ -147,18 +147,6 @@
               :placeholder="$t('catalogGroups.canvasType.dialogs.selectCanvas')"
               color="#544B99"
             />
-            <div class="label">{{$t('catalogGroups.canvasType.dialogs.specification')}}</div>
-            <v-text-field
-              :rules="[formRules.required]"
-              v-model="create_canvas_type.specification"
-              outlined
-              hide-details
-              dense
-              height="44"
-              class="rounded-lg base mb-4"
-              :placeholder="$t('catalogGroups.canvasType.dialogs.enterSpecification')"
-              color="#544B99"
-            />
             <div class="label">{{$t('catalogGroups.canvasType.dialogs.description')}}</div>
             <v-textarea
               v-model="create_canvas_type.description"
@@ -214,20 +202,6 @@
               class="rounded-lg base mb-4"
               :rules="[formRules.required]"
               :placeholder="$t('catalogGroups.canvasType.dialogs.selectCanvas')"
-              color="#544B99"
-            />
-            <div class="label">{{$t('catalogGroups.canvasType.dialogs.specification')}}</div>
-            <v-text-field
-              v-model="edit_canvas_type.specification"
-              outlined
-              hide-details
-              height="44"
-              dense
-              class="rounded-lg base mb-4"
-              :rules="[formRules.required]"
-              :placeholder="
-                $t('catalogGroups.canvasType.dialogs.enterSpecification')
-              "
               color="#544B99"
             />
             <div class="label">{{$t('catalogGroups.canvasType.dialogs.description')}}</div>
@@ -326,7 +300,6 @@ export default {
       create_canvas_type: {
         description: "",
         name: "",
-        specification: "",
       },
       edit_canvas_type: {
         description: "",
@@ -346,11 +319,6 @@ export default {
           text: this.$t("catalogGroups.tabs.table.name"),
           sortable: false,
           value: "name",
-        },
-        {
-          text: this.$t("catalogAccessory.table.specification"),
-          value: "specification",
-          sortable: false,
         },
         {
           text: this.$t("catalogAccessory.table.description"),
@@ -421,9 +389,8 @@ export default {
       }
     },
     async update() {
-      const { name, id, description, specification} =
-        this.edit_canvas_type;
-      const item = { description, id, name, specification };
+      const { name, id, description} =this.edit_canvas_type;
+      const item = { description, id, name };
       await this.updateCanvasType(item);
       this.edit_dialog = false;
     },
