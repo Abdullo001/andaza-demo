@@ -249,6 +249,15 @@ export default (context, inject) => {
       extractNumber(str){
         const cleanedStr = str.replace(/[^0-9.]/g, "");
         return parseFloat(cleanedStr);
+      },
+      moneyFormatter(money, withoutDecimalPart) {
+        if (money == null || money === '') return '';
+
+        if (!withoutDecimalPart) {
+          return Number(money).toFixed(2).replace(/(\d)(?=((\d{3})+)(\D|$))/g, '$& ');
+        }
+
+        return Math.round(Number(money)).toString().replace(/(\d)(?=((\d{3})+)(\D|$))/g, '$& ');
       }
     }
   })
