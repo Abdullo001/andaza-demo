@@ -123,6 +123,7 @@ export default {
         currency: null,
         employeeId: this.employeeId,
       },
+      historyList:[],
       headers: [
         { text: "Date", value: "date", sortable: false },
         { text: "Amount ", value: "amount", sortable: false },
@@ -139,6 +140,14 @@ export default {
     })
   },
   watch: {
+    salaryChangeHistoryList(list){
+      this.historyList = list.map((item) => {
+        return {
+          ...item,
+          amount:  this.moneyFormatter(item.amount),
+        };
+      })
+    },
     dialogState(newVal) {
       this.state = newVal;
       this.salaryChangeHistory(this.employeeId)

@@ -117,6 +117,7 @@ export default {
         wageType: null,
         employeeId: this.employeeId,
       },
+      historyList:[],
       headers: [
         { text: "Date", value: "date", sortable: false },
         { text: "Payment purpose", value: "wageType", sortable: false },
@@ -132,6 +133,15 @@ export default {
     })
   },
   watch: {
+    paymentHistorySalaryList(list){
+      this.historyList = list.map((item) => {
+        return {
+          ...item,
+          leftAmount: this.moneyFormatter(item.leftAmount),
+          amount:  this.moneyFormatter(item.amount),
+        };
+      })
+    },
     dialogState(newVal) {
       this.state = newVal;
       this.getPaymentHistorySalaryList(this.employeeId)

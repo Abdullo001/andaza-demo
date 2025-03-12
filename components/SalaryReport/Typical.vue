@@ -94,9 +94,9 @@
               Total
           </td>
           <td colspan="2"></td>
-          <td >{{paymentsList.totalWage}}</td>
-          <td >{{paymentsList.totalAdvance}}</td>
-          <td >{{paymentsList.totalLeftAmount}}</td>
+          <td >{{moneyFormatter(paymentsList.totalWage, true)}}</td>
+          <td >{{moneyFormatter(paymentsList.totalAdvance, true)}}</td>
+          <td >{{moneyFormatter(paymentsList.totalLeftAmount, true)}}</td>
           <td colspan="2"></td>
         </tr>
       </template>
@@ -189,7 +189,15 @@ export default {
 
   watch: {
     paymentsList(val) {
-      this.items = JSON.parse(JSON.stringify(val.data));
+      // this.items = JSON.parse(JSON.stringify(val.data));
+      this.items = val.data.map((item) => {
+        return{
+          ...item,
+          advancePayment: this.moneyFormatter(item.advancePayment, true),
+          leftAmount: this.moneyFormatter(item.leftAmount, true),
+          monthlyPayment: this.moneyFormatter(item.monthlyPayment, true),
+        }
+      })
     },
     employeeSalaryReport(val) {
       Object.keys(this.loadingStates).forEach((key) => {
@@ -236,7 +244,6 @@ export default {
     changeSalary(item) {
       this.preSalary = true;
       this.selectedEmployee = { ...item };
-      console.log(this.selectedEmployee);
     },
     getHistory(item) {
       this.historyDialog = true;
