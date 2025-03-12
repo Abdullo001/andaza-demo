@@ -22,11 +22,11 @@ export default {
   name: "lineChartComponent",
   data() {
     return {
-      
+
       line_options: {
         plugins: {
           customScale: {
-            grace: "100%", 
+            grace: "100%",
           },
         },
         tooltips: {
@@ -39,7 +39,7 @@ export default {
           enabled: true,
           external: this.externalTooltipHandler,
           intersect: true,
-          
+
         },
 
         maintainAspectRatio: false,
@@ -71,7 +71,7 @@ export default {
               blur: 10,
               opacity: 0.2,
             },
-            
+
           },
           tooltip: {
             enabled: false,
@@ -101,7 +101,7 @@ export default {
           grid: {
             borderColor: "#e7e7e7",
             row: {
-              colors: ["#f3f3f3", "transparent"], 
+              colors: ["#f3f3f3", "transparent"],
               opacity: 0.5,
             },
           },
@@ -187,8 +187,8 @@ export default {
     },
 
     dataLabelFunc(val, opt) {
-      const message = `${val}$   ${this.modelQuantity[opt.dataPointIndex]} / ${
-        this.orderQunt[opt.dataPointIndex]
+      const message = `${this.moneyFormatter(val)}$   ${this.moneyFormatter(this.modelQuantity[opt.dataPointIndex],true)} / ${
+        this.moneyFormatter(this.orderQunt[opt.dataPointIndex], true)
       } pcs`;
       return message;
     },

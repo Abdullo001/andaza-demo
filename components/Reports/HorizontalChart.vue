@@ -8,15 +8,15 @@
         <div class="d-flex align-center justify-space-around mb-4" style="font-size: 14px;">
           <div class="font-weight-bold black--text ">
             Total:
-            <span class="font-weight-regular"> {{genderReport.models}} models</span>
+            <span class="font-weight-regular"> {{moneyFormatter(genderReport.models, true)}} models</span>
           </div>
           <div class="font-weight-bold black--text ">
             Order quantity:
-            <span class="font-weight-regular"> {{genderReport.totalOrderQuantity}} pcs</span>
+            <span class="font-weight-regular"> {{moneyFormatter(genderReport.totalOrderQuantity, true)}} pcs</span>
           </div>
           <div class="font-weight-bold black--text ">
             Amount:
-            <span class="font-weight-regular"> {{genderReport.totalPrice}}$</span>
+            <span class="font-weight-regular"> {{moneyFormatter(genderReport.totalPrice)}}$</span>
           </div>
         </div>
         <v-row v-for="(item,idx) in genderReport.itemReports" :key="idx">
@@ -37,10 +37,10 @@
           </v-col>
           <v-col cols="3" class="d-flex flex-column">
             <span>
-              {{ item.totalPrice }} $
+              {{ moneyFormatter(item.totalPrice) }} $
             </span>
             <span>
-              {{ item.orderQuantity }} pcs
+              {{ moneyFormatter(item.orderQuantity, true) }} pcs
             </span>
           </v-col>
         </v-row>

@@ -14,7 +14,7 @@
         class="ml-2"
       />
       </div>
-      
+
     </v-sheet>
     <v-row class="mt-5">
       <v-col cols="12"  >
@@ -26,7 +26,7 @@
       <v-col cols="12" lg="4">
         <DoughnutChartComponent />
       </v-col>
-      
+
       <v-col cols="12" lg="4">
         <HorizontalChartComponent />
       </v-col>
@@ -77,7 +77,7 @@ export default {
       },
     };
   },
-  computed:{ 
+  computed:{
   },
 
   methods:{
