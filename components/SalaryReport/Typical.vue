@@ -189,7 +189,6 @@ export default {
 
   watch: {
     paymentsList(val) {
-      // this.items = JSON.parse(JSON.stringify(val.data));
       this.items = val.data.map((item) => {
         return{
           ...item,

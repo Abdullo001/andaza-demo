@@ -86,7 +86,7 @@
             class="d-flex w-full align-center justify-space-between"
           >
             <div>Production plan of Garment  (PPG)</div>
-            
+
           </v-toolbar-title>
         </v-toolbar>
       </template>
@@ -112,8 +112,6 @@
           {{ item.accessoryStatus }}
         </v-chip>
       </template>
-      
-      
       <template #expanded-item="{ headers, item }">
         <td :colspan="headers.length">
           <v-card flat>
@@ -302,7 +300,6 @@
                     </div>
                   </div>
                 </v-col>
-                
               </v-row>
               <v-row>
                 <v-col cols="6">
@@ -326,7 +323,7 @@
                       <div class="body-1 mb-3">
                         Cutting quantity :
                         <span class="font-weight-bold ml-2">
-                          {{ itemDetail.cuttingResponse?.quantity }}</span
+                          {{ moneyFormatter(itemDetail.cuttingResponse?.quantity, true) }}</span
                         >
                       </div>
                       <div class="body-1 mb-3">
@@ -341,7 +338,7 @@
                           {{ itemDetail.cuttingResponse?.status }}</span
                         >
                       </div>
-                      
+
                     </v-col>
                     <v-col cols="4">
                       PRINTING
@@ -361,7 +358,7 @@
                       <div class="body-1 mb-3">
                         Printing quantity :
                         <span class="font-weight-bold ml-2">
-                          {{ itemDetail.printingResponse?.quantity }}</span
+                          {{ moneyFormatter(itemDetail.printingResponse?.quantity, true) }}</span
                         >
                       </div>
                       <div class="body-1 mb-3">
@@ -396,7 +393,7 @@
                       <div class="body-1 mb-3">
                         Sewing quantity :
                         <span class="font-weight-bold ml-2">
-                          {{ itemDetail.sewingResponse?.quantity }}</span
+                          {{ moneyFormatter(itemDetail.sewingResponse?.quantity, true) }}</span
                         >
                       </div>
                       <div class="body-1 mb-3">
@@ -490,10 +487,10 @@ export default {
         { text: "Accessory status", value: "accessoryStatus", sortable: false },
         { text: "Main color", value: "mainColorName", sortable: false },
         { text: "Articles", value: "articles", sortable: false },
-        { text: "Order q-ty", value: "total", sortable: false },
+        { text: "Order q-ty", value: "total", sortable: false, width:120 },
         { text: "Deadline of order", value: "orderDeadline", sortable: false },
         { text: "Price", value: "soldPrice", sortable: false },
-        { text: "Total price", value: "totalPrice", sortable: false },
+        { text: "Total price", value: "totalPrice", sortable: false, width:120 },
         { text: "Model group", value: "modelGroup", sortable: false },
         { text: "Size group", value: "sizeName", sortable: false },
         { text: "Main fabric composition", value: "specification", sortable: false },
@@ -503,24 +500,18 @@ export default {
         { text: "Finish plan status", value: "finishPlanStatus", sortable: false },
         { text: "Delay in delivery (days)", value: "delayDays", sortable: false },
         { text: "KPI category", value: "kpi", sortable: false },
-        
+
         { text: "", value: "data-table-expand" },
       ],
-      
-
       expanded: [],
       singleExpand: false,
       valid_search: "",
-    
-
       filters: {
         modelNumber:null,
         orderNumber:null,
         clientName:null,
 
       },
-
-    
       itemPrePage: 10,
       current_page: 0,
 
@@ -544,7 +535,14 @@ export default {
       this.itemDetail=JSON.parse(JSON.stringify(val))
     },
     ppgList(val) {
-      this.current_list = JSON.parse(JSON.stringify(val));
+      this.current_list = val.map((item,index) => {
+        return{
+          ...item,
+          id: index + 1,
+          totalPrice: this.moneyFormatter(item.totalPrice),
+          total: this.moneyFormatter(item.total, true),
+        }
+      })
 
       this.current_list.forEach((item,index)=>{
         item.id=index+1
@@ -553,7 +551,7 @@ export default {
   },
 
   created() {
-    
+
   },
 
   methods: {
@@ -583,7 +581,7 @@ export default {
         size:this.itemPrePage,
       });
     },
-    
+
 
     filterData() {
       this.getPpgList({
