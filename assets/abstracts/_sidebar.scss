@@ -141,7 +141,7 @@ a.child-link.v-list-item--active {
 }
 
 .v-menu__content.theme--light.v-menu__content--fixed.menuable__content__active{
-  
+
 }
 
 .notification-creator{
@@ -179,4 +179,32 @@ a.child-link.v-list-item--active {
 .disabled {
   pointer-events: none;
   opacity: 0.5;
+}
+
+.small-text {
+  font-size: 12px;
+  line-height: 14px;
+  color: #777C85;
+  text-decoration: underline;
+  cursor: pointer;
+  opacity: 1;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: #544B99;
+    opacity: 0.7;
+  }
+
+  &:focus{
+    color: #544B99;
+    opacity: 0.3;
+  }
+
+  &.active {
+    color: #544B99;
+    font-weight: 900;
+    opacity: 0.3;
+  }
+
+
 }

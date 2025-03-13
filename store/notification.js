@@ -98,5 +98,18 @@ export const actions={
       this.$toast.error(response.data.message)
       console.log(response);
     })
+  },
+
+  markAsReadAll({dispatch},userId){
+    this.$axios.patch(`/api/v1/notification/read-all`)
+    .then((res)=>{
+      dispatch("getRecivedNotification",{id:userId,page:0,size:5})
+      dispatch("getCountUnreadNotification",userId)
+      this.$toast.error(res.data.code)
+    })
+    .catch(({response})=>{
+      this.$toast.error(response.data.message)
+      console.log(response);
+    })
   }
 }

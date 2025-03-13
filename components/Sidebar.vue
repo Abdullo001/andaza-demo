@@ -169,7 +169,7 @@
             </template>
 
             <v-card min-width="300"  class="" >
-              <v-card-title class="d-flex align-center justify-center">
+              <v-card-title class="d-flex flex-column ">
                 <div class="d-flex align-center justify-center">
                   Notifications
                   <v-chip
@@ -179,7 +179,11 @@
                   >
                     {{ countUnreadNotification }}
                   </v-chip></div>
+
               </v-card-title>
+              <div class="text-right">
+                <span class="mr-4 small-text" @click.stop="markHandler" >Mark as read</span>
+              </div>
 
 
               <v-data-table
@@ -768,6 +772,7 @@ export default {
       getCountUnreadNotification: "notification/getCountUnreadNotification",
       getRecivedNotification: "notification/getRecivedNotification",
       markAsRead: "notification/markAsRead",
+      markAsReadAll: "notification/markAsReadAll",
       changeLang: "users/changeLang",
     }),
     openNotificationTable(){
@@ -806,6 +811,9 @@ export default {
       localStorage.setItem("lang",this.$i18n.locale)
       this.changeLang({userId:this.currentUser.id, lang:this.$i18n.locale})
     },
+    markHandler(){
+      this.markAsReadAll(this.currentUser.id)
+    },
 
     getMessageInfo(item){
       this.selectedMessage={...item}
@@ -823,59 +831,6 @@ export default {
       return !item.read ? 'notification-item' : ''
     },
 
-    // async startListeners() {
-    //   await this.requestPermission();
-    //   await this.getIdToken();
-
-    //   await this.startOnMessageListener();
-    //   this.listenersStarted = true;
-    // },
-    // startOnMessageListener() {
-    //   try {
-    //     if (this.$fire && this.$fire.messaging) {
-    //       this.$fire.messaging.onMessage((payload) => {
-    //         console.info("Message received:", payload);
-    //         if (payload.notification) {
-    //           console.log(payload.notification.body);
-    //         }
-    //         this.getCountUnreadNotification(this.currentUser.id);
-    //         this.getRecivedNotification({ id: this.currentUser.id, page: 0, size: 5 });
-    //       });
-    //     } else {
-    //       console.error("Firebase Messaging yuklanmagan!");
-    //     }
-    //   } catch (e) {
-    //     console.error("Error:", e);
-    //   }
-    // },
-    // async requestPermission() {
-    //   try {
-    //     const permission = await Notification.requestPermission();
-    //     console.log("GIVEN notify perms");
-    //     console.log(permission);
-    //   } catch (e) {
-    //     console.error("Error : ", e);
-    //   }
-    // },
-    // async getIdToken() {
-    //   try {
-    //     if (!this.$fire || !this.$fire.messaging) {
-    //       console.error("❌ Firebase Messaging hali yuklanmagan.");
-    //       return;
-    //     }
-
-    //     const token = await this.$fire.messaging.getToken();
-    //     if (!token) {
-    //       console.log("⚠️ Token olinmadi, service worker va ruxsatlarni tekshiring.");
-    //       return;
-    //     }
-
-    //     this.idToken = token;
-    //     console.log("✅ FCM Token:", token);
-    //   } catch (e) {
-    //     console.error("🚨 Token olishda xatolik:", e);
-    //   }
-    // }
     async startListeners() {
       try {
         await this.requestPermission();
