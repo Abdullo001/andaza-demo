@@ -121,7 +121,7 @@
               {{ $t('orderBox.colorSize.totalQuantities') }}
           </td>
           <td>
-            {{totalQuantity}}
+            {{moneyFormatter(totalQuantity, true)}}
           </td>
           <td colspan="6"></td>
         </tr>

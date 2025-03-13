@@ -130,7 +130,7 @@
     </div>
     <SimpleHistoryDialog
       :historyDialog.sync="historyDialog"
-      :itemsList="paymentHistoryList"
+      :itemsList="historyList"
       :headers="historyHeaders"
       :loadingState="historyLoading"
     />
@@ -172,6 +172,7 @@ export default {
       selectedEmployee: {
         employeeId: 0,
       },
+      historyList:[],
       loadingStates: {},
       currentLoadingId: null,
       historyHeaders: [
@@ -197,6 +198,15 @@ export default {
   },
 
   watch: {
+    paymentHistoryList(val) {
+      this.historyList = val.map((item) => {
+        return {
+          ...item,
+          doneWorkAmount: this.moneyFormatter(item.doneWorkAmount, true),
+          doneWorkQuantity: this.moneyFormatter(item.doneWorkQuantity, true),
+        };
+      });
+    },
     paymentsList(val) {
       this.items = val.data.map((item) => {
         return {

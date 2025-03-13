@@ -49,7 +49,7 @@
 
           <v-data-table
             :headers="headers"
-            :items="paymentHistorySalaryList"
+            :items="historyList"
             :loading="historySalaryLoading"
             item-key="cuttingTable"
             hide-default-footer
@@ -137,8 +137,8 @@ export default {
       this.historyList = list.map((item) => {
         return {
           ...item,
-          leftAmount: this.moneyFormatter(item.leftAmount),
-          amount:  this.moneyFormatter(item.amount),
+          leftAmount: this.moneyFormatter(item.leftAmount, true),
+          amount:  this.moneyFormatter(item.amount, true),
         };
       })
     },
