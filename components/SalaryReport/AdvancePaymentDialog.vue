@@ -49,7 +49,7 @@
 
           <v-data-table
             :headers="headers"
-            :items="paymentHistorySalaryList"
+            :items="historyList"
             :loading="historySalaryLoading"
             item-key="cuttingTable"
             hide-default-footer
@@ -117,6 +117,7 @@ export default {
         wageType: null,
         employeeId: this.employeeId,
       },
+      historyList:[],
       headers: [
         { text: "Date", value: "date", sortable: false },
         { text: "Payment purpose", value: "wageType", sortable: false },
@@ -132,6 +133,15 @@ export default {
     })
   },
   watch: {
+    paymentHistorySalaryList(list){
+      this.historyList = list.map((item) => {
+        return {
+          ...item,
+          leftAmount: this.moneyFormatter(item.leftAmount, true),
+          amount:  this.moneyFormatter(item.amount, true),
+        };
+      })
+    },
     dialogState(newVal) {
       this.state = newVal;
       this.getPaymentHistorySalaryList(this.employeeId)

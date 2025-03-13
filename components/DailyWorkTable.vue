@@ -4,7 +4,7 @@
       <v-progress-circular color="#544B99" indeterminate size="80" />
     </v-overlay>
     <div style="overflow-x: auto;">
-      <v-simple-table class="min-w-800" height="100vh" fixed-header dense>
+      <v-simple-table class="min-w-800" height="80vh" fixed-header dense>
         <thead>
           <tr class="text-center">
             <th v-for="(header, idx) in headers" :key="idx" :class="`th-text ${idx<2?`sticky-column`:``}`" >
@@ -44,7 +44,7 @@
                 />
               </div>
             </td>
-            <td>{{ sumAllOperation(item.operations) }}</td>
+            <td>{{  moneyFormatter(item.total, true) }}</td>
             <td>
               <v-tooltip top color="#544B99">
                 <template #activator="{ on, attrs }">
@@ -77,7 +77,7 @@
           Close daily report
         </v-btn>
       </div>
-    <SimpleHistoryDialog :historyDialog.sync="historyDialog" :itemsList="workLogsHistory" :headers="historyHeaders"   />
+    <SimpleHistoryDialog :historyDialog.sync="historyDialog" :itemsList="historyList" :headers="historyHeaders"   />
     </div>
   </v-card>
 </template>
@@ -96,6 +96,7 @@ export default {
         { text: "Employes fullname", value: "fullName", sortable: false },
       ],
       historyDialog:false,
+      historyList:[],
       historyHeaders:[
         {text:"Date",value:"date",sortable:false},
         {text:"Operation name",value:"operationName",sortable:false},
@@ -115,8 +116,23 @@ export default {
       workLogsHistory: "dailyWorkTable/workLogsHistory",
       temporaryTable: "dailyWorkTable/temporaryTable",
     }),
+    totalOperationsSum() {
+      return this.mainList.map(item => ({
+        ...item,
+        total: this.sumAllOperation(item.operations),
+      }));
+    }
   },
   watch: {
+    workLogsHistory(newList){
+      this.historyList=newList.map(item => {
+        return {
+          ...item,
+          doneWorkAmount: this.moneyFormatter(item.doneWorkAmount, true),
+          doneWorkQuantity: this.moneyFormatter(item.doneWorkQuantity, true),
+        };
+      });
+    },
     modelCategoryList(list) {
       this.headers = [
         { text: "No.", value: "id", sortable: false },
@@ -187,7 +203,7 @@ export default {
     },
     sumAllOperation(operations) {
       return operations.reduce((sum, item) => {
-        return sum + (item.quantity ? item.quantity * item.amount : 0);
+        return sum + (item.quantity ? this.cleanQuantity(item.quantity) * item.amount : 0);
       }, 0);
     },
     sumAllOperationPrice(operations) {
@@ -203,7 +219,7 @@ export default {
             .map(operation => ({
               employeeId: item.id,
               modelOperationId: operation.modelOperationId,
-              quantity: operation.quantity,
+              quantity: this.cleanQuantity(operation.quantity),
             }));
           return acc.concat(operationsData);
         }, []),
@@ -214,9 +230,20 @@ export default {
       this.saveDailyWorkLogs({data:payload,modelId:this.$route.params.id})
     },
     updateQuantity(event, idx, opIdx) {
-      const value = event.target.value.replace(/\D/g, "");
+      let value = event.target.value.replace(/\D/g, "");
+      value = this.moneyFormatter(value, true);
+      event.target.value = value;
       this.mainList[idx].operations[opIdx].quantity = value;
+      this.$set(this.mainList, idx, {
+        ...this.mainList[idx],
+        total: this.sumAllOperation(this.mainList[idx].operations),
+      });
+      this.$nextTick(() => {
+        const input = event.target;
+        input.selectionStart = input.selectionEnd = value.length;
+      });
     },
+
     onlyNumbers(event) {
       if (!/[0-9]/.test(event.key)) {
         event.preventDefault();

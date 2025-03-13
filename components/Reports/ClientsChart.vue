@@ -12,7 +12,7 @@
           <div class="font-weight-bold black--text">
             Total order quantity:
             <span class="font-weight-regular">
-              {{ clientReport.totalOrderQuantity }} pcs</span
+              {{ moneyFormatter(clientReport.totalOrderQuantity, true) }} pcs</span
             >
           </div>
         </div>
@@ -35,8 +35,8 @@
             </div>
           </v-col>
           <v-col cols="3" class="d-flex flex-column">
-            <span> {{ item.totalPrice }} $ </span>
-            <span> {{ item.orderQuantity }} pcs </span>
+            <span> {{ moneyFormatter(item.totalPrice) }} $ </span>
+            <span> {{moneyFormatter(item.orderQuantity, true) }} pcs </span>
           </v-col>
         </v-row>
       </v-card-text>

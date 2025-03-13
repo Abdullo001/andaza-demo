@@ -30,9 +30,9 @@
                     }"
                     class="inner-box d-flex align-center justify-center"
                   ></div>
-                  <span class="ml-2">{{ item.orderQuantity }} pcs</span>
+                  <span class="ml-2">{{ moneyFormatter(item.orderQuantity, true) }} pcs</span>
                 </div>
-                <div class="total">{{ item.totalPrice }} $</div>
+                <div class="total">{{ moneyFormatter(item.totalPrice) }} $</div>
               </div>
             </v-col>
           </v-row>
@@ -96,7 +96,9 @@ export default {
                     show: true,
                     showAlways: true,
                     fontSize: "24px",
+                    formatter: this.totalFormatter,
                   },
+
                 },
               },
             },
@@ -133,13 +135,23 @@ export default {
       this.creators = [];
       this.items = [];
       val.itemReports.forEach((item) => {
-        this.creators.push(`${item.name}: ${item.itemCount}`);
+        this.creators.push(`${item.name}: ${this.moneyFormatter(item.itemCount, true)}`);
         this.items.push(item.itemCount);
+
       });
     },
   },
 
-  methods: {},
+  methods: {
+    // changeFormatter(value){
+    //   return this.moneyFormatter(value, true)
+
+    // },
+    totalFormatter(w) {
+      const temp = w.globals.seriesTotals.reduce((a, b) => a + b, 0);
+      return this.moneyFormatter(temp, true);
+    }
+  },
 };
 </script>
 

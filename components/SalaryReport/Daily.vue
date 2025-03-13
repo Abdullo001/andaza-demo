@@ -111,9 +111,9 @@
               Total
           </td>
           <td colspan="2"></td>
-          <td >{{paymentsList.totalWage}}</td>
-          <td >{{paymentsList.totalAdvance}}</td>
-          <td >{{paymentsList.totalLeftAmount}}</td>
+          <td >{{moneyFormatter(paymentsList.totalWage)}}</td>
+          <td >{{moneyFormatter(paymentsList.totalAdvance)}}</td>
+          <td >{{moneyFormatter(paymentsList.totalLeftAmount)}}</td>
           <td colspan="2"></td>
         </tr>
       </template>
@@ -130,7 +130,7 @@
     </div>
     <SimpleHistoryDialog
       :historyDialog.sync="historyDialog"
-      :itemsList="paymentHistoryList"
+      :itemsList="historyList"
       :headers="historyHeaders"
       :loadingState="historyLoading"
     />
@@ -172,6 +172,7 @@ export default {
       selectedEmployee: {
         employeeId: 0,
       },
+      historyList:[],
       loadingStates: {},
       currentLoadingId: null,
       historyHeaders: [
@@ -197,8 +198,24 @@ export default {
   },
 
   watch: {
+    paymentHistoryList(val) {
+      this.historyList = val.map((item) => {
+        return {
+          ...item,
+          doneWorkAmount: this.moneyFormatter(item.doneWorkAmount, true),
+          doneWorkQuantity: this.moneyFormatter(item.doneWorkQuantity, true),
+        };
+      });
+    },
     paymentsList(val) {
-      this.items = JSON.parse(JSON.stringify(val.data));
+      this.items = val.data.map((item) => {
+        return {
+          ...item,
+          advancePayment: this.moneyFormatter(item.advancePayment),
+          leftAmount: this.moneyFormatter(item.leftAmount),
+          monthlyPayment: this.moneyFormatter(item.monthlyPayment),
+        }
+      })
     },
     employeeSalaryReport(val) {
       Object.keys(this.loadingStates).forEach((key) => {

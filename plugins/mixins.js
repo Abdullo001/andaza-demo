@@ -258,6 +258,10 @@ export default (context, inject) => {
         }
 
         return Math.round(Number(money)).toString().replace(/(\d)(?=((\d{3})+)(\D|$))/g, '$& ');
+      },
+      cleanQuantity(quantity) {
+        if (!quantity) return '';
+        return Number(quantity.replace(/\s+/g, ""));
       }
     }
   })

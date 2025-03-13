@@ -36,13 +36,13 @@
               <td
                 class="text-capitalize text-body-1 font-weight-bold"
               >
-                total 
+                total
               </td>
               <td>
-                {{ managerReport.models }}
+                {{ moneyFormatter(managerReport.models, true) }}
               </td>
-    
-              <td class="font-weight-bold text-body-1">{{ managerReport.totalPrice }}</td>
+
+              <td class="font-weight-bold text-body-1">{{ moneyFormatter(managerReport.totalPrice) }}</td>
             </tr>
           </template>
         </v-data-table>
@@ -127,6 +127,8 @@ export default {
         item.color = this.colors[idx];
         this.modelCount.push(item.modelCount);
         this.managersList.push(item.manager);
+        item.totalPrice = this.moneyFormatter(item.totalPrice);
+        item.modelCount = this.moneyFormatter(item.modelCount, true);
       });
     },
   },
