@@ -48,7 +48,10 @@ export const actions={
   },
 
   createNotification({dispatch},data){
-    this.$axios.post(`/api/v1/notification`,data)
+    const config = {
+      headers: { "Content-Type": "multipart/form-data" }
+    }
+    this.$axios.post(`/api/v1/notification`, data, config)
     .then((res)=>{
       this.$toast.success(res.data.message)
     })
@@ -105,7 +108,7 @@ export const actions={
     .then((res)=>{
       dispatch("getRecivedNotification",{id:userId,page:0,size:5})
       dispatch("getCountUnreadNotification",userId)
-      this.$toast.error(res.data.code)
+      this.$toast.success(res.data.code)
     })
     .catch(({response})=>{
       this.$toast.error(response.data.message)

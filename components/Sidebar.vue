@@ -287,12 +287,9 @@
               <span class="font-weight-black">Title:</span>{{ selectedMessage.title }}
             </div>
           </div>
-
+          <ImageContainer v-if="!!selectedMessage.linkFile" v-model="selectedMessage.linkFile" :width="`100%`" :height="300" />
           <v-divider class="mb-6"/>
-
-
           <div v-html="selectedMessage.body"></div>
-
         </v-card-text>
 
         <v-card-actions>
@@ -355,9 +352,13 @@
 import { mapActions, mapGetters } from "vuex";
 import { getToken, onMessage,getMessaging } from 'firebase/messaging'
 import { messaging } from '~/plugins/firebase'
+import ImageContainer from "./UI/ImageContainer.vue";
 
 export default {
   name: "SidebarComponent",
+  components: {
+    ImageContainer,
+  },
   data() {
     return {
       itemPerPage:5,

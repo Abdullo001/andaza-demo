@@ -164,14 +164,14 @@ export default {
     },
     async page(value) {
       this.current_page = value - 1;
-      await this.getOrdersList({
+      await this.getNotificationList({
         page: this.current_page,
         size: this.itemPrePage,
       });
     },
     async size(value) {
       this.itemPrePage = value;
-      await this.getOrdersList({ page: 0, size: this.itemPrePage });
+      await this.getNotificationList({ page: 0, size: this.itemPrePage });
     },
     viewDetails(item){
       this.$router.push(this.localePath(`/notification/${item.id}`))
