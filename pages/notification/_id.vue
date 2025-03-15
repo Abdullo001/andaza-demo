@@ -142,9 +142,33 @@
                   class="rounded-lg base mb-8"
                   height="44"
                   hide-details
+                  :rules="[formRules.required]"
                 />
                 <div class="label">Message body</div>
                 <quill-editor v-model="selectedItem.body" :options="editorOptions" class="bg-white p-2 rounded shadow-md" />
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" lg="12" v-if="selectedItem.type==='DOCUMENT'">
+                <div class="label">Upload document</div>
+                <v-file-input
+                  outlined
+                  hide-details
+                  placeholder="Upload document"
+                  height="44"
+                  class="rounded-lg base mb-4"
+                  show-size
+                  prepend-icon=""
+                  dense
+                  prepend-inner-icon="mdi-file-document-outline"
+                  color="#544B99"
+                  v-model="selectedItem.file"
+                  validate-on-blur
+                  :rules="[formRules.required]"
+                />
+              </v-col>
+              <v-col v-if="selectedItem.type==='PHOTO'" cols="12" lg="12">
+                <ImageUploader :label="`Upload photo`" v-model="selectedItem.file"/>
               </v-col>
             </v-row>
           </v-card-text>
@@ -320,7 +344,11 @@
 </template>
 <script>
 import { mapActions, mapGetters } from "vuex";
+import ImageUploader from "../../components/UI/ImageUploader.vue";
 export default {
+  components: {
+    ImageUploader,
+  },
   data() {
     return {
       warningDialog:false,
@@ -469,14 +497,17 @@ export default {
         receivers.push(item.id)
       })
 
-      const data ={
-        body:this.selectedItem.body,
-        title:this.selectedItem.title,
-        type:this.selectedItem.type,
-        receivers,
-        channels,
+
+      const formData = new FormData();
+      formData.append("body", this.selectedItem.body);
+      formData.append("title", this.selectedItem.title);
+      formData.append("type", this.selectedItem.type);
+      formData.append("receivers", receivers.toString());
+      formData.append("channels", channels.toString());
+      if(this.selectedItem.file){
+        formData.append("file", this.selectedItem.file);
       }
-      this.createNotification(data)
+      this.createNotification(formData)
     },
 
     resetAll() {},

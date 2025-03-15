@@ -1342,7 +1342,7 @@ export default {
         this.headers[3].text = data.secondaryCurrency;
         this.headers[4].text = data.tertiaryCurrency;
         if (val?.overProductionPercent >= 0) {
-          this.calculation[1].editable = val?.overProductionPercent && 0;
+          this.calculation[1].editable = val?.overProductionPercent ? val?.overProductionPercent : 0;
           this.calculation[2].editable = val?.lossPercent ? val?.lossPercent : 0;
           this.calculation[3].editable = val?.generalExpensePercent ? val?.generalExpensePercent : 0;
           this.calculation[4].editable = val?.extraExpensePercent ? val?.extraExpensePercent : 0;
