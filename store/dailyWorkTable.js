@@ -4,6 +4,7 @@ export const state=()=>({
   modelCategoryList:[],
   workLogsHistory:[],
   temporaryTable:[],
+  totals:{},
 })
 
 export const getters={
@@ -12,6 +13,7 @@ export const getters={
   modelCategoryList:(state)=>state.modelCategoryList,
   workLogsHistory:(state)=>state.workLogsHistory,
   temporaryTable: (state)=>state.temporaryTable,
+  totals: (state)=>state.totals,
 }
 
 export const mutations={
@@ -29,7 +31,10 @@ export const mutations={
   },
   setTemporaryTable(state,list){
     state.temporaryTable=list
-  }
+  },
+  setTotals(state,list){
+    state.totals=list
+  },
 }
 
 export const actions={
@@ -75,6 +80,15 @@ export const actions={
     this.$axios.get(`/api/v1/work-logs/history/${employeeId}`)
     .then((res)=>{
       commit("setWorkLogsHistory",res.data.data)
+    })
+    .catch((res)=>{
+      console.log(res);
+    })
+  },
+  getTotals({commit}, modelId){
+    this.$axios.get(`/api/v1/work-logs/total/${modelId}`)
+    .then((res)=>{
+      commit("setTotals",res.data.data)
     })
     .catch((res)=>{
       console.log(res);
