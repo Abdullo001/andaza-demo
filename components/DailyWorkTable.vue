@@ -30,7 +30,7 @@
               :key="`td-${opIdx}`"
               class="p0"
             >
-              <div class="h-100 d-flex align-center">
+              <div class="h-100 d-flex align-center tooltipBox" >
                 <input
                   type="text"
                   :value="operation.quantity"
@@ -39,9 +39,19 @@
                   @keypress="onlyNumbers"
                   :ref="`input-${idx}-${opIdx}`"
                   :disabled="workLogsInfo.isFinished"
-                  class="cell"
+                  @focus="showTooltip(idx, opIdx)"
+                  @blur="hideTooltip(idx, opIdx)"
+                  :class="`cell ${footer[opIdx]?.difference>0&&operation.quantity?'error-border':''} ${footer[opIdx]?.difference>0?'error-outline':''}`"
                   placeholder="0"
                 />
+                <div
+                  v-if="tooltipVisible[idx][opIdx]"
+                  :class="`tooltip ${footer[opIdx]?.difference<=0?'green-tooltip':'red-tooltip'}`"
+                >
+                  <span v-if="footer[opIdx]?.difference<0">{{ `${moneyFormatter(Math.abs(footer[opIdx]?.difference),true)} ta kiritishingiz mumkin` }}</span>
+                  <span v-if="footer[opIdx]?.difference>0">{{ `${moneyFormatter(Math.abs(footer[opIdx]?.difference),true)} ta rejalashtirilgandan oshib ketdi` }}</span>
+                  <span v-if="footer[opIdx]?.difference==0">{{ `Reja bo'yicha bajarildi` }}</span>
+                </div>
               </div>
             </td>
             <td>{{  moneyFormatter(item.total, true) }}</td>
@@ -63,6 +73,29 @@
             </td>
           </tr>
         </tbody>
+        <tfoot>
+          <tr class="text-center">
+            <td  class="sticky-column" style="border-right: 0;"></td>
+            <td class="sticky-column" style="border-left: 0;">Total in fact</td>
+            <td v-for="(item, idx) in footer" :key="idx" :class="`th-text`" >
+              {{ moneyFormatter(item.factQuantity, true) }}
+            </td>
+          </tr>
+          <tr class="text-center">
+            <td  class="sticky-column" style="border-right: 0;"></td>
+            <td class="sticky-column" style="border-left: 0;">Total in planned quantity</td>
+            <td v-for="(item, idx) in footer" :key="idx" :class="`th-text`" >
+              {{ moneyFormatter(item.plannedQuantity, true) }}
+            </td>
+          </tr>
+          <tr class="text-center">
+            <td  class="sticky-column" style="border-right: 0;"></td>
+            <td class="sticky-column" style="border-left: 0;">Total in difference</td>
+            <td v-for="(item, idx) in footer" :key="idx" :class="`th-text`" >
+              {{ moneyFormatter(item.difference, true) }}
+            </td>
+          </tr>
+        </tfoot>
       </v-simple-table>
       <div class="d-flex mt-4 mr-4">
         <v-spacer />
@@ -95,6 +128,9 @@ export default {
         { text: "No.", value: "id", sortable: false },
         { text: "Employes fullname", value: "fullName", sortable: false },
       ],
+      footer: [
+        { text: "Jami ishlar soni:", value: "total", sortable: false },
+      ],
       historyDialog:false,
       historyList:[],
       historyHeaders:[
@@ -105,7 +141,8 @@ export default {
         {text:"Created by",value:"createdBy",sortable:false},
       ],
       savedTable:[],
-      loading:true
+      loading:true,
+      tooltipVisible: [],
     };
   },
   computed: {
@@ -115,15 +152,25 @@ export default {
       modelCategoryList: "dailyWorkTable/modelCategoryList",
       workLogsHistory: "dailyWorkTable/workLogsHistory",
       temporaryTable: "dailyWorkTable/temporaryTable",
-    }),
-    totalOperationsSum() {
-      return this.mainList.map(item => ({
-        ...item,
-        total: this.sumAllOperation(item.operations),
-      }));
-    }
+      totals: "dailyWorkTable/totals",
+    })
   },
   watch: {
+    totals(val){
+      this.footer = []
+      const temp = JSON.parse(JSON.stringify(val));
+      this.sortByIdOrder(this.modelCategoryList,temp).forEach((item) => {
+        const obj = {
+          plannedQuantity: item.plannedQuantity,
+          factQuantity: item.factQuantity,
+          factQuantityBase: item.factQuantity,
+          operationId: item.modelOperationId,
+          difference: item.difference,
+          diffBase: item.difference,
+        };
+        this.footer.push(obj)
+      });
+    },
     workLogsHistory(newList){
       this.historyList=newList.map(item => {
         return {
@@ -142,6 +189,8 @@ export default {
         const obj = {
           text: item.modelOperationName,
           value: item.modelOperationName,
+          operationId: item.modelOperationId,
+          amount: item.amount,
           sortable: false,
         };
         this.headers.push(obj);
@@ -155,12 +204,14 @@ export default {
         employee.operations = employee.operations.length>0 ? employee.operations : JSON.parse(JSON.stringify(list));
       });
       this.loading=false
-
     },
-    workLogsInfo(val) {
-      this.getModelCategoryList(val.modelCategoryId);
+    async workLogsInfo(val) {
+      await this.getModelCategoryList(val.modelCategoryId).then(() => {
+        this.getTotals(this.$route.params.id);
+      });
     },
     listOfWorkers(list) {
+      this.tooltipVisible = list.map(() => []);
       const hasSavedTable = this.savedTable.length === list.length;
       this.mainList = list.map((item, idx) => ({
         fullName: `${item.lastName} ${item.firstName}`,
@@ -176,7 +227,17 @@ export default {
       getModelCategoryList: "dailyWorkTable/getModelCategoryList",
       getWorkLogsHistory: "dailyWorkTable/getWorkLogsHistory",
       saveDailyWorkLogs: "dailyWorkTable/saveDailyWorkLogs",
+      getTotals: "dailyWorkTable/getTotals",
     }),
+    sortByIdOrder(referenceArray, targetArray) {
+      const idOrder = referenceArray.map(item => item.id);
+
+      const sortedArray = targetArray.sort((a, b) => {
+        return idOrder.indexOf(a.id) - idOrder.indexOf(b.id);
+      });
+
+      return sortedArray;
+    },
     handleKeydown(event, rowIdx, colIdx) {
       const key = event.key;
       let newRow = rowIdx;
@@ -238,6 +299,14 @@ export default {
         ...this.mainList[idx],
         total: this.sumAllOperation(this.mainList[idx].operations),
       });
+      const totalColumn = this.columnTotal(opIdx);
+      this.$set(this.footer, opIdx, {
+        ...this.footer[opIdx],
+        difference: parseInt(this.footer[opIdx].diffBase, 10) + totalColumn,
+        factQuantity: parseInt(this.footer[opIdx].factQuantityBase, 10) + totalColumn,
+
+      });
+
       this.$nextTick(() => {
         const input = event.target;
         input.selectionStart = input.selectionEnd = value.length;
@@ -249,6 +318,11 @@ export default {
         event.preventDefault();
       }
     },
+    columnTotal(idx) {
+      return this.mainList.reduce((acc, item) => {
+        return acc + (item.operations[idx].quantity ? this.cleanQuantity(item.operations[idx].quantity) : 0);
+      }, 0);
+    },
     dataChecker(arr){
       return arr.some(employee => {
         const temp = employee.operations.filter(operation => operation.quantity);
@@ -257,7 +331,13 @@ export default {
         }
         return false;
       });
-    }
+    },
+    showTooltip(idx, opIdx) {
+      this.$set(this.tooltipVisible[idx], opIdx, true);
+    },
+    hideTooltip(idx, opIdx) {
+      this.$set(this.tooltipVisible[idx], opIdx, false);
+    },
   },
   created(){
     this.savedTable=JSON.parse(JSON.stringify(this.temporaryTable))
@@ -353,5 +433,52 @@ table {
   &:focus{
     outline-color: #544B99;
   }
+}
+.error-outline{
+  &:focus{
+    outline-color: #FF0000;
+  }
+}
+.error-border{
+  border: 2px solid #FF0000;
+  border-radius: 4px;
+}
+.v-data-table table tfoot
+{
+	position: sticky;
+  z-index: 5;
+	bottom: 0;
+	background: #FFF;
+}
+.tooltipBox {
+  position: relative !important;
+  display: inline-block;
+}
+.tooltip {
+  position: absolute;
+  z-index: 5;
+  top: -30px;
+  left: 0;
+  right: 0;
+  width: 250px;
+  background-color: #333;
+  color: #fff;
+  padding: 5px 8px;
+  height: 30px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+.red-tooltip {
+  background-color: red;
+}
+.green-tooltip {
+  background-color: green;
 }
 </style>
