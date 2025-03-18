@@ -40,10 +40,10 @@
         </v-card-title>
       </template>
       <template #item.process="{item}">
-        {{ $t(`planningProduction.process.${item.process.toLowerCase()}`) }}
+        {{ item.process?$t(`planningProduction.process.${item.process.toLowerCase()}`):'' }}
       </template>
       <template #item.workshopType="{item}">
-        {{ $t(`planningProduction.workShopType.${item.workshopType.toLowerCase()}`) }}
+        {{ item.workshopType?$t(`planningProduction.workShopType.${item.workshopType.toLowerCase()}`):'' }}
       </template>
       <template #item.totalPrice="{item}">
         {{ item.totalPrice.toLocaleString() }}
@@ -327,7 +327,7 @@ export default {
       this.$store.commit('cuttingProcess/setPlanningProcessId', item.id)
       const id = this.$route.params.id;
       const isConfirm=item.isConfirmed??false
-      const process=item.process.toLowerCase().replace('_', '-');
+      const process=item.process?item.process.toLowerCase().replace('_', '-'):'';
       this.$store.commit('subcontracts/setPlanningProcessId', item.id)
       this.$store.commit('commonProcess/setPlanningProcessId', item.id)
       this.$store.commit('commonProcess/setIsConfirm',{isConfirm:item.isConfirmed,time: new Date()})
