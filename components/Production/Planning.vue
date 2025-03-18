@@ -87,6 +87,7 @@
                   append-icon="mdi-chevron-down"
                   :placeholder="$t('planningProduction.planning.selectWorkingProcess')"
                   v-model="new_process.process"
+                  :rules="[formRules.required]"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -288,6 +289,8 @@ export default {
       deleteProcessing: 'production/planning/deleteProcessing',
     }),
     async saveProcessing() {
+      const validate = await this.$refs.processing.validate();
+      if (!validate) return;
       if (this.title === "add") {
         this.new_process.productionId = this.productionId;
         let item={}
@@ -307,7 +310,9 @@ export default {
       this.warningState=false
     },
 
-    createProcess(){
+    async createProcess(){
+      const validate = await this.$refs.processing.validate();
+      if (!validate) return;
       if(this.lastItem?.status==="Finished"|| !this.lastItem){
         this.saveProcessing()
       } else {
