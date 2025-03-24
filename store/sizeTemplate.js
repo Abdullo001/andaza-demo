@@ -96,7 +96,7 @@ export const actions = {
     name=name??""
     await this.$axios.get(`/api/v1/size-templates?page=${page}&size=${size}&name=${name}`)
       .then(res => {
-        commit('setSizeTemplate', res.data.data);        
+        commit('setSizeTemplate', res.data.data);
         commit('setLoading', false);
       })
       .catch(({response}) => {

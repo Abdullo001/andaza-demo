@@ -542,11 +542,13 @@ export default {
 
     accessoryData(item) {
       this.accessoryDetail = JSON.parse(JSON.stringify(item));
+      this.accessoryDetail.orderDeadline = this.formatLong(item.orderDeadline)
     },
 
     OneData(val) {
       this.getImages(val.modelId);
       this.accessoryDetail = JSON.parse(JSON.stringify(val));
+      this.accessoryDetail.orderDeadline = this.formatLong(val.orderDeadline)
     },
   },
 

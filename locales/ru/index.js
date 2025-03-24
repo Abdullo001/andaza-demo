@@ -2634,9 +2634,9 @@ export default {
  calculationStatus:{
     costSubtotal: "Начальная себестоимость",
     overproduction: "Избыточное производство %",
-    lostResource: "Потерянные ресурсы %",
-    generalExpenses: "Общие затраты %",
-    extraExpenses: "Дополнительные затраты %",
+    lostResource: "Расходы на зарплату %",
+    generalExpenses: "Коммунальные расходы/Амортизация %",
+    extraExpenses: "Расходы периода %",
     costPrice: "Себестоимость",
     targetProfit: "Планируемая прибыль %",
     clientTargetPrice: "Целевая цена клиента",

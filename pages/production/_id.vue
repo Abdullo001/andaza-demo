@@ -405,6 +405,8 @@ export default {
     modelInfo(val) {
       this.getImages(val?.modelId);
       this.planning = JSON.parse(JSON.stringify(val))
+      this.planning.deadline = this.formatLong(val.deadline)
+
     },
     modelImages(val) {
       this.model_images = JSON.parse(JSON.stringify(val))
