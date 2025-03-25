@@ -1631,6 +1631,7 @@ export default {
         soldPrice: data[13].firstCurrency,
         givenPriceCurrency: "USD",
         preFinanceId: this.preFinanceId,
+        actualProfitPercent: data[11].editable,
       };
       data.forEach((item) => {
         body[item.key] = {

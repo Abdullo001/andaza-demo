@@ -755,14 +755,14 @@ export default {
       this.getAccessoryList({page:0,size:10,name:val});
     },
     "create_accessory_chart.quantityPerUnit"(val){
-      if(/^\d+$/.test(val)){
+      if(/^\d+(\.\d+)?$/.test(val)){
         this.create_accessory_chart.countedAccessoryQuantity=Math.ceil(this.oneOrder.totalQuantityWithOverProduction/val)
       }else{
         this.create_accessory_chart.countedAccessoryQuantity=null
       }
     },
     "create_accessory_chart.wastage"(val){
-      if(/^\d+$/.test(val) && /^\d+$/.test(this.create_accessory_chart.countedAccessoryQuantity)){
+      if(/^\d+(\.\d+)?$/.test(val) && /^\d+$/.test(this.create_accessory_chart.countedAccessoryQuantity)){
         this.create_accessory_chart.wastageWithPercent=Math.ceil(this.create_accessory_chart.countedAccessoryQuantity*(1+val/100))
       }else{
         this.create_accessory_chart.wastageWithPercent=null
