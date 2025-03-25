@@ -182,7 +182,7 @@ export default {
         },
         { text: "Color", value: "color", sortable: false },
         { text: "Weight/Kg", value: "weight", sortable: false },
-        { text: "Wastes name", value: "wastesName", sortable: false },
+        { text: "Wastes name", value: "name", sortable: false },
         { text: "Actions", value: "action", sortable: false },
       ],
 
