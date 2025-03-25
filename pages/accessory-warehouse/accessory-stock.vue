@@ -4,106 +4,213 @@
       <v-form lazy-validation v-model="valid_search" ref="filter_form">
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
           <v-col cols="12" lg="2" md="2">
-            <v-text-field :label="$t('accessoryWarehouse.accessoryName')" outlined class="rounded-lg filter" v-model.trim="filters.accessoryName"
-              hide-details dense @keydown.enter="filterData" />
+            <v-text-field
+              :label="$t('accessoryWarehouse.accessoryName')"
+              outlined
+              class="rounded-lg filter"
+              v-model.trim="filters.accessoryName"
+              hide-details
+              dense
+              @keydown.enter="filterData"
+            />
           </v-col>
           <v-col cols="12" lg="2" md="2">
-            <v-text-field :label="$t('accessoryWarehouse.modelNumber')" outlined class="rounded-lg filter" v-model.trim="filters.modelNumber"
-              hide-details dense @keydown.enter="filterData" />
+            <v-text-field
+              :label="$t('accessoryWarehouse.modelNumber')"
+              outlined
+              class="rounded-lg filter"
+              v-model.trim="filters.modelNumber"
+              hide-details
+              dense
+              @keydown.enter="filterData"
+            />
           </v-col>
           <v-col cols="12" lg="2" md="2">
-            <v-text-field :label="$t('accessoryWarehouse.supplierName')" outlined class="rounded-lg filter" v-model.trim="filters.supplierName"
-              hide-details dense @keydown.enter="filterData" />
+            <v-text-field
+              :label="$t('accessoryWarehouse.supplierName')"
+              outlined
+              class="rounded-lg filter"
+              v-model.trim="filters.supplierName"
+              hide-details
+              dense
+              @keydown.enter="filterData"
+            />
           </v-col>
           <v-spacer />
           <v-col cols="12" lg="4">
             <div class="d-flex justify-end">
-              <v-btn width="140" outlined color="#544B99" elevation="0" class="text-capitalize mr-4 rounded-lg"
-                @click.stop="resetFilters">
-               {{ $t('accessoryWarehouse.reset') }}
+              <v-btn
+                width="140"
+                outlined
+                color="#544B99"
+                elevation="0"
+                class="text-capitalize mr-4 rounded-lg"
+                @click.stop="resetFilters"
+              >
+                {{ $t("accessoryWarehouse.reset") }}
               </v-btn>
-              <v-btn width="140" color="#544B99" dark elevation="0" class="text-capitalize rounded-lg"
-                @click="filterData">
-                {{ $t('accessoryWarehouse.search') }}
+              <v-btn
+                width="140"
+                color="#544B99"
+                dark
+                elevation="0"
+                class="text-capitalize rounded-lg"
+                @click="filterData"
+              >
+                {{ $t("accessoryWarehouse.search") }}
               </v-btn>
             </div>
           </v-col>
         </v-row>
       </v-form>
     </v-card>
-    <v-data-table class="mt-4 rounded-lg pt-4" :headers="headers" :items="current_list" :items-per-page="10"
+    <v-data-table
+      class="mt-4 rounded-lg pt-4"
+      :headers="headers"
+      :items="current_list"
+      :items-per-page="10"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100],
-      }">
+      }"
+    >
       <template #top>
         <v-toolbar elevation="0">
-          <v-toolbar-title class="d-flex w-full align-center justify-space-between">
-            <div> {{ $t('accessoryWarehouse.accessoryStock') }}</div>
+          <v-toolbar-title
+            class="d-flex w-full align-center justify-space-between"
+          >
+            <div>{{ $t("accessoryWarehouse.accessoryStock") }}</div>
             <div>
               <v-btn
                 color="#544B99"
                 outlined
                 elevation="0"
                 class="text-capitalize rounded-lg font-weight-bold"
-                @click="()=>{getStockAccessoryPdf();  isLoad=true}"
+                @click="
+                  () => {
+                    getStockAccessoryPdf();
+                    isLoad = true;
+                  }
+                "
                 :loading="isLoad"
               >
-                {{ $t('production.oneSort.generatePdf') }}
+                {{ $t("production.oneSort.generatePdf") }}
               </v-btn>
-            <v-btn color="#544B99" dark class="text-capitalize rounded-lg" @click="addArrivedAccessoryStock">
-              <v-icon>mdi-plus</v-icon>
-             {{ $t('accessoryWarehouse.addAccessoryStock')}}
-            </v-btn>
+              <v-btn
+                color="#544B99"
+                dark
+                class="text-capitalize rounded-lg"
+                @click="addArrivedAccessoryStock"
+              >
+                <v-icon>mdi-plus</v-icon>
+                {{ $t("accessoryWarehouse.addAccessoryStock") }}
+              </v-btn>
             </div>
           </v-toolbar-title>
         </v-toolbar>
       </template>
-      <template #item.accessoryPhoto="{item}">
+      <template #item.accessoryPhoto="{ item }">
         <v-img
-        :src="item?.filePath"
-        class="mr-2"
-        width="40"
-        height="40"
-        @click="showImage(item.filePath)"
-      />
+          :src="item?.filePath"
+          class="mr-2"
+          width="40"
+          height="40"
+          @click="showImage(item.filePath)"
+        />
+      </template>
+      <template #item.sizes="{ item }">
+        <table style="width: 100% !important">
+          <thead>
+            <tr>
+              <th
+                class="mr-2"
+                v-for="(el, idx) in item.sizeDistributions"
+                :key="`${el.size}-${idx}`"
+              >
+                {{ el.size }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                v-for="(el, idx) in item.sizeDistributions"
+                :key="`${el.size}` + `${idx}`"
+              >
+                {{ el.quantity }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </template>
       <template #item.actions="{ item }">
-          <div class="d-flex">
-          <v-tooltip top color="#544B99" class="pointer" v-if="Object.keys(item).length > 2">
+        <div class="d-flex">
+          <v-tooltip
+            top
+            color="#544B99"
+            class="pointer"
+            v-if="Object.keys(item).length > 2"
+          >
             <template #activator="{ on, attrs }">
-              <v-btn icon v-bind="attrs" v-on="on" color="#544B99" @click="workshopFunc(item)">
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+                color="#544B99"
+                @click="workshopFunc(item)"
+              >
                 <v-img src="/cut-icon.svg" max-width="22" />
               </v-btn>
             </template>
-            <span class="text-capitalize">{{$t('warehouseId.workShop')}}</span>
+            <span class="text-capitalize">{{
+              $t("warehouseId.workShop")
+            }}</span>
           </v-tooltip>
-          <v-tooltip top color="#544B99" class="pointer" v-if="Object.keys(item).length > 2">
+          <v-tooltip
+            top
+            color="#544B99"
+            class="pointer"
+            v-if="Object.keys(item).length > 2"
+          >
             <template #activator="{ on, attrs }">
-              <v-btn icon v-bind="attrs" v-on="on" color="#544B99" @click="subcontractorFunc(item)">
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+                color="#544B99"
+                @click="subcontractorFunc(item)"
+              >
                 <v-img src="/bag-icon.svg" max-width="22" />
               </v-btn>
             </template>
-            <span class="text-capitalize">{{$t('warehouseId.subcontractor')}}</span>
+            <span class="text-capitalize">{{
+              $t("warehouseId.subcontractor")
+            }}</span>
           </v-tooltip>
           <v-tooltip top color="#544B99">
-            <template #activator="{ on, attrs }" >
+            <template #activator="{ on, attrs }">
               <v-btn
                 icon
                 class="ml-2"
                 :href="item.documentPath"
-                :download="`Document.${item.extension}`"
+                :download="`Document.pdf`"
                 :disabled="!item.documentPath"
                 v-on="on"
                 target="_blank"
                 v-bind="attrs"
                 @click.stop
               >
-                <v-img src="/download.svg"
-                :style="{ filter: item.documentPath ? 'none' : 'grayscale(100%) opacity(0.5)' }"
-                max-width="24" />
+                <v-img
+                  src="/download.svg"
+                  :style="{
+                    filter: item.documentPath
+                      ? 'none'
+                      : 'grayscale(100%) opacity(0.5)',
+                  }"
+                  max-width="24"
+                />
               </v-btn>
             </template>
-            <span>{{$t('prefinances.child.download')}}</span>
+            <span>{{ $t("prefinances.child.download") }}</span>
           </v-tooltip>
           <v-btn icon color="green" @click="editItem(item)">
             <v-img src="/edit-active.svg" max-width="22" />
@@ -118,7 +225,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
-          {{ $t('accessoryWarehouse.accessoryStock') }}
+            {{ $t("accessoryWarehouse.accessoryStock") }}
           </div>
           <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -128,59 +235,70 @@
           <v-form ref="new_form" v-model="new_validate" lazy-validation>
             <v-row>
               <v-col cols="12" lg="6">
-                <div class="label">   {{ $t('accessoryWarehouse.orderNumber') }}</div>
+                <div class="label">
+                  {{ $t("accessoryWarehouse.orderNumber") }}
+                </div>
                 <v-text-field
-                v-model="arrivedAccessoryStock.orderNumber"
-                outlined
-                hide-details
-                dense
-                class="rounded-lg base"
-                :placeholder="$t('accessoryWarehouse.orderNumber')"
-                color="#544B99" />
+                  v-model="arrivedAccessoryStock.orderNumber"
+                  outlined
+                  hide-details
+                  dense
+                  class="rounded-lg base"
+                  :placeholder="$t('accessoryWarehouse.orderNumber')"
+                  color="#544B99"
+                />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">{{ $t('accessoryWarehouse.modelNumber') }}</div>
+                <div class="label">
+                  {{ $t("accessoryWarehouse.modelNumber") }}
+                </div>
                 <v-text-field
-                v-model="arrivedAccessoryStock.modelNumber"
-                outlined
-                hide-details
-                class="rounded-lg base"
-                height="44"
-                dense
-                color="#544B99"
-                :placeholder=" $t('accessoryWarehouse.modelNumber')" />
+                  v-model="arrivedAccessoryStock.modelNumber"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
+                  height="44"
+                  dense
+                  color="#544B99"
+                  :placeholder="$t('accessoryWarehouse.modelNumber')"
+                />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">{{  $t('accessoryWarehouse.accessoryName') }}</div>
+                <div class="label">
+                  {{ $t("accessoryWarehouse.accessoryName") }}
+                </div>
                 <v-text-field
-                :rules="[formRules.required]"
-                v-model="arrivedAccessoryStock.accessoryName"
-                outlined
-                hide-details
-                class="rounded-lg base"
-                height="44"
-                dense
-                color="#544B99"
-                :placeholder=" $t('accessoryWarehouse.accessoryName')" />
+                  :rules="[formRules.required]"
+                  v-model="arrivedAccessoryStock.accessoryName"
+                  outlined
+                  hide-details
+                  class="rounded-lg base"
+                  height="44"
+                  dense
+                  color="#544B99"
+                  :placeholder="$t('accessoryWarehouse.accessoryName')"
+                />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">{{  $t('accessoryWarehouse.supplierName') }}</div>
+                <div class="label">
+                  {{ $t("accessoryWarehouse.supplierName") }}
+                </div>
                 <v-combobox
-                v-model="arrivedAccessoryStock.supplierId"
-                :search-input.sync="partnerName"
-                :items="partnerLists"
-                item-text="name"
-                item-value="id"
-                outlined
-                hide-details
-                height="44"
-                class="rounded-lg base"
-                :return-object="true"
-                color="#544B99"
-                dense
-                :placeholder=" $t('accessoryWarehouse.supplierName')"
-                append-icon="mdi-chevron-down"
-                validate-on-blur
+                  v-model="arrivedAccessoryStock.supplierId"
+                  :search-input.sync="partnerName"
+                  :items="partnerLists"
+                  item-text="name"
+                  item-value="id"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  :return-object="true"
+                  color="#544B99"
+                  dense
+                  :placeholder="$t('accessoryWarehouse.supplierName')"
+                  append-icon="mdi-chevron-down"
+                  validate-on-blur
                 >
                   <template #append>
                     <v-icon color="#544B99">mdi-magnify</v-icon>
@@ -188,71 +306,139 @@
                 </v-combobox>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">{{  $t('accessoryWarehouse.accessorySpecification') }}</div>
+                <div class="label">
+                  {{ $t("accessoryWarehouse.accessorySpecification") }}
+                </div>
                 <v-text-field
-                :rules="[formRules.required]"
-                v-model="arrivedAccessoryStock.specification"
-                outlined
-                hide-details
-                dense
-                class="rounded-lg base"
-                :placeholder="  $t('accessoryWarehouse.accessorySpecification')"
-                color="#544B99" />
-              </v-col>
-              <v-col cols="12" lg="6">
-                <div class="label">{{   $t('accessoryWarehouse.remainingQuantity') }}</div>
-                <div class="d-flex align-center">
-                  <v-text-field
-                  height="44"
-                  class="rounded-lg base rounded-l-lg rounded-r-0"
-                  color="#544B99"
-                  v-model="arrivedAccessoryStock.remainingQuantity"
+                  :rules="[formRules.required]"
+                  v-model="arrivedAccessoryStock.specification"
                   outlined
                   hide-details
                   dense
-                  :placeholder="$t('accessoryWarehouse.remainingQuantity')" />
+                  class="rounded-lg base"
+                  :placeholder="$t('accessoryWarehouse.accessorySpecification')"
+                  color="#544B99"
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <div class="label">
+                  {{ $t("accessoryWarehouse.remainingQuantity") }}
+                </div>
+                <div class="d-flex align-center">
+                  <v-text-field
+                    height="44"
+                    class="rounded-lg base rounded-l-lg rounded-r-0"
+                    color="#544B99"
+                    v-model="arrivedAccessoryStock.remainingQuantity"
+                    outlined
+                    hide-details
+                    dense
+                    :placeholder="$t('accessoryWarehouse.remainingQuantity')"
+                  />
                   <v-select
-                  :items="measurementUnitList"
+                    :items="measurementUnitList"
+                    item-text="name"
+                    item-value="id"
+                    style="max-width: 100px"
+                    dense
+                    v-model="arrivedAccessoryStock.measurementUnitId"
+                    outlined
+                    hide-details
+                    height="44"
+                    class="rounded-lg base rounded-r-lg rounded-l-0"
+                    validate-on-blur
+                    placeholder="M/U"
+                    append-icon="mdi-chevron-down"
+                    color="#544B99"
+                    place
+                  />
+                </div>
+              </v-col>
+              <v-col cols="12" lg="6">
+                <div class="label">
+                  {{ $t("accessoryWarehouse.pricePerUnit") }}
+                </div>
+                <div class="d-flex align-center">
+                  <v-text-field
+                    height="44"
+                    class="rounded-lg base rounded-l-lg rounded-r-0"
+                    color="#544B99"
+                    v-model="arrivedAccessoryStock.pricePerUnit"
+                    outlined
+                    hide-details
+                    dense
+                    :placeholder="$t('accessoryWarehouse.pricePerUnit')"
+                  />
+                  <v-select
+                    :items="priceEnums"
+                    style="max-width: 100px"
+                    dense
+                    v-model="arrivedAccessoryStock.pricePerUnitCurrency"
+                    outlined
+                    hide-details
+                    height="44"
+                    class="rounded-lg base rounded-r-lg rounded-l-0"
+                    validate-on-blur
+                    placeholder="P/U"
+                    append-icon="mdi-chevron-down"
+                    color="#544B99"
+                    place
+                  />
+                </div>
+              </v-col>
+              <v-col cols="6" class="d-flex align-center">
+                <v-simple-checkbox
+                  color="#544B99"
+                  v-model="withSizes"
+                ></v-simple-checkbox>
+                <div class="">Quantity by Sizes</div>
+              </v-col>
+            </v-row>
+            <v-row v-show="withSizes">
+              <v-col cols="12">
+                <div class="label">Size template</div>
+                <v-combobox
+                  :disabled="this.title === 'Edit'"
+                  v-model="arrivedAccessoryStock.sizeTemplate"
+                  :search-input.sync="sizeTemplateSearch"
+                  :items="sizeTemplate"
                   item-text="name"
                   item-value="id"
-                  style="max-width: 100px"
-                  dense
-                  v-model="arrivedAccessoryStock.measurementUnitId"
                   outlined
                   hide-details
                   height="44"
-                  class="rounded-lg base rounded-r-lg rounded-l-0"
-                  validate-on-blur
-                  placeholder="M/U"
-                  append-icon="mdi-chevron-down" color="#544B99" place />
-                </div>
-              </v-col>
-              <v-col cols="12" lg="6">
-                <div class="label">{{ $t('accessoryWarehouse.pricePerUnit') }}</div>
-                <div class="d-flex align-center">
-                  <v-text-field
-                  height="44"
-                  class="rounded-lg base rounded-l-lg rounded-r-0"
+                  class="rounded-lg base"
+                  :return-object="true"
                   color="#544B99"
-                  v-model="arrivedAccessoryStock.pricePerUnit"
-                  outlined
-                  hide-details
                   dense
-                  :placeholder="$t('accessoryWarehouse.pricePerUnit')" />
-                  <v-select
-                  :items="priceEnums"
-                  style="max-width: 100px"
-                  dense
-                  v-model="arrivedAccessoryStock.pricePerUnitCurrency"
+                  placeholder="Select size template"
+                  append-icon="mdi-chevron-down"
+                  validate-on-blur
+                >
+                  <template #append>
+                    <v-icon color="#544B99">mdi-magnify</v-icon>
+                  </template>
+                </v-combobox>
+              </v-col>
+              <v-col v-for="(item,idx) in sizesList" :key="idx" cols="3">
+                <div class="label">{{ item.size }}</div>
+                <v-text-field
+                  v-model="item.quantity"
+                  :rules="[formRules.onlyNumber, formRules.required]"
+                  single-line
                   outlined
                   hide-details
                   height="44"
-                  class="rounded-lg base rounded-r-lg rounded-l-0"
                   validate-on-blur
-                  placeholder="P/U"
-                  append-icon="mdi-chevron-down" color="#544B99" place />
-                </div>
+                  dense
+                  class="rounded-lg base"
+                  color="#544B99"
+                  background-color="#F8F4FE"
+                  placeholder="0"
+                />
               </v-col>
+            </v-row>
+            <v-row>
               <v-col cols="12">
                 <div class="text-body-1 font-weight-medium mb-3">
                   {{ $t("partners.dialog.uploadContract") }}
@@ -298,72 +484,83 @@
             </v-row>
             <v-row>
               <v-col cols="6">
-                <div class="big__image overflow-hidden relative " >
+                <div class="big__image overflow-hidden relative">
                   <input
                     ref="uploaderFirst"
                     class="d-none"
                     type="file"
-                    @change="(e)=>firstFileChanged(e)"
+                    @change="(e) => firstFileChanged(e)"
                     accept="image/*"
                   />
 
                   <div class="update__icon" v-if="!!files[0].file">
                     <v-btn color="green" icon @click="getFile('first')">
-                      <v-img src="/upload-green.svg" max-width="22"/>
+                      <v-img src="/upload-green.svg" max-width="22" />
                     </v-btn>
                     <v-btn color="green" icon @click="deleteFile('first')">
-                      <v-img src="/trash-red.svg" max-width="22"/>
+                      <v-img src="/trash-red.svg" max-width="22" />
                     </v-btn>
                   </div>
 
                   <v-img
                     :src="images[0].photo"
                     lazy-src="/model-image.jpg"
-                    v-if="!!files[0].file" width="100%"
+                    v-if="!!files[0].file"
+                    width="100%"
                     @click="showImage(images[0].photo)"
                   />
 
                   <div class="default__box" v-else>
-                    <v-img src="/default-image.svg" width="70"/>
-                    <v-btn text color="#5570F1" class="rounded-lg mt-6 my-4" @click="getFile('first')">
-                      <v-img src="/upload.svg" class="mr-2"/>
-                      <div class="text-capitalize upload-text">Upload Image</div>
+                    <v-img src="/default-image.svg" width="70" />
+                    <v-btn
+                      text
+                      color="#5570F1"
+                      class="rounded-lg mt-6 my-4"
+                      @click="getFile('first')"
+                    >
+                      <v-img src="/upload.svg" class="mr-2" />
+                      <div class="text-capitalize upload-text">
+                        Upload Image
+                      </div>
                     </v-btn>
                     <div class="default__text">
                       <p>Upload a cover image for your product.</p>
                     </div>
                   </div>
-
                 </div>
               </v-col>
             </v-row>
-            </v-form>
+          </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
           <v-btn
-          class="rounded-lg text-capitalize font-weight-bold"
-          outlined
-          color="#544B99"
-          width="163"
-          @click="new_dialog = false">
-          {{$t('userManagement.dialog.cancel')}}
+            class="rounded-lg text-capitalize font-weight-bold"
+            outlined
+            color="#544B99"
+            width="163"
+            @click="new_dialog = false"
+          >
+            {{ $t("userManagement.dialog.cancel") }}
           </v-btn>
           <v-btn
-          v-if="title === 'New'"
-          class="rounded-lg text-capitalize ml-4 font-weight-bold"
-          color="#544B99"
-          dark
-          width="163"
-          @click="saveArrivedAccessoryStock">
-            {{$t('userManagement.child.save')}}
+            v-if="title === 'New'"
+            class="rounded-lg text-capitalize ml-4 font-weight-bold"
+            color="#544B99"
+            dark
+            width="163"
+            @click="saveArrivedAccessoryStock"
+          >
+            {{ $t("userManagement.child.save") }}
           </v-btn>
           <v-btn
-          v-else
-          class="rounded-lg text-capitalize ml-4 font-weight-bold"
-          color="#544B99"
-          dark width="163"
-          @click="editArrivedAccessoryStock">
-            {{$t('userManagement.child.edit')}}
+            v-else
+            class="rounded-lg text-capitalize ml-4 font-weight-bold"
+            color="#544B99"
+            dark
+            width="163"
+            @click="editArrivedAccessoryStock"
+          >
+            {{ $t("userManagement.child.edit") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -373,7 +570,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
-           {{$t('warehouseId.accessoryGivingWork')}}
+            {{ $t("warehouseId.accessoryGivingWork") }}
           </div>
           <v-btn icon color="#544B99" @click="workshop_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -381,10 +578,16 @@
         </v-card-title>
 
         <v-card-text class="mt-4">
-          <v-form ref="workshop_form" v-model="workshop_validate" lazy-validation>
+          <v-form
+            ref="workshop_form"
+            v-model="workshop_validate"
+            lazy-validation
+          >
             <v-row>
-             <v-col cols="12">
-                <div class="label">{{ $t('planningProduction.dialog.modelNumber') }}</div>
+              <v-col cols="12">
+                <div class="label">
+                  {{ $t("planningProduction.dialog.modelNumber") }}
+                </div>
                 <v-combobox
                   v-model="workshop.modelNumber"
                   :items="modelsList"
@@ -411,42 +614,59 @@
               </v-col>
 
               <v-col cols="12">
-                <div class="label">{{ $t('sidebar.process') }}</div>
+                <div class="label">{{ $t("sidebar.process") }}</div>
                 <v-select
-                append-icon="mdi-chevron-down"
-                v-model="workshop.process"
-                :rules="[formRules.required]"
-                :items="processes"
-                hide-details color="#544B99"
-                class="base rounded-lg"
-                rounded
-                outlined
-                dense
-                :placeholder="$t('sidebar.process')" />
+                  append-icon="mdi-chevron-down"
+                  v-model="workshop.process"
+                  :rules="[formRules.required]"
+                  :items="processes"
+                  hide-details
+                  color="#544B99"
+                  class="base rounded-lg"
+                  rounded
+                  outlined
+                  dense
+                  :placeholder="$t('sidebar.process')"
+                />
               </v-col>
 
               <v-col cols="12">
-                <div class="label">{{ $t('spending.givingFabricQuantity') }}</div>
+                <div class="label">
+                  {{ $t("spending.givingFabricQuantity") }}
+                </div>
                 <v-text-field
-                :rules="[formRules.required]"
-                v-model="workshop.givingQuantity"
-                outlined hide-details dense
-                class="rounded-lg base"
-                :placeholder="$t('spending.givingFabricQuantity') "
-                color="#544B99"
-                :suffix="workshop.measurement" />
+                  :rules="[formRules.required]"
+                  v-model="workshop.givingQuantity"
+                  outlined
+                  hide-details
+                  dense
+                  class="rounded-lg base"
+                  :placeholder="$t('spending.givingFabricQuantity')"
+                  color="#544B99"
+                  :suffix="workshop.measurement"
+                />
               </v-col>
             </v-row>
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
-          <v-btn class="rounded-lg text-capitalize font-weight-bold" outlined color="#544B99" width="130"
-            @click="workshop_dialog = false">
-              {{$t('userManagement.dialog.cancel')}}
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            outlined
+            color="#544B99"
+            width="130"
+            @click="workshop_dialog = false"
+          >
+            {{ $t("userManagement.dialog.cancel") }}
           </v-btn>
-          <v-btn class="rounded-lg text-capitalize ml-4 font-weight-bold" color="#544B99" dark width="130"
-            @click="workshopSureFunc">
-             {{$t('userManagement.child.save')}}
+          <v-btn
+            class="rounded-lg text-capitalize ml-4 font-weight-bold"
+            color="#544B99"
+            dark
+            width="130"
+            @click="workshopSureFunc"
+          >
+            {{ $t("userManagement.child.save") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -456,7 +676,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
-          {{$t('warehouseId.accessoryGivingSub')}}
+            {{ $t("warehouseId.accessoryGivingSub") }}
           </div>
           <v-btn icon color="#544B99" @click="subcontractor_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -464,10 +684,16 @@
         </v-card-title>
 
         <v-card-text class="mt-4">
-          <v-form ref="subcontractor_form" v-model="subcontractor_validate" lazy-validation>
+          <v-form
+            ref="subcontractor_form"
+            v-model="subcontractor_validate"
+            lazy-validation
+          >
             <v-row>
               <v-col cols="12">
-                <div class="label">{{ $t('planningProduction.dialog.modelNumber') }}</div>
+                <div class="label">
+                  {{ $t("planningProduction.dialog.modelNumber") }}
+                </div>
                 <v-combobox
                   v-model="subcontractor.modelNumber"
                   :items="modelsList"
@@ -482,7 +708,7 @@
                   class="rounded-lg filter d-flex align-center justify-center mr-2"
                   :return-object="true"
                   dense
-                  :placeholder=" $t('planningProduction.dialog.modelNumber') "
+                  :placeholder="$t('planningProduction.dialog.modelNumber')"
                   prepend-icon=""
                 >
                   <template #append>
@@ -494,22 +720,26 @@
               </v-col>
 
               <v-col cols="12">
-                <div class="label">{{$t('sidebar.process')}}</div>
+                <div class="label">{{ $t("sidebar.process") }}</div>
                 <v-select
-                append-icon="mdi-chevron-down"
-                v-model="subcontractor.process"
-                :rules="[formRules.required]"
-                :items="processes"
-                hide-details color="#544B99"
-                class="base rounded-lg"
-                rounded
-                outlined
-                dense
-                :placeholder="$t('sidebar.process')" />
+                  append-icon="mdi-chevron-down"
+                  v-model="subcontractor.process"
+                  :rules="[formRules.required]"
+                  :items="processes"
+                  hide-details
+                  color="#544B99"
+                  class="base rounded-lg"
+                  rounded
+                  outlined
+                  dense
+                  :placeholder="$t('sidebar.process')"
+                />
               </v-col>
 
               <v-col cols="12">
-                <div class="label">{{$t('orderBox.modelPrint.partnerName')}}</div>
+                <div class="label">
+                  {{ $t("orderBox.modelPrint.partnerName") }}
+                </div>
                 <v-combobox
                   v-model="subcontractor.partnerId"
                   :rules="[formRules.required]"
@@ -535,29 +765,42 @@
               </v-col>
 
               <v-col cols="12">
-                <div class="label">{{$t('spending.givingFabricQuantity')}} </div>
+                <div class="label">
+                  {{ $t("spending.givingFabricQuantity") }}
+                </div>
                 <v-text-field
-                :rules="[formRules.required]"
-                v-model="subcontractor.givingQuantity"
-                outlined
-                hide-details
-                dense
-                class="rounded-lg base"
-                :placeholder="$t('spending.givingFabricQuantity')"
-                color="#544B99"
-                :suffix="subcontractor.measurement" />
+                  :rules="[formRules.required]"
+                  v-model="subcontractor.givingQuantity"
+                  outlined
+                  hide-details
+                  dense
+                  class="rounded-lg base"
+                  :placeholder="$t('spending.givingFabricQuantity')"
+                  color="#544B99"
+                  :suffix="subcontractor.measurement"
+                />
               </v-col>
             </v-row>
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-center pb-8">
-          <v-btn class="rounded-lg text-capitalize font-weight-bold" outlined color="#544B99" width="130"
-            @click="subcontractor_dialog = false">
-               {{$t('userManagement.dialog.cancel')}}
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            outlined
+            color="#544B99"
+            width="130"
+            @click="subcontractor_dialog = false"
+          >
+            {{ $t("userManagement.dialog.cancel") }}
           </v-btn>
-          <v-btn class="rounded-lg text-capitalize ml-4 font-weight-bold" color="#544B99" dark width="130"
-            @click="subcontractorSureFunc">
-             {{$t('userManagement.child.save')}}
+          <v-btn
+            class="rounded-lg text-capitalize ml-4 font-weight-bold"
+            color="#544B99"
+            dark
+            width="130"
+            @click="subcontractorSureFunc"
+          >
+            {{ $t("userManagement.child.save") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -568,19 +811,32 @@
         <div class="d-flex justify-center mb-2">
           <v-img src="/error-icon.svg" max-width="40" />
         </div>
-        <v-card-title class="d-flex justify-center">{{ $t('warehouseId.deleteStock') }}</v-card-title>
+        <v-card-title class="d-flex justify-center">{{
+          $t("warehouseId.deleteStock")
+        }}</v-card-title>
         <v-card-text>
-          {{ $t('warehouseId.wantToDelete') }}
+          {{ $t("warehouseId.wantToDelete") }}
         </v-card-text>
         <v-card-actions class="px-16">
-          <v-btn outlined class="rounded-lg text-capitalize font-weight-bold" color="#777C85" width="140"
-            @click.stop="delete_dialog = false">
-              {{$t('userManagement.dialog.cancel')}}
+          <v-btn
+            outlined
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#777C85"
+            width="140"
+            @click.stop="delete_dialog = false"
+          >
+            {{ $t("userManagement.dialog.cancel") }}
           </v-btn>
           <v-spacer />
-          <v-btn class="rounded-lg text-capitalize font-weight-bold" color="#FF4E4F" width="140" elevation="0" dark
-            @click="deleteItem">
-            {{ $t('userManagement.child.delete') }}
+          <v-btn
+            class="rounded-lg text-capitalize font-weight-bold"
+            color="#FF4E4F"
+            width="140"
+            elevation="0"
+            dark
+            @click="deleteItem"
+          >
+            {{ $t("userManagement.child.delete") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -594,7 +850,7 @@
           >Are you sure ?</v-card-title
         >
         <v-card-text>
-         You want to giving the current accessory to this model ?
+          You want to giving the current accessory to this model ?
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -629,7 +885,7 @@
           >Are you sure ?</v-card-title
         >
         <v-card-text>
-         You want to giving the current accessory to this model ?
+          You want to giving the current accessory to this model ?
         </v-card-text>
         <v-card-actions class="px-16">
           <v-btn
@@ -656,15 +912,15 @@
       </v-card>
     </v-dialog>
     <v-dialog max-width="590" v-model="image_dialog">
-      <v-card >
+      <v-card>
         <v-card-title class="d-flex">
-          <v-spacer/>
+          <v-spacer />
           <v-btn icon color="#544B99" large @click="image_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-card-text>
-          <v-img :src="currentImage" height="500" class="mb-4" contain/>
+          <v-img :src="currentImage" height="500" class="mb-4" contain />
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -676,46 +932,92 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
-      isLoad:false,
+      isLoad: false,
       headers: [
-        { text: this.$t('accessoryWarehouse.orderNumber'), value: "orderNumber", sortable: false },
-        { text: this.$t('accessoryWarehouse.modelNumber'), value: "modelNumber", sortable: false },
-        { text: this.$t('accessoryWarehouse.accessoryName'), value: "accessoryName", sortable: false },
-        { text:  this.$t('accessoryWarehouse.accessorySpecification'), value: "specification", sortable: false, width: 200 },
-        { text:  this.$t('accessoryWarehouse.accessoryPhoto'), value: "accessoryPhoto" },
-        { text:  this.$t('accessoryWarehouse.supplierName'), value: "supplierName", sortable: false },
-        { text:  this.$t('accessoryWarehouse.remainingQuantity'), value: "remainingQuantity", sortable: false },
+        {
+          text: this.$t("accessoryWarehouse.orderNumber"),
+          value: "orderNumber",
+          sortable: false,
+        },
+        {
+          text: this.$t("accessoryWarehouse.modelNumber"),
+          value: "modelNumber",
+          sortable: false,
+        },
+        {
+          text: this.$t("accessoryWarehouse.accessoryName"),
+          value: "accessoryName",
+          sortable: false,
+        },
+        {
+          text: this.$t("accessoryWarehouse.accessorySpecification"),
+          value: "specification",
+          sortable: false,
+          width: 200,
+        },
+        {
+          text: this.$t("accessoryWarehouse.accessoryPhoto"),
+          value: "accessoryPhoto",
+          sortable: false,
+        },
+        {
+          text: this.$t("accessoryWarehouse.supplierName"),
+          value: "supplierName",
+          sortable: false,
+        },
+        {
+          text: "Sizes",
+          value: "sizes",
+          sortable: false,
+          width: 200,
+          align: "center",
+        },
+        {
+          text: this.$t("accessoryWarehouse.remainingQuantity"),
+          value: "remainingQuantity",
+          sortable: false,
+        },
         { text: "M/U", value: "measurementUnit", sortable: false },
-        { text: this.$t('accessoryWarehouse.pricePerUnit'), value: "pricePerUnit", sortable: false, align: "center" },
-        { text: this.$t('accessoryWarehouse.totalPrice'), value: "totalPrice", sortable: false },
-        { text: this.$t('accessoryWarehouse.action'), value: "actions", sortable: false, align: "center" },
+        {
+          text: this.$t("accessoryWarehouse.pricePerUnit"),
+          value: "pricePerUnit",
+          sortable: false,
+          align: "center",
+        },
+        {
+          text: this.$t("accessoryWarehouse.totalPrice"),
+          value: "totalPrice",
+          sortable: false,
+        },
+        {
+          text: this.$t("accessoryWarehouse.action"),
+          value: "actions",
+          sortable: false,
+          align: "center",
+        },
+      ],
+      withSizes: false,
+
+      files: [
+        { file: null, id: null },
+        { file: null, id: null },
+        { file: null, id: null },
+        { file: null, id: null },
       ],
 
-      files:[
-        {file:null,id:null},
-        {file:null,id:null},
-        {file:null,id:null},
-        {file:null,id:null},
-      ],
+      images: [{ photo: "" }, { photo: "" }, { photo: "" }, { photo: "" }],
 
-      images:[
-        {photo:""},
-        {photo:""},
-        {photo:""},
-        {photo:""},
-      ],
-
-      enums: [ "TPX", "TCX", "TPG", "C", "MELANGE" ],
-      priceEnums: [ "USD", "UZS", "RUB" ],
-      processes: [ "SEWING", "PACKAGING" ],
-      currentImage:"",
+      enums: ["TPX", "TCX", "TPG", "C", "MELANGE"],
+      priceEnums: ["USD", "UZS", "RUB"],
+      processes: ["SEWING", "PACKAGING"],
+      currentImage: "",
       valid_search: "",
       title: "",
       partnerName: "",
       new_validate: true,
       workshop_validate: true,
       subcontractor_validate: true,
-      image_dialog:false,
+      image_dialog: false,
       new_dialog: false,
       workshopSure_dialog: false,
       subcontractorSure_dialog: false,
@@ -725,6 +1027,7 @@ export default {
       arrivedAccessoryStock: {
         modelNumber: "",
         orderNumber: "",
+        sizeTemplate: null
       },
 
       workshop: {
@@ -753,20 +1056,41 @@ export default {
       modelNumbers: [],
       modelNumSearch: "",
       current_list: [],
+      sizeTemplateSearch:'',
+      sizesList: [],
     };
   },
 
   computed: {
-    ...mapGetters( {
+    ...mapGetters({
       accessoryStockList: "accessoryStock/accessoryStockList",
       partnerLists: "partners/partnerList",
       modelsList: "models/modelsList",
       measurementUnitList: "measurement/measurementUnit",
       pdfList: "generatePdf/pdfData",
-    } ),
+      sizeTemplate: "sizeTemplate/size_template",
+    }),
   },
 
   watch: {
+    new_dialog(val){
+      if(!val){
+        this.$refs.new_form.reset()
+        this.withSizes = false
+        this.sizesList = []
+      }
+    },
+    "arrivedAccessoryStock.sizeTemplate"(val) {
+      if (!!val) {
+        this.sizesList = val.sizes.map((item) => ({
+          size: item,
+          quantity: null,
+        }));
+      }
+    },
+    sizeTemplateSearch(val) {
+      this.getSizeTemplateList({ page: 0, size: 10, name: val });
+    },
     pdfList(val) {
       const blob = new Blob(
         [new Uint8Array([...val].map((char) => char.charCodeAt(0)))],
@@ -779,15 +1103,13 @@ export default {
       a.click();
       this.isLoad = false;
     },
-    accessoryStockList( val ) {
-      this.current_list = JSON.parse( JSON.stringify( val ) );
+    accessoryStockList(val) {
+      this.current_list = JSON.parse(JSON.stringify(val));
     },
-    partnerName( val ) {
-
-      this.getPartnerList({page:0, size:10,partnerName:val});
-
+    partnerName(val) {
+      this.getPartnerList({ page: 0, size: 10, partnerName: val });
     },
-    "arrivedAccessoryStock.measurementUnitId"( id ) {
+    "arrivedAccessoryStock.measurementUnitId"(id) {
       this.arrivedAccessoryStock.measurementUnitId = id;
     },
     "workshop.modelNumber"(val) {
@@ -810,7 +1132,7 @@ export default {
   },
 
   created() {
-    this.getPartnerList({size:10, page:0});
+    this.getPartnerList({ size: 10, page: 0 });
     this.getMeasurementUnit();
     this.getModelsList({
       page: 0,
@@ -819,10 +1141,11 @@ export default {
       partner: "",
       status: "ACTIVE",
     });
+    this.getSizeTemplateList({page: 0, size: 10});
   },
 
   methods: {
-    ...mapActions( {
+    ...mapActions({
       getAccessoryStockList: "accessoryStock/getAccessoryStockList",
       createAccessoryStock: "accessoryStock/createAccessoryStock",
       updateAccessoryStock: "accessoryStock/updateAccessoryStock",
@@ -830,49 +1153,53 @@ export default {
       setAccessoryStockToWorkshop: "accessoryStock/setAccessoryStockToWorkshop",
       setAccessoryStockToSubcontract:
         "accessoryStock/setAccessoryStockToSubcontract",
-        getPartnerList: "partners/getPartnerList",
+      getPartnerList: "partners/getPartnerList",
       getModelsList: "models/getModelsList",
       getMeasurementUnit: "measurement/getMeasurementUnit",
-      getStockAccessoryPdf:"generatePdf/getStockAccessoryPdf"
-    } ),
+      getStockAccessoryPdf: "generatePdf/getStockAccessoryPdf",
+      getSizeTemplateList: "sizeTemplate/getSizeTemplateList",
+    }),
 
     firstFileChanged(e) {
       this.files[0].file = e.target.files[0];
       this.images[0].photo = URL.createObjectURL(this.files[0].file);
-      if(!!this.files[0].id){
-        this.fileRequests[0].file=e.target.files[0]
-        this.fileRequests[0].id=this.files[0].id
+      if (!!this.files[0].id) {
+        this.fileRequests[0].file = e.target.files[0];
+        this.fileRequests[0].id = this.files[0].id;
       }
     },
 
     getFile(count) {
       switch (count) {
-        case 'first':
+        case "first":
           return this.$refs.uploaderFirst.click();
-        case 'second':
+        case "second":
           return this.$refs.uploaderSecond.click();
-        case 'third':
+        case "third":
           return this.$refs.uploaderThird.click();
-        case 'fourth':
+        case "fourth":
           return this.$refs.uploaderFourth.click();
       }
     },
 
     deleteFile(count) {
       switch (count) {
-        case 'first':
+        case "first":
           this.files[0].file = null;
           break;
-        case 'second':
+        case "second":
           this.files[1].file = null;
           break;
-        case 'third':
+        case "third":
           this.files[2].file = null;
 
           break;
-        case 'fourth':
+        case "fourth":
           this.files[3].file = null;
-          this.deleteImages({id:this.files[3].id,modelId:this.$route.params.id})
+          this.deleteImages({
+            id: this.files[3].id,
+            modelId: this.$route.params.id,
+          });
           break;
       }
     },
@@ -882,7 +1209,7 @@ export default {
       this.image_dialog = true;
     },
 
-    loadDetails( { item } ) {
+    loadDetails({ item }) {
       // current opened || choose object ^
     },
 
@@ -905,116 +1232,133 @@ export default {
     },
 
     async saveArrivedAccessoryStock() {
-    if(this.title === "New") {
-      const validate = this.$refs.new_form.validate();
-      const {
-        specification,
-        accessoryName,
-        modelNumber,
-        orderNumber,
-        pricePerUnit,
-        pricePerUnitCurrency,
-        measurementUnitId,
-        remainingQuantity,
-        supplierId,
-      } = this.arrivedAccessoryStock
-      if (validate) {
-        const file=this.docList[0]
-        const formData= new FormData()
-        formData.append("accessoryName", accessoryName),
-        formData.append("measurementUnitId", measurementUnitId),
-        formData.append("modelNumber", modelNumber),
-        formData.append("orderNumber", orderNumber),
-        formData.append("pricePerUnit", pricePerUnit),
-        formData.append("pricePerUnitCurrency", pricePerUnitCurrency),
-        formData.append("remainingQuantity", remainingQuantity),
-        formData.append("specification", specification),
-        formData.append("supplierId", supplierId?.id)
-        if(!!this.files[0]?.file){
-          formData.append("file",this.files[0]?.file)
+      if (this.title === "New") {
+        const validate = this.$refs.new_form.validate();
+        const {
+          specification,
+          accessoryName,
+          modelNumber,
+          orderNumber,
+          pricePerUnit,
+          pricePerUnitCurrency,
+          measurementUnitId,
+          remainingQuantity,
+          supplierId,
+
+        } = this.arrivedAccessoryStock;
+        if (validate) {
+          const file = this.docList[0];
+          const formData = new FormData();
+          formData.append("accessoryName", accessoryName),
+            formData.append("measurementUnitId", measurementUnitId),
+            formData.append("modelNumber", modelNumber),
+            formData.append("orderNumber", orderNumber),
+            formData.append("pricePerUnit", pricePerUnit),
+            formData.append("pricePerUnitCurrency", pricePerUnitCurrency),
+            formData.append("remainingQuantity", remainingQuantity),
+            formData.append("specification", specification),
+            formData.append("supplierId", supplierId?.id);
+          if (!!this.files[0]?.file) {
+            formData.append("file", this.files[0]?.file);
+          }
+          if (!!file) {
+            formData.append("document", file);
+          }
+          if (this.withSizes) {
+            this.sizesList.forEach((item,idx) => {
+              formData.append(`sizeDistributions[${idx}].size`, item.size);
+              formData.append(`sizeDistributions[${idx}].quantity`, item.quantity??0);
+            });
+          }
+          await this.createAccessoryStock({ data: formData });
+          await this.$refs.new_form.reset();
         }
-        if(!!file){
-          formData.append("document", file)
-        }
-        await this.createAccessoryStock({ data: formData });
-        await this.$refs.new_form.reset();
+        this.new_dialog = false;
+        this.withSizes = false;
+        this.sizesList = [];
       }
-      this.new_dialog = false;
-    }
     },
 
-    editItem( item ) {
+    editItem(item) {
       this.title = "Edit";
       this.arrivedAccessoryStock = { ...item };
-      this.images[0].photo=""
-      if(!!item.filePath){
-        this.images[0].photo=item.filePath
+      this.images[0].photo = "";
+      if (!!item.filePath) {
+        this.images[0].photo = item.filePath;
       }
-      if(!!item.filePath){
-          this.files[0].file = item.filePath
+      if (!!item.filePath) {
+        this.files[0].file = item.filePath;
       }
       this.arrivedAccessoryStock.measurementUnitId = item.measurementUnitId;
-      this.arrivedAccessoryStock.pricePerUnitCurrency = item.pricePerUnit.split( " " )[ 1 ];
-      this.arrivedAccessoryStock.pricePerUnit = item.pricePerUnit.split( " " )[ 0 ];
+      this.arrivedAccessoryStock.pricePerUnitCurrency =
+        item.pricePerUnit.split(" ")[1];
+      this.arrivedAccessoryStock.pricePerUnit = item.pricePerUnit.split(" ")[0];
       this.arrivedAccessoryStock.supplierId = {
         id: item.supplierId,
         name: item.supplierName,
       };
+      this.withSizes = !!item.sizeDistributions.length;
+      if (this.withSizes) {
+        this.sizesList = item.sizeDistributions.map((item) => ({
+          size: item.size,
+          quantity: item.quantity,
+        }));
+      }
       this.new_dialog = true;
     },
 
     async editArrivedAccessoryStock() {
       if (this.title === "Edit") {
-      const edit_validate = this.$refs.new_form.validate();
-      const {
-        specification,
-        accessoryName,
-        modelNumber,
-        orderNumber,
-        id,
-        pricePerUnit,
-        pricePerUnitCurrency,
-        measurementUnitId,
-        remainingQuantity,
-        supplierId,
-      } = this.arrivedAccessoryStock
-      if (edit_validate) {
-        const file=this?.docList[0]
-        const formData= new FormData()
-        formData.append("accessoryName", accessoryName),
-        formData.append("measurementUnitId", measurementUnitId),
-        formData.append("modelNumber", modelNumber),
-        formData.append("orderNumber", orderNumber),
-        formData.append("pricePerUnit", pricePerUnit),
-        formData.append("pricePerUnitCurrency", pricePerUnitCurrency),
-        formData.append("id", id),
-        formData.append("pricePerUnitCurrency", pricePerUnitCurrency)
-        if(!!this.files[0]?.file){
-          formData.append("file", this.files[0]?.file)
+        const edit_validate = this.$refs.new_form.validate();
+        const {
+          specification,
+          accessoryName,
+          modelNumber,
+          orderNumber,
+          id,
+          pricePerUnit,
+          pricePerUnitCurrency,
+          measurementUnitId,
+          remainingQuantity,
+          supplierId,
+        } = this.arrivedAccessoryStock;
+        if (edit_validate) {
+          const file = this?.docList[0];
+          const formData = new FormData();
+          formData.append("accessoryName", accessoryName),
+            formData.append("measurementUnitId", measurementUnitId),
+            formData.append("modelNumber", modelNumber),
+            formData.append("orderNumber", orderNumber),
+            formData.append("pricePerUnit", pricePerUnit),
+            formData.append("pricePerUnitCurrency", pricePerUnitCurrency),
+            formData.append("id", id),
+            formData.append("pricePerUnitCurrency", pricePerUnitCurrency);
+          if (!!this.files[0]?.file) {
+            formData.append("file", this.files[0]?.file);
+          }
+          if (!!file) {
+            formData.append("document", file);
+          }
+          formData.append("remainingQuantity", remainingQuantity),
+            formData.append("specification", specification),
+            formData.append("supplierId", supplierId.id),
+            await this.updateAccessoryStock({ data: formData });
         }
-        if(!!file){
-          formData.append("document", file)
-        }
-        formData.append("remainingQuantity", remainingQuantity),
-        formData.append("specification", specification),
-        formData.append("supplierId", supplierId.id),
-        await this.updateAccessoryStock( { data: formData } );
-      }
-      this.new_dialog = false;
+        this.new_dialog = false;
       }
     },
 
-    getDeleteItem( item ) {
+    getDeleteItem(item) {
       this.deletedId = item.id;
       this.delete_dialog = true;
     },
 
     deleteItem() {
-      this.deleteAccessoryStock( this.deletedId );
+      this.deleteAccessoryStock(this.deletedId);
       this.delete_dialog = false;
     },
 
-    workshopFunc( item ) {
+    workshopFunc(item) {
       this.workshop_dialog = true;
       this.workshop.id = item.id;
       this.workshop.modelId = item.modelId;
@@ -1030,7 +1374,7 @@ export default {
         givingQuantity: this.workshop.givingQuantity,
         process: this.workshop.process,
       };
-      this.setAccessoryStockToWorkshop( data );
+      this.setAccessoryStockToWorkshop(data);
       await this.$refs.workshop_form.reset();
     },
 
@@ -1039,12 +1383,12 @@ export default {
       this.workshop_dialog = false;
     },
 
-    async subcontractorFunc( item ) {
+    async subcontractorFunc(item) {
       this.subcontractor_dialog = true;
       this.subcontractor.id = item.id;
       this.subcontractor.process = item.process;
       this.subcontractor.givingQuantity = item.givingQuantity;
-      this.modelNumbers = [ ...item.modelNumber.split( "/" ) ];
+      this.modelNumbers = [...item.modelNumber.split("/")];
     },
 
     async saveSubcontractor() {
@@ -1056,41 +1400,39 @@ export default {
         partnerId: this.subcontractor.partnerId.id,
         process: this.subcontractor.process,
       };
-      this.setAccessoryStockToSubcontract( data );
+      this.setAccessoryStockToSubcontract(data);
       await this.$refs.subcontractor_form.reset();
     },
 
-    subcontractorSureFunc(){
+    subcontractorSureFunc() {
       this.subcontractorSure_dialog = true;
       this.subcontractor_dialog = false;
     },
 
     filterData() {
-      this.getAccessoryStockList( {
+      this.getAccessoryStockList({
         accessoryName: this.filters.accessoryName,
         modelNumber: this.filters.modelNumber,
         supplierName: this.filters.supplierName,
-      } );
+      });
     },
     async resetFilters() {
-      await this.getAccessoryStockList( {
+      await this.getAccessoryStockList({
         accessoryName: "",
         modelNumber: "",
         supplierName: "",
-      } );
+      });
       await this.$refs.filter_form.reset();
     },
   },
 
   mounted() {
-    this.getAccessoryStockList( {
+    this.getAccessoryStockList({
       accessoryName: "",
       modelNumber: "",
       supplierName: "",
-    } );
+    });
   },
 };
 </script>
-<style lang="scss" scoped>
-
-</style>
+<style></style>
