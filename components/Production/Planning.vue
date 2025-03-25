@@ -40,10 +40,10 @@
         </v-card-title>
       </template>
       <template #item.process="{item}">
-        {{ $t(`planningProduction.process.${item.process.toLowerCase()}`) }}
+        {{ item.process?$t(`planningProduction.process.${item.process.toLowerCase()}`):'' }}
       </template>
       <template #item.workshopType="{item}">
-        {{ $t(`planningProduction.workShopType.${item.workshopType.toLowerCase()}`) }}
+        {{ item.workshopType?$t(`planningProduction.workShopType.${item.workshopType.toLowerCase()}`):'' }}
       </template>
       <template #item.totalPrice="{item}">
         {{ item.totalPrice.toLocaleString() }}
@@ -87,6 +87,7 @@
                   append-icon="mdi-chevron-down"
                   :placeholder="$t('planningProduction.planning.selectWorkingProcess')"
                   v-model="new_process.process"
+                  :rules="[formRules.required]"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -288,6 +289,8 @@ export default {
       deleteProcessing: 'production/planning/deleteProcessing',
     }),
     async saveProcessing() {
+      const validate = await this.$refs.processing.validate();
+      if (!validate) return;
       if (this.title === "add") {
         this.new_process.productionId = this.productionId;
         let item={}
@@ -307,7 +310,9 @@ export default {
       this.warningState=false
     },
 
-    createProcess(){
+    async createProcess(){
+      const validate = await this.$refs.processing.validate();
+      if (!validate) return;
       if(this.lastItem?.status==="Finished"|| !this.lastItem){
         this.saveProcessing()
       } else {
@@ -327,7 +332,7 @@ export default {
       this.$store.commit('cuttingProcess/setPlanningProcessId', item.id)
       const id = this.$route.params.id;
       const isConfirm=item.isConfirmed??false
-      const process=item.process.toLowerCase().replace('_', '-');
+      const process=item.process?item.process.toLowerCase().replace('_', '-'):'';
       this.$store.commit('subcontracts/setPlanningProcessId', item.id)
       this.$store.commit('commonProcess/setPlanningProcessId', item.id)
       this.$store.commit('commonProcess/setIsConfirm',{isConfirm:item.isConfirmed,time: new Date()})

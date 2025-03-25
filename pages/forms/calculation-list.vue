@@ -61,11 +61,11 @@
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="filters.fromDate"
-                  type="datetime"
+                  type="date"
                   style="width: 100%; height: 100%"
                   placeholder="dd.MM.yyyy HH:mm:ss"
                   :picker-options="pickerShortcuts"
-                  value-format="dd.MM.yyyy HH:mm:ss"
+                  value-format="timestamp"
                 >
                 </el-date-picker>
               </div>
@@ -75,11 +75,11 @@
               <div style="height: 40px !important">
                 <el-date-picker
                   v-model="filters.toDate"
-                  type="datetime"
+                  type="date"
                   style="width: 100%; height: 100%"
                   placeholder="dd.MM.yyyy HH:mm:ss"
                   :picker-options="pickerShortcuts"
-                  value-format="dd.MM.yyyy HH:mm:ss"
+                  value-format="timestamp"
                 >
                 </el-date-picker>
               </div>
@@ -306,15 +306,13 @@ export default {
     },
     filter() {
       const data = {
-        clientName: !!this.filters.clientName?.name
-          ? this.filters.clientName?.name
-          : "",
-        country: !!this.filters.country?.name ? this.filters.country?.name : "",
-        creatorId: this.filters.creatorId?.id ? this.filters.creatorId?.id : 0,
-        fromDate: !!this.filters.fromDate ? this.filters.fromDate : null,
-        gender: this.filters.gender,
-        season: this.filters.season,
-        toDate: !!this.filters.toDate ? this.filters.toDate : null,
+        clientId: this.filters.clientName?.id || null,
+        countryId: this.filters.country?.id || null,
+        creatorId: this.filters.creatorId?.id || null,
+        from: this.filters.fromDate || null,
+        gender: this.filters.gender || null,
+        season: this.filters.season || null,
+        to: this.filters.toDate || null,
       };
       this.getPdfList(data);
       this.isLoad = true;

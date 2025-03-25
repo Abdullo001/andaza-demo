@@ -149,7 +149,7 @@
       </template>
     </v-data-table>
 
-    <v-dialog v-model="new_dialog" width="580">
+    <v-dialog v-model="new_dialog" width="800">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
@@ -205,7 +205,6 @@
                   outlined
                   hide-details
                   class="rounded-lg base"
-                  height="44"
                   dense
                   color="#544B99"
                   :placeholder=" $t('fabricStockBox.modelNumber')"
@@ -222,7 +221,6 @@
                   item-value="id"
                   outlined
                   hide-details
-                  height="44"
                   class="rounded-lg base"
                   :return-object="true"
                   color="#544B99"
@@ -267,10 +265,35 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
+                <div class="label">Width</div>
+                <v-text-field
+                  :rules="[formRules.required]"
+                  v-model="arrivedFabricStock.width"
+                  outlined
+                  hide-details
+                  dense
+                  class="rounded-lg base"
+                  :placeholder="$t('fabricStockBox.width')"
+                  color="#544B99"
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <div class="label">Density</div>
+                <v-text-field
+                  :rules="[formRules.required]"
+                  v-model="arrivedFabricStock.density"
+                  outlined
+                  hide-details
+                  dense
+                  class="rounded-lg base"
+                  :placeholder="$t('fabricStockBox.density')"
+                  color="#544B99"
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('fabricStockBox.pantone')  }}</div>
                 <div class="d-flex align-center">
                   <v-text-field
-                    height="44"
                     class="rounded-lg base rounded-l-lg rounded-r-0"
                     color="#544B99"
                     v-model="arrivedFabricStock.pantoneCode"
@@ -286,7 +309,6 @@
                     v-model="arrivedFabricStock.pantoneType"
                     outlined
                     hide-details
-                    height="44"
                     class="rounded-lg base rounded-r-lg rounded-l-0"
                     validate-on-blur
                     placeholder=""
@@ -299,8 +321,7 @@
                 <div class="label">{{ $t('fabricStockBox.remainingQuantity') }}</div>
                 <div class="d-flex align-center">
                   <v-text-field
-                    height="44"
-                    class="rounded-lg base rounded-l-lg"
+                    class="rounded-lg base rounded-l-lg rounded-r-0"
                     color="#544B99"
                     v-model="arrivedFabricStock.remainingQuantity"
                     outlined
@@ -308,13 +329,26 @@
                     dense
                     :placeholder=" $t('fabricStockBox.remainingQuantity') "
                   />
+                  <v-select
+                    v-model="arrivedFabricStock.measurementUnitId"
+                    append-icon="mdi-chevron-down"
+                    class="rounded-lg base rounded-r-lg rounded-l-0"
+                    color="#544B99"
+                    :items="measurementUnitList"
+                    item-text="name"
+                    item-value="id"
+                    dense
+                    hide-details
+                    outlined
+                    style="max-width: 100px"
+                    validate-on-blur
+                  />
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
                 <div class="label">{{  $t('fabricStockBox.pricePerUnit') }}</div>
                 <div class="d-flex align-center">
                   <v-text-field
-                    height="44"
                     class="rounded-lg base rounded-l-lg rounded-r-0"
                     color="#544B99"
                     v-model="arrivedFabricStock.pricePerUnit"
@@ -327,10 +361,9 @@
                     :items="priceEnums"
                     style="max-width: 100px"
                     dense
-                    v-model="arrivedFabricStock.pricePerUnitCurrency"
+                    v-model="arrivedFabricStock.currency"
                     outlined
                     hide-details
-                    height="44"
                     class="rounded-lg base rounded-r-lg rounded-l-0"
                     validate-on-blur
                     placeholder=""
@@ -817,7 +850,7 @@ export default {
         { text:this.$t('fabricWarehouse.batchNumber'), value: "batchNumber", sortable: false },
         { text: this.$t('fabricWarehouse.orderNumber'), value: "orderNumber", sortable: false },
         { text: this.$t('prefinances.child.modelNumber'), value: "modelNumber", sortable: false },
-        { text: this.$t('samplesBox.sampleTabs.fabricSupplierName'), value: "supplierName", sortable: false },
+        { text: this.$t('samplesBox.sampleTabs.fabricSupplierName'), value: "supplier", sortable: false },
         { text: this.$t('fabricWarehouse.fabricSpecification'), value: "fabricSpecification", sortable: false, width: 200 },
         { text: this.$t('fabricWarehouse.color'), value: "color", sortable: false },
         { text: this.$t('fabricWarehouse.remainingQuantity'), value: "remainingQuantity", sortable: false },
@@ -893,6 +926,7 @@ export default {
       partnerList: "fabricStock/partnerList",
       modelsList: "models/modelsList",
       processDetails: "fabricStock/processDetails",
+      measurementUnitList: "measurement/measurementUnit",
     }),
   },
 
@@ -954,6 +988,7 @@ export default {
       partner: "",
       status: "ACTIVE",
     });
+    this.getMeasurementUnit();
   },
 
   methods: {
@@ -970,6 +1005,7 @@ export default {
       getPartnerListFunc: "fabricStock/getPartnerList",
       getModelsList: "models/getModelsList",
       getFabricProcessDetails: "fabricStock/getFabricProcessDetails",
+      getMeasurementUnit: "measurement/getMeasurementUnit",
     }),
     loadDetails({ item }) {
 
@@ -1009,8 +1045,8 @@ export default {
         item.pricePerUnit.split(" ")[1];
       this.arrivedFabricStock.pricePerUnit = item.pricePerUnit.split(" ")[0];
       this.arrivedFabricStock.supplierId = {
-        id: item.id,
-        name: item.supplierName,
+        id: item.supplierId,
+        name: item.supplier,
       };
       this.new_dialog = true;
     },
@@ -1020,7 +1056,6 @@ export default {
         batchNumber: this.arrivedFabricStock.batchNumber,
         modelNumber: this.arrivedFabricStock.modelNumber,
         pantoneType: this.arrivedFabricStock.pantoneType,
-        pricePerUnitCurrency: this.arrivedFabricStock.pricePerUnitCurrency,
         supplierId: this.arrivedFabricStock.supplierId.id,
         sipNumber: this.arrivedFabricStock.sipNumber,
         orderNumber: this.arrivedFabricStock.orderNumber,
@@ -1028,10 +1063,13 @@ export default {
         colorId: this.arrivedFabricStock.colorId,
         pantoneCode: this.arrivedFabricStock.pantoneCode,
         remainingQuantity: this.arrivedFabricStock.remainingQuantity,
-        pricePerUnit: this.arrivedFabricStock.pricePerUnit.split(" ")[0],
-        id: this.arrivedFabricStock.id,
+        pricePerUnit: this.arrivedFabricStock.pricePerUnit,
+        measurementUnitId: this.arrivedFabricStock.measurementUnitId,
+        currency: this.arrivedFabricStock.currency,
+        width: this.arrivedFabricStock.width,
+        density: this.arrivedFabricStock.density,
       };
-      this.updateFabricStock(data);
+      this.updateFabricStock({data, id: this.arrivedFabricStock.id});
       this.new_dialog = false;
     },
 

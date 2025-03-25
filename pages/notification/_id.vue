@@ -142,14 +142,13 @@
                   class="rounded-lg base mb-8"
                   height="44"
                   hide-details
-                  :rules="[formRules.required]"
                 />
                 <div class="label">Message body</div>
                 <quill-editor v-model="selectedItem.body" :options="editorOptions" class="bg-white p-2 rounded shadow-md" />
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="12" lg="12" v-if="selectedItem.type==='DOCUMENT'">
+              <v-col cols="12" lg="12" v-if="selectedItem.type==='DOCUMENT'&&$route.params.id==='add-notification'">
                 <div class="label">Upload document</div>
                 <v-file-input
                   outlined
@@ -167,6 +166,11 @@
                   :rules="[formRules.required]"
                 />
               </v-col>
+              <v-col cols="12" lg="12" v-if="selectedItem.type==='DOCUMENT'&&$route.params.id!=='add-notification'">
+                <div class="label">Upload document</div>
+                <v-btn :href="selectedItem.file" target="_blank" color="#544B99" outlined>Download document</v-btn>
+              </v-col>
+
               <v-col v-if="selectedItem.type==='PHOTO'" cols="12" lg="12">
                 <ImageUploader :label="`Upload photo`" v-model="selectedItem.file"/>
               </v-col>
@@ -440,6 +444,9 @@ export default {
     notification(val){
       this.selectedItem.body=val.body
       this.selectedItem.title=val.title
+      this.selectedItem.type=val.type
+      this.selectedItem.file=val.file
+
       val.channels.forEach((item)=>{
         switch(item){
           case "PUSH":
@@ -499,8 +506,8 @@ export default {
 
 
       const formData = new FormData();
-      formData.append("body", this.selectedItem.body);
-      formData.append("title", this.selectedItem.title);
+      formData.append("body", this.selectedItem.body??'');
+      formData.append("title", this.selectedItem.title??'');
       formData.append("type", this.selectedItem.type);
       formData.append("receivers", receivers.toString());
       formData.append("channels", channels.toString());

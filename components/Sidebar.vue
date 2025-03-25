@@ -287,7 +287,8 @@
               <span class="font-weight-black">Title:</span>{{ selectedMessage.title }}
             </div>
           </div>
-          <ImageContainer v-if="!!selectedMessage.linkFile" v-model="selectedMessage.linkFile" :width="`100%`" :height="300" />
+          <ImageContainer v-if="selectedMessage.type==='PHOTO'" v-model="selectedMessage.file" :width="`100%`" :height="300" />
+          <v-btn v-if="selectedMessage.type==='DOCUMENT'" :href="selectedMessage.file" width="100%" target="_blank" color="#544B99" outlined class="mb-4">Download document</v-btn>
           <v-divider class="mb-6"/>
           <div v-html="selectedMessage.body"></div>
         </v-card-text>

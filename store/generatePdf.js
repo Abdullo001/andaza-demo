@@ -94,7 +94,7 @@ export const actions = {
       });
   },
   getCalculationsPdfList({ commit }, data) {
-    this.$axios.put(`/api/v1/pre-finances/generate-calculation-list`, data)
+    this.$axios.post(`/api/v1/forms/calculations`, data)
       .then((res) => {
         const binaryCode = atob(res.data);
         commit("setCalculationsPdfList", binaryCode);
