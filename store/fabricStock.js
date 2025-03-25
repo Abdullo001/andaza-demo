@@ -49,7 +49,7 @@ export const actions = {
   },
 
   createFabricStock( { dispatch }, data ) {
-    this.$axios.post( `/api/v1/fabric-stocks/create`, data ).then( ( res ) => {
+    this.$axios.post( `/api/v1/fabric-stocks`, data ).then( ( res ) => {
       this.$toast.success( res.data.message );
       dispatch( "getFabricStockList", {
         sipNumber: "",
@@ -73,9 +73,9 @@ export const actions = {
       } );
   },
 
-  updateFabricStock( { dispatch }, data ) {
+  updateFabricStock( { dispatch }, {data,id} ) {
     this.$axios
-      .put( `/api/v1/fabric-stocks/update`, data )
+      .put( `/api/v1/fabric-stocks/${id}`, data )
       .then( ( res ) => {
         this.$toast.success( res.data.message );
         dispatch( "getFabricStockList", {
@@ -92,7 +92,7 @@ export const actions = {
 
   deleteFabricStock( { dispatch }, id ) {
     this.$axios
-      .delete( `/api/v1/fabric-stocks/delete?id=${id}` )
+      .delete( `/api/v1/fabric-stocks/${id}` )
       .then( ( res ) => {
         this.$toast.success( res.data.message );
         dispatch( "getFabricStockList", {
