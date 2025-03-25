@@ -50,7 +50,7 @@ export const actions = {
 
   createFabricStock( { dispatch }, data ) {
     this.$axios.post( `/api/v1/fabric-stocks`, data ).then( ( res ) => {
-      this.$toast.success( res.data.message );
+      this.$toast.success( res.data.data.message );
       dispatch( "getFabricStockList", {
         sipNumber: "",
         modelNumber: "",

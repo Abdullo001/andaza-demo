@@ -25,18 +25,17 @@ export const mutations = {
 };
 
 export const actions = {
-  async getAccessoryStockList( { commit }, { accessoryName, modelNumber, supplierName } ) {
+  async getAccessoryStockList( { commit }, { accessoryName="", modelNumber="", supplierName="" } ) {
     const body = {
-      accessoryName: accessoryName,
-      modelNumber: modelNumber,
+      accessoryName: accessoryName??"",
+      modelNumber: modelNumber??"",
       page: 0,
       size: 50,
-      supplierName: supplierName,
+      supplierName: supplierName??"",
     };
     await this.$axios
       .put( `/api/v1/accessory-stock/list`, body )
       .then( ( res ) => {
-        console.log( res );
         commit( "setAccessoryStockList", res.data.data );
       } )
       .catch( ( res ) => {
@@ -50,7 +49,7 @@ export const actions = {
     }
     await this.$axios.$post( '/api/v1/accessory-stock/create', data, config )
       .then( res => {
-        dispatch( "getAccessoryStockList" );
+        dispatch( "getAccessoryStockList", {accessoryName:"", modelNumber:"", supplierName:""} );
         this.$toast.success( res.message );
       } )
       .catch( ( response ) => {
