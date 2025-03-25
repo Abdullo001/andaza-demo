@@ -649,7 +649,7 @@ export default {
     };
   },
   created() {
-    this.getPartnerList({ page: 0, size: 10 });
+    this.getPartnersWithTypes(["buyer"]);
     this.getCompositionList({ page: 0, size: 10 });
     this.filterCanvasTypeList({
       id: "",
@@ -676,7 +676,7 @@ export default {
     ...mapGetters({
       oneModel: "models/oneModel",
       modelGroups: "models/modelGroups",
-      partner_enums: "partners/partnerList",
+      partner_enums: "partners/partnerWithTypes",
       compositionList: "composition/composition_list",
       brandList: "models/brandList",
       canvasTypeList: "canvasType/canvas_type_list",
@@ -721,7 +721,7 @@ export default {
       this.getCompositionList({ page: 0, size: 10, name: val });
     },
     partnerName(val) {
-      this.getPartnerList({ page: 0, size: 10, partnerName: val });
+      // this.getPartnerList({ page: 0, size: 10, partnerName: val });
     },
     canvasSearch(val) {
       this.filterCanvasTypeList({
@@ -773,7 +773,7 @@ export default {
       getCompositionList: "composition/getCompositionList",
       getBrandList: "models/getBrandList",
       modelToPrefinance: "preFinance/modelToPrefinance",
-      getPartnerList: "partners/getPartnerList",
+      getPartnersWithTypes: "partners/getPartnersWithTypes",
       filterCanvasTypeList: "canvasType/filterCanvasTypeList",
       getReworkThinList: "fabricRework/getReworkThinList",
       changePageStatus: "changePageStatus",
