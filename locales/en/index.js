@@ -1588,7 +1588,7 @@ export default {
       density: "Density",
       inspectionDate: "Final inspection date",
       plannedOrderQuality: "Planned order quality",
-      enterPlannedOrderQuality: "Enter planned order quality",
+      enterPlannedOrderQuality: "Enter planned order quantity",
       showDetail: "Show detail",
       hideDetail: "Hide detail",
       finishProccess: "Finish proccess",

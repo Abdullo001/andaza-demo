@@ -1472,7 +1472,7 @@ export default {
       density: "Плотность",
       inspectionDate: " Дата ФИ",
       plannedOrderQuality: "Планируемое качество заказа",
-      enterPlannedOrderQuality: "Введите планируемое качество заказа",
+      enterPlannedOrderQuality: "Введите планируемое количество заказов",
       showDetail: "Показать подробности",
       hideDetail: "Скрыть подробности",
       finishProccess: "Завершить",

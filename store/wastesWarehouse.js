@@ -3,6 +3,7 @@ export const state = () => ({
   historyList:[],
   productionWastesList:[],
   productionHistoryList:[],
+  pdfData:"",
 });
 
 export const getters = {
@@ -11,6 +12,7 @@ export const getters = {
   productionWastesList: (state) => state.productionWastesList,
   productionHistoryList: (state) => state.productionHistoryList,
   historyList: (state) => state.historyList,
+  pdfData: (state) => state.pdfData,
 };
 
 export const mutations = {
@@ -25,6 +27,9 @@ export const mutations = {
   },
   setHistoryList(state, item) {
     state.historyList = item;
+  },
+  setPdfData(state, item) {
+    state.pdfData = item;
   },
 };
 
@@ -125,6 +130,26 @@ export const actions = {
       console.log(response);
       this.$toast.success(response.data.message)
 
+    })
+  },
+  generatePdf({commit}){
+    this.$axios.put(`/api/v1/waste-warehouse/form`)
+    .then((res)=>{
+      const binaryCode = atob(res.data);
+      commit("setPdfData", binaryCode);
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+  generateSellPdf({commit}){
+    this.$axios.put(`/api/v1/waste-warehouse/sell/form`)
+    .then((res)=>{
+      const binaryCode = atob(res.data);
+      commit("setPdfData", binaryCode);
+    })
+    .catch((response)=>{
+      console.log(response);
     })
   }
 
