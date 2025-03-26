@@ -1483,7 +1483,7 @@ yarnNumber:{
       density: "Zichlik",
       inspectionDate: "Yakuniy inspeksiya sanasi",
       plannedOrderQuality: "Rejalashtirilgan buyurtma sifati",
-      enterPlannedOrderQuality: "Rejalashtirilgan buyurtma sifatini kiriting",
+      enterPlannedOrderQuality: "Rejadagi buyurtma miqdorini kiriting",
       showDetail: "Tafsilotni ko'rsatish",
       hideDetail: "Tafsilotlarni yashirish",
       finishProccess: "Yakunlash",

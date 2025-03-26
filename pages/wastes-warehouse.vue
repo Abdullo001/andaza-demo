@@ -32,7 +32,7 @@
                 type="datetime"
                 style="width: 100%; height: 100%"
                 class="filter_picker"
-                 :placeholder="$t('wastes.wastesWarehouse.from')"
+                :placeholder="$t('wastes.wastesWarehouse.from')"
                 :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy HH:mm:ss"
               >
@@ -45,7 +45,7 @@
                 v-model="filters.toDate"
                 type="datetime"
                 style="width: 100%; height: 100%"
-                 :placeholder="$t('wastes.wastesWarehouse.to')"
+                :placeholder="$t('wastes.wastesWarehouse.to')"
                 class="filter_picker"
                 :picker-options="pickerShortcuts"
                 value-format="dd.MM.yyyy HH:mm:ss"
@@ -64,7 +64,7 @@
                 class="text-capitalize mr-4 rounded-lg"
                 @click.stop="resetFilters"
               >
-               {{ $t('wastes.wastesWarehouse.reset')}}
+                {{ $t("wastes.wastesWarehouse.reset") }}
               </v-btn>
               <v-btn
                 width="140"
@@ -74,7 +74,7 @@
                 class="text-capitalize rounded-lg"
                 @click="filterData"
               >
-                {{ $t('wastes.wastesWarehouse.search')}}
+                {{ $t("wastes.wastesWarehouse.search") }}
               </v-btn>
             </div>
           </v-col>
@@ -99,7 +99,7 @@
           <v-toolbar-title
             class="d-flex w-full align-center justify-space-between"
           >
-            <div> {{ $t('wastes.wastesWarehouse.title')}}</div>
+            <div>{{ $t("wastes.wastesWarehouse.title") }}</div>
             <div>
               <v-btn
                 color="#544B99"
@@ -108,7 +108,7 @@
                 @click="addWastes"
               >
                 <v-icon>mdi-plus</v-icon>
-                {{ $t('wastes.wastesWarehouse.addWastes')}}
+                {{ $t("wastes.wastesWarehouse.addWastes") }}
               </v-btn>
             </div>
           </v-toolbar-title>
@@ -272,10 +272,45 @@
         </tr>
       </template>
     </v-data-table>
+    <div class="d-flex mt-6">
+      <v-spacer />
+      <v-btn
+        :loading="isLoadSell"
+        color="#544B99"
+        outlined
+        elevation="0"
+        class="text-capitalize rounded-lg font-weight-bold mr-4"
+        @click="
+          () => {
+            generateSellPdf();
+            isLoadSell = true;
+          }
+        "
+      >
+        Sold wastes file
+      </v-btn>
+      <v-btn
+        :loading="isLoad"
+        color="#544B99"
+        outlined
+        elevation="0"
+        class="text-capitalize rounded-lg font-weight-bold"
+        @click="
+          () => {
+            generatePdf();
+            isLoad = true;
+          }
+        "
+      >
+        Remaining wastes file
+      </v-btn>
+    </div>
     <v-dialog v-model="dialog" width="800">
       <v-card elevation="0">
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">   {{ $t('wastes.wastesWarehouse.addWastes')}}</div>
+          <div class="text-capitalize font-weight-bold">
+            {{ $t("wastes.wastesWarehouse.addWastes") }}
+          </div>
           <v-btn icon color="#544B99" @click="dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -284,7 +319,9 @@
           <v-form lazy-validation v-model="new_validate" ref="new_form">
             <v-row>
               <v-col cols="12" lg="6">
-                <div class="label">   {{ $t('wastes.wastesWarehouse.nameOfWastes')}}</div>
+                <div class="label">
+                  {{ $t("wastes.wastesWarehouse.nameOfWastes") }}
+                </div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="currentItem.name"
@@ -296,8 +333,10 @@
                   color="#544B99"
                 />
               </v-col>
-              <v-col cols="12" lg="6" v-if="currentItem.title!=='edit'">
-                <div class="label">   {{ $t('wastes.wastesWarehouse.modelNo')}}</div>
+              <v-col cols="12" lg="6" v-if="currentItem.title !== 'edit'">
+                <div class="label">
+                  {{ $t("wastes.wastesWarehouse.modelNo") }}
+                </div>
                 <v-combobox
                   v-model="currentItem.modelNumber"
                   :items="modelsList"
@@ -323,7 +362,9 @@
               </v-col>
               <v-col cols="12" lg="6">
                 <div>
-                  <div class="label">{{ $t('wastes.addWastes.wastesQuantity') }}</div>
+                  <div class="label">
+                    {{ $t("wastes.addWastes.wastesQuantity") }}
+                  </div>
                   <div class="d-flex align-center">
                     <v-text-field
                       v-model="currentItem.quantity"
@@ -356,7 +397,9 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">{{$t('wastes.addWastes.sellingPrice')}}</div>
+                <div class="label">
+                  {{ $t("wastes.addWastes.sellingPrice") }}
+                </div>
                 <div class="d-flex align-center">
                   <v-text-field
                     :rules="[formRules.required]"
@@ -395,7 +438,7 @@
             color="#544B99"
             width="163"
             @click="dialog = false"
-            >{{$t('wastes.addWastes.cancel')}}
+            >{{ $t("wastes.addWastes.cancel") }}
           </v-btn>
           <v-btn
             class="text-capitalize rounded-lg font-weight-bold"
@@ -404,7 +447,7 @@
             width="163"
             @click="saveWaste"
           >
-           {{$t('wastes.addWastes.create')}}
+            {{ $t("wastes.addWastes.create") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -517,15 +560,16 @@
             :items="historyItems"
             hide-default-footer
           >
-          <template #item.operationType="{ item }">
-            <div style="color: #FF0000"
-            :style="{
-              color:item.operationColor,
-            }"
-            >
-              {{ item.operationType }}
-            </div>
-          </template>
+            <template #item.operationType="{ item }">
+              <div
+                style="color: #ff0000"
+                :style="{
+                  color: item.operationColor,
+                }"
+              >
+                {{ item.operationType }}
+              </div>
+            </template>
           </v-data-table>
         </v-card-text>
       </v-card>
@@ -559,35 +603,85 @@ export default {
       valid_search: true,
       filters: {},
       currentItem: {},
-      current_list: [
-
-      ],
+      current_list: [],
       headers: [
-        { text: this.$t('wastes.wastesWarehouse.no'), value: "id", sortable: false },
-        { text:  this.$t('wastes.wastesWarehouse.nameOfWastes'), value: "name", sortable: false },
-        { text:  this.$t('wastes.wastesWarehouse.batchNumber'), value: "batchNumber", sortable: false },
-        { text:  this.$t('wastes.wastesWarehouse.modelNo'), value: "modelNumber", sortable: false },
-        { text:  this.$t('wastes.wastesWarehouse.mu'), value: "measurementUnit", sortable: false },
-        { text:  this.$t('wastes.wastesWarehouse.price'),value: "price", sortable: false },
-        { text:  this.$t('wastes.wastesWarehouse.currency'), value: "currency", sortable: false },
-        { text: this.$t('wastes.wastesWarehouse.beginOfPeriodQty'),value: "beginPeriodQuantity", sortable: false },
         {
-          text:  this.$t('wastes.wastesWarehouse.beginOfPeriodPrice'),
+          text: this.$t("wastes.wastesWarehouse.no"),
+          value: "id",
+          sortable: false,
+        },
+        {
+          text: this.$t("wastes.wastesWarehouse.nameOfWastes"),
+          value: "name",
+          sortable: false,
+        },
+        {
+          text: this.$t("wastes.wastesWarehouse.batchNumber"),
+          value: "batchNumber",
+          sortable: false,
+        },
+        {
+          text: this.$t("wastes.wastesWarehouse.modelNo"),
+          value: "modelNumber",
+          sortable: false,
+        },
+        {
+          text: this.$t("wastes.wastesWarehouse.mu"),
+          value: "measurementUnit",
+          sortable: false,
+        },
+        {
+          text: this.$t("wastes.wastesWarehouse.price"),
+          value: "price",
+          sortable: false,
+        },
+        {
+          text: this.$t("wastes.wastesWarehouse.currency"),
+          value: "currency",
+          sortable: false,
+        },
+        {
+          text: this.$t("wastes.wastesWarehouse.beginOfPeriodQty"),
+          value: "beginPeriodQuantity",
+          sortable: false,
+        },
+        {
+          text: this.$t("wastes.wastesWarehouse.beginOfPeriodPrice"),
           value: "beginPeriodTotalPrice",
           sortable: false,
         },
-        { text: this.$t('wastes.wastesWarehouse.totalInputQty'), value: "totalInputQuantity", sortable: false },
-        { text: this.$t('wastes.wastesWarehouse.totalInputPrice'),value: "totalInputTotalPrice", sortable: false },
-        { text:  this.$t('wastes.wastesWarehouse.totalOutputQty'), value: "totalOutputQuantity", sortable: false },
-        { text: this.$t('wastes.wastesWarehouse.totalOutputPrice'), value: "totalOutputTotalPrice", sortable: false },
-        { text: this.$t('wastes.wastesWarehouse.remainingQty'), value: "remainingQuantity", sortable: false },
         {
-          text: this.$t('wastes.wastesWarehouse.remainingTotalPrice'),
+          text: this.$t("wastes.wastesWarehouse.totalInputQty"),
+          value: "totalInputQuantity",
+          sortable: false,
+        },
+        {
+          text: this.$t("wastes.wastesWarehouse.totalInputPrice"),
+          value: "totalInputTotalPrice",
+          sortable: false,
+        },
+        {
+          text: this.$t("wastes.wastesWarehouse.totalOutputQty"),
+          value: "totalOutputQuantity",
+          sortable: false,
+        },
+        {
+          text: this.$t("wastes.wastesWarehouse.totalOutputPrice"),
+          value: "totalOutputTotalPrice",
+          sortable: false,
+        },
+        {
+          text: this.$t("wastes.wastesWarehouse.remainingQty"),
+          value: "remainingQuantity",
+          sortable: false,
+        },
+        {
+          text: this.$t("wastes.wastesWarehouse.remainingTotalPrice"),
           value: "remainingTotalPrice",
           sortable: false,
         },
         {
-          text: this.$t('wastes.wastesWarehouse.actions'),
+          text: this.$t("wastes.wastesWarehouse.actions"),
           value: "actions",
           sortable: false,
           width: 150,
@@ -602,7 +696,7 @@ export default {
         { text: "Description", value: "description", sortable: false },
       ],
       sellingHistoryItems: [],
-      currency_list:["USD","UZS","RUB"],
+      currency_list: ["USD", "UZS", "RUB"],
       sellingWastes: {},
       historyDialog: false,
       historyItems: [],
@@ -614,8 +708,10 @@ export default {
       ],
       selectItem: {},
       deleteDialog: false,
-      itemPerPage:10,
-      current_page:0,
+      itemPerPage: 10,
+      current_page: 0,
+      isLoad: false,
+      isLoadSell: false,
     };
   },
 
@@ -633,9 +729,10 @@ export default {
     ...mapGetters({
       measurementUnit: "measurement/measurementUnit",
       modelsList: "models/modelsList",
-      wastesList:"wastesWarehouse/wastesList",
-      historyList:"wastesWarehouse/historyList",
-      totalElements:"wastesWarehouse/totalElements",
+      wastesList: "wastesWarehouse/wastesList",
+      historyList: "wastesWarehouse/historyList",
+      totalElements: "wastesWarehouse/totalElements",
+      pdfList: "wastesWarehouse/pdfData",
     }),
 
     deleteData: {
@@ -652,31 +749,44 @@ export default {
   },
 
   watch: {
-    dialog(val){
-      if(!val){
-        this.$refs.new_form.reset()
-        this.currentItem.modelNumber=""
+    pdfList(val) {
+      const blob = new Blob(
+        [new Uint8Array([...val].map((char) => char.charCodeAt(0)))],
+        { type: "application/pdf" }
+      );
+      const objectUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.setAttribute("target", "_blank");
+      a.setAttribute("href", objectUrl);
+      a.click();
+      this.isLoad = false;
+      this.isLoadSell = false;
+    },
+    dialog(val) {
+      if (!val) {
+        this.$refs.new_form.reset();
+        this.currentItem.modelNumber = "";
       }
     },
-    wastesList(list){
-      this.totalBeginQuantity=0
-      this.totalBeginPrice=0
-      this.totalInputQuantity=0
-      this.totalInputPrice=0
-      this.totalOutputQuantity=0
-      this.totalOutputPrice=0
-      this.totalRemainingQuantity=0
-      this.totalRemainingPrice=0
-      list.forEach((item)=>{
-        this.totalBeginQuantity+=item.beginPeriodQuantity
-        this.totalBeginPrice+=item.beginPeriodTotalPrice
-        this.totalInputQuantity+=item.totalInputQuantity
-        this.totalInputPrice+=item.totalInputTotalPrice
-        this.totalOutputQuantity+=item.totalOutputQuantity
-        this.totalOutputPrice+=item.totalOutputTotalPrice
-        this.totalRemainingQuantity+=item.remainingQuantity
-        this.totalRemainingPrice+=item.remainingTotalPrice
-      })
+    wastesList(list) {
+      this.totalBeginQuantity = 0;
+      this.totalBeginPrice = 0;
+      this.totalInputQuantity = 0;
+      this.totalInputPrice = 0;
+      this.totalOutputQuantity = 0;
+      this.totalOutputPrice = 0;
+      this.totalRemainingQuantity = 0;
+      this.totalRemainingPrice = 0;
+      list.forEach((item) => {
+        this.totalBeginQuantity += item.beginPeriodQuantity;
+        this.totalBeginPrice += item.beginPeriodTotalPrice;
+        this.totalInputQuantity += item.totalInputQuantity;
+        this.totalInputPrice += item.totalInputTotalPrice;
+        this.totalOutputQuantity += item.totalOutputQuantity;
+        this.totalOutputPrice += item.totalOutputTotalPrice;
+        this.totalRemainingQuantity += item.remainingQuantity;
+        this.totalRemainingPrice += item.remainingTotalPrice;
+      });
     },
     searchModelNumber(val) {
       this.getModelsList({
@@ -687,16 +797,16 @@ export default {
       });
     },
 
-    historyList(list){
-      this.historyItems=JSON.parse(JSON.stringify(list))
-      this.historyItems.forEach((item)=>{
-        if(item.operationType==="INPUT"){
-          item.operationColor="#FF0000"
-        }else if(item.operationType==="OUTPUT"){
-          item.operationColor="#08b137"
+    historyList(list) {
+      this.historyItems = JSON.parse(JSON.stringify(list));
+      this.historyItems.forEach((item) => {
+        if (item.operationType === "INPUT") {
+          item.operationColor = "#FF0000";
+        } else if (item.operationType === "OUTPUT") {
+          item.operationColor = "#08b137";
         }
-      })
-    }
+      });
+    },
   },
 
   methods: {
@@ -708,12 +818,14 @@ export default {
       getHistoryList: "wastesWarehouse/getHistoryList",
       updateWaste: "wastesWarehouse/updateWaste",
       sellWaste: "wastesWarehouse/sellWaste",
+      generatePdf: "wastesWarehouse/generatePdf",
+      generateSellPdf: "wastesWarehouse/generateSellPdf",
     }),
     resetFilters() {
       this.getWastesList({ page: 0, size: 10 });
-      this.$refs.filter_form.reset()
-      this.filters.toDate=null
-      this.filters.fromDate=null
+      this.$refs.filter_form.reset();
+      this.filters.toDate = null;
+      this.filters.fromDate = null;
     },
     filterData() {
       this.getWastesList({ page: 0, size: 10, ...this.filters });
@@ -724,13 +836,13 @@ export default {
     },
 
     size(value) {
-      this.itemPerPage=value
+      this.itemPerPage = value;
       this.getWastesList({ page: 0, size: this.itemPerPage });
     },
     addWastes() {
       this.dialog = true;
-      this.title="Add"
-      this.currentItem.title='add'
+      this.title = "Add";
+      this.currentItem.title = "add";
     },
     spendFunc(item) {
       this.sellingWastes.id = item.id;
@@ -738,57 +850,55 @@ export default {
     },
     getHistory(item) {
       this.historyDialog = true;
-      this.getHistoryList(item.id)
+      this.getHistoryList(item.id);
     },
     getDeleteItem() {
       this.deleteDialog = true;
     },
-    saveWaste(){
-      const data={
+    saveWaste() {
+      const data = {
         ...this.currentItem,
-        modelId:this.currentItem.modelNumber.id
+        modelId: this.currentItem.modelNumber.id,
+      };
+      delete data.modelNumber;
+      if (this.currentItem.title !== "edit") {
+        this.createWaste(data);
+      } else {
+        this.updateWaste({ data, id: data.id });
       }
-      delete data.modelNumber
-      if(this.currentItem.title!=="edit"){
-        this.createWaste(data)
-      }else{
-        this.updateWaste({data,id:data.id})
-      }
-      this.currentItem={}
-      this.dialog=false
+      this.currentItem = {};
+      this.dialog = false;
     },
-    editItem(item){
-      this.dialog=true
+    editItem(item) {
+      this.dialog = true;
       this.getModelsList({
         page: 0,
         size: 10,
         modelNumber: item.modelNUmber,
         partner: "",
       });
-      this.title="Edit"
-      this.currentItem.id=item.id
-      this.currentItem.title="edit"
-      this.currentItem.name=item.name
-      this.currentItem.price=item.price
-      this.currentItem.currency=item.currency
-      this.currentItem.measurementUnitId=item.measurementUnitId
-      this.currentItem.quantity=item.beginPeriodQuantity
-      this.currentItem.modelNumber=this.modelsList[0]
-
-
+      this.title = "Edit";
+      this.currentItem.id = item.id;
+      this.currentItem.title = "edit";
+      this.currentItem.name = item.name;
+      this.currentItem.price = item.price;
+      this.currentItem.currency = item.currency;
+      this.currentItem.measurementUnitId = item.measurementUnitId;
+      this.currentItem.quantity = item.beginPeriodQuantity;
+      this.currentItem.modelNumber = this.modelsList[0];
     },
-    sellItem(){
-      const data={
-        quantity:this.sellingWastes.quantity,
-        description:this.sellingWastes.description,
-        partner:this.sellingWastes.customer,
-      }
-      this.sellWaste({data,id:this.sellingWastes.id})
-      this.sellingDialog=false
-      this.sellingWastes.quantity=""
-      this.sellingWastes.customer=""
-      this.sellingWastes.description=""
-    }
+    sellItem() {
+      const data = {
+        quantity: this.sellingWastes.quantity,
+        description: this.sellingWastes.description,
+        partner: this.sellingWastes.customer,
+      };
+      this.sellWaste({ data, id: this.sellingWastes.id });
+      this.sellingDialog = false;
+      this.sellingWastes.quantity = "";
+      this.sellingWastes.customer = "";
+      this.sellingWastes.description = "";
+    },
   },
 
   mounted() {
