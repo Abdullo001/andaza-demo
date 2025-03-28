@@ -136,47 +136,60 @@
       }"
     >
       <template #item.deliveredQuantity="{ item }">
-        <v-text-field
-          v-show="item.remainingSizeDistributions.length == 0"
-          outlined
-          height="32"
-          class="rounded-lg base my-2"
-          dense
-          :rules="[formRules.required]"
-          @keydown.enter="handleEnter(item)"
-          @focus="handleKeyEvent(item.accessoryId, $event)"
-          @keyup="handleKeyEvent(item.accessoryId, $event)"
-          :hide-details="!enterError[item.accessoryId]"
-          :error-messages="enterError[item.accessoryId]"
-          validate-on-blur
-          color="#544B99"
-          v-model="item.deliveredQuantity"
-        />
+        <div class="px-4">
+          <table style="width: 100% !important" class="mr-4" v-if="item.deliveredSizeDistributions && item.deliveredSizeDistributions.length>0">
+            <thead>
+              <tr>
+                <th
+                  class="mr-2"
+                  v-for="(el, idx) in item.deliveredSizeDistributions"
+                  :key="`${el.size}-${idx}`"
+                >
+                  {{ el.size }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td
+                  v-for="(el, idx) in item.deliveredSizeDistributions"
+                  :key="`${el.size}` + `${idx}`"
+                >
+                  {{ el.quantity }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div v-else>{{ item.deliveredQuantity }}</div>
+        </div>
       </template>
       <template #item.sizes="{ item }">
-        <table style="width: 100% !important">
-          <thead>
-            <tr>
-              <th
-                class="mr-2"
-                v-for="(el, idx) in item.remainingSizeDistributions"
-                :key="`${el.size}-${idx}`"
-              >
-                {{ el.size }}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td
-                v-for="(el, idx) in item.remainingSizeDistributions"
-                :key="`${el.size}` + `${idx}`"
-              >
-                {{ el.quantity }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="px-4">
+          <table style="width: 100% !important" v-if="item.remainingSizeDistributions.length>0">
+            <thead>
+              <tr>
+                <th
+                  class="mr-2"
+                  v-for="(el, idx) in item.remainingSizeDistributions"
+                  :key="`${el.size}-${idx}`"
+                >
+                  {{ el.size }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td
+                  v-for="(el, idx) in item.remainingSizeDistributions"
+                  :key="`${el.size}` + `${idx}`"
+                >
+                  {{ el.quantity }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div v-else>{{ item.remainingQuantity }}</div>
+        </div>
       </template>
 
       <template #item.actions="{ item }">
@@ -189,19 +202,13 @@
           >
             <template #activator="{ on, attrs }">
               <v-btn
-                :disabled="item.remainingSizeDistributions.length == 0"
                 icon
                 v-bind="attrs"
                 v-on="on"
                 color="#544B99"
                 @click="openFillingDialog(item)"
               >
-                <v-img
-                  v-if="item.remainingSizeDistributions.length == 0"
-                  src="/edit.svg"
-                  max-width="22"
-                />
-                <v-img v-else src="/edit-active.svg" max-width="22" />
+                <v-img src="/edit-active.svg" max-width="22" />
               </v-btn>
             </template>
             <span class="text-capitalize">Filling</span>
@@ -380,7 +387,7 @@
 
         <v-card-text class="mt-4">
           <v-form ref="filling_form" v-model="spend_validate" lazy-validation>
-            <v-row class="mx-0 px-0 mb-2 mt-4 pa-4 w-full" justify="start">
+            <v-row class="mx-0 px-0 mb-2 mt-4 pa-4 w-full" justify="start" v-if="selectedItem.editableSizeDistributions&&selectedItem.editableSizeDistributions.length>0">
               <v-col
                 v-for="(item, idx) in selectedItem.editableSizeDistributions"
                 :key="idx"
@@ -389,6 +396,25 @@
                 <div class="label">{{ item.size }}</div>
                 <v-text-field
                   v-model="item.quantity"
+                  :rules="[formRules.onlyNumber, formRules.required]"
+                  single-line
+                  outlined
+                  hide-details
+                  height="44"
+                  validate-on-blur
+                  dense
+                  class="rounded-lg base"
+                  color="#544B99"
+                  background-color="#F8F4FE"
+                  placeholder="0"
+                />
+              </v-col>
+            </v-row>
+            <v-row v-else>
+              <v-col>
+                <div class="label">Delivered quantity</div>
+                <v-text-field
+                  v-model="selectedItem.editableDeliveredQuantity"
                   :rules="[formRules.onlyNumber, formRules.required]"
                   single-line
                   outlined
@@ -968,7 +994,8 @@ export default {
           text: this.$t("warehouseId.deliveredQuantity"),
           value: "deliveredQuantity",
           sortable: false,
-          width: 200,
+          width: 300,
+          align: "center",
         },
         {
           text: "Remaing quantity",
@@ -1306,15 +1333,24 @@ export default {
       this.fillingDialog = true;
     },
     saveFilling() {
-      const data = {
-        warehouseId: this.selectedItem.accessoryWarehouseId,
-        sizeDistributions: this.selectedItem.editableSizeDistributions.map(
-          (item) => ({
-            size: item.size,
-            quantity: item.quantity ? item.quantity : 0,
-          })
-        ),
-      };
+      let data = {}
+      if(this.selectedItem.editableSizeDistributions.length>0){
+        data = {
+          warehouseId: this.selectedItem.accessoryWarehouseId,
+          sizeDistributions: this.selectedItem.editableSizeDistributions.map(
+            (item) => ({
+              size: item.size,
+              quantity: item.quantity ? item.quantity : 0,
+            })
+          ),
+        };
+      }else{
+        data = {
+          warehouseId: this.selectedItem.accessoryWarehouseId,
+          deliveredQuantity: this.selectedItem.editableDeliveredQuantity,
+        }
+      }
+
       this.setDelivered({
         data,
         modelId: this.filters.modelId?.id,
