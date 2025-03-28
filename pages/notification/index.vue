@@ -98,16 +98,6 @@
           </v-toolbar-title>
         </v-toolbar>
       </template>
-      <template #item.type="{ item }">
-        <div class="d-flex align-start m-0 p-0">
-          <v-img
-            :src="item.modelImageUrl"
-            class="flex-sm-grow-0 mr-2 mt-2"
-            :width="38"
-            :height="38"
-          />
-        </div>
-      </template>
       <template #item.action="{ item }">
         <v-tooltip top color="#544B99">
           <template v-slot:activator="{ on, attrs }">
@@ -136,7 +126,8 @@ export default {
       filter_form:true,
       loading: false,
       headers: [
-        {text:"Type",value:"channels",sortable:false},
+        {text:"Channel",value:"channels",sortable:false},
+        {text:"Type",value:"type",sortable:false},
         {text:"Title",value:"title",sortable:false},
         {text:"Created by",value:"createdBy",sortable:false},
         {text:"Created at",value:"sentTime",sortable:false},

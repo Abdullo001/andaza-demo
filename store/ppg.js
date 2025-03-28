@@ -28,7 +28,6 @@ export const actions = {
       orderNumber: orderNumber??"",
       shippingDate: null,
       page,size,
-      
     };
 
     this.$axios.get(`/api/v1/ppg?size=${size}&page=${page}&clientName=${data.clientName}&modelNumber=${data.modelNumber}&orderNumber=${data.orderNumber}`)
@@ -41,10 +40,9 @@ export const actions = {
   },
 
   getPpgInfo({commit},{id,color}){
-
-    this.$axios.get(`/api/v1/ppg/info/${id}?color=${encodeURIComponent(color)}`)
+    this.$axios.post(`/api/v1/ppg/info`,{color,modelId:id})
     .then((res)=>{
-      commit("setPpgInfo",res.data)
+      commit("setPpgInfo",res.data.data)
     })
     .catch((response)=>{
       console.log(response);
