@@ -4,6 +4,7 @@ export const state = () => ({
   toSipNumbers: [],
   historyList:[],
   modelParts:[],
+  modelPartsQuantity:null,
 });
 
 export const getters = {
@@ -13,6 +14,7 @@ export const getters = {
   toSipNumbers: (state) => state.toSipNumbers,
   historyList: (state) => state.historyList,
   modelParts: (state) => state.modelParts,
+  modelPartsQuantity: (state) => state.modelPartsQuantity,
 };
 
 export const mutations = {
@@ -30,6 +32,9 @@ export const mutations = {
   },
   setModelParts(state, item) {
     state.modelParts = item;
+  },
+  setModelPartsQuantity(state, item) {
+    state.modelPartsQuantity = item;
   },
 };
 
@@ -187,11 +192,25 @@ export const actions = {
     })
   },
 
-  getModelPartsList({commit},modelNumber){
-    this.$axios.get(`/api/v1/model-parts/by-model-number?modelNumber=${encodeURIComponent(modelNumber)}`)
+  getModelPartsList({commit},{modelNumber,color}){
+    this.$axios.get(`/api/v1/model-parts/by-model-number?modelNumber=${encodeURIComponent(modelNumber)}&color=${encodeURIComponent(color)}`)
     .then((res)=>{
       commit("setModelParts",res.data.data)
 
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+  getTotalQuantityByModelParts({commit},{modelNumber, modelPartId, modelPartName}){
+    const data = {
+      modelNumber,
+      modelPartId,
+      modelPartName
+    }
+    this.$axios.put(`/api/v1/fabric-planning-chart/get-total-fabric`,data)
+    .then((res)=>{
+      commit("setModelPartsQuantity",res.data)
     })
     .catch((response)=>{
       console.log(response);
