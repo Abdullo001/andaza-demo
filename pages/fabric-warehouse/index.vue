@@ -482,21 +482,6 @@
             <v-row>
               <v-col cols="12">
                 <div class="label">{{ $t('spending.toSipNo') }}</div>
-                <!-- <v-select
-                  append-icon="mdi-chevron-down"
-                  v-model="spendingFabric.idTo"
-                  :rules="[formRules.required]"
-                  :items="toSipNumbers"
-                  item-text="sipNumber"
-                  item-value="id"
-                  hide-details
-                  color="#544B99"
-                  class="base rounded-lg"
-                  rounded
-                  outlined
-                  dense
-                  placeholder="Select Sip №"
-                /> -->
                 <v-combobox
                   v-model="spendingFabric.idTo"
                   :items="toSipNumbers"
@@ -521,21 +506,6 @@
               </v-col>
               <v-col cols="12">
                 <div class="label">{{ $t('spending.toBatchNo') }}</div>
-                <!-- <v-select
-                  append-icon="mdi-chevron-down"
-                  v-model="spendingFabric.idTo"
-                  :rules="[formRules.required]"
-                  :items="toSipNumbers"
-                  item-text="batchNumber"
-                  item-value="id"
-                  hide-details
-                  class="base rounded-lg"
-                  rounded
-                  color="#544B99"
-                  outlined
-                  dense
-                  placeholder="Batch №"
-                /> -->
                 <v-combobox
                   v-model="subcontractor.idTo"
                   :items="toSipNumbers"
@@ -552,7 +522,7 @@
                   append-icon="mdi-chevron-down"
                   :rules="[formRules.required]"
                   validate-on-blur
-                  >
+                >
                   <template #append>
                     <v-icon color="#544B99">mdi-magnify</v-icon>
                   </template>
@@ -652,17 +622,30 @@
               </v-col>
               <v-col cols="12">
                 <div class="label">{{$t('spending.givingFabricQuantity')}}</div>
-                <v-text-field
-                  :rules="[formRules.required]"
-                  v-model="workshop.quantity"
-                  outlined
-                  hide-details
-                  dense
-                  class="rounded-lg base"
-                  :placeholder="$t('spending.givingFabricQuantity')"
+                <v-tooltip
+                  :disabled="!modelPTotalQuantity"
+                  top
                   color="#544B99"
-                  :suffix="workshop.measurement"
-                />
+                  class="pointer"
+                >
+                  <template #activator="{ on, attrs }">
+                    <v-text-field
+                      :disabled="!modelPTotalQuantity"
+                      v-bind="attrs"
+                      v-on="on"
+                      v-model="workshop.quantity"
+                      :rules="[formRules.required, formRules.onlyNumber]"
+                      outlined
+                      hide-details
+                      dense
+                      class="rounded-lg base"
+                      :placeholder="$t('spending.givingFabricQuantity')"
+                      color="#544B99"
+                      :suffix="workshop.measurement"
+                    />
+                  </template>
+                  <span class="text-capitalize">Planned fabric quantity: {{ modelPTotalQuantity }}</span>
+                </v-tooltip>
               </v-col>
             </v-row>
           </v-form>
@@ -770,17 +753,30 @@
               </v-col>
               <v-col cols="12">
                 <div class="label">{{ $t('spending.givingFabricQuantity')}}</div>
-                <v-text-field
-                  :rules="[formRules.required]"
-                  v-model="subcontractor.quantity"
-                  outlined
-                  hide-details
-                  dense
-                  class="rounded-lg base"
-                  :placeholder="$t('spending.givingFabricQuantity')"
+                <v-tooltip
+                  :disabled="!modelPTotalQuantity"
+                  top
                   color="#544B99"
-                  :suffix="subcontractor.measurement"
-                />
+                  class="pointer"
+                >
+                  <template #activator="{ on, attrs }">
+                    <v-text-field
+                      :disabled="!modelPTotalQuantity"
+                      v-bind="attrs"
+                      v-on="on"
+                      v-model="subcontractor.quantity"
+                      :rules="[formRules.required, formRules.onlyNumber]"
+                      outlined
+                      hide-details
+                      dense
+                      class="rounded-lg base"
+                      :placeholder="$t('spending.givingFabricQuantity')"
+                      color="#544B99"
+                      :suffix="subcontractor.measurement"
+                    />
+                  </template>
+                  <span class="text-capitalize">Planned fabric quantity: {{ modelPTotalQuantity }}</span>
+                </v-tooltip>
               </v-col>
             </v-row>
           </v-form>
@@ -912,7 +908,6 @@ export default {
         { text: this.$t('fabricWarehouse.action'), value: "actions", sortable: false, align: "center" },
         { text: "", value: "data-table-expand" },
       ],
-
       historyHeaders: [
         { text: this.$t('spending.date'), value: "createdAt", sortable: false },
         { text: this.$t('spending.doneBy'), value: "createdBy", sortable: false },
@@ -924,7 +919,6 @@ export default {
         { text: this.$t('spending.operationId'), value: "operationId", sortable: false },
         { text: this.$t('spending.quantity'), value: "quantity", sortable: false },
       ],
-
       expanded: [],
       singleExpand: true,
       valid_search: "",
@@ -937,9 +931,7 @@ export default {
       spend_dialog: false,
       workshop_dialog: false,
       subcontractor_dialog: false,
-
       history_dialog: false,
-
       title: "",
       arrivedFabric: {},
       spendingFabric: {
@@ -948,14 +940,12 @@ export default {
         idTo: null,
         spendingQuantity: null,
       },
-
       workshop: {
         modelNumber: null,
         quantity: null,
         measurement: null,
         fabricWarehouseId: null,
       },
-
       subcontractor: {
         fabricWarehouseId: null,
         partnerId: null,
@@ -963,20 +953,18 @@ export default {
         quantity: null,
         measurement: null,
       },
-
       filters: {
         sipNumber: null,
         batchNumber: null,
         orderNumber: null,
       },
-
       deletedId: null,
       modelNumbers: [],
       itemPrePage: 10,
       current_page: 0,
-
       current_list: [],
       partnerName: "",
+      modelPTotalQuantity:null,
     };
   },
 
@@ -988,17 +976,73 @@ export default {
       totalElements: "fabricWarehouse/totalElements",
       historyList: "fabricWarehouse/historyList",
       modelParts: "fabricWarehouse/modelParts",
+      modelPartsQuantity: "fabricWarehouse/modelPartsQuantity",
       partnerList: "partners/partnerList",
       currencyList: "partners/currencyList",
     }),
   },
 
   watch: {
+    modelPartsQuantity(newVal){
+      this.modelPTotalQuantity = newVal.data
+    },
     "workshop.modelNumber"(val){
-      this.getModelPartsList(val)
+      if(val){
+        this.getModelPartsList({modelNumber:val, color:this.workshop.color})
+      }
     },
     "subcontractor.modelNumber"(val){
-      this.getModelPartsList(val)
+      if(val){
+        this.getModelPartsList({modelNumber:val, color:this.subcontractor.color})
+      }
+    },
+    "workshop.modelPartId"(val){
+      let temp = {}
+      this.modelParts.forEach((item) => {
+        if(item.modelPartId === val){
+          temp = item
+        }
+      })
+      const data = {
+        modelNumber: this.workshop.modelNumber,
+        modelPartId: temp.modelPartId,
+        modelPartName: temp.modelPartName,
+      }
+      if(!!val){
+        this.getTotalQuantityByModelParts(data)
+      }
+    },
+    "subcontractor.modelPartId"(val){
+      let temp = {}
+      this.modelParts.forEach((item) => {
+        if(item.modelPartId === val){
+          temp = item
+        }
+      })
+      const data = {
+        modelNumber: this.subcontractor.modelNumber,
+        modelPartId: temp.modelPartId,
+        modelPartName: temp.modelPartName,
+      }
+      if(!!val){
+        this.getTotalQuantityByModelParts(data)
+      }
+    },
+    workshop_dialog(val){
+      if(!val){
+        this.modelPTotalQuantity = null
+        this.workshop.modelPartId = ""
+        this.workshop.modelNumber = ""
+        this.workshop.quantity = ""
+      }
+    },
+    subcontractor_dialog(val){
+      if(!val){
+        this.modelPTotalQuantity = null
+        this.subcontractor.modelPartId = ""
+        this.subcontractor.modelNumber = ""
+        this.subcontractor.quantity = ""
+      }
     },
     partnerName(val) {
       this.getPartnerList({page:0, size:10,partnerName:val});
@@ -1012,7 +1056,6 @@ export default {
         item.modelNumber=val[idx].modelNumber.split("$")
       })
     },
-
     new_dialog(val){
       if(!val){
         this.$refs.new_form.reset();
@@ -1041,6 +1084,7 @@ export default {
       setFabricToSubcontract: "fabricWarehouse/setFabricToSubcontract",
       getModelPartsList: "fabricWarehouse/getModelPartsList",
       transferToStock: "fabricWarehouse/transferToStock",
+      getTotalQuantityByModelParts: "fabricWarehouse/getTotalQuantityByModelParts",
       getPartnerList: "partners/getPartnerList",
       getCurrencyList: "partners/getCurrencyList",
     }),
@@ -1072,7 +1116,6 @@ export default {
     },
 
     addArrivedFabric() {
-
       this.arrivedFabric={}
       this.title = "New";
       this.new_dialog = true;
@@ -1145,10 +1188,10 @@ export default {
       this.workshop_dialog = true;
       this.workshop.fabricWarehouseId = item.id;
       this.workshop.measurement = item.measurementUnit;
+      this.workshop.color = item.color;
       if(typeof item.modelNumber==="string"){
         this.modelNumbers.push(item.modelNumber)
       }
-
       if(typeof item.modelNumber==="object"){
         this.modelNumbers=[...item.modelNumber]
       }
@@ -1185,7 +1228,7 @@ export default {
       this.subcontractor_dialog = true;
       this.subcontractor.measurement = item.measurementUnit;
       this.subcontractor.fabricWarehouseId = item.id;
-
+      this.subcontractor.color = item.color;
       if(typeof item.modelNumber==="string"){
         this.modelNumbers.push(item.modelNumber)
       }
@@ -1232,4 +1275,8 @@ export default {
   },
 };
 </script>
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.realtive{
+  position: relative !important;
+}
+</style>
