@@ -3,7 +3,34 @@
     <v-overlay :value="loading" absolute style="z-index: 6">
       <v-progress-circular color="#544B99" indeterminate size="80" />
     </v-overlay>
+
     <div style="overflow-x: auto;">
+      <div style="height: 40px !important" class="d-flex mb-4 px-4">
+        <v-text-field
+          outlined
+          hide-details
+          dense
+          height="44"
+          class="rounded-lg base" color="#544B99"
+          placeholder="Search employees"
+          v-model.trim="filterName"
+        >
+          <template #append>
+            <v-icon color="#544B99">mdi-magnify</v-icon>
+          </template>
+        </v-text-field>
+        <v-spacer/>
+        <el-date-picker
+          v-model="reportDate"
+          :picker-options="pickerShortcuts"
+          class="base_picker"
+          placeholder="yyyy.MM.dd"
+          style="height: 100%"
+          type="date"
+          value-format="timestamp"
+        >
+        </el-date-picker>
+      </div>
       <v-simple-table class="min-w-800" height="80vh" fixed-header dense>
         <thead>
           <tr class="text-center">
@@ -124,6 +151,9 @@ export default {
   data() {
     return {
       mainList: [],
+      filterName:null,
+      employeeSearch:"",
+      reportDate:'',
       headers: [
         { text: "No.", value: "id", sortable: false },
         { text: "Employes fullname", value: "fullName", sortable: false },
@@ -143,6 +173,7 @@ export default {
       savedTable:[],
       loading:true,
       tooltipVisible: [],
+      arrForFilter:[],
     };
   },
   computed: {
@@ -156,6 +187,9 @@ export default {
     })
   },
   watch: {
+    filterName(val){
+      this.mainList = this.arrForFilter.filter((item)=> item.fullName.toLowerCase().includes(val ? String(val).toLowerCase() : ""))
+    },
     totals(val){
       this.footer = []
       const temp = JSON.parse(JSON.stringify(val));
@@ -200,9 +234,10 @@ export default {
         { text: "Actions", value: "actions", sortable: false }
       );
 
-      this.mainList.forEach((employee) => {
-        employee.operations = employee.operations.length>0 ? employee.operations : JSON.parse(JSON.stringify(list));
+      this.arrForFilter.forEach((employee) => {
+        employee.operations = JSON.parse(JSON.stringify(list));
       });
+      this.mainList = JSON.parse(JSON.stringify(this.arrForFilter))
       this.loading=false
     },
     async workLogsInfo(val) {
@@ -213,7 +248,7 @@ export default {
     listOfWorkers(list) {
       this.tooltipVisible = list.map(() => []);
       const hasSavedTable = this.savedTable.length === list.length;
-      this.mainList = list.map((item, idx) => ({
+      this.arrForFilter = list.map((item, idx) => ({
         fullName: `${item.lastName} ${item.firstName}`,
         orderNo: idx + 1,
         id: item.id,
@@ -272,7 +307,8 @@ export default {
         return sum + (item.amount ? item.amount : 0);
       }, 0);
     },
-    saveDailyReport() {
+    async saveDailyReport() {
+      this.loading=true
       const payload = {
         data: this.mainList.reduce((acc, item) => {
           const operationsData = item.operations
@@ -286,9 +322,11 @@ export default {
         }, []),
         modelCategoryId: this.workLogsInfo.modelCategoryId,
         modelId: this.$route.params.id,
+        date: this.reportDate,
       };
 
-      this.saveDailyWorkLogs({data:payload,modelId:this.$route.params.id})
+      await this.saveDailyWorkLogs({data:payload,modelId:this.$route.params.id})
+      this.filterName=null
     },
     updateQuantity(event, idx, opIdx) {
       let value = event.target.value.replace(/\D/g, "");
