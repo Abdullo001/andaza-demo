@@ -69,7 +69,6 @@ export const actions={
   saveDailyWorkLogs({dispatch},{data,modelId}){
     this.$axios.post(`/api/v1/work-logs`,data)
     .then((_res)=>{
-      dispatch("getModelCategoryList",data.modelCategoryId)
       dispatch("getWorkLogsInfo",modelId)
     })
     .catch(({response})=>{
