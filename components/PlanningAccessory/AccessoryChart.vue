@@ -206,17 +206,35 @@
               </v-col>
               <v-col cols="4">
                 <div class="label">Actual order quantity</div>
-                <v-text-field
-                  v-model="create_accessory_chart.actualOrderQuantity"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  placeholder="0"
-                  dense
+                <v-tooltip
+                  top
                   color="#544B99"
-                  :rules="[formRules.required]"
-                />
+                  class="pointer"
+                  :open-on-click="false"
+                  :open-on-hover="false"
+                  :open-on-focus="true"
+                >
+                  <template #activator="{ on, attrs }">
+                    <v-text-field
+                      v-bind="attrs"
+                      v-on="on"
+                      v-model="create_accessory_chart.actualOrderQuantity"
+                      @focus="loadDataFromServer()"
+                      outlined
+                      hide-details
+                      height="44"
+                      class="rounded-lg base"
+                      placeholder="0"
+                      dense
+                      color="#544B99"
+                      :rules="[formRules.required]"
+                    />
+                  </template>
+                  <div style="min-width: 170px;" class="d-flex justify-center">
+                    <v-progress-circular v-if="remaingLoading" color="#fff" indeterminate size="20" />
+                    <span class="fs-20" v-else>{{ `Available in stock: ${remaingTotal}` }}</span>
+                  </div>
+                </v-tooltip>
               </v-col>
               <v-col cols="3">
                 <div class="label">{{  $t('fabricOrderingBox.addAccessoryBox.pricePerUnit') }}</div>
@@ -662,6 +680,8 @@ export default {
       currentImage:"",
       image_dialog:false,
       sizeDistributions:[],
+      remaingLoading:true,
+      remaingTotal:null,
     };
   },
   created() {
@@ -783,7 +803,21 @@ export default {
       getPlanningChartTemplates: "accessoryChart/getPlanningChartTemplates",
       setPlanningChartTemplate: "accessoryChart/setPlanningChartTemplate",
       createPlanningChartTemplate: "accessoryChart/createPlanningChartTemplate",
+      getRemaingAccessoryTotal: "accessory/getRemaingAccessoryTotal",
     }),
+    async loadDataFromServer(){
+      const payload = {
+        accessoryId: this.create_accessory_chart.accessoryId.id,
+        accessorySpecification: this.create_accessory_chart.specification,
+      }
+      try{
+        const res = await this.getRemaingAccessoryTotal(payload)
+        this.remaingLoading = false
+        this.remaingTotal = res.data.data.remainingQuantity
+      }catch(error){
+        console.log(error);
+      }
+    },
     saveFabricTemlate(templateName){
       const data={
         templateName,

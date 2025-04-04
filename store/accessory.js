@@ -190,4 +190,8 @@ export const actions = {
         console.log(response);
       });
   },
+  async getRemaingAccessoryTotal({commit},data){
+    const response = await this.$axios.put(`/api/v1/accessory-planning/remaining`,data)
+    return response
+  }
 };

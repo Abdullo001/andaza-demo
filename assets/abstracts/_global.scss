@@ -181,3 +181,24 @@ html, body .v-application {
   line-height: 20px;
   color: #544b99;
 }
+.tooltip {
+  position: absolute;
+  z-index: 5;
+  top: -30px;
+  left: 0;
+  right: 0;
+  width: 250px;
+  background-color: #544b99;
+  color: #fff;
+  padding: 5px 8px;
+  height: 30px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 1;
+  transition: opacity 0.3s;
+}
