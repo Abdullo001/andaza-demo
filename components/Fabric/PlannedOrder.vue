@@ -21,27 +21,45 @@
         />
       </template>
 
-      
+
       <template #item.actualTotalFabric="{item}">
-        <v-text-field
-          @focus="handleKeyEvent(item.plannedFabricOrderId, $event)"
-          @keyup="handleKeyEvent(item.plannedFabricOrderId, $event)"
-          @keyup.enter="handleEnter(item)"
-          outlined
-          :hide-details="!enterError[item.plannedFabricOrderId]"
-          height="32"
-          class="rounded-lg base my-2" 
-          error-color="orange"
-          dense
+        <v-tooltip
           :disabled="item.status === 'ORDERED'"
-          :error-messages="enterError[item.plannedFabricOrderId]"
-          :color="!enterError[item.plannedFabricOrderId]?'#544B99':'orange'"
-          v-model="item.actualFabricTotal"
+          top
+          color="#544B99"
+          class="pointer"
+          :open-on-click="false"
+          :open-on-hover="false"
+          :open-on-focus="true"
         >
-        <template v-slot:message="{ message }">
-          <span class="custom-error-message" style="color: orange;">{{ message }}</span>
-        </template>
-        </v-text-field>
+          <template #activator="{ on, attrs }">
+            <v-text-field
+              v-bind="attrs"
+              v-on="on"
+              @focus="focusFunction(item, $event)"
+              @keyup="handleKeyEvent(item, $event)"
+              @keyup.enter="handleEnter(item)"
+              outlined
+              :hide-details="!enterError[item.plannedFabricOrderId]"
+              height="32"
+              class="rounded-lg base my-2"
+              error-color="orange"
+              dense
+              :disabled="item.status === 'ORDERED'"
+              :error-messages="enterError[item.plannedFabricOrderId]"
+              :color="!enterError[item.plannedFabricOrderId]?'#544B99':'orange'"
+              v-model="item.actualFabricTotal"
+            >
+              <template v-slot:message="{ message }">
+                <span class="custom-error-message" style="color: orange;">{{ message }}</span>
+              </template>
+            </v-text-field>
+          </template>
+          <div style="min-width: 170px;" class="d-flex justify-center">
+            <v-progress-circular v-if="remaingLoading" color="#fff" indeterminate size="20" />
+            <span class="fs-20" v-else>{{ `Available in stock: ${remaingTotal}` }}</span>
+          </div>
+        </v-tooltip>
       </template>
     </v-data-table>
     <v-divider/>
@@ -67,6 +85,8 @@ import {mapActions, mapGetters} from "vuex";
 export default {
   data() {
     return {
+      remaingLoading:true,
+      isTooltipVisible: false,
       headers: [
         { text:  this.$t('planning.listFabric.fabricSpecification'), value: 'specification', sortable: false },
         {
@@ -97,6 +117,7 @@ export default {
       new_valid: true,
       price_valid:true,
       enterError: {},
+      remaingTotal:null,
     }
   },
   computed: {
@@ -145,19 +166,39 @@ export default {
       generateFabricOrder:'plannedOrder/generateFabricOrder',
       setPricePerUnitFunc: 'plannedOrder/setPricePerUnitFunc',
       setActualTotalFunc: 'plannedOrder/setActualTotalFunc',
+      getRemaingFabricTotal: 'fabric/getRemaingFabricTotal',
       getDocuments: "documents/getDocuments",
     }),
-    handleKeyEvent(id, event) {
+    async loadDataFromServer(item){
+      const payload = {
+        fabricPlanningId: this.fabricPlanningId,
+        fabricSpecification: item.specification,
+        color: item.color
+      }
+      try{
+        const res = await this.getRemaingFabricTotal(payload)
+        this.remaingLoading = false
+        this.remaingTotal = res.data.data.remainingQuantity
+      }catch(error){
+        console.log(error);
+      }
+    },
+    focusFunction(item,event){
+      this.remaingLoading = true
+      this.loadDataFromServer(item)
+      this.handleKeyEvent(item, event)
+    },
+    handleKeyEvent(item, event){
       if (event.keyCode !== 13) {
-        this.enterError[id] = 'Please confirm with Enter';
+        this.enterError[item.plannedFabricOrderId] = 'Please confirm with Enter';
       } else {
-        this.enterError[id] = '';
+        this.enterError[item.plannedFabricOrderId] = '';
       }
     },
     handleEnter(item) {
       if (item.actualFabricTotal && item.actualFabricTotal.trim() !== '') {
         this.setActualFabric(item);
-      } 
+      }
     },
     savePlanningOrder() {
       const valid = this.$refs.valid.validate();

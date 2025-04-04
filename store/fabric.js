@@ -6,6 +6,7 @@ export const state = () => ({
   planningChartList: [],
   onePlanningChart: {},
   planningchartTemplatesList:[],
+  remaingFabricTotal:null,
 });
 
 export const getters = {
@@ -17,6 +18,7 @@ export const getters = {
   planningChartList: state => state.planningChartList,
   onePlanningChart: state => state.onePlanningChart,
   planningchartTemplatesList: state => state.planningchartTemplatesList,
+  remaingFabrics: state => state.remaingFabrics,
 };
 export const mutations = {
   setFabricList(state, fabric) {
@@ -39,6 +41,9 @@ export const mutations = {
   },
   setPlanningchartTemplatesList(state, item) {
     state.planningchartTemplatesList = item;
+  },
+  setRemaingFabricTotal(state, item) {
+    state.remaingFabricTotal = item;
   },
 };
 export const actions = {
@@ -137,5 +142,9 @@ export const actions = {
     .catch(({response})=>{
       console.log(response);
     })
+  },
+  async getRemaingFabricTotal({commit},data){
+    const response = await this.$axios.put(`/api/v1/fabric-planning/remaining`,data)
+    return response
   }
 };
