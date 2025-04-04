@@ -1028,20 +1028,17 @@ export default {
         this.getTotalQuantityByModelParts(data)
       }
     },
-    workshop_dialog(val){
+    async workshop_dialog(val){
       if(!val){
         this.modelPTotalQuantity = null
-        this.workshop.modelPartId = ""
-        this.workshop.modelNumber = ""
-        this.workshop.quantity = ""
+        await this.$refs.workshop_form.reset();
       }
+
     },
-    subcontractor_dialog(val){
+    async subcontractor_dialog(val){
       if(!val){
         this.modelPTotalQuantity = null
-        this.subcontractor.modelPartId = ""
-        this.subcontractor.modelNumber = ""
-        this.subcontractor.quantity = ""
+        await this.$refs.subcontractor_form.reset();
       }
     },
     partnerName(val) {
