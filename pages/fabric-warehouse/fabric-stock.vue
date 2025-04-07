@@ -441,7 +441,7 @@
                   outlined
                   hide-details
                   height="44"
-                  class="rounded-lg filter d-flex align-center justify-center mr-2"
+                  class="rounded-lg base"
                   :return-object="true"
                   dense
                   placeholder="Model number"
@@ -453,6 +453,24 @@
                     </v-icon>
                   </template>
                 </v-combobox>
+              </v-col>
+              <v-col cols="12">
+                <div class="label">Body parts</div>
+                <v-select
+                  append-icon="mdi-chevron-down"
+                  v-model="workshop.modelPartId"
+                  :rules="[formRules.required]"
+                  :items="modelParts"
+                  item-text="bodyPart"
+                  item-value="bodyPartId"
+                  hide-details
+                  color="#544B99"
+                  class="base rounded-lg"
+                  rounded
+                  outlined
+                  dense
+                  placeholder="Select body part"
+                />
               </v-col>
 
               <v-col cols="12">
@@ -569,7 +587,7 @@
                   outlined
                   hide-details
                   height="44"
-                  class="rounded-lg filter d-flex align-center justify-center mr-2"
+                  class="rounded-lg base"
                   :return-object="true"
                   dense
                   placeholder="Model number"
@@ -581,7 +599,24 @@
                     </v-icon>
                   </template>
                 </v-combobox>
-
+              </v-col>
+              <v-col cols="12">
+                <div class="label">Body parts</div>
+                <v-select
+                  append-icon="mdi-chevron-down"
+                  v-model="subcontractor.modelPartId"
+                  :rules="[formRules.required]"
+                  :items="modelParts"
+                  item-text="bodyPart"
+                  item-value="bodyPartId"
+                  hide-details
+                  color="#544B99"
+                  class="base rounded-lg"
+                  rounded
+                  outlined
+                  dense
+                  placeholder="Select body part"
+                />
               </v-col>
               <v-col cols="12">
                 <v-checkbox
@@ -927,6 +962,7 @@ export default {
       modelsList: "models/modelsList",
       processDetails: "fabricStock/processDetails",
       measurementUnitList: "measurement/measurementUnit",
+      modelParts: "modelParts/modelPartsList",
     }),
   },
 
@@ -936,6 +972,7 @@ export default {
         this.workshopProccessId = val.id;
         this.workshop.modelId = this.workshopProccessId;
         this.getFabricProcessDetails({ id: this.workshopProccessId, isForSubcontractor: false });
+        this.getModelPart(val.id);
       }
     },
     "subcontractor.modelNumber"(val) {
@@ -1006,6 +1043,7 @@ export default {
       getModelsList: "models/getModelsList",
       getFabricProcessDetails: "fabricStock/getFabricProcessDetails",
       getMeasurementUnit: "measurement/getMeasurementUnit",
+      getModelPart: "modelParts/getModelPart",
     }),
     loadDetails({ item }) {
 
@@ -1115,13 +1153,14 @@ export default {
       const data = {
         id: this.workshop.id,
         quantity: this.workshop.quantity,
-        batchNumber: this.workshop.isNew ? this.workshop.batchNumber : undefined,
-        sipNumber: this.workshop.isNew ? this.workshop.sipNumber : undefined,
-        color: this.workshop.isNew ? this.workshop.color : undefined,
-        fabricSpecification: this.workshop.isNew ? this.workshop.fabricSpecification : undefined,
-        processDetailId: !this.workshop.isNew ? this.workshop.processDetailId : undefined,
-        modelId: this.workshop.isNew ? this.workshop.modelId : undefined,
-        isNew: this.workshop.isNew ? this.workshop.isNew : this.workshop.isNew = false,
+        batchNumber: this.workshop.batchNumber,
+        sipNumber: this.workshop.sipNumber,
+        color: this.workshop.color,
+        fabricSpecification: this.workshop.fabricSpecification,
+        processDetailId: this.workshop.processDetailId,
+        modelId: this.workshop.modelNumber.id,
+        isNew: this.workshop.isNew,
+        modelPartId: this.workshop.modelPartId,
       }
       this.setFabricStockToWorkshop(data);
       await this.$refs.workshop_form.reset();
@@ -1159,17 +1198,18 @@ export default {
       const data = {
         id: this.subcontractor.id,
         quantity: this.subcontractor.quantity,
-        batchNumber: this.subcontractor.isNew ? this.subcontractor.batchNumber : undefined,
-        sipNumber: this.subcontractor.isNew ? this.subcontractor.sipNumber : undefined,
-        color: this.subcontractor.isNew ? this.subcontractor.color : undefined,
-        fabricSpecification: this.subcontractor.isNew ? this.subcontractor.fabricSpecification : undefined,
-        processDetailId: !this.subcontractor.isNew ? this.subcontractor.processDetailId : undefined,
+        batchNumber: this.subcontractor.batchNumber,
+        sipNumber: this.subcontractor.sipNumber,
+        color: this.subcontractor.color,
+        fabricSpecification: this.subcontractor.fabricSpecification,
+        processDetailId: this.subcontractor.processDetailId,
         partnerId:  this.subcontractor.partnerId,
-        modelId: this.subcontractor.isNew ? this.subcontractor.modelId : undefined,
-        isNew: this.subcontractor.isNew ? this.subcontractor.isNew : this.subcontractor.isNew = false,
+        modelId: his.subcontractor.modelId,
+        isNew: this.subcontractor.isNew,
+        modelPartId: this.subcontractor.modelPartId,
       };
       if(typeof this.subcontractor.partnerId==='object'){
-        data.partnerId=  this.subcontractor.partnerId?.id
+        data.partnerId = this.subcontractor.partnerId?.id
 
       }
       await this.setFabricStockToSubcontract(data);

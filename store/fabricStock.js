@@ -65,7 +65,6 @@ export const actions = {
     this.$axios
       .get( `/api/v1/fabric-stocks/details-partners?warehouseId=${id}` )
       .then( ( res ) => {
-        console.log( res.data.data );
         commit( "setPartnerList", res.data.data );
       } )
       .catch( ( res ) => {
@@ -130,7 +129,6 @@ export const actions = {
     try {
       const response = await this.$axios.get( `/api/v1/fabric-stocks/process-details?modelId=${id}&isForSubcontractor=${isForSubcontractor}` );
       commit( "setProcessDetails", response.data.data );
-      console.log(response)
     } catch ( error ) {
       if ( error.response && error.response.data ) {
         this.$toast.error( error.response.data.message );
@@ -142,7 +140,6 @@ export const actions = {
     this.$axios
       .put( `/api/v1/fabric-stocks/give-own`, data )
       .then( ( res ) => {
-        console.log( res );
         this.$toast.success( res.data.message );
         dispatch( "getFabricStockList", {
           sipNumber: "",
@@ -160,7 +157,6 @@ export const actions = {
     this.$axios
       .put( `/api/v1/fabric-stocks/give-subcontractor`, data )
       .then( ( res ) => {
-        console.log( res );
         this.$toast.success( res.data.message );
         dispatch( "getFabricStockList", {
           sipNumber: "",
