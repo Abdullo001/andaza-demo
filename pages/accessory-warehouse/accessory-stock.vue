@@ -420,6 +420,8 @@
                   </template>
                 </v-combobox>
               </v-col>
+            </v-row>
+            <v-row v-if="sizesList.length > 0">
               <v-col v-for="(item,idx) in sizesList" :key="idx" cols="3">
                 <div class="label">{{ item.size }}</div>
                 <v-text-field
