@@ -1301,10 +1301,10 @@ export default {
       };
       this.withSizes = !!item.sizeDistributions.length;
       if (this.withSizes) {
-        this.sizesList = item.sizeDistributions.map((item) => ({
+        this.sizesList = item.sizeDistributions.length>0?item.sizeDistributions.map((item) => ({
           size: item.size,
           quantity: item.quantity,
-        }));
+        })):[];
       }
       this.new_dialog = true;
     },
