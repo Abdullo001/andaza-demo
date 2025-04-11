@@ -1299,12 +1299,15 @@ export default {
         id: item.supplierId,
         name: item.supplierName,
       };
-      this.withSizes = !!item.sizeDistributions.length;
-      if (this.withSizes) {
-        this.sizesList = item.sizeDistributions.length>0?item.sizeDistributions.map((item) => ({
+      if (!!item.sizeDistributions && item.sizeDistributions.length>0) {
+        this.withSizes = true;
+        this.sizesList = item.sizeDistributions.map((item) => ({
           size: item.size,
           quantity: item.quantity,
-        })):[];
+        }));
+      }else{
+        this.withSizes = false;
+        this.sizesList = [];
       }
       this.new_dialog = true;
     },
