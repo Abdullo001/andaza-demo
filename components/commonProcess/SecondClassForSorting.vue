@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <v-data-table
       :headers="headers"
       :items="checkedList"
@@ -388,7 +388,7 @@ export default {
   computed:{
     ...mapGetters({
       secondClassList:"commonProcess/secondClassList",
-      historySecondList:"history/historySecondList",
+      historySecondList: "history/historyList",
       planningProcessId:"commonProcess/planningProcessId",
       streamList:"commonProcess/streamList",
     }),
@@ -398,6 +398,7 @@ export default {
     secondClassList(list){
       this.headers= [
         {text: 'Color', sortable: false, align: 'start', value: 'color'},
+        {text: 'Model part', sortable: false, align: 'start', value: 'bodyPart'}
       ],
 
       list[0]?.sizeDistributionList?.forEach((item) => {
@@ -407,7 +408,7 @@ export default {
       })
 
       this.headers.push(
-        {text: 'Produced total', sortable: false, align: 'start', value: 'totalCutQuantity'},
+        {text: 'Produced total', sortable: false, align: 'start', value: 'receivedQuantity'},
         {text: 'Actions', sortable: false, align: 'start', value: 'actions'},
       )
 
@@ -432,7 +433,6 @@ export default {
     historySecondList(list){
       this.historyHeaders = [
         {text: 'Date', sortable: false, align: 'start', value: 'workDate'},
-        {text: 'Stream Number', sortable: false, align: 'start', value: 'streamNumber'},
       ],
         list[0]?.sizeDistributions?.forEach((item) => {
           this.historyHeaders.push({
@@ -463,9 +463,9 @@ export default {
   methods: {
     ...mapActions({
       getSecondClassList:"commonProcess/getSecondClassList",
-      getHistorySecondList:"history/getHistorySecondList",
-      updateSecondClassProcess:"commonProcess/updateSecondClassProcess",
-      deleteSecondProcessProcess:"commonProcess/deleteSecondProcessProcess",
+      getHistorySecondList:"history/getSorting",
+      updateSorting:"commonProcess/updateSorting",
+      deleteSecondProcessProcess:"commonProcess/deleteSorting",
       editHistorySecondClassItem:"commonProcess/editHistorySecondClassItem",
 
     }),
@@ -520,9 +520,9 @@ export default {
           color: this.selectedItem.color,
         }
         if(this.statusTab==="SUB"){
-          data.operationType="SECOND_CLASS_SUBCONTRACTOR"
+          data.type="SUBCONTRACTOR"
         }
-        this.updateSecondClassProcess(data)
+        this.updateSorting({payload:data, sortingProcessDetailsId:this.selectedProcessId, isSecond:true})
       }
       if(this.selectedItem.status==="editHistory"){
         const data={
@@ -538,7 +538,7 @@ export default {
       this.selectedItem={...item}
     },
     deleteConfirm() {
-      this.deleteSecondProcessProcess(this.selectedItem.id)
+      this.deleteSecondProcessProcess({sortingProcessDetailsId:this.selectedItem.id, isSecond:true})
     },
     saveClassification() {
     },

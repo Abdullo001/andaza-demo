@@ -538,6 +538,7 @@ export default {
       packaging: "Упаковка",
       quality_control: "Контроль качества",
       waybill: "Накладной",
+      sorting: "Сортировка",
     },
     workShopType: {
       own: "На фабрике",

@@ -544,6 +544,7 @@ export default {
       packaging: "Qadoqlash",
       quality_control: "Sifat nazorati",
       waybill: "Nakladnoy",
+      sorting: "Tasnif"
     },
     workShopType: {
       own: "Fabrikada",
