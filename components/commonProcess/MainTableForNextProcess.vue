@@ -228,10 +228,10 @@
             </template>
             <template #item.toProcess="{ item }">
               <div class="text-capitalize">
-                {{
+                {{item.toProcess?
                   $t(
                     `planningProduction.process.${item.toProcess.toLowerCase()}`
-                  )
+                  ):''
                 }}
               </div>
             </template>
@@ -267,10 +267,10 @@
           >
             <template #item.toProcess="{ item }">
               <div class="text-capitalize">
-                {{
+                {{item.toProcess?
                   $t(
                     `planningProduction.process.${item.toProcess.toLowerCase()}`
-                  )
+                  ):''
                 }}
               </div>
             </template>
@@ -488,7 +488,7 @@ export default {
         },
       ];
 
-      list[0]?.sizeDistributionList.forEach((item) => {
+      list[0]?.sizeDistributions.forEach((item) => {
         this.historyHeaders.push({
           text: item.size,
           sortable: false,
@@ -515,7 +515,7 @@ export default {
       const specialList = list.map(function (el) {
         const value = {};
         const sizesList = [];
-        el?.sizeDistributionList.forEach((item) => {
+        el?.sizeDistributions.forEach((item) => {
           value[item.size] = item.quantity;
           sizesList.push({ size: item.size, quantity: item.quantity });
         });

@@ -169,10 +169,10 @@ export const actions={
       this.$toast.error(res.data.message)
     })
   },
-  async getSortingHistory({commmit}, id){
+  async getSortingHistory({commit}, id){
     await this.$axios.get(`/api/v1/kitting-operation/history?kittingOperationId=${id}`)
     .then((res)=>{
-      commmit("setHistoryList",res.data.data)
+      commit("setHistoryProcessableList",res.data.data)
     })
     .catch((res)=>{
       console.log(res);
