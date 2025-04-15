@@ -480,7 +480,11 @@ export default {
 
       }
       if(val===2){
-        this.getPassingList(this.planningProcessId)
+        this.getPassingListForSorting(this.planningProcessId);
+        Promise.all([
+          this.getKittedList({planningProcessId: this.planningProcessId, isSecond: false}),
+          this.getKittedList({planningProcessId: this.planningProcessId, isSecond: true}),
+        ]);
       }
     }
   },
@@ -500,6 +504,8 @@ export default {
       getPassingList:'cuttingToNextProcess/getPassingList',
       getAccessoryOwnList:'givenAccessoryQuantity/getAccessoryOwnList',
       getAccessorySubcontractList:'givenAccessoryQuantity/getAccessorySubcontractList',
+      getPassingListForSorting: "passingToNextProcess/getPassingListForSorting",
+      getKittedList: "passingToNextProcess/getKittedList",
     }),
     clickBtn(){
       this.show_btn = !this.show_btn

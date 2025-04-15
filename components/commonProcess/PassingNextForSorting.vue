@@ -74,14 +74,6 @@ export default {
       getKittedList: "passingToNextProcess/getKittedList",
     }),
   },
-  async mounted() {
-    this.title = this.$route.path.split("/")[2]==='planning-production'?this.$route.path.split("/")[3]:this.$route.path.split("/")[2];
-    this.getPassingListForSorting(this.planningProcessId);
-    Promise.all([
-      this.getKittedList({planningProcessId: this.planningProcessId, isSecond: false}),
-      this.getKittedList({planningProcessId: this.planningProcessId, isSecond: true}),
-    ]);
-  },
 };
 </script>
 

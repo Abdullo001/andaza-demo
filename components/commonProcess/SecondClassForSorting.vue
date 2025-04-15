@@ -246,23 +246,21 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form ref="edit_form" v-model="edit_validate" lazy-validation>
-            <v-row class="mb-4">
-              <v-col cols="6">
-                <div class="label">Stream Number</div>
-                <v-select
-                  :items="streamList"
-                  v-model.trim="selectedItem.streamId"
-                  append-icon="mdi-chevron-down"
-                  item-text="streamNumber"
-                  item-value="streamId"
+            <v-row>
+              <v-col cols="12" lg="3" v-for="(item,idx) in selectedItem.sizeDistributions" :key="idx">
+                <div class="label">{{ item.size }}</div>
+                <v-text-field
                   outlined
                   hide-details
                   dense
                   height="44"
                   class="rounded-lg base" color="#544B99"
-                  placeholder="Select reason"
+                  placeholder="0"
+                  v-model.trim="item.quantity"
                 />
               </v-col>
+            </v-row>
+            <v-row class="mb-4">
               <v-col cols="6">
                 <div class="label">Work date</div>
                 <el-date-picker
@@ -277,20 +275,6 @@
                     validate-on-blur
                   >
                 </el-date-picker>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12" lg="3" v-for="(item,idx) in selectedItem.sizeDistributions" :key="idx">
-                <div class="label">{{ item.size }}</div>
-                <v-text-field
-                  outlined
-                  hide-details
-                  dense
-                  height="44"
-                  class="rounded-lg base" color="#544B99"
-                  placeholder="0"
-                  v-model.trim="item.quantity"
-                />
               </v-col>
             </v-row>
           </v-form>
