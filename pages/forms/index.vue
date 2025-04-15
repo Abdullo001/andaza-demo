@@ -192,6 +192,30 @@ export default {
           status: "PRODUCTION",
           to: this.localePath("/forms/shortcoming-classification"),
         },
+        {
+          title: "Work completed according to processes",
+          subtitle: this.$t("forms.index.cards.inconmingSewingSub"),
+          status: "PRODUCTION",
+          to: this.localePath("/forms/process-form"),
+        },
+        {
+          title: "Daily sorting",
+          subtitle: this.$t("forms.index.cards.inconmingSewingSub"),
+          status: "PRODUCTION",
+          to: this.localePath("/forms/daily-sorting-form"),
+        },
+        {
+          title: "Cutting to Outsourcing",
+          subtitle: this.$t("forms.index.cards.inconmingSewingSub"),
+          status: "PRODUCTION",
+          to: this.localePath("/forms/cutting-to-subcontractor"),
+        },
+        {
+          title: "Sorting to streams",
+          subtitle: this.$t("forms.index.cards.inconmingSewingSub"),
+          status: "PRODUCTION",
+          to: this.localePath("/forms/to-stream-form"),
+        },
       ],
       filteredButtons: [],
     };
