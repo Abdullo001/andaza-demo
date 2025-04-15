@@ -59,7 +59,7 @@ export const mutations = {
 
 export const actions = {
   getOwnList({commit, state}) {
-    this.$axios.get(`/api/v1/common-process-details/list-own?planningProcessId=${ state.planningProcessId}&commonOperationType=FIRST_CLASS`)
+    this.$axios.get(`/api/v1/common-process-details/list-own?planningProcessId=${state.planningProcessId}&commonOperationType=FIRST_CLASS`)
       .then((res) => {
         commit("setOwnList", res.data.data)
       })
@@ -253,7 +253,77 @@ export const actions = {
     .catch((response)=>{
       console.log(response);
     })
-  }
+  },
+  getSortingOwn({commit,state},isSecond){
+    this.$axios.get(`/api/v1/sorting-process-details/list-own?planningProcessId=${state.planningProcessId}&isSecond=${isSecond}`)
+    .then((res)=>{
+      const data = res.data.data.map(item => {
+        return {
+          ...item,
+          sizeDistributionList: item.sizeDistributions,
+          receivedQuantity: item.totalQuantity,
+        }
+      })
+      if(!isSecond){
+        commit("setOwnList", data)
+      }else{
+        commit("setSecondClassList", data)
+      }
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+  updateSorting({dispatch},{payload, sortingProcessDetailsId, isSecond}){
+    this.$axios.put(`/api/v1/sorting-process-details/${sortingProcessDetailsId}`,payload)
+    .then((res)=>{
+      console.log(payload);
+      if(payload.type==="SUBCONTRACTOR"){
+        dispatch("getSortingSubcontractor", isSecond)
+      }else{
+        dispatch("getSortingOwn", isSecond)
+      }
+
+      this.$toast.success(res.data.message)
+    })
+    .catch((response)=>{
+      console.log(response);
+      this.$toast.error(response.data.message)
+    })
+  },
+  deleteSorting({dispatch},{sortingProcessDetailsId, isSecond}){
+    this.$axios.delete(`/api/v1/sorting-process-details/${sortingProcessDetailsId}`)
+    .then((res)=>{
+      dispatch("getSortingOwn", isSecond)
+      this.$toast.success(res.data.message)
+    })
+    .catch((response)=>{
+      console.log(response);
+      this.$toast.error(response.data.message)
+    })
+  },
+
+  getSortingSubcontractor({state,commit}, isSecond){
+    this.$axios.get(`/api/v1/sorting-process-details/list-subcontractor?planningProcessId=${state.planningProcessId}&isSecond=${isSecond}`)
+    .then((res)=>{
+      const data = res.data.data.map(item => {
+        return {
+          ...item,
+          sizeDistributionList: item.sizeDistributions,
+          receivedQuantity: item.totalQuantity,
+        }
+      })
+      if(!isSecond){
+        commit("setSubcontractList", data)
+      }else{
+        commit("setSecondClassList", data)
+      }
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+
 
 
 }

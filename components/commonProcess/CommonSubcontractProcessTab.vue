@@ -493,6 +493,7 @@ export default {
 
       historyList: [],
       totalQuantity:null,
+      title:"",
     }
   },
 
@@ -580,7 +581,9 @@ export default {
     ...mapActions({
       getSubcontarctList:"commonProcess/getSubcontarctList",
       updateCommonProcess:"commonProcess/updateCommonProcess",
+      updateSorting:"commonProcess/updateSorting",
       deleteCommonProcess:"commonProcess/deleteCommonProcess",
+      getSortingSubcontractor:"commonProcess/getSortingSubcontractor",
       createShortcomingsList:"commonCalculationsShortcomings/createShortcomingsList",
       getHistoryList:"history/getHistoryList",
       deleteHistory:"history/deleteHistoryItem",
@@ -595,8 +598,8 @@ export default {
     editPrintingRow(item){
       this.edit_dialog=true
       this.selectedSubcontract={...item}
-      this.selectedSubcontract.pricePerWork=item.pricePerWork.split(" ")[0]
-      this.selectedSubcontract.currency=item.pricePerWork.split(" ")[1]
+      this.selectedSubcontract.pricePerWork=item.pricePerWork ? item.pricePerWork.split(" ")[0] : ""
+      this.selectedSubcontract.currency=item.pricePerWork ? item.pricePerWork.split(" ")[1] : ""
       this.selectedProcessId=item.id
       this.getHistoryList(item.id)
     },
@@ -620,9 +623,14 @@ export default {
           })),
           color:this.selectedSubcontract.color,
           workDate:this.selectedSubcontract.workDate,
-          streamId: this.selectedSubcontract.streamId
+          streamId: this.selectedSubcontract.streamId,
+          type: "SUBCONTRACTOR",
         }
-        this.updateCommonProcess(data)
+        if(this.title==="sorting"){
+          this.updateSorting({payload:data, sortingProcessDetailsId:this.selectedProcessId, isSecond:false})
+        }else{
+          this.updateCommonProcess(data)
+        }
       }
       this.edit_dialog=false
     },
@@ -674,7 +682,12 @@ export default {
     }
   },
   mounted(){
-    this.getSubcontarctList()
+    this.title=this.$route.path.split("/")[2]
+    if(this.title==="sorting"){
+      this.getSortingSubcontractor(false)
+    }else{
+      this.getSubcontarctList()
+    }
     this.getPatokList()
   }
 }

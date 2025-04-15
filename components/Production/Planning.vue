@@ -234,6 +234,7 @@ export default {
         {id:"IRONING", name:this.$t('planningProduction.process.ironing')},
         {id:"QUALITY_CONTROL", name:this.$t('planningProduction.process.quality_control')},
         {id:"PACKAGING", name:this.$t('planningProduction.process.packaging')},
+        {id:"SORTING", name:this.$t('planningProduction.process.sorting')},
       ],
       workshopList:[
         {id:"SUBCONTRACTOR", name:this.$t('planningProduction.workShopType.subcontractor')},

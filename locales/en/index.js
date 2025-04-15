@@ -543,6 +543,7 @@ export default {
       packaging: "Packaging",
       quality_control: "Quality control",
       waybill: "Waybill",
+      sorting: "Sorting",
     },
     workShopType: {
       own: "In-house",

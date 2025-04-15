@@ -28,7 +28,7 @@ export const actions={
     this.$axios.get(`/api/v1/common-operations?commonProcessDetailsId=${id}&commonOperationType=FIRST_CLASS`)
     .then((res)=>{
       commit("setHistoryList",res.data.data)
-      
+
     })
     .catch((res)=>{
       console.log(res);
@@ -91,6 +91,15 @@ export const actions={
       console.log(res);
     })
   },
+  getSorting({commit},sortingProcessDetailsId){
+    this.$axios.get(`/api/v1/sorting-operation?sortingProcessDetailsId=${sortingProcessDetailsId}`)
+    .then((res)=>{
+      commit("setHistoryList",res.data.data)
+    })
+    .catch((res)=>{
+      console.log(res);
+    })
+  }
 
- 
+
 }

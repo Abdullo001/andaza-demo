@@ -8,7 +8,7 @@
     >
       <template #top>
         <v-card flat>
-          <v-card-title>{{ $t('planningProduction.planning.passingTab') }}</v-card-title>
+          <v-card-title>{{ tableTitle }}</v-card-title>
         </v-card>
       </template>
       <template #item.actions="{ item }">
@@ -29,14 +29,9 @@
               <v-img src="/history.svg" max-width="22" />
             </v-btn>
           </template>
-          <span class="text-capitalize">{{ $t('history') }}</span>
+          <span class="text-capitalize">{{ $t("history") }}</span>
         </v-tooltip>
-        <v-tooltip
-          top
-          color="#544B99"
-          class="pointer"
-          v-if="Object.keys(item).length > 2"
-        >
+        <v-tooltip top color="#544B99" class="pointer">
           <template #activator="{ on, attrs }">
             <v-btn
               icon
@@ -48,18 +43,27 @@
               <v-img src="/right-icon.svg" max-width="21" />
             </v-btn>
           </template>
-          <span class="text-capitalize">{{ $t('planningProduction.planning.nextP') }}</span>
+          <span class="text-capitalize">{{
+            $t("planningProduction.planning.nextP")
+          }}</span>
         </v-tooltip>
       </template>
-      <template #item.workshop="{item}">
-        {{ item.workshop==='OWN_WORKSHOP'? $t('planningProduction.workShopType.own') : item.workshop}}
+
+      <template #item.workshop="{ item }">
+        {{
+          item.workshop === "OWN_WORKSHOP"
+            ? $t("planningProduction.workShopType.own")
+            : item.workshop
+        }}
       </template>
     </v-data-table>
 
     <v-dialog v-model="edit_dialog" width="1200">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold">{{ $t('planningProduction.planning.sendToNextP') }}</div>
+          <div class="text-capitalize font-weight-bold">
+            {{ $t("planningProduction.planning.sendToNextP") }}
+          </div>
           <v-btn icon color="#544B99" @click="closeDialog">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -87,7 +91,7 @@
                 />
               </v-col>
             </v-row>
-            <v-row>
+            <v-row v-if="title !== 'packaging'">
               <v-col cols="8">
                 <v-radio-group
                   row
@@ -105,19 +109,16 @@
                     :label="$t('planningProduction.workShopType.subcontractor')"
                     value="SUBCONTRACTOR"
                   ></v-radio>
-                  <v-radio
-                    color="#544B99"
-                    :label="$t('sidebar.supplyWarehouse')"
-                    value="SUPPLY_WAREHOUSE"
-                  ></v-radio>
                 </v-radio-group>
               </v-col>
               <v-col cols="4" class="d-flex align-center">
                 <v-switch inset v-model="autoFilling" color="#4F46E5" />
-                <div class="label mr-5">{{ $t('autoFilling') }}</div>
+                <div class="label mr-5">{{ $t("autoFilling") }}</div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">{{ $t('planningProduction.planning.nextP') }}</div>
+                <div class="label">
+                  {{ $t("planningProduction.planning.nextP") }}
+                </div>
                 <v-select
                   :items="nextProcessList"
                   item-text="process"
@@ -131,7 +132,25 @@
                   height="44"
                   class="rounded-lg base"
                   color="#544B99"
-                  :placeholder="$t('planningProduction.planning.selectNextProcess')"
+                  :placeholder="
+                    $t('planningProduction.planning.selectNextProcess')
+                  "
+                />
+              </v-col>
+              <v-col cols="6">
+                <div class="label">Stream Number</div>
+                <v-select
+                  :items="streamList"
+                  v-model.trim="selectedItem.streamId"
+                  append-icon="mdi-chevron-down"
+                  item-text="streamNumber"
+                  item-value="streamId"
+                  outlined
+                  hide-details
+                  dense
+                  height="44"
+                  class="rounded-lg base" color="#544B99"
+                  placeholder="Select reason"
                 />
               </v-col>
               <v-col
@@ -139,7 +158,7 @@
                 lg="6"
                 v-if="selectedItem.workshopType === 'SUBCONTRACTOR'"
               >
-                <div class="label">{{ $t('prefinances.child.partner') }}</div>
+                <div class="label">{{ $t("prefinances.child.partner") }}</div>
                 <v-combobox
                   v-model="selectedItem.partnerId"
                   :items="partnerList"
@@ -208,7 +227,13 @@
               <div class="title ma-4">{{ $t(`history`) }}</div>
             </template>
             <template #item.toProcess="{ item }">
-              <div class="text-capitalize">{{ $t(`planningProduction.process.${item.toProcess.toLowerCase()}`) }}</div>
+              <div class="text-capitalize">
+                {{
+                  $t(
+                    `planningProduction.process.${item.toProcess.toLowerCase()}`
+                  )
+                }}
+              </div>
             </template>
             <template #item.actions="{ item }">
               <v-btn icon color="green" @click.stop="editHistoryItem(item)">
@@ -240,9 +265,15 @@
             class="mt-4 rounded-lg"
             style="border: 1px solid #e9eaeb"
           >
-          <template #item.toProcess="{ item }">
-            <div class="text-capitalize">{{ $t(`planningProduction.process.${item.toProcess.toLowerCase()}`) }}</div>
-          </template>
+            <template #item.toProcess="{ item }">
+              <div class="text-capitalize">
+                {{
+                  $t(
+                    `planningProduction.process.${item.toProcess.toLowerCase()}`
+                  )
+                }}
+              </div>
+            </template>
           </v-data-table>
         </v-card-text>
       </v-card>
@@ -253,20 +284,33 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import WarningDialog from "./WarningDialog.vue";
+import WarningDialog from "./../WarningDialog.vue";
 
 export default {
   name: "QualityControl",
   components: {
     WarningDialog,
   },
+  props: {
+    passingList: {
+      type: Array,
+      default: () => [],
+    },
+    tableTitle: {
+      type: String,
+      default: "Table Title",
+    },
+  },
   data() {
     return {
+      waybillDialog: false,
+      partnerName: "",
+      autoFilling: false,
       edit_dialog: false,
       history_dialog: false,
       selectedItem: {},
-      autoFilling: false,
       edit_validate: true,
+      title: "",
       process_list: [
         "CUTTING",
         "PRINTING",
@@ -276,35 +320,56 @@ export default {
         "PACKAGING",
       ],
       headers: [
-        { text: this.$t('planningProduction.planning.color'), align: "start", sortable: false, value: "color" },
-        { text: this.$t('total'), align: "start", sortable: false, value: "total" },
         {
-          text: this.$t('planningProduction.planning.workshop'),
+          text: this.$t("planningProduction.planning.color"),
+          align: "start",
+          sortable: false,
+          value: "color",
+        },
+        {
+          text: this.$t("total"),
+          align: "start",
+          sortable: false,
+          value: "total",
+        },
+        {
+          text: this.$t("planningProduction.planning.workshop"),
           align: "start",
           sortable: false,
           value: "workshop",
         },
-        { text: this.$t('planningProduction.planning.actions'), align: "end", sortable: false, value: "actions" },
+        {
+          text: this.$t("planningProduction.planning.actions"),
+          align: "end",
+          sortable: false,
+          value: "actions",
+        },
       ],
       checkedList: [],
       historyHeaders: [
         {
-          text: this.$t('historyTable.toProcess'),
+          text: this.$t("historyTable.toProcess"),
           sortable: false,
           align: "start",
           value: "toProcess",
         },
-        { text: this.$t('historyTable.date'), sortable: false, align: "start", value: "createdDate" },
         {
-          text: this.$t('historyTable.doneBy'),
+          text: this.$t("historyTable.date"),
+          sortable: false,
+          align: "start",
+          value: "createdBy",
+        },
+        {
+          text: this.$t("historyTable.doneBy"),
           sortable: false,
           align: "center",
-          value: "createdBy",
+          value: "createdDate",
         },
       ],
       historyList: [],
       selectedEntity: null,
-      partnerName: "",
+      currency_enums: ["USD", "UZS", "RUB"],
+      waybilSearch: "",
       warningState: false,
       warningText: "",
     };
@@ -313,11 +378,13 @@ export default {
   computed: {
     ...mapGetters({
       planningProcessId: "cuttingProcess/planningProcessId",
-      passingList: "cuttingToNextProcess/passingList",
       productionId: "production/planning/productionId",
       partnerList: "partners/partnerList",
-      historyListServer: "cuttingToNextProcess/historyProcessableList",
+      historyListServer: "passingToNextProcess/historyProcessableList",
       nextProcessList: "passingToNextProcess/nextProcessList",
+      measurementUnitList: "measurement/measurementUnit",
+      waybillList: "waybill/waybillList",
+      streamList:"commonProcess/streamList",
     }),
     warningDate: {
       get() {
@@ -334,6 +401,12 @@ export default {
   },
 
   watch: {
+    waybilSearch(val) {
+      this.getWaybillList({ page: 0, size: 10, number: val });
+    },
+    partnerName(val) {
+      this.getPartnerList({ page: 0, size: 10, partnerName: val });
+    },
     autoFilling(val) {
       if (val) {
         this.selectedItem.sizeDistributions.forEach((item, idx) => {
@@ -345,58 +418,70 @@ export default {
         });
       }
     },
-    partnerName(val) {
-      this.getPartnerList({ page: 0, size: 10, partnerName: val });
-    },
-    passingList(list) {
-      this.headers = [
-        { text: this.$t('planningProduction.planning.color'), align: "start", sortable: false, value: "color" },
-        { text: this.$t('bodyPart'), align: "start", sortable: false, value: "modelPartName" },
-
-      ];
-
-      list[0]?.sizeDistributionList.forEach((item) => {
-        this.headers.push({
-          text: item.size,
-          sortable: false,
-          align: "start",
-          value: item.size,
-        });
-      });
-
-      this.headers.push(
-        { text: this.$t('total'), align: "start", sortable: false, value: "total" },
-        {
-          text: this.$t('planningProduction.planning.workshop'),
-          align: "start",
-          sortable: false,
-          value: "workshop",
-        },
-        { text: this.$t('planningProduction.planning.actions'), align: "end", sortable: false, value: "actions" }
-      );
-
-      const specialList = list.map(function (el) {
-        const value = {};
-        const sizesList = [];
-        el?.sizeDistributionList.forEach((item) => {
-          value[item.size] = item.quantity;
-          sizesList.push({ size: item.size, quantity: null });
+    passingList: {
+      deep: true,
+      handler(list) {
+        this.headers = [
+          {
+            text: this.$t("planningProduction.planning.color"),
+            align: "start",
+            sortable: false,
+            value: "color",
+          },
+        ];
+        list[0]?.sizeDistributions.forEach((item) => {
+          this.headers.push({
+            text: item.size,
+            sortable: false,
+            align: "start",
+            value: item.size,
+          });
         });
 
-        return {
-          ...value,
-          ...el,
-          sizeDistributions: [...sizesList],
-        };
-      });
+        this.headers.push(
+          {
+            text: this.$t("total"),
+            align: "start",
+            sortable: false,
+            value: "total",
+          },
+          {
+            text: this.$t("planningProduction.planning.workshop"),
+            align: "start",
+            sortable: false,
+            value: "workshop",
+          },
+          {
+            text: this.$t("planningProduction.planning.actions"),
+            align: "end",
+            sortable: false,
+            value: "actions",
+          }
+        );
 
-      this.checkedList = JSON.parse(JSON.stringify(specialList));
+        const specialList = list.map(function (el) {
+          const value = {};
+          const sizesList = [];
+          el?.sizeDistributions.forEach((item) => {
+            value[item.size] = item.quantity;
+            sizesList.push({ size: item.size, quantity: null });
+          });
+
+          return {
+            ...value,
+            ...el,
+            sizeDistributions: [...sizesList],
+          };
+        });
+
+        this.checkedList = JSON.parse(JSON.stringify(specialList));
+      },
     },
 
     historyListServer(list) {
       this.historyHeaders = [
         {
-          text: this.$t('historyTable.toProcess'),
+          text: this.$t("historyTable.toProcess"),
           sortable: false,
           align: "start",
           value: "toProcess",
@@ -413,9 +498,14 @@ export default {
       });
 
       this.historyHeaders.push(
-        { text: this.$t('historyTable.date'), sortable: false, align: "start", value: "createdDate" },
         {
-          text: this.$t('historyTable.doneBy'),
+          text: this.$t("historyTable.date"),
+          sortable: false,
+          align: "start",
+          value: "createdDate",
+        },
+        {
+          text: this.$t("historyTable.doneBy"),
           sortable: false,
           align: "center",
           value: "createdBy",
@@ -442,40 +532,72 @@ export default {
   },
 
   created() {
-    this.getPartnerList({ page: 0, size: 50 });
+    this.getPartnerList({ page: 0, size: 10 });
+    this.getMeasurementUnit();
+    this.getWaybillList({ page: 0, size: 10 });
   },
 
   methods: {
     ...mapActions({
-      getPassingList: "cuttingToNextProcess/getPassingList",
-      setUpdatePass: "cuttingToNextProcess/setUpdatePass",
+      getPassingList: "passingToNextProcess/getPassingList",
+      setUpdatePass: "passingToNextProcess/setUpdatePass",
+      passKittedItem: "passingToNextProcess/passKittedItem",
       getPartnerList: "partners/getPartnerList",
-      getHistoryList: "cuttingToNextProcess/getHistoryProcessableList",
-      deleteHistoryProcessable: "cuttingToNextProcess/deleteHistoryProcessable",
-      setHistoryProcessable: "cuttingToNextProcess/setHistoryProcessable",
+      getHistoryList: "passingToNextProcess/getSortingHistory",
+      deleteHistoryProcessable: "passingToNextProcess/deleteHistoryProcessable",
+      setHistoryProcessable: "passingToNextProcess/setHistoryProcessable",
       getNextProcessList: "passingToNextProcess/getNextProcessList",
+      setReadyGarmentWarehouse: "passingToNextProcess/setReadyGarmentWarehouse",
+      getMeasurementUnit: "measurement/getMeasurementUnit",
+      getWaybillList: "waybill/getWaybillList",
+      productionToWaybill: "generalWarehouse/productionToWaybill",
     }),
     getHistory(item) {
-      this.getHistoryList(item.entityId);
+      this.getHistoryList(item.kittingOperationId);
       this.history_dialog = true;
     },
     editItem(item) {
       this.edit_dialog = true;
+      this.autoFilling = false;
       this.selectedItem = { ...item };
       this.selectedItem.status = "editProcess";
-      this.getHistoryList(item.entityId);
+      this.getHistoryList(item.kittingOperationId);
       this.selectedEntity = item.entityId;
+    },
+
+    sendWaybill(item) {
+      this.waybillDialog = true;
       this.autoFilling = false;
+      this.selectedItem = { ...item };
+      this.selectedEntity = item.entityId;
+    },
+    send() {
+      let data = {
+        boxQuantity: this.selectedItem.boxQuantity,
+        currency: this.selectedItem.currency,
+        measurementUnitId: this.selectedItem.measurementUnitId,
+        name: this.selectedItem.name,
+        partnerId: this.selectedItem.waybillId?.partnerId,
+        price: this.selectedItem.price,
+        productionId: this.productionId,
+        sizeDistributions: [...this.selectedItem.sizeDistributions],
+        totalQuantity: this.selectedItem.totalQuantity,
+        type: "FIRST_CLASS",
+        waybillId: this.selectedItem.waybillId?.id,
+      };
+      this.productionToWaybill({ data, id: this.selectedItem.entityId });
+
+      this.waybillDialog = false;
     },
     deleteItem() {},
 
     async giveNextProcess() {
-      let data = {
-        fromProcess: "CUTTING",
-        entityId: this.selectedItem.entityId,
-        modelPartId: this.selectedItem.modelPartId ?? null,
-        process: this.selectedItem.process,
-        sizeDistributionList: this.selectedItem.sizeDistributions.map(
+      let data = {};
+      data = {
+        kittingOperationId: this.selectedItem.kittingOperationId,
+        streamId: this.selectedItem.streamId,
+        nextProcess: this.selectedItem.process,
+        sizeDistributions: this.selectedItem.sizeDistributions.map(
           (item) => ({
             size: item.size,
             quantity: item.quantity ? item.quantity : 0,
@@ -483,23 +605,41 @@ export default {
         ),
         productionId: this.productionId,
         workshopType: this.selectedItem.workshopType,
-        planningProcessId: this.planningProcessId,
       };
       if (this.selectedItem.partnerId) {
         data = { ...data, partnerId: this.selectedItem.partnerId?.id };
       }
-      await this.setUpdatePass(data);
+      this.passKittedItem({payload: data, planningProcessId: this.planningProcessId, isSecond: this.selectedItem.isSecond});
+
       this.edit_dialog = false;
       this.warningState = false;
     },
 
-    async save() {
+    save() {
       if (this.selectedItem.status === "editProcess") {
-        if (this.nextProcessList[0]?.process === this.selectedItem.process) {
-          this.giveNextProcess();
+        if (this.title === "packaging") {
+          let data = {
+            entityId: this.selectedItem.entityId,
+            operationType: "FIRST_CLASS",
+            productionId: this.productionId,
+            sizeDistributionList: this.selectedItem.sizeDistributions.map(
+              (item) => ({
+                size: item.size,
+                quantity: item.quantity ? item.quantity : 0,
+              })
+            ),
+          };
+          this.setReadyGarmentWarehouse(data);
+          this.edit_dialog = false;
         } else {
-          this.warningText = `Are you really willing to switch from <strong>CUTTING</strong> to <strong>${this.selectedItem.process}</strong>?`;
-          this.warningState = true;
+          if (this.nextProcessList[0]?.process === this.selectedItem.process) {
+            this.giveNextProcess();
+          } else {
+            this.warningText = `Are you really willing to switch from <strong>${this.title.toUpperCase()}</strong> to <strong>${
+              this.selectedItem.process
+            }</strong>?`;
+            this.warningState = true;
+          }
         }
       }
       if (this.selectedItem.status === "edit_history") {
@@ -507,6 +647,7 @@ export default {
           id: this.selectedItem.id,
           sizeDistributionList: [...this.selectedItem.sizeDistributions],
         };
+
         this.setHistoryProcessable({ processId: this.planningProcessId, data });
         this.edit_dialog = false;
       }
@@ -530,6 +671,10 @@ export default {
   },
 
   mounted() {
+    this.title =
+      this.$route.path.split("/")[2] === "planning-production"
+        ? this.$route.path.split("/")[3]
+        : this.$route.path.split("/")[2];
     this.getNextProcessList(this.planningProcessId);
   },
 };

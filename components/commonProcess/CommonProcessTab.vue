@@ -94,6 +94,7 @@
     <template v-slot:body.append>
       <tr>
         <td></td>
+        <td v-if="headers.length === 9"></td>
         <td
           :colspan="ownList[0]?.sizeDistributionList?.length"
           class="text-capitalize text-body-1 font-weight-bold"
@@ -218,7 +219,6 @@
     </v-card>
   </v-dialog>
 
-
   <v-dialog v-model="edit_dialog" width="1200">
     <v-card>
       <v-card-title class="d-flex justify-space-between w-full">
@@ -247,7 +247,7 @@
           </v-row>
 
           <v-row>
-            <v-col cols="3">
+            <v-col cols="3" v-if="title!=='sorting'">
               <div class="label">Stream Number</div>
               <v-select
                 :items="streamList"
@@ -417,7 +417,10 @@ export default {
     ownList(list){
       this.headers= [
         {text: 'Color', sortable: false, align: 'start', value: 'color'},
-      ],
+      ]
+      if(this.title==="sorting"){
+        this.headers.push({text: 'Model part', sortable: false, align: 'start', value: 'bodyPart'})
+      }
 
       list[0]?.sizeDistributionList?.forEach((item) => {
         this.headers.push({
@@ -426,12 +429,12 @@ export default {
       })
 
       this.headers.push(
-        {text: 'Produced total', sortable: false, align: 'start', value: 'totalCutQuantity'},
+        {text: 'Produced total', sortable: false, align: 'start', value: 'receivedQuantity'},
         {text: 'Actions', sortable: false, align: 'start', value: 'actions'},
       )
       let totalQuantity=0
       const specialList = list.map(function (el) {
-        totalQuantity+=el.totalCutQuantity
+        totalQuantity+=el.receivedQuantity
         const value = {};
         const sizesList = [];
         el?.sizeDistributionList.forEach((item) => {
@@ -485,17 +488,25 @@ export default {
   methods:{
     ...mapActions({
       getOwnList:"commonProcess/getOwnList",
+      getSortingOwn:"commonProcess/getSortingOwn",
+      updateSorting:"commonProcess/updateSorting",
       updateCommonProcess:"commonProcess/updateCommonProcess",
       deleteCommonProcess:"commonProcess/deleteCommonProcess",
+      deleteSorting:"commonProcess/deleteSorting",
       getPatokList:"commonProcess/getPatokList",
       getHistoryList:"history/getHistoryList",
+      getSorting:"history/getSorting",
       deleteHistory:"history/deleteHistoryItem",
       editHistory:"history/editHistoryItem",
       createShortcomingsList:"commonCalculationsShortcomings/createShortcomingsList",
     }),
     getHistory(item) {
       this.history_dialog = true;
-      this.getHistoryList(item.id)
+      if(this.title==="sorting"){
+        this.getSorting(item.id)
+      }else{
+        this.getHistoryList(item.id)
+      }
     },
     editHistoryItem(item){
       this.selectedItem={...item}
@@ -504,10 +515,10 @@ export default {
     deleteHistoryItem(item){
       this.deleteHistory({id:item.id,processId:this.selectedProcessId})
     },
-
-
     getClassification(item) {
       this.classification_dialog = true;
+      console.log(item);
+
       this.classification_shortcom=JSON.parse(JSON.stringify(item))
     },
     async saveShortcom(){
@@ -548,7 +559,11 @@ export default {
           streamId:this.selectedItem.streamId,
           workDate:this.selectedItem.workDate,
         }
-        this.updateCommonProcess(data)
+        if(this.title==="sorting"){
+          this.updateSorting({payload:data, sortingProcessDetailsId:this.selectedProcessId, isSecond:false})
+        }else{
+          this.updateCommonProcess(data)
+        }
       }
       if(this.selectedItem.status==="editHistory"){
         const data={
@@ -565,14 +580,22 @@ export default {
       this.selectedSubcontract={...item}
     },
     deleteFunc(){
-      this.deleteCommonProcess(this.selectedSubcontract.id)
+      if(this.title==="sorting"){
+        this.deleteSorting({sortingProcessDetailsId:this.selectedSubcontract.id, isSecond:false})
+      }else{
+        this.deleteCommonProcess(this.selectedSubcontract.id)
+      }
     },
 
   },
 
   mounted(){
     this.title=this.$route.path.split("/")[2]
-    this.getOwnList()
+    if(this.title==="sorting"){
+      this.getSortingOwn(false)
+    }else{
+      this.getOwnList()
+    }
     this.getPatokList()
   },
 

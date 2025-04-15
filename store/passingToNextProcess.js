@@ -2,6 +2,8 @@ export const state=()=>({
   passingList:[],
   historyProcessableList:[],
   nextProcessList:[],
+  kittedList:[],
+  secondKittedList:[],
 
 })
 
@@ -10,7 +12,8 @@ export const getters={
   passingList: state=>state.passingList,
   historyProcessableList: state=>state.historyProcessableList,
   nextProcessList: state=>state.nextProcessList,
-
+  kittedList: state=>state.kittedList,
+  secondKittedList: state=>state.secondKittedList,
 }
 
 export const mutations={
@@ -22,6 +25,12 @@ export const mutations={
   },
   setNextProcessList(state,item){
     state.nextProcessList=item
+  },
+  setKittedList(state,item){
+    state.kittedList=item
+  },
+  setSecondKittedList(state,item){
+    state.secondKittedList=item
   },
 
 }
@@ -96,13 +105,78 @@ export const actions={
   setReadyGarmentWarehouse({dispatch},data){
     this.$axios.put(`/api/v1/processable-entity/give-ready-garment`,data)
     .then((res)=>{
-      // dispatch("getSecondList",id)
       this.$toast.success(res.data.message)
     })
     .catch((res)=>{
       console.log(res);
       this.$toast.error(res.data.message)
     })
-    
+  },
+
+  getPassingListForSorting({commit},id){
+    this.$axios.get(`/api/v1/processable-entity/sorting-pass-next-process?planningProcessId=${id}`)
+    .then((res)=>{
+      commit("setPassingList",res.data.data)
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+
+  sendToWasteWarehouse({dispatch},{payload, planningProcessId}){
+    this.$axios.put(`/api/v1/sorting-process-details/give-waste`,payload)
+    .then((res)=>{
+      dispatch("getPassingListForSorting",planningProcessId)
+      this.$toast.success(res.data.message)
+    })
+    .catch(({res})=>{
+      console.log(res);
+      this.$toast.error(res.data.message)
+    })
+  },
+  giveCitting({dispatch},{payload, planningProcessId}){
+    this.$axios.put(`/api/v1/sorting-process-details/give-kitting`,payload)
+    .then((res)=>{
+      dispatch("getPassingListForSorting",planningProcessId)
+      this.$toast.success(res.data.message)
+    })
+    .catch(({res})=>{
+      console.log(res);
+      this.$toast.error(res.data.message)
+    })
+  },
+  async getKittedList({commit},{planningProcessId,isSecond}){
+    await this.$axios.get(`/api/v1/kitting-operation/list?planningProcessId=${planningProcessId}&isSecond=${isSecond}`)
+    .then((res)=>{
+      if(isSecond){
+        commit("setSecondKittedList",res.data.data)
+      }else{
+        commit("setKittedList",res.data.data)
+      }
+    })
+    .catch((res)=>{
+      console.log(res);
+    })
+  },
+  async passKittedItem({dispatch},{payload, planningProcessId, isSecond}){
+    await this.$axios.put(`/api/v1/kitting-operation/pass-next-process`,payload)
+    .then((res)=>{
+      dispatch("getKittedList",{planningProcessId, isSecond: isSecond})
+      this.$toast.success(res.data.message)
+    })
+    .catch(({res})=>{
+      console.log(res);
+      this.$toast.error(res.data.message)
+    })
+  },
+  async getSortingHistory({commmit}, id){
+    await this.$axios.get(`/api/v1/kitting-operation/history?kittingOperationId=${id}`)
+    .then((res)=>{
+      commmit("setHistoryList",res.data.data)
+    })
+    .catch((res)=>{
+      console.log(res);
+    })
   }
+
 }
