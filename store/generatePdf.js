@@ -300,4 +300,44 @@ export const actions = {
       console.log(response);
     })
   },
+  getCuttingOutsorcingPdf({commit},data){
+    this.$axios.put(`/api/v1/common-process-operations/cutting-to-outsourcing/generate`, data)
+    .then((res)=>{
+      const binaryCode = atob(res.data);
+      commit("setPdfData", binaryCode);
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+  getDailySorting({commit},data){
+    this.$axios.put(`/api/v1/sorting-process-details/daily-pdf`, data)
+    .then((res)=>{
+      const binaryCode = atob(res.data);
+      commit("setPdfData", binaryCode);
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+  getProcessForm({commit},data){
+    this.$axios.put(`/api/v1/production/processes-pdf`, data)
+    .then((res)=>{
+      const binaryCode = atob(res.data);
+      commit("setPdfData", binaryCode);
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
+  getToStreamForm({commit},data){
+    this.$axios.put(`/api/v1/kitting-operation/to-stream-pdf`, data)
+    .then((res)=>{
+      const binaryCode = atob(res.data);
+      commit("setPdfData", binaryCode);
+    })
+    .catch((response)=>{
+      console.log(response);
+    })
+  },
 };

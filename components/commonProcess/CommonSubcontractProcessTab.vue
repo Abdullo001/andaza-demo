@@ -218,7 +218,7 @@
                   </el-date-picker>
                 </div>
               </v-col>
-              <v-col cols="6">
+              <v-col cols="3" v-if="title!=='sorting'">
                 <div class="label">Stream Number</div>
                 <v-select
                   :items="streamList"
