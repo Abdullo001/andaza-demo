@@ -328,8 +328,8 @@
 import {mapActions, mapGetters} from "vuex";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
-import CalculationShortcomings from "@/components/commonProcess/CalculationsShortcomings.vue";
-import OrderQuantities from "@/components/commonProcess/OrderQuantities.vue";
+import CalculationShortcomings from "@/components/Sorting/CalculationsShortcomings.vue";
+import OrderQuantities from "@/components/Sorting/OrderQuantities.vue";
 import GivenAccessoryQuantity from "@/components/GivenAccessoryQuantity.vue";
 import PassingToNextProcess from "@/components/PassingToNextProcess.vue";
 import PassingNextForSorting from "@/components/commonProcess/PassingNextForSorting.vue";
@@ -470,14 +470,12 @@ export default {
         this.getAccessorySubcontractList(this.planningProcessId)
         this.getSortingSubcontractor(true)
         this.tabStatus="SUB"
-
       }
       if(val===0){
         this.getShortcomingsList({id:this.planningProcessId,type:"IN_PRODUCTION"})
         this.getAccessoryOwnList(this.planningProcessId)
         this.getSortingOwn(true)
         this.tabStatus="OWN"
-
       }
       if(val===2){
         this.getPassingListForSorting(this.planningProcessId);
@@ -499,8 +497,8 @@ export default {
       getColorsList: 'production/planning/getColorsList',
       createProcessPlanning: 'production/planning/createProcessPlanning',
       getProcessingList: 'production/planning/getProcessingList',
-      getShortcomingsList:'commonCalculationsShortcomings/getShortcomingsList',
-      getSubcontractShortcomingsList:'commonCalculationsShortcomings/getSubcontractShortcomingsList',
+      getShortcomingsList:'commonCalculationsShortcomings/getShortcomingsListSorting',
+      getSubcontractShortcomingsList:'commonCalculationsShortcomings/getSubcontractShortcomingsListSorting',
       getPassingList:'cuttingToNextProcess/getPassingList',
       getAccessoryOwnList:'givenAccessoryQuantity/getAccessoryOwnList',
       getAccessorySubcontractList:'givenAccessoryQuantity/getAccessorySubcontractList',

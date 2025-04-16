@@ -175,6 +175,15 @@ export const actions = {
         console.log(res);
       })
   },
+  getOrderQuantityListSorting({commit, state}) {
+    this.$axios.get(`/api/v1/sorting-process-details/order-quantities?planningProcessId=${state.planningProcessId}`)
+      .then((res) => {
+        commit("setOrderQuantityList", res.data.data)
+      })
+      .catch(({res}) => {
+        console.log(res);
+      })
+  },
 
   getSubcontarctSecondClassList({commit,state}){
     this.$axios.get(`/api/v1/common-process-details/list-subcontractor?planningProcessId=${state.planningProcessId}&commonOperationType=SECOND_CLASS_SUBCONTRACTOR`)

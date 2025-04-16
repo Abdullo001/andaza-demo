@@ -54,7 +54,6 @@ export const actions={
     })
     .catch((response)=>{
       console.log(response);
-      
     })
   },
   getAllSubcontractClassificationList({commit},productionId){
@@ -64,7 +63,7 @@ export const actions={
     })
     .catch((response)=>{
       console.log(response);
-      
+
     })
   },
 
@@ -115,5 +114,72 @@ export const actions={
       console.log(res);
       this.$toast.error(res.data.message)
     })
-  }
+  },
+  getShortcomingsListSorting({commit},{id,type}){
+    this.$axios.get(`/api/v1/classification/list-own-sorting?planningProcessId=${id}&type=${type}`)
+    .then((res)=>{
+      commit("setShortcomingsList",res.data.data)
+    })
+    .catch((res)=>{
+      console.log(res)
+    })
+  },
+  getSubcontractShortcomingsListSorting({commit},{id,type}){
+    this.$axios.get(`/api/v1/classification/list-subcontractor-sorting?planningProcessId=${id}&type=${type}`)
+    .then((res)=>{
+      commit("setShortcomingsList",res.data.data)
+    })
+    .catch((res)=>{
+      console.log(res);
+    })
+  },
+  createShortcomingsListSorting({dispatch,commit},{data,id}){
+    this.$axios.post(`/api/v1/classification/create-sorting`,data)
+    .then((res)=>{
+      if(data.status==="subcontract_classification"){
+        dispatch("getSubcontractShortcomingsListSorting",{id,type:"IN_PRODUCTION"})
+      }else{
+        dispatch("getShortcomingsListSorting",{id,type:"IN_PRODUCTION"})
+      }
+      commit("setType",{text:"IN_PRODUCTION",date: new Date ()})
+      this.$toast.success(res.data.message)
+    })
+    .catch(({res})=>{
+      console.log(res);
+      this.$toast.error(res.data.message)
+    })
+  },
+
+  updateShortcomingsSorting({dispatch},{data,id,type}){
+    this.$axios.put(`/api/v1/classification/update`,data)
+    .then((res)=>{
+      if(data.partner){
+        dispatch("getSubcontractShortcomingsListSorting",{id,type})
+      }else{
+        dispatch("getShortcomingsListSorting",{id,type})
+      }
+      this.$toast.success(res.data.message)
+    })
+    .catch(({res})=>{
+      console.log(res);
+      this.$toast.error(res.data.message)
+    })
+  },
+
+  deleteShortcomingsSorting({dispatch},{data,planningProcessId,type}){
+    this.$axios.delete(`/api/v1/classification/delete?id=${data.id}`)
+    .then((res)=>{
+      if(data.partner){
+        dispatch("getSubcontractShortcomingsListSorting",{id:planningProcessId,type})
+      }else{
+        dispatch("getShortcomingsListSorting",{id:planningProcessId,type})
+      }
+      this.$toast.success(res.data.message)
+    })
+    .catch(({res})=>{
+      console.log(res);
+      this.$toast.error(res.data.message)
+    })
+  },
+
 }

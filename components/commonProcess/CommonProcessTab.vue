@@ -499,6 +499,7 @@ export default {
       deleteHistory:"history/deleteHistoryItem",
       editHistory:"history/editHistoryItem",
       createShortcomingsList:"commonCalculationsShortcomings/createShortcomingsList",
+      createShortcomingsListSorting:"commonCalculationsShortcomings/createShortcomingsListSorting",
     }),
     getHistory(item) {
       this.history_dialog = true;
@@ -533,7 +534,11 @@ export default {
           data.sizeDistributions.push(item)
         }
       })
-      await this.createShortcomingsList({data,id:this.planningProcessId})
+      if(this.title==="sorting"){
+        await this.createShortcomingsListSorting({data, id:this.planningProcessId})
+      }else{
+        await this.createShortcomingsList({data,id:this.planningProcessId})
+      }
       this.classification_dialog=false
       this.classification_shortcom=[]
 
