@@ -585,6 +585,7 @@ export default {
       deleteCommonProcess:"commonProcess/deleteCommonProcess",
       getSortingSubcontractor:"commonProcess/getSortingSubcontractor",
       createShortcomingsList:"commonCalculationsShortcomings/createShortcomingsList",
+      createShortcomingsListSorting:"commonCalculationsShortcomings/createShortcomingsListSorting",
       getHistoryList:"history/getHistoryList",
       deleteHistory:"history/deleteHistoryItem",
       editHistory:"history/editHistoryItem",
@@ -661,7 +662,11 @@ export default {
           data.sizeDistributions.push(item)
         }
       })
-      this.createShortcomingsList({data,id:this.planningProcessId})
+      if(this.title==="sorting"){
+        this.createShortcomingsListSorting({data, id:this.planningProcessId})
+      }else{
+        this.createShortcomingsList({data,id:this.planningProcessId})
+      }
       this.classification_dialog=false
     },
 

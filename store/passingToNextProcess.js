@@ -138,6 +138,8 @@ export const actions={
     this.$axios.put(`/api/v1/sorting-process-details/give-kitting`,payload)
     .then((res)=>{
       dispatch("getPassingListForSorting",planningProcessId)
+      dispatch("getKittedList",{planningProcessId, isSecond: false})
+      dispatch("getKittedList",{planningProcessId, isSecond: true})
       this.$toast.success(res.data.message)
     })
     .catch(({res})=>{
