@@ -1588,7 +1588,7 @@ export default {
       mainFabricDensity: "Main fabric density",
       density: "Density",
       inspectionDate: "Final inspection date",
-      plannedOrderQuality: "Planned order quality",
+      plannedOrderQuality: "Planned order quantity",
       enterPlannedOrderQuality: "Enter planned order quantity",
       showDetail: "Show detail",
       hideDetail: "Hide detail",
@@ -2752,5 +2752,13 @@ export default {
     laborCost:"Labor cost",
     operationExpense:"Operation expense",
     totalIn:"Total in",
-  }
+  },
+  login: {
+    username: "Username",
+    password: "Password",
+    rememberMe: "Remember me",
+    enterUsername: "Enter Username or e-mail",
+    enterPassword: "Enter Password",
+    signIn: "Sign In",
+  },
 };

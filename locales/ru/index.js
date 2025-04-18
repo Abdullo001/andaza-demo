@@ -1472,7 +1472,7 @@ export default {
       mainFabricDensity: "Основная плотность ткани",
       density: "Плотность",
       inspectionDate: " Дата ФИ",
-      plannedOrderQuality: "Планируемое качество заказа",
+      plannedOrderQuality: "Планируемое количество заказа",
       enterPlannedOrderQuality: "Введите планируемое количество заказов",
       showDetail: "Показать подробности",
       hideDetail: "Скрыть подробности",
@@ -2736,5 +2736,13 @@ export default {
     laborCost:"Стоимость рабочей силы",
     operationExpense:"Эксплуатационные расходы",
     totalIn:"Всего в",
-  }
+  },
+  login: {
+    username: "Имя пользователя",
+    password: "Пароль",
+    rememberMe: "Запомнить меня",
+    enterUsername: "Введите имя пользователя или e-mail",
+    enterPassword: "Введите пароль",
+    signIn: "Войти",
+  },
 };

@@ -1,5 +1,6 @@
 .login {
   min-height: 100vh;
+  overflow: hidden;
 
   &__image {
     height: 100vh;
@@ -74,6 +75,30 @@
       }
     }
   }
+}
+.login__card-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+}
+
+.lang-item{
+  cursor: pointer;
+  padding: 8px;
+  text-transform: uppercase;
+  color: #4A505C;
+  opacity: 0.5;
+  transition: all ease .2s;
+  &:hover{
+    color: #544B99;
+    opacity: 1;
+  }
+}
+.selectedLang{
+  color:#544B99;
+  opacity: 1;
 }
 
 .v-text-field__prefix {
