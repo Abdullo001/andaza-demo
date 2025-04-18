@@ -1483,7 +1483,7 @@ yarnNumber:{
       mainFabricDensity: "Asosiy mato zichligi",
       density: "Zichlik",
       inspectionDate: "Yakuniy inspeksiya sanasi",
-      plannedOrderQuality: "Rejalashtirilgan buyurtma sifati",
+      plannedOrderQuality: "Rejalashtirilgan buyurtma miqdori",
       enterPlannedOrderQuality: "Rejadagi buyurtma miqdorini kiriting",
       showDetail: "Tafsilotni ko'rsatish",
       hideDetail: "Tafsilotlarni yashirish",
@@ -2750,5 +2750,13 @@ yarnNumber:{
     laborCost:"Ishchi kuchi xarajatlari",
     operationExpense:"Operatsiya bo'yicha xarajatlar",
     totalIn:"Jami xarajat",
-  }
+  },
+  login: {
+    username: "Foydalanuvchi nomi",
+    password: "Parol",
+    rememberMe: "Eslab qol",
+    enterUsername: "Foydalanuvchi nomi yoki e-mailni kiriting",
+    enterPassword: "Parolni kiriting",
+    signIn: "Kirish",
+  },
 };

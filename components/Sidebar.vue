@@ -797,8 +797,11 @@ export default {
         size: this.itemPerPage,
       });
     },
-    logOutApp() {
-      this.$auth.logout();
+    async logOutApp() {
+      await this.$auth.logout()
+      .then(()=>{
+        this.$router.push(this.localePath("/login"));
+      })
     },
     clickShowLang() {
       this.active = !this.active;

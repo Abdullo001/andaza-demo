@@ -32,7 +32,7 @@ export default {
     {src: '~/plugins/timeElapsed.js'},
     {src: '~/plugins/dateToISO.js'},
     {src: '~/plugins/clipboard.js'},
-    { src: '~/plugins/firebase.js', mode: 'client' }
+    { src: '~/plugins/firebase.js', mode: 'client' },
   ],
 
   components: true,
@@ -182,6 +182,7 @@ export default {
   loading: false,
   axios: {
     baseURL: process.env.APP_ENV === 'PROD' ? process.env.BACKEND_URL : 'https://dev-atp.asgardia.uz'
+    // baseURL: process.env.APP_ENV === 'PROD' ? process.env.BACKEND_URL : 'https://api-artatex.andaza.uz'
   },
   auth: {
     strategies: {
@@ -201,14 +202,14 @@ export default {
       global: true
     },
     redirect: {
-      login: '/login',
-      logout: '/login',
-      callback: '/login',
-      home: '/user-management'
+      login: false,
+      logout: false,
+      callback: false,
+      home: false
     }
   },
   router: {
-    middleware: ['auth', 'isAuth']
+    middleware: ['auth', 'isAuth', 'auth-redirect',]
   },
 
   vuetify: {
