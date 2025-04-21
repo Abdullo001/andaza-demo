@@ -549,16 +549,16 @@ export default {
     historyServerList(list){
       this.historyHeaders = [
         {text: 'Date', sortable: true, align: 'start', value: 'workDate'},
-        {text: 'Stream number', sortable: true, align: 'start', value: 'streamNumber'},
-      ],
-        list[0]?.sizeDistributions?.forEach((item) => {
-          this.historyHeaders.push({
-            text: item.size, sortable: false, align: 'start', value: item.size
-          })
+      ]
+      if(this.title!=="sorting"){
+        this.historyHeaders.push({text: 'Stream number', sortable: true, align: 'start', value: 'streamNumber'})
+      }
+      list[0]?.sizeDistributions?.forEach((item) => {
+        this.historyHeaders.push({
+          text: item.size, sortable: false, align: 'start', value: item.size
         })
-      this.historyHeaders.push(
-        {text: 'Done By', sortable: false, align: 'center', value: 'createdBy'},
-      )
+      })
+      this.historyHeaders.push({text: 'Done By', sortable: false, align: 'center', value: 'createdBy'},)
 
       const specialList = list.map(function (el) {
         const value = {};
@@ -587,6 +587,7 @@ export default {
       createShortcomingsList:"commonCalculationsShortcomings/createShortcomingsList",
       createShortcomingsListSorting:"commonCalculationsShortcomings/createShortcomingsListSorting",
       getHistoryList:"history/getHistoryList",
+      getSorting:"history/getSorting",
       deleteHistory:"history/deleteHistoryItem",
       editHistory:"history/editHistoryItem",
       changeStatusCommon:"commonProcess/changeStatusCommon",
@@ -602,7 +603,11 @@ export default {
       this.selectedSubcontract.pricePerWork=item.pricePerWork ? item.pricePerWork.split(" ")[0] : ""
       this.selectedSubcontract.currency=item.pricePerWork ? item.pricePerWork.split(" ")[1] : ""
       this.selectedProcessId=item.id
-      this.getHistoryList(item.id)
+      if(this.title==="sorting"){
+        this.getSorting(item.id)
+      }else{
+        this.getHistoryList(item.id)
+      }
     },
     setSubcontract(){
       if(this.selectedSubcontract.status==="editHistory"){
@@ -672,7 +677,11 @@ export default {
 
     getHistory(item){
       this.history_dialog=true
-      this.getHistoryList(item.id)
+      if(this.title==="sorting"){
+        this.getSorting(item.id)
+      }else{
+        this.getHistoryList(item.id)
+      }
     },
     editHistoryItem(item){
       this.selectedSubcontract={...item}
