@@ -11,8 +11,8 @@
       :page="currentPage"
       @update:items-per-page="updateItemsPerPage"
       @update:page="updatePage"
-      height="68vh" fixed-header
-      class="elevation-1 rounded-lg"
+      fixed-header
+      class="elevation-1 rounded-lg main-table"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100],
       }"
@@ -165,6 +165,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.main-table{
+  max-height: 68vh
+}
 .fixed-columns-table ::v-deep th,
 .fixed-columns-table ::v-deep td {
   white-space: nowrap;
