@@ -62,7 +62,7 @@
         </v-form>
       </v-card-text>
     </v-card>
-    <VDataTableWrapper :headers="headers" :items="allModels" :totalElements="totalElements" :callerFunction="getModelsList" >
+    <VDataTableWrapper :headers="headers" :items="allModels" :totalElements="totalElements" :callerFunction="getModelsList" :fixedColumns="6" :rowFunction="viewDetails">
       <template #top>
         <v-toolbar elevation="0" class="rounded-lg">
           <v-toolbar-title class="d-flex w-full align-center justify-space-between">
@@ -200,12 +200,12 @@ export default {
       },
       status_enums: [{key:'ACTIVE',value:this.$t('statusItems.active')}, {key:'DISABLED',value:this.$t('statusItems.disabled')}, {key:'PENDING',value:this.$t('statusItems.pending')}, {key:'CANCELED',value:this.$t('statusItems.cancelled')}],
       headers: [
-        {text: this.$t('modelBox.table.no'), value: 'ordinalNumber', sortable:false},
-        {text: this.$t('modelBox.table.client'), value: 'partner', sortable:false},
-        {text: this.$t('modelBox.table.style'), align: 'start', sortable: false, value: 'modelNumber'},
-        {text: this.$t('modelBox.table.category'), value: 'modelCategory', sortable:false},
-        {text: this.$t('modelBox.table.inspectionDate'), value: 'inspectionDate', sortable:false},
-        {text: this.$t('modelBox.table.daysLeftFl'), value: 'differDays', width: 120 },
+        {text: this.$t('modelBox.table.no'), value: 'ordinalNumber', fixed: true, sortable:false},
+        {text: this.$t('modelBox.table.client'), value: 'partner', fixed: true, sortable:false},
+        {text: this.$t('modelBox.table.style'), align: 'start', fixed: true, sortable: false, value: 'modelNumber'},
+        {text: this.$t('modelBox.table.category'), value: 'modelCategory', fixed: true, sortable:false},
+        {text: this.$t('modelBox.table.inspectionDate'), value: 'inspectionDate', fixed: true, sortable:false},
+        {text: this.$t('modelBox.table.daysLeftFl'), value: 'differDays', fixed: true, width: 120 },
         {text:this.$t('modelBox.table.modelCreating'), value: 'modelCreating',sortable:false},
         {text: this.$t('modelBox.table.priceCalculation'), value: 'calculation',sortable:false},
         {text: this.$t('modelBox.table.orderForming'), value: 'orderForming',sortable:false},

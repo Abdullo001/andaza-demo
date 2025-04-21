@@ -11,10 +11,13 @@
       :page="currentPage"
       @update:items-per-page="updateItemsPerPage"
       @update:page="updatePage"
+      height="68vh" fixed-header
       class="elevation-1 rounded-lg"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100],
       }"
+      v-bind="$attrs"
+      @click:row="(item) => rowFunction(item)"
     >
       <template v-if="$slots.top" #top>
         <slot name="top"></slot>
@@ -46,8 +49,14 @@ export default {
       type: String,
       default: "id",
       required: false,
-    }
+    },
+    fixedColumns: {
+      type: Number,
+      default: 0,
+    },
+    rowFunction: Function,
   },
+  inheritAttrs: false,
   data() {
     return {
       itemsPerPage: 10,
@@ -68,6 +77,32 @@ export default {
     // }
   },
   methods: {
+    setFixedColumns() {
+      const table = this.$el
+      const ths = table.querySelectorAll('thead th')
+      const tds = table.querySelectorAll('tbody tr')
+      let offset = 0
+      for (let i = 0; i < this.fixedColumns; i++) {
+        const th = ths[i]
+        if (!th) break
+        const width = th.offsetWidth
+        th.style.position = 'sticky'
+        th.style.left = `${offset}px`
+        th.style.background = 'white'
+        th.style.zIndex = 3
+        th.style.boxShadow = '2px 0 5px -2px rgba(0, 0, 0, 0.1)'
+        tds.forEach(row => {
+          const td = row.children[i]
+          if (td) {
+            td.style.position = 'sticky'
+            td.style.left = `${offset}px`
+            td.style.background = 'white'
+            td.style.zIndex = 2
+          }
+        })
+        offset += width
+      }
+    },
     async updateItemsPerPage(val) {
       const prevPageSize = this.itemsPerPage
       this.loader = true;
@@ -112,6 +147,7 @@ export default {
       this.loader = true;
       try{
         await this.callerFunction({page: this.pageNumber, size: this.pageSize});
+        this.setFixedColumns()
       }catch(error){
         console.log(error);
       }finally{
@@ -120,6 +156,17 @@ export default {
       this.currentPage = this.pageNumber+1;
       this.itemsPerPage = this.pageSize;
     }
-  }
+  },
+
+  updated() {
+    this.$nextTick(() => this.setFixedColumns())
+  },
 };
 </script>
+
+<style scoped lang="scss">
+.fixed-columns-table ::v-deep th,
+.fixed-columns-table ::v-deep td {
+  white-space: nowrap;
+}
+</style>

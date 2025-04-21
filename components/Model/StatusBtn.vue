@@ -1,6 +1,6 @@
 <template >
   <div>
-    <v-chip :color="statusColor.commonStatus(status)" dark @click="viewStatus(status)">
+    <v-chip :color="statusColor.commonStatus(status)" dark @click.stop="viewStatus(status)">
       {{ $t(`statusItems.${status.toLowerCase()}`) }}
       </v-chip>
   </div>
