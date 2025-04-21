@@ -278,9 +278,7 @@
                 >
               </el-date-picker>
             </v-col>
-
           </v-row>
-
         </v-form>
       </v-card-text>
       <v-card-actions class="d-flex justify-center pb-8">
@@ -456,13 +454,15 @@ export default {
     historyServerList(list){
       this.historyHeaders = [
         {text: 'Date', sortable: true, align: 'start', value: 'workDate'},
-        {text: 'Stream number', sortable: true, align: 'start', value: 'streamNumber'},
-      ],
-        list[0]?.sizeDistributions?.forEach((item) => {
-          this.historyHeaders.push({
-            text: item.size, sortable: false, align: 'start', value: item.size
-          })
+      ]
+      if(this.title!=="sorting"){
+        this.historyHeaders.push({text: 'Stream number', sortable: true, align: 'start', value: 'streamNumber'})
+      }
+      list[0]?.sizeDistributions?.forEach((item) => {
+        this.historyHeaders.push({
+          text: item.size, sortable: false, align: 'start', value: item.size
         })
+      })
       this.historyHeaders.push(
         {text: 'Done By', sortable: false, align: 'center', value: 'createdBy'},
       )
