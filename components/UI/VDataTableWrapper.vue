@@ -11,8 +11,9 @@
       :page="currentPage"
       @update:items-per-page="updateItemsPerPage"
       @update:page="updatePage"
+      height="68vh"
       fixed-header
-      class="elevation-1 rounded-lg main-table"
+      class="elevation-1 rounded-lg"
       :footer-props="{
         itemsPerPageOptions: [10, 20, 50, 100],
       }"
