@@ -1,4 +1,3 @@
-import warehouse from "@/pages/warehouse.vue";
 
 export const state=()=>({
   warehouseList:[],
@@ -9,6 +8,7 @@ export const state=()=>({
   giveShipping: [],
   sortTwoHistoryList: [],
   sortTwoList: [],
+  readyGarmentInfo:{},
 })
 
 export const getters={
@@ -20,7 +20,8 @@ export const getters={
   secondClassList: state=>state.secondClassList,
   historyList: state=>state.historyList,
   sortTwoHistoryList: state => state.sortTwoHistoryList,
-  sortTwoList: state => state.sortTwoList
+  sortTwoList: state => state.sortTwoList,
+  readyGarmentInfo: state => state.readyGarmentInfo,
 }
 
 export const mutations={
@@ -47,7 +48,10 @@ export const mutations={
   },
   setSortTwoList(state, item) {
     state.sortTwoList = item
-  }
+  },
+  setReadyGarmentInfo(state, item) {
+    state.readyGarmentInfo = item
+  },
 }
 
 export const actions={
@@ -166,4 +170,25 @@ export const actions={
         this.$toast.error(response.message)
       })
   },
+  complateModel({dispatch}, {orderId, modelId, warehouseId}) {
+    this.$axios.post(`/api/v1/shipping/complete-model?modelId=${modelId}&orderId=${orderId}`)
+    .then((res) => {
+      this.$toast.success(res.data.message)
+      dispatch("getWarehouseListEachSort", {warehouseId, operationType:"FIRST_CLASS"})
+    })
+    .catch((response) => {
+      console.log(response);
+
+    })
+  },
+
+  getReadyGarmentInfo({commit}, {orderId, modelId}) {
+    this.$axios.get(`/api/v1/shipping/final-model-info?modelId=${modelId}&orderId=${orderId}`)
+      .then((res) => {
+        commit("setReadyGarmentInfo", res.data.data)
+      })
+      .catch((response) => {
+        console.log(response);
+      })
+  }
 }
