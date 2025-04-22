@@ -185,7 +185,7 @@
           </v-col>
         </v-row>
 
-        
+
       </v-card-text>
       <v-card-actions class="py-6">
         <v-spacer/>
@@ -212,6 +212,15 @@
       <v-tabs-items v-model="accessory_tab">
         <v-tab-item>
           <SortOne/>
+          <div class="d-flex justify-end py-5">
+            <v-btn
+              outlined
+              color="#544B99"
+              @click="openComplateDialog"
+            >
+              Complete model
+            </v-btn>
+          </div>
         </v-tab-item>
         <v-tab-item>
           <SortTwo/>
@@ -229,6 +238,7 @@
         <v-img :src="currentImage" height="500" contain/>
       </v-card>
     </v-dialog>
+    <WarningDialog :dialogState="complateDialog" :dialogCloser="closeDialog" :dialogText="dialogText" :voidFunction="complateFunc"/>
   </div>
 </template>
 
@@ -239,6 +249,7 @@ import ShowBtnComponent from "@/components/ShowComponentBtn/ShowBtn.vue";
 import SortOne from "@/components/Warehouse/sortOne.vue";
 import SortTwo from "@/components/Warehouse/sortTwo.vue";
 import FinishProcessBtn from "@/components/FinishProcessBtn.vue";
+import WarningDialog from "@/components/WarningDialog.vue";
 
 
 export default {
@@ -247,10 +258,12 @@ export default {
     SortOne,
     ShowBtnComponent,
     Breadcrumbs,
-    FinishProcessBtn
+    FinishProcessBtn,
+    WarningDialog,
   },
   data() {
     return {
+      complateDialog: false,
       modelData: [],
       show_btn: true,
       accessoryDetail: {
@@ -296,6 +309,7 @@ export default {
       ],
       image_dialog: false,
       currentImage: "",
+      dialogText: "",
     };
   },
 
@@ -315,6 +329,7 @@ export default {
     },
     ...mapGetters({
       warehouseDetail:"readyGarmentWarehouse/warehouseDetail",
+      readyGarmentInfo:"readyGarmentWarehouse/readyGarmentInfo",
     }),
   },
   watch: {
@@ -322,35 +337,39 @@ export default {
       this.accessoryDetail=JSON.parse(JSON.stringify(item))
     }
   },
-
   methods: {
     ...mapActions({
       getWarehouseDetail:"readyGarmentWarehouse/getWarehouseDetail",
+      complateModel:"readyGarmentWarehouse/complateModel",
+      getReadyGarmentInfo:"readyGarmentWarehouse/getReadyGarmentInfo",
     }),
     clickBtn() {
       this.show_btn = !this.show_btn
     },
-    async saveBtn() {
-      if (this.title === "Add") {
-        await this.createPlanningAccessory({
-
-          modelId: this.accessoryDetail.modelId,
-          orderId: this.accessoryDetail.orderId,
-        });
-      } else if (this.title === "Edit") {
-        await this.updatePlanningAccessory({
-
-          id: this.$route.params.id,
-          modelId: this.accessoryDetail.modelId,
-          orderId: this.accessoryDetail.orderId,
-        });
-      }
+    closeDialog() {
+      this.complateDialog = false
     },
-
+    openComplateDialog(){
+      this.dialogText= `Are you sure you want to complete the model? <p> This model should report that ${this.readyGarmentInfo.orderedQuantity} units and goods worth ${this.readyGarmentInfo.totalAmount} were loaded, and the model was completed in ${this.readyGarmentInfo.timeSpentInDays} days.</p>`
+      this.getReadyGarmentInfo({
+        modelId: this.accessoryDetail.modelId,
+        orderId: this.accessoryDetail.orderId,
+      })
+      this.complateDialog = true
+    },
     showImage(image) {
       this.currentImage = image;
       this.image_dialog = true;
     },
+
+    async complateFunc() {
+      await this.complateModel({
+        modelId: this.accessoryDetail.modelId,
+        orderId: this.accessoryDetail.orderId,
+        warehouseId: this.accessoryDetail.id,
+      })
+      this.complateDialog = false
+    }
   },
 
   mounted() {
