@@ -184,8 +184,6 @@
             <FinishProcessBtn v-bind="finishDate"/>
           </v-col>
         </v-row>
-
-
       </v-card-text>
       <v-card-actions class="py-6">
         <v-spacer/>

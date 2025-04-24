@@ -17,10 +17,11 @@
           <v-data-table
             :headers="headers"
             hide-default-footer
-            :items="itemsList"
+            :items="items"
             class="mt-4 rounded-lg"
             style="border: 1px solid #E9EAEB"
-            :loading="loadingState"
+            :items-per-page="items.length"
+            :loading="isloading"
           >
           </v-data-table>
         </v-card-text>
@@ -52,11 +53,22 @@ export default {
   data(){
     return{
       state:this.historyDialog,
+      items:[],
+      isloading:true,
     }
   },
   watch: {
+    itemsList:{
+      deep: true,
+      handler(newVal) {
+        this.items = newVal;
+        this.isloading = false;
+      }
+    },
     historyDialog(newVal) {
       this.state = newVal;
+      this.isloading = true;
+      this.items = [];
     },
     state(newVal) {
       this.$emit('update:historyDialog', newVal);
@@ -67,7 +79,7 @@ export default {
     closeHistory(){
       this.state=false
     }
-  }
+  },
 }
 </script>
 <style lang="">
