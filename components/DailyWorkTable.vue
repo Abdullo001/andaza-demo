@@ -4,14 +4,15 @@
       <v-progress-circular color="#544B99" indeterminate size="80" />
     </v-overlay>
 
-    <div style="overflow-x: auto;">
+    <div style="overflow-x: auto">
       <div style="height: 40px !important" class="d-flex mb-4 px-4">
         <v-text-field
           outlined
           hide-details
           dense
           height="44"
-          class="rounded-lg base" color="#544B99"
+          class="rounded-lg base"
+          color="#544B99"
           placeholder="Search employees"
           v-model.trim="filterName"
         >
@@ -19,7 +20,7 @@
             <v-icon color="#544B99">mdi-magnify</v-icon>
           </template>
         </v-text-field>
-        <v-spacer/>
+        <v-spacer />
         <el-date-picker
           v-model="reportDate"
           :picker-options="pickerShortcuts"
@@ -34,19 +35,51 @@
       <v-simple-table class="min-w-800" height="80vh" fixed-header dense>
         <thead>
           <tr class="text-center">
-            <th v-for="(header, idx) in headers" :key="idx" :class="`th-text ${idx<2?`sticky-column`:``}`" >
+            <th
+              v-for="(header, idx) in headers"
+              :key="idx"
+              :class="`th-text ${idx < 2 ? `sticky-column` : ``}`"
+            >
               {{ header.text }}
+            </th>
+            <th class="th-text " style="width: 60px; height: 100%">
+              Total
+            </th>
+            <th
+              v-for="(header, idx) in mainList[0]?.customOperations"
+              :key="`cus-${idx}`"
+              class="th-text"
+            >
+              {{ header.name }}
+            </th>
+            <th class="th-text d-flex align-center" style="width: 120px; height: 50px">
+              <v-tooltip
+                top
+                color="#544B99"
+                class="pointer"
+              >
+                <template #activator="{ on, attrs }">
+                  <v-btn icon v-bind="attrs" v-on="on" color="#544B99" @click="openCustomColDialog">
+                    <v-img src="/plus.svg" max-width="22" />
+                  </v-btn>
+                </template>
+                <span class="text-capitalize">Add column</span>
+              </v-tooltip>
+              Actions
             </th>
           </tr>
         </thead>
         <tbody>
           <tr v-if="mainList.length" class="text-center">
-            <td  class="sticky-column z-5" style="border-right: 0;"></td>
-            <td class="sticky-column z-5" style="border-left: 0;">Payment amount per operation</td>
+            <td class="sticky-column z-5" style="border-right: 0"></td>
+            <td class="sticky-column z-5" style="border-left: 0">
+              Payment amount per operation
+            </td>
             <td v-for="(operation, idx) in mainList[0].operations" :key="idx">
               {{ operation.amount }}
             </td>
             <td>{{ sumAllOperationPrice(mainList[0].operations) }}</td>
+            <td  v-for="(operation, idx) in mainList[0].customOperations" :key="`${mainList[0].operations.length+idx}`">{{ operation.amount }}</td>
             <td></td>
           </tr>
           <tr v-for="(item, idx) in mainList" :key="idx">
@@ -57,7 +90,7 @@
               :key="`td-${opIdx}`"
               class="p0"
             >
-              <div class="h-100 d-flex align-center tooltipBox" >
+              <div class="h-100 d-flex align-center tooltipBox">
                 <input
                   type="text"
                   :value="operation.quantity"
@@ -68,20 +101,55 @@
                   :disabled="workLogsInfo.isFinished"
                   @focus="showTooltip(idx, opIdx)"
                   @blur="hideTooltip(idx, opIdx)"
-                  :class="`cell ${footer[opIdx]?.difference>0&&operation.quantity?'error-border':''} ${footer[opIdx]?.difference>0?'error-outline':''}`"
+                  :class="`cell ${
+                    footer[opIdx]?.difference > 0 && operation.quantity
+                      ? 'error-border'
+                      : ''
+                  } ${footer[opIdx]?.difference > 0 ? 'error-outline' : ''}`"
                   placeholder="0"
                 />
                 <div
                   v-if="tooltipVisible[idx][opIdx]"
-                  :class="`tooltip ${footer[opIdx]?.difference<=0?'green-tooltip':'red-tooltip'}`"
+                  :class="`tooltip ${
+                    footer[opIdx]?.difference <= 0
+                      ? 'green-tooltip'
+                      : 'red-tooltip'
+                  }`"
                 >
-                  <span v-if="footer[opIdx]?.difference<0">{{ `${moneyFormatter(Math.abs(footer[opIdx]?.difference),true)} ta kiritishingiz mumkin` }}</span>
-                  <span v-if="footer[opIdx]?.difference>0">{{ `${moneyFormatter(Math.abs(footer[opIdx]?.difference),true)} ta rejalashtirilgandan oshib ketdi` }}</span>
-                  <span v-if="footer[opIdx]?.difference==0">{{ `Reja bo'yicha bajarildi` }}</span>
+                  <span v-if="footer[opIdx]?.difference < 0">{{
+                    `${moneyFormatter(
+                      Math.abs(footer[opIdx]?.difference),
+                      true
+                    )} ta kiritishingiz mumkin`
+                  }}</span>
+                  <span v-if="footer[opIdx]?.difference > 0">{{
+                    `${moneyFormatter(
+                      Math.abs(footer[opIdx]?.difference),
+                      true
+                    )} ta rejalashtirilgandan oshib ketdi`
+                  }}</span>
+                  <span v-if="footer[opIdx]?.difference == 0">{{
+                    `Reja bo'yicha bajarildi`
+                  }}</span>
                 </div>
               </div>
             </td>
-            <td>{{  moneyFormatter(item.total, true) }}</td>
+            <td>{{ moneyFormatter(item.total, true) }}</td>
+            <td class="p0"  v-for="(operation, opIdx) in item.customOperations" :key="`${item.operations.length+opIdx}`">
+              <div class="h-100 d-flex align-center">
+                <input
+                  type="text"
+                  :value="operation.quantity"
+                  @input="updateQuantity($event, idx, item.operations.length+opIdx)"
+                  @keydown="handleKeydown($event, idx, item.operations.length+opIdx)"
+                  @keypress="onlyNumbers"
+                  :ref="`input-${idx}-${item.operations.length+opIdx}`"
+                  :disabled="workLogsInfo.isFinished"
+                  :class="`cell`"
+                  placeholder="0"
+                />
+              </div>
+            </td>
             <td>
               <v-tooltip top color="#544B99">
                 <template #activator="{ on, attrs }">
@@ -102,23 +170,27 @@
         </tbody>
         <tfoot>
           <tr class="text-center">
-            <td  class="sticky-column" style="border-right: 0;"></td>
-            <td class="sticky-column" style="border-left: 0;">Total in fact</td>
-            <td v-for="(item, idx) in footer" :key="idx" :class="`th-text`" >
+            <td class="sticky-column" style="border-right: 0"></td>
+            <td class="sticky-column" style="border-left: 0">Total in fact</td>
+            <td v-for="(item, idx) in footer" :key="idx" :class="`th-text`">
               {{ moneyFormatter(item.factQuantity, true) }}
             </td>
           </tr>
           <tr class="text-center">
-            <td  class="sticky-column" style="border-right: 0;"></td>
-            <td class="sticky-column" style="border-left: 0;">Total in planned quantity</td>
-            <td v-for="(item, idx) in footer" :key="idx" :class="`th-text`" >
+            <td class="sticky-column" style="border-right: 0"></td>
+            <td class="sticky-column" style="border-left: 0">
+              Total in planned quantity
+            </td>
+            <td v-for="(item, idx) in footer" :key="idx" :class="`th-text`">
               {{ moneyFormatter(item.plannedQuantity, true) }}
             </td>
           </tr>
           <tr class="text-center">
-            <td  class="sticky-column" style="border-right: 0;"></td>
-            <td class="sticky-column" style="border-left: 0;">Total in difference</td>
-            <td v-for="(item, idx) in footer" :key="idx" :class="`th-text`" >
+            <td class="sticky-column" style="border-right: 0"></td>
+            <td class="sticky-column" style="border-left: 0">
+              Total in difference
+            </td>
+            <td v-for="(item, idx) in footer" :key="idx" :class="`th-text`">
               {{ moneyFormatter(item.difference, true) }}
             </td>
           </tr>
@@ -137,43 +209,89 @@
           Close daily report
         </v-btn>
       </div>
-    <SimpleHistoryDialog :historyDialog.sync="historyDialog" :itemsList="historyList" :headers="historyHeaders"   />
+      <SimpleHistoryDialog
+        :historyDialog.sync="historyDialog"
+        :itemsList="historyList"
+        :headers="historyHeaders"
+      />
+      <DialogComponent v-model="custumColDialog" :state="custumColDialog" :title="`Add custom column`" :handler="saveCustomCol" >
+        <v-form>
+          <v-row>
+            <v-col cols="6">
+              <div class="label">Operation name</div>
+              <v-text-field
+                outlined
+                hide-details
+                dense
+                height="44"
+                class="rounded-lg base"
+                color="#544B99"
+                placeholder="Enter operation name"
+                v-model.trim="customOperation.name"
+              />
+
+            </v-col>
+            <v-col cols="6">
+              <div class="label">Operation amount</div>
+              <v-text-field
+                outlined
+                hide-details
+                dense
+                height="44"
+                class="rounded-lg base"
+                color="#544B99"
+                placeholder="Enter operation amount"
+                v-model.trim="customOperation.amount"
+              />
+            </v-col>
+          </v-row>
+        </v-form>
+      </DialogComponent>
     </div>
   </v-card>
 </template>
 <script>
 import { mapActions, mapGetters } from "vuex";
 import SimpleHistoryDialog from "./UI/SimpleHistoryDialog.vue";
+import DialogComponent from "./UI/DialogComponent.vue";
 export default {
-  components:{
+  components: {
     SimpleHistoryDialog,
+    DialogComponent,
   },
   data() {
     return {
       mainList: [],
-      filterName:null,
-      employeeSearch:"",
-      reportDate:'',
+      filterName: null,
+      employeeSearch: "",
+      reportDate: "",
+      custumColDialog: false,
       headers: [
         { text: "No.", value: "id", sortable: false },
         { text: "Employes fullname", value: "fullName", sortable: false },
       ],
-      footer: [
-        { text: "Jami ishlar soni:", value: "total", sortable: false },
+      footer: [{ text: "Jami ishlar soni:", value: "total", sortable: false }],
+      historyDialog: false,
+      historyList: [],
+      historyHeaders: [
+        { text: "Date", value: "date", sortable: false },
+        { text: "Operation name", value: "operationName", sortable: false },
+        {
+          text: "Done work quantity",
+          value: "doneWorkQuantity",
+          sortable: false,
+        },
+        { text: "Done work amount", value: "doneWorkAmount", sortable: false },
+        { text: "Created by", value: "createdBy", sortable: false },
       ],
-      historyDialog:false,
-      historyList:[],
-      historyHeaders:[
-        {text:"Date",value:"date",sortable:false},
-        {text:"Operation name",value:"operationName",sortable:false},
-        {text:"Done work quantity",value:"doneWorkQuantity",sortable:false},
-        {text:"Done work amount",value:"doneWorkAmount",sortable:false},
-        {text:"Created by",value:"createdBy",sortable:false},
-      ],
-      savedTable:[],
-      loading:true,
+      savedTable: [],
+      loading: true,
       tooltipVisible: [],
-      arrForFilter:[],
+      arrForFilter: [],
+      customOperation:{
+        name: "",
+        amount: "",
+      }
     };
   },
   computed: {
@@ -184,16 +302,20 @@ export default {
       workLogsHistory: "dailyWorkTable/workLogsHistory",
       temporaryTable: "dailyWorkTable/temporaryTable",
       totals: "dailyWorkTable/totals",
-    })
+    }),
   },
   watch: {
-    filterName(val){
-      this.mainList = this.arrForFilter.filter((item)=> item.fullName.toLowerCase().includes(val ? String(val).toLowerCase() : ""))
+    filterName(val) {
+      this.mainList = this.arrForFilter.filter((item) =>
+        item.fullName
+          .toLowerCase()
+          .includes(val ? String(val).toLowerCase() : "")
+      );
     },
-    totals(val){
-      this.footer = []
+    totals(val) {
+      this.footer = [];
       const temp = JSON.parse(JSON.stringify(val));
-      this.sortByIdOrder(this.modelCategoryList,temp).forEach((item) => {
+      this.sortByIdOrder(this.modelCategoryList, temp).forEach((item) => {
         const obj = {
           plannedQuantity: item.plannedQuantity,
           factQuantity: item.factQuantity,
@@ -202,11 +324,11 @@ export default {
           difference: item.difference,
           diffBase: item.difference,
         };
-        this.footer.push(obj)
+        this.footer.push(obj);
       });
     },
-    workLogsHistory(newList){
-      this.historyList=newList.map(item => {
+    workLogsHistory(newList) {
+      this.historyList = newList.map((item) => {
         return {
           ...item,
           doneWorkAmount: this.moneyFormatter(item.doneWorkAmount, true),
@@ -229,16 +351,13 @@ export default {
         };
         this.headers.push(obj);
       });
-      this.headers.push(
-        { text: "Total", value: "totalPrice", sortable: false },
-        { text: "Actions", value: "actions", sortable: false }
-      );
 
       this.arrForFilter.forEach((employee) => {
         employee.operations = JSON.parse(JSON.stringify(list));
+        employee.customOperations = [];
       });
-      this.mainList = JSON.parse(JSON.stringify(this.arrForFilter))
-      this.loading=false
+      this.mainList = JSON.parse(JSON.stringify(this.arrForFilter));
+      this.loading = false;
     },
     async workLogsInfo(val) {
       await this.getModelCategoryList(val.modelCategoryId).then(() => {
@@ -258,31 +377,30 @@ export default {
   },
   methods: {
     ...mapActions({
-      getEmployeesWithOutPagination: "listOfWorkers/getEmployeesWithOutPagination",
+      getEmployeesWithOutPagination:
+        "listOfWorkers/getEmployeesWithOutPagination",
       getModelCategoryList: "dailyWorkTable/getModelCategoryList",
       getWorkLogsHistory: "dailyWorkTable/getWorkLogsHistory",
       saveDailyWorkLogs: "dailyWorkTable/saveDailyWorkLogs",
       getTotals: "dailyWorkTable/getTotals",
     }),
     sortByIdOrder(referenceArray, targetArray) {
-      const idOrder = referenceArray.map(item => item.id);
-
+      const idOrder = referenceArray.map((item) => item.id);
       const sortedArray = targetArray.sort((a, b) => {
         return idOrder.indexOf(a.id) - idOrder.indexOf(b.id);
       });
-
       return sortedArray;
     },
     handleKeydown(event, rowIdx, colIdx) {
       const key = event.key;
       let newRow = rowIdx;
       let newCol = colIdx;
-
       if (key === "ArrowUp") newRow = rowIdx > 0 ? rowIdx - 1 : rowIdx;
-      if (key === "ArrowDown") newRow = rowIdx < this.mainList.length - 1 ? rowIdx + 1 : rowIdx;
+      if (key === "ArrowDown")
+        newRow = rowIdx < this.mainList.length - 1 ? rowIdx + 1 : rowIdx;
       if (key === "ArrowLeft") newCol = colIdx > 0 ? colIdx - 1 : colIdx;
-      if (key === "ArrowRight") newCol = colIdx < this.mainList[0].operations.length - 1 ? colIdx + 1 : colIdx;
-
+      if (key === "ArrowRight")
+        newCol =colIdx < this.mainList[0].operations.length + this.mainList[0].customOperations.length - 1 ? colIdx + 1 : colIdx;
       this.$nextTick(() => {
         const nextInput = this.$refs[`input-${newRow}-${newCol}`];
         if (nextInput && nextInput[0]) {
@@ -290,16 +408,19 @@ export default {
         }
       });
     },
-    closer(){
-      this.historyDialog=false
+    closer() {
+      this.historyDialog = false;
     },
     getHistory(item) {
-      this.historyDialog=true;
+      this.historyDialog = true;
       this.getWorkLogsHistory(item.id);
     },
     sumAllOperation(operations) {
       return operations.reduce((sum, item) => {
-        return sum + (item.quantity ? this.cleanQuantity(item.quantity) * item.amount : 0);
+        return (
+          sum +
+          (item.quantity ? this.cleanQuantity(item.quantity) * item.amount : 0)
+        );
       }, 0);
     },
     sumAllOperationPrice(operations) {
@@ -308,12 +429,22 @@ export default {
       }, 0);
     },
     async saveDailyReport() {
-      this.loading=true
+      this.loading = true;
       const payload = {
+        customModelCategoryOperations: this.mainList.reduce((acc, item) => {
+          const customOperationsData = item.customOperations
+            .filter((operation) => operation.quantity)
+            .map((operation) => ({
+              name: operation.name,
+              amount: operation.amount,
+              // quantity: this.cleanQuantity(operation.quantity),
+            }));
+          return acc.concat(customOperationsData);
+        }, []),
         data: this.mainList.reduce((acc, item) => {
           const operationsData = item.operations
-            .filter(operation => operation.quantity)
-            .map(operation => ({
+            .filter((operation) => operation.quantity)
+            .map((operation) => ({
               employeeId: item.id,
               modelOperationId: operation.modelOperationId,
               quantity: this.cleanQuantity(operation.quantity),
@@ -324,27 +455,46 @@ export default {
         modelId: this.$route.params.id,
         date: this.reportDate,
       };
+      payload.data.push(
+        ...this.mainList.reduce((acc, item) => {
+          const customOperationsData = item.customOperations
+            .filter((operation) => operation.quantity)
+            .map((operation) => ({
+              employeeId: item.id,
+              customModelOperationName: operation.name,
+              quantity: this.cleanQuantity(operation.quantity),
+            }));
+          return acc.concat(customOperationsData);
+        }, [])
+      )
 
-      await this.saveDailyWorkLogs({data:payload,modelId:this.$route.params.id})
-      this.filterName=null
+
+      await this.saveDailyWorkLogs({
+        data: payload,
+        modelId: this.$route.params.id,
+      });
+      this.filterName = null;
     },
     updateQuantity(event, idx, opIdx) {
       let value = event.target.value.replace(/\D/g, "");
       value = this.moneyFormatter(value, true);
       event.target.value = value;
-      this.mainList[idx].operations[opIdx].quantity = value;
-      this.$set(this.mainList, idx, {
-        ...this.mainList[idx],
-        total: this.sumAllOperation(this.mainList[idx].operations),
-      });
-      const totalColumn = this.columnTotal(opIdx);
-      this.$set(this.footer, opIdx, {
-        ...this.footer[opIdx],
-        difference: parseInt(this.footer[opIdx].diffBase, 10) + totalColumn,
-        factQuantity: parseInt(this.footer[opIdx].factQuantityBase, 10) + totalColumn,
-
-      });
-
+      if(this.mainList[idx].operations.length-1>=opIdx){
+        this.mainList[idx].operations[opIdx].quantity = value;
+        this.$set(this.mainList, idx, {
+          ...this.mainList[idx],
+          total: this.sumAllOperation(this.mainList[idx].operations),
+        });
+        const totalColumn = this.columnTotal(opIdx);
+        this.$set(this.footer, opIdx, {
+          ...this.footer[opIdx],
+          difference: parseInt(this.footer[opIdx].diffBase, 10) + totalColumn,
+          factQuantity:
+            parseInt(this.footer[opIdx].factQuantityBase, 10) + totalColumn,
+        });
+      }else{
+        this.mainList[idx].customOperations[opIdx-this.mainList[idx].operations.length].quantity = value;
+      }
       this.$nextTick(() => {
         const input = event.target;
         input.selectionStart = input.selectionEnd = value.length;
@@ -358,12 +508,19 @@ export default {
     },
     columnTotal(idx) {
       return this.mainList.reduce((acc, item) => {
-        return acc + (item.operations[idx].quantity ? this.cleanQuantity(item.operations[idx].quantity) : 0);
+        return (
+          acc +
+          (item.operations[idx].quantity
+            ? this.cleanQuantity(item.operations[idx].quantity)
+            : 0)
+        );
       }, 0);
     },
-    dataChecker(arr){
-      return arr.some(employee => {
-        const temp = employee.operations.filter(operation => operation.quantity);
+    dataChecker(arr) {
+      return arr.some((employee) => {
+        const temp = employee.operations.filter(
+          (operation) => operation.quantity
+        );
         if (temp.length > 0) {
           return true;
         }
@@ -376,19 +533,34 @@ export default {
     hideTooltip(idx, opIdx) {
       this.$set(this.tooltipVisible[idx], opIdx, false);
     },
-  },
-  created(){
-    this.savedTable=JSON.parse(JSON.stringify(this.temporaryTable))
+    openCustomColDialog() {
+      this.custumColDialog = true;
+    },
+    saveCustomCol() {
+      this.mainList.forEach((item) => {
+        item.customOperations.push({
+          name: this.customOperation.name,
+          amount: this.customOperation.amount,
+        });
+      });
+      console.log(this.mainList);
 
+      this.custumColDialog = false;
+      this.customOperation.name = "";
+      this.customOperation.amount = "";
+    },
+  },
+  created() {
+    this.savedTable = JSON.parse(JSON.stringify(this.temporaryTable));
   },
   mounted() {
     this.getEmployeesWithOutPagination("PER_WORK");
   },
-  beforeDestroy(){
-    if(this.dataChecker(this.mainList)){
-      this.$store.commit("dailyWorkTable/setTemporaryTable",this.mainList)
+  beforeDestroy() {
+    if (this.dataChecker(this.mainList)) {
+      this.$store.commit("dailyWorkTable/setTemporaryTable", this.mainList);
     }
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -456,37 +628,36 @@ table {
   font-size: 16px !important;
   font-weight: 500;
 }
-.z-5{
+.z-5 {
   z-index: 3 !important;
 }
-.cell{
+.cell {
   width: 100%;
   height: 44px;
-  background-color: #F7F4FE;
+  background-color: #f7f4fe;
   padding: 10px 5px;
   font-size: 16px;
   will-change: transform, opacity;
   contain: layout paint;
 
-  &:focus{
-    outline-color: #544B99;
+  &:focus {
+    outline-color: #544b99;
   }
 }
-.error-outline{
-  &:focus{
-    outline-color: #FF0000;
+.error-outline {
+  &:focus {
+    outline-color: #ff0000;
   }
 }
-.error-border{
-  border: 2px solid #FF0000;
+.error-border {
+  border: 2px solid #ff0000;
   border-radius: 4px;
 }
-.v-data-table table tfoot
-{
-	position: sticky;
+.v-data-table table tfoot {
+  position: sticky;
   z-index: 5;
-	bottom: 0;
-	background: #FFF;
+  bottom: 0;
+  background: #fff;
 }
 .tooltipBox {
   position: relative !important;
