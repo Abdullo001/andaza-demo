@@ -41,5 +41,23 @@ export const actions = {
     .catch(({response})=>{
       console.log(response);
     })
+  },
+  getModelsAnalyticsById({commit}, id){
+    this.$axios.get(`/api/v1/analytics/by-model?modelId=${id}`)
+    .then((res)=>{
+      commit("setModelsAnalysis", res.data.data);
+    })
+    .catch(({response})=>{
+      console.log(response);
+    })
+  },
+  setManualCost({dispatch}, data){
+    this.$axios.put(`/api/v1/analytics/set-cost-value`,data)
+    .then((res)=>{
+      dispatch("getModelsAnalyticsById", data.modelId);
+    })
+    .catch(({response})=>{
+      console.log(response);
+    })
   }
 };

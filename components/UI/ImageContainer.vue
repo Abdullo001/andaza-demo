@@ -92,9 +92,7 @@ export default {
 </script>
 
 <style scoped>
-.image-upload-container {
-  margin-bottom: 20px;
-}
+
 .label {
   font-weight: 500;
   margin-bottom: 10px;
