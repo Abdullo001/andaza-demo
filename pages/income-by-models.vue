@@ -562,7 +562,7 @@ export default {
   },
   watch:{
     modelsAnalysis(val){
-      const totalCosts = val.totalFabricCost + val.totalAccessoryCost + val.printingCost + val.outsourceCost + val.totalLaborCost + val.totalOtherCost ? val.totalOtherCost : 0
+      const totalCosts = (val.totalFabricCost + val.totalAccessoryCost + val.printingCost + val.outsourceCost + val.totalLaborCost) + (val.totalOtherCost ? val.totalOtherCost : 0)
       const netIncome = val.totalPriceOfModel - totalCosts
       this.items = [{...val, totalOtherCost: val.totalOtherCost ? val.totalOtherCost : null, totalCosts, netIncome}]
       this.orderQuantityList = val.orderQuantityList
