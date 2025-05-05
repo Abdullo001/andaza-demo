@@ -11,7 +11,7 @@
       :page="currentPage"
       @update:items-per-page="updateItemsPerPage"
       @update:page="updatePage"
-      :height="totalElements > 100 ? '68vh' : 'auto'"
+      :height="totalElements > 10 ? '68vh' : 'auto'"
       fixed-header
       :hide-default-footer="hideDefaultFooter"
       class="elevation-1 rounded-lg"
