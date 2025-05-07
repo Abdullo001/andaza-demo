@@ -117,42 +117,42 @@
 
       <template #item.beginPeriodQuantity="{ item }">
         <div style="color: #f2c62c">
-          {{ item.beginPeriodQuantity }}
+          {{ moneyFormatter(item.beginPeriodQuantity) }}
         </div>
       </template>
       <template #item.beginPeriodTotalPrice="{ item }">
         <div style="color: #f2c62c">
-          {{ item.beginPeriodTotalPrice }}
+          {{ moneyFormatter(item.beginPeriodTotalPrice) }}
         </div>
       </template>
       <template #item.totalInputQuantity="{ item }">
         <div style="color: #ff0000">
-          {{ item.totalInputQuantity }}
+          {{ moneyFormatter(item.totalInputQuantity) }}
         </div>
       </template>
       <template #item.totalInputTotalPrice="{ item }">
         <div style="color: #ff0000">
-          {{ item.totalInputTotalPrice }}
+          {{ moneyFormatter(item.totalInputTotalPrice) }}
         </div>
       </template>
       <template #item.totalOutputQuantity="{ item }">
         <div style="color: #08b137">
-          {{ item.totalOutputQuantity }}
+          {{ moneyFormatter(item.totalOutputQuantity) }}
         </div>
       </template>
       <template #item.totalOutputTotalPrice="{ item }">
         <div style="color: #08b137">
-          {{ item.totalOutputTotalPrice }}
+          {{ moneyFormatter(item.totalOutputTotalPrice) }}
         </div>
       </template>
       <template #item.remainingQuantity="{ item }">
         <div style="color: #f2c62c">
-          {{ item.remainingQuantity }}
+          {{ moneyFormatter(item.remainingQuantity) }}
         </div>
       </template>
       <template #item.remainingTotalPrice="{ item }">
         <div style="color: #f2c62c">
-          {{ item.remainingTotalPrice }}
+          {{ moneyFormatter(item.remainingTotalPrice) }}
         </div>
       </template>
 
@@ -245,28 +245,28 @@
           <td class="text-capitalize text-body-1 font-weight-bold">total:</td>
           <td colspan="4"></td>
           <td class="font-weight-bold text-body-1" style="color: #f2c62c">
-            {{ totalBeginQuantity }}
+            {{ moneyFormatter(totalBeginQuantity) }}
           </td>
           <td class="font-weight-bold text-body-1" style="color: #f2c62c">
-            {{ totalBeginPrice }}
+            {{ moneyFormatter(totalBeginPrice) }}
           </td>
           <td class="font-weight-bold text-body-1" style="color: #ff0000">
-            {{ totalInputQuantity }}
+            {{ moneyFormatter(totalInputQuantity) }}
           </td>
           <td class="font-weight-bold text-body-1" style="color: #ff0000">
-            {{ totalInputPrice }}
+            {{ moneyFormatter(totalInputPrice) }}
           </td>
           <td class="font-weight-bold text-body-1" style="color: #08b137">
             {{ totalOutputQuantity }}
           </td>
           <td class="font-weight-bold text-body-1" style="color: #08b137">
-            {{ totalOutputPrice }}
+            {{ moneyFormatter(totalOutputPrice) }}
           </td>
           <td class="font-weight-bold text-body-1" style="color: #f2c62c">
-            {{ totalRemainingQuantity }}
+            {{ moneyFormatter(totalRemainingQuantity) }}
           </td>
           <td class="font-weight-bold text-body-1" style="color: #f2c62c">
-            {{ totalRemainingPrice }}
+            {{ moneyFormatter(totalRemainingPrice) }}
           </td>
           <td></td>
         </tr>
@@ -644,41 +644,49 @@ export default {
           text: this.$t("wastes.wastesWarehouse.beginOfPeriodQty"),
           value: "beginPeriodQuantity",
           sortable: false,
+          width: 150,
         },
         {
           text: this.$t("wastes.wastesWarehouse.beginOfPeriodPrice"),
           value: "beginPeriodTotalPrice",
           sortable: false,
+          width: 150,
         },
         {
           text: this.$t("wastes.wastesWarehouse.totalInputQty"),
           value: "totalInputQuantity",
           sortable: false,
+          width: 150,
         },
         {
           text: this.$t("wastes.wastesWarehouse.totalInputPrice"),
           value: "totalInputTotalPrice",
           sortable: false,
+          width: 150,
         },
         {
           text: this.$t("wastes.wastesWarehouse.totalOutputQty"),
           value: "totalOutputQuantity",
           sortable: false,
+          width: 150,
         },
         {
           text: this.$t("wastes.wastesWarehouse.totalOutputPrice"),
           value: "totalOutputTotalPrice",
           sortable: false,
+          width: 150,
         },
         {
           text: this.$t("wastes.wastesWarehouse.remainingQty"),
           value: "remainingQuantity",
           sortable: false,
+          width: 150,
         },
         {
           text: this.$t("wastes.wastesWarehouse.remainingTotalPrice"),
           value: "remainingTotalPrice",
           sortable: false,
+          width: 150,
         },
         {
           text: this.$t("wastes.wastesWarehouse.actions"),
