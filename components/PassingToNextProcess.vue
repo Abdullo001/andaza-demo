@@ -669,7 +669,8 @@ export default {
       productionToWaybill: "generalWarehouse/productionToWaybill",
     }),
     getHistory(item) {
-      this.getHistoryList(item.entityId);
+
+      this.getHistoryList({id: item.entityId, isFirstSort: this.title==='packaging'});
       this.history_dialog = true;
     },
     editItem(item) {
@@ -677,7 +678,7 @@ export default {
       this.autoFilling = false;
       this.selectedItem = { ...item };
       this.selectedItem.status = "editProcess";
-      this.getHistoryList(item.entityId);
+      this.getHistoryList({id: item.entityId, isFirstSort: this.title==='packaging'});
       this.selectedEntity = item.entityId;
     },
 
@@ -702,7 +703,6 @@ export default {
         waybillId: this.selectedItem.waybillId?.id,
       };
       this.productionToWaybill({ data, id: this.selectedItem.entityId });
-
       this.waybillDialog = false;
     },
     deleteItem() {},
@@ -740,7 +740,6 @@ export default {
         data = { ...data, partnerId: this.selectedItem.partnerId?.id };
       }
       this.setUpdatePass(data);
-
       this.edit_dialog = false;
       this.warningState=false
     },
