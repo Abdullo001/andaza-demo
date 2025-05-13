@@ -166,8 +166,8 @@ export const actions = {
       })
   },
 
-  getOrderQuantityList({commit, state}) {
-    this.$axios.get(`/api/v1/common-process-details/order-quantities?planningProcessId=${state.planningProcessId}`)
+  getOrderQuantityList({commit, state},isSubcontractor) {
+    this.$axios.get(`/api/v1/common-process-details/order-quantities?planningProcessId=${state.planningProcessId}&isForSubcontractor=${isSubcontractor}`)
       .then((res) => {
         commit("setOrderQuantityList", res.data.data)
       })

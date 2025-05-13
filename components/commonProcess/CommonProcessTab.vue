@@ -94,7 +94,7 @@
     <template v-slot:body.append>
       <tr>
         <td></td>
-        <td v-if="headers.length === 9"></td>
+        <td v-if="headers.length === 9 || title === 'sorting'"></td>
         <td
           :colspan="ownList[0]?.sizeDistributionList?.length"
           class="text-capitalize text-body-1 font-weight-bold"
@@ -427,12 +427,13 @@ export default {
       })
 
       this.headers.push(
-        {text: 'Produced total', sortable: false, align: 'start', value: 'receivedQuantity'},
+        {text: 'Produced total', sortable: false, align: 'start', value: this.title==='sorting' ? 'totalQuantity' : 'totalCutQuantity' },
         {text: 'Actions', sortable: false, align: 'start', value: 'actions'},
       )
       let totalQuantity=0
-      const specialList = list.map(function (el) {
-        totalQuantity+=el.receivedQuantity
+
+      const specialList = list.map((el) => {
+        totalQuantity+= (this.title==="sorting"? el.totalQuantity : el.totalCutQuantity)
         const value = {};
         const sizesList = [];
         el?.sizeDistributionList.forEach((item) => {

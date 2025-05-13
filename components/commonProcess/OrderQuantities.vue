@@ -32,7 +32,7 @@
           Approwe
         </v-btn>
         <v-spacer/>
-        
+
       </v-card-actions>
     </v-card>
 
@@ -83,7 +83,7 @@
         <v-card-text class="mt-4">
           <v-form ref="refuse_form" v-model="refuse_validate" lazy-validation>
             <v-row>
-              
+
               <v-col cols="12" lg="6">
                 <div class="label">Select main color</div>
                 <v-select
@@ -215,7 +215,6 @@ export default {
     subcontractList(val){
       this.colorList=JSON.parse(JSON.stringify(val))
     },
-    
     refuseDialog(val){
       if(!val){
         // this.$refs.refuse_form.reset()
@@ -261,7 +260,6 @@ export default {
 
   methods: {
     ...mapActions({
-      getOrderQuantityList: "commonProcess/getOrderQuantityList",
       refuseApprove: "commonProcess/refuseApprove",
       confirmApprove: "commonProcess/confirmApprove",
     }),
@@ -287,16 +285,12 @@ export default {
         reason:"DEFECT",
         sizeDistributions:[],
       }
-
      this.refuseItem.primaryList.forEach((item)=>{
         if(!!item.quantity){
           data.sizeDistributions.push({...item})
         }
       })
-
       this.refuseApprove({data, type:this.statusTab})
-
-
       this.refuseDialog=false
     }
 
@@ -304,7 +298,6 @@ export default {
   },
 
   mounted() {
-    this.getOrderQuantityList();
     const id = this.$route.query.isConfirmed
     this.disableBtn=id==="true"?true:false
   },
