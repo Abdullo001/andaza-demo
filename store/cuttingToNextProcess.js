@@ -43,7 +43,7 @@ export const actions={
     })
   },
   getHistoryProcessableList({commit},id){
-    this.$axios.get(`/api/v1/common-process-operations/list?processableEntityId=${id}&firstSort=true`)
+    this.$axios.get(`/api/v1/common-process-operations/list?processableEntityId=${id}&firstSort=false`)
     .then((res)=>{
       commit("setHistoryProcessableList",res.data.data)
     })
