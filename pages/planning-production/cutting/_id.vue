@@ -95,11 +95,11 @@ export default {
     tab(val){
       if(val===1){
         this.setClassification()
-        this.getOrderQuantityList()
+        this.getOrderQuantityList(false)
       }
       if(val===0){
         this.getClassificationList()
-        this.getOrderQuantityList()
+        this.getOrderQuantityList(true)
       }
       if(val===2){
         this.getPassingList(this.planningProcessId)

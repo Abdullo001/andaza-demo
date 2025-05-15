@@ -355,6 +355,43 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
+                <div class="label"> {{ $t('readyWarehouse.id.modelNo') }}</div>
+                <v-select
+                  append-icon="mdi-chevron-down"
+                  v-model="arrivedFabric.modelNumber"
+                  :items="modelsBySipNmber"
+                  item-text="modelNumber"
+                  item-value="modelNumber"
+                  hide-details
+                  color="#544B99"
+                  class="base rounded-lg"
+                  rounded
+                  outlined
+                  dense
+                  return-object
+                  :disabled="modelsBySipNmber.length === 0"
+                  :placeholder="$t('readyWarehouse.id.modelNo')"
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
+                <div class="label">Body parts</div>
+                <v-select
+                  append-icon="mdi-chevron-down"
+                  v-model="arrivedFabric.modelPartId"
+                  :items="localModelParts"
+                  item-text="modelPartName"
+                  item-value="modelPartId"
+                  hide-details
+                  color="#544B99"
+                  class="base rounded-lg"
+                  rounded
+                  outlined
+                  dense
+                  :disabled="localModelParts.length === 0"
+                  placeholder="Body parts"
+                />
+              </v-col>
+              <v-col cols="12" lg="6">
                 <div class="label">{{ $t('fabricWarehouse.fabricWidth') }}</div>
                 <v-text-field
                   v-model="arrivedFabric.fabricWidthInFact"
@@ -881,6 +918,7 @@ export default {
         { text:this.$t('fabricWarehouse.batchNumber'), value: "batchNumber", sortable: false },
         { text: this.$t('fabricWarehouse.orderNumber'), value: "orderNumber", sortable: false },
         { text: this.$t('prefinances.child.modelNumber'), value: "modelNumber", sortable: false },
+        { text: "Body part", value: "modelPartName", sortable: false },
         {
           text: this.$t('fabricWarehouse.fabricSpecification'),
           value: "fabricSpecification",
@@ -965,6 +1003,7 @@ export default {
       current_list: [],
       partnerName: "",
       modelPTotalQuantity:null,
+      localModelParts:[],
     };
   },
 
@@ -979,12 +1018,27 @@ export default {
       modelPartsQuantity: "fabricWarehouse/modelPartsQuantity",
       partnerList: "partners/partnerList",
       currencyList: "partners/currencyList",
+      modelsBySipNmber: "fabricWarehouse/modelsBySipNmber",
     }),
   },
 
   watch: {
+    modelParts(val){
+      this.localModelParts = [...val]
+    },
+    "arrivedFabric.modelNumber"(val){
+      if(val?.modelNumber){
+        this.getModelPartsList({modelNumber: val?.modelNumber, color: val?.color})
+      }
+    },
     modelPartsQuantity(newVal){
       this.modelPTotalQuantity = newVal.data
+    },
+    "arrivedFabric.fabricOrderId"(val){
+      if(!val?.sipNumber){
+        this.localModelParts = []
+      }
+      this.getModelsBySipNumber(val?.sipNumber ? val.sipNumber : '')
     },
     "workshop.modelNumber"(val){
       if(val){
@@ -1033,7 +1087,6 @@ export default {
         this.modelPTotalQuantity = null
         await this.$refs.workshop_form.reset();
       }
-
     },
     async subcontractor_dialog(val){
       if(!val){
@@ -1084,6 +1137,7 @@ export default {
       getTotalQuantityByModelParts: "fabricWarehouse/getTotalQuantityByModelParts",
       getPartnerList: "partners/getPartnerList",
       getCurrencyList: "partners/getCurrencyList",
+      getModelsBySipNumber: "fabricWarehouse/getModelsBySipNumber",
     }),
     loadDetails({ item }) {
       // current opened || choose object ^
@@ -1120,14 +1174,17 @@ export default {
 
     async saveArrivedFabric() {
       const data = { ...this.arrivedFabric };
+      data.fabricOrderId = this.arrivedFabric.fabricOrderId?.fabricOrderId
+      data.modelId = this.arrivedFabric.modelNumber?.id
       await this.createFabricWarehouse(data);
       this.new_dialog = false;
     },
 
-    editItem(item) {
+    async editItem(item) {
       this.title = "Edit";
       this.arrivedFabric = { ...item };
       this.arrivedFabric.fabricOrderId={fabricOrderId: item.fabricOrderId,sipNumber:item.sipNumber}
+      this.arrivedFabric.modelNumber={modelNumber:item.modelNumber[0],color:item.color, modelPartName:item.modelPartName, id: item.modelId}
       this.new_dialog = true;
     },
 
@@ -1136,6 +1193,8 @@ export default {
         batchNumber: this.arrivedFabric.batchNumber,
         densityInFact: this.arrivedFabric.densityInFact,
         fabricOrderId: this.arrivedFabric.fabricOrderId?.fabricOrderId,
+        modelId: this.arrivedFabric.modelNumber?.id,
+        modelPartId: this.arrivedFabric.modelPartId,
         fabricWidthInFact: this.arrivedFabric.fabricWidthInFact.split(" ")[0],
         factReceivedGrossWeight:
           this.arrivedFabric.factReceivedGrossWeight,

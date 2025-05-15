@@ -416,8 +416,8 @@ export default {
       this.headers= [
         {text: 'Color', sortable: false, align: 'start', value: 'color'},
       ]
-      if(this.title==="sorting"){
-        this.headers.push({text: 'Model part', sortable: false, align: 'start', value: 'bodyPart'})
+      if(this.title==="sorting" || this.title==="printing"){
+        this.headers.push({text: 'Model part', sortable: false, align: 'start', value: 'modelPartName'})
       }
 
       list[0]?.sizeDistributionList?.forEach((item) => {
@@ -445,7 +445,6 @@ export default {
           ...value,
           ...el,
           sizeDistributions: [...sizesList],
-
         }
       })
       this.totalQuantity=totalQuantity
