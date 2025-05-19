@@ -510,7 +510,10 @@ export default {
     subcontractList(list){
       this.printingHeader= [
         {text: "Color", sortable: false, value: "color"},
-      ],
+      ]
+      if(this.title==="sorting" || this.title==="printing"){
+        this.printingHeader.push({text: 'Model part', sortable: false, align: 'start', value: 'modelPartName'})
+      }
 
       list[0]?.sizeDistributionList?.forEach((item)=>{
         this.printingHeader.push({

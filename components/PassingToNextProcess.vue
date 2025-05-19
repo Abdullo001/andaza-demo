@@ -561,6 +561,9 @@ export default {
       this.headers = [
         { text: this.$t('planningProduction.planning.color'), align: "start", sortable: false, value: "color" },
       ];
+      if(this.title==="sorting" || this.title==="printing"){
+        this.headers.push({text: 'Model part', sortable: false, align: 'start', value: 'modelPartName'})
+      }
 
       list[0]?.sizeDistributionList.forEach((item) => {
         this.headers.push({
@@ -721,6 +724,7 @@ export default {
           productionId: this.productionId,
           workshopType: this.selectedItem.workshopType,
           planningProcessId: this.planningProcessId,
+          modelPartId: this.selectedItem.modelPartId,
         };
       } else {
         data = {
@@ -761,7 +765,6 @@ export default {
         } else {
           if(this.nextProcessList[0]?.process===this.selectedItem.process){
             this.giveNextProcess()
-
           }else{
             this.warningText=`Are you really willing to switch from <strong>${this.title.toUpperCase()}</strong> to <strong>${this.selectedItem.process}</strong>?`
             this.warningState=true
