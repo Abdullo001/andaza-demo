@@ -226,7 +226,7 @@ export default {
         productionId: '',
       },
       selectedProcess: [],
-      currentProcessId: '',
+      currentProcess: {},
       processList:[
         {id:"CUTTING", name:this.$t('planningProduction.process.cutting')},
         {id:"PRINTING", name:this.$t('planningProduction.process.printing')},
@@ -356,10 +356,10 @@ export default {
     },
     deleteItem(item) {
       this.delete_dialog = true;
-      this.currentProcessId = item.id;
+      this.currentProcess = {...item};
     },
     async removeProcess() {
-      await this.deleteProcessing(this.currentProcessId);
+      await this.deleteProcessing({id:this.currentProcess.id, process: this.currentProcess.process});
       this.delete_dialog = false;
     },
     goWorking() {

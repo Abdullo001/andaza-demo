@@ -134,8 +134,8 @@ export const actions = {
         })
       }).catch(({response}) => console.log(response));
   },
-  deleteProcessing({dispatch, state}, id) {
-    this.$axios.$delete(`/api/v1/process-planning/delete?id=${id}`)
+  deleteProcessing({dispatch, state}, {id, process}) {
+    this.$axios.$delete(`/api/v1/process-planning/${id}?process=${process}`)
       .then(res => {
         this.$toast.success(res.message);
         dispatch('getProcessingList', {
