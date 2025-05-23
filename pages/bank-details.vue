@@ -16,13 +16,13 @@
           </v-col>
           <v-col cols="12" lg="2">
             <v-text-field
-            :placeholder="$t('bankDetails.dialog.swift')"
-            outlined
-            class="rounded-lg filter"
-            v-model.trim="filterBanks.swift"
-            hide-details
-            dense
-            @keydown.enter="filterData"
+              :placeholder="$t('bankDetails.dialog.swift')"
+              outlined
+              class="rounded-lg filter"
+              v-model.trim="filterBanks.swift"
+              hide-details
+              dense
+              @keydown.enter="filterData"
             />
           </v-col>
           <v-col cols="12" lg="3">
@@ -118,38 +118,40 @@
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
-          <v-form lazy-validation>
+          <v-form ref="create_bank" lazy-validation>
             <v-row>
               <v-col cols="12" lg="4">
-                <div class="label">{{$t('bankDetails.dialog.bankCode')}}</div>
+                <div class="label">{{ $t("bankDetails.dialog.bankCode") }}</div>
                 <v-text-field
                   v-model="createBankDetails.mfo"
                   dense
                   outlined
-                  hide-details
                   height="44"
                   class="rounded-lg base"
                   :placeholder="$t('bankDetails.dialog.bankCode')"
                   color="#544B99"
+                  :rules="[formRules.required, formRules.onlyNumber]"
                 />
               </v-col>
               <v-col cols="12" lg="8">
-                <div class="label">{{ $t('bankDetails.table.bankName') }}</div>
+                <div class="label">{{ $t("bankDetails.table.bankName") }}</div>
                 <v-text-field
                   v-model="createBankDetails.name"
                   dense
                   outlined
-                  hide-details
                   height="44"
                   class="rounded-lg base"
                   :placeholder="$t('bankDetails.table.bankName')"
                   color="#544B99"
+                  :rules="[formRules.required]"
                 />
               </v-col>
             </v-row>
             <v-row>
               <v-col cols="12" lg="9">
-                <div class="label">{{ $t('bankDetails.table.bankAddress') }}</div>
+                <div class="label">
+                  {{ $t("bankDetails.table.bankAddress") }}
+                </div>
                 <v-text-field
                   v-model="createBankDetails.address"
                   dense
@@ -162,7 +164,7 @@
                 />
               </v-col>
               <v-col cols="12" lg="3">
-                <div class="label">{{ $t('bankDetails.dialog.swift') }}</div>
+                <div class="label">{{ $t("bankDetails.dialog.swift") }}</div>
                 <v-text-field
                   v-model="createBankDetails.swift"
                   dense
@@ -182,11 +184,11 @@
                   v-model="createBankDetails.accountNumberUZS"
                   dense
                   outlined
-                  hide-details
                   height="44"
                   class="rounded-lg base"
                   :placeholder="$t('bankDetails.table.accountNumber')"
                   color="#544B99"
+                  :rules="[formRules.onlyNumber]"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -195,11 +197,11 @@
                   v-model="createBankDetails.accountNumberUSD"
                   dense
                   outlined
-                  hide-details
                   height="44"
                   class="rounded-lg base"
                   :placeholder="$t('bankDetails.table.accountNumber')"
                   color="#544B99"
+                  :rules="[formRules.onlyNumber]"
                 />
               </v-col>
             </v-row>
@@ -210,11 +212,11 @@
                   v-model="createBankDetails.accountNumberRUB"
                   dense
                   outlined
-                  hide-details
                   height="44"
                   class="rounded-lg base"
                   :placeholder="$t('bankDetails.table.accountNumber')"
                   color="#544B99"
+                  :rules="[formRules.onlyNumber]"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -223,11 +225,11 @@
                   v-model="createBankDetails.accountNumberEUR"
                   dense
                   outlined
-                  hide-details
                   height="44"
                   class="rounded-lg base"
                   :placeholder="$t('bankDetails.table.accountNumber')"
                   color="#544B99"
+                  :rules="[formRules.onlyNumber]"
                 />
               </v-col>
             </v-row>
@@ -241,7 +243,7 @@
             width="163"
             @click="new_dialog = false"
           >
-            {{$t('bankDetails.cancel')}}
+            {{ $t("bankDetails.cancel") }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -250,7 +252,7 @@
             width="163"
             @click="createBankDetail"
           >
-          {{$t('bankDetails.save')}}
+            {{ $t("bankDetails.save") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -266,38 +268,40 @@
           </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
-          <v-form lazy-validation>
+          <v-form ref="update_bank" lazy-validation>
             <v-row>
               <v-col cols="12" lg="4">
-                <div class="label">{{$t('bankDetails.dialog.bankCode')}}</div>
+                <div class="label">{{ $t("bankDetails.dialog.bankCode") }}</div>
                 <v-text-field
                   v-model="editBankDetails.mfo"
                   dense
                   outlined
-                  hide-details
                   height="44"
                   class="rounded-lg base"
                   :placeholder="$t('bankDetails.dialog.bankCode')"
                   color="#544B99"
+                  :rules="[formRules.required, formRules.onlyNumber]"
                 />
               </v-col>
               <v-col cols="12" lg="8">
-                <div class="label">{{$t('bankDetails.table.bankName')}}</div>
+                <div class="label">{{ $t("bankDetails.table.bankName") }}</div>
                 <v-text-field
                   v-model="editBankDetails.name"
                   dense
                   outlined
-                  hide-details
                   height="44"
                   class="rounded-lg base"
                   :placeholder="$t('bankDetails.table.bankName')"
                   color="#544B99"
+                  :rules="[formRules.required]"
                 />
               </v-col>
             </v-row>
             <v-row>
               <v-col cols="12" lg="9">
-                <div class="label">{{$t('bankDetails.table.bankAddress')}}</div>
+                <div class="label">
+                  {{ $t("bankDetails.table.bankAddress") }}
+                </div>
                 <v-text-field
                   v-model="editBankDetails.address"
                   dense
@@ -310,7 +314,7 @@
                 />
               </v-col>
               <v-col cols="12" lg="3">
-                <div class="label">{{$t('bankDetails.dialog.swift')}}</div>
+                <div class="label">{{ $t("bankDetails.dialog.swift") }}</div>
                 <v-text-field
                   v-model="editBankDetails.swift"
                   dense
@@ -330,11 +334,11 @@
                   v-model="editBankDetails.accountNumberUZS"
                   dense
                   outlined
-                  hide-details
                   height="44"
                   class="rounded-lg base"
                   :placeholder="$t('bankDetails.table.accountNumber')"
                   color="#544B99"
+                  :rules="[formRules.onlyNumber]"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -343,11 +347,11 @@
                   v-model="editBankDetails.accountNumberUSD"
                   dense
                   outlined
-                  hide-details
                   height="44"
                   class="rounded-lg base"
                   :placeholder="$t('bankDetails.table.accountNumber')"
                   color="#544B99"
+                  :rules="[formRules.onlyNumber]"
                 />
               </v-col>
             </v-row>
@@ -358,11 +362,11 @@
                   v-model="editBankDetails.accountNumberRUB"
                   dense
                   outlined
-                  hide-details
                   height="44"
                   class="rounded-lg base"
                   :placeholder="$t('bankDetails.table.accountNumber')"
                   color="#544B99"
+                  :rules="[formRules.onlyNumber]"
                 />
               </v-col>
               <v-col cols="12" lg="6">
@@ -371,11 +375,11 @@
                   v-model="editBankDetails.accountNumberEUR"
                   dense
                   outlined
-                  hide-details
                   height="44"
                   class="rounded-lg base"
                   :placeholder="$t('bankDetails.table.accountNumber')"
                   color="#544B99"
+                  :rules="[formRules.onlyNumber]"
                 />
               </v-col>
             </v-row>
@@ -389,7 +393,7 @@
             width="163"
             @click="update_dialog = false"
           >
-            {{$t('bankDetails.cancel')}}
+            {{ $t("bankDetails.cancel") }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -398,7 +402,7 @@
             width="163"
             @click="updateBankDetails"
           >
-            {{$t('bankDetails.update')}}
+            {{ $t("bankDetails.update") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -420,32 +424,32 @@ export default {
     return {
       headers: [
         {
-          text: this.$t('bankDetails.table.bankName'),
+          text: this.$t("bankDetails.table.bankName"),
           value: "name",
           sortable: false,
         },
         {
-          text: this.$t('bankDetails.table.bankCode'),
+          text: this.$t("bankDetails.table.bankCode"),
           value: "mfo",
         },
         {
-          text: this.$t('bankDetails.table.bankAddress'),
+          text: this.$t("bankDetails.table.bankAddress"),
           value: "address",
           sortable: false,
         },
         {
-          text: this.$t('bankDetails.table.created'),
+          text: this.$t("bankDetails.table.created"),
           value: "createdAt",
           sortable: false,
         },
         {
-          text: this.$t('bankDetails.table.createdBy'),
+          text: this.$t("bankDetails.table.createdBy"),
           value: "createdBy",
           align: "center",
           sortable: false,
         },
         {
-          text: this.$t('bankDetails.table.actions'),
+          text: this.$t("bankDetails.table.actions"),
           value: "actions",
           align: "center",
           sortable: false,
@@ -460,20 +464,20 @@ export default {
         name: "",
         address: "",
         swift: "",
-        accountNumberUZS:"",
-        accountNumberUSD:"",
-        accountNumberRUB:"",
-        accountNumberEUR:"",
+        accountNumberUZS: "",
+        accountNumberUSD: "",
+        accountNumberRUB: "",
+        accountNumberEUR: "",
       },
       editBankDetails: {
         mfo: "",
         name: "",
         address: "",
         swift: "",
-        accountNumberUZS:"",
-        accountNumberUSD:"",
-        accountNumberRUB:"",
-        accountNumberEUR:"",
+        accountNumberUZS: "",
+        accountNumberUSD: "",
+        accountNumberRUB: "",
+        accountNumberEUR: "",
       },
       updateBankId: null,
       deleteDialog: false,
@@ -529,19 +533,21 @@ export default {
       });
     },
     async createBankDetail() {
+      if (!this.$refs.create_bank.validate()) return;
       const data = { ...this.createBankDetails };
 
       await this.createBank(data);
 
-      (this.new_dialog = false),
-        (this.createBankDetails = {
-          mfo: "",
-          name: "",
-          address: "",
-          currency: "",
-          swift: "",
-          accountNumber: "",
-        });
+      this.new_dialog = false;
+      this.createBankDetails = {
+        mfo: "",
+        name: "",
+        address: "",
+        currency: "",
+        swift: "",
+        accountNumber: "",
+      };
+      this.$refs.create_bank.resetValidation();
     },
     editBankDetail(item) {
       this.editBankDetails = { ...item };
@@ -549,20 +555,22 @@ export default {
       this.updateBankId = item.id;
     },
     async updateBankDetails() {
+      if (!this.$refs.update_bank.validate()) return;
       const data = { ...this.editBankDetails };
       const id = this.updateBankId;
 
       await this.updateBank({ id, data });
 
-      (this.update_dialog = false),
-        (this.editBankDetails = {
-          mfo: "",
-          name: "",
-          address: "",
-          currency: "",
-          swift: "",
-          accountNumber: "",
-        });
+      this.update_dialog = false;
+      this.editBankDetails = {
+        mfo: "",
+        name: "",
+        address: "",
+        currency: "",
+        swift: "",
+        accountNumber: "",
+      };
+      this.$refs.update_bank.resetValidation();
     },
     deleteBankDetails(item) {
       this.deleteDialog = true;
