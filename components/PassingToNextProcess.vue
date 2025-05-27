@@ -271,12 +271,12 @@
                   v-model="item.quantity"
                   placeholder="0"
                   outlined
-                  hide-details
                   height="44"
                   class="rounded-lg base"
                   validate-on-blur
                   dense
                   color="#544B99"
+                  :rules="[formRules.onlyNumber]"
                 />
               </v-col>
             </v-row>
@@ -286,6 +286,7 @@
                   row
                   v-model.trim="selectedItem.workshopType"
                   class="mb-4"
+                  :rules="[formRules.required]"
                 >
                   <v-radio
                     :aria-disabled="selectedItem.status === 'edit_history'"
@@ -320,12 +321,12 @@
                   :disabled="selectedItem.status === 'edit_history'"
                   append-icon="mdi-chevron-down"
                   outlined
-                  hide-details
                   dense
                   height="44"
                   class="rounded-lg base"
                   color="#544B99"
                   :placeholder="$t('planningProduction.planning.selectNextProcess')"
+                  :rules="[formRules.required]"
                 />
               </v-col>
               <v-col
@@ -341,7 +342,7 @@
                   item-text="name"
                   item-value="id"
                   outlined
-                  hide-details
+                  :rules="[formRules.required]"
                   height="44"
                   class="rounded-lg base"
                   :return-object="true"
@@ -349,7 +350,6 @@
                   dense
                   :placeholder="$t('modelBox.dialog.enterPartnerName')"
                   append-icon="mdi-chevron-down"
-                  :rules="[formRules.required]"
                   validate-on-blur
                 >
                   <template #append>
@@ -373,9 +373,11 @@
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#544B99"
-            dark
             width="130"
             @click="save"
+            :loading="btnLoading"
+            :disabled="btnLoading"
+            :dark ="!btnLoading"
           >
           {{ $t(`save`) }}
           </v-btn>
@@ -511,6 +513,7 @@ export default {
       waybilSearch: "",
       warningState: false,
       warningText: "",
+      btnLoading: false,
     };
   },
 
@@ -540,6 +543,11 @@ export default {
   },
 
   watch: {
+    edit_dialog(val){
+      if(!val){
+        this.$refs.edit_form.resetValidation();
+      }
+    },
     waybilSearch(val) {
       this.getWaybillList({ page: 0, size: 10, number: val });
     },
@@ -711,77 +719,117 @@ export default {
     deleteItem() {},
 
     async giveNextProcess() {
-      let data = {};
-      if (this.title === "printing") {
-        data = {
-          fromProcess: "PRINTING",
-          entityId: this.selectedItem.entityId,
-          process: this.selectedItem.process,
-          sizeDistributionList: this.selectedItem.sizeDistributions.map((item)=>({
-            size:item.size,
-            quantity: item.quantity?item.quantity:0
-          })),
-          productionId: this.productionId,
-          workshopType: this.selectedItem.workshopType,
-          planningProcessId: this.planningProcessId,
-          modelPartId: this.selectedItem.modelPartId,
-        };
-      } else {
-        data = {
-          entityId: this.selectedItem.entityId,
-          process: this.selectedItem.process,
-          sizeDistributionList: this.selectedItem.sizeDistributions.map((item)=>({
-            size:item.size,
-            quantity: item.quantity?item.quantity:0
-          })),
-          productionId: this.productionId,
-          workshopType: this.selectedItem.workshopType,
-          planningProcessId: this.planningProcessId,
-        };
-      }
+      this.btnLoading = true;
+      this.warningState = false;
+
+      const commonData = {
+        entityId: this.selectedItem.entityId,
+        process: this.selectedItem.process,
+        sizeDistributionList: this.selectedItem.sizeDistributions.map(({ size, quantity }) => ({
+          size,
+          quantity: quantity || 0,
+        })),
+        productionId: this.productionId,
+        workshopType: this.selectedItem.workshopType,
+        planningProcessId: this.planningProcessId,
+      };
+
+      const data = this.title === "printing"
+        ? { ...commonData, fromProcess: "PRINTING", modelPartId: this.selectedItem.modelPartId }
+        : commonData;
 
       if (this.selectedItem.partnerId) {
-        data = { ...data, partnerId: this.selectedItem.partnerId?.id };
+        data.partnerId = this.selectedItem.partnerId.id;
       }
-      this.setUpdatePass(data);
-      this.edit_dialog = false;
-      this.warningState=false
-    },
-
-    save() {
-      if (this.selectedItem.status === "editProcess") {
-        if (this.title === "packaging") {
-          let data = {
-            entityId: this.selectedItem.entityId,
-            operationType: "FIRST_CLASS",
-            productionId: this.productionId,
-            sizeDistributionList: this.selectedItem.sizeDistributions.map((item)=>({
-            size:item.size,
-            quantity: item.quantity?item.quantity:0
-          })),
-          };
-          this.setReadyGarmentWarehouse(data);
-          this.edit_dialog = false;
-        } else {
-          if(this.nextProcessList[0]?.process===this.selectedItem.process){
-            this.giveNextProcess()
-          }else{
-            this.warningText=`Are you really willing to switch from <strong>${this.title.toUpperCase()}</strong> to <strong>${this.selectedItem.process}</strong>?`
-            this.warningState=true
-          }
-        }
-      }
-      if (this.selectedItem.status === "edit_history") {
-        let data = {
-          id: this.selectedItem.id,
-          sizeDistributionList: [...this.selectedItem.sizeDistributions],
-        };
-
-        this.setHistoryProcessable({ processId: this.planningProcessId, data });
+      try{
+        const res = await this.setUpdatePass(data)
+        this.getPassingList(this.planningProcessId);
+        this.$toast.success(res.data.message)
+      }catch(error) {
+        console.error("Error giving next process:", error);
+      } finally {
         this.edit_dialog = false;
+        this.btnLoading = false;
+        this.autoFilling = false;
       }
-
     },
+    save() {
+      if (!this.$refs.edit_form.validate()) return;
+      const { selectedItem } = this;
+
+      switch (selectedItem.status) {
+        case "editProcess":
+          this.handleEditProcess();
+          break;
+        case "edit_history":
+          this.handleEditHistory();
+          break;
+        default:
+          console.warn(`Unknown status: ${selectedItem.status}`);
+      }
+    },
+
+    handleEditProcess() {
+      if (this.title === "packaging") {
+        this.handlePackaging();
+      } else {
+        this.handleNonPackaging();
+      }
+    },
+
+    handlePackaging() {
+      const data = this.createPackagingData();
+      this.setReadyGarmentWarehouse(data);
+      this.closeEditDialog();
+    },
+
+    handleNonPackaging() {
+      const isNextProcess = this.nextProcessList[0]?.process === this.selectedItem.process;
+
+      if (isNextProcess) {
+        this.giveNextProcess();
+      } else {
+        this.showProcessWarning();
+      }
+    },
+
+    handleEditHistory() {
+      const data = this.createHistoryData();
+      this.setHistoryProcessable({
+        processId: this.planningProcessId,
+        data
+      });
+      this.closeEditDialog();
+    },
+
+    createPackagingData() {
+      return {
+        entityId: this.selectedItem.entityId,
+        operationType: "FIRST_CLASS",
+        productionId: this.productionId,
+        sizeDistributionList: this.selectedItem.sizeDistributions.map(item => ({
+          size: item.size,
+          quantity: item.quantity || 0
+        }))
+      };
+    },
+
+    createHistoryData() {
+      return {
+        id: this.selectedItem.id,
+        sizeDistributionList: [...this.selectedItem.sizeDistributions]
+      };
+    },
+
+    showProcessWarning() {
+      this.warningText = `Are you really willing to switch from <strong>${this.title.toUpperCase()}</strong> to <strong>${this.selectedItem.process}</strong>?`;
+      this.warningState = true;
+    },
+
+    closeEditDialog() {
+      this.edit_dialog = false;
+    },
+
     editHistoryItem(item) {
       this.selectedItem = { ...item };
       this.selectedItem.status = "edit_history";

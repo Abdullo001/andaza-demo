@@ -45,16 +45,8 @@ export const actions={
       console.log(res);
     })
   },
-  setUpdatePass({dispatch},data){
-    this.$axios.put(`/api/v1/processable-entity/pass-next-process`,data)
-    .then((res)=>{
-      this.$toast.success(res.data.message)
-      dispatch("getPassingList",data.planningProcessId)
-    })
-    .catch(({res})=>{
-      this.$toast.error(res.data.message)
-      console.log(res);
-    })
+  async setUpdatePass({dispatch},data){
+    return await this.$axios.put(`/api/v1/processable-entity/pass-next-process`,data)
   },
   getHistoryProcessableList({commit},{id,isFirstSort}){
     this.$axios.get(`/api/v1/common-process-operations/list?processableEntityId=${id}&firstSort=${isFirstSort}`)
