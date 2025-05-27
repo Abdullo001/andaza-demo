@@ -76,9 +76,9 @@
                 <div class="label">{{ item.size }}</div>
                 <v-text-field
                   v-model="item.quantity"
+                  :rules="[formRules.onlyNumber]"
                   placeholder="0"
                   outlined
-                  hide-details
                   height="44"
                   class="rounded-lg base"
                   validate-on-blur
@@ -93,6 +93,7 @@
                   row
                   v-model.trim="selectedItem.workshopType"
                   class="mb-4"
+                  :rules="[formRules.required]"
                 >
                   <v-radio
                     :aria-disabled="selectedItem.status === 'edit_history'"
@@ -126,12 +127,12 @@
                   :disabled="selectedItem.status === 'edit_history'"
                   append-icon="mdi-chevron-down"
                   outlined
-                  hide-details
                   dense
                   height="44"
                   class="rounded-lg base"
                   color="#544B99"
                   :placeholder="$t('planningProduction.planning.selectNextProcess')"
+                  :rules="[formRules.required]"
                 />
               </v-col>
               <v-col
@@ -147,7 +148,6 @@
                   item-text="name"
                   item-value="id"
                   outlined
-                  hide-details
                   height="44"
                   class="rounded-lg base"
                   :return-object="true"
@@ -155,8 +155,8 @@
                   dense
                   :placeholder="$t('modelBox.dialog.enterPartnerName')"
                   append-icon="mdi-chevron-down"
-                  :rules="[formRules.required]"
                   validate-on-blur
+                  :rules="[formRules.required]"
                 >
                   <template #append>
                     <v-icon color="#544B99">mdi-magnify</v-icon>
@@ -179,9 +179,11 @@
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
             color="#544B99"
-            dark
             width="130"
             @click="save"
+            :loading="btnLoading"
+            :disabled="btnLoading"
+            :dark ="!btnLoading"
           >
             {{ $t(`save`) }}
           </v-btn>
@@ -256,7 +258,6 @@ import { mapActions, mapGetters } from "vuex";
 import WarningDialog from "./WarningDialog.vue";
 
 export default {
-  name: "QualityControl",
   components: {
     WarningDialog,
   },
@@ -307,6 +308,7 @@ export default {
       partnerName: "",
       warningState: false,
       warningText: "",
+      btnLoading: false,
     };
   },
 
@@ -334,6 +336,12 @@ export default {
   },
 
   watch: {
+    edit_dialog(val){
+      if(!val){
+
+        this.$refs.edit_form.resetValidation();
+      }
+    },
     autoFilling(val) {
       if (val) {
         this.selectedItem.sizeDistributions.forEach((item, idx) => {
@@ -354,7 +362,6 @@ export default {
         { text: this.$t('bodyPart'), align: "start", sortable: false, value: "modelPartName" },
 
       ];
-
       list[0]?.sizeDistributionList.forEach((item) => {
         this.headers.push({
           text: item.size,
@@ -392,7 +399,6 @@ export default {
 
       this.checkedList = JSON.parse(JSON.stringify(specialList));
     },
-
     historyListServer(list) {
       this.historyHeaders = [
         {
@@ -402,7 +408,6 @@ export default {
           value: "toProcess",
         },
       ];
-
       list[0]?.sizeDistributionList.forEach((item) => {
         this.historyHeaders.push({
           text: item.size,
@@ -436,7 +441,6 @@ export default {
           sizeDistributions: [...sizesList],
         };
       });
-
       this.historyList = JSON.parse(JSON.stringify(specialList));
     },
   },
@@ -448,7 +452,7 @@ export default {
   methods: {
     ...mapActions({
       getPassingList: "cuttingToNextProcess/getPassingList",
-      setUpdatePass: "cuttingToNextProcess/setUpdatePass",
+      passToNextHandle: "passingToNextProcess/setUpdatePass",
       getPartnerList: "partners/getPartnerList",
       getHistoryList: "cuttingToNextProcess/getHistoryProcessableList",
       deleteHistoryProcessable: "cuttingToNextProcess/deleteHistoryProcessable",
@@ -468,8 +472,8 @@ export default {
       this.autoFilling = false;
     },
     deleteItem() {},
-
     async giveNextProcess() {
+      this.btnLoading = true;
       let data = {
         fromProcess: "CUTTING",
         entityId: this.selectedItem.entityId,
@@ -488,28 +492,85 @@ export default {
       if (this.selectedItem.partnerId) {
         data = { ...data, partnerId: this.selectedItem.partnerId?.id };
       }
-      await this.setUpdatePass(data);
-      this.edit_dialog = false;
-      this.warningState = false;
+
+      try{
+       const res = await this.passToNextHandle(data);
+        this.getPassingList(this.planningProcessId);
+        this.$toast.success(res.data.message)
+      }catch(error){
+        console.error("Error giving next process:", error);
+      }finally{
+        this.btnLoading = false;
+        this.edit_dialog = false;
+        this.warningState = false;
+        this.selectedItem = {};
+      }
     },
 
     async save() {
-      if (this.selectedItem.status === "editProcess") {
-        if (this.nextProcessList[0]?.process === this.selectedItem.process) {
-          this.giveNextProcess();
-        } else {
-          this.warningText = `Are you really willing to switch from <strong>CUTTING</strong> to <strong>${this.selectedItem.process}</strong>?`;
-          this.warningState = true;
-        }
+      if (!this.$refs.edit_form.validate()) return;
+      const { selectedItem } = this;
+      switch (selectedItem.status) {
+        case "editProcess":
+          this.handleNonPackaging();
+          break;
+        case "edit_history":
+          this.handleEditHistory();
+          break;
+        default:
+          console.warn(`Unknown status: ${selectedItem.status}`);
       }
-      if (this.selectedItem.status === "edit_history") {
-        let data = {
-          id: this.selectedItem.id,
-          sizeDistributionList: [...this.selectedItem.sizeDistributions],
-        };
-        this.setHistoryProcessable({ processId: this.planningProcessId, data });
-        this.edit_dialog = false;
+    },
+    handlePackaging() {
+      const data = this.createPackagingData();
+      this.setReadyGarmentWarehouse(data);
+      this.closeEditDialog();
+    },
+
+    handleNonPackaging() {
+      const isNextProcess = this.nextProcessList[0]?.process === this.selectedItem.process;
+      if (isNextProcess) {
+        this.giveNextProcess();
+      } else {
+        this.showProcessWarning();
       }
+    },
+
+    handleEditHistory() {
+      const data = this.createHistoryData();
+      this.setHistoryProcessable({
+        processId: this.planningProcessId,
+        data
+      });
+      this.closeEditDialog();
+    },
+
+    createPackagingData() {
+      return {
+        entityId: this.selectedItem.entityId,
+        operationType: "FIRST_CLASS",
+        productionId: this.productionId,
+        sizeDistributionList: this.selectedItem.sizeDistributions.map(item => ({
+          size: item.size,
+          quantity: item.quantity || 0
+        }))
+      };
+    },
+
+    createHistoryData() {
+      return {
+        id: this.selectedItem.id,
+        sizeDistributionList: [...this.selectedItem.sizeDistributions]
+      };
+    },
+
+    showProcessWarning() {
+      this.warningText = `Are you really willing to switch from <strong>${this.title.toUpperCase()}</strong> to <strong>${this.selectedItem.process}</strong>?`;
+      this.warningState = true;
+    },
+
+    closeEditDialog() {
+      this.edit_dialog = false;
     },
     editHistoryItem(item) {
       this.selectedItem = { ...item };
