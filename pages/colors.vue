@@ -133,7 +133,7 @@
                         :rules="[formRules.required]"
                          :placeholder="$t('colorsBox.dialog.entercolorName')"
                         color="#544B99"
-                        v-model="create_colors.colorCodeHex"
+                        v-model="create_colors.colorCodeHex.hex"
                         v-on="on"
                         v-bind="attrs"
                       />
@@ -145,7 +145,6 @@
                           hide-details
                           height="44"
                           class="rounded-lg base"
-                          mode.sync="hex"
                           canvas-height="100"
                           v-model="create_colors.colorCodeHex"
                         >
@@ -404,7 +403,7 @@ export default {
       },
       create_colors: {
         description: null,
-        colorCodeHex: "",
+        colorCodeHex: {},
         name: "",
         colorCode: "",
         pantoneCode: "",
@@ -443,6 +442,15 @@ export default {
       totalElements: "colors/totalElements",
     }),
   },
+  watch:{
+    new_dialog(val){
+      if(!val){
+        this.$refs.new_form.reset()
+        this.$refs.new_form.resetValidation();
+        console.log(this.create_colors);
+      }
+    },
+  },
   methods: {
     ...mapActions({
       getColorsThinList: "colors/getColorsThinList",
@@ -462,8 +470,9 @@ export default {
     async save() {
       const validate = this.$refs.new_form.validate();
       if (validate) {
-        const item = {...this.create_colors};
-        await this.createColorsList(item);
+        const payload = {...this.create_colors};
+        payload.colorCodeHex = this.create_colors.colorCodeHex?.hex;
+        await this.createColorsList(payload);
         this.new_dialog = false;
       }
     },
