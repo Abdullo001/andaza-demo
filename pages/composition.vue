@@ -3,20 +3,9 @@
     <v-card color="#fff" elevation="0" class="rounded-t-lg">
       <v-form>
         <v-row class="mx-0 px-0 mb-7 mt-4 pa-4 w-full" justify="start">
-          <v-col cols="12" lg="2" md="2">
+          <v-col cols="12" lg="4" md="4">
             <v-text-field
-              v-model.trim="filters.id"
-              :label="$t('composition.child.idSearch')"
-              outlined
-              class="rounded-lg filter"
-              hide-details
-              dense
-              @keydown.enter="filterData"
-            />
-          </v-col>
-          <v-col cols="12" lg="2" md="2">
-            <v-text-field
-              v-model.trim="filters.name"
+              v-model.trim="filters.composition"
               :label="$t('composition.child.name')"
               outlined
               class="rounded-lg filter"
@@ -25,28 +14,29 @@
               @keydown.enter="filterData"
             />
           </v-col>
-          <v-col cols="12" lg="2" md="2">
-            <v-text-field
-              v-model.trim="filters.createdBy"
-              :label="$t('composition.child.createdBy')"
+          <v-col cols="12" lg="4" md="4">
+            <v-combobox
+              v-model="filters.createdBy"
+              :items="users"
+              :search-input.sync="creatorSearch"
+              item-text="name"
+              item-value="id"
+              validate-on-blur
               outlined
-              class="rounded-lg filter"
               hide-details
+              height="44"
+              class="rounded-lg filter"
+              :return-object="true"
               dense
-              @keydown.enter="filterData"
-            />
-          </v-col>
-          <v-col cols="12" lg="2" md="2">
-            <el-date-picker
-              v-model="filters.createdAt"
-              type="datetime"
-              class="filter_picker"
-              style="width: 100%;"
-              :placeholder="$t('composition.child.created')"
-              :picker-options="pickerShortcuts"
-              format="dd.MM.yyyy HH:mm:ss"
+              :placeholder="$t('forms.calculationsList.creatorPlaceholder')"
+              prepend-icon=""
             >
-            </el-date-picker>
+              <template #append>
+                <v-icon class="d-inline-block" color="#544B99">
+                  mdi-magnify
+                </v-icon>
+              </template>
+            </v-combobox>
           </v-col>
 
           <v-spacer />
@@ -113,12 +103,10 @@
       <template #item.actions="{ item }">
         <div class="d-flex justify-center">
           <v-btn icon color="green" @click.stop="editItem(item)">
-
-            <v-img src="/edit-active.svg" max-width="22"/>
+            <v-img src="/edit-active.svg" max-width="22" />
           </v-btn>
           <v-btn icon color="red" @click.stop="getDeleteItem(item)">
-            <v-img src="/delete.svg" max-width="27"/>
-
+            <v-img src="/delete.svg" max-width="27" />
           </v-btn>
         </div>
       </template>
@@ -137,7 +125,7 @@
           <v-form ref="new_form">
             <v-row>
               <v-col cols="12">
-                <div class="label">{{$t('composition.dialog.name')}}</div>
+                <div class="label">{{ $t("composition.dialog.name") }}</div>
                 <v-text-field
                   v-model="create_composition.name"
                   outlined
@@ -150,7 +138,9 @@
                 />
               </v-col>
               <v-col cols="12">
-                <div class="label">{{$t('composition.dialog.description')}}</div>
+                <div class="label">
+                  {{ $t("composition.dialog.description") }}
+                </div>
                 <v-textarea
                   v-model="create_composition.description"
                   outlined
@@ -172,7 +162,7 @@
             width="163"
             @click="new_dialog = false"
           >
-            {{ $t('composition.dialog.cancelBtn') }}
+            {{ $t("composition.dialog.cancelBtn") }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -181,8 +171,7 @@
             width="163"
             @click="save"
           >
-          {{ $t('composition.dialog.createBtn') }}
-
+            {{ $t("composition.dialog.createBtn") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -191,8 +180,7 @@
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
-            {{ $t('composition.dialog.editDialog') }}
-
+            {{ $t("composition.dialog.editDialog") }}
           </div>
           <v-btn icon color="#544B99" @click="edit_dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -202,7 +190,7 @@
           <v-form ref="new_form">
             <v-row>
               <v-col cols="12">
-                <div class="label">{{$t('composition.dialog.name')}}</div>
+                <div class="label">{{ $t("composition.dialog.name") }}</div>
                 <v-text-field
                   v-model="edit_composition.name"
                   outlined
@@ -215,7 +203,9 @@
                 />
               </v-col>
               <v-col cols="12">
-                <div class="label">{{$t('composition.dialog.description')}}</div>
+                <div class="label">
+                  {{ $t("composition.dialog.description") }}
+                </div>
                 <v-textarea
                   v-model="edit_composition.description"
                   outlined
@@ -237,7 +227,7 @@
             width="163"
             @click="edit_dialog = false"
           >
-            {{ $t('composition.dialog.cancelBtn') }}
+            {{ $t("composition.dialog.cancelBtn") }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -246,7 +236,7 @@
             width="163"
             @click="update"
           >
-          {{$t("update")}}
+            {{ $t("update") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -296,6 +286,7 @@ export default {
   name: "compositionPages",
   data() {
     return {
+      creatorSearch: "",
       edit_dialog: false,
       delete_dialog: false,
       new_dialog: false,
@@ -342,22 +333,32 @@ export default {
       filters: {
         id: "",
         name: "",
-        createdBy:"",
+        createdBy: "",
         createdAt: "",
       },
+      users: [],
     };
   },
   watch: {
-
+    usersList(list) {
+      list.map((item) => {
+        this.users.push({
+          id: item.id,
+          name: `${item.firstName} ${item.lastName}`,
+        });
+      });
+    },
   },
   async created() {
-    await this.getCompositionList( { page: 0, size: 10 });
+    await this.getCompositionList({ page: 0, size: 10 });
+    this.getUsersList();
   },
   computed: {
     ...mapGetters({
       loading: "composition/loading",
       composition_list: "composition/composition_list",
       totalElements: "composition/totalElements",
+      usersList: "orders/usersList",
     }),
   },
   methods: {
@@ -367,6 +368,7 @@ export default {
       updateComposition: "composition/updateComposition",
       deleteComposition: "composition/deleteComposition",
       filterCompositionData: "composition/filterCompositionData",
+      getUsersList: "orders/getUsersList",
     }),
     async size(val) {
       this.itemPrePage = val;
@@ -377,14 +379,14 @@ export default {
     },
     async page(val) {
       this.current_page = val - 1;
-      await this.getCompositionList( {
+      await this.getCompositionList({
         page: this.current_page,
         size: this.itemPrePage,
       });
     },
     async deleteSample() {
       const id = this.delete_sample.id;
-      await this.deleteComposition({id});
+      await this.deleteComposition({ id });
       this.delete_dialog = false;
     },
     async save() {
@@ -419,8 +421,12 @@ export default {
       await this.getCompositionList({ page: 0, size: 10 });
     },
     async filterData() {
-      const items = { ...this.filters };
-      await this.filterCompositionData(items);
+      await this.getCompositionList({
+        page: 0,
+        size: 10,
+        composition: this.filters.composition,
+        createdBy: this.filters.createdBy.id,
+      });
     },
   },
   mounted() {

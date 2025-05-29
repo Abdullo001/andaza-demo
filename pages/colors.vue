@@ -447,7 +447,6 @@ export default {
       if(!val){
         this.$refs.new_form.reset()
         this.$refs.new_form.resetValidation();
-        console.log(this.create_colors);
       }
     },
   },
