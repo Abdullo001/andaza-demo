@@ -46,30 +46,25 @@
                 class="text-capitalize rounded-lg"
                 @click="filterData"
               >
-                 {{ $t("partners.child.search") }}
+                {{ $t("partners.child.search") }}
               </v-btn>
             </div>
           </v-col>
         </v-row>
       </v-form>
     </v-card>
-    <v-data-table
+    <VDataTableWrapper
       :headers="headers"
-      :items-per-page="itemPrePage"
-      :loading="loading"
-      :server-items-length="totalElements"
       :items="accessory_list"
-      :footer-props="{
-        itemsPerPageOptions: [10, 20, 50, 100],
-      }"
-      class="mt-4 rounded-lg"
-      @update:page="page"
-      @update:items-per-page="size"
+      :totalElements="totalElements"
+      :callerFunction="getAccessoryList"
     >
       <template #top>
         <v-toolbar elevation="0" class="rounded-lg">
           <v-toolbar-title class="d-flex justify-space-between w-full">
-            <div class="font-weight-medium text-capitalize">{{ $t("catalogAccessory.dialog.accessory") }}</div>
+            <div class="font-weight-medium text-capitalize">
+              {{ $t("catalogAccessory.dialog.accessory") }}
+            </div>
             <v-btn
               color="#544B99"
               class="rounded-lg text-capitalize"
@@ -83,19 +78,11 @@
         </v-toolbar>
         <v-divider />
       </template>
-      <template #item.accessoryPhoto="{item}">
-        <div>
-          <v-img
-            :src="item?.accessoryPhoto"
-            class="mr-2"
-            width="40"
-            height="40"
-            @click="showImage(item.accessoryPhoto)"
-          />
-        </div>
+      <template #item.accessoryPhoto="{ item }">
+        <ImageContainer :value="item?.accessoryPhoto" width="40" height="40" />
       </template>
-      <template #item.checkbox="{ item }">
-        <v-checkbox />
+      <template #item.specification="{ item }">
+        {{ item.specification.join(", ") }}
       </template>
       <template #item.actions="{ item }">
         <div>
@@ -107,11 +94,13 @@
           </v-btn>
         </div>
       </template>
-    </v-data-table>
+    </VDataTableWrapper>
     <v-dialog v-model="new_dialog" width="700">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
-          <div class="text-capitalize font-weight-bold"> {{ $t("catalogAccessory.dialog.addAccessory") }}</div>
+          <div class="text-capitalize font-weight-bold">
+            {{ $t("catalogAccessory.dialog.addAccessory") }}
+          </div>
           <v-btn icon color="#544B99" @click="new_dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -120,7 +109,9 @@
           <v-form ref="new_form" lazy-validation v-model="validate">
             <v-row>
               <v-col cols="12" lg="6">
-                <div class="label">{{ $t("catalogAccessory.table.accessoryName") }}</div>
+                <div class="label">
+                  {{ $t("catalogAccessory.table.accessoryName") }}
+                </div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="create_accessory.name"
@@ -129,36 +120,44 @@
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  :placeholder="$t('catalogAccessory.dialog.enterNameAccessory')"
+                  :placeholder="
+                    $t('catalogAccessory.dialog.enterNameAccessory')
+                  "
                   color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">{{ $t("catalogAccessory.table.measurementUnit") }}</div>
+                <div class="label">
+                  {{ $t("catalogAccessory.table.measurementUnit") }}
+                </div>
                 <v-select
                   v-model="create_accessory.measurementUnitId"
                   :items="measurement"
-
-                  :rules="[ formRules.required ]"
+                  :rules="[formRules.required]"
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-
                   dense
                   item-text="name"
                   item-value="id"
-                  :placeholder="$t('catalogAccessory.dialog.selectMeasurementUnit')"
+                  :placeholder="
+                    $t('catalogAccessory.dialog.selectMeasurementUnit')
+                  "
                   append-icon="mdi-chevron-down"
                   color="#544B99"
                 />
               </v-col>
               <v-col cols="12" md="7">
-                <div class="label">{{ $t("catalogAccessory.dialog.addSpecification") }}</div>
+                <div class="label">
+                  {{ $t("catalogAccessory.dialog.addSpecification") }}
+                </div>
                 <v-text-field
                   v-model="specification"
                   color="#544B99"
-                  :placeholder="$t('catalogAccessory.dialog.enterSpecification')"
+                  :placeholder="
+                    $t('catalogAccessory.dialog.enterSpecification')
+                  "
                   outlined
                   hide-details
                   height="44"
@@ -175,12 +174,14 @@
                   dark
                 >
                   <v-icon>mdi-plus</v-icon>
-                 {{ $t("catalogAccessory.dialog.addSpecification") }}
+                  {{ $t("catalogAccessory.dialog.addSpecification") }}
                 </v-btn>
               </v-col>
 
               <v-col cols="12">
-                <div class="label">{{ $t("catalogAccessory.dialog.specifications") }}</div>
+                <div class="label">
+                  {{ $t("catalogAccessory.dialog.specifications") }}
+                </div>
                 <v-autocomplete
                   chips
                   multiple
@@ -197,7 +198,7 @@
                   single-line
                   color="#544B99"
                 >
-                  <template v-slot:selection="{item, attrs, on}">
+                  <template v-slot:selection="{ item, attrs, on }">
                     <v-chip
                       v-bind="attrs"
                       v-on="on"
@@ -213,7 +214,9 @@
               </v-col>
 
               <v-col cols="12">
-                <div class="label">{{ $t("catalogAccessory.table.description") }}</div>
+                <div class="label">
+                  {{ $t("catalogAccessory.table.description") }}
+                </div>
                 <v-textarea
                   v-model="create_accessory.description"
                   outlined
@@ -222,50 +225,14 @@
                   rows="1"
                   dense
                   auto-grow
-                   :placeholder="$t('catalogAccessory.dialog.enterDescription')"
+                  :placeholder="$t('catalogAccessory.dialog.enterDescription')"
                   color="#544B99"
                 />
               </v-col>
             </v-row>
             <v-row>
               <v-col cols="6">
-                <div class="big__image overflow-hidden relative " >
-                  <input
-                    ref="uploaderFirst"
-                    class="d-none"
-                    type="file"
-                    @change="(e)=>firstFileChanged(e)"
-                    accept="image/*"
-                  />
-
-                  <div class="update__icon" v-if="!!files[0].file">
-                    <v-btn color="green" icon @click="getFile('first')">
-                      <v-img src="/upload-green.svg" max-width="22"/>
-                    </v-btn>
-                    <v-btn color="green" icon @click="deleteFile('first')">
-                      <v-img src="/trash-red.svg" max-width="22"/>
-                    </v-btn>
-                  </div>
-
-                  <v-img
-                    :src="images[0].photo"
-                    lazy-src="/model-image.jpg"
-                    v-if="!!files[0].file" width="100%"
-                    @click="showImage(images[0].photo)"
-                  />
-
-                  <div class="default__box" v-else>
-                    <v-img src="/default-image.svg" width="70"/>
-                    <v-btn text color="#5570F1" class="rounded-lg mt-6 my-4" @click="getFile('first')">
-                      <v-img src="/upload.svg" class="mr-2"/>
-                      <div class="text-capitalize upload-text">Upload Image</div>
-                    </v-btn>
-                    <div class="default__text">
-                      <p>Upload a cover image for your product.</p>
-                    </div>
-                  </div>
-
-                </div>
+                <ImageUploader v-model="accessoryPhoto" />
               </v-col>
             </v-row>
           </v-form>
@@ -278,7 +245,7 @@
             width="163"
             @click="new_dialog = false"
           >
-            {{ $t("sizeTemplate.dialog.cancel")}}
+            {{ $t("sizeTemplate.dialog.cancel") }}
           </v-btn>
           <v-btn
             class="rounded-lg text-capitalize ml-4 font-weight-bold"
@@ -287,7 +254,7 @@
             width="163"
             @click="save"
           >
-            {{ $t("sizeTemplate.dialog.add")}}
+            {{ $t("sizeTemplate.dialog.add") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -307,13 +274,11 @@
                 <div class="label">Name accessory</div>
                 <v-text-field
                   v-model="edit_accessory.name"
-
-                  :rules="[ formRules.required ]"
+                  :rules="[formRules.required]"
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-
                   placeholder="Enter Name accessory"
                   dense
                   color="#544B99"
@@ -323,13 +288,11 @@
                 <div class="label">Measurement unit</div>
                 <v-select
                   v-model="edit_accessory.measurementUnitId"
-
-                  :rules="[ formRules.required ]"
+                  :rules="[formRules.required]"
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-
                   :items="measurement"
                   item-text="name"
                   item-value="id"
@@ -383,7 +346,7 @@
                   single-line
                   color="#544B99"
                 >
-                  <template v-slot:selection="{item, attrs, on}">
+                  <template v-slot:selection="{ item, attrs, on }">
                     <v-chip
                       v-bind="attrs"
                       v-on="on"
@@ -415,43 +378,7 @@
             </v-row>
             <v-row>
               <v-col cols="6">
-                <div class="big__image overflow-hidden relative " >
-                  <input
-                    ref="uploaderFirst"
-                    class="d-none"
-                    type="file"
-                    @change="(e)=>firstFileChanged(e)"
-                    accept="image/*"
-                  />
-
-                  <div class="update__icon" v-if="!!files[0].file">
-                    <v-btn color="green" icon @click="getFile('first')">
-                      <v-img src="/upload-green.svg" max-width="22"/>
-                    </v-btn>
-                    <v-btn color="green" icon @click="deleteFile('first')">
-                      <v-img src="/trash-red.svg" max-width="22"/>
-                    </v-btn>
-                  </div>
-
-                  <v-img
-                    :src="images[0].photo"
-                    lazy-src="/model-image.jpg"
-                    v-if="!!files[0].file" width="100%"
-                    @click="showImage(images[0].photo)"
-                  />
-
-                  <div class="default__box" v-else>
-                    <v-img src="/default-image.svg" width="70"/>
-                    <v-btn text color="#5570F1" class="rounded-lg mt-6 my-4" @click="getFile('first')">
-                      <v-img src="/upload.svg" class="mr-2"/>
-                      <div class="text-capitalize upload-text">Upload Image</div>
-                    </v-btn>
-                    <div class="default__text">
-                      <p>Upload a cover image for your product.</p>
-                    </div>
-                  </div>
-
-                </div>
+                <ImageUploader v-model="accessoryPhoto" />
               </v-col>
             </v-row>
           </v-form>
@@ -513,33 +440,24 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
-    <v-dialog max-width="590" v-model="image_dialog">
-      <v-card >
-        <v-card-title class="d-flex">
-          <v-spacer/>
-          <v-btn icon color="#544B99" large @click="image_dialog = false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-card-title>
-        <v-card-text>
-          <v-img :src="currentImage" height="500" class="mb-4" contain/>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import ImageUploader from "../components/UI/ImageUploader.vue";
+import ImageContainer from "../components/UI/ImageContainer.vue";
+import VDataTableWrapper from "../components/UI/VDataTableWrapper.vue";
 
 export default {
   name: "CatalogAccessoryPage",
+  components: {
+    ImageUploader,
+    ImageContainer,
+    VDataTableWrapper,
+  },
   data() {
     return {
-
-      itemPrePage: 10,
-      current_page: 0,
       delete_accessory_id: "",
       edit_validate: true,
       validate: true,
@@ -549,8 +467,8 @@ export default {
         specification: [],
         description: "",
       },
-      specification:"",
-      editSpecification:"",
+      specification: "",
+      editSpecification: "",
       edit_accessory: {},
       filter_accessory: {
         id: "",
@@ -560,33 +478,60 @@ export default {
       new_dialog: false,
       delete_dialog: false,
       headers: [
-        { text: this.$t("sizeTemplate.table.id"),  value: "id", sortable: false },
-        { text:this.$t("samplePurposes.table.name"), value: "name", sortable: false },
-        { text: this.$t("catalogAccessory.table.specification"), value: "specification", sortable: false },
-        { text: this.$t("fabricOrderingBox.addAccessoryBox.accessoryPhoto"), value: "accessoryPhoto", sortable: false },
-        { text:  this.$t("catalogAccessory.table.measurementUnit"), value: "measurementUnit", sortable: false },
-        { text:  this.$t("catalogAccessory.table.accessoryType"), value: "accessoryType", sortable: false },
-        { text: this.$t("samplePurposes.table.createdAt"), value: "createdAt", sortable: false },
-        { text:  this.$t("catalogAccessory.table.description"), value: "description", sortable: false },
-        { text: this.$t("samplePurposes.table.updatedAt"), value: "updatedAt", sortable: false },
-        { text: this.$t("samplePurposes.table.actions"), value: "actions", align: "center", sortable: false },
+        {
+          text: this.$t("sizeTemplate.table.id"),
+          value: "id",
+          sortable: false,
+        },
+        {
+          text: this.$t("samplePurposes.table.name"),
+          value: "name",
+          sortable: false,
+        },
+        {
+          text: this.$t("catalogAccessory.table.specification"),
+          value: "specification",
+          sortable: false,
+        },
+        {
+          text: this.$t("fabricOrderingBox.addAccessoryBox.accessoryPhoto"),
+          value: "accessoryPhoto",
+          sortable: false,
+        },
+        {
+          text: this.$t("catalogAccessory.table.measurementUnit"),
+          value: "measurementUnit",
+          sortable: false,
+        },
+        {
+          text: this.$t("catalogAccessory.table.accessoryType"),
+          value: "accessoryType",
+          sortable: false,
+        },
+        {
+          text: this.$t("samplePurposes.table.createdAt"),
+          value: "createdAt",
+          sortable: false,
+        },
+        {
+          text: this.$t("catalogAccessory.table.description"),
+          value: "description",
+          sortable: false,
+        },
+        {
+          text: this.$t("samplePurposes.table.updatedAt"),
+          value: "updatedAt",
+          sortable: false,
+        },
+        {
+          text: this.$t("samplePurposes.table.actions"),
+          value: "actions",
+          align: "center",
+          sortable: false,
+        },
       ],
-      specificationList:[],
-      files:[
-        {file:null,id:null},
-        {file:null,id:null},
-        {file:null,id:null},
-        {file:null,id:null},
-      ],
-      images:[
-        {photo:""},
-        {photo:""},
-        {photo:""},
-        {photo:""},
-      ],
-      currentImage:"",
-      image_dialog:false,
-
+      specificationList: [],
+      accessoryPhoto: null,
     };
   },
   async created() {
@@ -604,12 +549,17 @@ export default {
     }),
   },
 
-  watch:{
+  watch: {
     "create_accessory.specification"(value) {
-      this.specificationList = value
+      this.specificationList = value;
     },
     "edit_accessory.specification"(value) {
-      this.specificationList = value
+      this.specificationList = value;
+    },
+    new_dialog(val) {
+      if (val) {
+        this.accessoryPhoto = null;
+      }
     },
   },
 
@@ -623,67 +573,6 @@ export default {
       filterAccessoryList: "catalogAccessory/filterAccessoryList",
       getMeasurementUnit: "measurement/getMeasurementUnit",
     }),
-
-    handlePaste(event) {
-      const items = (event.clipboardData || event.originalEvent.clipboardData).items;
-      for (const item of items) {
-        if (item.type.indexOf('image') === 0) {
-          const blob = item.getAsFile();
-          this.processImage(blob);
-        }
-      }
-    },
-
-    processImage(file) {
-      // Find the first empty slot
-      const emptyIndex = this.files.findIndex(f => !f.file);
-      if (emptyIndex === -1) {
-        alert('All image slots are full. Please delete an image before pasting a new one.');
-        return;
-      }
-
-      this.files[emptyIndex].file = file;
-      this.images[emptyIndex].photo = URL.createObjectURL(file);
-    },
-    firstFileChanged(e) {
-      this.files[0].file = e.target.files[0];
-      this.images[0].photo = URL.createObjectURL(this.files[0].file);
-      if(!!this.files[0].id){
-        this.fileRequests[0].file=e.target.files[0]
-        this.fileRequests[0].id=this.files[0].id
-      }
-    },
-    getFile(count) {
-      switch (count) {
-        case 'first':
-          return this.$refs.uploaderFirst.click();
-        case 'second':
-          return this.$refs.uploaderSecond.click();
-        case 'third':
-          return this.$refs.uploaderThird.click();
-        case 'fourth':
-          return this.$refs.uploaderFourth.click();
-      }
-    },
-    deleteFile(count) {
-      switch (count) {
-        case 'first':
-          this.files[0].file = null;
-          break;
-        case 'second':
-          this.files[1].file = null;
-          break;
-        case 'third':
-          this.files[2].file = null;
-
-          break;
-        case 'fourth':
-          this.files[3].file = null;
-          this.deleteImages({id:this.files[3].id,modelId:this.$route.params.id})
-          break;
-      }
-    },
-
     async size(val) {
       this.itemPrePage = val;
       await this.getAccessoryList({ page: 0, size: this.itemPrePage });
@@ -695,29 +584,26 @@ export default {
         size: this.itemPrePage,
       });
     },
-
     async save() {
       const validate = this.$refs.new_form.validate();
       if (validate) {
-        const formData=new FormData()
-        formData.append("name",this.create_accessory.name)
-        formData.append("measurementUnitId",this.create_accessory.measurementUnitId)
-        formData.append("specification",this.create_accessory.specification)
-        formData.append("description",this.create_accessory.description)
+        const formData = new FormData();
+        formData.append("name", this.create_accessory.name);
+        formData.append(
+          "measurementUnitId",
+          this.create_accessory.measurementUnitId
+        );
+        formData.append("specification", this.create_accessory.specification);
+        formData.append("description", this.create_accessory.description);
 
-        if(!!this.files[0]?.file){
-          formData.append("accessoryPhoto",this.files[0]?.file)
+        if (!!this.accessoryPhoto) {
+          formData.append("accessoryPhoto", this.accessoryPhoto);
         }
         await this.createAccessoryList(formData);
         this.$refs.new_form.reset();
         this.new_dialog = false;
-        this.files[0].file=null
+        this.accessoryPhoto = null;
       }
-    },
-
-    showImage(photo) {
-      this.currentImage = photo;
-      this.image_dialog = true;
     },
     editSpecificationFunc() {
       if (this.editSpecification !== "") {
@@ -731,17 +617,17 @@ export default {
       if (edit_validate) {
         const { id, description, measurementUnitId, name, specification } =
           this.edit_accessory;
-        const formData=new FormData()
-        formData.append("name",name)
-        formData.append("measurementUnitId",measurementUnitId)
-        formData.append("specification",specification)
-        formData.append("description",description)
-        if(typeof this.files[0]?.file!=="string"){
-          formData.append("accessoryPhoto",this.files[0].file)
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append("measurementUnitId", measurementUnitId);
+        formData.append("specification", specification);
+        formData.append("description", description);
+        if (typeof this.accessoryPhoto !== "string") {
+          formData.append("accessoryPhoto", this.accessoryPhoto);
         }
-        await this.updateAccessoryList({id,data:formData});
+        await this.updateAccessoryList({ id, data: formData });
         this.edit_dialog = false;
-        this.files[0].file=null
+        this.accessoryPhoto = null;
       }
     },
     async deleteItem() {
@@ -750,8 +636,7 @@ export default {
     },
     editItem(item) {
       this.edit_accessory = JSON.parse(JSON.stringify(item));
-      this.images[0].photo=this.edit_accessory.accessoryPhoto
-      this.files[0].file=this.edit_accessory.accessoryPhoto
+      this.accessoryPhoto = this.edit_accessory.accessoryPhoto;
       this.edit_dialog = true;
     },
     getDeleteItem(item) {
@@ -759,9 +644,8 @@ export default {
       this.delete_dialog = true;
     },
     async filterData() {
-      this.getAccessoryList({page:0, size:10, ...this.filter_accessory})
+      this.getAccessoryList({ page: 0, size: 10, ...this.filter_accessory });
     },
-
     addSpecification() {
       const item = this.specification;
       if (!!item) {
@@ -769,12 +653,10 @@ export default {
         this.specification = "";
       }
     },
-
     remove(item) {
-      const index = this.specificationList.indexOf(item)
-      if (index >= 0) this.specificationList.splice(index, 1)
+      const index = this.specificationList.indexOf(item);
+      if (index >= 0) this.specificationList.splice(index, 1);
     },
-
     async resetFilters() {
       this.filter_accessory = {
         id: "",
@@ -786,12 +668,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.commit("setPageTitle",this.$t('sidebar.catalogs'));
-    document.addEventListener('paste', this.handlePaste);
-  },
-
-  beforeUnmount() {
-    document.removeEventListener('paste', this.handlePaste);
+    this.$store.commit("setPageTitle", this.$t("sidebar.catalogs"));
   },
 };
 </script>

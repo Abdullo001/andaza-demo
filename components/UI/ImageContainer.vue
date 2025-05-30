@@ -9,7 +9,7 @@
       @click="showImage(currentImage)"
     />
 
-    <v-dialog max-width="590" v-model="image_dialog">
+    <v-dialog max-width="900" v-model="image_dialog">
       <v-card>
         <v-card-title class="d-flex">
           <v-spacer />
@@ -18,7 +18,7 @@
           </v-btn>
         </v-card-title>
         <v-card-text>
-          <v-img :src="currentImage" height="500" class="mb-4" contain />
+          <v-img :src="currentImage" height="600" class="mb-4" contain />
         </v-card-text>
       </v-card>
     </v-dialog>
