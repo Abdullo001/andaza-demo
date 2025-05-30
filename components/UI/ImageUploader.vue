@@ -9,7 +9,6 @@
         @change="handleFileChange"
         accept="image/*"
       />
-
       <div class="update__icon" v-if="!!currentImage">
         <v-btn color="green" icon @click="triggerFileUpload">
           <v-img src="/upload-green.svg" max-width="22"/>
@@ -18,7 +17,6 @@
           <v-img src="/trash-red.svg" max-width="22"/>
         </v-btn>
       </div>
-
       <v-img
         :src="currentImage"
         lazy-src="/model-image.jpg"
@@ -26,7 +24,6 @@
         width="100%"
         @click="showImage(currentImage)"
       />
-
       <div class="default__box" v-else>
         <v-img src="/default-image.svg" width="70"/>
         <v-btn text color="#5570F1" class="rounded-lg mt-6 my-4" @click="triggerFileUpload">
@@ -38,6 +35,19 @@
         </div>
       </div>
     </div>
+    <v-dialog max-width="900" v-model="image_dialog">
+      <v-card>
+        <v-card-title class="d-flex">
+          <v-spacer />
+          <v-btn icon color="#544B99" large @click="image_dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text>
+          <v-img :src="currentImage" height="600" class="mb-4" contain />
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -69,6 +79,7 @@ export default {
   data() {
     return {
       currentImage: '',
+      image_dialog: false,
     }
   },
   watch: {
@@ -90,12 +101,11 @@ export default {
     handleFileChange(e) {
       const file = e.target.files[0];
       if (!file) return;
-
-      // Create a local URL for the file
+      this.setImage(file);
+    },
+    setImage(file){
       const imageUrl = URL.createObjectURL(file);
       this.currentImage = imageUrl;
-
-      // Emit the file to parent component
       this.$emit('input', file);
       this.$emit('file-changed', file);
     },
@@ -105,9 +115,25 @@ export default {
       this.$emit('file-deleted');
     },
     showImage(path) {
-      this.$emit('show-image', path);
-    }
-  }
+      this.image_dialog = true;
+    },
+    handlePaste(event) {
+      const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+      for (const item of items) {
+        if (item.type.indexOf('image') === 0) {
+          this.setImage(item.getAsFile());
+        }
+      }
+    },
+  },
+  mounted(){
+    document.addEventListener('paste', this.handlePaste);
+  },
+  beforeUnmount() {
+    document.removeEventListener('paste', this.handlePaste);
+  },
+
+
 }
 </script>
 

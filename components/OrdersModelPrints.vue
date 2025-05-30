@@ -762,15 +762,12 @@ export default {
         }
       }
     },
-
     processImage(file) {
-      // Find the first empty slot
       const emptyIndex = this.files.findIndex(f => !f.file);
       if (emptyIndex === -1) {
         alert('All image slots are full. Please delete an image before pasting a new one.');
         return;
       }
-
       this.files[emptyIndex].file = file;
       this.images[emptyIndex].photo = URL.createObjectURL(file);
     },
