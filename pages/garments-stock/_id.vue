@@ -646,7 +646,7 @@ export default {
        this.$t('readyWarehouse.garmentsOfStock.modelPhoto'),
         this.$t('readyWarehouse.garmentsOfStock.documents'),
         this.$t('readyWarehouse.garmentsOfStock.selling'),
-      
+
       ],
       map_links: [
         {
@@ -691,7 +691,7 @@ export default {
 
   created() {
     this.getModelGroupList({page:0,size:10})
-    this.getCompositionList();
+    this.getCompositionList({page:0,size:10});
     this.getReworkThinList();
   },
 

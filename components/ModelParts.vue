@@ -330,7 +330,7 @@ export default {
       this.getCanvasType({page:0,size:10,name:val})
     },
     compositionSearch(val){
-      this.getComposition({page:0,size:10,name:val});
+      this.getComposition({page:0,size:10,composition:val});
     },
     partsDialog(val) {
       if (!val) {

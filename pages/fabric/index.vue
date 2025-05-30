@@ -83,7 +83,7 @@
       </v-form>
     </v-card>
 
-    <v-data-table
+    <!-- <v-data-table
       :headers="headers"
       :items="fabricList"
       :items-per-page="itemPerPage"
@@ -95,7 +95,8 @@
       @update:page="page"
       @update:items-per-page="size"
       @click:row="(item) => $router.push(localePath(`/fabric/${item.id}`))"
-    >
+    > -->
+    <VDataTableWrapper :headers="headers" :items="items" :totalElements="totalElements" :callerFunction="getFabricList" :rowFunction="viewDetails">
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title class="d-flex justify-space-between w-full">
@@ -129,15 +130,19 @@
           <span>Details</span>
         </v-tooltip>
       </template>
-    </v-data-table>
+    </VDataTableWrapper>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import VDataTableWrapper from "@/components/UI/VDataTableWrapper.vue";
 
 export default {
   name: "FabricPage",
+  components: {
+    VDataTableWrapper,
+  },
   data() {
     return {
       options: {},
@@ -162,6 +167,7 @@ export default {
       itemPerPage: 10,
       current_page: 0,
       users: [],
+      items: [],
     };
   },
   created() {
@@ -176,6 +182,9 @@ export default {
     }),
   },
   watch: {
+    fabricList(list) {
+      this.items = JSON.parse(JSON.stringify(list));
+    },
     usersList(list) {
       list.map((item) => {
         this.users.push({
@@ -190,6 +199,9 @@ export default {
       getFabricList: "fabric/getFabricList",
       getUsersList: "orders/getUsersList",
     }),
+    viewDetails(item) {
+      this.$router.push(this.localePath(`/fabric/${item.id}`))
+    },
     filterData() {
       this.getFabricList({ page: 0, size: 10, data: { ...this.filters } });
     },
