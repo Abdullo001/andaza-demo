@@ -718,7 +718,7 @@ export default {
       model.partnerContractId = val.partnerContractId;
     },
     compositionSearch(val) {
-      this.getCompositionList({ page: 0, size: 10, name: val });
+      this.getCompositionList({ page: 0, size: 10, composition: val });
     },
     partnerName(val) {
       // this.getPartnerList({ page: 0, size: 10, partnerName: val });
