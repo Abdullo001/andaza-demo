@@ -161,22 +161,6 @@
                   color="#544B99"
                 />
               </v-col>
-              <v-col cols="12">
-                <div class="label">{{$t('packageType.dialog.measurementUnit')}}</div>
-                <v-select
-                  v-model="create_package.measurementId"
-                  :items="measurement"
-                  outlined
-                  hide-details
-                  height="44"
-                  class="rounded-lg base"
-                  item-text="name"
-                  item-value="id"
-                  append-icon="mdi-chevron-down"
-                  :placeholder="$t('packageType.dialog.measurementUnitText')"
-                  color="#544B99"
-                />
-              </v-col>
             </v-row>
           </v-form>
         </v-card-text>
@@ -237,22 +221,6 @@
                   height="44"
                   :label="$t('packageType.dialog.description')"
                   :placeholder="$t('packageType.dialog.descriptionPlacholder')"
-                  color="#544B99"
-                />
-              </v-col>
-              <v-col cols="12">
-                <div class="label">{{$t('packageType.dialog.measurementUnit')}}</div>
-                <v-select
-                  v-model="edit_package.measurement"
-                  :items="measurement"
-                  outlined
-                  hide-details
-                  class="rounded-lg base"
-                  disabled
-                  append-icon="mdi-chevron-down"
-                  item-text="name"
-                  item-value="id"
-                  :placeholder="$t('packageType.dialog.measurementUnitText')"
                   color="#544B99"
                 />
               </v-col>

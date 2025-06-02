@@ -579,6 +579,7 @@
               outlined
               min-width="130"
               @click="generatePdf"
+              :loading="isLoad"
             >
               {{ $t("production.oneSort.generatePdf") }}
             </v-btn>
@@ -866,13 +867,13 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-overlay v-model="isLoad" class="align-center justify-center">
+    <!-- <v-overlay v-model="isLoad" class="align-center justify-center">
       <v-progress-circular
         color="#544B99"
         indeterminate
         size="80"
       ></v-progress-circular>
-    </v-overlay>
+    </v-overlay> -->
   </div>
 </template>
 
@@ -1295,7 +1296,6 @@ export default {
             this.totalWorkPrice.reduce(
               (acc, item) => item.currency === this.addPreFinances.primaryCurrency ? acc + item.amount : acc, 0)
           );
-
         this.totalPrice = totalPrice;
         let data = this.calculation[0];
         data.firstCurrency = +totalPrice.toFixed(3);
@@ -1324,10 +1324,8 @@ export default {
     onePreFinance(val) {
       if (Object.keys(val).length) {
         const data = JSON.parse(JSON.stringify(val));
-
         this.getImages(val.modelId);
         this.getDocuments({ modelId: val.modelId });
-
         this.addPreFinances = data;
         this.addPreFinances.modelNames = data.modelName;
         this.$store.commit("preFinance/setPreFinanceId", data.id);
@@ -1417,7 +1415,6 @@ export default {
           Object.keys(val).length > 1
             ? (this.expense_status = false)
             : (this.expense_status = true);
-
           await this.getExpenseItems(val.id);
         }
       },
@@ -1607,13 +1604,23 @@ export default {
       };
       this.createPrefinanceTemplate(data);
     },
-    generatePdf() {
+    async generatePdf() {
       this.isLoad = true;
       const id = this.$route.params.id;
       const data = {
-        preFinanceId: id,
+        preFinanceId: "",
       };
-      this.getPrefinanceGeneratePdf(data);
+      await this.getPrefinanceGeneratePdf(data)
+      .then(()=>{
+        console.log("PDF generated successfully");
+      })
+      .catch((error) => {
+        console.error("Error generating PDF:", error);
+        // this.isLoad = false;
+      })
+      .finally(() => {
+        this.isLoad = false;
+      });
     },
     clickBtn() {
       this.show_btn = !this.show_btn;
@@ -1640,7 +1647,6 @@ export default {
           tertiaryCurrencyValue: item.tertiaryCurrency,
         }
       })
-
       this.saveCalculations(body);
     },
     async createDetailsNew() {
@@ -1731,7 +1737,6 @@ export default {
     this.getExpenseGroup({ page: 0, size: 10 });
     this.getMeasurementUnit();
     const param = this.$route.params.id;
-
     if (param !== "create" && param !== "creating") {
       this.getOnePreFinance(param);
       this.getAllDetails(param);
