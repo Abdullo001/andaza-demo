@@ -251,15 +251,11 @@ export const actions = {
     })
   },
 
-  getPrefinanceGeneratePdf({commit},data){
-    this.$axios.put(`/api/v1/pre-finances/generate-calculation-form`,data)
+  async getPrefinanceGeneratePdf({commit},data){
+    await this.$axios.put(`/api/v1/pre-finances/generate-calculation-form`,data)
     .then((res)=>{
       const binaryCode=atob(res.data)
       commit("setPrefinancePdf",binaryCode)
-    })
-    .catch(({res})=>{
-      console.log(res);
-      this.$toast.error(res.data.message)
     })
   },
   async getPrefinanceTemplates({commit}){

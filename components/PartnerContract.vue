@@ -2,7 +2,7 @@
   <div>
     <v-data-table
       :headers="headers"
-      :items="partnerContractList"
+      :items="documentList"
       :items-per-page="50"
       class="elevation-0 rounded"
       hide-default-footer
@@ -448,7 +448,7 @@ export default {
     this.getCurrencyList()
     if (id !== 'add-partner') {
       this.getPartnerContractList(this.partnerId)
-    } 
+    }
   }
 }
 </script>
