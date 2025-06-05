@@ -47,7 +47,8 @@ export const actions = {
       })
   },
   async getCompositionList({commit}, {page, size, composition="", createdBy=""}) {
-
+    composition = composition ?? "";
+    createdBy = createdBy ?? "";
     await this.$axios.get(`/api/v1/composition?page=${page}&size=${size}&composition=${composition}&createdBy=${createdBy}`)
       .then(res => {
         commit("setComposition", res.data.data);
