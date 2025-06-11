@@ -34,7 +34,7 @@
       </div>
       <v-simple-table class="min-w-800" height="80vh" fixed-header dense>
         <thead>
-          <tr class="text-center">
+          <tr class="text-center first-header">
             <th
               v-for="(header, idx) in headers"
               :key="idx"
@@ -68,20 +68,20 @@
               Actions
             </th>
           </tr>
+          <tr v-if="mainList.length" class="text-center second-header">
+            <th class="sticky-column z-5" style="border-right: 0"></th>
+            <th class="sticky-column z-5" style="border-left: 0">
+              Payment amount per operation
+            </th>
+            <th v-for="(operation, idx) in mainList[0].operations" :key="idx">
+              {{ operation.amount }}
+            </th>
+            <th>{{ sumAllOperationPrice(mainList[0].operations) }}</th>
+            <th  v-for="(operation, idx) in mainList[0].customOperations" :key="`${mainList[0].operations.length+idx}`">{{ operation.amount }}</th>
+            <th></th>
+          </tr>
         </thead>
         <tbody>
-          <tr v-if="mainList.length" class="text-center">
-            <td class="sticky-column z-5" style="border-right: 0"></td>
-            <td class="sticky-column z-5" style="border-left: 0">
-              Payment amount per operation
-            </td>
-            <td v-for="(operation, idx) in mainList[0].operations" :key="idx">
-              {{ operation.amount }}
-            </td>
-            <td>{{ sumAllOperationPrice(mainList[0].operations) }}</td>
-            <td  v-for="(operation, idx) in mainList[0].customOperations" :key="`${mainList[0].operations.length+idx}`">{{ operation.amount }}</td>
-            <td></td>
-          </tr>
           <tr v-for="(item, idx) in mainList" :key="idx">
             <td class="sticky-column z-5">{{ item.orderNo }}</td>
             <td class="sticky-column z-5">{{ item.fullName }}</td>
@@ -623,7 +623,7 @@ table {
   left: 80px; /* 1-ustun kengligi */
 }
 
-.th-text {
+th {
   min-width: 100px;
   font-size: 16px !important;
   font-weight: 500;
@@ -689,5 +689,21 @@ table {
 }
 .green-tooltip {
   background-color: green;
+}
+thead{
+  z-index: 10;
+}
+.first-header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background-color: white;
+}
+
+.second-header {
+  position: sticky;
+  z-index: 5;
+  top: 97px;
+  background-color: white;
 }
 </style>
