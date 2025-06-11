@@ -109,13 +109,7 @@
         </v-toolbar>
       </template>
       <template #item.accessoryPhoto="{ item }">
-        <v-img
-          :src="item?.filePath"
-          class="mr-2"
-          width="40"
-          height="40"
-          @click="showImage(item.filePath)"
-        />
+        <ImageContainer v-model="item.filePath" :width="40" :height="40" />
       </template>
       <template #item.sizes="{ item }">
         <table style="width: 100% !important">
@@ -221,7 +215,7 @@
         </div>
       </template>
     </v-data-table>
-    <v-dialog v-model="new_dialog" width="580">
+    <v-dialog v-model="new_dialog" width="700">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
           <div class="text-capitalize font-weight-bold">
@@ -331,7 +325,7 @@
                     color="#544B99"
                     v-model="arrivedAccessoryStock.remainingQuantity"
                     outlined
-                    hide-details
+                    :rules="[formRules.onlyNumber, formRules.required]"
                     dense
                     :placeholder="$t('accessoryWarehouse.remainingQuantity')"
                   />
@@ -339,11 +333,11 @@
                     :items="measurementUnitList"
                     item-text="name"
                     item-value="id"
-                    style="max-width: 100px"
+                    style="max-width: 140px"
                     dense
                     v-model="arrivedAccessoryStock.measurementUnitId"
                     outlined
-                    hide-details
+                    :rules="[formRules.required]"
                     height="44"
                     class="rounded-lg base rounded-r-lg rounded-l-0"
                     validate-on-blur
@@ -422,7 +416,7 @@
               </v-col>
             </v-row>
             <v-row v-if="sizesList.length > 0">
-              <v-col v-for="(item,idx) in sizesList" :key="idx" cols="3">
+              <v-col v-for="(item, idx) in sizesList" :key="idx" cols="3">
                 <div class="label">{{ item.size }}</div>
                 <v-text-field
                   v-model="item.quantity"
@@ -486,50 +480,7 @@
             </v-row>
             <v-row>
               <v-col cols="6">
-                <div class="big__image overflow-hidden relative">
-                  <input
-                    ref="uploaderFirst"
-                    class="d-none"
-                    type="file"
-                    @change="(e) => firstFileChanged(e)"
-                    accept="image/*"
-                  />
-
-                  <div class="update__icon" v-if="!!files[0].file">
-                    <v-btn color="green" icon @click="getFile('first')">
-                      <v-img src="/upload-green.svg" max-width="22" />
-                    </v-btn>
-                    <v-btn color="green" icon @click="deleteFile('first')">
-                      <v-img src="/trash-red.svg" max-width="22" />
-                    </v-btn>
-                  </div>
-
-                  <v-img
-                    :src="images[0].photo"
-                    lazy-src="/model-image.jpg"
-                    v-if="!!files[0].file"
-                    width="100%"
-                    @click="showImage(images[0].photo)"
-                  />
-
-                  <div class="default__box" v-else>
-                    <v-img src="/default-image.svg" width="70" />
-                    <v-btn
-                      text
-                      color="#5570F1"
-                      class="rounded-lg mt-6 my-4"
-                      @click="getFile('first')"
-                    >
-                      <v-img src="/upload.svg" class="mr-2" />
-                      <div class="text-capitalize upload-text">
-                        Upload Image
-                      </div>
-                    </v-btn>
-                    <div class="default__text">
-                      <p>Upload a cover image for your product.</p>
-                    </div>
-                  </div>
-                </div>
+                <ImageUploader v-model="accessoryPhoto" />
               </v-col>
             </v-row>
           </v-form>
@@ -673,7 +624,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
     <v-dialog v-model="subcontractor_dialog" width="450">
       <v-card>
         <v-card-title class="d-flex justify-space-between w-full">
@@ -807,7 +757,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
     <v-dialog v-model="delete_dialog" max-width="500">
       <v-card class="pa-4 text-center">
         <div class="d-flex justify-center mb-2">
@@ -930,8 +879,14 @@
 </template>
 <script>
 import { mapActions, mapGetters } from "vuex";
+import ImageUploader from "@/components/UI/ImageUploader.vue";
+import ImageContainer from "@/components/UI/ImageContainer.vue";
 
 export default {
+  components: {
+    ImageUploader,
+    ImageContainer,
+  },
   data() {
     return {
       isLoad: false,
@@ -1029,7 +984,7 @@ export default {
       arrivedAccessoryStock: {
         modelNumber: "",
         orderNumber: "",
-        sizeTemplate: null
+        sizeTemplate: null,
       },
 
       workshop: {
@@ -1058,8 +1013,9 @@ export default {
       modelNumbers: [],
       modelNumSearch: "",
       current_list: [],
-      sizeTemplateSearch:'',
+      sizeTemplateSearch: "",
       sizesList: [],
+      accessoryPhoto: null,
     };
   },
 
@@ -1075,11 +1031,12 @@ export default {
   },
 
   watch: {
-    new_dialog(val){
-      if(!val){
-        this.$refs.new_form.reset()
-        this.withSizes = false
-        this.sizesList = []
+    new_dialog(val) {
+      if (!val) {
+        this.$refs.new_form.reset();
+        this.withSizes = false;
+        this.sizesList = [];
+        this.accessoryPhoto = null;
       }
     },
     "arrivedAccessoryStock.sizeTemplate"(val) {
@@ -1143,7 +1100,7 @@ export default {
       partner: "",
       status: "ACTIVE",
     });
-    this.getSizeTemplateList({page: 0, size: 10});
+    this.getSizeTemplateList({ page: 0, size: 10 });
   },
 
   methods: {
@@ -1234,51 +1191,48 @@ export default {
     },
 
     async saveArrivedAccessoryStock() {
-      if (this.title === "New") {
-        const validate = this.$refs.new_form.validate();
-        const {
-          specification,
-          accessoryName,
-          modelNumber,
-          orderNumber,
-          pricePerUnit,
-          pricePerUnitCurrency,
-          measurementUnitId,
-          remainingQuantity,
-          supplierId,
+      const validate = this.$refs.new_form.validate();
+      if (!validate) return;
+      const {
+        specification,
+        accessoryName,
+        modelNumber,
+        orderNumber,
+        pricePerUnit,
+        pricePerUnitCurrency,
+        measurementUnitId,
+        remainingQuantity,
+        supplierId,
+      } = this.arrivedAccessoryStock;
 
-        } = this.arrivedAccessoryStock;
-        if (validate) {
-          const file = this.docList[0];
-          const formData = new FormData();
-          formData.append("accessoryName", accessoryName),
-            formData.append("measurementUnitId", measurementUnitId),
-            formData.append("modelNumber", modelNumber),
-            formData.append("orderNumber", orderNumber),
-            formData.append("pricePerUnit", pricePerUnit),
-            formData.append("pricePerUnitCurrency", pricePerUnitCurrency),
-            formData.append("remainingQuantity", remainingQuantity),
-            formData.append("specification", specification),
-            formData.append("supplierId", supplierId?.id);
-          if (!!this.files[0]?.file) {
-            formData.append("file", this.files[0]?.file);
-          }
-          if (!!file) {
-            formData.append("document", file);
-          }
-          if (this.withSizes) {
-            this.sizesList.forEach((item,idx) => {
-              formData.append(`sizeDistributions[${idx}].size`, item.size);
-              formData.append(`sizeDistributions[${idx}].quantity`, item.quantity??0);
-            });
-          }
-          await this.createAccessoryStock({ data: formData });
-          await this.$refs.new_form.reset();
-        }
-        this.new_dialog = false;
-        this.withSizes = false;
-        this.sizesList = [];
+      const file = this.docList[0];
+      const formData = new FormData();
+      formData.append("accessoryName", accessoryName ?? "");
+      formData.append("measurementUnitId", measurementUnitId ?? "");
+      formData.append("modelNumber", modelNumber ?? "");
+      formData.append("orderNumber", orderNumber ?? "");
+      formData.append("pricePerUnit", pricePerUnit ?? "");
+      formData.append("pricePerUnitCurrency", pricePerUnitCurrency ?? "");
+      formData.append("remainingQuantity", remainingQuantity ?? "");
+      formData.append("specification", specification ?? "");
+      formData.append("supplierId", supplierId?.id ?? "");
+      if (!!this.accessoryPhoto) {
+        formData.append("file", this.accessoryPhoto);
       }
+      if (!!file) {
+        formData.append("document", file);
+      }
+      if (this.withSizes) {
+        this.sizesList.forEach((item, idx) => {
+          formData.append(`sizeDistributions[${idx}].size`, item.size);
+          formData.append(
+            `sizeDistributions[${idx}].quantity`,
+            item.quantity ?? 0
+          );
+        });
+      }
+      await this.createAccessoryStock({ data: formData });
+      this.new_dialog = false;
     },
 
     editItem(item) {
@@ -1299,13 +1253,13 @@ export default {
         id: item.supplierId,
         name: item.supplierName,
       };
-      if (!!item.sizeDistributions && item.sizeDistributions.length>0) {
+      if (!!item.sizeDistributions && item.sizeDistributions.length > 0) {
         this.withSizes = true;
         this.sizesList = item.sizeDistributions.map((item) => ({
           size: item.size,
           quantity: item.quantity,
         }));
-      }else{
+      } else {
         this.withSizes = false;
         this.sizesList = [];
       }

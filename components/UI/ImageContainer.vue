@@ -52,8 +52,6 @@ export default {
     value: {
       immediate: true,
       handler(newVal) {
-        console.log(newVal);
-
         if (newVal instanceof File) {
           this.currentImage = URL.createObjectURL(newVal);
         } else {
