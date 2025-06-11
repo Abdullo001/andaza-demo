@@ -1316,7 +1316,6 @@ export default {
       a.setAttribute("target", "_blank");
       a.setAttribute("href", objectUrl);
       a.click();
-      this.isLoad = false;
     },
     modelSearch(val) {
       this.getModelName(val);
@@ -1616,7 +1615,6 @@ export default {
       })
       .catch((error) => {
         console.error("Error generating PDF:", error);
-        // this.isLoad = false;
       })
       .finally(() => {
         this.isLoad = false;

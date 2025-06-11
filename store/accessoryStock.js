@@ -47,12 +47,12 @@ export const actions = {
     const config = {
       headers: { "Content-Type": "multipart/form-data" }
     }
-    await this.$axios.$post( '/api/v1/accessory-stock/create', data, config )
+    await this.$axios.post( '/api/v1/accessory-stock/create', data, config )
       .then( res => {
         dispatch( "getAccessoryStockList", {accessoryName:"", modelNumber:"", supplierName:""} );
         this.$toast.success( res.message );
       } )
-      .catch( ( response ) => {
+      .catch( ( {response} ) => {
         console.log( response )
         this.$toast.error( response.data.message )
       } )
