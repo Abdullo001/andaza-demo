@@ -41,15 +41,19 @@
             />
           </v-col>
           <v-col cols="12" lg="2" md="2">
-            <v-text-field
-              :label="$t('listsModels.table.status')"
-              outlined
-              class="rounded-lg filter"
-              v-model.trim="filters.status"
-              hide-details
-              dense
-              @keydown.enter="filterData"
-            />
+             <v-select
+                v-model="filters.status"
+                :items="status_enums"
+                item-text="value"
+                item-value="key"
+                append-icon="mdi-chevron-down"
+                class="rounded-lg filter"
+                dense
+                label="Status"
+                height="44"
+                hide-details
+                outlined
+              />
           </v-col>
           <v-spacer/>
           <v-col cols="12" lg="4">
@@ -140,8 +144,8 @@
           @change="changeStatus(item)"
           :background-color="statusColor.prodColor(item.status)"
           :items="status_enums"
-          item-text="name"
-          item-value="name"
+          item-text="value"
+          item-value="key"
           append-icon="mdi-chevron-down"
           v-model="item.status"
           hide-details
@@ -194,8 +198,10 @@ export default {
     }),
   },
   watch: {
-    statusList(val) {
-      this.status_enums = JSON.parse(JSON.stringify(val));
+    statusList(list) {
+      this.status_enums = list.map(item => {
+        return {key: item.key, value: this.$t(`statusItems.${item.key.toLowerCase()}`)};
+      })
     },
     planningList(val) {
       let data = JSON.parse(JSON.stringify(val));
