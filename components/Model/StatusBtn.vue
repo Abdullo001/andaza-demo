@@ -21,7 +21,7 @@ export default {
 
   methods: {
     viewStatus(status){
-      this.$router.push(`${this.url}/${this.param}`)
+      this.$router.push(this.localePath(`${this.url}/${this.param}`))
       if(this.productionId){
         console.log(status);
         this.$store.commit("production/planning/setProductionId",this.productionId)
