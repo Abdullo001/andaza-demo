@@ -11,7 +11,7 @@
           <v-row class="mb-5">
             <v-col cols="12" lg="3">
               <div class="label">
-                {{ $t("forms.placedOrdersBox.modelNumber") }}
+                {{ $t("forms.placedOrdersBox.modelNumber") }} <span style="color: red;">*</span>
               </div>
               <v-combobox
                 v-model="filters.modelNumber"
@@ -22,7 +22,7 @@
                 validate-on-blur
                 outlined
                 color="#544B99"
-                hide-details
+                :rules="[formRules.required]"
                 height="44"
                 class="rounded-lg filter d-flex align-center justify-center mr-2"
                 :return-object="true"
@@ -50,7 +50,6 @@
                 :placeholder="$t('forms.shipmentForm.bodyColorPlaceholder')"
                 outlined
                 single-line
-                hide-details
                 height="44"
                 class="rounded-lg filter"
                 color="#544B99"
@@ -169,7 +168,7 @@ export default {
     },
 
     modelNumSearch(val) {
-      if (!!val) {
+
         this.getModelsList({
           page: 0,
           size: 10,
@@ -177,7 +176,7 @@ export default {
           partner: "",
           status: "ACTIVE",
         });
-      }
+
     },
     "filters.modelNumber"(val) {
       if (!!val) {
@@ -202,7 +201,10 @@ export default {
       this.$refs.filters.reset();
       this.filters.shippingDate = "";
     },
-    filter() {
+    async filter() {
+      const validate = this.$refs.filters.validate();
+      if (!validate) return;
+      this.isLoad = true;
       const data = {
         modelId: this.filters.modelNumber?.id
           ? this.filters.modelNumber?.id
@@ -211,9 +213,13 @@ export default {
           ? this.filters.mainColorCode
           : "",
       };
-      // console.log(this.filters.modelNumber);
-      this.getPdfList(data);
-      this.isLoad = true;
+      try {
+        await this.getPdfList(data);
+      } catch (error) {
+        console.error("Error generating PDF:", error);
+      }finally {
+        this.isLoad = false;
+      }
     },
   },
 };

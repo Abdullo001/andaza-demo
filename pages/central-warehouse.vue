@@ -66,18 +66,6 @@
       </v-form>
     </v-card>
     <VDataTableWrapper :headers="headers" :items="current_list" :totalElements="totalElements" :callerFunction="getWarehouseList" >
-    <!-- <v-data-table
-      class="mt-4 rounded-lg pt-4"
-      :headers="headers"
-      :items="current_list"
-      :items-per-page="itemPerPage"
-      :footer-props="{
-        itemsPerPageOptions: [10, 20, 50, 100],
-      }"
-      @update:page="page"
-      @update:items-per-page="size"
-      :server-items-length="totalElements"
-    > -->
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title

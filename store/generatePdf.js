@@ -173,8 +173,8 @@ export const actions = {
         console.log(res);
       });
   },
-  getCuttingPdf({ commit },data) {
-    this.$axios.put(`/api/v1/process-details/generate-cutting-pdf`,data)
+  async getCuttingPdf({ commit },data) {
+    await this.$axios.put(`/api/v1/process-details/generate-cutting-pdf`,data)
       .then((res) => {
         const binaryCode = atob(res.data);
         commit("setCuttingPdfList", binaryCode);
