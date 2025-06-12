@@ -215,7 +215,7 @@ export default {
         clientName: "",
       },
     })
-    await this.getSipNumbers("");
+    this.getSipNumbers({page:0, size: 20,});
   },
 
   computed:{
@@ -223,7 +223,7 @@ export default {
       clientList: "orders/clientList",
       modelsList: "models/modelsList",
       ordersList: "orders/ordersList",
-      sipNumbers: "fabricWarehouse/sipNumbers",
+      sipNumbers: "fabricWarehouse/fabricWarehouseList",
       fabricsList: "fabricsList/fabricsList",
       totalElements: "fabricsList/totalElements"
     })
@@ -243,9 +243,7 @@ export default {
       }
     },
     sipNumberSearch(val) {
-        if(!!val) {
-          this.getSipNumbers("")
-        }
+      this.getSipNumbers({page:0, size: 10, sipNumber: val});
     },
   },
 
@@ -254,7 +252,7 @@ export default {
     ...mapActions({
       getModelsList: "models/getModelsList",
       filterOrderList: "orders/filterOrderList",
-      getSipNumbers: "fabricWarehouse/getSipNumbers",
+      getSipNumbers: "fabricWarehouse/getFabricWarehouseList",
       getFabricsList: "fabricsList/getFabricsList"
     }),
     async filterBtn() {

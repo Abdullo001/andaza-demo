@@ -65,18 +65,7 @@
         </v-row>
       </v-form>
     </v-card>
-    <v-data-table
-      class="mt-4 rounded-lg pt-4"
-      :headers="headers"
-      :items="current_list"
-      :items-per-page="itemPerPage"
-      :footer-props="{
-        itemsPerPageOptions: [10, 20, 50, 100],
-      }"
-      @update:page="page"
-      @update:items-per-page="size"
-      :server-items-length="totalElements"
-    >
+    <VDataTableWrapper :headers="headers" :items="current_list" :totalElements="totalElements" :callerFunction="getWarehouseList" >
       <template #top>
         <v-toolbar elevation="0">
           <v-toolbar-title
@@ -152,7 +141,7 @@
           </v-btn>
         </div>
       </template>
-    </v-data-table>
+    </VDataTableWrapper>
 
     <v-dialog v-model="new_dialog" width="580">
       <v-card>
@@ -202,7 +191,7 @@
                       height="44"
                       hide-details
                       outlined
-                      :placeholder="0"
+                      placeholder="0"
                       validate-on-blur
                     />
                     <v-select
@@ -427,7 +416,7 @@
               <v-col cols="12" lg="6">
                 <div class="label">Quantity</div>
                 <v-text-field
-                  v-model="selectedItem.quantity"
+                  v-model="spendingItem.quantity"
                   outlined
                   hide-details
                   dense
@@ -439,7 +428,7 @@
               <v-col cols="12" lg="6">
                 <div class="label"> Description</div>
                 <v-text-field
-                  v-model="selectedItem.description"
+                  v-model="spendingItem.description"
                   outlined
                   hide-details
                   dense
@@ -481,8 +470,12 @@
 </template>
 <script>
 import { mapActions, mapGetters } from "vuex";
+import VDataTableWrapper from "@/components/UI/VDataTableWrapper.vue";
 
 export default {
+  components: {
+    VDataTableWrapper,
+  },
   data() {
     return {
       currency_enums:["USD","UZS","RUB"],
@@ -633,9 +626,7 @@ export default {
       const data={...this.selectedItem}
       data.departmentId=this.selectedItem.departmentId?.departmentId
       data.supplierId=this.selectedItem.supplierId?.id
-
       this.updateWarehouseItem({centralWarehouseId:this.selectedItem.itemId,data})
-
       this.new_dialog=false
     },
 
@@ -651,7 +642,7 @@ export default {
       };
 
       await this.spendWarehouseItem({centralWarehouseId:this.spendingItem.id,data});
-      await this.$refs.spend_form.reset();
+      this.$refs.spend_form.reset();
       this.spend_dialog = false;
     },
 

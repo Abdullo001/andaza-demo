@@ -158,15 +158,11 @@ export const actions = {
     }
   },
   getStatusList({commit}) {
-    const body = {
-      filters: [],
-      sorts: [],
-      page: 0, size: 10
-    }
-    this.$axios.$put('/api/v1/status/list', body)
-      .then(res => {
-        commit('setStatusList', res.data.content);
-      }).catch(({response}) => console.log(response))
+    this.$axios.get('/api/v1/enums/model-statuses')
+    .then(res => {
+      commit('setStatusList', res.data.data);
+    })
+    .catch(({response}) => console.log(response))
   },
   updateStatus({dispatch}, {id, statusId, page, size}) {
     this.$axios.$put(`/api/v1/production/change-status?id=${id}&statusId=${statusId}`)

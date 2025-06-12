@@ -23,7 +23,7 @@ export const actions={
     this.$axios.get(`/api/v1/central-warehouse?page=${page}&size=${size}&department=${department}&productName=${productName}&supplier=${supplier}`)
     .then((res)=>{
       commit("setWarehouseList",res.data.data)
-      
+
     })
     .catch((response)=>{
       console.log(response);
@@ -33,7 +33,7 @@ export const actions={
     this.$axios.get(`/api/v1/central-warehouse/operation-history/${id}`)
     .then((res)=>{
       commit("setHistoryList",res.data.data)
-      
+
     })
     .catch((response)=>{
       console.log(response);
@@ -70,13 +70,12 @@ export const actions={
       this.$toast.error(response.data.code)
     })
   },
-  spendWarehouseItem({dispatch},{centralWarehouseId,data}){
-    this.$axios.patch(`/api/v1/central-warehouse/${centralWarehouseId}`,data)
+  async spendWarehouseItem({dispatch},{centralWarehouseId,data}){
+    await this.$axios.patch(`/api/v1/central-warehouse/${centralWarehouseId}`,data)
     .then((res)=>{
-      this.$toast.success(res.data.code)
       dispatch("getWarehouseList",{page:0,size:10})
     })
-    .then(({response})=>{
+    .catch(({response})=>{
       this.$toast.error(response.data.code)
     })
   },
