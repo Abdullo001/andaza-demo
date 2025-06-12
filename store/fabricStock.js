@@ -49,16 +49,17 @@ export const actions = {
   },
 
   createFabricStock( { dispatch }, data ) {
-    this.$axios.post( `/api/v1/fabric-stocks`, data ).then( ( res ) => {
-      this.$toast.success( res.data.data.message );
+    this.$axios.post( `/api/v1/fabric-stocks`, data )
+    .then( ( res ) => {
       dispatch( "getFabricStockList", {
         sipNumber: "",
         modelNumber: "",
         supplierName: "",
-      } ).catch( ( res ) => {
-        this.$toast.error( res.data.message );
-      } );
-    } );
+      })
+    })
+    .catch( ( res ) => {
+      this.$toast.error( res.data.message );
+    });
   },
 
   getPartnerList( { commit }, id ) {

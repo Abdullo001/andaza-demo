@@ -967,6 +967,12 @@ export default {
   },
 
   watch: {
+    new_dialog(val){
+      if (!val) {
+        this.arrivedFabricStock = {};
+        this.$refs.new_form.reset();
+      }
+    },
     "workshop.modelNumber"(val) {
       if (val && val.id) {
         this.workshopProccessId = val.id;
