@@ -44,11 +44,11 @@ export const mutations = {
 };
 
 export const actions = {
-  getFabricWarehouseList({ commit }, { sipNumber, batchNumber, orderNumber,page,size }) {
+  getFabricWarehouseList({ commit }, { page,size, sipNumber, batchNumber, orderNumber, }) {
     const body = {
-      sipNumber:sipNumber,
-      batchNumber:batchNumber,
-      orderNumber:orderNumber,
+      sipNumber:sipNumber??"",
+      batchNumber:batchNumber??"",
+      orderNumber:orderNumber??"",
       page,
       size,
     };
