@@ -18,57 +18,60 @@
               <img src="/andaza.svg" alt="logo" width="300">
             </div>
             <div class="login__description mb-8">Authentication</div>
-            <div class="label">{{ $t('login.username') }}</div>
-            <v-text-field
-              outlined
-              hide-details
-              height="44"
-              dense
-              color="#544B99"
-              :placeholder="$t('login.enterUsername')"
-              class="mb-3 rounded-lg base"
-              v-model.trim="login.userName"
-              :rules="[formRules.required]"
-              validate-on-blur
-            />
-            <div class="label">{{ $t('login.password') }}</div>
-            <v-text-field
-              outlined
-              hide-details
-              height="44"
-              dense
-              color="#544B99"
-              :placeholder="$t('login.enterPassword')"
-              class="mb-3 rounded-lg base"
-              v-model.trim="login.password"
-              :type="show_password ? 'password' : 'text'"
-              :rules="[formRules.required]"
-              validate-on-blur
-            >
-              <template #append>
-                <img
-                  :src="show_password ? '/eye-close.svg' : '/eye-open.svg'"
-                  alt="eye icons"
-                  class="mt-1 pointer"
-                  @click="show_password = !show_password"
-                >
-              </template>
-            </v-text-field>
-            <div class="d-flex justify-space-between align-center mb-5 pointer mb-8">
-              <v-checkbox
-                :label="$t('login.rememberMe')"
-                color="#544B99"
-                class="mt-0"
+            <v-form ref="login_form" v-model="valid" lazy-validation>
+              <div class="label">{{ $t('login.username') }}</div>
+              <v-text-field
+                outlined
                 hide-details
+                height="44"
+                dense
+                color="#544B99"
+                :placeholder="$t('login.enterUsername')"
+                class="mb-3 rounded-lg base"
+                v-model.trim="login.userName"
+                :rules="[formRules.required]"
+                validate-on-blur
               />
-            </div>
+              <div class="label">{{ $t('login.password') }}</div>
+              <v-text-field
+                outlined
+                hide-details
+                height="44"
+                dense
+                color="#544B99"
+                :placeholder="$t('login.enterPassword')"
+                class="mb-3 rounded-lg base"
+                v-model.trim="login.password"
+                :type="show_password ? 'password' : 'text'"
+                :rules="[formRules.required]"
+                validate-on-blur
+              >
+                <template #append>
+                  <img
+                    :src="show_password ? '/eye-close.svg' : '/eye-open.svg'"
+                    alt="eye icons"
+                    class="mt-1 pointer"
+                    @click="show_password = !show_password"
+                  >
+                </template>
+              </v-text-field>
+              <div class="d-flex justify-space-between align-center mb-5 pointer mb-8">
+                <v-checkbox
+                  :label="$t('login.rememberMe')"
+                  color="#544B99"
+                  class="mt-0"
+                  hide-details
+                />
+              </div>
+            </v-form>
             <v-btn
               color="#544B99"
               class="rounded-lg text-capitalize font-weight-bold"
               block
-              dark
               @click.stop="userLogin"
               height="42"
+              :dark="(!!login.userName && !!login.password && valid)"
+              :disabled="!(login.userName && login.password && valid)"
             >{{ $t('login.signIn') }}
             </v-btn>
           </div>
@@ -85,6 +88,7 @@ export default {
   layout: 'main',
   data() {
     return {
+      valid: false,
       login: {
         userName: '',
         password: ''
@@ -100,6 +104,7 @@ export default {
       changeLang: "users/changeLang",
     }),
     async userLogin() {
+      if (!this.$refs.login_form.validate()) return;
       const data = {
         usernameOrEmail: this.login.userName,
         password: this.login.password
