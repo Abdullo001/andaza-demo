@@ -199,7 +199,7 @@
           class="mt-4 rounded-lg"
           :headers="headers"
           :items="permisionList"
-          :items-per-page="20"
+          :items-per-page="60"
           hide-default-footer
         >
         <template #item.checker="{item}">
@@ -470,7 +470,7 @@ export default {
           canDelete: true,
           canRead: true,
           canUpdate:true,
-          canWrite:true, 
+          canWrite:true,
         }
       }else{
         data={
@@ -479,10 +479,10 @@ export default {
           canDelete: false,
           canRead: false,
           canUpdate:false,
-          canWrite:false, 
+          canWrite:false,
         }
       }
-      
+
       this.setPermission(data)
     },
     getPassword(password) {
@@ -503,7 +503,7 @@ export default {
         this.one_user.photo = window.URL.createObjectURL(this.avatar);
       }
     },
-    
+
     setPermissonFunc(){
       const data={
         userId:this.$route.params.id,
