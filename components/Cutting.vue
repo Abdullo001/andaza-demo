@@ -5,6 +5,7 @@
       :items="items"
       item-key="id"
       hide-default-footer
+      :items-per-page="30"
 
     >
       <template #top>
