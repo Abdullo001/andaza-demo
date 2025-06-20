@@ -485,6 +485,10 @@ export default {
           ...this.mainList[idx],
           total: this.sumAllOperation(this.mainList[idx].operations),
         });
+        this.$set(this.arrForFilter, this.mainList[idx].orderNo-1, {
+          ...this.mainList[idx],
+          total: this.sumAllOperation(this.mainList[idx].operations),
+        });
         const totalColumn = this.columnTotal(opIdx);
         this.$set(this.footer, opIdx, {
           ...this.footer[opIdx],
@@ -507,7 +511,7 @@ export default {
       }
     },
     columnTotal(idx) {
-      return this.mainList.reduce((acc, item) => {
+      return this.arrForFilter.reduce((acc, item) => {
         return (
           acc +
           (item.operations[idx].quantity
@@ -543,8 +547,6 @@ export default {
           amount: this.customOperation.amount,
         });
       });
-      console.log(this.mainList);
-
       this.custumColDialog = false;
       this.customOperation.name = "";
       this.customOperation.amount = "";
