@@ -1663,7 +1663,7 @@ export default {
         quantity: this.details.quantity,
         pricePerUnit: this.details.pricePerUnit,
         measurementId: this.details.measurementUnit,
-        expenseId: this.details.expense,
+        expenseId: this.details.expense?.id ? this.details.expense?.id : "",
         preFinanceId: this.preFinanceId,
       };
       await this.createDetails(data);
