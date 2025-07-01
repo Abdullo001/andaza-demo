@@ -16,7 +16,7 @@
           </v-col>
           <v-col cols="12" lg="2" md="2">
             <v-text-field
-              label="CBM/m3"
+              :label="$t('shipping.cbmM')"
               outlined
               class="rounded-lg filter"
               v-model.trim="filters.cbm"
@@ -124,7 +124,7 @@
                 />
               </v-col>
               <v-col cols="4">
-                <div class="label">CBM/m3</div>
+                <div class="label">{{ $t('shipping.cbmM') }}</div>
                 <v-text-field
                   outlined
                   hide-details
@@ -200,7 +200,7 @@
                 />
               </v-col>
               <v-col cols="4">
-                <div class="label">CBM/m3</div>
+                <div class="label">{{ $t('shipping.cbmM') }}</div>
                 <v-text-field
                   outlined
                   hide-details
@@ -317,7 +317,7 @@ export default {
           sortable: false,
           width: "100",
         },
-        { text: "CBM/m3", value: "cbm" },
+        { text: this.$t('shipping.cbmM'), value: "cbm" },
         {
           text: this.$t('prefinances.child.description'),
           value: "description",
@@ -440,7 +440,7 @@ export default {
     },
     async filterData() {
       await this.getBoxSizeList({page:0, size:10,...this.filters })
-      
+
     },
   },
   mounted() {

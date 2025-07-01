@@ -644,7 +644,7 @@ export default {
         {text: "Sip №", sortable: false, align: "start", value: "sipNumber"},
         {text: "Batch №", sortable: false, align: "start", value: "batchNumber"},
         {text: "Fabric specification", sortable: false, align: "start", value: "fabricSpecification",width:"150"},
-        {text: "Body part", sortable: false, align: 'start', value: 'modelPartName'},
+        {text: this.$t("bodyPart"), sortable: false, align: 'start', value: 'modelPartName'},
         {text: "Given fabric quantity f/c.", sortable: false, value: "givenFabricQuantity",width:"150"},
         {text: "Used fabric", sortable: false, align: "start", value: "usedFabricQuantity",width:"80"},
         {text: "Color", sortable: false, value: "color"},

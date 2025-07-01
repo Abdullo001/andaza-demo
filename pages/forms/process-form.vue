@@ -90,7 +90,7 @@ export default {
     formProps: {
       get() {
         return {
-          title: "Cutting to Outsourcing",
+          title: this.$t("forms.cuttingToOutsourcing"),
           pdfList: this.$store.state.generatePdf.pdfData,
           filterFunc: this.generatePdf,
         };

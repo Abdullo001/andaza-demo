@@ -30,21 +30,21 @@
               </th>
             </template>
             <th>Total</th>
-            <th width="100px">Box quantity</th>
+            <th width="100px">{{ $t("shipping.boxQuantity") }}</th>
             <th>{{ $t('sidebar.boxSize') }}(m)</th>
-            <th>1 Box weight(kg)</th>
-            <th>Gross weight(Kg.)</th>
-            <th>CBM m3</th>
-            <th>Packing list No.</th>
-            <th>Packing list date</th>
-            <th>Marking</th>
+            <th>{{ $t("shipping.boxWeight") }}</th>
+            <th>{{ $t("shipping.grossWeight") }}</th>
+            <th>{{ $t("shipping.grossWeight") }}</th>
+            <th>{{ $t("shipping.cbmM") }} No.</th>
+            <th>{{ $t("shipping.packingListDate") }}</th>
+            <th>{{ $t("shipping.marking") }}</th>
             <th>Action</th>
           </tr>
           </thead>
           <tbody>
           <template v-for="(item,idx) in group.itemResponseList">
             <tr :key="idx">
-              <th v-if="idx === 0" colspan="4">1pc Net weight (Kg.)</th>
+              <th v-if="idx === 0" colspan="4">{{ $t('shipping.pcNetWeight') }}</th>
               <td v-if="idx === 0" :colspan="idx" v-for="(sizeItem, sizeItemIdx) in group.sizeWeightDistributions"
                   :key="sizeItemIdx">{{ sizeItem.value }}
               </td>
@@ -126,7 +126,7 @@
               <th v-if="idx === 0" colspan="8"></th>
             </tr>
             <tr>
-              <th v-if="idx === 0" colspan="4">Net weight (Kg.)</th>
+              <th v-if="idx === 0" colspan="4">{{ $t("shipping.netWeight") }} (Kg.)</th>
               <th v-if="idx === 0" v-for="(totalNetWeight, totalNetWeightIdx) in group.netWeight"
                   :key="totalNetWeightIdx">{{ totalNetWeight }}
               </th>
@@ -151,7 +151,7 @@
         </v-card-title>
         <v-card-text class="mt-4">
           <v-form ref="new_form" v-model="new_validate" lazy-validation>
-            <div class="label">Net weight per work/kg</div>
+            <div class="label">{{ $t("shipping.netWeightPerWork") }}</div>
             <v-row>
               <v-col cols="12" lg="3" v-for="(item, idx) in selectedItem.sizeDistributions" :key="`_cutting_${idx}`">
                 <div class="label">{{ item.size }}</div>
@@ -176,7 +176,7 @@
                   item-text="size"
                   item-value="id"
                   v-model="selectedPackingList.boxSizeId"
-                  placeholder="Select the box size"
+                  :placeholder="$t('shipping.selectTheBoxSize')"
                   outlined
                   hide-details
                   height="44"
@@ -187,7 +187,7 @@
                 </v-select>
               </v-col>
               <v-col cols="12" md="2">
-                <div class="label">CBM/m3</div>
+                <div class="label">{{ $t('shipping.cbmM') }}</div>
                 <v-text-field
                   disabled
                   v-model="cbm"
@@ -200,7 +200,7 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <div class="label">Weight of per box/kg.</div>
+                <div class="label">{{ $t('shipping.weightOfPerBox') }}</div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="selectedPackingList.weightPerBox"
@@ -213,7 +213,7 @@
                 />
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Packing list No.</div>
+                <div class="label">{{ $t("shipping.packingList") }} No.</div>
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="selectedPackingList.packingListNumber"
@@ -227,7 +227,7 @@
                 />
               </v-col>
               <v-col cols="12" lg="6" md="6">
-                <div class="label">Packing list date</div>
+                <div class="label">{{ $t("shipping.packingListDate") }}</div>
                 <el-date-picker
                   style="width: 100%"
                   v-model="selectedPackingList.packingListDate"

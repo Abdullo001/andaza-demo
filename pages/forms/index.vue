@@ -187,7 +187,7 @@ export default {
           to: this.localePath("/forms/warehouse-remaining"),
         },
         {
-          title: "Shortcoming classification",
+          title: this.$t("forms.shortcomingClassification"),
           subtitle: this.$t("forms.index.cards.inconmingSewingSub"),
           status: "PRODUCTION",
           to: this.localePath("/forms/shortcoming-classification"),
@@ -199,19 +199,19 @@ export default {
           to: this.localePath("/forms/process-form"),
         },
         {
-          title: "Daily sorting",
+          title: this.$t("forms.dailySorting"),
           subtitle: this.$t("forms.index.cards.inconmingSewingSub"),
           status: "PRODUCTION",
           to: this.localePath("/forms/daily-sorting-form"),
         },
         {
-          title: "Cutting to Outsourcing",
+          title: this.$t("forms.cuttingToOutsourcing"),
           subtitle: this.$t("forms.index.cards.inconmingSewingSub"),
           status: "PRODUCTION",
           to: this.localePath("/forms/cutting-to-subcontractor"),
         },
         {
-          title: "Sorting to streams",
+          title: this.$t("forms.sortingToStreams"),
           subtitle: this.$t("forms.index.cards.inconmingSewingSub"),
           status: "PRODUCTION",
           to: this.localePath("/forms/to-stream-form"),

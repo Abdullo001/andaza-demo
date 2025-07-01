@@ -155,12 +155,12 @@
             width="163"
             @click="update"
           >
-            Update
+            {{ $t("update") }}
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    
+
     <v-dialog v-model="delete_dialog" max-width="500">
       <v-card class="pa-4 text-center">
         <div class="d-flex justify-center mb-2">
@@ -258,7 +258,7 @@ export default {
     };
   },
   watch: {
-    
+
   },
   async created() {
 
@@ -310,21 +310,21 @@ export default {
     async update() {
       const items = { ...this.newDialog };
       await this.updateDepartment(items);
-      
+
       this.newDialog.name=""
       this.newDialog.description=""
       this.newDialog.departmentId=""
       this.new_dialog = false;
       this.newDialog.title="new"
     },
-    
+
     editItem(item) {
       this.newDialog = { ...item };
       this.newDialog.title="edit"
       this.new_dialog = true;
     },
 
-    
+
     async resetFilters() {
       this.filters = {
         name: "",
@@ -335,7 +335,7 @@ export default {
     },
     async filterData(event) {
       if (event) event.preventDefault();
-      
+
       await this.getDepartmentList({page:0,size:10,name:this.filters.name});
     },
   },

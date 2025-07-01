@@ -13,7 +13,7 @@
           height="44"
           class="rounded-lg base"
           color="#544B99"
-          placeholder="Search employees"
+          :placeholder="$t('dailyTasks.searchEmployees')"
           v-model.trim="filterName"
         >
           <template #append>
@@ -71,7 +71,7 @@
           <tr v-if="mainList.length" class="text-center second-header">
             <th class="sticky-column z-5" style="border-right: 0"></th>
             <th class="sticky-column z-5" style="border-left: 0">
-              Payment amount per operation
+              {{ $t("dailyTasks.paymentAmount") }}
             </th>
             <th v-for="(operation, idx) in mainList[0].operations" :key="idx">
               {{ operation.amount }}
@@ -171,7 +171,7 @@
         <tfoot>
           <tr class="text-center">
             <td class="sticky-column" style="border-right: 0"></td>
-            <td class="sticky-column" style="border-left: 0">Total in fact</td>
+            <td class="sticky-column" style="border-left: 0">{{ $t("dailyTasks.totalInFact") }}</td>
             <td v-for="(item, idx) in footer" :key="idx" :class="`th-text`">
               {{ moneyFormatter(item.factQuantity, true) }}
             </td>
@@ -179,7 +179,7 @@
           <tr class="text-center">
             <td class="sticky-column" style="border-right: 0"></td>
             <td class="sticky-column" style="border-left: 0">
-              Total in planned quantity
+              {{ $t("dailyTasks.totalInPlanned") }}
             </td>
             <td v-for="(item, idx) in footer" :key="idx" :class="`th-text`">
               {{ moneyFormatter(item.plannedQuantity, true) }}
@@ -188,7 +188,7 @@
           <tr class="text-center">
             <td class="sticky-column" style="border-right: 0"></td>
             <td class="sticky-column" style="border-left: 0">
-              Total in difference
+              {{ $t("dailyTasks.totalInDifference") }}
             </td>
             <td v-for="(item, idx) in footer" :key="idx" :class="`th-text`">
               {{ moneyFormatter(item.difference, true) }}
@@ -206,7 +206,7 @@
           @click="saveDailyReport"
           :disabled="workLogsInfo.isFinished"
         >
-          Close daily report
+          {{ $t("dailyTasks.closeDailyReport") }}
         </v-btn>
       </div>
       <SimpleHistoryDialog

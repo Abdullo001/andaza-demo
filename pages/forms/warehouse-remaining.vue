@@ -2,7 +2,7 @@
   <div>
     <v-card elevation="0" class="rounded-lg">
       <v-card-title>
-        <div>All Warehouse Remaining</div>
+        <div>{{ $t("forms.allWarehouseRemaining") }}</div>
         <v-spacer />
       </v-card-title>
       <v-divider />
@@ -80,7 +80,7 @@ export default {
       pdfServe: "",
     };
   },
-  
+
 
   computed: {
     ...mapGetters({

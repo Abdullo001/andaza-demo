@@ -68,7 +68,7 @@
             hide-default-footer
           >
             <template #top>
-              <div class="title ma-4">Payment history</div>
+              <div class="title ma-4">{{$t("report.paymentHistory")}}</div>
             </template>
           </v-data-table>
         </v-card-text>

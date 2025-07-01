@@ -385,7 +385,7 @@
                   color="#544B99"
                   v-model="withSizes"
                 ></v-simple-checkbox>
-                <div class="">Quantity by Sizes</div>
+                <div class="">{{$t("accessoryPlanning.quantityBySizes")}}</div>
               </v-col>
             </v-row>
             <v-row v-show="withSizes">

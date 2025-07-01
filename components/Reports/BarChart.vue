@@ -2,19 +2,19 @@
   <div>
     <v-card elevation="0" rounded="lg">
       <v-card-title class="d-flex align-center justify-space-between">
-        <div>Prefinance</div>
+        <div>{{ $t("prefinances.dialog.prefinance") }}</div>
       </v-card-title>
       <v-card-text>
         <div class="d-flex align-center mb-1">
           <div class="color1"></div>
           <div>
-            Created prefinances: <span>{{ totalPrefinances }} </span>
+            {{ $t("report.createdPrefinances") }}: <span>{{ totalPrefinances }} </span>
           </div>
         </div>
         <div class="d-flex align-center mb-1">
           <div class="color2"></div>
           <div>
-            Placed orders: <span>{{ totalOrders }} </span>
+            {{ $t("report.placedOrders") }}: <span>{{ totalOrders }} </span>
           </div>
         </div>
         <div>

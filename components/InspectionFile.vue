@@ -46,7 +46,7 @@
                 <v-img src="/edit-green.svg" max-width="20"/>
               </v-btn>
             </template>
-            <span>Edit</span>
+            <span>{{ $t("edit") }}</span>
           </v-tooltip>
           <v-tooltip top color="red">
             <template #activator="{on, attrs}">
@@ -182,7 +182,7 @@
           </v-btn>
           <v-btn
             class="font-weight-bold text-capitalize rounded-lg ml-4"
-            color="#544B99" 
+            color="#544B99"
             width="140" height="40"
             :disabled="btnDisabled"
             :dark="!btnDisabled"
@@ -297,7 +297,7 @@
           </v-btn>
           <v-btn
             class="font-weight-bold text-capitalize rounded-lg ml-4"
-            color="#544B99" 
+            color="#544B99"
             width="140" height="40"
             @click="addDocument"
             :dark="!btnDisabled"
@@ -406,7 +406,7 @@ export default {
       this.newInspectionFile.id=""
       this.newInspectionFile.sendDate=""
       this.newInspectionFile.status=""
-      
+
     },
     editDocument(item) {
       this.title = 'edit'
@@ -421,7 +421,7 @@ export default {
     openDeleteDialog(item){
       this.deleteDialog=true
       this.selectedItem={...item}
-      
+
     },
     deleteFunc(){
       this.deleteInspectionFile({id: this.selectedItem.modelId,inspectionId:this.selectedItem.id})
@@ -447,7 +447,7 @@ export default {
       if(!!this.newInspectionFile.file){
         formData.append("file", this.newInspectionFile.file)
       }
-        
+
        if(this.title === 'add') {
          await this.uploadInspectionFile( { data: formData, id: this.newInspectionFile.modelId } )
         .then((res) => {
@@ -472,7 +472,7 @@ export default {
 
     },
 
-    
+
   },
   async mounted() {
     const id = this.$route.params.id;

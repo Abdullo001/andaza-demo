@@ -401,7 +401,7 @@
               outlined
               @click="templateDialog=true"
               >
-              Save as template
+              {{ $t("accessoryPlanning.saveAsTemplate") }}
             </v-btn>
             <FinishProcessBtn v-bind="finishDate" />
             <v-btn
@@ -498,7 +498,7 @@
     <v-dialog v-model="templateDialog" max-width="500">
       <v-card class="pa-4 text-center">
         <v-card-title class="d-flex justify-center"
-          >Save as template
+          >{{ $t("accessoryPlanning.saveAsTemplate") }}
         </v-card-title>
         <v-card-text>
           <v-row>

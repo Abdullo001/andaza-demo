@@ -4,7 +4,7 @@
 
     <v-card elevation="0" class="mb-4">
       <v-card-title>
-        <div>Work performed in the section of employees</div>
+        <div>{{ $t("dailyTasks.worksCompleted") }}</div>
         <v-spacer />
       </v-card-title>
       <v-divider />
@@ -14,7 +14,7 @@
             <v-col cols="8">
               <v-row>
                 <v-col cols="12" lg="4">
-                  <div class="label">Model Number</div>
+                  <div class="label">{{ $t("prefinances.child.modelNumber") }}</div>
                   <v-text-field
                     v-model="modelDetail.modelNumber"
                     disabled
@@ -24,12 +24,12 @@
                     height="44"
                     hide-details
                     outlined
-                    placeholder="Model number"
+                    :placeholder="$t('prefinances.child.modelNumber')"
                     validate-on-blur
                   />
                 </v-col>
                 <v-col cols="12" lg="4">
-                  <div class="label">Model Category</div>
+                  <div class="label">{{ $t("sidebar.modelGroups") }}</div>
                   <v-text-field
                     v-model="modelDetail.modelCategoryName"
                     disabled
@@ -39,12 +39,12 @@
                     height="44"
                     hide-details
                     outlined
-                    placeholder="Model number"
+                    :placeholder="$t('prefinances.child.modelNumber')"
                     validate-on-blur
                   />
                 </v-col>
                 <v-col cols="12" lg="4">
-                  <div class="label">Deadline</div>
+                  <div class="label">{{ $t("dailyTasks.deadline") }}</div>
                   <v-text-field
                     v-model="modelDetail.deadline"
                     disabled
@@ -60,7 +60,7 @@
                 </v-col>
                 <v-col cols="12" lg="4" class="d-flex">
                   <div class="mr-2">
-                    <div class="label">Order quantity</div>
+                    <div class="label">{{ $t("planningProduction.dialog.orderQuantity") }}</div>
                     <v-text-field
                       v-model="modelDetail.orderQuantity"
                       disabled
@@ -70,12 +70,12 @@
                       height="44"
                       hide-details
                       outlined
-                      placeholder="Order quantity"
+                      :placeholder="$t('planningProduction.dialog.orderQuantity')"
                       validate-on-blur
                     />
                   </div>
                   <div>
-                    <div class="label">Labor cost</div>
+                    <div class="label">{{$t("dailyTasks.laborCost")}}</div>
                     <v-text-field
                       v-model="modelDetail.productPrice"
                       disabled
@@ -91,7 +91,7 @@
                   </div>
                 </v-col>
                 <v-col cols="12" lg="4">
-                  <div class="label">Total labor cost</div>
+                  <div class="label">{{ $t('dailyTasks.totalLaborCost') }}</div>
                   <v-text-field
                     v-model="modelDetail.totalAmount"
                     disabled
@@ -101,12 +101,12 @@
                     height="44"
                     hide-details
                     outlined
-                    placeholder="Total labor coast"
+                    :placeholder="$t('dailyTasks.totalLaborCost')"
                     validate-on-blur
                   />
                 </v-col>
                 <v-col cols="12" lg="4">
-                  <div class="label">Actual cut quantity</div>
+                  <div class="label">{{ $t('dailyTasks.actualCutQuantity') }}</div>
                   <v-text-field
                     v-model="modelDetail.actualCutQuantity"
                     disabled

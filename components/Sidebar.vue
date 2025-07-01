@@ -653,7 +653,7 @@ export default {
                 localization: "report",
               },
               {
-                title: "Monthly salary",
+                title: this.$t("report.monthltSalary"),
                 to: this.localePath("/monthly-salary"),
                 localization: "monthlySalary",
               },

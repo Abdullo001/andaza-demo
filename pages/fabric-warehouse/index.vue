@@ -291,7 +291,7 @@
                     >
                   </div>
                   <div class="body-1 mb-3">
-                    Total price:
+                    {{ $t("accessoryPlanning.totalPrice") }}:
                     <span class="font-weight-bold ml-2">
                       {{ item?.actualTotalPrice }}</span
                     >
@@ -640,7 +640,7 @@
                 />
               </v-col>
               <v-col cols="12">
-                <div class="label">Body parts</div>
+                <div class="label">{{ $t("bodyPart") }}</div>
                 <v-select
                   append-icon="mdi-chevron-down"
                   v-model="workshop.modelPartId"
@@ -918,7 +918,7 @@ export default {
         { text:this.$t('fabricWarehouse.batchNumber'), value: "batchNumber", sortable: false },
         { text: this.$t('fabricWarehouse.orderNumber'), value: "orderNumber", sortable: false },
         { text: this.$t('prefinances.child.modelNumber'), value: "modelNumber", sortable: false },
-        { text: "Body part", value: "modelPartName", sortable: false },
+        { text: this.$t("bodyParts"), value: "modelPartName", sortable: false },
         {
           text: this.$t('fabricWarehouse.fabricSpecification'),
           value: "fabricSpecification",

@@ -55,7 +55,7 @@
           </template>
         </v-combobox>
       </v-col>
-      
+
     </FormTemplate>
   </div>
 </template>
@@ -90,7 +90,7 @@ export default {
     formProps: {
       get() {
         return {
-          title:"Shortcoming classification",
+          title: this.$t("forms.shortcomingClassification"),
           pdfList:this.$store.state.generatePdf.pdfData,
           filterFunc:this.generatePdf,
         };
@@ -132,13 +132,13 @@ export default {
         subcontractorId: this.filters.subcontractorId?.id?this.filters.subcontractorId?.id:null,
       };
       this.pdfFunc(data)
-      
+
     },
 
     stopLoading(){
       this.isload=false
     }
-    
+
   },
 };
 </script>

@@ -73,7 +73,7 @@
 
                 <v-col cols="12" lg="3">
                   <div class="label">{{$t('fabricOrderingBox.plannedAccessoryOrderBox.deliveryTime') }}</div>
-                  <el-date-picker 
+                  <el-date-picker
                     v-model="details.deliveryTime"
                     type="datetime"
                     style="width: 100%; height: 44px !important;"
@@ -138,7 +138,7 @@
     </v-data-table>
 
     <v-divider />
-    
+
     <v-alert
       v-model="showAlert"
       dismissible
@@ -196,11 +196,11 @@ export default {
           value: "deadline",
         },
         { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.supplierName'), value: "supplier", sortable: false },
-        { text: "Name and Specification", value: "accessNameAndSpecification", sortable: false, width: 200 },
+        { text: this.$t("accessoryPlanning.nameNSpecification"), value: "accessNameAndSpecification", sortable: false, width: 200 },
         { text:this.$t('fabricOrderingBox.addAccessoryBox.accessoryPhoto'), value: "accessoryPhoto", sortable:false },
         { text: "M/U", value: "measurementUnit", sortable:false },
         { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.pricePerUnit'), value: "pricePerUnit", sortable: false },
-        { text: "Actual order quantity of acc", value: "actualOrderQuantity", sortable: false },
+        { text: this.$t("accessoryPlanning.actualOrderQuantityOfAcc"), value: "actualOrderQuantity", sortable: false },
         { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.totalPrice'), value: "totalPrice", sortable: false },
         { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.status'), value: "status", sortable: false, width: 200 },
       ],
@@ -265,7 +265,7 @@ export default {
           value: "deadline",
         },
         { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.supplierName'), value: "supplier", sortable: false },
-        { text: "Name and Specification", value: "accessNameAndSpecification", sortable: false, width: 200 },
+        { text: this.$t("accessoryPlanning.nameNSpecification"), value: "accessNameAndSpecification", sortable: false, width: 200 },
         { text:this.$t('fabricOrderingBox.addAccessoryBox.accessoryPhoto'), value: "accessoryPhoto", sortable:false },
         { text: "M/U", value: "measurementUnit", sortable:false },
         { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.pricePerUnit'), value: "pricePerUnit", sortable: false },
@@ -284,7 +284,7 @@ export default {
       this.sizeDistributions=JSON.parse(JSON.stringify(items))
 
       this.headers.push(
-        { text: "Actual order quantity of acc", value: "actualOrderQuantity", sortable: false },
+        { text: this.$t("accessoryPlanning.actualOrderQuantityOfAcc"), value: "actualOrderQuantity", sortable: false },
         { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.totalPrice'), value: "totalPrice", sortable: false },
         { text: this.$t('fabricOrderingBox.plannedAccessoryOrderBox.status'), value: "status", sortable: false, width: 200 },
       )
@@ -313,7 +313,7 @@ export default {
         });
         return;
       }
-      
+
       if (this.$refs.valid.validate()) {
         this.savePlanningOrder();
       }
@@ -331,9 +331,9 @@ export default {
     },
     savePlanningOrder() {
       const id = this.$route.params.id !== 'create' ? this.$route.params.id : this.$store.getters["accessory/newId"];
-      
+
       const planningOrderRequests = this.selectedItems.filter(item=> item.status!=="ORDERED" )
-      
+
       const data = {
         deliveryTime: this.details.deliveryTime,
         partnerId: this.details.partnerName.id,
@@ -342,7 +342,7 @@ export default {
           orderedQuantity:item.orderedQuantity
         })),
       };
-      
+
       this.createPlanningOrder({ data, id });
     },
     changeStatusFunc(item) {

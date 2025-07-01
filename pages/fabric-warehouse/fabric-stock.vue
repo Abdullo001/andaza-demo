@@ -404,7 +404,7 @@
             width="163"
             @click="editArrivedFabricStock"
           >
-            Edit
+            {{ $t("edit") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -601,7 +601,7 @@
                 </v-combobox>
               </v-col>
               <v-col cols="12">
-                <div class="label">Body parts</div>
+                <div class="label">{{ $t("bodyPart") }}</div>
                 <v-select
                   append-icon="mdi-chevron-down"
                   v-model="subcontractor.modelPartId"

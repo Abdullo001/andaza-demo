@@ -2,20 +2,20 @@
   <div >
     <v-card elevation="0" rounded="lg" style="min-height: 480px;">
       <v-card-title class="d-flex align-center justify-space-between">
-        <div>Models by genders</div>
+        <div>{{ $t("report.modelsByGender") }}</div>
       </v-card-title>
       <v-card-text>
         <div class="d-flex align-center justify-space-around mb-4" style="font-size: 14px;">
           <div class="font-weight-bold black--text ">
-            Total:
+            {{ $t("total") }}:
             <span class="font-weight-regular"> {{moneyFormatter(genderReport.models, true)}} models</span>
           </div>
           <div class="font-weight-bold black--text ">
-            Order quantity:
+            {{ $t("planningProduction.dialog.orderQuantity") }}:
             <span class="font-weight-regular"> {{moneyFormatter(genderReport.totalOrderQuantity, true)}} pcs</span>
           </div>
           <div class="font-weight-bold black--text ">
-            Amount:
+            {{ $t("workingProcess.workingTable.amount") }}:
             <span class="font-weight-regular"> {{moneyFormatter(genderReport.totalPrice)}}$</span>
           </div>
         </div>

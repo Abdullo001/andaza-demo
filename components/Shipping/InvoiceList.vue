@@ -11,7 +11,7 @@
           @click="editBtn"
           color="var(--text-icon-600, #777C85)"
         >
-          Edit
+          {{ $t("edit") }}
         </v-btn>
       </v-toolbar-title>
     </v-toolbar>
@@ -481,16 +481,16 @@ export default {
       },
       headers:[
         {text: "No.", value: "totalItem", sortable: false, align: "start"},
-        {text: "Order No.",   value: "orderNumber"},
-        {text: "Model No./ Artikul No.",  value: "modelNumber"},
-        {text: "Brand name",  value: "brandName"},
+        {text: this.$t("shipping.invoice.orderNo"),   value: "orderNumber"},
+        {text: this.$t('shipping.model'),  value: "modelNumber"},
+        {text: this.$t('shipping.brandName'),  value: "brandName"},
         {text: this.$t('prefinances.child.modelName'),  value: "modelName"},
         {text: this.$t('sidebar.composition'),  value: "composition"},
-        {text: "Quantity/pcs",  value: "total", align: "center"},
-        {text: "M/U",sortable:false,  value: "measurementUnit"},
+        {text: this.$t("shipping.quantityPcs"),  value: "total", align: "center"},
+        {text: this.$t("readyWarehouse.readyGarments.mu"),sortable:false,  value: "measurementUnit"},
         {text: this.$t('prefinances.child.pricePerUnit'),sortable:false,  value: "pricePerUnit"},
-        {text: "Total amount",sortable:false,  value: "totalAmount", align: "center"},
-        {text: "HS code", value: "hsCode", sortable:false,   },
+        {text: this.$t("shipping.totalAmount"),sortable:false,  value: "totalAmount", align: "center"},
+        {text: this.$t("shipping.hsCode"), value: "hsCode", sortable:false,   },
         {text: this.$t('actions'), value: "actions"}
       ],
       invoiceList: [],

@@ -2,7 +2,7 @@
   <div>
     <v-card elevation="0" rounded="lg">
       <v-card-title class="d-flex align-center justify-space-between">
-        <div>Orders by managers</div>
+        <div>{{ $t("report.ordersByManagers") }}</div>
       </v-card-title>
       <v-card-text>
         <div style="min-height: 300px">

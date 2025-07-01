@@ -326,7 +326,7 @@ export default {
         { text: "Permission name", value: "permissionName", width: 400,sortable: false},
         { text: "View ", value: "canRead",sortable: false  },
         { text: "Create", value: "canWrite",sortable: false  },
-        { text: "Update", value: "canUpdate",sortable: false  },
+        { text: this.$t("update"), value: "canUpdate",sortable: false  },
         { text: "Delete", value: "canDelete",sortable: false  },
 
       ],

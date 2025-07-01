@@ -55,7 +55,7 @@
             hide-default-footer
           >
             <template #top>
-              <div class="title ma-4">Payment history</div>
+              <div class="title ma-4">{{$t("report.paymentHistory")}}</div>
             </template>
           </v-data-table>
         </v-card-text>
@@ -119,10 +119,10 @@ export default {
       },
       historyList:[],
       headers: [
-        { text: "Date", value: "date", sortable: false },
-        { text: "Payment purpose", value: "wageType", sortable: false },
-        { text: "Payment amount", value: "amount", sortable: false },
-        { text: "Remaining amount", value: "leftAmount", sortable: false },
+        { text: this.$t("historyTable.date"), value: "date", sortable: false },
+        { text: this.$t("report.paymentPurpose"), value: "wageType", sortable: false },
+        { text: this.$t("dailyTasks.paymentAmount"), value: "amount", sortable: false },
+        { text: this.$t("report.remainingAmount"), value: "leftAmount", sortable: false },
       ],
     };
   },

@@ -91,7 +91,7 @@
             <v-img src="/edit-active.svg" max-width="22" />
             </v-btn>
           </template>
-          <span class="text-capitalize">Edit</span>
+          <span class="text-capitalize">{{ $t("edit") }}</span>
         </v-tooltip>
 
         <v-tooltip

@@ -29,7 +29,7 @@
                 <v-img src="/edit-green.svg" max-width="20"/>
               </v-btn>
             </template>
-            <span>Edit</span>
+            <span>{{ $t("edit") }}</span>
           </v-tooltip>
           <v-tooltip top color="#FF4E4F">
             <template #activator="{on, attrs}">

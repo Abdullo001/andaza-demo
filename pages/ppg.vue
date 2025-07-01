@@ -415,7 +415,7 @@
                 <v-col cols="2">
                   <div class="label text-center">IV. SHIPMENT</div>
                   <div class="body-1 mb-3">
-                    Invoice No. :
+                    {{ $t("shipping.index.invoiceNo") }} :
                     <span class="font-weight-bold ml-2">
                       {{ itemDetail.shipmentResponse?.invoiceNumber }}</span
                     >

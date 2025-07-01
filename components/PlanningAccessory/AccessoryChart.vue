@@ -130,7 +130,7 @@
               </v-col>
 
               <v-col cols="5">
-                <div class="label">1 unit for how many products</div>
+                <div class="label">{{ $t("accessoryPlanning.coveragePerUnit") }}</div>
                 <v-text-field
                   v-model="create_accessory_chart.quantityPerUnit"
                   outlined
@@ -144,7 +144,7 @@
                 />
               </v-col>
               <v-col cols="4">
-                <div class="label">Counted accessory quantity</div>
+                <div class="label">{{ $t("accessoryPlanning.countedAccessory") }}</div>
                 <v-text-field
                   v-model="create_accessory_chart.countedAccessoryQuantity"
                   disabled
@@ -190,7 +190,7 @@
                   />
                 </div>
                 <div>
-                  <div class="label">With wastage</div>
+                  <div class="label">{{ $t("accessoryPlanning.withWastage") }}</div>
                   <v-text-field
                     v-model="create_accessory_chart.wastageWithPercent"
                     outlined
@@ -205,7 +205,7 @@
                 </div>
               </v-col>
               <v-col cols="4">
-                <div class="label">Actual order quantity</div>
+                <div class="label">{{ $t("accessoryPlanning.actualOrderQuantity") }}</div>
                 <v-tooltip
                   top
                   color="#544B99"
@@ -271,7 +271,7 @@
                   v-model="withSizes"
                 ></v-simple-checkbox>
                 <div class="">
-                  Quantity by Sizes
+                  {{$t("accessoryPlanning.quantityBySizes")}}
                 </div>
               </v-col>
             </v-row>
@@ -407,7 +407,7 @@
               </v-col>
 
               <v-col cols="5">
-                <div class="label">1 unit for how many products</div>
+                <div class="label">{{ $t("accessoryPlanning.coveragePerUnit") }}</div>
                 <v-text-field
                   v-model="edit_accessory_chart.quantityPerUnit"
                   outlined
@@ -421,7 +421,7 @@
                 />
               </v-col>
               <v-col cols="4">
-                <div class="label">Counted accessory quantity</div>
+                <div class="label">{{ $t("accessoryPlanning.countedAccessory") }}</div>
                 <v-text-field
                   v-model="edit_accessory_chart.countedAccessoryQuantity"
                   disabled
@@ -467,7 +467,7 @@
                   />
                 </div>
                 <div>
-                  <div class="label">With wastage</div>
+                  <div class="label">{{ $t("accessoryPlanning.withWastage") }}</div>
                   <v-text-field
                     v-model="edit_accessory_chart.wastageWithPercent"
                     outlined
@@ -482,7 +482,7 @@
                 </div>
               </v-col>
               <v-col cols="4">
-                <div class="label">Actual order quantity</div>
+                <div class="label">{{ $t("accessoryPlanning.actualOrderQuantity") }}</div>
                 <v-text-field
                   v-model="edit_accessory_chart.actualOrderQuantity"
                   outlined
@@ -658,9 +658,9 @@ export default {
         { text:this.$t('fabricOrderingBox.addAccessoryBox.accessoryPhoto'), value: "accessoryPhoto", sortable:false },
         { text: "M/U", value: "measurementUnit", sortable:false },
         { text: this.$t('fabricOrderingBox.addAccessoryBox.pricePerUnit'), value: "pricePerUnit", sortable:false },
-        { text: "Actual order quantity", value: "actualOrderQuantity",sortable:false },
+        { text: this.$t("accessoryPlanning.actualOrderQuantity"), value: "actualOrderQuantity",sortable:false },
         { text: this.$t('fabricOrderingBox.addAccessoryBox.wastage'), value: "wastage", sortable:false },
-        { text: "Total price", value: "totalPrice", sortable:false },
+        { text: this.$t("accessoryPlanning.totalPrice"), value: "totalPrice", sortable:false },
         { text: this.$t('fabricOrderingBox.addAccessoryBox.actions'), value: "actions", align: "center", sortable: false , width: 150},
       ],
       items:[],
@@ -740,9 +740,9 @@ export default {
       this.sizeDistributions=JSON.parse(JSON.stringify(items))
 
       this.headers.push(
-        { text: "Actual order quantity", value: "actualOrderQuantity", sortable:false },
+        { text: this.$t("accessoryPlanning.actualOrderQuantity"), value: "actualOrderQuantity", sortable:false },
         { text: this.$t('fabricOrderingBox.addAccessoryBox.wastage'), value: "wastage", sortable:false },
-        { text: "Total price", value: "totalPrice", sortable:false },
+        { text: this.$t("accessoryPlanning.totalPrice"), value: "totalPrice", sortable:false },
         { text: this.$t('fabricOrderingBox.addAccessoryBox.actions'), value: "actions", align: "center", sortable: false , width: 150},
       )
     },

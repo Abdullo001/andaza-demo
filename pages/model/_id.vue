@@ -105,7 +105,7 @@
           dark
           class="text-capitalize font-weight-bold mx-3 mb-4 px-5"
           height="40"
-          >Update
+          >{{ $t("update") }}
         </v-btn>
       </v-card-actions>
     </v-card>

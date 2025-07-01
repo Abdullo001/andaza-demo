@@ -262,7 +262,7 @@
               </v-col>
               <v-col cols="12" md="6">
                 <div class="label">{{ $t('partners.dialog.pNumber') }}</div>
-                
+
                 <v-text-field
                   :rules="[formRules.required]"
                   v-model="create_partner.phoneNumber"
@@ -497,7 +497,7 @@
                 </v-btn>
               </v-col>
               <v-col cols="12">
-                <div class="label">Brand names</div>
+                <div class="label">{{ $t('shipping.brandName') }}</div>
                 <v-autocomplete
                   :rules="[formRules.required]"
                   chips
@@ -1054,7 +1054,7 @@ export default {
           cooperationTypeId,
           phoneNumber,
         } = this.edit_partner;
-        
+
         if(typeof country!=='string'){
           countryId=country.id
         }

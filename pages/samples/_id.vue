@@ -213,7 +213,7 @@
                 dark
                 @click="updateFunc"
               >
-                Update
+                {{ $t("update") }}
               </v-btn>
             </v-col>
           </v-row>
@@ -427,7 +427,7 @@ export default {
       this.sampleDetail=JSON.parse(JSON.stringify(val))
       this.sampleDetail.modelNumber={modelNumber:val.modelNumber, id:val.modelId}
       this.sampleDetail.orderNumber={orderNumber:val.orderNumber, id:val.orderId}
-      
+
       this.getChartList({purpose:"FQS",planningId:val.id})
       this.modelColor(val.modelId)
     },
@@ -439,7 +439,7 @@ export default {
 
     },
     tab(val){
-        
+
         switch(val){
           case 0:  this.purpose="FQS"; break
           case 1:  this.purpose="LD";break

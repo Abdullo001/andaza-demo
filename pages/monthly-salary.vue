@@ -50,7 +50,7 @@ export default {
   },
   data(){
     return{
-      tabs:["Typical","Daily"],
+      tabs:[this.$t("report.typical"),this.$t("report.daily")],
       tab:null
     }
   }

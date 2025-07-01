@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card-title>
-      <div class="">Salary per work report</div>
+      <div class="">{{ $t('report.salaryPerWorkReport') }}</div>
     </v-card-title>
     <v-divider />
     <v-data-table
@@ -125,7 +125,7 @@
         @click="getReportFile"
         class="text-capitalize mt-4"
       >
-        Download report
+        {{ $t('report.downloadReport') }}
       </v-btn>
     </div>
     <SimpleHistoryDialog
@@ -156,14 +156,14 @@ export default {
     return {
       headers: [
         { text: "No", value: "employeeId", sortable: false },
-        { text: "Employee fullname", value: "fullName", sortable: false },
-        { text: "Hired date", value: "hiredDate", sortable: false },
-        { text: "Speciality", value: "speciality", sortable: false },
-        { text: "Monthly payment", value: "monthlyPayment", sortable: false },
-        { text: "Advance payment", value: "advancePayment", sortable: false },
-        { text: "Left amount", value: "leftAmount", sortable: false },
-        { text: "Currency", value: "currency", sortable: false },
-        { text: "Actions", value: "actions", sortable: false },
+        { text: this.$t("dailyTasks.employeeFullname"), value: "fullName", sortable: false },
+        { text: this.$t("listOfWorkers.dialog.hiredDate"), value: "hiredDate", sortable: false },
+        { text: this.$t("report.speciality"), value: "speciality", sortable: false },
+        { text: this.$t("report.monthlyPayment"), value: "monthlyPayment", sortable: false },
+        { text: this.$t("report.advancePayment"), value: "advancePayment", sortable: false },
+        { text: this.$t("report.leftPayment"), value: "leftAmount", sortable: false },
+        { text: this.$t("prefinances.detailsHeaders.currency"), value: "currency", sortable: false },
+        { text: this.$t("prefinances.detailsHeaders.actions"), value: "actions", sortable: false },
       ],
       items: [],
       reportDate: null,

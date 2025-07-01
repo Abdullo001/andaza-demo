@@ -186,7 +186,7 @@
                 </div>
               </v-col>
               <v-col cols="12" lg="6">
-                <div class="label">Box quantity</div>
+                <div class="label">{{ $t("shipping.boxQuantity") }}</div>
                 <v-text-field
                   v-model="selectedItem.boxQuantity"
                   class="rounded-lg base mb-4"

@@ -2,7 +2,7 @@
   <div>
     <v-card elevation="0" rounded="lg">
       <v-card-title class="d-flex align-center justify-space-between">
-        <div>Quantity of Models shipping by months</div>
+        <div>{{ $t("report.quantityOfModels") }}</div>
       </v-card-title>
       <v-card-text>
         <VueApexChart

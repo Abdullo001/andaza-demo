@@ -23,7 +23,7 @@
           <v-card-text>
             <div class="d-flex justify-space-between align-center mb-2">
               <div>
-                <div class="text-subtitle-1 mb-1">Shipping models</div>
+                <div class="text-subtitle-1 mb-1">{{ $t("shipping.shippingModels") }}</div>
                 <div class="text-h4 font-weight-bold" style="color:black">{{totalAnalysis.shippedModels}}</div>
               </div>
               <img src="/modelReport/shipping.svg" alt="pic">

@@ -16,7 +16,7 @@
               @click="editBtn"
               color="var(--text-icon-600, #777C85)"
             >
-              Edit
+              {{ $t("edit") }}
             </v-btn>
           </v-col>
         </v-row>
@@ -349,7 +349,7 @@
                         width="130"
                         @click="updateShippingFunc"
                       >
-                          Update
+                        {{ $t("update") }}
                       </v-btn>
                   </v-col>
               </v-row>

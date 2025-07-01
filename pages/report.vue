@@ -1,14 +1,14 @@
 <template>
   <div class="pb-10">
     <v-sheet class="mt-5 py-3 px-5 d-flex align-center" rounded="lg">
-      Year
+      {{ $t("report.year") }}
       <div style="height: 40px !important">
         <el-date-picker
         v-model="filters.year"
         @change="changeDate"
         type="year"
         style="width: 100%; height: 100%"
-        placeholder="Pick a year"
+        :placeholder="$t('reports.pickAYear')"
         value-format="yyyy"
         :default-value="new Date()"
         class="ml-2"

@@ -694,7 +694,7 @@
                   color="#544B99"
                   v-model="withSizes"
                 ></v-simple-checkbox>
-                <div class="">Quantity by Sizes</div>
+                <div class="">{{ $t("accessoryPlanning.quantityBySizes") }}</div>
               </v-col>
             </v-row>
             <v-row v-if="withSizes">
@@ -827,7 +827,7 @@
                   color="#544B99"
                   v-model="withSizes"
                 ></v-simple-checkbox>
-                <div class="">Quantity by Sizes</div>
+                <div class="">{{ $t("accessoryPlanning.quantityBySizes") }}</div>
               </v-col>
             </v-row>
             <v-row v-if="withSizes">
@@ -984,7 +984,7 @@ export default {
           value: "specification",
           sortable: false,
         },
-        { text: "Accessory photo", value: "accessoryPhoto", sortable: false },
+        { text: this.$t("accessoryWarehouse.accessoryPhoto"), value: "accessoryPhoto", sortable: false },
         {
           text: this.$t("warehouseId.orderedQuantity"),
           value: "orderedQuantity",

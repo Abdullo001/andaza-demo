@@ -21,7 +21,7 @@
             color="#777C85"
           >
             <v-img :src="fields_status ? '/edit.svg' : '/edit-active.svg'" class="mr-1"/>
-            Edit
+            {{ $t("edit") }}
           </v-btn>
         </div>
       </v-card-title>

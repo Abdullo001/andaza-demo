@@ -224,7 +224,7 @@ export default {
       immediate: true,
       handler(list) {
         this.headers = [
-          { text: "Body part", align: "start", sortable: false, value: "modelPartName" },
+          { text: this.$t("bodyPart"), align: "start", sortable: false, value: "modelPartName" },
           { text: this.$t('planningProduction.planning.color'), align: "start", sortable: false, value: "color" },
         ];
 

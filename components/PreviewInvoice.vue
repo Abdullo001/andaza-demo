@@ -70,7 +70,7 @@
               <div><span>Subtotal:</span>1850 USD </div>
               <div class="base-color"><span> Discount (10%):</span>-185 USD</div>
               <v-divider/>
-              <div><span>Total price:</span>1665 USD</div>
+              <div><span>{{ $t("accessoryPlanning.totalPrice") }}:</span>1665 USD</div>
             </div>
           </v-col>
         </v-row>

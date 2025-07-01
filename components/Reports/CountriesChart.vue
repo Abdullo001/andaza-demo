@@ -2,7 +2,7 @@
   <div>
     <v-card elevation="0" rounded="lg">
       <v-card-title class="d-flex align-center justify-space-between">
-        <div>Order by countries</div>
+        <div>{{ $t("report.orderByCountries") }}</div>
       </v-card-title>
       <v-card-text>
         <div style="min-height: 400px">
