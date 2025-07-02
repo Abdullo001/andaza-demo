@@ -8,7 +8,7 @@
         @change="changeDate"
         type="year"
         style="width: 100%; height: 100%"
-        :placeholder="$t('reports.pickAYear')"
+        :placeholder="$t('report.pickAYear')"
         value-format="yyyy"
         :default-value="new Date()"
         class="ml-2"
