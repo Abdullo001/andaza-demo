@@ -637,21 +637,21 @@
               </v-col>
               <v-col cols="12" lg="4">
                 <div class="label">{{ $t("prefinances.child.expense") }}</div>
-                <v-select
+                <v-combobox
                   :placeholder="$t('prefinances.child.expense')"
+                  dense
                   append-icon="mdi-chevron-down"
+                  :items="expenseList"
+                  :disabled="expense_status"
                   outlined
                   hide-details
                   height="44"
                   class="rounded-lg base"
-                  dense
-                  :items="expenseList"
+                  item-text="name"
+                  item-value="id"
                   v-model="details.expense"
                   validate-on-blur
                   :rules="[formRules.required]"
-                  :disabled="expense_status"
-                  item-value="id"
-                  item-text="name"
                   color="#544B99"
                 />
               </v-col>
@@ -747,10 +747,14 @@
               <v-col cols="12" lg="4">
                 <v-combobox
                   :label="$t('prefinances.child.expenseGroup')"
-                  filled
                   dense
                   append-icon="mdi-chevron-down"
                   :items="expenseGroup"
+                  :search-input.sync="expenseNameSearch"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
                   item-text="name"
                   item-value="id"
                   v-model="selectDetail.expenseGroup"
@@ -760,27 +764,32 @@
                 />
               </v-col>
               <v-col cols="12" lg="4">
-                <v-select
+                <v-combobox
                   :label="$t('prefinances.child.expense')"
-                  append-icon="mdi-chevron-down"
-                  filled
                   dense
+                  append-icon="mdi-chevron-down"
                   :items="expenseList"
+                  :disabled="expense_status"
+                  outlined
+                  hide-details
+                  height="44"
+                  class="rounded-lg base"
+                  item-text="name"
+                  item-value="id"
                   v-model="selectDetail.expenseId"
                   validate-on-blur
                   :rules="[formRules.required]"
-                  item-value="id"
-                  item-text="name"
                   color="#544B99"
                 />
               </v-col>
               <v-col cols="12" lg="4">
                 <v-text-field
                   :label="$t('prefinances.child.quantity')"
-                  filled
                   dense
+                  outlined
                   v-model="selectDetail.quantity"
                   validate-on-blur
+                  class="rounded-lg base"
                   :rules="[formRules.required]"
                   color="#544B99"
                 />
@@ -789,12 +798,13 @@
                 <v-select
                   :label="$t('prefinances.child.measurementunit')"
                   append-icon="mdi-chevron-down"
-                  filled
+                  outlined
                   dense
                   :items="measurementUnitList"
                   v-model="selectDetail.measurementUnitId"
                   validate-on-blur
                   :rules="[formRules.required]"
+                  class="rounded-lg base"
                   item-text="name"
                   item-value="id"
                   color="#544B99"
@@ -803,10 +813,11 @@
               <v-col cols="12" lg="4">
                 <v-text-field
                   :label="$t('prefinances.child.pricePerUnit')"
-                  filled
+                  outlined
                   dense
                   v-model="selectDetail.pricePerUnit"
                   validate-on-blur
+                  class="rounded-lg base"
                   :rules="[formRules.required]"
                   color="#544B99"
                 />
@@ -1652,7 +1663,7 @@ export default {
         quantity: this.details.quantity,
         pricePerUnit: this.details.pricePerUnit,
         measurementId: this.details.measurementUnit,
-        expenseId: this.details.expense,
+        expenseId: this.details.expense?.id ? this.details.expense?.id : "",
         preFinanceId: this.preFinanceId,
       };
       await this.createDetails(data);
@@ -1709,11 +1720,16 @@ export default {
         id: item.expenseGroupId,
         name: item.expenseGroup,
       };
+
       this.selectDetail = { ...item };
+      this.selectDetail.expenseId = {
+        id: item.expenseId,
+        name: item.expense,
+      };
     },
     updateDetailsFunc() {
       const data = {
-        expenseId: this.selectDetail.expenseId,
+        expenseId: this.selectDetail.expenseId?.id,
         id: this.selectDetail.id,
         measurementId: this.selectDetail.measurementUnitId,
         preFinanceId: this.preFinanceId,
