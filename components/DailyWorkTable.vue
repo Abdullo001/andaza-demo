@@ -217,6 +217,26 @@
       <DialogComponent v-model="custumColDialog" :state="custumColDialog" :title="`Add custom column`" :handler="saveCustomCol" >
         <v-form>
           <v-row>
+            <v-col cols="12">
+              <div class="label">Select previous custom column</div>
+              <v-select
+                :items="customOperationsList"
+                v-model="customOperation.template"
+                placeholder="Select"
+                item-text="name"
+                item-value="text"
+                :return-object="true"
+                single-line dense
+                outlined
+                hide-details
+                height="44"
+                validate-on-blur
+                class="rounded-lg base"
+                append-icon="mdi-chevron-down"
+                color="#544B99"
+                background-color="#F8F4FE"
+              />
+            </v-col>
             <v-col cols="6">
               <div class="label">Operation name</div>
               <v-text-field
@@ -291,7 +311,13 @@ export default {
       customOperation:{
         name: "",
         amount: "",
-      }
+      },
+      customOperationsList:[
+        {
+          name: "salom",
+          amount: "tedt",
+        }
+      ],
     };
   },
   computed: {
@@ -302,9 +328,19 @@ export default {
       workLogsHistory: "dailyWorkTable/workLogsHistory",
       temporaryTable: "dailyWorkTable/temporaryTable",
       totals: "dailyWorkTable/totals",
+      customOperationsStore: "dailyWorkTable/customOperations"
     }),
   },
   watch: {
+    customOperationsStore(val){
+      this.customOperationsList = JSON.parse(JSON.stringify(val))
+    },
+    "customOperation.template"(val){
+      if(val){
+        this.customOperation.name = val.name
+        this.customOperation.amount = val.amount
+      }
+    },
     filterName(val) {
       this.mainList = this.arrForFilter.filter((item) =>
         item.fullName
@@ -363,6 +399,7 @@ export default {
       await this.getModelCategoryList(val.modelCategoryId).then(() => {
         this.getTotals(this.$route.params.id);
       });
+      this.getCustomOperations(val.modelCategoryId)
     },
     listOfWorkers(list) {
       this.tooltipVisible = list.map(() => []);
@@ -383,6 +420,7 @@ export default {
       getWorkLogsHistory: "dailyWorkTable/getWorkLogsHistory",
       saveDailyWorkLogs: "dailyWorkTable/saveDailyWorkLogs",
       getTotals: "dailyWorkTable/getTotals",
+      getCustomOperations: "dailyWorkTable/getCustomOperations",
     }),
     sortByIdOrder(referenceArray, targetArray) {
       const idOrder = referenceArray.map((item) => item.id);
@@ -550,6 +588,8 @@ export default {
       this.custumColDialog = false;
       this.customOperation.name = "";
       this.customOperation.amount = "";
+      this.customOperation.template = ""
+
     },
   },
   created() {
